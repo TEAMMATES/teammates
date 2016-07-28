@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -26,39 +20,39 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
 /**
- * Covers the 'Courses' page for instructors. 
- * The main SUT is {@link InstructorCoursesPage}. 
+ * Covers the 'Courses' page for instructors.
+ * The main SUT is {@link InstructorCoursesPage}.
  */
 public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     private static Browser browser;
-    /* Comments given as 'Explanation:' are extra comments added to train 
-     * developers. They are not meant to be repeated when you write similar 
-     * classes. 
+    /* Comments given as 'Explanation:' are extra comments added to train
+     * developers. They are not meant to be repeated when you write similar
+     * classes.
      * This class is used for training developers. Hence, the high percentage
-     * of explanatory comments, which is contrary to our usual policy of 
-     * 'minimal comments'. 
+     * of explanatory comments, which is contrary to our usual policy of
+     * 'minimal comments'.
      */
     
-    /* Explanation: This is made a static variable for convenience 
+    /* Explanation: This is made a static variable for convenience
      * (i.e. no need to declare it multiple times in multiple methods) */
     private static InstructorCoursesPage coursesPage;
     private static DataBundle testData;
     
     private static String instructorId;
     
-    CourseAttributes validCourse =  new CourseAttributes(" CCAddUiTest.course1 "," Software Engineering $^&*() ");
+    CourseAttributes validCourse = new CourseAttributes(" CCAddUiTest.course1 ", " Software Engineering $^&*() ");
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         
         /* Explanation: These two lines persist the test data on the server. */
         testData = loadDataBundle("/InstructorCoursesPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         
-        /* Explanation: Ideally, there should not be 'state leaks' between 
-         * tests. i.e. Changes to data done by one test should not affect 
-         * another test. To that end, we should make the dataset in the .json 
+        /* Explanation: Ideally, there should not be 'state leaks' between
+         * tests. i.e. Changes to data done by one test should not affect
+         * another test. To that end, we should make the dataset in the .json
          * file independent from other tests. Our approach is to add a unique
          * prefix to identifiers in the json file. e.g., Google IDs, course IDs,
          * etc. This identifier can be based on the name of the test class.
@@ -74,18 +68,17 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          * If that previous test run fails, the entity persists and that will
          * break tests.
          */
-        BackDoor.deleteCourse(validCourse.id); // delete if it exists
+        BackDoor.deleteCourse(validCourse.getId()); // delete if it exists
     }
 
-
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         /* Explanation: We bunch together everything as one test case instead
-         * of having multiple test cases. The advantage is that the time for 
+         * of having multiple test cases. The advantage is that the time for
          * the whole test class will be reduced because we minimize repetitive
-         * per-method setup/tear down. The downside is that it increases the 
+         * per-method setup/tear down. The downside is that it increases the
          * time spent on re-running failed tests as the whole class has to be
-         * re-run. We opt for this approach because we expect tests to pass 
+         * re-run. We opt for this approach because we expect tests to pass
          * more frequently than to fail.
          */
         
@@ -98,7 +91,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         // Explanation: Checks the ajax request for course stats.
         testCourseStats();
         
-        // Explanation: Checks if links going out of the page are correct 
+        // Explanation: Checks if links going out of the page are correct
         testLinks();
         
         // Explanation: Checks if client-side input validation for fields
@@ -113,17 +106,17 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         testArchiveAction();
         
         /* Explanation: The above categorization of test cases is useful in
-         * identifying test cases. However, do not follow it blindly. 
+         * identifying test cases. However, do not follow it blindly.
          * Some SUTs might require additional test cases. Examining the
          * relevant JSP pages to check if all Java code paths are covered
          *  might help you identify further test cases.
          */
     }
 
-    public void testContent() throws Exception{
+    public void testContent() throws Exception {
         
-        /* Explanation: The page rendering is slightly different based on 
-         * whether the table is empty or not. We should test both cases. 
+        /* Explanation: The page rendering is slightly different based on
+         * whether the table is empty or not. We should test both cases.
          * In addition, we should test the sorting.
          */
         
@@ -164,13 +157,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = getCoursesPage();
     }
 
-    public void testLinks() throws Exception{
+    public void testLinks() {
         
         /* Explanation: We test each of 'view' links and 'enroll' links.
          * 'Delete' is not a link, but an action.
          */
     
-        String courseId = testData.courses.get("CS2104").id;
+        String courseId = testData.courses.get("CS2104").getId();
         
         ______TS("view link");
         
@@ -198,41 +191,45 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
     }
 
-
-    public void testInputValidation() {
+    public void testInputValidation() throws Exception {
         
-        /* Explanation: If the validation is done through one JS function 
+        /* Explanation: If the validation is done through one JS function
          * (e.g., the entire form is validated in one go), we need to check only
-         * one invalid case here, provided the form validation function is 
-         * thoroughly unit tested elsewhere {@see instructorCourseJsTest.js}. 
-         * If each field is validated as they are keyed in, each field should be 
+         * one invalid case here, provided the form validation function is
+         * thoroughly unit tested elsewhere {@see instructorCourseJsTest.js}.
+         * If each field is validated as they are keyed in, each field should be
          * validated for one invalid case.
          */
         
         ______TS("input validation");
         
         //one invalid case
-        coursesPage.addCourse("", "")
-            .verifyStatus(Const.StatusMessages.COURSE_COURSE_ID_EMPTY + "\n"
-                    + Const.StatusMessages.COURSE_COURSE_NAME_EMPTY);
+        coursesPage.addCourse("", "").verifyStatus(
+                getPopulatedErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE, "",
+                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                    FieldValidator.COURSE_ID_MAX_LENGTH) + "\n"
+                + getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                      FieldValidator.COURSE_NAME_MAX_LENGTH));
         
         //Checking max-length enforcement by the text boxes
         String maxLengthCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
-        String longCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH+1);
+        String longCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         
         assertEquals(maxLengthCourseId, coursesPage.fillCourseIdTextBox(maxLengthCourseId));
-        assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH), coursesPage.fillCourseIdTextBox(longCourseId));
+        assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH),
+                     coursesPage.fillCourseIdTextBox(longCourseId));
         
         String maxLengthCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
-        String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH+1);
+        String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
         
         assertEquals(maxLengthCourseName, coursesPage.fillCourseNameTextBox(maxLengthCourseName));
-        assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH), coursesPage.fillCourseNameTextBox(longCourseName));
+        assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH),
+                     coursesPage.fillCourseNameTextBox(longCourseName));
         
     }
 
-
-    public void testAddAction() throws Exception{
+    public void testAddAction() throws Exception {
         
         /* Explanation: We test at least one valid case and one invalid case.
          * If the action involves a confirmation dialog, we should test both
@@ -245,30 +242,30 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         ______TS("add action success: add course with leading/trailing space in parameters");
         
-        coursesPage.addCourse(validCourse.id, validCourse.name);
+        coursesPage.addCourse(validCourse.getId(), validCourse.getName());
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddSuccessful.html");
 
         ______TS("add action fail: duplicate course ID");
         
-        coursesPage.addCourse(validCourse.id, "different course name");
+        coursesPage.addCourse(validCourse.getId(), "different course name");
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddDupIdFailed.html");
         
         ______TS("add action fail: invalid course ID");
         
-        String invalidID = "Invalid ID";
+        String invalidId = "Invalid ID";
         
-        coursesPage.addCourse(invalidID, "random course name");
+        coursesPage.addCourse(invalidId, "random course name");
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddInvalidIdFailed.html");
 
         ______TS("add action fail: missing parameters");
         
-        String validID = "Valid.ID";
+        String validId = "Valid.ID";
         String missingCourseName = "";
 
-        coursesPage.addCourse(validID, missingCourseName);
+        coursesPage.addCourse(validId, missingCourseName);
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddMissingParamsFailed.html");
     }
@@ -288,7 +285,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
     }
 
-    public void testDeleteAction() throws Exception{
+    public void testDeleteAction() throws Exception {
         
         /* Explanation: We test both 'confirm' and 'cancel' cases here.
          */
@@ -312,8 +309,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         InstructorAttributes instructorWithNullArchiveStatus = BackDoor.getInstructorByGoogleId(instructor1CS1101.googleId,
                                                                                                 instructor1CS1101.courseId);
                                                                                                          
-        //this is a old instructor whose archive status has no value 
-        assertNull(instructorWithNullArchiveStatus.isArchived);
+        //this is a old instructor whose archive status is not set and is by default false
+        assertFalse(instructorWithNullArchiveStatus.isArchived);
         
         coursesPage.archiveCourse(courseId);
         coursesPage.waitForAjaxLoadCoursesSuccess();
@@ -333,7 +330,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         //so other instructors' archiving actions will not affect his own status
         instructorId = testData.accounts.get("OtherInstructorWithoutCourses").googleId;
         coursesPage = getCoursesPage();
-        coursesPage.verifyHtmlMainContent("/instructorArchiveStatusNotAffected.html");    
+        coursesPage.verifyHtmlMainContent("/instructorArchiveStatusNotAffected.html");
         
         ______TS("unarchive action success");
         
@@ -370,20 +367,20 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     
     private InstructorCoursesPage getCoursesPage() {
         AppUrl coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
-            .withUserId(instructorId);
+                .withUserId(instructorId);
         InstructorCoursesPage page = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
         page.waitForAjaxLoadCoursesSuccess();
         return page;
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         //Explanation: release the Browser back to be reused by other tests.
         BrowserPool.release(browser);
         
-        /* Explanation: We don't delete leftover data at the end of a test. 
+        /* Explanation: We don't delete leftover data at the end of a test.
          * Instead, we delete such data at the beginning or at the point that
-         * data are accessed. This means there will be leftover data in the 
+         * data are accessed. This means there will be leftover data in the
          * datastore at the end of a test run. Not deleting data at the end
          * saves time and helps in debugging if a test failed.
          * 

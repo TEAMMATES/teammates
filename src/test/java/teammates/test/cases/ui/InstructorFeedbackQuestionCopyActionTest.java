@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,7 +18,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     private DataBundle dataBundle;
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY;
     }
@@ -32,7 +30,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testAccessControl() throws Exception {
+    public void testAccessControl() {
         String[] params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
@@ -43,7 +41,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("Not enough parameters");
@@ -59,24 +57,28 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes question1 = FeedbackQuestionsLogic
                                                    .inst()
-                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
-                                                                        session1.courseId, 1);
+                                                   .getFeedbackQuestion(session1.getFeedbackSessionName(),
+                                                                        session1.getCourseId(), 1);
         FeedbackQuestionAttributes question2 = FeedbackQuestionsLogic
                                                    .inst()
-                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
-                                                                        session1.courseId, 2);
+                                                   .getFeedbackQuestion(session1.getFeedbackSessionName(),
+                                                                        session1.getCourseId(), 2);
 
         String[] params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME + "-0", question1.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID + "-0", question1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-0", question1.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME + "-1", question2.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID + "-1", question2.getCourseId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", question2.getId()
         };
 
         InstructorFeedbackQuestionCopyAction a = getAction(params);
         RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE+ "?courseid="+ instructor1ofCourse1.courseId
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      rr.getDestinationWithParams());
 
@@ -122,13 +124,15 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
 
         FeedbackQuestionAttributes question3 = FeedbackQuestionsLogic
                                                    .inst()
-                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
-                                                                        session1.courseId, 3);
+                                                   .getFeedbackQuestion(session1.getFeedbackSessionName(),
+                                                                        session1.getCourseId(), 3);
         gaeSimulation.loginAsAdmin("admin.user");
 
         params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME + "-0", question3.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID + "-0", question3.getCourseId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-0", question3.getId(),
         };
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
@@ -153,7 +157,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
-    private InstructorFeedbackQuestionCopyAction getAction (String... params) throws Exception {
+    private InstructorFeedbackQuestionCopyAction getAction(String... params) {
         return (InstructorFeedbackQuestionCopyAction) gaeSimulation.getActionObject(uri, params);
     }
 }

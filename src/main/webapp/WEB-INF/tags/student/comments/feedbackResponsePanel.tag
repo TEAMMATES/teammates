@@ -25,7 +25,7 @@
         <ul class="list-group comments" id="responseCommentTable-${fsIdx}-${qnIdx}-${responseIndex}"
             style="${not empty feedbackResponseRow.feedbackResponseComments  ? '' : 'display:none'}">
             <c:forEach items="${feedbackResponseRow.feedbackResponseComments}" var="feedbackResponseComment" varStatus="i">
-                <shared:feedbackResponseComment frc="${feedbackResponseComment}"
+                <shared:feedbackResponseCommentRow frc="${feedbackResponseComment}"
                  firstIndex="${fsIdx}" secondIndex="${qnIdx}" thirdIndex="${responseIndex}" 
                  frcIndex="${i.index + 1}"/>
             </c:forEach>

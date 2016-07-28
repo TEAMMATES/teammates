@@ -6,7 +6,7 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.ui.template.FeedbackResponseComment;
+import teammates.ui.template.FeedbackResponseCommentRow;
 
 /*
  * PageData: to be used for {@link FeedbackResponseCommentAttributes} in Ajax operations
@@ -21,21 +21,18 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String showGiverNameToString;
     public String errorMessage;
     public boolean isError;
-    public String[] commentIds;
     
     public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account) {
         super(account);
     }
 
-    public FeedbackResponseComment getComment() {
-        FeedbackResponseComment frc = 
-            new FeedbackResponseComment(comment, comment.giverEmail, giverName, recipientName, 
-                                        showCommentToString, showGiverNameToString, 
-                                        getResponseVisibilities());
+    public FeedbackResponseCommentRow getComment() {
+        FeedbackResponseCommentRow frc =
+                new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
+                                               showCommentToString, showGiverNameToString,
+                                               getResponseVisibilities());
         frc.enableEdit();
         frc.enableDelete();
-
-        commentIds = commentId.split("-");
 
         return frc;
     }
@@ -58,6 +55,6 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     }
 
     public String[] getCommentIds() {
-        return commentIds;
+        return commentId.split("-");
     }
 }

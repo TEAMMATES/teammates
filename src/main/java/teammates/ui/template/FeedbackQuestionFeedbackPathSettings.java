@@ -2,11 +2,10 @@ package teammates.ui.template;
 
 import java.util.List;
 
-
 /**
  * Data model for the settings common to all question types,
- * which are the feedback path and visibility settings for the 
- * feedback question form. 
+ * which are the feedback path and visibility settings for the
+ * feedback question form.
  * 
  * Used on instructorFeedbackEdit.jsp
  */
@@ -16,11 +15,6 @@ public class FeedbackQuestionFeedbackPathSettings {
     
     private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
     private int numOfEntitiesToGiveFeedbackToValue;
-    
-    
-    public FeedbackQuestionFeedbackPathSettings() {
-        
-    }
 
     public List<ElementTag> getGiverParticipantOptions() {
         return giverParticipantOptions;

@@ -5,10 +5,10 @@ import java.util.List;
 public class FeedbackResultsResponse {
     private String giverName;
     private String answer;
-    private List<FeedbackResponseComment> comments;
+    private List<FeedbackResponseCommentRow> comments;
     
     public FeedbackResultsResponse(String giverName, String answer,
-                                    List<FeedbackResponseComment> comments) {
+                                   List<FeedbackResponseCommentRow> comments) {
         this.giverName = giverName;
         this.answer = answer;
         this.comments = comments;
@@ -22,7 +22,7 @@ public class FeedbackResultsResponse {
         return answer;
     }
 
-    public List<FeedbackResponseComment> getComments() {
+    public List<FeedbackResponseCommentRow> getComments() {
         return comments;
-    }   
+    }
 }

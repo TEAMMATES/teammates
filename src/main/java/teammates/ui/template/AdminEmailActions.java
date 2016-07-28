@@ -21,15 +21,15 @@ public class AdminEmailActions {
 
     private ElementTag createEditButton(String emailId) {
         String content = "<span class=\"glyphicon glyphicon-edit\"></span>";
-        String href = Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE + 
-                          "?" + Const.ParamsNames.ADMIN_EMAIL_ID + "=" + emailId;
+        String href = Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE
+                + "?" + Const.ParamsNames.ADMIN_EMAIL_ID + "=" + emailId;
         
         return new ElementTag(content, "target", "blank", "href", href);
     }
 
     private ElementTag createDeleteButton(String emailId, String currentPage) {
         String content = "<span class=\"glyphicon glyphicon-trash\"></span>";
-        String href = Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH + "?" + Const.ParamsNames.ADMIN_EMAIL_ID 
+        String href = Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH + "?" + Const.ParamsNames.ADMIN_EMAIL_ID
                         + "=" + emailId + "&" + Const.ParamsNames.ADMIN_EMAIL_TRASH_ACTION_REDIRECT + "=" + currentPage;
         
         return new ElementTag(content, "target", "blank", "href", href);

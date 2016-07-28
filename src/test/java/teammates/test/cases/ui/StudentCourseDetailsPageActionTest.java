@@ -1,10 +1,6 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.*;
-
 import java.util.List;
-
-import teammates.test.driver.AssertHelper;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -13,13 +9,14 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.StudentsLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.RedirectResult;
+import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCourseDetailsPageAction;
 import teammates.ui.controller.StudentCourseDetailsPageData;
-import teammates.ui.controller.ShowPageResult;
 
 public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
@@ -28,12 +25,12 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
@@ -53,7 +50,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         StudentCourseDetailsPageAction pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_COURSE_DETAILS + "?error=false&user=student1InCourse1" , 
+        assertEquals(Const.ViewURIs.STUDENT_COURSE_DETAILS + "?error=false&user=student1InCourse1",
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -70,16 +67,16 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         
         List<StudentAttributes> actualStudentsList = pageData.getStudentCourseDetailsPanel().getTeammates();
           
-        AssertHelper.assertSameContentIgnoreOrder(expectedStudentsList,actualStudentsList);
+        AssertHelper.assertSameContentIgnoreOrder(expectedStudentsList, actualStudentsList);
 
-        // assertEquals(StudentsLogic.inst().getStudentsForTeam(student1InCourse1.team, student1InCourse1),pageData.);
-        // above comparison method failed, so use the one below 
+        // assertEquals(StudentsLogic.inst().getStudentsForTeam(student1InCourse1.team, student1InCourse1), pageData.);
+        // above comparison method failed, so use the one below
         
         List<InstructorAttributes> expectedInstructorsList = InstructorsLogic.inst()
                                                                 .getInstructorsForCourse(student1InCourse1.course);
         List<InstructorAttributes> actualInstructorsList = pageData.getStudentCourseDetailsPanel().getInstructors();
         
-        AssertHelper.assertSameContentIgnoreOrder(expectedInstructorsList,actualInstructorsList);
+        AssertHelper.assertSameContentIgnoreOrder(expectedInstructorsList, actualInstructorsList);
 
         String expectedLogMessage = "TEAMMATESLOG|||studentCourseDetailsPage|||studentCourseDetailsPage|||true|||"
                                     + "Student|||Student 1 in course 1|||student1InCourse1|||"
@@ -98,7 +95,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         Action redirectAction = getAction(submissionParams);
         RedirectResult redirectResult = this.getRedirectResult(redirectAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE + "?error=true&user=student1InCourse1", 
+        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE + "?error=true&user=student1InCourse1",
                      redirectResult.getDestinationWithParams());
         
         assertTrue(redirectResult.isError);
@@ -115,7 +112,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         
     }
 
-    private StudentCourseDetailsPageAction getAction(String... params)throws Exception {   
+    private StudentCourseDetailsPageAction getAction(String... params) {
         return (StudentCourseDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

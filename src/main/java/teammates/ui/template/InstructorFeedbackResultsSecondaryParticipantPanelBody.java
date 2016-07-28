@@ -3,7 +3,7 @@ package teammates.ui.template;
 import java.util.List;
 
 /**
- * Data model for the panel body for the participant panels 
+ * Data model for the panel body for the participant panels
  * used in Results by Participant > Participant > Question
  * 
  */
@@ -17,7 +17,6 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
     
     private List<InstructorFeedbackResultsResponsePanel> responsePanels;
 
-    
     public InstructorFeedbackResultsSecondaryParticipantPanelBody(
                                     String secondaryParticipantIdentifier,
                                     String secondaryParticipantDisplayableName,
@@ -38,8 +37,6 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
     public List<InstructorFeedbackResultsResponsePanel> getResponsePanels() {
         return responsePanels;
     }
-
-
 
     public String getProfilePictureLink() {
         return profilePictureLink;

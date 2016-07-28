@@ -1,11 +1,9 @@
 package teammates.ui.template;
 
-
-
-public class InstructorFeedbackResultsParticipantPanel implements Comparable<InstructorFeedbackResultsParticipantPanel>{
+public class InstructorFeedbackResultsParticipantPanel implements Comparable<InstructorFeedbackResultsParticipantPanel> {
     protected boolean isGiver; // if false, then participant is a recipient
     protected String participantIdentifier; // email, team name, or %GENERAL%
-    protected String name; 
+    protected String name;
     
     protected boolean isHasResponses;
     protected boolean isEmailValid;
@@ -70,14 +68,13 @@ public class InstructorFeedbackResultsParticipantPanel implements Comparable<Ins
         this.moderationButton = moderationButton;
     }
 
-
     @Override
     public int compareTo(InstructorFeedbackResultsParticipantPanel o) {
+        // Shift panels for representing missing responses to the bottom
         if (isHasResponses != o.isHasResponses) {
             return isHasResponses ? -1 : 1;
-        } else {
-            return name.compareTo(o.name);
         }
+        return 0;
     }
     
 }

@@ -2,6 +2,8 @@ package teammates.ui.template;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
@@ -14,15 +16,17 @@ public class CourseEditInstructorPanel {
     private List<ElementTag> permissionInputGroup3;
     private ElementTag resendInviteButton;
     private ElementTag editButton;
+    private ElementTag cancelButton;
     private ElementTag deleteButton;
     private ElementTag addSectionLevelForInstructorButton;
     private boolean isAccessControlDisplayed;
     private List<CourseEditSectionRow> sectionRows;
+    private int firstBlankSectionRowIndex;
     
-    public CourseEditInstructorPanel(int instructorToShowIndex, int instructorIndex, 
-                                     InstructorAttributes instructor, List<String> sectionNames, 
+    public CourseEditInstructorPanel(int instructorToShowIndex, int instructorIndex,
+                                     InstructorAttributes instructor, List<String> sectionNames,
                                      List<String> feedbackNames) {
-        if (instructorToShowIndex == -1) { 
+        if (instructorToShowIndex == -1) {
             index = instructorIndex;
             isAccessControlDisplayed = false;
         } else {
@@ -41,8 +45,8 @@ public class CourseEditInstructorPanel {
             if (instructor.privileges.numberOfSectionsSpecial() >= sectionNames.size()) {
                 style = "display: none;";
             }
-            String onClick = "showTuneSectionPermissionsDiv(" + index + ", " 
-                             + instructor.privileges.numberOfSectionsSpecial() + ")";
+            String onClick = "showTuneSectionPermissionsDiv(" + index + ", "
+                             + firstBlankSectionRowIndex + ")";
             String content = "Give different permissions for a specific section";
             String id = "addSectionLevelForInstructor" + index;
             addSectionLevelForInstructorButton = createButton(content, "small", id, "javascript:;",
@@ -50,18 +54,93 @@ public class CourseEditInstructorPanel {
         }
     }
 
-    private List<CourseEditSectionRow> createSectionRows(int instructorIndex, List<String> sectionNames, 
-                                   List<String> feedbackNames) {
-        List<CourseEditSectionRow> rows = new ArrayList<CourseEditSectionRow>();
-        int sectionIndex = -1; 
-        for (String sectionName : sectionNames) {
-            sectionIndex++;
-            CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, 
-                                                                       sectionIndex, instructor, 
-                                                                       instructorIndex, feedbackNames);
-            rows.add(sectionRow);
-        }
+    private List<CourseEditSectionRow> createSectionRows(
+            int instructorIndex, List<String> sectionNames, List<String> feedbackNames) {
+        firstBlankSectionRowIndex = sectionNames.size();
+        Map<Integer, String> specialSectionNames = new TreeMap<Integer, String>();
+        Map<Integer, String> nonSpecialSectionNames = new TreeMap<Integer, String>();
+        
+        distinguishSpecialAndNonSpecialSections(sectionNames, specialSectionNames, nonSpecialSectionNames);
+
+        List<CourseEditSectionRow> rows =
+                createSpecialAndNonSpecialSectionRowsInOrder(instructorIndex, sectionNames, feedbackNames,
+                                                             specialSectionNames, nonSpecialSectionNames);
         return rows;
+    }
+    
+    /**
+     * Splits the list of section names into two Integer to String mappings
+     * matching the index of the section to the section's name.
+     */
+    private void distinguishSpecialAndNonSpecialSections(List<String> sectionNames,
+            Map<Integer, String> specialSectionNames, Map<Integer, String> nonSpecialSectionNames) {
+        int sectionIndex = 0;
+        
+        for (String sectionName : sectionNames) {
+            if (isSectionSpecial(sectionName)) {
+                specialSectionNames.put(sectionIndex, sectionName);
+            } else {
+                nonSpecialSectionNames.put(sectionIndex, sectionName);
+            }
+            sectionIndex++;
+        }
+    }
+    
+    /**
+     * Creates a list of section rows such that all rows for special sections
+     * occur before those of non-special sections.
+     */
+    private List<CourseEditSectionRow> createSpecialAndNonSpecialSectionRowsInOrder(
+            int instructorIndex, List<String> sectionNames, List<String> feedbackNames,
+            Map<Integer, String> specialSectionNames, Map<Integer, String> nonSpecialSectionNames) {
+        List<CourseEditSectionRow> rows = new ArrayList<CourseEditSectionRow>();
+        
+        createSpecialSectionRows(instructorIndex, sectionNames, feedbackNames, rows, specialSectionNames);
+        createNonSpecialSectionRows(instructorIndex, sectionNames, feedbackNames, rows, nonSpecialSectionNames);
+        return rows;
+    }
+    
+    /**
+     * Adds special section rows as defined in {@code specialSectionNames} to {@code rows}.
+     */
+    private void createSpecialSectionRows(
+            int instructorIndex, List<String> sectionNames, List<String> feedbackNames,
+            List<CourseEditSectionRow> rows, Map<Integer, String> specialSectionNames) {
+        int panelIndex = rows.size();
+        
+        for (Map.Entry<Integer, String> sectionNameEntry : specialSectionNames.entrySet()) {
+            int sectionIndex = sectionNameEntry.getKey();
+            String sectionName = sectionNameEntry.getValue();
+            CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, sectionIndex,
+                                                                       panelIndex, instructor,
+                                                                       instructorIndex, feedbackNames);
+            
+            rows.add(sectionRow);
+            panelIndex++;
+        }
+    }
+    
+    /**
+     * Adds non special sections as defined in {@code nonSpecialSectionNames} to {@code rows}.
+     */
+    private void createNonSpecialSectionRows(
+            int instructorIndex, List<String> sectionNames, List<String> feedbackNames,
+            List<CourseEditSectionRow> rows, Map<Integer, String> nonSpecialSectionNames) {
+        int panelIndex = rows.size();
+        
+        for (Map.Entry<Integer, String> sectionNameEntry : nonSpecialSectionNames.entrySet()) {
+            if (firstBlankSectionRowIndex == sectionNames.size()) {
+                firstBlankSectionRowIndex = panelIndex;
+            }
+            int sectionIndex = sectionNameEntry.getKey();
+            String sectionName = sectionNameEntry.getValue();
+            CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, sectionIndex,
+                                                                       panelIndex, instructor,
+                                                                       instructorIndex, feedbackNames);
+            
+            rows.add(sectionRow);
+            panelIndex++;
+        }
     }
     
     public List<CourseEditSectionRow> getSectionRows() {
@@ -86,6 +165,14 @@ public class CourseEditInstructorPanel {
     
     public ElementTag getEditButton() {
         return editButton;
+    }
+    
+    public void setCancelButton(ElementTag cancelButton) {
+        this.cancelButton = cancelButton;
+    }
+    
+    public ElementTag getCancelButton() {
+        return cancelButton;
     }
     
     public void setDeleteButton(ElementTag deleteButton) {
@@ -120,6 +207,10 @@ public class CourseEditInstructorPanel {
         return permissionInputGroup3;
     }
     
+    private boolean isSectionSpecial(String sectionName) {
+        return instructor != null && instructor.privileges.isSectionSpecial(sectionName);
+    }
+    
     private List<ElementTag> createPermissionInputGroup3ForInstructorPanel() {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
         
@@ -130,7 +221,7 @@ public class CourseEditInstructorPanel {
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
         
         permissionInputGroup.add(createCheckBox(
-                                    "Sessions: Edit/Delete Responses/Comments by Others", 
+                                    "Sessions: Edit/Delete Responses/Comments by Others",
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         return permissionInputGroup;
@@ -139,10 +230,10 @@ public class CourseEditInstructorPanel {
     private List<ElementTag> createPermissionInputGroup2ForInstructorPanel() {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
         
-        permissionInputGroup.add(createCheckBox("View Students' Details", 
+        permissionInputGroup.add(createCheckBox("View Students' Details",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
         
-        permissionInputGroup.add(createCheckBox("Give Comments for Students", 
+        permissionInputGroup.add(createCheckBox("Give Comments for Students",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         
         permissionInputGroup.add(createCheckBox("View Others' Comments on Students",
@@ -173,14 +264,13 @@ public class CourseEditInstructorPanel {
     }
     
     private ElementTag createCheckBox(String content, String privilege) {
-        boolean isChecked = (instructor != null) && instructor.isAllowedForPrivilege(privilege);
+        boolean isChecked = instructor != null && instructor.isAllowedForPrivilege(privilege);
         ElementTag result = new ElementTag(content, "name", privilege, "type", "checkbox", "value", "true");
         if (isChecked) {
             result.setAttribute("checked", null);
         }
         return result;
     }
-    
 
     private ElementTag createButton(String content, String buttonClass, String id, String href, String style,
                                     String onClick) {

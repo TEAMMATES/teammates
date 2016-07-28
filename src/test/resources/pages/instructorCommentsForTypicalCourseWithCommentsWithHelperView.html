@@ -49,7 +49,7 @@
             <div class="well well-plain" id="more-options">
               <form class="form-horizontal" role="form">
                 <div class="row">
-                  <div class="col-sm-4">
+                  <div class="col-sm-4 filter-options">
                     <div class="text-color-primary">
                       <strong>
                         Show comments for:
@@ -78,7 +78,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-4 filter-options">
                     <div class="text-color-primary">
                       <strong>
                         Show comments from:
@@ -107,7 +107,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-4 filter-options">
                     <div class="text-color-primary">
                       <strong>
                         Show comments with status:
@@ -197,7 +197,7 @@
     </div>
     <div id="panel_display-1">
       <br>
-      <div class="panel panel-primary">
+      <div class="panel panel-primary student-comments-panel">
         <div class="panel-heading cursor-pointer" data-target="#panelBodyCollapse" data-toggle="collapse" onclick="toggleChevron(this)">
           <div class="display-icon pull-right">
             <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -230,7 +230,7 @@
                       <span class="glyphicon glyphicon-trash glyphicon-primary">
                       </span>
                     </a>
-                    <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1" onclick="return enableEdit('1', '0');" style="display: none;" title="" type="button">
+                    <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1" onclick="return enableEdit(1, 0);" style="display: none;" title="" type="button">
                       <span class="glyphicon glyphicon-pencil glyphicon-primary">
                       </span>
                     </a>
@@ -264,13 +264,13 @@
                                 User/Group
                               </th>
                               <th class="text-center">
-                                Can see your comment
+                                Can see this comment
                               </th>
                               <th class="text-center">
-                                Can see giver's name
+                                Can see comment giver's name
                               </th>
                               <th class="text-center">
-                                Can see recipient's name
+                                Can see comment recipient's name
                               </th>
                             </tr>
                             <tr id="recipient-course1">
@@ -356,7 +356,7 @@
     </div>
     <div id="panel_display-2">
       <br>
-      <div class="panel panel-primary">
+      <div class="panel panel-primary feedback-session-panel">
         <div class="panel-heading loaded" onclick="loadFeedbackResponseComments('comments.idOfHelperOfCourse1','comments.idOfTypicalCourse1','comments.First feedback session', '1', this, true);" style="cursor: pointer;">
           <strong>
             Comments in session: comments.First feedback session

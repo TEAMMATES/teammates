@@ -190,8 +190,8 @@
             "courseId":"FQLogicPCT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"FQLogicPCT.charlie.d@gmail.tmt",
-            "recipientEmail":"Team 1\"><\'",
+            "giver":"FQLogicPCT.charlie.d@gmail.tmt",
+            "recipient":"Team 1\"><\'",
             "responseMetaData":{
                 "value":"Team 2 (charlie) to team 1"
             }
@@ -202,8 +202,8 @@
             "courseId":"FQLogicPCT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"FQLogicPCT.danny.e@gmail.tmt",
-            "recipientEmail":"Team 1\"><\'",
+            "giver":"FQLogicPCT.danny.e@gmail.tmt",
+            "recipient":"Team 1\"><\'",
             "responseMetaData":{
                 "value":"Team 2 (danny) to team 1"
             }
@@ -214,8 +214,8 @@
             "courseId":"FQLogicPCT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"FQLogicPCT.emily.f@gmail.tmt",
-            "recipientEmail":"Team 1\"><\'",
+            "giver":"FQLogicPCT.emily.f@gmail.tmt",
+            "recipient":"Team 1\"><\'",
             "responseMetaData":{
                 "value":"Team 3 to Team 1 \r\n multiline special char test"
             }
@@ -226,8 +226,8 @@
             "courseId":"FQLogicPCT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"FQLogicPCT.alice.b@gmail.tmt",
-            "recipientEmail":"Team 2",
+            "giver":"FQLogicPCT.alice.b@gmail.tmt",
+            "recipient":"Team 2",
             "responseMetaData":{
                 "value":"alice to team 2"
             }

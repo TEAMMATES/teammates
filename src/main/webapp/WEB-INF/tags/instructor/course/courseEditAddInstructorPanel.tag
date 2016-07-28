@@ -8,6 +8,7 @@
 
 <div class="align-center">
     <input value="Add New Instructor" ${addInstructorButton.attributesToString}>
+    <input type="hidden" value="${addInstructorPanel.index}" id="new-instructor-index">
 </div>
 
 <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">

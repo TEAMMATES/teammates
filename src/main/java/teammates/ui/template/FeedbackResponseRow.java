@@ -16,7 +16,7 @@ public class FeedbackResponseRow {
     private String questionText;
     private String questionMoreInfo;
     private String responseText;
-    private List<FeedbackResponseComment> responseComments;
+    private List<FeedbackResponseCommentRow> responseComments;
     
     public FeedbackResponseRow(int fbIndex, int personIndex, String personType,
                                FeedbackResponseAttributes response, FeedbackSessionResultsBundle results) {
@@ -28,16 +28,16 @@ public class FeedbackResponseRow {
         this.questionMoreInfo = questionDetails.getQuestionAdditionalInfoHtml(this.questionNumber,
                                                                               personType + "-" + personIndex
                                                                                          + "-session-" + fbIndex);
-        if (personType.equals("recipient")) {
+        if ("recipient".equals(personType)) {
             this.responseText = response.getResponseDetails().getAnswerHtml(questionDetails);
-        } else if (personType.equals("giver")) {
+        } else if ("giver".equals(personType)) {
             this.responseText = results.getResponseAnswerHtml(response, question);
         }
-        this.responseComments = new ArrayList<FeedbackResponseComment>();
+        this.responseComments = new ArrayList<FeedbackResponseCommentRow>();
         List<FeedbackResponseCommentAttributes> frcs = results.responseComments.get(response.getId());
         if (frcs != null) {
             for (FeedbackResponseCommentAttributes frc : frcs) {
-                this.responseComments.add(new FeedbackResponseComment(frc, frc.giverEmail));
+                this.responseComments.add(new FeedbackResponseCommentRow(frc, frc.giverEmail));
             }
         }
     }
@@ -58,7 +58,7 @@ public class FeedbackResponseRow {
         return responseText;
     }
 
-    public List<FeedbackResponseComment> getResponseComments() {
+    public List<FeedbackResponseCommentRow> getResponseComments() {
         return responseComments;
     }
 

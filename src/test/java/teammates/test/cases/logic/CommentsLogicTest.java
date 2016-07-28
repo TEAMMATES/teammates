@@ -1,8 +1,5 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -10,8 +7,6 @@ import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
@@ -26,9 +21,11 @@ import teammates.logic.core.CommentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+import com.google.appengine.api.datastore.Text;
+
 public class CommentsLogicTest extends BaseComponentTestCase {
 
-    private CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
@@ -50,7 +47,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.recipients = existingComment1.recipients;
         c.commentText = existingComment1.commentText;
 
-        verifyExceptionThrownFromCreateFrComment(c, 
+        verifyExceptionThrownFromCreateFrComment(c,
                 "Trying to create comments for a course that does not exist.");
         
         ______TS("fail: giver is not instructor");
@@ -59,7 +56,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.commentText = new Text("Invalid comment from student to student");
         
         verifyExceptionThrownFromCreateFrComment(c,
-                "User " + c.giverEmail + " is not a registered instructor for course " 
+                "User " + c.giverEmail + " is not a registered instructor for course "
                 + c.courseId + ".");
         
         ______TS("fail: giver is not an instructor for the course");
@@ -67,7 +64,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.commentText = new Text("Invalid Comment from instructor1Course2 to student1Course1");
 
         verifyExceptionThrownFromCreateFrComment(c,
-                "User " + c.giverEmail + " is not a registered instructor for course " 
+                "User " + c.giverEmail + " is not a registered instructor for course "
                 + c.courseId + ".");
         
         ______TS("typical case");
@@ -114,7 +111,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         c.courseId = "idOfTypicalCourse1";
         List<CommentAttributes> commentsForGiver = commentsLogic.getCommentsForGiver(c.courseId, c.giverEmail);
-        for(CommentAttributes comment : commentsForGiver){
+        for (CommentAttributes comment : commentsForGiver) {
             assertEquals(c.courseId, comment.courseId);
             assertEquals(c.giverEmail, comment.giverEmail);
         }
@@ -122,8 +119,9 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         ______TS("success: get comment for receiver");
         
         c.recipientType = CommentParticipantType.PERSON;
-        List<CommentAttributes> comments = commentsLogic.getCommentsForReceiver(c.courseId, c.recipientType, c.recipients.iterator().next());
-        for(CommentAttributes comment : comments){
+        List<CommentAttributes> comments =
+                commentsLogic.getCommentsForReceiver(c.courseId, c.recipientType, c.recipients.iterator().next());
+        for (CommentAttributes comment : comments) {
             assertEquals(c.courseId, comment.courseId);
             assertEquals(c.recipients, comment.recipients);
         }
@@ -136,7 +134,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         commentsLogic.updateComment(c);
         
         comments = commentsLogic.getCommentDrafts(c.giverEmail);
-        for(CommentAttributes comment : comments){
+        for (CommentAttributes comment : comments) {
             assertEquals(c.courseId, comment.courseId);
             assertEquals(c.recipients, comment.recipients);
             assertEquals(c.status, comment.status);
@@ -190,7 +188,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         //init
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         comments = commentsLogic.getCommentsForStudent(student);
-        for(CommentAttributes comment : comments){
+        for (CommentAttributes comment : comments) {
             comment.showCommentTo = new ArrayList<CommentParticipantType>();
             comment.showGiverNameTo = new ArrayList<CommentParticipantType>();
             comment.showRecipientNameTo = new ArrayList<CommentParticipantType>();
@@ -321,7 +319,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
 
     private void verifyCommentsGotForStudent(
             List<CommentAttributes> commentsForReceiver) {
-        for(CommentAttributes comment : commentsForReceiver){
+        for (CommentAttributes comment : commentsForReceiver) {
             assertTrue(comment.showCommentTo.contains(CommentParticipantType.PERSON)
                     || comment.showCommentTo.contains(CommentParticipantType.TEAM)
                     || comment.showCommentTo.contains(CommentParticipantType.SECTION)
@@ -332,14 +330,14 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     private void verifyCommentsGotForInstructor(
             List<CommentAttributes> commentsForReceiver,
             InstructorAttributes instructor) {
-        for(CommentAttributes comment : commentsForReceiver){
+        for (CommentAttributes comment : commentsForReceiver) {
             assertTrue(comment.showCommentTo.contains(CommentParticipantType.INSTRUCTOR)
                     || comment.courseId.equals(instructor.courseId));
         }
     }
 
     @Test
-    public void testUpdateComment() throws Exception{
+    public void testUpdateComment() throws Exception {
         CommentAttributes existingComment = dataBundle.comments.get("comment1FromI3C1toS2C1");
         
         ______TS("fail: invalid params");
@@ -351,13 +349,13 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.createdAt = existingComment.createdAt;
         c.commentText = existingComment.commentText;
         
-        verifyExceptionThrownFromUpdateComment(c, 
+        verifyExceptionThrownFromUpdateComment(c,
                 "Trying to update comments for a course that does not exist.");
         
         ______TS("fail: non existent entity");
         c.courseId = "no-such-course";
         
-        verifyExceptionThrownFromUpdateComment(c, 
+        verifyExceptionThrownFromUpdateComment(c,
                 "Trying to update comments for a course that does not exist.");
         
         ______TS("typical success case");
@@ -366,13 +364,34 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         commentsLogic.updateComment(c);
         verifyPresentInDatastore(c);
         
-        List<CommentAttributes> actual = commentsLogic.getCommentsForReceiver(c.courseId, CommentParticipantType.PERSON, c.recipients.iterator().next());
+        List<CommentAttributes> actual =
+                commentsLogic.getCommentsForReceiver(c.courseId, CommentParticipantType.PERSON,
+                                                     c.recipients.iterator().next());
         assertEquals(1, actual.size());
         assertEquals(c.commentText, actual.get(0).commentText);
     }
+    
+    @Test
+    public void testUpdateCommentEmail() throws Exception {
+        CommentAttributes existingComment1 = dataBundle.comments.get("comment1FromI1C1toS1C1");
+        
+        ______TS("typical success case: email changed");
+        String courseId = existingComment1.courseId;
+        String oldInstrEmail = existingComment1.lastEditorEmail;
+        String updatedInstrEmail = "otheremail@gmail.tmt";
+        commentsLogic.updateInstructorEmail(courseId, oldInstrEmail, updatedInstrEmail);
+        
+        List<CommentAttributes> updatedComments = commentsLogic.getCommentsForGiver(courseId, updatedInstrEmail);
+        for (CommentAttributes updatedComment : updatedComments) {
+            assertEquals(updatedInstrEmail, updatedComment.giverEmail);
+            if (updatedComment.lastEditorEmail != null) {
+                assertEquals(updatedInstrEmail, updatedComment.lastEditorEmail);
+            }
+        }
+    }
 
     @Test
-    public void testDeleteComment() throws Exception{
+    public void testDeleteComment() {
         CommentAttributes existingComment1 = dataBundle.comments.get("comment1FromI1C1toS1C1");
         
         ______TS("silent fail nothing to delete");
@@ -396,68 +415,68 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     
     // TODO: add tests for those one level down api call if test coverage is considered
     
-    private void verifyCommentsGiverNameVisible(List<CommentAttributes> comments){
-        for(CommentAttributes c: comments){
-            assertTrue(!c.giverEmail.equals("Anonymous"));
+    private void verifyCommentsGiverNameVisible(List<CommentAttributes> comments) {
+        for (CommentAttributes c : comments) {
+            assertFalse("Anonymouse".equals(c.giverEmail));
         }
     }
     
-    private void verifyCommentsGiverNameHidden(List<CommentAttributes> comments){
-        for(CommentAttributes c: comments){
+    private void verifyCommentsGiverNameHidden(List<CommentAttributes> comments) {
+        for (CommentAttributes c : comments) {
             assertEquals("Anonymous", c.giverEmail);
         }
     }
     
-    private void verifyCommentsRecipientNameHidden(List<CommentAttributes> comments){
-        for(CommentAttributes c: comments){
+    private void verifyCommentsRecipientNameHidden(List<CommentAttributes> comments) {
+        for (CommentAttributes c : comments) {
             assertEquals("Anonymous", c.recipients.iterator().next());
         }
     }
     
-    private void verifyCommentsRecipientNameVisible(List<CommentAttributes> comments){
-        for(CommentAttributes c: comments){
-            assertTrue(!c.recipients.iterator().next().equals("Anonymous"));
+    private void verifyCommentsRecipientNameVisible(List<CommentAttributes> comments) {
+        for (CommentAttributes c : comments) {
+            assertFalse("Anonymous".equals(c.recipients.iterator().next()));
         }
     }
     
     private void verifyExceptionThrownFromCreateFrComment(
-            CommentAttributes comment, String message) 
+            CommentAttributes comment, String message)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        try{
+        try {
             commentsLogic.createComment(comment);
             signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             assertEquals(message, e.getMessage());
         }
     }
     
     private void verifyExceptionThrownFromGetCommentsForGiver(
             CommentAttributes comment, String message) {
-        try{
+        try {
             commentsLogic.getCommentsForGiver(comment.courseId, comment.giverEmail);
             signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             assertEquals(message, e.getMessage());
         }
     }
     
     private void verifyExceptionThrownFromGetCommentsForReceiver(
             CommentAttributes comment, String message) {
-        try{
-            commentsLogic.getCommentsForReceiver(comment.courseId, comment.recipientType, comment.recipients.iterator().next());
+        try {
+            commentsLogic.getCommentsForReceiver(comment.courseId, comment.recipientType,
+                                                 comment.recipients.iterator().next());
             signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             assertEquals(message, e.getMessage());
         }
     }
 
-    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message)
-            throws EntityDoesNotExistException {
-        try{
+    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message) {
+        try {
             commentsLogic.updateComment(c);
-        } catch(InvalidParametersException e){
+        } catch (InvalidParametersException e) {
             AssertHelper.assertContains(message, e.getMessage());
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(message, e.getMessage());
         }
     }

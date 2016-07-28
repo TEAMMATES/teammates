@@ -24,9 +24,9 @@ public class FeedbackSessionStatsPageAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         new GateKeeper().verifyAccessible(
-                instructor, 
+                instructor,
                 fsa,
-                false);    
+                false);
         
         data.sessionDetails = logic.getFeedbackSessionDetails(feedbackSessionName, courseId);
         

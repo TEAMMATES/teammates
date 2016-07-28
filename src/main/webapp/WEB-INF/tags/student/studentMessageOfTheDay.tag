@@ -1,7 +1,7 @@
 <%@ tag description="Student Message of the day" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Config" %>
-<c:set var="motdUrl" value="<%= Config.inst().STUDENT_MOTD_URL %>" />
+<c:set var="motdUrl" value="<%= Config.STUDENT_MOTD_URL %>" />
 <c:if test="${not empty motdUrl}">
     <div id="student-motd-wrapper">
         <script>

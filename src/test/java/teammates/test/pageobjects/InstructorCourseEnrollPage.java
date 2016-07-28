@@ -1,12 +1,11 @@
 package teammates.test.pageobjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class InstructorCourseEnrollPage extends AppPage {
     
-    @FindBy(id = "spreadsheet_download")
+    @FindBy(id = "spreadsheet-link")
     protected WebElement spreadsheetLink;
     
     @FindBy(id = "enrollstudents")
@@ -25,33 +24,30 @@ public class InstructorCourseEnrollPage extends AppPage {
         return getPageSource().contains("<h1>Enroll Students for");
     }
 
-    public InstructorCourseEnrollPage verifyIsCorrectPage(String courseId){
-        getPageSource().contains("Enroll Students for "+courseId);
+    public InstructorCourseEnrollPage verifyIsCorrectPage(String courseId) {
+        getPageSource().contains("Enroll Students for " + courseId);
         return this;
     }
 
-    public String getCourseId() {
-        return browser.driver.findElement(By.id("courseid")).getText();
-    }
-    
     public String getEnrollText() {
         return getTextBoxValue(enrollTextBox);
     }
 
-    public String getSpreadsheetLink() {
-        return spreadsheetLink.getAttribute("href");
+    public void clickSpreadsheetLink() {
+        click(spreadsheetLink);
+        waitForPageToLoad();
     }
     
     public InstructorCourseEnrollResultPage enroll(String enrollString) {
         fillTextBox(enrollTextBox, enrollString);
-        enrollButton.click();
+        click(enrollButton);
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollResultPage.class);
     }
 
     public InstructorCourseEnrollPage enrollUnsuccessfully(String enrollString) {
         fillTextBox(enrollTextBox, enrollString);
-        enrollButton.click();
+        click(enrollButton);
         waitForPageToLoad();
         return this;
     }

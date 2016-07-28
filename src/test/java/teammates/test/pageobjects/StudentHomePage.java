@@ -24,48 +24,43 @@ public class StudentHomePage extends AppPage {
         return pageSource.contains("<h1>Student Home</h1>");
     }
 
-    public StudentHelpPage clickHelpLink() {
-        studentHelpTab.click();
-        waitForPageToLoad();
-        switchToNewWindow();
-        return changePageType(StudentHelpPage.class);
-    }
-
-    public void clickHomeTab() {
-        studentHomeTab.click();
-        waitForPageToLoad();
-
-    }
-
     public void clickViewTeam() {
 
         List<WebElement> viewTeamLinks = browser.driver.findElements(By.linkText("View Team"));
 
-        viewTeamLinks.get(0).click();
+        click(viewTeamLinks.get(0));
     }
     
-    public WebElement getViewFeedbackButton(String EvalOrFeedbackName) {
+    public WebElement getViewFeedbackButton(String feedbackName) {
         
-        int rowId = getEvalRowId(EvalOrFeedbackName);       
-        WebElement button = browser.driver.findElement(By.id("viewFeedbackResults"+rowId));
-        return button;
+        int rowId = getEvalRowId(feedbackName);
+        return browser.driver.findElement(By.id("viewFeedbackResults" + rowId));
+    }
+    
+    public void clickViewFeedbackButton(String feedbackName) {
+        click(getViewFeedbackButton(feedbackName));
     }
 
-    public WebElement getEditFeedbackButton(String EvalOrFeedbackName) {
+    public WebElement getEditFeedbackButton(String feedbackName) {
     
-        int rowId = getEvalRowId(EvalOrFeedbackName);       
-        WebElement button = browser.driver.findElement(By.id("editFeedbackResponses"+rowId));
-        return button;
+        int rowId = getEvalRowId(feedbackName);
+        return browser.driver.findElement(By.id("editFeedbackResponses" + rowId));
     }
     
-    public WebElement getSubmitFeedbackButton(String EvalOrFeedbackName) {
+    public void clickEditFeedbackButton(String feedbackName) {
+        click(getEditFeedbackButton(feedbackName));
+    }
+
+    public WebElement getSubmitFeedbackButton(String feedbackName) {
         
-        int rowId = getEvalRowId(EvalOrFeedbackName);       
-        WebElement button = browser.driver.findElement(By.id("submitFeedback"+rowId));
-        return button;
+        int rowId = getEvalRowId(feedbackName);
+        return browser.driver.findElement(By.id("submitFeedback" + rowId));
     }
-     
-    
+
+    public void clickSubmitFeedbackButton(String feedbackName) {
+        click(getSubmitFeedbackButton(feedbackName));
+    }
+
     private int getEvalRowId(String name) {
         
         int id = 0;
@@ -74,8 +69,8 @@ public class StudentHomePage extends AppPage {
             WebElement element = browser.driver.findElement(By.id("evaluation" + id));
             WebElement text = element.findElement(By.tagName("td"));
 
-            if(text.getText().contains(name)){
-            return id;
+            if (text.getText().contains(name)) {
+                return id;
             }
             
             id++;

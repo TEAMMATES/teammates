@@ -20,9 +20,9 @@ public class FeedbackSessionPublishButton {
     
     public FeedbackSessionPublishButton(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                         InstructorAttributes instructor, String buttonType) {
-        String courseId = session.courseId;
-        this.feedbackSessionName = session.feedbackSessionName;
-        this.isSendingPublishedEmail = session.isPublishedEmailEnabled;
+        String courseId = session.getCourseId();
+        this.feedbackSessionName = session.getFeedbackSessionName();
+        this.isSendingPublishedEmail = session.isPublishedEmailEnabled();
 
         boolean isUnpublishing = !session.isWaitingToOpen() && session.isPublished();
         this.actionAllowed = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -37,7 +37,7 @@ public class FeedbackSessionPublishButton {
             
             boolean isReadyToPublish = !session.isWaitingToOpen() && !session.isPublished();
             this.tooltipText = isReadyToPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH
-                                                : Const.Tooltips.FEEDBACK_SESSION_AWAITING;            
+                                                : Const.Tooltips.FEEDBACK_SESSION_AWAITING;
             this.actionName = "Publish";
             this.actionLink = data.getInstructorFeedbackPublishLink(courseId, feedbackSessionName, returnUrl);
             this.actionAllowed &= isReadyToPublish;

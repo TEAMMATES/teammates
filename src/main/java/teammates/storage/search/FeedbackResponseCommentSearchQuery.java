@@ -31,11 +31,11 @@ public class FeedbackResponseCommentSearchQuery extends SearchQuery {
     private void prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
         StringBuilder courseIdLimit = new StringBuilder("(");
         String delim = "";
-        for(InstructorAttributes ins:instructors){
+        for (InstructorAttributes ins : instructors) {
             courseIdLimit.append(delim).append(ins.courseId);
             delim = OR;
         }
-        courseIdLimit.append(")");
+        courseIdLimit.append(')');
         
         //TODO: verify section
         visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString();

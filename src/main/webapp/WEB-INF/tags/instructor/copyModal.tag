@@ -11,7 +11,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">
-                        Copy this feedback session to other courses <br/>
+                        Copy this feedback session to other courses <br>
                         <small>(Select the course(s) you want to copy this feedback session to)</small>
                     </h4>
                 </div>

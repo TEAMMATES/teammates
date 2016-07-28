@@ -1,10 +1,14 @@
 package teammates.common.datatransfer;
 
+import java.util.logging.Logger;
+
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 
-public class FeedbackNumericalScaleResponseDetails extends
-        FeedbackResponseDetails {
+public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetails {
+
+    private static final Logger log = Utils.getLogger();
+    
     private double answer;
     
     public FeedbackNumericalScaleResponseDetails() {
@@ -18,7 +22,7 @@ public class FeedbackNumericalScaleResponseDetails extends
             double numscaleAnswer = Double.parseDouble(answer[0]);
             setAnswer(numscaleAnswer);
         } catch (NumberFormatException e) {
-            Utils.getLogger().severe("Failed to parse numscale answer to double - " + answer[0]);
+            log.severe("Failed to parse numscale answer to double - " + answer[0]);
             throw e;
         }
     }

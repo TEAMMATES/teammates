@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +13,6 @@ import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackEditCopyPageAction;
 import teammates.ui.controller.InstructorFeedbackEditCopyPageData;
 import teammates.ui.controller.ShowPageResult;
-
 
 public class InstructorFeedbackEditCopyPageActionTest extends
         BaseActionTest {
@@ -33,7 +28,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
         String instructorId = instructor.googleId;
         
@@ -58,8 +53,8 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         
         List<String> idOfCourses = new ArrayList<String>();
         
-        for (CourseAttributes course: pageData.getCourses()) {
-            idOfCourses.add(course.id);
+        for (CourseAttributes course : pageData.getCourses()) {
+            idOfCourses.add(course.getId());
         }
         
         assertFalse(idOfCourses.contains("FeedbackEditCopy.CS1101")); // course is archived
@@ -72,7 +67,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         
     }
     
-    private InstructorFeedbackEditCopyPageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackEditCopyPageAction getAction(String... params) {
         return (InstructorFeedbackEditCopyPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

@@ -1,7 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 
 import org.testng.annotations.Test;
@@ -24,39 +22,35 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testIsWhiteSpace() {
 
-        assertEquals(true, StringHelper.isWhiteSpace(""));
-        assertEquals(true, StringHelper.isWhiteSpace("       "));
-        assertEquals(true, StringHelper.isWhiteSpace("\t\n\t"));
-        assertEquals(true, StringHelper.isWhiteSpace(Const.EOL));
-        assertEquals(true, StringHelper.isWhiteSpace(Const.EOL + "   "));
+        assertTrue(StringHelper.isWhiteSpace(""));
+        assertTrue(StringHelper.isWhiteSpace("       "));
+        assertTrue(StringHelper.isWhiteSpace("\t\n\t"));
+        assertTrue(StringHelper.isWhiteSpace(Const.EOL));
+        assertTrue(StringHelper.isWhiteSpace(Const.EOL + "   "));
     }
     
     @Test
     public void testIsMatching() {
-        assertEquals(true, StringHelper.isMatching("\u00E0", "à"));
-        assertEquals(true, StringHelper.isMatching("\u0061\u0300", "à"));
-        assertEquals(false, StringHelper.isMatching("Héllo", "Hello"));
+        assertTrue(StringHelper.isMatching("\u00E0", "à"));
+        assertTrue(StringHelper.isMatching("\u0061\u0300", "à"));
+        assertFalse(StringHelper.isMatching("Héllo", "Hello"));
     }
-   
-    
-    @Test 
-    public void testIsAnyMatching(){
+
+    @Test
+    public void testIsAnyMatching() {
         //this method is used in header row processing in StudentAttributesFactory: locateColumnIndexes
         //so use this to test the various header field regex expressions here
-        
-        
+
         String[] regexArray = FieldValidator.REGEX_COLUMN_NAME;
-        String[] stringsToMatch = {"names","name", " name ", " names ", "student name", "students names",
+        String[] stringsToMatch = {"names", "name", " name ", " names ", "student name", "students names",
                                    "student names", "students name", "full name", "full names", "full   names",
-                                   "student full names", "students full    names", "Names", "NAMES","Full Names",
+                                   "student full names", "students full    names", "Names", "NAMES", "Full Names",
                                    "FULL NAMES", "Full Name", "Student Full Name", "Name"};
         verifyRegexMatch(stringsToMatch, regexArray, true);
         
         stringsToMatch = new String[]{"namess", "nam", "student", "full"};
         verifyRegexMatch(stringsToMatch, regexArray, false);
-        
-        
-        
+
         regexArray = FieldValidator.REGEX_COLUMN_SECTION;
         stringsToMatch = new String[]{"section", "sections", "sect", "sec", "course sections", "courses sections",
                                       "course section", "course sections", "course sec", "courses sec", "Section",
@@ -65,8 +59,7 @@ public class StringHelperTest extends BaseTestCase {
         
         stringsToMatch = new String[]{"secc", "Section 1", "Course 1"};
         verifyRegexMatch(stringsToMatch, regexArray, false);
-        
-        
+
         regexArray = FieldValidator.REGEX_COLUMN_TEAM;
         stringsToMatch = new String[]{"team", "teams", "Team", "TEAMS", "group", "Group",
                                       "Groups", "GROUPS", "student teams", "students teams ", "student team",
@@ -77,8 +70,7 @@ public class StringHelperTest extends BaseTestCase {
         
         stringsToMatch = new String[]{"tea", "Team 1", "Group 1"};
         verifyRegexMatch(stringsToMatch, regexArray, false);
-        
-        
+
         regexArray = FieldValidator.REGEX_COLUMN_EMAIL;
         stringsToMatch = new String[]{"email", "emails", " email ", " Email ", " Emails", "EMAILS", "EMAIL",
                                       "mail", "Mail", "MAIL", "MAILS", "E-mail", "E-MAILS", "E-mail", "E-mails",
@@ -100,8 +92,8 @@ public class StringHelperTest extends BaseTestCase {
 
     }
     
-    @Test 
-    public void testToStringForStringLists(){
+    @Test
+    public void testToStringForStringLists() {
         ArrayList<String> strings = new ArrayList<String>();
         assertEquals("", StringHelper.toString(strings, ""));
         assertEquals("", StringHelper.toString(strings, "<br>"));
@@ -127,86 +119,83 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test
-    public void testSplitName(){
-        
-            
+    public void testSplitName() {
+
         String fullName = "singleWord";
         String[] splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"");
-        assertEquals(splitName[1],"singleWord");
+        assertEquals(splitName[0], "");
+        assertEquals(splitName[1], "singleWord");
        
         fullName = "";
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"");
-        assertEquals(splitName[1],"");
+        assertEquals(splitName[0], "");
+        assertEquals(splitName[1], "");
         
         fullName = null;
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName,null);
-        
-        
+        assertEquals(splitName, null);
+
         fullName = "two words";
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"two");
-        assertEquals(splitName[1],"words");
+        assertEquals(splitName[0], "two");
+        assertEquals(splitName[1], "words");
         
         fullName = "now three words";
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"now three");
-        assertEquals(splitName[1],"words");
-        
-        
+        assertEquals(splitName[0], "now three");
+        assertEquals(splitName[1], "words");
+
         fullName = "what if four words";
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"what if four");
-        assertEquals(splitName[1],"words");
+        assertEquals(splitName[0], "what if four");
+        assertEquals(splitName[1], "words");
         
         fullName = "first name firstName {last Name}";
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"first name firstName");
-        assertEquals(splitName[1],"last Name");
+        assertEquals(splitName[0], "first name firstName");
+        assertEquals(splitName[1], "last Name");
         
-    }
-    
-    @Test 
-    public void testRemoveExtraSpace(){
-        
-       String str = "";
-       assertEquals("",StringHelper.removeExtraSpace(str));
-       
-       str = null;
-       assertEquals(null,StringHelper.removeExtraSpace(str));
-       
-       str = "a    a";
-       assertEquals("a a",StringHelper.removeExtraSpace(str));
-       
-       str = "  a    a   ";
-       assertEquals("a a",StringHelper.removeExtraSpace(str));
-       
-       str = "    ";
-       assertEquals("",StringHelper.removeExtraSpace(str));
-       
-       str = " a      b       c       d      ";
-       assertEquals("a b c d",StringHelper.removeExtraSpace(str));
     }
     
     @Test
-    public void testRecoverFromSanitizedText(){        
+    public void testRemoveExtraSpace() {
+        
+        String str = "";
+        assertEquals("", StringHelper.removeExtraSpace(str));
+       
+        str = null;
+        assertEquals(null, StringHelper.removeExtraSpace(str));
+       
+        str = "a    a";
+        assertEquals("a a", StringHelper.removeExtraSpace(str));
+       
+        str = "  a    a   ";
+        assertEquals("a a", StringHelper.removeExtraSpace(str));
+       
+        str = "    ";
+        assertEquals("", StringHelper.removeExtraSpace(str));
+       
+        str = " a      b       c       d      ";
+        assertEquals("a b c d", StringHelper.removeExtraSpace(str));
+    }
+    
+    @Test
+    public void testRecoverFromSanitizedText() {
         String str = null;
-        assertEquals(null,StringHelper.recoverFromSanitizedText(str));
+        assertEquals(null, StringHelper.recoverFromSanitizedText(str));
         
         str = "";
-        assertEquals("",StringHelper.recoverFromSanitizedText(str));
+        assertEquals("", StringHelper.recoverFromSanitizedText(str));
         
         str = Sanitizer.sanitizeForHtml("<text><div> 'param' &&& \\//\\");
-        assertEquals("<text><div> 'param' &&& \\//\\",StringHelper.recoverFromSanitizedText(str));
+        assertEquals("<text><div> 'param' &&& \\//\\", StringHelper.recoverFromSanitizedText(str));
     }
 
     @Test
@@ -265,8 +254,8 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("test", StringHelper.removeEnclosingSquareBrackets("test"));
         assertEquals("  test  ", StringHelper.removeEnclosingSquareBrackets("  test  "));
         
-        // input unmatched brackets, expected same input string 
-        assertEquals("[test", StringHelper.removeEnclosingSquareBrackets("[test"));        
+        // input unmatched brackets, expected same input string
+        assertEquals("[test", StringHelper.removeEnclosingSquareBrackets("[test"));
         assertEquals("(test]", StringHelper.removeEnclosingSquareBrackets("(test]"));
         
         // input empty string, expected empty string
@@ -276,15 +265,15 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
     }
 
-    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
-        for(String str : stringsToMatch){
+    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult) {
+        for (String str : stringsToMatch) {
             assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
         }
     }
     
     @Test
     public void testCsvToHtmlTable() {
-        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL 
+        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL
                          + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + Const.EOL
                          + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + Const.EOL
                          + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL;

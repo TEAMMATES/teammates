@@ -12,12 +12,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorFeedbackEditCopyAction extends Action {    
+public class InstructorFeedbackEditCopyAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -31,13 +31,15 @@ public class InstructorFeedbackEditCopyAction extends Action {
         Assumption.assertNotNull("null fs name", originalFeedbackSessionName);
         Assumption.assertNotNull("null copied fs name", newFeedbackSessionName);
         
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
+        if (nextUrl == null) {
+            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        }
         
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
             return createAjaxResultWithErrorMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         }
         
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(originalCourseId, account.googleId); 
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(originalCourseId, account.googleId);
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(originalFeedbackSessionName, originalCourseId);
         
         GateKeeper gk = new GateKeeper();
@@ -48,11 +50,11 @@ public class InstructorFeedbackEditCopyAction extends Action {
         gk.verifyAccessible(instructor, fsa, false);
         
         try {
-            // Check if there are no conflicting feedback sessions in all the courses 
+            // Check if there are no conflicting feedback sessions in all the courses
             List<String> conflictCourses =
                     filterConflictsInCourses(newFeedbackSessionName, coursesIdToCopyTo);
             
-            if (!conflictCourses.isEmpty()) {                
+            if (!conflictCourses.isEmpty()) {
                 String commaSeparatedListOfCourses = StringHelper.toString(conflictCourses, ",");
                 String errorToUser = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
                                                    newFeedbackSessionName,
@@ -82,13 +84,13 @@ public class InstructorFeedbackEditCopyAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPIED, StatusMessageColor.SUCCESS));
             statusToAdmin =
                     "Copying to multiple feedback sessions.<br>"
-                    + "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> "
+                    + "New Feedback Session <span class=\"bold\">(" + fs.getFeedbackSessionName() + ")</span> "
                     + "for Courses: <br>" + commaSeparatedListOfCourses + "<br>"
-                    + "<span class=\"bold\">From:</span> " + fs.startTime
-                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>"
-                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>"
-                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>"
-                    + "<span class=\"bold\">Instructions:</span> " + fs.instructions + "<br>"
+                    + "<span class=\"bold\">From:</span> " + fs.getStartTime()
+                    + "<span class=\"bold\"> to</span> " + fs.getEndTime() + "<br>"
+                    + "<span class=\"bold\">Session visible from:</span> " + fs.getSessionVisibleFromTime() + "<br>"
+                    + "<span class=\"bold\">Results visible from:</span> " + fs.getResultsVisibleFromTime() + "<br><br>"
+                    + "<span class=\"bold\">Instructions:</span> " + fs.getInstructions() + "<br>"
                     + "Copied from <span class=\"bold\">(" + originalFeedbackSessionName + ")</span> for Course "
                     + "<span class=\"bold\">[" + originalCourseId + "]</span> created.<br>";
 
@@ -97,10 +99,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
             return createAjaxResultWithoutClearingStatusMessage(
                        new InstructorFeedbackEditCopyData(account,
                                                           Config.getAppUrl(nextUrl)
-                                                                .withParam(Const.ParamsNames.ERROR, 
+                                                                .withParam(Const.ParamsNames.ERROR,
                                                                            Boolean.FALSE.toString())
-                                                                .withParam(Const.ParamsNames.USER_ID, 
-                                                                           account.googleId) 
+                                                                .withParam(Const.ParamsNames.USER_ID,
+                                                                           account.googleId)
                                                           ));
             
         } catch (EntityAlreadyExistsException e) {
@@ -115,7 +117,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
     }
 
     /**
-     * Given an array of Course Ids, return only the Ids of Courses which has 
+     * Given an array of Course Ids, return only the Ids of Courses which has
      * an existing feedback session with a name conflicting with feedbackSessionName
      * @param feedbackSessionName
      * @param coursesIdToCopyTo
@@ -123,18 +125,18 @@ public class InstructorFeedbackEditCopyAction extends Action {
     private List<String> filterConflictsInCourses(String feedbackSessionName, String[] coursesIdToCopyTo) {
         List<String> courses = new ArrayList<String>();
         
-        for (String courseIdToCopy: coursesIdToCopyTo) {
+        for (String courseIdToCopy : coursesIdToCopyTo) {
             FeedbackSessionAttributes existingFs =
                     logic.getFeedbackSession(feedbackSessionName, courseIdToCopy);
             boolean fsAlreadyExists = existingFs != null;
             
             if (fsAlreadyExists) {
-                courses.add(existingFs.courseId);
+                courses.add(existingFs.getCourseId());
             }
         }
         
         return courses;
-    }    
+    }
     
     private AjaxResult createAjaxResultWithErrorMessage(String errorToUser) {
         isError = true;

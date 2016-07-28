@@ -37,7 +37,7 @@
                                         <c:if test="${not empty response.responseComments}">
                                             <ul class="list-group" id="responseCommentTable-${fbIndex}-${personIndex.index + 1}-${qnIndex.index + 1}-${viewType}" style="margin-top:15px;">
                                                 <c:forEach items="${response.responseComments}" var="responseComment">
-                                                    <shared:feedbackResponseComment frc="${responseComment}" />
+                                                    <shared:feedbackResponseCommentRow frc="${responseComment}" />
                                                 </c:forEach>
                                             </ul>
                                         </c:if>

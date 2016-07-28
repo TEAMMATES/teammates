@@ -14,7 +14,7 @@ public class CourseStatsPageAction extends Action {
         
         CourseStatsPageData data = new CourseStatsPageData(account);
         
-        new GateKeeper().verifyInstructorPrivileges(account);    
+        new GateKeeper().verifyInstructorPrivileges(account);
         
         data.courseDetails = logic.getCourseDetails(courseId);
         

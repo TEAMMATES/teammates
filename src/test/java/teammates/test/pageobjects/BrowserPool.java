@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 /**
  * Manage the pool of {@link Browser} instances.
- * This class is thread-safe.  
+ * This class is thread-safe.
  */
-public class BrowserPool {
+public final class BrowserPool {
     /* This class is implemented as a Singleton class.
      * The reason we're not implementing this class as static because we want to
      * use wait() and notify().
@@ -16,7 +16,7 @@ public class BrowserPool {
     private static final int CAPACITY = System.getenv("TRAVIS") == null ? 9 + 1 : 2;
     //+1 in case a sequential ui test uses a browser other than the first in pool
 
-    private static BrowserPool instance = null;
+    private static BrowserPool instance;
     private ArrayList<Browser> pool;
 
     private BrowserPool() {
@@ -37,8 +37,7 @@ public class BrowserPool {
      * @return a Browser object ready to be used.
      */
     public static Browser getBrowser() {
-        Browser b = getInstance().requestInstance(false);
-        return b;
+        return getInstance().requestInstance(false);
     }
     
     /**
@@ -49,8 +48,7 @@ public class BrowserPool {
      *  time waiting for a free browser.
      */
     public static Browser getBrowser(boolean sequentialUiTest) {
-        Browser b = getInstance().requestInstance(sequentialUiTest);
-        return b;
+        return getInstance().requestInstance(sequentialUiTest);
     }
 
 
@@ -68,7 +66,7 @@ public class BrowserPool {
 
     private Browser requestInstance(boolean sequentialUiTest) {
         
-        if(sequentialUiTest){
+        if (sequentialUiTest) {
             //Set priority of the sequential ui tests thread to max priority.
             Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
         } else {
@@ -79,10 +77,10 @@ public class BrowserPool {
             //synchronized to ensure thread-safety
             synchronized (this) {
                 // Look for instantiated and available object.
-                int n=0;
+                int n = 0;
                 for (Browser b : pool) {
                     n++;
-                    if((!sequentialUiTest && n==1)){
+                    if (!sequentialUiTest && n == 1) {
                         continue;
                     }
                     if (!b.isInUse) {
@@ -103,7 +101,7 @@ public class BrowserPool {
                 try {
                     this.wait(200);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             }
         }

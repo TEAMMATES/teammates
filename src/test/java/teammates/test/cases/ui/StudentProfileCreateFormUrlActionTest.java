@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -26,15 +23,14 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
 
         testGenerateUploadUrlSuccessTypical(student);
         testGenerateUploadUrlSuccessMasqueradeMode(student);
     }
 
-    private void testGenerateUploadUrlSuccessTypical(AccountAttributes student)
-            throws Exception {
+    private void testGenerateUploadUrlSuccessTypical(AccountAttributes student) {
         ______TS("Typical case");
 
         String[] submissionParams = new String[] {};
@@ -47,8 +43,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         verifyLogMessage(student, action, result, false);
     }
 
-    private void testGenerateUploadUrlSuccessMasqueradeMode(AccountAttributes student)
-            throws Exception {
+    private void testGenerateUploadUrlSuccessMasqueradeMode(AccountAttributes student) {
         ______TS("Typical case: masquerade mode");
 
         gaeSimulation.loginAsAdmin("admin.user");
@@ -76,7 +71,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private StudentProfileCreateFormUrlAction getAction(String... params) throws Exception {
+    private StudentProfileCreateFormUrlAction getAction(String... params) {
         return (StudentProfileCreateFormUrlAction) (gaeSimulation.getActionObject(uri, params));
     }
 

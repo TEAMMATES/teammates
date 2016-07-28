@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
@@ -34,11 +32,11 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     public static void classTearDown() {
         // delete entire session to clean the database
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
     }
 
     @Test
-    public void testExecuteAndPostProcessMsq() throws Exception {
+    public void testExecuteAndPostProcessMsq() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -48,13 +46,14 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "5",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "The Content",
                 // This option is deleted during creation, don't pass parameter
@@ -96,13 +95,14 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Generated options");
 
         params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Who do you like in the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
@@ -136,14 +136,15 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Enable other option");
 
         params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Choose all the food you like",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3", 
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "Pizza",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", "Pasta",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", "Chicken rice",
@@ -179,7 +180,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessMcq() throws Exception {
+    public void testExecuteAndPostProcessMcq() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -189,13 +190,14 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "5",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The Content",
                 // This option is deleted during creation, don't pass parameter
@@ -237,13 +239,14 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Generated options");
 
         params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Who do you like best in the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "2", // this field defaults to 2
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
@@ -277,14 +280,15 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Enable other option");
 
         params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What can be improved for this class?",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "4", 
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "4",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The content",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", "Teaching style",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-2", "Tutorial questions",
@@ -321,7 +325,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessNumScale() throws Exception {
+    public void testExecuteAndPostProcessNumScale() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -331,13 +335,14 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "NUMSCALE",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Rate the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX, "5",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP, "0.5",
@@ -371,7 +376,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessConstSumOption() throws Exception {
+    public void testExecuteAndPostProcessConstSumOption() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -381,14 +386,17 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.SELF.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among the options.",
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "100",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "30",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "100",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "50",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, "true",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-1", "Option 1",
@@ -406,7 +414,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid="+ instructor1ofCourse1.courseId
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
@@ -426,7 +434,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessConstSumRecipient() throws Exception {
+    public void testExecuteAndPostProcessConstSumRecipient() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -435,14 +443,17 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         String[] params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among students.",
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "100",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "30",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "50",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "100",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, "true",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, "true",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "2", // default value.
@@ -471,14 +482,14 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "(First feedback session)</span> for Course "
                                     + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                                     + " created.<br><span class=\"bold\">Distribute points "
-                                    + "(among recipients) question:</span> Split points among students." 
+                                    + "(among recipients) question:</span> Split points among students."
                                     + "|||/page/instructorFeedbackQuestionAdd";
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Test
-    public void testExecuteAndPostProcessContributionQuestion() throws Exception {
+    public void testExecuteAndPostProcessContributionQuestion() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -488,8 +499,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toString(),
@@ -497,6 +508,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONTRIB",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT,
                 "How much has each team member including yourself, contributed to the project?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
@@ -527,8 +539,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Invalid giver case");
 
         params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toString(),
@@ -536,6 +548,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONTRIB",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT,
                 "How much has each team member including yourself, contributed to the project?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
@@ -564,12 +577,12 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         assertEquals(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH
-                     + "<br />" + Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
+                     + "<br>" + Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
                      result.getStatusMessage());
     }
 
     @Test
-    public void testExecuteAndPostProcessRubricQuestion() throws Exception {
+    public void testExecuteAndPostProcessRubricQuestion() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -581,8 +594,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toString(),
@@ -590,12 +603,15 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT,
                 "Please choose the most appropriate choices for the sub-questions below.",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", "SubQn-1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", "Choice-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "-1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", "SubQn-2",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", "Choice-2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
@@ -625,7 +641,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -637,31 +653,31 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
 
         verifyAssumptionFailure(params);
 
         ______TS("Empty questionText");
 
-        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "");
         verifyAssumptionFailure(params);
 
         ______TS("Invalid questionNumber");
 
-        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
         // change questionNumber to invalid number
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "0");
         verifyAssumptionFailure(params);
 
-        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
         // change questionNumber to invalid number
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "-1");
         verifyAssumptionFailure(params);
 
-        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
         // change questionNumber to invalid "number"
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "ABC");
 
@@ -675,7 +691,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         ______TS("Non-existent Enumeration");
 
-        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.getFeedbackSessionName());
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, "NON_EXISTENT_ENUMERATION");
 
         try {
@@ -686,7 +702,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
             ignoreExpectedException();
         }
 
-        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.getFeedbackSessionName());
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, "NON_EXISTENT_ENUMERATION");
 
         try {
@@ -697,7 +713,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
             ignoreExpectedException();
         }
 
-        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.getFeedbackSessionName());
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "NON_EXISTENT_ENUMERATION");
 
         try {
@@ -710,7 +726,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         ______TS("Typical case");
 
-        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
         // change number of feedback to give to unlimited
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max");
         InstructorFeedbackQuestionAddAction action = getAction(params);
@@ -735,7 +751,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         ______TS("Custom number of students to give feedback to");
 
-        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
 
@@ -758,7 +774,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         ______TS("Custom number of teams to give feedback to");
 
-        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, "TEAMS");
 
         action = getAction(params);
@@ -783,7 +799,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         ______TS("Remnant custom number of entities when recipient is changed to non-student and non-team");
 
-        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, "INSTRUCTORS");
 
         action = getAction(params);
@@ -808,7 +824,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         ______TS("Failure: Empty or null participant lists");
 
-        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, "");
 
         // Purposely not using modifyParamVale because we're removing showRecipientTo
@@ -838,7 +854,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         ______TS("Failure: Invalid Parameter");
 
-        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.getFeedbackSessionName());
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, "NONE");
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
@@ -847,21 +863,22 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      result.getDestinationWithParams());
 
-        assertEquals("NONE is not a valid feedback giver..", result.getStatusMessage());
+        assertEquals("NONE is not a valid feedback giver.", result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
-                             + "instructorFeedbackQuestionAdd|||true|||"
-                             + "Instructor|||Instructor 1 of Course 1|||"
-                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                             + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, "NONE", FieldValidator.GIVER_TYPE_NAME)
-                             + "|||/page/instructorFeedbackQuestionAdd";
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, "NONE", FieldValidator.GIVER_TYPE_NAME)
+                + "|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Masquerade mode");
 
         gaeSimulation.loginAsAdmin("admin.user");
 
-        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.feedbackSessionName);
+        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.getFeedbackSessionName());
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
 
         action = getAction(params);
@@ -885,7 +902,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private InstructorFeedbackQuestionAddAction getAction (String... params) throws Exception {
+    private InstructorFeedbackQuestionAddAction getAction(String... params) {
         return (InstructorFeedbackQuestionAddAction) gaeSimulation.getActionObject(uri, params);
     }
 }

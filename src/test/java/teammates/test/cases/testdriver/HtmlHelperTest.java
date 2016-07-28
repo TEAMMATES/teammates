@@ -1,24 +1,20 @@
 package teammates.test.cases.testdriver;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import static teammates.common.util.Const.EOL;
 
 import java.io.IOException;
 
-import javax.xml.transform.TransformerException;
-
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 
-import teammates.common.util.FileHelper;
+import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.FileHelper;
 
-public class HtmlHelperTest {
+public class HtmlHelperTest extends BaseTestCase {
     
     @Test
-    public void testComparison() throws SAXException, IOException, TransformerException{
+    public void testComparison() throws IOException {
         String expected = "<html></html>";
         String actual = expected;
         HtmlHelper.assertSameHtml(expected, actual, false);
@@ -26,28 +22,29 @@ public class HtmlHelperTest {
         actual = "<html> </html>";
         HtmlHelper.assertSameHtml(expected, actual, false);
         
-        expected = "<HTML><HEAD><SCRIPT language=\"JavaScript\" src=\"a.js\" ></SCRIPT></HEAD><BODY id=\"5\"><P>abc</P><DIV id=\"frameBottom\"><DIV></DIV></DIV></BODY></HTML>";
-        actual = expected.replace("<HEAD>", "    <HEAD>    \t"+EOL);
+        expected = "<HTML><HEAD><SCRIPT language=\"JavaScript\" src=\"a.js\" ></SCRIPT></HEAD>"
+                   + "<BODY id=\"5\"><P>abc</P><DIV id=\"frameBottom\"><DIV></DIV></DIV></BODY></HTML>";
+        actual = expected.replace("<HEAD>", "    <HEAD>    \t" + EOL);
         HtmlHelper.assertSameHtml(expected, actual, false);
         
         //change attribute order
         actual = expected.replace("language=\"JavaScript\" src=\"a.js\"", "  src=\"a.js\"   language=\"JavaScript\"  ");
         HtmlHelper.assertSameHtml(expected, actual, false);
         
-        actual = expected.replace("<P>", "<P>\n\n"+EOL+EOL);
+        actual = expected.replace("<P>", "<P>\n\n" + EOL + EOL);
         HtmlHelper.assertSameHtml(expected, actual, false);
         
-        actual = expected.replace("<DIV></DIV></DIV>", EOL+EOL+"\n<DIV>\n\n</DIV></DIV>\n\n"+EOL);
+        actual = expected.replace("<DIV></DIV></DIV>", EOL + EOL + "\n<DIV>\n\n</DIV></DIV>\n\n" + EOL);
         HtmlHelper.assertSameHtml(expected, actual, false);
         
-        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
-        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActual.html");
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleExpected.html");
+        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleActual.html");
         HtmlHelper.assertSameHtml(expected, actual, false);
 
     }
     
     @Test
-    public void testConvertToStandardHtml() throws Exception{
+    public void testConvertToStandardHtml() throws Exception {
         
         //Tool tip in actual. Should not be ignored.
         String actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
@@ -75,8 +72,8 @@ public class HtmlHelperTest {
         assertFalse(HtmlHelper.areSameHtml(expected, actual, false));
         
         //Test against areSameHtmlPart
-        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
-        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActualPart.html");
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleExpected.html");
+        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleActualPart.html");
         assertFalse(HtmlHelper.areSameHtml(expected, actual, false));
     }
     
@@ -124,13 +121,13 @@ public class HtmlHelperTest {
         assertTrue(HtmlHelper.areSameHtml(expected, actual, true));
         
         //Same html structure
-        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
-        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActual.html");
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleExpected.html");
+        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleActual.html");
         HtmlHelper.assertSameHtml(expected, actual, true);
         
         //Same after ignoring html & head & body tag
-        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
-        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActualPart.html");
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleExpected.html");
+        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleActualPart.html");
         HtmlHelper.assertSameHtml(expected, actual, true);
         
         //other cases are tested in testComparison

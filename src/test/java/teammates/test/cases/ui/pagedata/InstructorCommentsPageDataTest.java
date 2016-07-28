@@ -9,8 +9,6 @@ import java.util.TreeMap;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -21,7 +19,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorCommentsPageData;
-import teammates.ui.template.Comment;
+import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
 
@@ -33,7 +31,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     private static InstructorAttributes instructor1;
     
     @BeforeClass
-    public void classSetUp() throws Exception {
+    public void classSetUp() {
         printTestClassHeader();
         course1 = dataBundle.courses.get("typicalCourse1");
         course2 = dataBundle.courses.get("typicalCourse2");
@@ -50,9 +48,9 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         
         boolean isViewingDraft = false;
         boolean isDisplayArchive = false;
-        String courseId = course1.id;
-        String courseName = course1.name;
-        List<String> coursePaginationList = Arrays.asList(course1.id, course2.id);
+        String courseId = course1.getId();
+        String courseName = course1.getName();
+        List<String> coursePaginationList = Arrays.asList(course1.getId(), course2.getId());
         Map<String, List<CommentAttributes>> comments = new TreeMap<String, List<CommentAttributes>>();
         Map<String, List<Boolean>> commentModifyPermissions = new TreeMap<String, List<Boolean>>();
         
@@ -64,7 +62,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         String giverEmail = instructor1.email;
         setInstructorComments(giverEmail, instructor1.email, courseId, comments, commentModifyPermissions);
         
-        data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList, 
+        data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList,
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
         
         /******************** Assertions for pageData data ********************/
@@ -72,7 +70,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertEquals(courseName, data.getCourseName());
         CoursePagination actualCoursePagination = data.getCoursePagination();
         assertEquals("javascript:;", actualCoursePagination.getPreviousPageLink());
-        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course2.id, 
+        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course2.getId(),
                      actualCoursePagination.getNextPageLink());
         assertEquals(coursePaginationList, actualCoursePagination.getCoursePaginationList());
         assertEquals(courseId, actualCoursePagination.getActiveCourse());
@@ -86,12 +84,12 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         /******************** Assertions for data structures ********************/
         
         String giverDetails = "You";
-        List<Comment> commentRows = new ArrayList<Comment>();
+        List<CommentRow> commentRows = new ArrayList<CommentRow>();
         
         // Create first expected comment row
         String recipientDisplay = "student2 In Course1 (Team 1.1</td></div>'\", student2InCourse1@gmail.tmt)";
         CommentAttributes comment = dataBundle.comments.get("comment1FromI3C1toS2C1");
-        Comment commentRow = new Comment(comment, giverDetails, recipientDisplay);
+        CommentRow commentRow = new CommentRow(comment, giverDetails, recipientDisplay);
         commentRow.withExtraClass("status_display-private");
         commentRow.setVisibilityIcon("");
         commentRow.setNotificationIcon(comment.isPendingNotification());
@@ -103,7 +101,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         // Create second expected comment row
         recipientDisplay = "all students in this course";
         comment = dataBundle.comments.get("comment1FromI3C1toC1");
-        commentRow = new Comment(comment, giverDetails, recipientDisplay);
+        commentRow = new CommentRow(comment, giverDetails, recipientDisplay);
         commentRow.withExtraClass("status_display-private");
         commentRow.setVisibilityIcon("");
         commentRow.setNotificationIcon(comment.isPendingNotification());
@@ -120,15 +118,15 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         List<CommentsForStudentsTable> actualCommentsForStudentsTables = data.getCommentsForStudentsTables();
         
         assertEquals(expectedCommentsForStudentsTables.size(), actualCommentsForStudentsTables.size());
-        for(int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
+        for (int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
             checkCommentsForStudentsTablesEqual(
                      expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i));
         }
         
         ______TS("instructor is in second course page");
         
-        courseId = course2.id;
-        courseName = course2.name;
+        courseId = course2.getId();
+        courseName = course2.getName();
         
         comments = new TreeMap<String, List<CommentAttributes>>();
         commentModifyPermissions = new TreeMap<String, List<Boolean>>();
@@ -140,14 +138,14 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         giverEmail = instructor1.email;
         setInstructorComments(giverEmail, instructor1.email, courseId, comments, commentModifyPermissions);
         
-        data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList, 
+        data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList,
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
         
         /******************** Assertions for pageData data ********************/
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
         actualCoursePagination = data.getCoursePagination();
-        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course1.id, 
+        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course1.getId(),
                      actualCoursePagination.getPreviousPageLink());
         assertEquals("javascript:;", actualCoursePagination.getNextPageLink());
         assertEquals(coursePaginationList, actualCoursePagination.getCoursePaginationList());
@@ -180,7 +178,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     private List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
         List<FeedbackSessionAttributes> feedbackSessionsInCourse = new ArrayList<FeedbackSessionAttributes>();
         for (FeedbackSessionAttributes feedbackSession : dataBundle.feedbackSessions.values()) {
-            if (feedbackSession.courseId.equals(courseId)) {
+            if (feedbackSession.getCourseId().equals(courseId)) {
                 feedbackSessionsInCourse.add(feedbackSession);
             }
         }
@@ -210,17 +208,17 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     private void checkCommentsForStudentsTablesEqual(CommentsForStudentsTable expected, CommentsForStudentsTable actual) {
         assertEquals(expected.getGiverDetails(), actual.getGiverDetails());
         assertEquals(expected.getExtraClass(), actual.getExtraClass());
-        List<Comment> expectedCommentRows = expected.getRows();
-        List<Comment> actualCommentRows = actual.getRows();
+        List<CommentRow> expectedCommentRows = expected.getRows();
+        List<CommentRow> actualCommentRows = actual.getRows();
         assertEquals(expectedCommentRows.size(), actualCommentRows.size());
-        for(int i = 0; i < expectedCommentRows.size(); i++) {
-            Comment expectedCommentRow = expectedCommentRows.get(i);
-            Comment actualCommentRow = actualCommentRows.get(i);
+        for (int i = 0; i < expectedCommentRows.size(); i++) {
+            CommentRow expectedCommentRow = expectedCommentRows.get(i);
+            CommentRow actualCommentRow = actualCommentRows.get(i);
             checkCommentRowsEqual(expectedCommentRow, actualCommentRow);
         }
     }
 
-    private void checkCommentRowsEqual(Comment expected, Comment actual) {
+    private void checkCommentRowsEqual(CommentRow expected, CommentRow actual) {
         assertEquals(expected.getCreatedAt(), actual.getCreatedAt());
         assertEquals(expected.getEditedAt(), actual.getEditedAt());
         assertEquals(expected.getCommentText(), actual.getCommentText());
@@ -261,12 +259,12 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     }
 
     private void setInstructorComments(
-            String giverEmail, String currentInstructorEmail, String courseId, 
+            String giverEmail, String currentInstructorEmail, String courseId,
             Map<String, List<CommentAttributes>> comments, Map<String, List<Boolean>> commentModifyPermissions) {
         List<CommentAttributes> commentsForGiverList;
         List<Boolean> canModifyCommentList = new ArrayList<Boolean>();
         commentsForGiverList = getCommentsForGiverInCourse(giverEmail, courseId);
-        for(int i = 0; i < commentsForGiverList.size(); i++) {
+        for (int i = 0; i < commentsForGiverList.size(); i++) {
             canModifyCommentList.add(true);
         }
         String key = giverEmail;
@@ -274,6 +272,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
             key = COMMENT_GIVER_NAME_THAT_COMES_FIRST;
         }
         commentModifyPermissions.put(key, canModifyCommentList);
-        comments.put(key, commentsForGiverList);   
+        comments.put(key, commentsForGiverList);
     }
 }

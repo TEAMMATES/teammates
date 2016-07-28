@@ -7,10 +7,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import teammates.storage.entity.StudentProfile;
-
 /**
- * Represents a unique user in the system. 
+ * Represents a unique user in the system.
  */
 @PersistenceCapable
 public class Account {
@@ -34,15 +32,15 @@ public class Account {
     @Persistent
     private Date createdAt;
     
-    @Persistent(dependent="true", defaultFetchGroup="false")
-    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
+    @Persistent(dependent = "true", defaultFetchGroup = "false")
+    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private StudentProfile studentProfile;
 
     /**
-     * Instantiates a new account. 
+     * Instantiates a new account.
      * 
      * @param googleId
-     *            the Google ID of the user. 
+     *            the Google ID of the user.
      * @param name
      *            The name of the user.
      * @param isInstructor
@@ -50,7 +48,7 @@ public class Account {
      * @param email
      *            The official email of the user.
      * @param institute
-     *            The university/school/institute e.g., "Abrons State University, Alaska" 
+     *            The university/school/institute e.g., "Abrons State University, Alaska"
      * @param studentProfile
      *            It is a StudentProfile object that contains all the attributes
      *            of a student profile

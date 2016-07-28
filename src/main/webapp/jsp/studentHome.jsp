@@ -10,11 +10,11 @@
 </c:set>
 <ts:studentPage pageTitle="TEAMMATES - Student" bodyTitle="Student Home" jsIncludes="${jsIncludes}">
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-    <br />
+    <br>
     <c:forEach items="${data.courseTables}" var="courseTable">
         <home:coursePanel courseTable="${courseTable}">
             <home:courseTable sessionRows="${courseTable.rows}" />
         </home:coursePanel>
-        <br /><br />
+        <br><br>
     </c:forEach>
 </ts:studentPage>

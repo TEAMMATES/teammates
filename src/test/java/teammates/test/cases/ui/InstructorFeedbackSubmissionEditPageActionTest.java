@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -22,12 +19,12 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE;
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
@@ -35,10 +32,10 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         ______TS("not enough parameters");
 
         String[] paramsWithoutCourseId = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
         String[] paramsWithoutFeedbackSessionName = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId
+                Const.ParamsNames.COURSE_ID, session.getCourseId()
         };
 
         verifyAssumptionFailure(paramsWithoutCourseId);
@@ -47,7 +44,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         ______TS("Test null feedback session name parameter");
 
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
 
@@ -66,7 +63,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         ______TS("Test null course id parameter");
 
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
 
@@ -85,8 +82,8 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
 
@@ -105,7 +102,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "feedback session that does not exist",
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
@@ -123,8 +120,8 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         ______TS("typical success case");
 
         String[] params = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
 
@@ -157,8 +154,8 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         session = dataBundle.feedbackSessions.get("closedSession");
 
         params = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
 
@@ -178,8 +175,8 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         params = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
 
@@ -193,7 +190,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         assertEquals("", r.getStatusMessage());
     }
 
-    private InstructorFeedbackSubmissionEditPageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackSubmissionEditPageAction getAction(String... params) {
         return (InstructorFeedbackSubmissionEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

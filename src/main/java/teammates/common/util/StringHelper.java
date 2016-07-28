@@ -14,14 +14,18 @@ import javax.crypto.spec.SecretKeySpec;
 
 /** Holds String-related helper functions
  */
-public class StringHelper {
+public final class StringHelper {
+    
+    private StringHelper() {
+        // utility class
+    }
 
     public static String generateStringOfLength(int length) {
         return StringHelper.generateStringOfLength(length, 'a');
     }
 
     public static String generateStringOfLength(int length, char character) {
-        assert (length >= 0);
+        Assumption.assertTrue(length >= 0);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             sb.append(character);
@@ -34,9 +38,9 @@ public class StringHelper {
     }
     
     /**
-     * Check whether the input string matches the regex repression
+     * Check whether the input string matches the regex
      * @param input The string to be matched
-     * @param regex The regex repression used for the matching
+     * @param regex The regex  used for the matching
      */
     public static boolean isMatching(String input, String regex) {
         // Important to use the CANON_EQ flag to make sure that canonical characters
@@ -49,14 +53,14 @@ public class StringHelper {
      * Currently only used in header row processing in StudentAttributesFactory: locateColumnIndexes
      * Case Insensitive
      * @param input The string to be matched
-     * @param regexArray The regex repression array used for the matching
+     * @param regexArray The regex array used for the matching
      */
     public static boolean isAnyMatching(String input, String[] regexArray) {
         for (String regex : regexArray) {
             if (isMatching(input.trim().toLowerCase(), regex)) {
                 return true;
             }
-        }   
+        }
         return false;
     }
 
@@ -71,7 +75,7 @@ public class StringHelper {
      * E.g., "12345678" truncated to length 6 returns "123..."
      */
     public static String truncate(String inputString, int truncateLength) {
-        if (!(inputString.length() > truncateLength)) {
+        if (inputString.length() <= truncateLength) {
             return inputString;
         }
         String result = inputString;
@@ -92,9 +96,8 @@ public class StringHelper {
         final int inputStringLength = inputString.length();
         if (inputStringLength <= maximumStringLength) {
             return inputString;
-        } else {
-            return inputString.substring(inputStringLength - maximumStringLength);
         }
+        return inputString.substring(inputStringLength - maximumStringLength);
     }
 
     /**
@@ -150,7 +153,7 @@ public class StringHelper {
      * @return Concatenated string.
      */
     public static String toString(List<String> strings) {
-        return toString(strings, Const.EOL);    
+        return toString(strings, Const.EOL);
     }
 
     /**
@@ -158,20 +161,19 @@ public class StringHelper {
      * @return Concatenated string.
      */
     public static String toString(List<String> strings, String delimiter) {
-        String returnValue = "";
-        
-        if (strings.size() == 0) {
-            return returnValue;
+        if (strings.isEmpty()) {
+            return "";
         }
         
+        StringBuilder returnValue = new StringBuilder();
         for (int i = 0; i < strings.size() - 1; i++) {
             String s = strings.get(i);
-            returnValue += s + delimiter;
+            returnValue.append(s).append(delimiter);
         }
         //append the last item
-        returnValue += strings.get(strings.size() - 1);
+        returnValue.append(strings.get(strings.size() - 1));
         
-        return returnValue;        
+        return returnValue.toString();
     }
     
     public static String toDecimalFormatString(double doubleVal) {
@@ -181,18 +183,18 @@ public class StringHelper {
 
     public static String toUtcFormat(double hourOffsetTimeZone) {
         String utcFormatTimeZone = "UTC";
-        if (hourOffsetTimeZone != 0) {
-            if ((int) hourOffsetTimeZone == hourOffsetTimeZone) {
-                utcFormatTimeZone += String.format(" %+03d:00", (int) hourOffsetTimeZone);
-            } else {
-                utcFormatTimeZone += String.format(
-                                            " %+03d:%02d",
-                                            (int) hourOffsetTimeZone,
-                                            (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
-            }
+        if (hourOffsetTimeZone == 0) {
+            return utcFormatTimeZone;
         }
 
-        return utcFormatTimeZone;
+        if ((int) hourOffsetTimeZone == hourOffsetTimeZone) {
+            return utcFormatTimeZone + String.format(" %+03d:00", (int) hourOffsetTimeZone);
+        }
+        
+        return utcFormatTimeZone + String.format(
+                                    " %+03d:%02d",
+                                    (int) hourOffsetTimeZone,
+                                    (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
     }
     
     //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
@@ -227,13 +229,13 @@ public class StringHelper {
      * <br>
      * 2.If single word, this will be last name and first name will be an empty string
      * <br>
-     * 3.If more than two words, the last word will be last name and 
+     * 3.If more than two words, the last word will be last name and
      * the rest will be first name.
      * <br>
      * 4.If the last name is enclosed with braces "{}" such as first {Last1 Last2},
      * the last name will be the String inside the braces
      * <br>
-     * Example: 
+     * Example:
      * <br><br>
      * full name "Danny Tim Lin"<br>
      * first name: "Danny Tim" <br>
@@ -249,7 +251,7 @@ public class StringHelper {
      * @return split name array{0--> first name, 1--> last name, 2--> processed full name by removing "{}"}
      */
     
-    public static String[] splitName(String fullName) {  
+    public static String[] splitName(String fullName) {
         
         if (fullName == null) {
             return null;
@@ -259,24 +261,23 @@ public class StringHelper {
         String firstName;
         
         if (fullName.contains("{") && fullName.contains("}")) {
-            int startIndex = fullName.indexOf("{");
-            int endIndex = fullName.indexOf("}");
+            int startIndex = fullName.indexOf('{');
+            int endIndex = fullName.indexOf('}');
             lastName = fullName.substring(startIndex + 1, endIndex);
             firstName = fullName.replace("{", "")
                                 .replace("}", "")
                                 .replace(lastName, "")
-                                .trim();           
+                                .trim();
             
-        } else {         
-            lastName = fullName.substring(fullName.lastIndexOf(" ") + 1).trim();
+        } else {
+            lastName = fullName.substring(fullName.lastIndexOf(' ') + 1).trim();
             firstName = fullName.replace(lastName, "").trim();
         }
         
         String processedfullName = fullName.replace("{", "")
                                            .replace("}", "");
         
-        String[] splitNames = {firstName, lastName, processedfullName};       
-        return splitNames;
+        return new String[] {firstName, lastName, processedfullName};
     }
     
     
@@ -285,7 +286,7 @@ public class StringHelper {
      * Example: " a   a  " --> "a a"
      * @return processed string, returns null if parameter is null
      */
-    public static String removeExtraSpace(String str) {       
+    public static String removeExtraSpace(String str) {
         if (str == null) {
             return null;
         }
@@ -295,7 +296,7 @@ public class StringHelper {
     /**
      * trims all strings in the set and reduces consecutive white spaces to only one space
      */
-    public static Set<String> removeExtraSpace(Set<String> strSet) {       
+    public static Set<String> removeExtraSpace(Set<String> strSet) {
         if (strSet == null) {
             return null;
         }
@@ -333,10 +334,10 @@ public class StringHelper {
     /**
      * This recovers a html-sanitized string to original encoding for appropriate display in files such as csv file <br>
      * It restores encoding for < > \ / ' &  <br>
-     * @param sanitized string 
-     * @return recovered string  
+     * @param sanitized string
+     * @return recovered string
      */
-    public static String recoverFromSanitizedText(String str) {  
+    public static String recoverFromSanitizedText(String str) {
         
         if (str == null) {
             return null;
@@ -351,7 +352,8 @@ public class StringHelper {
     }
     
     /**
-     * This recovers a set of html-sanitized string to original encoding for appropriate display in files such as csv file <br>
+     * This recovers a set of html-sanitized string to original encoding for appropriate display in files
+     * such as csv file <br>
      * It restores encoding for < > \ / ' &  <br>
      * @param sanitized string set
      * @return recovered string set
@@ -370,8 +372,7 @@ public class StringHelper {
      * @return html table string
      */
     public static String csvToHtmlTable(String str) {
-        str = handleNewLine(str);
-        String[] lines = str.split(Const.EOL);
+        String[] lines = handleNewLine(str).split(Const.EOL);
 
         StringBuilder result = new StringBuilder();
 
@@ -425,7 +426,7 @@ public class StringHelper {
         
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"') {
-                if ((i + 1 < chars.length) && (chars[i + 1] == '"')) {
+                if (i + 1 < chars.length && chars[i + 1] == '"') {
                     i++;
                 } else {
                     inquote = !inquote;
@@ -433,15 +434,15 @@ public class StringHelper {
                 }
             }
             
-            if (chars[i] == ',') {    
+            if (chars[i] == ',') {
                 if (inquote) {
-                    buffer.append(chars[i]);                   
+                    buffer.append(chars[i]);
                 } else {
                     data.add(buffer.toString());
                     buffer.delete(0, buffer.length());
                 }
             } else {
-                buffer.append(chars[i]);             
+                buffer.append(chars[i]);
             }
             
         }
@@ -476,15 +477,16 @@ public class StringHelper {
      * @param n - number to convert
      */
     public static String integerToLowerCaseAlphabeticalIndex(int n) {
-        String result = "";
-        while (n > 0) {
-            n--; // 1 => a, not 0 => a
-            int remainder = n % 26;
+        StringBuilder result = new StringBuilder();
+        int n0 = n;
+        while (n0 > 0) {
+            n0--; // 1 => a, not 0 => a
+            int remainder = n0 % 26;
             char digit = (char) (remainder + 97);
-            result = digit + result;
-            n = (n - remainder) / 26;
+            result.append(digit);
+            n0 = (n0 - remainder) / 26;
         }
-        return result;
+        return result.reverse().toString();
     }
     
     /**
@@ -530,8 +532,8 @@ public class StringHelper {
      * 
      * @param str
      * @return the string without the outermost enclosing square brackets
-     *         if the given string is enclosed by square brackets <br/> 
-     *         the string itself if the given string is not enclosed by square brackets <br/>
+     *         if the given string is enclosed by square brackets <br>
+     *         the string itself if the given string is not enclosed by square brackets <br>
      *         null if the given string is null
      */
     public static String removeEnclosingSquareBrackets(String str) {
@@ -545,7 +547,7 @@ public class StringHelper {
         
         return str.substring(1, str.length() - 1);
     }
-	
+    
     /**
      * Returns a String array after removing white spaces leading and
      * trailing any string in the input array.

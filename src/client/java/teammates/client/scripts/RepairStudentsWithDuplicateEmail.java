@@ -30,19 +30,19 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     protected static final PersistenceManager pm = JDOHelper
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
+    
+    private int duplicateEmailCount;
 
     public static void main(String[] args) throws IOException {
         RepairStudentsWithDuplicateEmail repairman = new RepairStudentsWithDuplicateEmail();
         repairman.doOperationRemotely();
     }
     
-    private int duplicateEmailCount;
-
     @Override
     protected void doOperation() {
         List<CourseAttributes> allCourses = getAllCourses();
 
-        duplicateEmailCount = 0;        
+        duplicateEmailCount = 0;
         for (CourseAttributes course : allCourses) {
             repairCourseStudents(course);
         }
@@ -50,7 +50,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     }
 
     private void repairCourseStudents(CourseAttributes course) {
-        List<StudentAttributes> studentList = getStudentsForCourse(course.id);
+        List<StudentAttributes> studentList = getStudentsForCourse(course.getId());
 
         Map<String, String> emailNameMap = new TreeMap<String, String>();
         Set<String> duplicateEmailRecord = new TreeSet<String>();
@@ -64,13 +64,13 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
             }
         }
         
-        for(String entry : duplicateEmailRecord) {
+        for (String entry : duplicateEmailRecord) {
             print(entry);
             //TODO: delete duplicate records if possible
         }
         
         duplicateEmailCount += duplicateEmailRecord.size();
-        print("[" + duplicateEmailRecord.size() + ": " + course.id + "]");
+        print("[" + duplicateEmailRecord.size() + ": " + course.getId() + "]");
     }
 
     private void print(String string) {
@@ -108,13 +108,12 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
         return studentDataList;
     }
 
+    @SuppressWarnings("unchecked")
     private List<Student> getStudentEntitiesForCourse(String courseId) {
         Query q = pm.newQuery(Student.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
 
-        @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>) q.execute(courseId);
-        return studentList;
+        return (List<Student>) q.execute(courseId);
     }
 }

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.util.Sanitizer;
 
 public class StudentListTeamData {
 
@@ -17,7 +16,7 @@ public class StudentListTeamData {
         this.teamName = team.name;
         List<StudentListStudentData> studentsDetails =
                                         new ArrayList<StudentListStudentData>();
-        for (StudentAttributes student: team.students) {
+        for (StudentAttributes student : team.students) {
             studentsDetails.add(new StudentListStudentData(googleId, student.name, student.email, student.course,
                                                            student.getStudentStatus(),
                                                            emailPhotoUrlMapping.get(student.email)));

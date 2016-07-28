@@ -1,14 +1,11 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -23,7 +20,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -37,10 +33,10 @@ import teammates.test.driver.AssertHelper;
 
 public class CoursesLogicTest extends BaseComponentTestCase {
  
-    private CoursesLogic coursesLogic = new CoursesLogic();
-    private CoursesDb coursesDb = new CoursesDb();
-    private AccountsDb accountsDb = new AccountsDb();
-    private InstructorsDb instructorsDb = new InstructorsDb();
+    private static final CoursesLogic coursesLogic = new CoursesLogic();
+    private static final CoursesDb coursesDb = new CoursesDb();
+    private static final AccountsDb accountsDb = new AccountsDb();
+    private static final InstructorsDb instructorsDb = new InstructorsDb();
     
     private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -55,8 +51,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         testGetCourse();
         testGetArchivedCoursesForInstructor();
         testGetCoursesForInstructor();
-        testIsSampleCourse() ;
-        testIsCoursePresent() ;
+        testIsSampleCourse();
+        testIsCoursePresent();
         testVerifyCourseIsPresent();
         testSetArchiveStatusOfCourse();
         testGetCourseSummary();
@@ -77,9 +73,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         testCreateCourse();
         testCreateCourseAndInstructor();
         testGetCourseIdToSectionNamesMap();
-        testDeleteCourse() ;
+        testDeleteCourse();
     }
-
 
     public void testGetCourse() throws Exception {
 
@@ -89,13 +84,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("success: typical case");
 
-        CourseAttributes c = new CourseAttributes();
-        c.id = "Computing101-getthis";
-        c.name = "Basic Computing Getting";
+        CourseAttributes c = new CourseAttributes("Computing101-getthis", "Basic Computing Getting");
         coursesDb.createEntity(c);
 
-        assertEquals(c.id, coursesLogic.getCourse(c.id).id);
-        assertEquals(c.name, coursesLogic.getCourse(c.id).name);
+        assertEquals(c.getId(), coursesLogic.getCourse(c.getId()).getId());
+        assertEquals(c.getName(), coursesLogic.getCourse(c.getId()).getName());
         
         coursesDb.deleteEntity(c);
         ______TS("Null parameter");
@@ -108,7 +101,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testGetArchivedCoursesForInstructor() throws Exception {
+    public void testGetArchivedCoursesForInstructor() {
         
         ______TS("success: instructor with archive course");
         String instructorId = dataBundle.instructors.get("instructorOfArchivedCourse").googleId;
@@ -116,7 +109,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         List<CourseAttributes> archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
         
         assertEquals(1, archivedCourses.size());
-        assertEquals(true, archivedCourses.get(0).isArchived);
+        assertTrue(archivedCourses.get(0).isArchived);
     
         ______TS("boundary: instructor without archive courses");
         instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
@@ -147,10 +140,10 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         ______TS("omit archived courses");
         
-        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructorId, courses.get(0).id, true);
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructorId, courses.get(0).getId(), true);
         courses = coursesLogic.getCoursesForInstructor(instructorId, true);
         assertEquals(1, courses.size());
-        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructorId, courses.get(0).id, false);
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructorId, courses.get(0).getId(), false);
                 
         ______TS("boundary: instructor without any courses");
         
@@ -181,22 +174,22 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         ______TS("typical case: not a sample course");
         
-        CourseAttributes c = new CourseAttributes();
-        c.id = "course.id";
+        CourseAttributes notSampleCousre = new CourseAttributes("course.id", "not sample course");
         
-        assertEquals(false, coursesLogic.isSampleCourse(c.id));
+        assertFalse(coursesLogic.isSampleCourse(notSampleCousre.getId()));
         
         ______TS("typical case: is a sample course");
         
-        c.id = c.id.concat("-demo3");
-        assertEquals(true, coursesLogic.isSampleCourse(c.id));
+        CourseAttributes sampleCourse = new CourseAttributes("course.id-demo3", "sample course");
+        assertTrue(coursesLogic.isSampleCourse(sampleCourse.getId()));
         
         ______TS("typical case: is a sample course with '-demo' in the middle of its id");
         
-        c.id = c.id.concat("-demo33");
-        assertEquals(true, coursesLogic.isSampleCourse(c.id));
+        CourseAttributes sampleCourse2 = new CourseAttributes("course.id-demo3-demo33",
+                                                              "sample course with additional -demo");
+        assertTrue(coursesLogic.isSampleCourse(sampleCourse2.getId()));
         
-         ______TS("Null parameter");
+        ______TS("Null parameter");
     
         try {
             coursesLogic.isSampleCourse(null);
@@ -210,16 +203,15 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("typical case: not an existent course");
         
-        CourseAttributes c = new CourseAttributes();
-        c.id = "non-existent-course";
+        CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course");
 
-        assertEquals(false, coursesLogic.isCoursePresent(c.id));
+        assertFalse(coursesLogic.isCoursePresent(nonExistentCourse.getId()));
 
         ______TS("typical case: an existent course");
         
-        c.id = "idOfTypicalCourse1";
+        CourseAttributes existingCourse = new CourseAttributes("idOfTypicalCourse1", "existing course");
 
-        assertEquals(true, coursesLogic.isCoursePresent(c.id));
+        assertTrue(coursesLogic.isCoursePresent(existingCourse.getId()));
 
         ______TS("Null parameter");
     
@@ -233,13 +225,12 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     public void testVerifyCourseIsPresent() throws Exception {
 
-        ______TS("typical case: verify an inexistent course");
+        ______TS("typical case: verify a non-existent course");
        
-        CourseAttributes c = new CourseAttributes();
-        c.id = "non-existent-course";
+        CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course");
 
-        try{
-            coursesLogic.verifyCourseIsPresent(c.id);
+        try {
+            coursesLogic.verifyCourseIsPresent(nonExistentCourse.getId());
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("Course does not exist: ", e.getMessage());
@@ -247,8 +238,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("typical case: verify an existent course");
        
-        c.id = "idOfTypicalCourse1";
-        coursesLogic.verifyCourseIsPresent(c.id);
+        CourseAttributes existingCourse = new CourseAttributes("idOfTypicalCourse1", "existing course");
+        coursesLogic.verifyCourseIsPresent(existingCourse.getId());
         
         ______TS("Null parameter");
     
@@ -267,24 +258,24 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         ______TS("success: archive a course");
         
-        coursesLogic.setArchiveStatusOfCourse(course.id, true);
+        coursesLogic.setArchiveStatusOfCourse(course.getId(), true);
         
-        CourseAttributes courseRetrieved = coursesLogic.getCourse(course.id);
-        assertEquals(true, courseRetrieved.isArchived);
+        CourseAttributes courseRetrieved = coursesLogic.getCourse(course.getId());
+        assertTrue(courseRetrieved.isArchived);
         
         ______TS("success: unarchive a course");
         
-        coursesLogic.setArchiveStatusOfCourse(course.id, false);
+        coursesLogic.setArchiveStatusOfCourse(course.getId(), false);
         
-        courseRetrieved = coursesLogic.getCourse(course.id);
-        assertEquals(false, courseRetrieved.isArchived);
+        courseRetrieved = coursesLogic.getCourse(course.getId());
+        assertFalse(courseRetrieved.isArchived);
         
         ______TS("fail: course doesn't exist");
         
-        coursesDb.deleteCourse(course.id);
+        coursesDb.deleteCourse(course.getId());
         
         try {
-            coursesLogic.setArchiveStatusOfCourse(course.id, true);
+            coursesLogic.setArchiveStatusOfCourse(course.getId(), true);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("Course does not exist: CLogicT.new-course", e.getMessage());
@@ -305,29 +296,29 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-        CourseDetailsBundle courseSummary = coursesLogic.getCourseSummary(course.id);
-        assertEquals(course.id, courseSummary.course.id);
-        assertEquals(course.name, courseSummary.course.name);
-        assertEquals(false, courseSummary.course.isArchived);
+        CourseDetailsBundle courseSummary = coursesLogic.getCourseSummary(course.getId());
+        assertEquals(course.getId(), courseSummary.course.getId());
+        assertEquals(course.getName(), courseSummary.course.getName());
+        assertFalse(courseSummary.course.isArchived);
 
         assertEquals(2, courseSummary.stats.teamsTotal);
         assertEquals(5, courseSummary.stats.studentsTotal);
         assertEquals(0, courseSummary.stats.unregisteredTotal);
         
 
-        assertEquals(1, courseSummary.sections.get(0).teams.size()); 
+        assertEquals(1, courseSummary.sections.get(0).teams.size());
         assertEquals("Team 1.1</td></div>'\"", courseSummary.sections.get(0).teams.get(0).name);
 
         ______TS("course without students");
 
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseSummary = coursesLogic.getCourseSummary("course1");
-        assertEquals("course1", courseSummary.course.id);
-        assertEquals("course 1", courseSummary.course.name);
+        assertEquals("course1", courseSummary.course.getId());
+        assertEquals("course 1", courseSummary.course.getName());
         
         assertEquals(0, courseSummary.stats.teamsTotal);
         assertEquals(0, courseSummary.stats.studentsTotal);
@@ -369,12 +360,12 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-        CourseSummaryBundle courseSummary = coursesLogic.getCourseSummaryWithoutStats(course.id);
-        assertEquals(course.id, courseSummary.course.id);
-        assertEquals(course.name, courseSummary.course.name);
-        assertEquals(false, courseSummary.course.isArchived);
+        CourseSummaryBundle courseSummary = coursesLogic.getCourseSummaryWithoutStats(course.getId());
+        assertEquals(course.getId(), courseSummary.course.getId());
+        assertEquals(course.getName(), courseSummary.course.getName());
+        assertFalse(courseSummary.course.isArchived);
 
-        assertEquals(0, courseSummary.sections.size()); 
+        assertEquals(0, courseSummary.sections.size());
        
         ______TS("course without students");
         
@@ -385,8 +376,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseSummary = coursesLogic.getCourseSummaryWithoutStats("course1");
-        assertEquals("course1", courseSummary.course.id);
-        assertEquals("course 1", courseSummary.course.name);
+        assertEquals("course1", courseSummary.course.getId());
+        assertEquals("course 1", courseSummary.course.getName());
          
         assertEquals(0, courseSummary.sections.size());
         
@@ -405,14 +396,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("null parameter");
 
         try {
-            coursesLogic.getCourseSummaryWithoutStats((CourseAttributes)null);
+            coursesLogic.getCourseSummaryWithoutStats((CourseAttributes) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
         
         try {
-            coursesLogic.getCourseSummaryWithoutStats((String)null);
+            coursesLogic.getCourseSummaryWithoutStats((String) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
@@ -424,16 +415,16 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-        CourseDetailsBundle courseDetails = coursesLogic.getCourseDetails(course.id);
-        assertEquals(course.id, courseDetails.course.id);
-        assertEquals(course.name, courseDetails.course.name);
-        assertEquals(false, courseDetails.course.isArchived);
+        CourseDetailsBundle courseDetails = coursesLogic.getCourseDetails(course.getId());
+        assertEquals(course.getId(), courseDetails.course.getId());
+        assertEquals(course.getName(), courseDetails.course.getName());
+        assertFalse(courseDetails.course.isArchived);
 
         assertEquals(2, courseDetails.stats.teamsTotal);
         assertEquals(5, courseDetails.stats.studentsTotal);
         assertEquals(0, courseDetails.stats.unregisteredTotal);
         
-        assertEquals(1, courseDetails.sections.get(0).teams.size()); 
+        assertEquals(1, courseDetails.sections.get(0).teams.size());
         assertEquals("Team 1.1</td></div>'\"", courseDetails.sections.get(0).teams.get(0).name);
         
         ______TS("course without students");
@@ -441,12 +432,12 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
         
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseDetails = coursesLogic.getCourseDetails("course1");
-        assertEquals("course1", courseDetails.course.id);
-        assertEquals("course 1", courseDetails.course.name);
+        assertEquals("course1", courseDetails.course.getId());
+        assertEquals("course 1", courseDetails.course.getName());
         
         assertEquals(0, courseDetails.stats.teamsTotal);
         assertEquals(0, courseDetails.stats.studentsTotal);
@@ -481,19 +472,18 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-        List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(course.id);
+        List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(course.getId());
         
-        assertEquals(2, teams.size()); 
+        assertEquals(2, teams.size());
         assertEquals("Team 1.1</td></div>'\"", teams.get(0).name);
         assertEquals("Team 1.2", teams.get(1).name);
-
 
         ______TS("course without students");
 
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
         
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         teams = coursesLogic.getTeamsForCourse("course1");
@@ -527,18 +517,18 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-        int sectionNum = coursesLogic.getNumberOfSections(course.id);
+        int sectionNum = coursesLogic.getNumberOfSections(course.getId());
 
         assertEquals(2, sectionNum);
 
         ______TS("Course with no sections");
 
         course = dataBundle.courses.get("typicalCourse2");
-        sectionNum = coursesLogic.getNumberOfSections(course.id);
+        sectionNum = coursesLogic.getNumberOfSections(course.getId());
 
         assertEquals(0, sectionNum);
 
-         ______TS("non-existent");
+        ______TS("non-existent");
 
         try {
             coursesLogic.getNumberOfSections("non-existent-course");
@@ -562,16 +552,16 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-        int teamNum = coursesLogic.getNumberOfTeams(course.id);
+        int teamNum = coursesLogic.getNumberOfTeams(course.getId());
         
-        assertEquals(2, teamNum); 
+        assertEquals(2, teamNum);
 
         ______TS("course without students");
 
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
         
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         teamNum = coursesLogic.getNumberOfTeams("course1");
@@ -605,16 +595,16 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-        int enrolledNum = coursesLogic.getTotalEnrolledInCourse(course.id);
+        int enrolledNum = coursesLogic.getTotalEnrolledInCourse(course.getId());
         
-        assertEquals(5, enrolledNum); 
+        assertEquals(5, enrolledNum);
 
         ______TS("course without students");
 
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
         
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         enrolledNum = coursesLogic.getTotalEnrolledInCourse("course1");
@@ -648,16 +638,16 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("unregisteredCourse");
-        int unregisteredNum = coursesLogic.getTotalUnregisteredInCourse(course.id);
+        int unregisteredNum = coursesLogic.getTotalUnregisteredInCourse(course.getId());
         
-        assertEquals(2, unregisteredNum); 
+        assertEquals(2, unregisteredNum);
 
         ______TS("course without students");
 
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
         
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         unregisteredNum = coursesLogic.getTotalUnregisteredInCourse("course1");
@@ -699,12 +689,12 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         // Anyway in DataStore which follows a HashMap structure,
         // there is no guarantee on the order of Entities' storage
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse2");
-        assertEquals(course1.id, courseList.get(0).id);
-        assertEquals(course1.name, courseList.get(0).name);
+        assertEquals(course1.getId(), courseList.get(0).getId());
+        assertEquals(course1.getName(), courseList.get(0).getName());
     
         CourseAttributes course2 = dataBundle.courses.get("typicalCourse1");
-        assertEquals(course2.id, courseList.get(1).id);
-        assertEquals(course2.name, courseList.get(1).name);
+        assertEquals(course2.getId(), courseList.get(1).getId());
+        assertEquals(course2.getName(), courseList.get(1).getName());
     
         ______TS("student having one course");
     
@@ -713,8 +703,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         courseList = coursesLogic.getCoursesForStudentAccount(studentInOneCourse.googleId);
         assertEquals(1, courseList.size());
         course1 = dataBundle.courses.get("typicalCourse1");
-        assertEquals(course1.id, courseList.get(0).id);
-        assertEquals(course1.name, courseList.get(0).name);
+        assertEquals(course1.getId(), courseList.get(0).getId());
+        assertEquals(course1.getName(), courseList.get(0).getName());
     
         // Student having zero courses is not applicable
     
@@ -757,8 +747,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     
         // Verify details of course 1 (note: index of course 1 is not 0)
         CourseDetailsBundle actualCourse1 = courseList.get(1);
-        assertEquals(expectedCourse1.id, actualCourse1.course.id);
-        assertEquals(expectedCourse1.name, actualCourse1.course.name);
+        assertEquals(expectedCourse1.getId(), actualCourse1.course.getId());
+        assertEquals(expectedCourse1.getName(), actualCourse1.course.getName());
    
  
         // student with no courses is not applicable
@@ -787,11 +777,12 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Instructor with 2 courses");
     
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
-        HashMap<String, CourseDetailsBundle> courseList = coursesLogic.getCourseSummariesForInstructor(instructor.googleId, false);
+        HashMap<String, CourseDetailsBundle> courseList =
+                coursesLogic.getCourseSummariesForInstructor(instructor.googleId, false);
         assertEquals(2, courseList.size());
         for (CourseDetailsBundle cdd : courseList.values()) {
             // check if course belongs to this instructor
-            assertTrue(InstructorsLogic.inst().isGoogleIdOfInstructorOfCourse(instructor.googleId, cdd.course.id));
+            assertTrue(InstructorsLogic.inst().isGoogleIdOfInstructorOfCourse(instructor.googleId, cdd.course.getId()));
         }
         
         ______TS("Instructor with 1 archived, 1 unarchived course");
@@ -912,17 +903,23 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         String courseId = instructor1OfCourse1.courseId;
 
         String csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
-        String expectedCsvString = "Course ID,\"idOfTypicalCourse1\"" + Const.EOL  
-                                 + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL  
-                                 + Const.EOL + Const.EOL 
-                                 + "Section,Team,Full Name,Last Name,Status,Email" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"Joined\",\"student1InCourse1@gmail.tmt\"" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"" + Const.EOL
-                                 + "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"" + Const.EOL;
+        String[] expectedCsvString = {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course ID,\"idOfTypicalCourse1\"",
+                "Course Name,\"Typical Course 1 with 2 Evals\"",
+                "",
+                "",
+                "Section,Team,Full Name,Last Name,Status,Email",
+                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"Joined\",\"student1InCourse1@gmail.tmt\"",
+                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
+                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"",
+                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"",
+                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"",
+                ""
+                // CHECKSTYLE.ON:LineLength
+        };
 
-        assertEquals(expectedCsvString, csvString);
+        assertEquals(StringUtils.join(expectedCsvString, Const.EOL), csvString);
 
         ______TS("Typical case: course without sections");
 
@@ -932,12 +929,20 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         courseId = instructor1OfCourse2.courseId;
 
         csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
-        expectedCsvString = "Course ID,\"idOfTypicalCourse1\"" + Const.EOL  
-                                 + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL  
-                                 + Const.EOL + Const.EOL 
-                                 + "Team,Full Name,Last Name,Status,Email" + Const.EOL
-                                 + "\"Team 2.1\",\"student1 In Course2\",\"Course2\",\"Joined\",\"student1InCourse2@gmail.tmt\"" + Const.EOL
-                                 + "\"Team 2.1\",\"student2 In Course2\",\"Course2\",\"Joined\",\"student2InCourse2@gmail.tmt\"" + Const.EOL;
+        expectedCsvString = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course ID,\"idOfTypicalCourse2\"",
+                "Course Name,\"Typical Course 2 with 1 Evals\"",
+                "",
+                "",
+                "Team,Full Name,Last Name,Status,Email",
+                "\"Team 2.1\",\"student1 In Course2\",\"Course2\",\"Joined\",\"student1InCourse2@gmail.tmt\"",
+                "\"Team 2.1\",\"student2 In Course2\",\"Course2\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
+                ""
+                // CHECKSTYLE.ON:LineLength
+        };
+
+        assertEquals(StringUtils.join(expectedCsvString, Const.EOL), csvString);
 
         ______TS("Typical case: course with unregistered student");
 
@@ -947,14 +952,20 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         courseId = instructor5.courseId;
 
         csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
-        expectedCsvString = "Course ID,\"idOfUnregisteredCourse\"" + Const.EOL  
-                                 + "Course Name,\"Unregistered Course\"" + Const.EOL  
-                                 + Const.EOL + Const.EOL 
-                                 + "Section,Team,Full Name,Last Name,Status,Email" + Const.EOL
-                                 + "\"Section 1\",\"Team 1\",\"student1 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.tmt\"" + Const.EOL
-                                 + "\"Section 2\",\"Team 2\",\"student2 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.tmt\"" + Const.EOL;
+        expectedCsvString = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course ID,\"idOfUnregisteredCourse\"",
+                "Course Name,\"Unregistered Course\"",
+                "",
+                "",
+                "Section,Team,Full Name,Last Name,Status,Email",
+                "\"Section 1\",\"Team 1\",\"student1 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.tmt\"",
+                "\"Section 2\",\"Team 2\",\"student2 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.tmt\"",
+                ""
+                // CHECKSTYLE.ON:LineLength
+        };
 
-        assertEquals(expectedCsvString, csvString);
+        assertEquals(StringUtils.join(expectedCsvString, Const.EOL), csvString);
 
         ______TS("Failure case: non existent instructor");
         
@@ -991,21 +1002,21 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Typical case: course with sections");
 
         CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
-        assertTrue(coursesLogic.hasIndicatedSections(typicalCourse1.id));
+        assertTrue(coursesLogic.hasIndicatedSections(typicalCourse1.getId()));
 
         ______TS("Typical case: course without sections");
 
         CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
-        assertEquals(false, coursesLogic.hasIndicatedSections(typicalCourse2.id));
+        assertFalse(coursesLogic.hasIndicatedSections(typicalCourse2.getId()));
 
         ______TS("Failure case: course does not exists");
 
         try {
             coursesLogic.hasIndicatedSections("non-existent-course");
             signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
-                                         e.getMessage());   
+                                         e.getMessage());
         }
 
         ______TS("Failure case: null parameter");
@@ -1027,16 +1038,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
          */
         ______TS("typical case");
         
-        CourseAttributes c = new CourseAttributes();
-        c.id = "Computing101-fresh";
-        c.name = "Basic Computing";
-        coursesLogic.createCourse(c.id, c.name);
+        CourseAttributes c = new CourseAttributes("Computing101-fresh", "Basic Computing");
+        coursesLogic.createCourse(c.getId(), c.getName());
         verifyPresentInDatastore(c);
-        coursesLogic.deleteCourseCascade(c.id);
+        coursesLogic.deleteCourseCascade(c.getId());
         ______TS("Null parameter");
     
         try {
-            coursesLogic.createCourse(null, c.name);
+            coursesLogic.createCourse(null, c.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Non-null value expected", e.getMessage());
@@ -1056,15 +1065,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         ______TS("fails: account doesn't exist");
         
-        CourseAttributes c = new CourseAttributes();
-        c.id = "fresh-course-tccai";
-        c.name = "Fresh course for tccai";
+        CourseAttributes c = new CourseAttributes("fresh-course-tccai", "Fresh course for tccai");
         
         @SuppressWarnings("deprecation")
-        InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.id, "Instructor for tccai", "ins.for.iccai@gmail.tmt");       
+        InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.getId(),
+                                                          "Instructor for tccai", "ins.for.iccai@gmail.tmt");
         
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
+            coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("for a non-existent instructor", e.getMessage());
@@ -1084,7 +1092,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         a.studentProfile.googleId = i.googleId;
         accountsDb.createAccount(a);
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
+            coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("doesn't have instructor privileges", e.getMessage());
@@ -1097,86 +1105,88 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         a.isInstructor = true;
         accountsDb.updateAccount(a);
         
-        c.id = "invalid id";
+        CourseAttributes invalidCourse = new CourseAttributes("invalid id", "Fresh course for tccai");
         
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
+            coursesLogic.createCourseAndInstructor(i.googleId, invalidCourse.getId(), invalidCourse.getName());
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID", e.getMessage());
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course ID", e.getMessage());
         }
-        verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(invalidCourse);
         verifyAbsentInDatastore(i);
         
         ______TS("fails: error during instructor creation due to duplicate instructor");
         
-        c.id = "fresh-course-tccai";
+        CourseAttributes courseWithDuplicateInstructor = new CourseAttributes("fresh-course-tccai",
+                                                                              "Fresh course for tccai");
         instructorsDb.createEntity(i); //create a duplicate instructor
         
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
+            coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
+                                                   courseWithDuplicateInstructor.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
+            AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course",
+                                        e.getMessage());
         }
-        verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(courseWithDuplicateInstructor);
 
         ______TS("fails: error during instructor creation due to invalid parameters");
 
         i.email = "ins.for.iccai.gmail.tmt";
 
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
+            coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
+                                                   courseWithDuplicateInstructor.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
+            AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course",
+                                        e.getMessage());
         }
-        verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(courseWithDuplicateInstructor);
        
         ______TS("success: typical case");
 
-         i.email = "ins.for.iccai@gmail.tmt";
+        i.email = "ins.for.iccai@gmail.tmt";
 
         //remove the duplicate instructor object from the datastore.
         instructorsDb.deleteInstructor(i.courseId, i.email);
         
-        coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
-        verifyPresentInDatastore(c);
+        coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
+                                               courseWithDuplicateInstructor.getName());
+        verifyPresentInDatastore(courseWithDuplicateInstructor);
         verifyPresentInDatastore(i);
         
         ______TS("Null parameter");
     
         try {
-            coursesLogic.createCourseAndInstructor(null, c.id, c.name);
+            coursesLogic.createCourseAndInstructor(null, courseWithDuplicateInstructor.getId(),
+                                                   courseWithDuplicateInstructor.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
     }
     
-    public void testGetCourseIdToSectionNamesMap() {
+    public void testGetCourseIdToSectionNamesMap() throws EntityDoesNotExistException {
         ______TS("typical case");
         
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         List<CourseAttributes> courses = new ArrayList<CourseAttributes>();
         courses.add(course);
-        try {
-            Map<String, List<String>> map = CoursesLogic.inst().getCourseIdToSectionNamesMap(courses);
-            
-            assertEquals(1, map.keySet().size());
-            assertTrue(map.containsKey("idOfTypicalCourse1"));
-            
-            assertEquals(2, map.get("idOfTypicalCourse1").size());
-            assertTrue(map.get("idOfTypicalCourse1").contains("Section 1"));
-            assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
-        } catch (EntityDoesNotExistException e) {
-            e.printStackTrace();
-            Assumption.fail("course could not be found");
-        }
         
+        Map<String, List<String>> map = CoursesLogic.inst().getCourseIdToSectionNamesMap(courses);
+            
+        assertEquals(1, map.keySet().size());
+        assertTrue(map.containsKey("idOfTypicalCourse1"));
+            
+        assertEquals(2, map.get("idOfTypicalCourse1").size());
+        assertTrue(map.get("idOfTypicalCourse1").contains("Section 1"));
+        assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
     }
 
-    public void testDeleteCourse() throws Exception {
+    public void testDeleteCourse() {
     
         ______TS("typical case");
     
@@ -1184,7 +1194,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         StudentAttributes studentInCourse = dataBundle.students.get("student1InCourse1");
         
         // Ensure there are entities in the datastore under this course
-        assertTrue(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).size() != 0);
+        assertFalse(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.getId()).isEmpty());
         
         verifyPresentInDatastore(course1OfInstructor);
         verifyPresentInDatastore(studentInCourse);
@@ -1194,9 +1204,9 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
         verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
         verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
-        assertEquals(course1OfInstructor.id, studentInCourse.course);
+        assertEquals(course1OfInstructor.getId(), studentInCourse.course);
         
-        coursesLogic.deleteCourseCascade(course1OfInstructor.id);
+        coursesLogic.deleteCourseCascade(course1OfInstructor.getId());
     
         // Ensure the course and related entities are deleted
         verifyAbsentInDatastore(course1OfInstructor);
@@ -1214,7 +1224,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("non-existent");
     
         // try to delete again. Should fail silently.
-        coursesLogic.deleteCourseCascade(course1OfInstructor.id);
+        coursesLogic.deleteCourseCascade(course1OfInstructor.getId());
     
         ______TS("null parameter");
     

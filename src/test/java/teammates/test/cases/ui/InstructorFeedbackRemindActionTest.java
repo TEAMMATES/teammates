@@ -8,13 +8,13 @@ import teammates.common.util.Const;
 public class InstructorFeedbackRemindActionTest extends BaseActionTest {
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() {
         // This test case was omitted as the action is executed in the background task queue
         // so we cannot determine its result.
           

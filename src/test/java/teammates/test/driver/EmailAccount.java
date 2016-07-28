@@ -14,12 +14,16 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
-import teammates.logic.core.Emails;
+import teammates.common.util.EmailType;
 
-public class EmailAccount {
+public final class EmailAccount {
+    
+    private EmailAccount() {
+        // utility class
+    }
 
     /**
-     * Retrieve registration key sent to Gmail inbox. After retrieving, marks 
+     * Retrieve registration key sent to Gmail inbox. After retrieving, marks
      * the email as read.
      *      * Can be easily modified to support other mail providers
      * 
@@ -29,8 +33,8 @@ public class EmailAccount {
      * @throws MessagingException
      * @throws IOException
      */
-    public static String getRegistrationKeyFromGmail(String username,
-            String password, String courseId) throws IOException, MessagingException {
+    public static String getRegistrationKeyFromGmail(String username, String password, String courseName, String courseId)
+            throws IOException, MessagingException {
         Folder inbox = getGmailInbox(username, password);
         Message[] messages = getMessages(inbox);
 
@@ -39,7 +43,7 @@ public class EmailAccount {
         for (int i = messages.length - 1; i >= messages.length - maxEmailsToCheck; i--) {
             Message message = messages[i];
 
-            if (isRegistrationEmail(message, courseId)) {
+            if (isRegistrationEmail(message, courseName, courseId)) {
                 String body = getEmailBody(message);
                 String key = getKey(body);
                 message.setFlag(Flags.Flag.SEEN, true);
@@ -52,24 +56,17 @@ public class EmailAccount {
         return null;
     }
 
-    private static boolean isRegistrationEmail(Message message, String courseId)
+    private static boolean isRegistrationEmail(Message message, String courseName, String courseId)
             throws MessagingException {
-        boolean isRegistrationEmail = false;
         String subject = message.getSubject();
-
-        if (subject != null) {
-            isRegistrationEmail = subject
-                    .contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
-                    && (subject.contains(courseId));
-        }
-
-        return isRegistrationEmail;
+        return subject != null && subject.equals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(),
+                                                               courseName, courseId));
     }
 
     private static String getKey(String body) {
         String key = body.substring(
                 body.indexOf("key=") + "key=".length(),
-                body.indexOf("studentemail=") - 1);//*If prompted to log in
+                body.indexOf("studentemail=") - 1); //*If prompted to log in
         return key.trim();
     }
 
@@ -79,7 +76,7 @@ public class EmailAccount {
      * 
      */
     public static void markAllEmailsSeen(String username, String password)
-            throws Exception {    
+            throws Exception {
         Folder inbox = getGmailInbox(username, password);
         Message[] messages = getMessages(inbox);
 
@@ -105,8 +102,9 @@ public class EmailAccount {
             System.out.println(message.getSubject());
             Matcher m = pattern.matcher(message.getSubject());
 
-            if (!m.find())
+            if (!m.find()) {
                 continue;
+            }
             count++;
 
         }
@@ -128,7 +126,7 @@ public class EmailAccount {
         // Reading the Email Index in Read / Write Mode
         inbox.open(Folder.READ_WRITE);
         FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-        Message messages[] = inbox.search(ft);
+        Message[] messages = inbox.search(ft);
                 
         return messages;
     }

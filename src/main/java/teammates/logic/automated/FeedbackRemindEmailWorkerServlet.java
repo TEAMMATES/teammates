@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 @SuppressWarnings("serial")

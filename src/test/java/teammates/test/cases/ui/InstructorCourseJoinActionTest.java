@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -21,18 +18,18 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseJoinActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
-    String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+    private final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
     }
     
     @SuppressWarnings("deprecation")
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         // Reassign to let "key" variable in "instructor" not to be null
@@ -49,15 +46,15 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         InstructorCourseJoinAction confirmAction = getAction(submissionParams);
         ShowPageResult pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION 
-                + "?error=false&user=idOfInstructor1OfCourse1" 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
+                + "?error=false&user=idOfInstructor1OfCourse1"
                 + "&key=" + invalidEncryptedKey, pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         String expectedLogSegment = "Action Instructor Clicked Join Link"
-                + "<br/>Google ID: " + instructor.googleId
-                + "<br/>Key: " + invalidEncryptedKey;
+                + "<br>Google ID: " + instructor.googleId
+                + "<br>Key: " + invalidEncryptedKey;
         AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
 
         ______TS("Already registered instructor, redirect straight to authentication page");
@@ -69,15 +66,15 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
                         + "?key=" + StringHelper.encrypt(instructor.key)
                         + "&error=false&user=idOfInstructor1OfCourse1", redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("", redirectResult.getStatusMessage());
         
         expectedLogSegment = "Action Instructor Clicked Join Link"
-                + "<br/>Google ID: " + instructor.googleId
-                + "<br/>Key: " + StringHelper.encrypt(instructor.key);
+                + "<br>Google ID: " + instructor.googleId
+                + "<br>Key: " + StringHelper.encrypt(instructor.key);
         AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
         
         ______TS("Typical case: unregistered instructor, redirect to confirmation page");
@@ -102,20 +99,20 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION + 
-                "?error=false&user=ICJAT.instr" + 
-                "&key=" + StringHelper.encrypt(newInstructor.key),
-                        pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
+                     + "?error=false&user=ICJAT.instr"
+                     + "&key=" + StringHelper.encrypt(newInstructor.key),
+                     pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
         expectedLogSegment = "Action Instructor Clicked Join Link"
-                + "<br/>Google ID: " + instructor.googleId
-                + "<br/>Key: " + StringHelper.encrypt(newInstructor.key);
+                + "<br>Google ID: " + instructor.googleId
+                + "<br>Key: " + StringHelper.encrypt(newInstructor.key);
         AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
     }
     
-    private InstructorCourseJoinAction getAction(String... params) throws Exception {
+    private InstructorCourseJoinAction getAction(String... params) {
         return (InstructorCourseJoinAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

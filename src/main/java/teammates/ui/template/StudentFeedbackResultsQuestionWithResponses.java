@@ -7,7 +7,7 @@ public class StudentFeedbackResultsQuestionWithResponses {
     private List<FeedbackResultsResponseTable> responseTables;
     
     public StudentFeedbackResultsQuestionWithResponses(
-                                    FeedbackResultsQuestionDetails questionDetails, 
+                                    FeedbackResultsQuestionDetails questionDetails,
                                     List<FeedbackResultsResponseTable> responseTables) {
         this.questionDetails = questionDetails;
         this.responseTables = responseTables;

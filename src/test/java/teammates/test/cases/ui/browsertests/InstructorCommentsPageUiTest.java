@@ -1,7 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
-
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -20,15 +19,15 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCommentsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser(true);
     }
     
-    @Test 
-    public void allTests() throws Exception{
+    @Test
+    public void allTests() throws Exception {
         testContent();
         testScripts();
         testPanelsCollapseExpand();
@@ -41,7 +40,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         ______TS("content: no course");
         
         AppUrl commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
-            .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
+                .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
         
@@ -90,10 +89,10 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     }
 
     private void removePreExistComments() {
-        if(commentsPage.getPageSource().contains("added response comment")
-                || commentsPage.getPageSource().contains("edited response comment")){
+        if (commentsPage.getPageSource().contains("added response comment")
+                || commentsPage.getPageSource().contains("edited response comment")) {
             commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
-            commentsPage.clickCommentsPageLinkInHeader();
+            commentsPage.loadInstructorCommentsTab();
         }
     }
     
@@ -104,12 +103,18 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyContains("comments.idOfArchivedCourse");
         
         commentsPage.clickNextCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl() ,browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
+        
+        AppUrl commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+                .withUserId(testData.instructors.get("instructorOfArchivedCourse").googleId)
+                .withCourseId(testData.instructors.get("instructorOfArchivedCourse").courseId);
+        assertEquals(commentsPageUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
         
         commentsPage.clickPreviousCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
+        
+        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+                .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
+                .withCourseId(testData.instructors.get("instructor1OfCourse1").courseId);
+        assertEquals(commentsPageUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
         
         commentsPage.clickIsIncludeArchivedCoursesCheckbox();
         
@@ -132,11 +137,17 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.showCommentsFromAll();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromAll.html");
         
+        assertFalse(commentsPage.isStudentCommentsPanelBodyVisible());
+        
         commentsPage.showCommentsFromGiver("you");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromYou.html");
         
+        assertTrue(commentsPage.isStudentCommentsPanelBodyVisible());
+        
         commentsPage.showCommentsFromGiver("others");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromOthers.html");
+        
+        assertTrue(commentsPage.isStudentCommentsPanelBodyVisible());
         
         commentsPage.showCommentsFromAllStatus();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromAllStatus.html");
@@ -152,7 +163,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("Typical case: panels expand/collapse");
         
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         
         commentsPage.clickCommentsForStudentsPanelHeading();
         commentsPage.waitForCommentsForStudentsPanelsToCollapse();
@@ -176,6 +187,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.clickStudentCommentEditForRow(1);
         commentsPage.clickStudentCommentVisibilityEdit(1);
         commentsPage.clickAllCheckboxes(1);
+        commentsPage.clickAllGiverCheckboxes(1);
         commentsPage.fillTextareaToEditStudentCommentForRow(1, "");
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
@@ -183,6 +195,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.verifyContains("edited student comment\n<br />a new line");
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageAddSc.html");
 
         ______TS("action: edit anonymous comment");
         commentsPage.clickStudentCommentEditForRow(10);
@@ -190,8 +203,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
         
         ______TS("action: delete student comment");
-        commentsPage.clickHiddenElementAndCancel("commentdelete-" + 1);
-        commentsPage.clickHiddenElementAndConfirm("commentdelete-" + 1);
+        commentsPage.clickAndCancel(browser.driver.findElement(By.id("commentdelete-" + 1)));
+        commentsPage.clickAndConfirm(browser.driver.findElement(By.id("commentdelete-" + 1)));
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_DELETED);
         
         commentsPage.loadResponseComments();
@@ -230,7 +243,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         ______TS("search: empty string");
         commentsPage.search("");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchEmpty.html");
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         
         ______TS("search: typical successful case");
         //prepare search document
@@ -242,23 +255,24 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.loadResponseComments();
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
         commentsPage.saveResponseComment(1, 1, 1, 1);
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         
         commentsPage.search("comments");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchNormal.html");
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
     }
     
     private void testEmailPendingComments() {
-        InstructorHomePage homePage = commentsPage.clickHomePageLinkInHeader();
+        InstructorHomePage homePage = commentsPage.loadInstructorHomeTab();
+        homePage.waitForAjaxLoaderGifToDisappear();
         homePage.verifyContains("Send email notification to recipients of 2 pending comments");
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         commentsPage.clickSendEmailNotificationButton();
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_CLEARED);
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

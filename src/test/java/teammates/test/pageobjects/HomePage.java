@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Represents the home page of the website (i.e., index.html)
+ * Represents the home page of the website (i.e., index.jsp)
  */
 public class HomePage extends AppPage {
     
@@ -14,7 +14,7 @@ public class HomePage extends AppPage {
     @FindBy(id = "btnStudentLogin")
     private WebElement studentLoginLink;
     
-    public HomePage(Browser    browser){
+    public HomePage(Browser browser) {
         super(browser);
     }
 
@@ -25,44 +25,32 @@ public class HomePage extends AppPage {
 
     public LoginPage clickInstructorLogin() {
         
-        this.instructorLoginLink.click();
+        click(instructorLoginLink);
         waitForPageToLoad();
         String pageSource = getPageSource();
         if (InstructorHomePage.containsExpectedPageContents(pageSource)) {
             //already logged in. We need to logout because the return type of
             //  this method is a LoginPage
             logout();
-            instructorLoginLink.click();
+            click(instructorLoginLink);
             waitForPageToLoad();
-            pageSource = getPageSource();
         }
-        return createCorretLoginPageType(pageSource);
+        return createCorrectLoginPageType(browser);
         
     }
 
     public LoginPage clickStudentLogin() {
-        studentLoginLink.click();
+        click(studentLoginLink);
         waitForPageToLoad();
         String pageSource = getPageSource();
         if (StudentHomePage.containsExpectedPageContents(pageSource)) {
             //already logged in. We need to logout because the return type of
             //  this method is a LoginPage
             logout();
-            studentLoginLink.click();
+            click(studentLoginLink);
             waitForPageToLoad();
-            pageSource = getPageSource();
         }
-        return createCorretLoginPageType(pageSource);
-    }
-
-    private LoginPage createCorretLoginPageType(String pageSource) {
-        if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
-            return changePageType(DevServerLoginPage.class);
-        } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
-            return changePageType(GoogleLoginPage.class);
-        } else {
-            throw new IllegalStateException("Not a valid login page :"    + pageSource);
-        }
+        return createCorrectLoginPageType(browser);
     }
 
 }

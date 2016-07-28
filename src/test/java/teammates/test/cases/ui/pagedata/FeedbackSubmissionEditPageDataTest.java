@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNull;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,57 +25,57 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private FeedbackSubmissionEditPageData pageData;
     
-    private FeedbackSessionAttributes feedbackSession;
     private FeedbackQuestionAttributes question;
     private List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
     
-    private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle = 
+    private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle =
                                     new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
     
     private Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
-    private Map<String,String> recipients = new HashMap<String,String>();
+    private Map<String, String> recipients = new HashMap<String, String>();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
-    public void createData(StudentAttributes student) {        
-        feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
-        question = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");      
+    public void createData(StudentAttributes student) {
+        FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
+        question = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         
         responses.add(dataBundle.feedbackResponses.get("response1ForQ1S1C1"));
-        responses.add(dataBundle.feedbackResponses.get("response2ForQ1S1C1"));      
+        responses.add(dataBundle.feedbackResponses.get("response2ForQ1S1C1"));
         
-        questionResponseBundle.put(question, responses);      
+        questionResponseBundle.put(question, responses);
         
         recipients.put(student.email, Const.USER_NAME_FOR_SELF);
         recipientList.put(question.getId(), recipients);
         
         pageData.bundle = new FeedbackSessionQuestionsBundle(feedbackSession, questionResponseBundle, recipientList);
         pageData.bundle.questionResponseBundle.put(question, responses);
-    }   
+    }
     
     @Test
     public void testAll() {
-        ______TS("test typical case"); 
+        ______TS("test typical case");
         AccountAttributes studentAccount = dataBundle.accounts.get("student1InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         
         pageData = new FeedbackSubmissionEditPageData(studentAccount, student);
-        createData(student);         
+        createData(student);
         
         pageData.init(student.key, student.email, student.course);
         
         assertEquals("You are submitting feedback as <span class='text-danger text-bold text-large'>"
-                      + "student1 In Course1</td></div>'\"</span>. You may submit feedback for sessions that are currently open "
-                      + "and view results without logging in. "
-                      + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
-                      + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
-                      + "to login using a Google account</a> (recommended).", pageData.getRegisterMessage());
+                             + "student1 In Course1</td></div>'\"</span>. "
+                             + "You may submit feedback for sessions that are currently open "
+                             + "and view results without logging in. "
+                             + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
+                             + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
+                             + "to login using a Google account</a> (recommended).",
+                     pageData.getRegisterMessage());
         
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
@@ -105,8 +100,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "(recommended).", pageData.getRegisterMessage());
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
-        
+       
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
         assertFalse(pageData.isSubmittable());
@@ -129,7 +123,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "(recommended).", pageData.getRegisterMessage());
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
@@ -137,24 +130,25 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         
         testQuestionAttributes();
         
-        ______TS("student submission open"); 
+        ______TS("student submission open");
         student = dataBundle.students.get("student1InCourse1");
         
         pageData = new FeedbackSubmissionEditPageData(studentAccount, student);
-        createData(student);         
+        createData(student);
         
         pageData.setSessionOpenForSubmission(true);
         pageData.init(student.key, student.email, student.course);
         
         assertEquals("You are submitting feedback as <span class='text-danger text-bold text-large'>"
-                      + "student1 In Course1</td></div>'\"</span>. You may submit feedback for sessions that are currently open "
-                      + "and view results without logging in. "
-                      + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
-                      + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
-                      + "to login using a Google account</a> (recommended).", pageData.getRegisterMessage());
+                             + "student1 In Course1</td></div>'\"</span>. "
+                             + "You may submit feedback for sessions that are currently open "
+                             + "and view results without logging in. "
+                             + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
+                             + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
+                             + "to login using a Google account</a> (recommended).",
+                     pageData.getRegisterMessage());
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
         assertTrue(pageData.isSessionOpenForSubmission());
@@ -166,13 +160,12 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         student = dataBundle.students.get("student1InCourse1");
         
         pageData = new FeedbackSubmissionEditPageData(instructorAccount, student);
-        createData(student); 
+        createData(student);
         
         pageData.setModeration(true);
         pageData.init("", student.email, student.course);
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitActionQuestion());
         
         assertTrue(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
@@ -184,14 +177,13 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         student = dataBundle.students.get("student1InCourse1");
         
         pageData = new FeedbackSubmissionEditPageData(instructorAccount, student);
-        createData(student); 
+        createData(student);
         
         pageData.setModeration(true);
         pageData.setSessionOpenForSubmission(true);
         pageData.init("", student.email, student.course);
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitActionQuestion());
         
         assertTrue(pageData.isModeration());
         assertTrue(pageData.isSessionOpenForSubmission());
@@ -199,16 +191,15 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         
         testQuestionAttributes();
         
-        ______TS("instructor previewing a response");       
+        ______TS("instructor previewing a response");
         pageData = new FeedbackSubmissionEditPageData(instructorAccount, student);
-        createData(student); 
+        createData(student);
         
         pageData.setPreview(true);
         pageData.setPreviewInstructor(instructor);
         pageData.init("", student.email, student.course);
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
@@ -218,13 +209,15 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     }
     
     public void testQuestionAttributes() {
-        StudentFeedbackSubmissionEditQuestionsWithResponses questionWithResponses = pageData.getQuestionsWithResponses().get(0);
+        StudentFeedbackSubmissionEditQuestionsWithResponses questionWithResponses =
+                pageData.getQuestionsWithResponses().get(0);
         
         assertEquals(question.questionType, questionWithResponses.getQuestion().getQuestionType());
         assertEquals(question.courseId, questionWithResponses.getQuestion().getCourseId());
         assertEquals(question.questionNumber, questionWithResponses.getQuestion().getQuestionNumber());
-        assertEquals(question.getQuestionDetails().questionText, questionWithResponses.getQuestion().getQuestionText());
-        assertEquals(question.numberOfEntitiesToGiveFeedbackTo, questionWithResponses.getQuestion().getNumberOfEntitiesToGiveFeedbackTo());
+        assertEquals(question.getQuestionDetails().getQuestionText(), questionWithResponses.getQuestion().getQuestionText());
+        assertEquals(question.numberOfEntitiesToGiveFeedbackTo,
+                     questionWithResponses.getQuestion().getNumberOfEntitiesToGiveFeedbackTo());
         assertEquals(question.getId(), questionWithResponses.getQuestion().getQuestionId());
     }
 }

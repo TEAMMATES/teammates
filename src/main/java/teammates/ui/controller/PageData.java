@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -26,7 +27,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
-import teammates.logic.api.Logic;
+import teammates.common.util.Utils;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackSessionActions;
 
@@ -34,10 +35,10 @@ import teammates.ui.template.InstructorFeedbackSessionActions;
  * Data and utility methods needed to render a specific page.
  */
 public class PageData {
-
-    public static final String DISABLED = " disabled\" onclick=\"return false\"";
-
-    /** The user for whom the pages are displayed (i.e. the 'nominal user'). 
+    
+    protected static final Logger log = Utils.getLogger();
+    
+    /** The user for whom the pages are displayed (i.e. the 'nominal user').
      *  May not be the logged in user (under masquerade mode) */
     public AccountAttributes account;
     public StudentAttributes student;
@@ -65,12 +66,7 @@ public class PageData {
     }
     
     public boolean isUnregisteredStudent() {
-        return account.googleId == null || (student != null && !student.isRegistered());
-    }
-
-    @SuppressWarnings("unused")
-    private void _________general_util_methods() {
-    //========================================================================    
+        return account.googleId == null || student != null && !student.isRegistered();
     }
     
     /* These util methods simply delegate the work to the matching *Helper
@@ -85,11 +81,11 @@ public class PageData {
         return Sanitizer.sanitizeForJs(unsanitizedStringLiteral);
     }
     
-    public static String truncate (String untruncatedString, int truncateLength) {
+    public static String truncate(String untruncatedString, int truncateLength) {
         return StringHelper.truncate(untruncatedString, truncateLength);
     }
     
-    public static String displayDateTime (Date date) {
+    public static String displayDateTime(Date date) {
         return TimeHelper.formatTime12H(date);
     }
     
@@ -124,14 +120,16 @@ public class PageData {
             return "<span class=\"badge background-color-white color-negative\">0%</span>";
         } else if (points > 100) {
             delta = points - 100;
-            if(inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + " + delta + 
-                        "%</span>";
+            return inline
+                   ? "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>"
+                   : "Equal Share<br><span class=\"badge background-color-white color-positive\"> + "
+                     + delta + "%</span>";
         } else if (points < 100) {
             delta = 100 - points;
-            if(inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - " + delta + 
-                        "%</span>";
+            return inline
+                   ? "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>"
+                   : "Equal Share<br><span class=\"badge background-color-white color-negative\"> - "
+                     + delta + "%</span>";
         } else {
             return "<span class=\"badge background-color-white color-positive\"> E </span>";
         }
@@ -145,12 +143,12 @@ public class PageData {
         if (!enabled) {
             return "<span style=\"font-style: italic;\">Disabled</span>";
         }
-        if (str == null || str.equals("")) {
+        if (str == null || str.isEmpty()) {
             return "N/A";
         }
-        return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", 
+        return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:",
                            "<strong>What I appreciate about you as a team member:</strong>")
-                  .replace("&lt;&lt;Areas you can improve further&gt;&gt;:", 
+                  .replace("&lt;&lt;Areas you can improve further&gt;&gt;:",
                            "<strong class=\"bold\">Areas you can improve further:</strong>")
                   .replace("&lt;&lt;Other comments&gt;&gt;:", "<strong>Other comments:</strong>")
                   .replace("&#010;", "<br>");
@@ -161,18 +159,18 @@ public class PageData {
      * None is selected, since the selection should only be done in client side.
      */
     protected ArrayList<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
-       List<Double> options = TimeHelper.getTimeZoneValues();
-       ArrayList<String> result = new ArrayList<String>();
-       if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-           result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
-       }
-       for (Double timeZoneOption : options) {
-           String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);      
-           result.add("<option value=\"" + formatAsString(timeZoneOption) + "\"" 
-                      + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption 
-                      + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
-       }
-       return result;
+        List<Double> options = TimeHelper.getTimeZoneValues();
+        ArrayList<String> result = new ArrayList<String>();
+        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
+            result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
+        }
+        for (Double timeZoneOption : options) {
+            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
+            result.add("<option value=\"" + formatAsString(timeZoneOption) + "\""
+                       + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption
+                       + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
+        }
+        return result;
     }
     
     public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
@@ -185,11 +183,11 @@ public class PageData {
         
         for (Double timeZoneOption : options) {
             String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
-            String textToDisplay = "(" + utcFormatOption 
+            String textToDisplay = "(" + utcFormatOption
                                             + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-            boolean isExistingTimeZone = (existingTimeZone == timeZoneOption);
+            boolean isExistingTimeZone = existingTimeZone == timeZoneOption;
             
-            ElementTag option = createOption(textToDisplay, 
+            ElementTag option = createOption(textToDisplay,
                                              formatAsString(timeZoneOption), isExistingTimeZone);
             result.add(option);
         }
@@ -202,9 +200,8 @@ public class PageData {
     public static ElementTag createOption(String text, String value, boolean isSelected) {
         if (isSelected) {
             return new ElementTag(text, "value", value, "selected", null);
-        } else {
-            return new ElementTag(text, "value", value);
         }
+        return new ElementTag(text, "value", value);
     }
     
     /**
@@ -219,9 +216,9 @@ public class PageData {
      */
     protected ArrayList<String> getGracePeriodOptionsAsHtml(int existingGracePeriod) {
         ArrayList<String> result = new ArrayList<String>();
-        for(int i = 0; i <= 30; i += 5) {
-            result.add("<option value=\"" + i + "\"" 
-                       + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected" : "") 
+        for (int i = 0; i <= 30; i += 5) {
+            result.add("<option value=\"" + i + "\""
+                       + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected" : "")
                        + ">" + i + " mins</option>");
         }
         return result;
@@ -229,9 +226,9 @@ public class PageData {
     
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
-        for(int i = 0; i <= 30; i += 5) {
-            ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
-                                            (isGracePeriodToBeSelected(existingGracePeriod, i)));
+        for (int i = 0; i <= 30; i += 5) {
+            ElementTag option = createOption(i + " mins", String.valueOf(i),
+                                            isGracePeriodToBeSelected(existingGracePeriod, i));
             result.add(option);
         }
         return result;
@@ -244,9 +241,9 @@ public class PageData {
      */
     public ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected) {
         ArrayList<String> result = new ArrayList<String>();
-        for(int i = 1; i <= 24; i++) {
-            result.add("<option value=\"" + i + "\"" +
-                       (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected" : "") + ">" 
+        for (int i = 1; i <= 24; i++) {
+            result.add("<option value=\"" + i + "\""
+                       + (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected" : "") + ">"
                        + String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)) + "</option>");
         }
         return result;
@@ -254,18 +251,12 @@ public class PageData {
     
     public static ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
-        for(int i = 1; i <= 24; i++) {
-            ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)), 
-                                             String.valueOf(i), (isTimeToBeSelected(timeToShowAsSelected, i)));
+        for (int i = 1; i <= 24; i++) {
+            ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)),
+                                             String.valueOf(i), isTimeToBeSelected(timeToShowAsSelected, i));
             result.add(option);
         }
         return result;
-    }
-    
-    
-    @SuppressWarnings("unused")
-    private void ___________methods_to_generate_student_links() {
-    //========================================================================    
     }
     
     //TODO: methods below this point should be made 'protected' and only the
@@ -291,7 +282,7 @@ public class PageData {
     }
 
     /**
-     * @return The relative path to the student home page. 
+     * @return The relative path to the student home page.
      * The user Id is encoded in the url as a parameter.
      */
     public String getStudentHomeLink(boolean isUnregistered) {
@@ -312,7 +303,7 @@ public class PageData {
     }
     
     /**
-     * @return The relative path to the student profile page. 
+     * @return The relative path to the student profile page.
      * The user Id is encoded in the url as a parameter.
      */
     public String getStudentProfileLink(boolean isUnregistered) {
@@ -333,7 +324,7 @@ public class PageData {
     }
     
     /**
-     * @return The relative path to the student comments page. 
+     * @return The relative path to the student comments page.
      * The user Id is encoded in the url as a parameter.
      */
     public String getStudentCommentsLink(boolean isUnregistered) {
@@ -348,22 +339,22 @@ public class PageData {
     public String getStudentCourseDetailsLink(String courseId) {
         String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
         link = addUserIdToUrl(link);
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         return link;
     }
     
     public String getStudentFeedbackSubmissionEditLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
     }
     
     public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -376,13 +367,8 @@ public class PageData {
         return link;
     }
 
-    @SuppressWarnings("unused")
-    private void ___________methods_to_generate_instructor_links() {
-    //========================================================================    
-    }
-    
     /**
-     * @return The relative path to the instructor home page. 
+     * @return The relative path to the instructor home page.
      * The user Id is encoded in the url as a parameter.
      */
     public String getInstructorHomeLink() {
@@ -396,16 +382,14 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
-    
+
     public String getInstructorCourseEnrollLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
         return link;
     }
-    
-    
+
     public String getInstructorCourseEnrollSaveLink(String courseId) {
         //TODO: instead of using this method, the form should include these data as hidden fields?
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
@@ -414,32 +398,31 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorCourseDetailsLink(String courseID) {
+    public String getInstructorCourseDetailsLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID); 
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    
-    public String getInstructorCourseEditLink(String courseID) {
-        String link = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID); 
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    public String getInstructorFeedbackStatsLink(String courseID, String feedbackSessionName) {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
-        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName); 
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
         return link;
     }
 
-    public String getInstructorCourseStatsLink(String courseID) {
+    public String getInstructorCourseEditLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+    
+    public String getInstructorFeedbackStatsLink(String courseId, String feedbackSessionName) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+
+    public String getInstructorCourseStatsLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STATS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -448,6 +431,11 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE;
         link = addUserIdToUrl(link);
         return link;
+    }
+    
+    public String getInstructorQuestionCopyPageLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE;
+        return addUserIdToUrl(link);
     }
     
     /**
@@ -465,15 +453,15 @@ public class PageData {
     
     /**
      * @param courseId
-     * @param isHome True if the Browser should redirect to the Home page after the operation. 
+     * @param isHome True if the Browser should redirect to the Home page after the operation.
      */
     public String getInstructorCourseDeleteLink(String courseId, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link, 
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link,
                                  Const.ParamsNames.NEXT_URL,
-                                 (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
-                                         : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE));
+                                 isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
+                                        : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -484,8 +472,8 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ARCHIVE_STATUS, Boolean.toString(archiveStatus));
         link = Url.addParamToUrl(link,
                                  Const.ParamsNames.NEXT_URL,
-                                 (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
-                                         : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE));
+                                 isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
+                                        : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -525,7 +513,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         
         return link;
-    }    
+    }
     
     public String getInstructorFeedbackEditLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
@@ -545,7 +533,7 @@ public class PageData {
     
     public String getInstructorFeedbackResultsLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID,courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
@@ -554,14 +542,14 @@ public class PageData {
     /**
      * Retrieves the link to submit the request for remind student
      * Appends the return url to the link.
-     * @param courseID the course ID
+     * @param courseId the course ID
      * @param feedbackSessionName the name of the feedback session
      * @param returnUrl the url to return to after submitting the request
      * @return submit link with return url appended to it
      */
-    public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName, String returnUrl) {
+    public String getInstructorFeedbackRemindLink(String courseId, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
@@ -571,13 +559,13 @@ public class PageData {
     
     /**
      * Retrieves the link to load remind modal
-     * @param courseID the courseID
+     * @param courseId the course ID
      * @param feedbackSessionName the name of the feedback session
      * @return the link to load remind modal
      */
-    public String getInstructorFeedbackRemindParticularStudentsPageLink(String courseID, String feedbackSessionName) {
+    public String getInstructorFeedbackRemindParticularStudentsPageLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         return link;
@@ -595,20 +583,19 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbackPublishLink(String courseID, String feedbackSessionName, String returnUrl) {
+    public String getInstructorFeedbackPublishLink(String courseId, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
         
         return link;
     }
-    
-    
-    public String getInstructorFeedbackUnpublishLink(String courseID, String feedbackSessionName, String returnUrl) {
+
+    public String getInstructorFeedbackUnpublishLink(String courseId, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
@@ -693,8 +680,8 @@ public class PageData {
     
     public String getInstructorCourseInstructorDeleteLink(String courseId, String instructorEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -706,15 +693,10 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
-    @SuppressWarnings("unused")
-    private void _________other_util_methods_for_instructor_pages() {
-    //========================================================================    
-    }
 
     public static String getInstructorStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
-             return "Private";
+            return "Private";
         } else if (session.isOpened()) {
             return "Open";
         } else if (session.isWaitingToOpen()) {
@@ -732,27 +714,28 @@ public class PageData {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
         }
         
-        String msg = "The feedback session has been created";
+        StringBuilder msg = new StringBuilder(50);
+        msg.append("The feedback session has been created");
         
         if (session.isVisible()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_VISIBLE;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_VISIBLE);
         }
         
         if (session.isOpened()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN);
         } else if (session.isWaitingToOpen()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING;
-        } else if(session.isClosed()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_AWAITING);
+        } else if (session.isClosed()) {
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED);
         }
         
         if (session.isPublished()) {
-            msg += Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
+            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED);
         }
         
-        msg += ".";
+        msg.append('.');
         
-        return msg;
+        return msg.toString();
     }
     
     /**
@@ -766,7 +749,7 @@ public class PageData {
      * @param sectionsInCourse
      *         The list of sections for the course
      * @return
-     * @throws EntityDoesNotExistException 
+     * @throws EntityDoesNotExistException
      */
     public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
                                                                                 String returnUrl,
@@ -775,93 +758,93 @@ public class PageData {
     }
 
     /**
-     * Returns the type of people that can view the comment. 
+     * Returns the type of people that can view the comment.
      */
     public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
-        StringBuilder peopleCanView = new StringBuilder();
-        for(int i = 0; i < comment.showCommentTo.size(); i++){
+        StringBuilder peopleCanView = new StringBuilder(100);
+        for (int i = 0; i < comment.showCommentTo.size(); i++) {
             CommentParticipantType commentViewer = comment.showCommentTo.get(i);
-            if(i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
+            if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
             }
             
             switch (commentViewer) {
-            case PERSON :
+            case PERSON:
                 peopleCanView.append("recipient, ");
                 break;
-            case TEAM :
-                if(comment.recipientType == CommentParticipantType.TEAM) {
+            case TEAM:
+                if (comment.recipientType == CommentParticipantType.TEAM) {
                     peopleCanView.append("recipient team, ");
                 } else {
                     peopleCanView.append("recipient's team, ");
                 }
                 break;
-            case SECTION :
-                if(comment.recipientType == CommentParticipantType.SECTION) {
+            case SECTION:
+                if (comment.recipientType == CommentParticipantType.SECTION) {
                     peopleCanView.append("recipient section, ");
                 } else {
                     peopleCanView.append("recipient's section, ");
                 }
                 break;
-            case COURSE :
-                if(comment.recipientType == CommentParticipantType.COURSE) {
+            case COURSE:
+                if (comment.recipientType == CommentParticipantType.COURSE) {
                     peopleCanView.append("the whole class, ");
                 } else {
                     peopleCanView.append("other students in this course, ");
                 }
                 break;
-            case INSTRUCTOR :
+            case INSTRUCTOR:
                 peopleCanView.append("instructors, ");
                 break;
-            default :
+            default:
                 break;
             }
         }
         String peopleCanViewString = peopleCanView.toString();
-        if(peopleCanViewString.isEmpty()) {
+        if (peopleCanViewString.isEmpty()) {
             return peopleCanViewString;
         }
         return removeEndComma(peopleCanViewString);
     }
     
     /**
-     * Returns the type of people that can view the response comment. 
+     * Returns the type of people that can view the response comment.
      */
     public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
                                                 FeedbackQuestionAttributes relatedQuestion) {
-        StringBuilder peopleCanView = new StringBuilder();
-        List<FeedbackParticipantType> showCommentTo = new ArrayList<FeedbackParticipantType>();
+        StringBuilder peopleCanView = new StringBuilder(100);
+        List<FeedbackParticipantType> showCommentTo;
         if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;
         } else {
             showCommentTo = comment.showCommentTo;
         }
-        for(int i = 0; i < showCommentTo.size(); i++) {
+        for (int i = 0; i < showCommentTo.size(); i++) {
             FeedbackParticipantType commentViewer = showCommentTo.get(i);
             if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
             }
             
             switch (commentViewer) {
-            case GIVER :
+            case GIVER:
                 peopleCanView.append("response giver, ");
                 break;
-            case RECEIVER :
+            case RECEIVER:
                 peopleCanView.append("response recipient, ");
                 break;
-            case OWN_TEAM :
+            case OWN_TEAM:
                 peopleCanView.append("response giver's team, ");
                 break;
-            case RECEIVER_TEAM_MEMBERS :
+            case RECEIVER_TEAM_MEMBERS:
                 peopleCanView.append("response recipient's team, ");
                 break;
-            case STUDENTS :
+            case STUDENTS:
                 peopleCanView.append("other students in this course, ");
                 break;
-            case INSTRUCTORS :
+            case INSTRUCTORS:
                 peopleCanView.append("instructors, ");
                 break;
-            default :
+            default:
                 break;
             }
         }
@@ -873,9 +856,8 @@ public class PageData {
         return str.substring(0, str.length() - 2);
     }
 
-    
     private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
-        boolean isEditingExistingFeedbackSession = (timeToShowAsSelected!=null);
+        boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
             Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
             cal.setTime(timeToShowAsSelected);
@@ -897,39 +879,27 @@ public class PageData {
     }
 
     private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
-        int defaultGracePeriod = 15;
-        boolean isEditingExistingEvaluation = (existingGracePeriodValue != Const.INT_UNINITIALIZED);
+        boolean isEditingExistingEvaluation = existingGracePeriodValue != Const.INT_UNINITIALIZED;
         if (isEditingExistingEvaluation) {
             return gracePeriodOptionValue == existingGracePeriodValue;
-        } else {
-            return gracePeriodOptionValue == defaultGracePeriod;
         }
+        int defaultGracePeriod = 15;
+        return gracePeriodOptionValue == defaultGracePeriod;
     }
 
     private static String formatAsString(double num) {
         if ((int) num == num) {
-            return "" + (int) num;
-        } else {
-            return "" + num;
+            return Integer.toString((int) num);
         }
-    }
-    
-    public boolean isCourseArchived(String courseId, String googleId) {
-        return Logic.isCourseArchived(courseId, googleId);
-    }
-    
-    @SuppressWarnings("unused")
-    private void ___________methods_to_generate_feedback_response_comments() {
-    //========================================================================    
+        return Double.toString(num);
     }
     
     public boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,
                                               FeedbackParticipantType viewerType) {
         if (viewerType == FeedbackParticipantType.GIVER) {
             return true;
-        } else {
-            return qn.isResponseVisibleTo(viewerType);
         }
+        return qn.isResponseVisibleTo(viewerType);
     }
     
     public boolean isResponseCommentGiverNameVisibleTo(FeedbackQuestionAttributes qn,
@@ -937,7 +907,7 @@ public class PageData {
         return true;
     }
     
-    public boolean isResponseCommentVisibleTo(FeedbackResponseCommentAttributes frComment, 
+    public boolean isResponseCommentVisibleTo(FeedbackResponseCommentAttributes frComment,
                                               FeedbackQuestionAttributes qn,
                                               FeedbackParticipantType viewerType) {
         if (frComment.isVisibilityFollowingFeedbackQuestion && viewerType == FeedbackParticipantType.GIVER) {
@@ -949,55 +919,47 @@ public class PageData {
         }
     }
     
-    public boolean isResponseCommentGiverNameVisibleTo(FeedbackResponseCommentAttributes frComment, 
+    public boolean isResponseCommentGiverNameVisibleTo(FeedbackResponseCommentAttributes frComment,
                                                        FeedbackQuestionAttributes qn,
                                                        FeedbackParticipantType viewerType) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return true;
-        } else {
-            return frComment.showGiverNameTo.contains(viewerType);
         }
+        return frComment.showGiverNameTo.contains(viewerType);
     }
     
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
-        return "GIVER," + StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
+        String visibilityString = StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
+        return StringHelper.isWhiteSpace(visibilityString) ? "GIVER" : "GIVER, " + visibilityString;
     }
     
-    public String getResponseCommentVisibilityString(FeedbackResponseCommentAttributes frComment, 
+    public String getResponseCommentVisibilityString(FeedbackResponseCommentAttributes frComment,
                                                      FeedbackQuestionAttributes qn) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentVisibilityString(qn);
-        } else {
-            return StringHelper.removeEnclosingSquareBrackets(frComment.showCommentTo.toString());
         }
+        return StringHelper.removeEnclosingSquareBrackets(frComment.showCommentTo.toString());
     }
     
     public String getResponseCommentGiverNameVisibilityString(FeedbackQuestionAttributes qn) {
         return getResponseCommentVisibilityString(qn);
     }
     
-    public String getResponseCommentGiverNameVisibilityString(FeedbackResponseCommentAttributes frComment, 
+    public String getResponseCommentGiverNameVisibilityString(FeedbackResponseCommentAttributes frComment,
                                                               FeedbackQuestionAttributes qn) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentGiverNameVisibilityString(qn);
-        } else {
-            return StringHelper.removeEnclosingSquareBrackets(frComment.showGiverNameTo.toString());
         }
+        return StringHelper.removeEnclosingSquareBrackets(frComment.showGiverNameTo.toString());
     }
     
     public String getPictureUrl(String pictureKey) {
         if (pictureKey == null || pictureKey.isEmpty()) {
             return Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
-        } else {
-            return Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
-                   + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
-                   + Const.ParamsNames.USER_ID + "=" + account.googleId;
         }
-    }
-    
-    @SuppressWarnings("unused")
-    private void ___________methods_to_generate_comments() {
-    //========================================================================    
+        return Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
+               + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
+               + Const.ParamsNames.USER_ID + "=" + account.googleId;
     }
     
     public String getRecipientNames(Set<String> recipients, String courseId, String studentEmail, CourseRoster roster) {
@@ -1011,28 +973,22 @@ public class PageData {
                 namesStringBuilder.append(", ");
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (studentEmail != null && recipient.equals(studentEmail)) {
+            if (recipient.equals(studentEmail)) {
                 namesStringBuilder.append("you");
-            } else if (courseId.equals(recipient)) { 
+            } else if (courseId.equals(recipient)) {
                 namesStringBuilder.append("all students in this course");
-            } else if (student != null) {
+            } else if (student == null) {
+                namesStringBuilder.append(recipient);
+            } else {
                 if (recipients.size() == 1) {
                     namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + ")");
                 } else {
                     namesStringBuilder.append(student.name);
                 }
-            } else {
-                namesStringBuilder.append(recipient);
             }
             i++;
         }
-        String namesString = namesStringBuilder.toString();
-        return namesString;
-    }
-    
-    @SuppressWarnings("unused")
-    private void ___________methods_to_serve_local_files() {
-    //========================================================================    
+        return namesStringBuilder.toString();
     }
     
     /**
@@ -1052,11 +1008,11 @@ public class PageData {
     }
 
     public String getjQueryFilePath() {
-        return Const.SystemParams.getjQueryFilePath(Config.inst().isDevServer());
+        return Const.SystemParams.getjQueryFilePath(Config.isDevServer());
     }
 
     public String getjQueryUiFilePath() {
-        return Const.SystemParams.getjQueryUiFilePath(Config.inst().isDevServer());
+        return Const.SystemParams.getjQueryUiFilePath(Config.isDevServer());
     }
 
 }

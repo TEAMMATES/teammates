@@ -27,7 +27,7 @@ public class AdminActivityLogPage extends AppPage {
         assertTrue(containsExpectedPageContents());
     }
     
-    public String getPersonInfoOfFirstEntry(){
+    public String getPersonInfoOfFirstEntry() {
         
         WebElement table = browser.driver.findElement(By.id("logsTable"));
         WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
@@ -36,60 +36,58 @@ public class AdminActivityLogPage extends AppPage {
         return hiddenInput.getAttribute("value");
     }
     
-    public void clickViewActionsButtonOfFirstEntry(){
+    public void clickViewActionsButtonOfFirstEntry() {
         
         WebElement table = browser.driver.findElement(By.id("logsTable"));
         WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
         WebElement element = tableRow.findElement(By.tagName("button"));
-        element.click();
+        click(element);
     }
     
-    public String getFilterBoxString(){
+    public String getFilterBoxString() {
         
         WebElement element = browser.driver.findElement(By.id("filterQuery"));
         return element.getAttribute("value");
     }
     
-    public void fillQueryBoxWithText(String query){
+    public void fillQueryBoxWithText(String query) {
         
         WebElement element = browser.driver.findElement(By.id("filterQuery"));
         fillTextBox(element, query);
     }
     
-    public void clickSearchSubmitButton(){
+    public void clickSearchSubmitButton() {
         
         WebElement button = browser.driver.findElement(By.name("search_submit"));
-        button.click();      
+        click(button);
     }
     
     public boolean isLogsTableVisible() {
         WebElement table = getLogsTable();
-        if (table != null) {
-            return table.isDisplayed();
-        } else {
+        if (table == null) {
             return false;
         }
+        return table.isDisplayed();
     }
     
     public WebElement getLogsTable() {
         List<WebElement> list = browser.driver.findElements(By.id("logsTable"));
-        if (!list.isEmpty()) {
-            return browser.driver.findElement(By.id("logsTable"));
-        } else {
+        if (list.isEmpty()) {
             return null;
         }
+        
+        return browser.driver.findElement(By.id("logsTable"));
     }
     
     public int getNumberOfTableHeaders() {
         if (isLogsTableVisible()) {
             List<WebElement> headerList = browser.driver.findElements(By.cssSelector("#logsTable > thead > tr > th"));
             return headerList.size();
-        } else {
-            return 0;
         }
+        return 0;
     }
     
-    public String getQueryMessage(){
+    public String getQueryMessage() {
         
         WebElement alert = browser.driver.findElement(By.id("queryMessage"));
         return alert.getText();
@@ -97,12 +95,12 @@ public class AdminActivityLogPage extends AppPage {
     
     public void clickReferenceButton() {
         WebElement button = browser.driver.findElement(By.id("referenceText"));
-        button.click();
+        click(button);
     }
     
     public void clickUserTimezoneAtFirstRow() {
-        WebElement button = browser.driver.findElement(By.cssSelector("#first-row > td > span > a"));
-        button.click();
+        WebElement button = browser.driver.findElement(By.cssSelector("#first-row > td > a"));
+        click(button);
     }
     
     public boolean isFilterReferenceVisible() {
@@ -115,14 +113,14 @@ public class AdminActivityLogPage extends AppPage {
     }
     
     public boolean isUserTimezoneAtFirstRowClicked() {
-        List<WebElement> elements = browser.driver.findElements(By.cssSelector("#first-row > td > span > mark"));
+        List<WebElement> elements = browser.driver.findElements(By.cssSelector("#first-row > td > mark"));
         return !elements.isEmpty();
     }
 
     public Date getDateOfEarliestLog() throws ParseException {
         String dateFormat = "dd-MM-yyyy HH:mm:ss";
         DateFormat sdf = new SimpleDateFormat(dateFormat);
-        String dateTimeString = getLogsTable().findElement(By.cssSelector("tr:last-child > td > span > a")).getText();
+        String dateTimeString = getLogsTable().findElement(By.cssSelector("tr:last-child > td > a")).getText();
         
         return sdf.parse(dateTimeString);
         

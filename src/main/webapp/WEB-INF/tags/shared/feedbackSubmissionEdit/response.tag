@@ -8,6 +8,7 @@
 
 <c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
+<c:set var="isRecipientTeam" value="${questionWithResponses.question.recipientTeam}"/>
 
 <c:choose>
     <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="class=\"col-sm-12\""/></c:when>
@@ -20,7 +21,7 @@
     <div ${isNumResponsesMax ? 'class="col-sm-2 form-inline mobile-align-left"' : 'class="col-sm-4 form-inline mobile-align-left"'}
          ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
          
-        <label for="input">To: </label>
+        <label for="input">To${isRecipientTeam ? ' Team' : ''}: </label>
         
         <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control" 
                 name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"

@@ -8,7 +8,7 @@ public class AdminEmailSentPageAction extends Action {
     @Override
     protected ActionResult execute() {
         new GateKeeper().verifyAdminPrivileges(account);
-        AdminEmailSentPageData data = new AdminEmailSentPageData(account);      
+        AdminEmailSentPageData data = new AdminEmailSentPageData(account);
         
         data.adminSentEmailList = logic.getSentAdminEmails();
             
@@ -16,7 +16,7 @@ public class AdminEmailSentPageAction extends Action {
         
         data.init();
         
-        return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);     
+        return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
             
     }
 

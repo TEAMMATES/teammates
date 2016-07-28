@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +19,7 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
@@ -36,12 +33,12 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         Map<String, InstructorAttributes> instructorForCourses = new HashMap<String, InstructorAttributes>();
         pageData.init(activeCourses, archivedCourses, instructorForCourses);
         
-        assertTrue(pageData.getActiveCourses() != null);
-        assertTrue(pageData.getActiveCourses().getRows() != null);
+        assertNotNull(pageData.getActiveCourses());
+        assertNotNull(pageData.getActiveCourses().getRows());
         assertEquals(0, pageData.getActiveCourses().getRows().size());
         
-        assertTrue(pageData.getArchivedCourses() != null);
-        assertTrue(pageData.getArchivedCourses().getRows() != null);
+        assertNotNull(pageData.getArchivedCourses());
+        assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());
         
         assertEquals("", pageData.getCourseIdToShow());
@@ -58,12 +55,12 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         instructorForCourses.put("idOfTypicalCourse1", dataBundle.instructors.get("instructor1OfCourse1"));
         pageData.init(activeCourses, archivedCourses, instructorForCourses);
         
-        assertTrue(pageData.getActiveCourses() != null);
-        assertTrue(pageData.getActiveCourses().getRows() != null);
+        assertNotNull(pageData.getActiveCourses());
+        assertNotNull(pageData.getActiveCourses().getRows());
         assertEquals(1, pageData.getActiveCourses().getRows().size());
         
-        assertTrue(pageData.getArchivedCourses() != null);
-        assertTrue(pageData.getArchivedCourses().getRows() != null);
+        assertNotNull(pageData.getArchivedCourses());
+        assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());
         
         assertEquals("", pageData.getCourseIdToShow());
@@ -82,12 +79,12 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         instructorForCourses.put("idOfTypicalCourse2", dataBundle.instructors.get("instructor3OfCourse2"));
         pageData.init(activeCourses, archivedCourses, instructorForCourses, "Id to show", "Name to show");
         
-        assertTrue(pageData.getActiveCourses() != null);
-        assertTrue(pageData.getActiveCourses().getRows() != null);
+        assertNotNull(pageData.getActiveCourses());
+        assertNotNull(pageData.getActiveCourses().getRows());
         assertEquals(2, pageData.getActiveCourses().getRows().size());
         
-        assertTrue(pageData.getArchivedCourses() != null);
-        assertTrue(pageData.getArchivedCourses().getRows() != null);
+        assertNotNull(pageData.getArchivedCourses());
+        assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());
         
         assertEquals("Id to show", pageData.getCourseIdToShow());
@@ -106,12 +103,12 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         
         pageData.init(activeCourses, archivedCourses, instructorForCourses);
         
-        assertTrue(pageData.getActiveCourses() != null);
-        assertTrue(pageData.getActiveCourses().getRows() != null);
+        assertNotNull(pageData.getActiveCourses());
+        assertNotNull(pageData.getActiveCourses().getRows());
         assertEquals(0, pageData.getActiveCourses().getRows().size());
         
-        assertTrue(pageData.getArchivedCourses() != null);
-        assertTrue(pageData.getArchivedCourses().getRows() != null);
+        assertNotNull(pageData.getArchivedCourses());
+        assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(1, pageData.getArchivedCourses().getRows().size());
         
         assertEquals("", pageData.getCourseIdToShow());

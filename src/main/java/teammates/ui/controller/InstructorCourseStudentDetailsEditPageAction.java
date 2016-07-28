@@ -5,11 +5,11 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorCourseStudentDetailsEditPageAction extends InstructorCoursesPageAction {
+public class InstructorCourseStudentDetailsEditPageAction extends Action {
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -39,8 +39,8 @@ public class InstructorCourseStudentDetailsEditPageAction extends InstructorCour
                 new InstructorCourseStudentDetailsEditPageData(account, student, student.email, hasSection);
 
         statusToAdmin = "instructorCourseStudentEdit Page Load<br>"
-                        + "Editing Student <span class=\"bold\">" + studentEmail +"'s</span> details "
-                        + "in Course <span class=\"bold\">[" + courseId + "]</span>"; 
+                        + "Editing Student <span class=\"bold\">" + studentEmail + "'s</span> details "
+                        + "in Course <span class=\"bold\">[" + courseId + "]</span>";
         
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);

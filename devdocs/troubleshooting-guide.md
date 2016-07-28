@@ -95,6 +95,10 @@ Use this checklist to verify that your project setup is correct.
 
   **SOLUTION**: Check if the build.properties and appengine-web.xml has been renamed properly, which you were supposed to during the set up.
 
+8. **ERROR**: Eclipse complains "NewClass cannot be resolved to a type", "The import some.package.NewClass cannot be resolved", or "The method someMethod() from the type ExistingClass refers to the missing type NewClass" after syncing with `master` branch.
+
+  **SOLUTION**: This is likely because the dependencies have changed. Refer to [this document](dependencies.md) for steps to update your local dependencies configuration.
+
 ## Troubleshooting test failures
 
 ### Optimizing IDE layout for testing
@@ -187,25 +191,15 @@ Refer [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/ma
 
   ![troubleshooting-test-5.png](images/troubleshooting-test-5.png)
 
-11. **ERROR**: InstructorCourseEnrollPageUiTest fails due to a hash mismatch.
-
-  **REASON**: The hash of the file in the repo is different from the one used in the live site due to line endings are encoded on different Operating Systems.
-
-  **SOLUTION**: Replace "/src/main/webapp/files/Course Enroll Sample Spreadsheet.csv" with [this copy of file](https://teammatesv4.appspot.com/files/Course%20Enroll%20Sample%20Spreadsheet.csv).
-
-12. **ERROR**: "no chromedrive_osx" when testing on Mac using Chrome.
-
-  **SOLUTION**: Download the file from [here]( http://chromedriver.storage.googleapis.com/index.html) and extract to /src/test/resources/lib/selenium, then rename it by adding "`_osx`". Refresh the folder in eclipse.
-
-13. **ERROR**:java.lang.UnsupportedClassVersionError when running on staging server.
+11. **ERROR**:java.lang.UnsupportedClassVersionError when running on staging server.
 
   **SOLUTION**: This can happen if you have Java 8 installed on your computer. Change Eclipse configuration to use Java 7 instead. Here is a useful [reference]( http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed).
   
 
-14. **ERROR**: InstructorCourseDetailsPageUiTest fails in production server due to Gmail's access restriction (e.g javax.mail.AuthenticationFailedException)
+12. **ERROR**: InstructorCourseDetailsPageUiTest fails in production server due to Gmail's access restriction (e.g javax.mail.AuthenticationFailedException)
 
   **SOLUTION**: "Allow access for less secure apps" for the accounts used in that particular test. As doing so will leave the accounts more vulnerable to security issues, it is strongly recommended that the access is revoked after the test passes. Check for [reference]( https://support.google.com/accounts/answer/6010255?hl=en).
 
-15. **ERROR (on Linux)**: java.io.IOException: Directory "/tmpfiles" could not be created.
+13. **ERROR (on Linux)**: java.io.IOException: Directory "/tmpfiles" could not be created.
 
    **SOLUTION**: Specify an additional parameter, -Djava.io.tmpdir, in the VM arguments for the tests' run configurations. Add "-Djava.io.tmpdir=/path/to/teammates/tmp". The "tmp" folder in the specified directory needs to be created before running the tests.

@@ -41,10 +41,10 @@ public class DataMigrationForComments extends RemoteApiClient {
             String receiverEmail = c.getReceiverEmail();
             if (receiverEmail != null) {
                 Set<String> recipients = c.getRecipients();
-                if (recipients != null) {
+                if (recipients == null) {
+                    recipients = new HashSet<String>();
                     recipients.add(receiverEmail);
                 } else {
-                    recipients = new HashSet<String>();
                     recipients.add(receiverEmail);
                 }
                 //map receiverEmail to recipients
@@ -61,12 +61,12 @@ public class DataMigrationForComments extends RemoteApiClient {
                 c.setShowRecipientNameTo(new ArrayList<CommentParticipantType>());
             }
         }
-        getPM().close();
+        getPm().close();
     }
     
     protected List<Comment> getCommentEntitiesForInstructor(
             InstructorAttributes instructor) {
-        Query q = getPM().newQuery(Comment.class);
+        Query q = getPm().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
 
@@ -76,7 +76,7 @@ public class DataMigrationForComments extends RemoteApiClient {
         return commentList;
     }
 
-    protected PersistenceManager getPM() {
+    protected PersistenceManager getPm() {
         return Datastore.getPersistenceManager();
     }
 

@@ -1,8 +1,6 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.*;
 import static teammates.common.util.Const.EOL;
-import static teammates.common.util.FieldValidator.*;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -11,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 import teammates.test.cases.BaseTestCase;
@@ -18,36 +17,42 @@ import teammates.test.cases.BaseTestCase;
 public class InstructorAttributesTest extends BaseTestCase {
 
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
     @Test
     public void testConstructor() {
         @SuppressWarnings("deprecation")
-        InstructorAttributes instructor = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
+        InstructorAttributes instructor =
+                new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
         String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
-        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorPrivileges privileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         
         assertEquals(roleName, instructor.role);
         assertEquals(displayedName, instructor.displayedName);
         assertEquals(privileges, instructor.privileges);
         
-        InstructorAttributes instructor1 = new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
-                instructor.role, instructor.displayedName, instructor.getTextFromInstructorPrivileges());
+        InstructorAttributes instructor1 =
+                new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
+                                         instructor.role, instructor.displayedName,
+                                         instructor.getTextFromInstructorPrivileges());
         
         assertEquals(privileges, instructor1.privileges);
         
-        InstructorAttributes instructor2 = new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
-                instructor.role, instructor.displayedName, instructor1.privileges);
+        InstructorAttributes instructor2 =
+                new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
+                                         instructor.role, instructor.displayedName, instructor1.privileges);
         
         assertEquals(instructor1.privileges, instructor2.privileges);
         
-        InstructorAttributes instructorNew = new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
-                instructor.role, false, instructor.displayedName, instructor1.privileges);
+        InstructorAttributes instructorNew =
+                new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
+                                         instructor.role, false, instructor.displayedName, instructor1.privileges);
         
-        assertEquals(false, instructorNew.isDisplayedToStudents);
+        assertFalse(instructorNew.isDisplayedToStudents);
         
         Instructor entity = instructor2.toEntity();
         InstructorAttributes instructor3 = new InstructorAttributes(entity);
@@ -78,11 +83,12 @@ public class InstructorAttributesTest extends BaseTestCase {
     @Test
     public void testIsRegistered() {
         @SuppressWarnings("deprecation")
-        InstructorAttributes instructor = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");       
+        InstructorAttributes instructor =
+                new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
         assertTrue(instructor.isRegistered());
         
         instructor.googleId = null;
-        assertFalse(instructor.isRegistered());     
+        assertFalse(instructor.isRegistered());
     }
     
     @Test
@@ -93,8 +99,10 @@ public class InstructorAttributesTest extends BaseTestCase {
         String email = "email@google.com";
         String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instructor = new InstructorAttributes(googleId, courseId, name, email, roleName, displayedName, privileges);
+        InstructorPrivileges privileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes instructor =
+                new InstructorAttributes(googleId, courseId, name, email, roleName, displayedName, privileges);
         String key = "randomKey";
         instructor.key = key;
         
@@ -103,34 +111,56 @@ public class InstructorAttributesTest extends BaseTestCase {
     }
     
     @Test
-    public void testGetInvalidityInfo() {
+    public void testGetInvalidityInfo() throws Exception {
 
         @SuppressWarnings("deprecation")
-        InstructorAttributes i = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
+        InstructorAttributes i =
+                new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
         
-        assertEquals(true, i.isValid());
+        assertTrue(i.isValid());
         
         i.googleId = "invalid@google@id";
         i.name = "";
         i.email = "invalid email";
         i.courseId = "";
         
-        assertEquals("invalid value", false, i.isValid());
-        String errorMessage = 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT) + EOL 
-                + String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
-                + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
-                + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
+        assertFalse("invalid value", i.isValid());
+        String errorMessage =
+                getPopulatedErrorMessage(
+                    FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
+                    FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                    FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId,
+                      FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                      FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, i.name,
+                      FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                      FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
+                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.EMAIL_MAX_LENGTH);
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
         
         i.googleId = null;
         
-        assertEquals("invalid value", false, i.isValid());
-        errorMessage = 
-                String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
-                + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
-                + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
-        assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));      
+        assertFalse("invalid value", i.isValid());
+        errorMessage =
+                getPopulatedErrorMessage(
+                    FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId,
+                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                    FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, i.name,
+                      FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                      FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
+                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.EMAIL_MAX_LENGTH);
+        assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
     }
     
     @Test
@@ -141,8 +171,10 @@ public class InstructorAttributesTest extends BaseTestCase {
         String email = "email@google.com";
         String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instructor = new InstructorAttributes(googleId, courseId, name, email, roleName, displayedName, privileges);
+        InstructorPrivileges privileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes instructor =
+                new InstructorAttributes(googleId, courseId, name, email, roleName, displayedName, privileges);
         
         instructor.sanitizeForSaving();
         assertEquals(privileges, instructor.privileges);
@@ -162,22 +194,28 @@ public class InstructorAttributesTest extends BaseTestCase {
         String email = "email@google.com";
         String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructor = new InstructorAttributes(googleId, courseId, name, email, roleName, displayedName, privileges);
+        InstructorPrivileges privileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
+        InstructorAttributes instructor =
+                new InstructorAttributes(googleId, courseId, name, email, roleName, displayedName, privileges);
         
         assertFalse(instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         instructor.privileges = null;
         assertTrue(instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         
         String sectionId = "sectionId";
-        assertTrue(instructor.isAllowedForPrivilege(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        assertTrue(instructor.isAllowedForPrivilege(
+                sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         instructor.privileges = null;
-        assertTrue(instructor.isAllowedForPrivilege(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        assertTrue(instructor.isAllowedForPrivilege(
+                sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         
         String sessionId = "sessionId";
-        assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         instructor.privileges = null;
-        assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
     }
     
     @Test
@@ -188,10 +226,14 @@ public class InstructorAttributesTest extends BaseTestCase {
         String email = "email@google.com";
         String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructor = new InstructorAttributes(googleId, courseId, name, email, roleName, displayedName, privileges);
-        InstructorPrivileges privileges2 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructor2 = new InstructorAttributes(googleId, courseId, name, email, roleName, displayedName, privileges2);
+        InstructorPrivileges privileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
+        InstructorAttributes instructor =
+                new InstructorAttributes(googleId, courseId, name, email, roleName, displayedName, privileges);
+        InstructorPrivileges privileges2 =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
+        InstructorAttributes instructor2 =
+                new InstructorAttributes(googleId, courseId, name, email, roleName, displayedName, privileges2);
         
         assertTrue(instructor.isEqualToAnotherInstructor(instructor2));
         instructor2.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, true);

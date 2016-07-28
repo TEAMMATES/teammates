@@ -30,7 +30,7 @@
             <c:if test="${empty responseRow.feedbackResponseComments}">style="display:none"</c:if>>
             
             <c:forEach items="${responseRow.feedbackResponseComments}" var="frc" varStatus="i">
-                <shared:feedbackResponseComment frc="${frc}" firstIndex="${fsIndx}" secondIndex="${qnIndx}" thirdIndex="${responseIndex}" frcIndex="${i.count}" />
+                <shared:feedbackResponseCommentRow frc="${frc}" firstIndex="${fsIndx}" secondIndex="${qnIndx}" thirdIndex="${responseIndex}" frcIndex="${i.count}" />
             </c:forEach>  
 
         </ul>

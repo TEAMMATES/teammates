@@ -12,7 +12,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
@@ -32,24 +31,24 @@ public class StudentAttributes extends EntityAttributes {
         public static final int STATUS_COUNT = 6;
         public final int numericRepresentation;
 
-        private UpdateStatus(int numericRepresentation) {
+        UpdateStatus(int numericRepresentation) {
             this.numericRepresentation = numericRepresentation;
         }
 
         public static UpdateStatus enumRepresentation(int numericRepresentation) {
             switch (numericRepresentation) {
-                case 0:
-                    return ERROR;
-                case 1:
-                    return NEW;
-                case 2:
-                    return MODIFIED;
-                case 3:
-                    return UNMODIFIED;
-                case 4:
-                    return NOT_IN_ENROLL_LIST;
-                default:
-                    return UNKNOWN;
+            case 0:
+                return ERROR;
+            case 1:
+                return NEW;
+            case 2:
+                return MODIFIED;
+            case 3:
+                return UNMODIFIED;
+            case 4:
+                return NOT_IN_ENROLL_LIST;
+            default:
+                return UNKNOWN;
             }
         }
     }
@@ -61,20 +60,20 @@ public class StudentAttributes extends EntityAttributes {
     public String name;
     public String lastName;
     public String email;
-    public String course = null;
-    public String comments = null;
-    public String team = null;
-    public String section = null;
-    public String key = null;
+    public String course;
+    public String comments;
+    public String team;
+    public String section;
+    public String key;
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
     /*
-     * Creation and update time stamps. 
+     * Creation and update time stamps.
      * Updated automatically in Student.java, jdoPreStore()
      */
-    private transient Date createdAt;
-    private transient Date updatedAt;
+    protected transient Date createdAt;
+    protected transient Date updatedAt;
 
     public StudentAttributes(String id, String email, String name, String comments, String courseId,
                              String team, String section) {
@@ -83,19 +82,19 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public StudentAttributes() {
-
+        // attributes to be set after construction
     }
 
     public StudentAttributes(String section, String team, String name, String email, String comment,
                              String courseId) {
         this();
-        this.section = Sanitizer.sanitizeTitle(section);
-        this.team = Sanitizer.sanitizeTitle(team);
+        this.section = section;
+        this.team = team;
         this.lastName = Sanitizer.sanitizeName(StringHelper.splitName(name)[1]);
         this.name = Sanitizer.sanitizeName(name);
-        this.email = Sanitizer.sanitizeEmail(email);
+        this.email = email;
         this.comments = Sanitizer.sanitizeTextField(comment);
-        this.course = Sanitizer.sanitizeTitle(courseId);
+        this.course = courseId;
     }
 
     public StudentAttributes(Student student) {
@@ -105,9 +104,9 @@ public class StudentAttributes extends EntityAttributes {
         this.name = student.getName();
         this.lastName = student.getLastName();
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
-        this.team = Sanitizer.sanitizeTitle(student.getTeamName());
+        this.team = student.getTeamName();
         this.section = (student.getSectionName() == null) ? Const.DEFAULT_SECTION
-                                                          : Sanitizer.sanitizeTitle(student.getSectionName());
+                                                          : student.getSectionName();
         this.googleId = (student.getGoogleId() == null) ? ""
                                                         : student.getGoogleId();
         Long keyAsLong = student.getRegistrationKey();
@@ -122,22 +121,30 @@ public class StudentAttributes extends EntityAttributes {
         this.updatedAt = student.getUpdatedAt();
         
     }
+    
+    private StudentAttributes(StudentAttributes other) {
+        this(other.googleId, other.email, other.name, other.comments,
+             other.course, other.team, other.section);
+        this.key = other.key;
+        this.updateStatus = other.updateStatus;
+    }
+    
+    public StudentAttributes getCopy() {
+        return new StudentAttributes(this);
+    }
 
     public String toEnrollmentString() {
-        String enrollmentString = "";
         String enrollmentStringSeparator = "|";
 
-        enrollmentString = this.section + enrollmentStringSeparator;
-        enrollmentString += this.team + enrollmentStringSeparator;
-        enrollmentString += this.name + enrollmentStringSeparator;
-        enrollmentString += this.email + enrollmentStringSeparator;
-        enrollmentString += this.comments;
-
-        return enrollmentString;
+        return this.section + enrollmentStringSeparator
+             + this.team + enrollmentStringSeparator
+             + this.name + enrollmentStringSeparator
+             + this.email + enrollmentStringSeparator
+             + this.comments;
     }
 
     public boolean isRegistered() {
-        return googleId != null && !googleId.equals("");
+        return googleId != null && !googleId.isEmpty();
     }
 
     public String getRegistrationUrl() {
@@ -180,14 +187,15 @@ public class StudentAttributes extends EntityAttributes {
     }
     
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
-        return (otherStudent != null) && otherStudent.email.equals(this.email)
-                && otherStudent.course.equals(this.course)
-                && otherStudent.name.equals(this.name)
-                && otherStudent.comments.equals(this.comments)
-                && otherStudent.team.equals(this.team)
-                && otherStudent.section.equals(this.section);
+        return otherStudent != null && otherStudent.email.equals(this.email)
+               && otherStudent.course.equals(this.course)
+               && otherStudent.name.equals(this.name)
+               && otherStudent.comments.equals(this.comments)
+               && otherStudent.team.equals(this.team)
+               && otherStudent.section.equals(this.section);
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
         // id is allowed to be null when the student is not registered
         Assumption.assertTrue(team != null);
@@ -198,42 +206,55 @@ public class StudentAttributes extends EntityAttributes {
         String error;
 
         if (isRegistered()) {
-            error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
+            error = validator.getInvalidityInfoForGoogleId(googleId);
 
             if (!error.isEmpty()) {
                 errors.add(error);
             }
         }
 
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, course);
+        error = validator.getInvalidityInfoForCourseId(course);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+        error = validator.getInvalidityInfoForEmail(email);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
-        error = validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
+        error = validator.getInvalidityInfoForTeamName(team);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
-        error = validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
+        error = validator.getInvalidityInfoForSectionName(section);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
-        error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
+        error = validator.getInvalidityInfoForStudentRoleComments(comments);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
-        error = validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
+        error = validator.getInvalidityInfoForPersonName(name);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         return errors;
     }
 
     public static void sortBySectionName(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 String sect1 = student1.section;
                 String sect2 = student2.section;
@@ -254,6 +275,7 @@ public class StudentAttributes extends EntityAttributes {
 
     public static void sortByTeamName(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 String team1 = student1.team;
                 String team2 = student2.team;
@@ -270,6 +292,7 @@ public class StudentAttributes extends EntityAttributes {
 
     public static void sortByNameAndThenByEmail(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 int result = student1.name.compareTo(student2.name);
 
@@ -308,10 +331,12 @@ public class StudentAttributes extends EntityAttributes {
         }
     }
 
+    @Override
     public Student toEntity() {
         return new Student(email, name, googleId, comments, course, team, section);
     }
 
+    @Override
     public String toString() {
         return toString(0);
     }
@@ -347,20 +372,15 @@ public class StudentAttributes extends EntityAttributes {
     @Override
     public void sanitizeForSaving() {
         googleId = Sanitizer.sanitizeGoogleId(googleId);
-        email = Sanitizer.sanitizeEmail(email);
-        course = Sanitizer.sanitizeTitle(course);
         name = Sanitizer.sanitizeName(name);
-        team = Sanitizer.sanitizeTitle(team);
-        section = Sanitizer.sanitizeTitle(section);
         comments = Sanitizer.sanitizeTextField(comments);
     }
     
     public String getStudentStatus() {
         if (isRegistered()) {
             return Const.STUDENT_COURSE_STATUS_JOINED;
-        } else {
-            return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
         }
+        return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
     }
     
     public Date getCreatedAt() {
@@ -372,16 +392,22 @@ public class StudentAttributes extends EntityAttributes {
     }
     
     /**
-     * Should only be used for testing
-     **/
-    public void setCreated_NonProduction(Date createdAt) {
-        this.createdAt = createdAt;
+     * Checks whether the edit form of student has changed the section value.
+     * 
+     * @param originalStudentAttribute
+     * @return true if section value has changed from its original value.
+     */
+    public boolean isSectionChanged(StudentAttributes originalStudentAttribute) {
+        return this.section != null && !this.section.equals(originalStudentAttribute.section);
     }
-
+    
     /**
-     * Should only be used for testing
-     **/
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
-        this.updatedAt = updatedAt;
+     * Checks whether the edit form of student has changed the team value.
+     * 
+     * @param originalStudentAttribute
+     * @return true if team value has changed from its original value.
+     */
+    public boolean isTeamChanged(StudentAttributes originalStudentAttribute) {
+        return this.team != null && !this.team.equals(originalStudentAttribute.team);
     }
 }

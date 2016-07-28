@@ -43,12 +43,12 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
         for (FeedbackResponseComment c : frComments) {
             putFrCommentToSearchableDocument(new FeedbackResponseCommentAttributes(c));
         }
-        getPM().close();
+        getPm().close();
     }
     
     protected List<Comment> getCommentEntitiesForInstructor(
             InstructorAttributes instructor) {
-        Query q = getPM().newQuery(Comment.class);
+        Query q = getPm().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
 
@@ -60,7 +60,7 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
     
     protected List<FeedbackResponseComment> getFrCommentEntitiesForInstructor(
             InstructorAttributes instructor) {
-        Query q = getPM().newQuery(FeedbackResponseComment.class);
+        Query q = getPm().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
 
@@ -78,7 +78,7 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
         logic.putDocument(comment);
     }
 
-    protected PersistenceManager getPM() {
+    protected PersistenceManager getPm() {
         return Datastore.getPersistenceManager();
     }
 

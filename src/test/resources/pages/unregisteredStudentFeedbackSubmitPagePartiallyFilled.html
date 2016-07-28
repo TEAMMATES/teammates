@@ -24,7 +24,7 @@
     </a>
     (recommended).
   </div>
-  <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_student_submit_response">
+  <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="First Session">
     <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104">
     <input name="key" type="hidden" value="${regkey.enc}">
@@ -143,9 +143,25 @@
               </span>
             </div>
             <div class="col-sm-12">
-              <textarea class="form-control" cols="100%" name="responsetext-1-0" rows="4">
+              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" rows="4">
                 Test Self Feedback
               </textarea>
+              <div class="margin-top-7px text-color-gray font-weight-normal">
+                <div class="col-md-6 padding-0" style="display:none">
+                  Recommended length for the answer:
+                  <span id="recommendedLength-1-0">
+                    0
+                  </span>
+                  words
+                </div>
+                <div class="pull-right">
+                  Response length:
+                  <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">
+                    3
+                  </span>
+                  words
+                </div>
+              </div>
               <input name="responseid-1-0" type="hidden" value="${question.id}%drop.out@gmail.tmt%drop.out@gmail.tmt">
             </div>
           </div>
@@ -211,9 +227,25 @@
               </select>
             </div>
             <div class="col-sm-8">
-              <textarea class="form-control" cols="100%" name="responsetext-2-0" rows="4">
+              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-2-0" data-recommended-text="0" id="responsetext-2-0" name="responsetext-2-0" rows="4">
                 Response to student who is number 1.
               </textarea>
+              <div class="margin-top-7px text-color-gray font-weight-normal">
+                <div class="col-md-6 padding-0" style="display:none">
+                  Recommended length for the answer:
+                  <span id="recommendedLength-2-0">
+                    0
+                  </span>
+                  words
+                </div>
+                <div class="pull-right">
+                  Response length:
+                  <span id="responseLength-2-0" style="color: rgb(128, 128, 128);">
+                    7
+                  </span>
+                  words
+                </div>
+              </div>
               <input name="responseid-2-0" type="hidden" value="${question.id}%drop.out@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
             </div>
           </div>
@@ -247,9 +279,25 @@
               </select>
             </div>
             <div class="col-sm-8">
-              <textarea class="form-control" cols="100%" name="responsetext-2-1" rows="4">
+              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-2-1" data-recommended-text="0" id="responsetext-2-1" name="responsetext-2-1" rows="4">
                 Response to Benny.
               </textarea>
+              <div class="margin-top-7px text-color-gray font-weight-normal">
+                <div class="col-md-6 padding-0" style="display:none">
+                  Recommended length for the answer:
+                  <span id="recommendedLength-2-1">
+                    0
+                  </span>
+                  words
+                </div>
+                <div class="pull-right">
+                  Response length:
+                  <span id="responseLength-2-1" style="color: rgb(128, 128, 128);">
+                    3
+                  </span>
+                  words
+                </div>
+              </div>
               <input name="responseid-2-1" type="hidden" value="${question.id}%drop.out@gmail.tmt%SFSubmitUiT.benny.c@gmail.tmt">
             </div>
           </div>
@@ -283,9 +331,25 @@
               </select>
             </div>
             <div class="col-sm-8">
-              <textarea class="form-control" cols="100%" name="responsetext-2-2" rows="4">
+              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-2-2" data-recommended-text="0" id="responsetext-2-2" name="responsetext-2-2" rows="4">
                 Response to extra guy.
               </textarea>
+              <div class="margin-top-7px text-color-gray font-weight-normal">
+                <div class="col-md-6 padding-0" style="display:none">
+                  Recommended length for the answer:
+                  <span id="recommendedLength-2-2">
+                    0
+                  </span>
+                  words
+                </div>
+                <div class="pull-right">
+                  Response length:
+                  <span id="responseLength-2-2" style="color: rgb(128, 128, 128);">
+                    4
+                  </span>
+                  words
+                </div>
+              </div>
               <input name="responseid-2-2" type="hidden" value="${question.id}%drop.out@gmail.tmt%extra.guy@gmail.tmt">
             </div>
           </div>
@@ -336,8 +400,24 @@
               </span>
             </div>
             <div class="col-sm-12">
-              <textarea class="form-control" cols="100%" name="responsetext-3-0" rows="4">
+              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-3-0" data-recommended-text="0" id="responsetext-3-0" name="responsetext-3-0" rows="4">
               </textarea>
+              <div class="margin-top-7px text-color-gray font-weight-normal">
+                <div class="col-md-6 padding-0" style="display:none">
+                  Recommended length for the answer:
+                  <span id="recommendedLength-3-0">
+                    0
+                  </span>
+                  words
+                </div>
+                <div class="pull-right">
+                  Response length:
+                  <span id="responseLength-3-0" style="color: rgb(128, 128, 128);">
+                    0
+                  </span>
+                  words
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -373,7 +453,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
                 <option value="">
@@ -390,9 +470,25 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" name="responsetext-4-0" rows="4">
+              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-4-0" data-recommended-text="0" id="responsetext-4-0" name="responsetext-4-0" rows="4">
                 Feedback to team 3
               </textarea>
+              <div class="margin-top-7px text-color-gray font-weight-normal">
+                <div class="col-md-6 padding-0" style="display:none">
+                  Recommended length for the answer:
+                  <span id="recommendedLength-4-0">
+                    0
+                  </span>
+                  words
+                </div>
+                <div class="pull-right">
+                  Response length:
+                  <span id="responseLength-4-0" style="color: rgb(128, 128, 128);">
+                    4
+                  </span>
+                  words
+                </div>
+              </div>
               <input name="responseid-4-0" type="hidden" value="${question.id}%Team 2%Team 3">
             </div>
           </div>
@@ -400,7 +496,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -417,8 +513,24 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" name="responsetext-4-1" rows="4">
+              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-4-1" data-recommended-text="0" id="responsetext-4-1" name="responsetext-4-1" rows="4">
               </textarea>
+              <div class="margin-top-7px text-color-gray font-weight-normal">
+                <div class="col-md-6 padding-0" style="display:none">
+                  Recommended length for the answer:
+                  <span id="recommendedLength-4-1">
+                    0
+                  </span>
+                  words
+                </div>
+                <div class="pull-right">
+                  Response length:
+                  <span id="responseLength-4-1" style="color: rgb(128, 128, 128);">
+                    0
+                  </span>
+                  words
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -471,8 +583,24 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" name="responsetext-5-0" rows="4">
+              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-5-0" data-recommended-text="0" id="responsetext-5-0" name="responsetext-5-0" rows="4">
               </textarea>
+              <div class="margin-top-7px text-color-gray font-weight-normal">
+                <div class="col-md-6 padding-0" style="display:none">
+                  Recommended length for the answer:
+                  <span id="recommendedLength-5-0">
+                    0
+                  </span>
+                  words
+                </div>
+                <div class="pull-right">
+                  Response length:
+                  <span id="responseLength-5-0" style="color: rgb(128, 128, 128);">
+                    0
+                  </span>
+                  words
+                </div>
+              </div>
             </div>
           </div>
           <br>
@@ -499,8 +627,24 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" name="responsetext-5-1" rows="4">
+              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-5-1" data-recommended-text="0" id="responsetext-5-1" name="responsetext-5-1" rows="4">
               </textarea>
+              <div class="margin-top-7px text-color-gray font-weight-normal">
+                <div class="col-md-6 padding-0" style="display:none">
+                  Recommended length for the answer:
+                  <span id="recommendedLength-5-1">
+                    0
+                  </span>
+                  words
+                </div>
+                <div class="pull-right">
+                  Response length:
+                  <span id="responseLength-5-1" style="color: rgb(128, 128, 128);">
+                    0
+                  </span>
+                  words
+                </div>
+              </div>
             </div>
           </div>
           <br>
@@ -527,8 +671,24 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" name="responsetext-5-2" rows="4">
+              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-5-2" data-recommended-text="0" id="responsetext-5-2" name="responsetext-5-2" rows="4">
               </textarea>
+              <div class="margin-top-7px text-color-gray font-weight-normal">
+                <div class="col-md-6 padding-0" style="display:none">
+                  Recommended length for the answer:
+                  <span id="recommendedLength-5-2">
+                    0
+                  </span>
+                  words
+                </div>
+                <div class="pull-right">
+                  Response length:
+                  <span id="responseLength-5-2" style="color: rgb(128, 128, 128);">
+                    0
+                  </span>
+                  words
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -606,6 +766,18 @@
                       </div>
                     </td>
                   </tr>
+                  <tr>
+                    <td>
+                      <div class="radio">
+                        <label class="bold-label">
+                          <input data-text="otherOptionText" name="responsetext-6-0" type="radio" value="">
+                          Other
+                        </label>
+                        <input class="form-control margin-top-2px" disabled="" id="otherOptionText-6-0" name="otherOptionText-6-0" type="text" value="">
+                        <input id="mcqIsOtherOptionAnswer-6-0" name="mcqIsOtherOptionAnswer-6-0" type="hidden" value="0">
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -643,7 +815,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-7-0" style="display:none;max-width:125px">
                 <option value="">
@@ -691,7 +863,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-7-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -823,6 +995,18 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
+                          <input data-text="msqOtherOptionText" name="responsetext-8-0" type="checkbox" value="">
+                          Other
+                        </label>
+                        <input class="form-control margin-top-2px" disabled="" id="msqOtherOptionText-8-0" name="msqOtherOptionText-8-0" type="text" value="">
+                        <input id="msqIsOtherOptionAnswer-8-0" name="msqIsOtherOptionAnswer-8-0" type="hidden" value="0">
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
                           <input name="responsetext-8-0" type="checkbox" value="">
                           <i>
                             None of the above
@@ -868,7 +1052,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-9-0" style="display:none;max-width:125px">
                 <option value="">
@@ -938,7 +1122,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-9-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1561,7 +1745,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1593,7 +1777,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1935,7 +2119,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1980,7 +2164,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -3064,7 +3248,7 @@
     <br>
     <br>
     <div class="bold align-center">
-      <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback">
+      <input class="btn btn-primary center-block" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback">
     </div>
     <br>
     <br>

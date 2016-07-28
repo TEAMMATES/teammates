@@ -49,7 +49,7 @@ public class StudentProfile {
 
     public String getNationality() {
         return nationality;
-    }   
+    }
     
     public String getMoreInfo() {
         return moreInfo;

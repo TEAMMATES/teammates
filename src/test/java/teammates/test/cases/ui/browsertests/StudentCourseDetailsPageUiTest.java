@@ -17,18 +17,17 @@ import teammates.test.pageobjects.StudentCourseDetailsPage;
 public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static DataBundle testData;
-    
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentCourseDetailsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     
-    @Test    
-    public void testAll() throws Exception{
+    @Test
+    public void testAll() throws Exception {
 
         ______TS("content");
         
@@ -36,8 +35,9 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         // This is the full HTML verification for Student Course Details Page, the rest can all be verifyMainHtml
         verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.alice", "/studentCourseDetailsWithTeammatesHTML.html", true);
 
-        //without teammates 
-        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie", "/studentCourseDetailsWithoutTeammatesHTML.html", false);
+        //without teammates
+        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie",
+                      "/studentCourseDetailsWithoutTeammatesHTML.html", false);
         
         ______TS("links, inputValidation, actions");
         
@@ -49,7 +49,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
                                boolean isFullPageChecked) throws Exception {
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
                                 .withUserId(testData.students.get(studentObjectId).googleId)
-                                .withCourseId(testData.courses.get(courseObjectId).id);
+                                .withCourseId(testData.courses.get(courseObjectId).getId());
         StudentCourseDetailsPage detailsPage = loginAdminToPage(browser, detailsPageUrl, StudentCourseDetailsPage.class);
         if (isFullPageChecked) {
             detailsPage.verifyHtml(filePath);
@@ -59,7 +59,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

@@ -6,7 +6,7 @@ import java.util.List;
 public class ActiveCoursesTable {
     private List<ActiveCoursesTableRow> rows;
 
-    public ActiveCoursesTable(){
+    public ActiveCoursesTable() {
         rows = new ArrayList<ActiveCoursesTableRow>();
     }
     

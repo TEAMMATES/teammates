@@ -4,7 +4,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ attribute name="fsIndex" required="true" %>
-<%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseComment" required="true" %>
+<%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseCommentRow" required="true" %>
 <%@ attribute name="divId" required="true" %>
 <%@ attribute name="divIdAsJsParams" required="true" %>
 <%@ attribute name="formType" required="true" %>
@@ -25,7 +25,13 @@
         </div>
         <a id="frComment-visibility-options-trigger-${divId}"
            class="btn btn-sm btn-info pull-right"
-           onclick="toggleVisibilityEditForm(${divIdAsJsParams})">
+            <c:if test="${isEditForm}">
+                onclick="toggleVisibilityEditForm(${divIdAsJsParams})"
+            </c:if>
+            <c:if test="${isAddForm}">
+                onclick="toggleVisibilityAddForm(${divIdAsJsParams})"
+            </c:if>
+        >
             <span class="glyphicon glyphicon-eye-close"></span>
             Show Visibility Options
         </a>
@@ -38,8 +44,8 @@
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
-                    <th class="text-center">Can see your comment</th>
-                    <th class="text-center">Can see your name</th>
+                    <th class="text-center">Can see this comment</th>
+                    <th class="text-center">Can see comment giver's name</th>
                 </tr>
                 <tr id="response-giver-${divId}">
                     <td class="text-left">

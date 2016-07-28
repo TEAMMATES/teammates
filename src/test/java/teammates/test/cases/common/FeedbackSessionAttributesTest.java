@@ -7,15 +7,14 @@ import java.util.List;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import static org.testng.AssertJUnit.assertEquals;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FeedbackSessionAttributesTest extends BaseTestCase {
     private static String feedbackSessionName;
@@ -39,7 +38,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     private static FeedbackSessionAttributes fsa;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         
         feedbackSessionName = null;
@@ -87,14 +86,14 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
         List<String> expectedErrorMessage = new ArrayList<String>();
         String[] fieldNames = new String[]{
-                "feedback session name", 
-                "course ID", 
-                "instructions to students", 
-                "time for the session to become visible", 
-                "creator's email", 
+                "feedback session name",
+                "course ID",
+                "instructions to students",
+                "time for the session to become visible",
+                "creator's email",
                 "session creation time"};
-        for  (String fieldName : fieldNames) {
-            expectedErrorMessage.add(String.format(FieldValidator.NON_NULL_FIELD_ERROR_MESSAGE, fieldName));
+        for (String fieldName : fieldNames) {
+            expectedErrorMessage.add(FieldValidator.NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName));
         }
         
         //expect all the error messages to be appended together.
@@ -105,7 +104,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

@@ -1,7 +1,6 @@
 package teammates.ui.template;
 
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Sanitizer;
 
 public class StudentInfoTable {
     private String name;
@@ -28,7 +27,7 @@ public class StudentInfoTable {
         return name;
     }
 
-    public String getEmail() { 
+    public String getEmail() {
         return email;
     }
 

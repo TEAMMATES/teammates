@@ -1,11 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -18,34 +12,34 @@ import teammates.test.cases.BaseTestCase;
 public class TimeHelperTest extends BaseTestCase {
     
     @Test
-    public void testFormatTimeForEvaluation(){
+    public void testFormatTimeForEvaluation() {
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         
         c.set(Calendar.HOUR_OF_DAY, 9);
-        assertEquals("9", TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
+        assertEquals(9, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
         
         c.set(Calendar.HOUR_OF_DAY, 22);
         c.set(Calendar.MINUTE, 59);
-        assertEquals("22", TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
+        assertEquals(22, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
         
         //special cases that returns 24
         
         c.set(Calendar.HOUR_OF_DAY, 0);
-        assertEquals("24", TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
+        assertEquals(24, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
         
         c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MINUTE, 59);
-        assertEquals("24", TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
+        assertEquals(24, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
         
     }
     
     @Test
-    public void testCombineDateTime() throws ParseException{
+    public void testCombineDateTime() {
         String testDate = "01/02/2013";
         String testTime = "0";
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.clear();
-        cal.set(2013, 1, 1, 0, 0, 0);        
+        cal.set(2013, 1, 1, 0, 0, 0);
         Date expectedOutput = cal.getTime();
         
         testTime = "0";

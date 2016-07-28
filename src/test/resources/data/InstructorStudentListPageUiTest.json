@@ -40,23 +40,19 @@
   "courses": {
     "course1": {
       "id": "course1",
-      "name": "Name of Course 1",
-      "isArchived": false
+      "name": "Name of Course 1"
     },
     "course2": {
       "id": "course2",
-      "name": "Name of Course 2",
-      "isArchived": false
+      "name": "Name of Course 2"
     },
     "course3": {
       "id": "course3",
-      "name": "Name of Course 3",
-      "isArchived": false
+      "name": "Name of Course 3"
     },
     "course4": {
       "id": "course4",
-      "name": "Name of Course 4",
-      "isArchived": true
+      "name": "Name of Course 4"
     }
   },
 
@@ -67,6 +63,7 @@
       "name": "Instructor1 Course1</td></div>'\"",
       "email": "instr@course1.tmt",
       "role":"Co-owner",
+      "isArchived":false,
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
       "privileges": {
@@ -93,6 +90,7 @@
       "name": "Instructor1 Course4</td></div>'\"",
       "email": "instr@course4.tmt",
       "role":"Co-owner",
+      "isArchived":false,
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
       "privileges": {
@@ -119,6 +117,7 @@
       "name": "Instructor1 Course2</td></div>'\"",
       "email": "iwithtwoc@yahoo.tmt",
       "role":"Custom",
+      "isArchived":false,
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
       "privileges": {
@@ -145,6 +144,7 @@
       "name": "Instructor1 Course3</td></div>'\"",
       "email": "iwithtwoc@yahoo.tmt",
       "role":"Co-owner",
+      "isArchived":false,
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
       "privileges": {
@@ -171,6 +171,7 @@
       "name": "Instructor1 Course4</td></div>'\"",
       "email": "instr@course4.tmt",
       "role":"Co-owner",
+      "isArchived":false,
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
       "privileges": {
@@ -197,6 +198,7 @@
       "name": "Instructor1 Course4</td></div>'\"",
       "email": "instr@course4.tmt",
       "role":"Co-owner",
+      "isArchived":true,
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
       "privileges": {

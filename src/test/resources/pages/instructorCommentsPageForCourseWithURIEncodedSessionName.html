@@ -49,7 +49,7 @@
             <div class="well well-plain" id="more-options">
               <form class="form-horizontal" role="form">
                 <div class="row">
-                  <div class="col-sm-4">
+                  <div class="col-sm-4 filter-options">
                     <div class="text-color-primary">
                       <strong>
                         Show comments for:
@@ -78,7 +78,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-4 filter-options">
                     <div class="text-color-primary">
                       <strong>
                         Show comments from:
@@ -107,7 +107,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-4 filter-options">
                     <div class="text-color-primary">
                       <strong>
                         Show comments with status:
@@ -197,7 +197,7 @@
     </div>
     <div id="panel_display-1">
       <br>
-      <div class="panel panel-primary">
+      <div class="panel panel-primary student-comments-panel">
         <div class="panel-heading cursor-pointer" data-target="#panelBodyCollapse" data-toggle="collapse" onclick="toggleChevron(this)">
           <div class="display-icon pull-right">
             <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -232,7 +232,7 @@
                       <span class="glyphicon glyphicon-trash glyphicon-primary">
                       </span>
                     </a>
-                    <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1" onclick="return enableEdit('1', '0');" style="display: none;" title="" type="button">
+                    <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1" onclick="return enableEdit(1, 0);" style="display: none;" title="" type="button">
                       <span class="glyphicon glyphicon-pencil glyphicon-primary">
                       </span>
                     </a>
@@ -266,13 +266,13 @@
                                 User/Group
                               </th>
                               <th class="text-center">
-                                Can see your comment
+                                Can see this comment
                               </th>
                               <th class="text-center">
-                                Can see giver's name
+                                Can see comment giver's name
                               </th>
                               <th class="text-center">
-                                Can see recipient's name
+                                Can see comment recipient's name
                               </th>
                             </tr>
                             <tr id="recipient-team1">
@@ -370,7 +370,7 @@
     </div>
     <div id="panel_display-2">
       <br>
-      <div class="panel panel-primary">
+      <div class="panel panel-primary feedback-session-panel">
         <div class="panel-heading loaded" onclick="loadFeedbackResponseComments('comments.idOfInstructorOfCourseWithUriChars','comments.idOfUriCharsCourse','comments.Session with name ,?:@=+$#', '1', this, true);" style="cursor: pointer;">
           <strong>
             Comments in session: comments.Session with name ,?:@=+$#
@@ -386,7 +386,7 @@
         </div>
         <div class="panel-collapse collapse in" style="height: auto;">
           <div class="panel-body">
-            <div class="panel panel-info">
+            <div class="panel panel-info feedback-question-panel">
               <div class="panel-heading">
                 <b>
                   Question 1
@@ -395,7 +395,7 @@
               </div>
               <table class="table">
                 <tbody>
-                  <tr>
+                  <tr class="feedback-response-giver-recipient-row table-row-1-1-1">
                     <td>
                       <b>
                         From:
@@ -407,7 +407,7 @@
                       student In Course# (Team #.1)
                     </td>
                   </tr>
-                  <tr>
+                  <tr class="table-row-1-1-1">
                     <td>
                       <strong>
                         Response:
@@ -415,7 +415,7 @@
                       I like the feedback session name.
                     </td>
                   </tr>
-                  <tr class="active">
+                  <tr class="active table-row-1-1-1">
                     <td>
                       Comment(s):
                       <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment-1-1-1" onclick="showResponseCommentAddForm(1,1,1)" title="" type="button">
@@ -424,7 +424,7 @@
                       </button>
                     </td>
                   </tr>
-                  <tr>
+                  <tr class="table-row-1-1-1">
                     <td>
                       <ul class="list-group comments" id="responseCommentTable-1-1-1">
                         <li class="list-group-item list-group-item-warning giver_display-by-you status_display-private" id="responseCommentRow-1-1-1-1">
@@ -479,10 +479,10 @@
                                       User/Group
                                     </th>
                                     <th class="text-center">
-                                      Can see your comment
+                                      Can see this comment
                                     </th>
                                     <th class="text-center">
-                                      Can see your name
+                                      Can see comment giver's name
                                     </th>
                                   </tr>
                                   <tr id="response-giver-1-1-1-1">
@@ -546,7 +546,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-1" onclick="toggleVisibilityEditForm(1,1,1)">
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-1" onclick="toggleVisibilityAddForm(1,1,1)">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -563,10 +563,10 @@
                                       User/Group
                                     </th>
                                     <th class="text-center">
-                                      Can see your comment
+                                      Can see this comment
                                     </th>
                                     <th class="text-center">
-                                      Can see your name
+                                      Can see comment giver's name
                                     </th>
                                   </tr>
                                   <tr id="response-giver-1-1-1">
@@ -614,8 +614,8 @@
                             <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse">
                             <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#">
                             <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER,INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER,INSTRUCTORS">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
                           </form>
                         </li>
                       </ul>

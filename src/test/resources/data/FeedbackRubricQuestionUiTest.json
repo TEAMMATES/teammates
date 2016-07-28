@@ -216,6 +216,8 @@
                         \"questionType\":\"RUBRIC\",
                         \"numOfRubricChoices\" : 2, \"numOfRubricSubQuestions\" : 2,
                         \"rubricChoices\" : [\"Yes\", \"No\"],
+                        \"hasAssignedWeights\" : true,
+                        \"rubricWeights\" : [1.01, -0.99],
                         \"rubricSubQuestions\" : [\"This student has done a good job.\",\"This student has tried his/her best.\"],
                         \"rubricDescriptions\" : [[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]
                         }"

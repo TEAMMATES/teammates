@@ -8,10 +8,10 @@ package teammates.common.datatransfer;
  * <br> * The total number of unregistered students in the course.
  */
 public class CourseStats {
-	public int sectionsTotal = 0;
-    public int teamsTotal = 0;
-    public int studentsTotal = 0;
-    public int unregisteredTotal = 0;
+    public int sectionsTotal;
+    public int teamsTotal;
+    public int studentsTotal;
+    public int unregisteredTotal;
     
     public int getSectionsTotal() {
         return sectionsTotal;

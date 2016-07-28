@@ -1,10 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -29,7 +24,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT;
     }
     
@@ -45,7 +40,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         
         String giverEmail = "student1InCourse1@gmail.tmt";
         String receiverEmail = "student1InCourse1@gmail.tmt";
-        FeedbackResponseAttributes feedbackResponse = 
+        FeedbackResponseAttributes feedbackResponse =
                 feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(), giverEmail, receiverEmail);
         
         FeedbackResponseCommentAttributes feedbackResponseComment =
@@ -297,7 +292,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText 
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText
                                                                 + " (Edited for published session)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS"
@@ -331,7 +326,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
     }
     
-    private InstructorFeedbackResponseCommentEditAction getAction(String... params) throws Exception {
+    private InstructorFeedbackResponseCommentEditAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentEditAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -9,7 +7,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.logic.api.Logic;
 import teammates.ui.controller.InstructorStudentRecordsAjaxPageAction;
 import teammates.ui.controller.InstructorStudentRecordsAjaxPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -17,7 +14,6 @@ import teammates.ui.controller.ShowPageResult;
 public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    Logic logic = new Logic();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -27,7 +23,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
         String instructorId = instructor.googleId;
@@ -47,7 +43,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX + "?error=false&user=idOfInstructor3",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         InstructorStudentRecordsAjaxPageData data = (InstructorStudentRecordsAjaxPageData) r.data;
@@ -69,7 +65,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX + "?error=false&user=idOfHelperOfCourse1",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         data = (InstructorStudentRecordsAjaxPageData) r.data;
@@ -77,7 +73,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         
     }
 
-    private InstructorStudentRecordsAjaxPageAction getAction(String... params) throws Exception {
+    private InstructorStudentRecordsAjaxPageAction getAction(String... params) {
         return (InstructorStudentRecordsAjaxPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

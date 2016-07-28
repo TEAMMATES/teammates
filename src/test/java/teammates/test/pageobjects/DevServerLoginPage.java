@@ -3,7 +3,6 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-
 public class DevServerLoginPage extends LoginPage {
     
     @FindBy(id = "email")
@@ -15,23 +14,19 @@ public class DevServerLoginPage extends LoginPage {
     @FindBy(xpath = "/html/body/form/div/p[3]/input[1]")
     private WebElement loginButton;
 
-    public DevServerLoginPage(Browser browser){
+    public DevServerLoginPage(Browser browser) {
         super(browser);
     }
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return containsExpectedPageContents(getPageSource());
-    }
-    
-    public static boolean containsExpectedPageContents(String pageSource) {
-        return pageSource.contains("<h3>Not logged in</h3>");
+        return getPageSource().contains("<h3>Not logged in</h3>");
     }
 
     @Override
     public InstructorHomePage loginAsInstructor(String username, String password) {
         fillTextBox(emailTextBox, username);
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorHomePage.class);
@@ -39,19 +34,19 @@ public class DevServerLoginPage extends LoginPage {
 
     @Override
     public AppPage loginAsInstructorUnsuccessfully(String userName, String password) {
-            fillTextBox(emailTextBox, userName);
-            loginButton.click();
-            waitForPageToLoad();
-            browser.isAdminLoggedIn = false;
-            return this;
+        fillTextBox(emailTextBox, userName);
+        click(loginButton);
+        waitForPageToLoad();
+        browser.isAdminLoggedIn = false;
+        return this;
     }
 
     @Override
     public void loginAdminAsInstructor(
             String adminUsername, String adminPassword, String instructorUsername) {
         fillTextBox(emailTextBox, instructorUsername);
-        isAdminCheckBox.click();
-        loginButton.click();
+        click(isAdminCheckBox);
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = true;
     }
@@ -64,7 +59,7 @@ public class DevServerLoginPage extends LoginPage {
     @Override
     public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
         fillTextBox(emailTextBox, username);
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return changePageType(typeOfPage);
@@ -73,7 +68,7 @@ public class DevServerLoginPage extends LoginPage {
     @Override
     public StudentCourseJoinConfirmationPage loginAsJoiningStudent(String username, String password) {
         fillTextBox(emailTextBox, username);
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return changePageType(StudentCourseJoinConfirmationPage.class);
@@ -82,7 +77,7 @@ public class DevServerLoginPage extends LoginPage {
     @Override
     public InstructorCourseJoinConfirmationPage loginAsJoiningInstructor(String username, String password) {
         fillTextBox(emailTextBox, username);
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorCourseJoinConfirmationPage.class);
@@ -91,11 +86,10 @@ public class DevServerLoginPage extends LoginPage {
     @Override
     public InstructorHomePage loginAsJoiningInstructorByPassConfirmation(String username, String password) {
         fillTextBox(emailTextBox, username);
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorHomePage.class);
     }
-    
-    
+
 }

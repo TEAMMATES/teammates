@@ -11,13 +11,13 @@ import teammates.logic.api.Logic;
 import teammates.storage.datastore.Datastore;
 
 public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
-    
-    
+
     public static void main(String[] args) throws IOException {
         ModifyInstituteOfStudentsInCourse modifyInstituteOfStudentsInCourse = new ModifyInstituteOfStudentsInCourse();
         modifyInstituteOfStudentsInCourse.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize();
         Logic logic = new Logic();
@@ -26,21 +26,21 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
         System.out.println("Enter course to edit: ");
         String courseId = scanner.nextLine();
         System.out.println("Enter new institute name: ");
-        String institute = scanner.nextLine(); 
+        String institute = scanner.nextLine();
         
         try {
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
             
-            for(StudentAttributes student : students) {
+            for (StudentAttributes student : students) {
                 
                 //Account might be null if student was enrolled but not joined yet
-                if(student.googleId == null || student.googleId.isEmpty()) {
+                if (student.googleId == null || student.googleId.isEmpty()) {
                     continue;
                 }
                 
                 AccountAttributes account = logic.getAccount(student.googleId);
                 
-                System.out.println("changed for "+account.email + " from "+account.institute + " to "+ institute);
+                System.out.println("changed for " + account.email + " from " + account.institute + " to " + institute);
                 account.institute = institute;
                 logic.updateAccount(account);
             }

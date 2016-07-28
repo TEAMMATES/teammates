@@ -15,11 +15,10 @@ public class AdminSessionsPage extends AppPage {
     }
     
     public void clickDetailButton() {
-        this.getDetailButton().click();
-        this.waitForPageToLoad();
+        click(getDetailButton());
+        waitForPageToLoad();
     }
-    
-    
+
     private WebElement getDetailButton() {
         return browser.driver.findElement(By.id("detailButton"));
     }

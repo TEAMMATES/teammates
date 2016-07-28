@@ -20,7 +20,7 @@ public class InstructorFeedbackResultsModerationButton {
         
         this.isDisabled = isDisabled;
         this.className = className;
-        this.questionId = question != null ? question.getId() : null;
+        this.questionId = question == null ? null : question.getId();
         this.giverIdentifier = giverIdentifier;
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;

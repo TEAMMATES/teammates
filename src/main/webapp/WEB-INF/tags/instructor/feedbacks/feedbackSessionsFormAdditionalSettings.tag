@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
-<%@ tag import="teammates.logic.core.Emails.EmailType" %>
+<%@ tag import="teammates.common.util.EmailType" %>
 
 <%@ attribute name="additionalSettings" type="teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment" required="true"%>
 <div class="panel panel-primary" style="display:none;" id="sessionResponsesVisiblePanel">

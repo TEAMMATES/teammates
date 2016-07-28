@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.datatransfer.UserType;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.PageNotFoundException;
@@ -19,34 +18,36 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Utils;
+import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
+
 /**
- * Receives requests from the Browser, executes the matching action and sends 
+ * Receives requests from the Browser, executes the matching action and sends
  * the result back to the Browser. The result can be a page to view or instructions
- * for the Browser to send another request for a different follow up Action.   
+ * for the Browser to send another request for a different follow up Action.
  */
 @SuppressWarnings("serial")
 public class ControllerServlet extends HttpServlet {
 
-    protected static final Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
 
     @Override
-    public final void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    public final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         this.doPost(req, resp);
     }
 
     @Override
-    public final void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    @SuppressWarnings("PMD.AvoidCatchingThrowable") // used as fallback
+    public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        try{
+        try {
             /* We are using the Template Method Design Pattern here.
              * This method contains the high level logic of the the request processing.
              * Concrete details of the processing steps are to be implemented by child
@@ -69,13 +70,13 @@ public class ControllerServlet extends HttpServlet {
             long timeTaken = System.currentTimeMillis() - startTime;
             // This is the log message that is used to generate the 'activity log' for the admin.
             
-            log.info(c.getLogMessage() + "|||"+ timeTaken);
+            log.info(c.getLogMessage() + "|||" + timeTaken);
             
         } catch (PageNotFoundException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
-        } catch (EntityDoesNotExistException e) {
+        } catch (EntityNotFoundException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
@@ -92,8 +93,8 @@ public class ControllerServlet extends HttpServlet {
             resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
 
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
-            /*This exception may not be caught because GAE kills 
-              the request soon after throwing it. In that case, the error 
+            /*This exception may not be caught because GAE kills
+              the request soon after throwing it. In that case, the error
               message in the log will be emailed to the admin by a separate
               cron job.*/
             cleanUpStatusMessageInSession(req);
@@ -106,7 +107,8 @@ public class ControllerServlet extends HttpServlet {
             cleanUpStatusMessageInSession(req);
             
             List<StatusMessage> statusMessagesToUser = new ArrayList<StatusMessage>();
-            statusMessagesToUser.add(new StatusMessage(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, StatusMessageColor.WARNING));
+            statusMessagesToUser.add(new StatusMessage(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
+                                                       StatusMessageColor.WARNING));
             req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST, statusMessagesToUser);
             
             if (requestUrl.contains("/instructor")) {
@@ -119,18 +121,25 @@ public class ControllerServlet extends HttpServlet {
                 cleanUpStatusMessageInSession(req);
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
-        } catch (Throwable e) {
-            MimeMessage email = new Logic().emailErrorReport(req, e);
+        } catch (Throwable t) {
+            String requestMethod = req.getMethod();
+            String requestUserAgent = req.getHeader("User-Agent");
+            String requestPath = req.getServletPath();
+            String requestUrl = req.getRequestURL().toString();
+            String requestParams = HttpRequestHelper.printRequestParameters(req);
+            UserType userType = new GateKeeper().getCurrentUser();
+            EmailWrapper email = new Logic().emailErrorReport(requestMethod, requestUserAgent, requestPath,
+                                                              requestUrl, requestParams, userType, t);
             if (email != null) {
                 log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));
             }
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
-        }  
+        }
         
     }
     
-    private void cleanUpStatusMessageInSession(HttpServletRequest req){
+    private void cleanUpStatusMessageInSession(HttpServletRequest req) {
         req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
     }
 }

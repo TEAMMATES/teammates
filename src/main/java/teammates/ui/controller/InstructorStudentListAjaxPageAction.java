@@ -43,21 +43,23 @@ public class InstructorStudentListAjaxPageAction extends Action {
             for (TeamDetailsBundle teamDetails : sectionDetails.teams) {
                 for (StudentAttributes student : teamDetails.students) {
                     String studentPhotoUrl = student.getPublicProfilePictureUrl();
-                    studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl, 
+                    studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl,
                                                     Const.ParamsNames.USER_ID, account.googleId);
                     emailPhotoUrlMapping.put(student.email, studentPhotoUrl);
                 }
             }
             Map<String, Boolean> sectionPrivilege = new HashMap<String, Boolean>();
             sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
-                                 instructor.isAllowedForPrivilege(sectionDetails.name,
-                                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+                                 instructor.isAllowedForPrivilege(
+                                         sectionDetails.name,
+                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
             sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,
                                  instructor.isAllowedForPrivilege(sectionDetails.name,
                                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
             sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
-                                 instructor.isAllowedForPrivilege(sectionDetails.name,
-                                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+                                 instructor.isAllowedForPrivilege(
+                                         sectionDetails.name,
+                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
             sectionPrivileges.put(sectionDetails.name, sectionPrivilege);
         }
         

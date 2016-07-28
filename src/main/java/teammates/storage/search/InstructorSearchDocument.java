@@ -13,13 +13,13 @@ public class InstructorSearchDocument extends SearchDocument {
     private InstructorAttributes instructor;
     private CourseAttributes course;
     
-    public InstructorSearchDocument(InstructorAttributes instructor){
+    public InstructorSearchDocument(InstructorAttributes instructor) {
         this.instructor = instructor;
     }
     
     @Override
     protected void prepareData() {
-        if(instructor == null){
+        if (instructor == null) {
             return;
         }
         
@@ -36,19 +36,21 @@ public class InstructorSearchDocument extends SearchDocument {
         //courseId, courseName, instructorName, instructorEmail,
         // instructorGoogleId, instructorRole
         StringBuilder searchableTextBuilder = new StringBuilder("");
-        searchableTextBuilder.append(instructor.courseId).append(delim);
-        searchableTextBuilder.append(course != null ? course.name : "").append(delim);
-        searchableTextBuilder.append(instructor.name).append(delim);
-        searchableTextBuilder.append(instructor.email).append(delim);
-        searchableTextBuilder.append(instructor.googleId != null ? instructor.googleId : "").append(delim);
-        searchableTextBuilder.append(instructor.role).append(delim);
-        searchableTextBuilder.append(instructor.displayedName).append(delim);
+        searchableTextBuilder.append(instructor.courseId).append(delim)
+                             .append(course == null ? "" : course.getName()).append(delim)
+                             .append(instructor.name).append(delim)
+                             .append(instructor.email).append(delim)
+                             .append(instructor.googleId == null ? "" : instructor.googleId).append(delim)
+                             .append(instructor.role).append(delim)
+                             .append(instructor.displayedName).append(delim);
         
         Document doc = Document.newBuilder()
                        //searchableText is used to match the query string
-                       .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
+                       .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
+                                                   .setText(searchableTextBuilder.toString()))
                        //attribute field is used to convert a doc back to attribute
-                       .addField(Field.newBuilder().setName(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).setText(instructor.getJsonString()))
+                       .addField(Field.newBuilder().setName(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE)
+                                                   .setText(instructor.getJsonString()))
                        .setId(StringHelper.encrypt(instructor.key))
                        .build();
                 

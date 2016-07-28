@@ -5,9 +5,12 @@ $(document).ready(function() {
     
     var navbar = document.getElementsByClassName('navbar')[0];
     
-    if (navbar != null) {
+    if (navbar !== undefined) {
         navbarHeight = navbar.offsetHeight;
     }
     
-    scrollToElement(statusMessage, {type: 'view', offset: (navbarHeight + extraPadding) * -1});
+    scrollToElement(statusMessage, {
+        type: 'view',
+        offset: (navbarHeight + extraPadding) * -1
+    });
 });

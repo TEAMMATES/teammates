@@ -27,20 +27,19 @@ public class InstructorFeedbackEditPageAction extends Action {
         
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId), 
+                logic.getInstructorForGoogleId(courseId, account.googleId),
                 feedbackSession,
                 false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        List<FeedbackQuestionAttributes> copiableQuestions = logic.getCopiableFeedbackQuestionsForInstructor(account.googleId);
         
         Map<String, Boolean> questionHasResponses = new HashMap<String, Boolean>();
         
         for (FeedbackQuestionAttributes question : questions) {
             boolean hasResponse = logic.isQuestionHasResponses(question.getId());
-            questionHasResponses.put(question.getId(), hasResponse); 
+            questionHasResponses.put(question.getId(), hasResponse);
         }
         
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
@@ -51,13 +50,13 @@ public class InstructorFeedbackEditPageAction extends Action {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        statusToAdmin = "instructorFeedbackEdit Page Load<br>" 
+        statusToAdmin = "instructorFeedbackEdit Page Load<br>"
                         + "Editing information for Feedback Session "
                         + "<span class=\"bold\">[" + feedbackSessionName + "]</span>"
                         + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
         
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
-        data.init(feedbackSession, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
+        data.init(feedbackSession, questions, questionHasResponses, studentList, instructorList, instructor);
            
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }
@@ -79,4 +78,3 @@ public class InstructorFeedbackEditPageAction extends Action {
         }
     }
 }
- 

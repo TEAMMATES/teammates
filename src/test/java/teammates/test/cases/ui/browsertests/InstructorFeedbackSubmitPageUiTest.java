@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -33,7 +27,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -124,7 +118,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(17, 0, 1, "10");
 
         // Just check that some of the responses persisted.
-        FeedbackQuestionAttributes fq = 
+        FeedbackQuestionAttributes fq =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 2);
         FeedbackQuestionAttributes fqPartial =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 6);
@@ -154,7 +148,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.clickSubmitButton();
 
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         assertNotNull(BackDoor.getFeedbackResponse(
                                    fq.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.alice.b@gmail.tmt"));
@@ -190,7 +184,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(6, 2, "UI");
 
         // Click on "None of the above", the option will be deselected when another option is clicked
-        submitPage.toggleMsqOption(7, 0, ""); 
+        submitPage.toggleMsqOption(7, 0, "");
         submitPage.toggleMsqOption(7, 0, "UI");
         submitPage.toggleMsqOption(7, 0, "Algo");
         submitPage.toggleMsqOption(7, 0, "Design");
@@ -257,7 +251,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.clickSubmitButton();
 
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         assertEquals(editedResponse,
                     BackDoor.getFeedbackResponse(
                                  fq.getId(), "IFSubmitUiT.instr@gmail.tmt",
@@ -273,7 +267,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         FeedbackMsqResponseDetails frMsq =
                 (FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(
-                        fqMsq.getId(), "IFSubmitUiT.instr@gmail.tmt", 
+                        fqMsq.getId(), "IFSubmitUiT.instr@gmail.tmt",
                         "IFSubmitUiT.instr2@gmail.tmt").getResponseDetails();
 
         assertFalse(frMsq.contains("UI"));
@@ -294,23 +288,23 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         assertEquals("70, 30", frConstSum.getAnswerString());
 
-        FeedbackConstantSumResponseDetails frConstSum2_0 =
+        FeedbackConstantSumResponseDetails frConstSum0 =
                 (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(
                          fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 1</td></div>'\"").getResponseDetails();
 
-        assertEquals("90", frConstSum2_0.getAnswerString());
+        assertEquals("90", frConstSum0.getAnswerString());
 
-        FeedbackConstantSumResponseDetails frConstSum2_1 =
+        FeedbackConstantSumResponseDetails frConstSum1 =
                 (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(
                          fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 2").getResponseDetails();
 
-        assertEquals("110", frConstSum2_1.getAnswerString());
+        assertEquals("110", frConstSum1.getAnswerString());
 
-        FeedbackConstantSumResponseDetails frConstSum2_2 =
+        FeedbackConstantSumResponseDetails frConstSum2 =
                 (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(
                          fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 3").getResponseDetails();
 
-        assertEquals("100", frConstSum2_2.getAnswerString());
+        assertEquals("100", frConstSum2.getAnswerString());
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageFullyFilled.html");
@@ -337,6 +331,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Nothing much to test for input validation.
         // Test fields are disabled when session is closed.
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
+        submitPage.waitForAndDismissAlertModal();
 
         // Test input disabled
         int qnNumber = 1;
@@ -461,6 +456,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // Test input disabled
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
+        submitPage.waitForAndDismissAlertModal();
 
         int qnNumber = 5;
         int responseNumber = 0;
@@ -485,7 +481,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "");
         assertEquals("70 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "");
-        assertEquals("Please distribute 100 points among the above options.", 
+        assertEquals("Please distribute 100 points among the above options.",
                      submitPage.getConstSumMessage(qnNumber, 0));
 
         // Test error message when submitting
@@ -493,9 +489,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("90 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
 
         submitPage.clickSubmitButton();
-        assertEquals("Please fix the error(s) for distribution question(s) 17, 18, 19."
-                     + " To skip a distribution question, leave the boxes blank.",
-                     submitPage.getStatus());
+        submitPage.verifyStatus("Please fix the error(s) for distribution question(s) 17, 18, 19."
+                                + " To skip a distribution question, leave the boxes blank.");
 
         // Test error message for const sum (to recipient) qn with uneven distribution
         qnNumber = 19;
@@ -522,9 +517,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                      submitPage.getConstSumMessage(qnNumber, 3));
 
         submitPage.clickSubmitButton();
-        assertEquals("Please fix the error(s) for distribution question(s) 17, 18, 19."
-                     + " To skip a distribution question, leave the boxes blank.",
-                     submitPage.getStatus());
+        submitPage.verifyStatus("Please fix the error(s) for distribution question(s) 17, 18, 19."
+                                + " To skip a distribution question, leave the boxes blank.");
 
         // Test error message for const sum (to options) qn with uneven distribution
         qnNumber = 20;
@@ -559,6 +553,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         int qnNumber = 1;
         int responseNumber = 0;
 
+        submitPage.waitForAndDismissAlertModal();
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-"
                                                     + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-"
@@ -593,8 +588,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(String instructorName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                           .withUserId(testData.instructors.get(instructorName).googleId)
-                          .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                          .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                          .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                          .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
 
@@ -602,8 +597,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
             String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                           .withUserId(testData.students.get(studentName).googleId)
-                          .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                          .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                          .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                          .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
 
@@ -615,7 +610,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

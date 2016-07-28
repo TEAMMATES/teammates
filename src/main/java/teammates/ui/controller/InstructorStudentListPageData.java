@@ -29,12 +29,14 @@ public class InstructorStudentListPageData extends PageData {
                                         new ArrayList<InstructorStudentListStudentsTableCourse>();
         for (InstructorStudentListPageCourseData islpcData : coursesToDisplay) {
             CourseAttributes course = islpcData.course;
-            coursesForFilter.add(new InstructorStudentListFilterCourse(course.id, course.name));
-            coursesForStudentsTable.add(
-                                            new InstructorStudentListStudentsTableCourse(islpcData.isCourseArchived,
-                                                                            course.id, course.name, account.googleId,
-                                                                            getInstructorCourseEnrollLink(course.id),
-                                                                            islpcData.isInstructorAllowedToModify));
+            coursesForFilter.add(new InstructorStudentListFilterCourse(course.getId(), course.getName()));
+
+            InstructorStudentListStudentsTableCourse courseForStudentsTable =
+                    new InstructorStudentListStudentsTableCourse(islpcData.isCourseArchived, course.getId(),
+                                                                 course.getName(), account.googleId,
+                                                                 getInstructorCourseEnrollLink(course.getId()),
+                                                                 islpcData.isInstructorAllowedToModify);
+            coursesForStudentsTable.add(courseForStudentsTable);
         }
         this.filterBox = new InstructorStudentListFilterBox(coursesForFilter, displayArchive);
         this.studentsTable = coursesForStudentsTable;

@@ -44,10 +44,10 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     
     private CourseTable createCourseTable(CourseAttributes course, InstructorAttributes instructor,
             List<FeedbackSessionAttributes> feedbackSessions, int pendingCommentsCount) {
-        String courseId = course.id;
+        String courseId = course.getId();
         return new CourseTable(course,
                                createCourseTableLinks(instructor, courseId, pendingCommentsCount),
-                               createSessionRows(feedbackSessions, instructor, courseId));
+                               createSessionRows(feedbackSessions, instructor));
     }
     
     private ElementTag createButton(String text, String className, String href, String tooltip) {
@@ -124,7 +124,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     }
     
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
-            InstructorAttributes instructor, String courseId) {
+            InstructorAttributes instructor) {
         List<HomeFeedbackSessionRow> rows = new ArrayList<>();
         
         int statsToDisplayLeft = MAX_CLOSED_SESSION_STATS;
@@ -132,18 +132,20 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
             
             boolean isRecent = session.isOpened() || session.isWaitingToOpen();
             if (!isRecent && statsToDisplayLeft > 0
-                          && !TimeHelper.isOlderThanAYear(session.createdTime)) {
+                          && !TimeHelper.isOlderThanAYear(session.getCreatedTime())) {
                 isRecent = true;
                 --statsToDisplayLeft;
             }
             
             InstructorHomeFeedbackSessionRow row = new InstructorHomeFeedbackSessionRow(
-                    sanitizeForHtml(session.feedbackSessionName),
+                    sanitizeForHtml(session.getFeedbackSessionName()),
                     getInstructorHoverMessageForFeedbackSession(session),
                     getInstructorStatusForFeedbackSession(session),
-                    TimeHelper.formatDateTimeForInstructorHomePage(session.startTime),
-                    TimeHelper.formatDateTimeForInstructorHomePage(session.endTime),
-                    getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.getStartTime()),
+                    session.getStartTimeString(),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.getEndTime()),
+                    session.getEndTimeString(),
+                    getInstructorFeedbackStatsLink(session.getCourseId(), session.getFeedbackSessionName()),
                     isRecent,
                     getInstructorFeedbackSessionActions(
                             session, Const.ActionURIs.INSTRUCTOR_HOME_PAGE, instructor));

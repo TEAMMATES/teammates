@@ -8,8 +8,6 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackResponse;
 
@@ -17,41 +15,49 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class FeedbackResponseAttributes extends EntityAttributes {
-    private String feedbackResponseId = null;
     public String feedbackSessionName;
     public String courseId;
     public String feedbackQuestionId;
     public FeedbackQuestionType feedbackQuestionType;
-    public String giverEmail;
+    /**
+    * Depending on the question giver type, {@code giver} may contain the giver's email, the team name,
+    * "anonymous", etc.
+    */
+    public String giver;
     public String giverSection;
-    public String recipientEmail; // TODO rename back "recipient" as it may contain team name and "%GENERAL%"?
+    /**
+     * Depending on the question recipient type, {@code recipient} may contain the recipient's email, the team
+     * name, "%GENERAL%", etc.
+     */
+    public String recipient;
     public String recipientSection;
-    private transient Date createdAt;
-    private transient Date updatedAt;
     
     /** Contains the JSON formatted string that holds the information of the response details <br>
      * Don't use directly unless for storing/loading from data store <br>
-     * To get the answer text use {@code getResponseDetails().getAnswerString()} 
+     * To get the answer text use {@code getResponseDetails().getAnswerString()}
      * 
      * This is set to null to represent a missing response.
      */
     public Text responseMetaData;
+    protected transient Date createdAt;
+    protected transient Date updatedAt;
+    private String feedbackResponseId;
     
     public FeedbackResponseAttributes() {
-        
+        // attributes to be set after construction
     }
     
     public FeedbackResponseAttributes(String feedbackSessionName,
             String courseId, String feedbackQuestionId,
             FeedbackQuestionType feedbackQuestionType, String giverEmail, String giverSection,
             String recipientEmail, String recipientSection, Text responseMetaData) {
-        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.feedbackSessionName = feedbackSessionName;
+        this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
         this.feedbackQuestionType = feedbackQuestionType;
-        this.giverEmail = Sanitizer.sanitizeEmail(giverEmail);
+        this.giver = giverEmail;
         this.giverSection = giverSection;
-        this.recipientEmail = recipientEmail;
+        this.recipient = recipientEmail;
         this.recipientSection = recipientSection;
         this.responseMetaData = responseMetaData;
     }
@@ -62,9 +68,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.courseId = fr.getCourseId();
         this.feedbackQuestionId = fr.getFeedbackQuestionId();
         this.feedbackQuestionType = fr.getFeedbackQuestionType();
-        this.giverEmail = fr.getGiverEmail();
+        this.giver = fr.getGiverEmail();
         this.giverSection = (fr.getGiverSection() == null) ? Const.DEFAULT_SECTION : fr.getGiverSection();
-        this.recipientEmail = fr.getRecipientEmail();
+        this.recipient = fr.getRecipientEmail();
         this.recipientSection = (fr.getRecipientSection() == null) ? Const.DEFAULT_SECTION : fr.getRecipientSection();
         this.responseMetaData = fr.getResponseMetaData();
         this.createdAt = fr.getCreatedAt();
@@ -77,9 +83,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.courseId = copy.courseId;
         this.feedbackQuestionId = copy.feedbackQuestionId;
         this.feedbackQuestionType = copy.feedbackQuestionType;
-        this.giverEmail = copy.giverEmail;
+        this.giver = copy.giver;
         this.giverSection = copy.giverSection;
-        this.recipientEmail = copy.recipientEmail;
+        this.recipient = copy.recipient;
         this.recipientSection = copy.recipientSection;
         this.responseMetaData = copy.responseMetaData;
         this.createdAt = copy.createdAt;
@@ -109,11 +115,15 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForCourseId(courseId);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         return errors;
     }
@@ -124,15 +134,15 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     }
     
     @Override
-    public Object toEntity() {
+    public FeedbackResponse toEntity() {
         return new FeedbackResponse(feedbackSessionName, courseId,
                 feedbackQuestionId, feedbackQuestionType,
-                giverEmail, giverSection, recipientEmail, recipientSection, responseMetaData);
+                giver, giverSection, recipient, recipientSection, responseMetaData);
     }
     
     @Override
     public String getIdentificationString() {
-        return feedbackQuestionId + "/" + giverEmail + ":" + recipientEmail;
+        return feedbackQuestionId + "/" + giver + ":" + recipient;
     }
     
     @Override
@@ -151,7 +161,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
                 + feedbackSessionName + ", courseId=" + courseId
                 + ", feedbackQuestionId=" + feedbackQuestionId
                 + ", feedbackQuestionType=" + feedbackQuestionType
-                + ", giverEmail=" + giverEmail + ", recipientEmail=" + recipientEmail
+                + ", giverEmail=" + giver + ", recipientEmail=" + recipient
                 + ", answer=" + responseMetaData + "]";
     }
 
@@ -162,20 +172,14 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
-        this.giverEmail = Sanitizer.sanitizeEmail(giverEmail);
-        this.giverSection = Sanitizer.sanitizeTitle(giverSection);
-        this.recipientEmail = Sanitizer.sanitizeEmail(recipientEmail);
-        this.recipientSection = Sanitizer.sanitizeTitle(recipientSection);
+        // nothing to sanitize before saving
     }
     
     /** This method converts the given Feedback*ResponseDetails object to JSON for storing
      * @param responseDetails
      */
     public void setResponseDetails(FeedbackResponseDetails responseDetails) {
-        Gson gson = teammates.common.util.Utils.getTeammatesGson();
+        Gson gson = Utils.getTeammatesGson();
         
         if (responseDetails == null) {
             // There was error extracting response data from http request
@@ -192,21 +196,21 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /** This method retrieves the Feedback*ResponseDetails object for this response
      * @return The Feedback*ResponseDetails object representing the response's details
      */
-    public FeedbackResponseDetails getResponseDetails(){
-        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
+    public FeedbackResponseDetails getResponseDetails() {
         
         if (isMissingResponse()) {
             return null;
         }
         
-        if(responseDetailsClass == FeedbackTextResponseDetails.class) {
+        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
+        
+        if (responseDetailsClass == FeedbackTextResponseDetails.class) {
             // For Text questions, the questionText simply contains the question, not a JSON
             // This is due to legacy data in the data store before there are multiple question types
             return new FeedbackTextResponseDetails(responseMetaData.getValue());
-        } else {
-            Gson gson = teammates.common.util.Utils.getTeammatesGson();
-            return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
         }
+        Gson gson = Utils.getTeammatesGson();
+        return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
     }
     
     /** This method gets the appropriate class type for the Feedback*ResponseDetails object
@@ -223,29 +227,16 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * It should only be used as a representation.
      */
     public boolean isMissingResponse() {
-       return responseMetaData == null; 
+        return responseMetaData == null;
     }
     
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
-        Collections.sort(frs, new Comparator<FeedbackResponseAttributes>(){
+        Collections.sort(frs, new Comparator<FeedbackResponseAttributes>() {
+            @Override
             public int compare(FeedbackResponseAttributes fr1, FeedbackResponseAttributes fr2) {
                 return fr1.getId().compareTo(fr2.getId());
             }
         });
-    }
-    
-    /**
-     * Should only be used for testing
-     */
-    public void setCreatedAt_NonProduction(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    /**
-     * Should only be used for testing
-     */
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
     
 }

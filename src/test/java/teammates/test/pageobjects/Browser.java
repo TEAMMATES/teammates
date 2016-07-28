@@ -1,30 +1,18 @@
 package teammates.test.pageobjects;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Stack;
 
 import org.openqa.selenium.WebDriver;
 
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import teammates.test.driver.TestProperties;
-
-import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 /**
  * A programmatic interface to the Browser used to test the app.
  */
 public class Browser {
-    
-    protected ChromeDriverService chromeService = null;
-    
     
     /**
      * The {@link WebDriver} object that drives the Browser instance.
@@ -47,7 +35,7 @@ public class Browser {
     public Browser() {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
-        isInUse = false; 
+        isInUse = false;
         isAdminLoggedIn = false;
     }
     
@@ -77,19 +65,13 @@ public class Browser {
     private WebDriver createWebDriver() {
         System.out.print("Initializing Selenium: ");
 
-        if (TestProperties.inst().BROWSER.equals("htmlunit")) {
-            System.out.println("Using HTMLUnit.");
-
-            HtmlUnitDriver htmlUnitDriver = new HtmlUnitDriver(BrowserVersion.FIREFOX_38);
-            htmlUnitDriver.setJavascriptEnabled(true);
-            return htmlUnitDriver;
-
-        } else if (TestProperties.inst().BROWSER.equals("firefox")) {
+        String browser = TestProperties.BROWSER;
+        if ("firefox".equals(browser)) {
             System.out.println("Using Firefox.");
-            String firefoxPath = TestProperties.inst().FIREFOX_PATH;
-            if(!firefoxPath.isEmpty()){
+            String firefoxPath = TestProperties.FIREFOX_PATH;
+            if (!firefoxPath.isEmpty()) {
                 System.out.println("Custom path: " + firefoxPath);
-                System.setProperty("webdriver.firefox.bin",firefoxPath);
+                System.setProperty("webdriver.firefox.bin", firefoxPath);
             }
 
             // Allow CSV files to be download automatically, without a download popup.
@@ -103,40 +85,10 @@ public class Browser {
             profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
             return new FirefoxDriver(profile);
 
-        } else if (TestProperties.inst().BROWSER.equals("chrome")) {
-
-            System.out.println("Using Chrome.");
-
-            // We use the technique given in
-            // http://code.google.com/p/selenium/wiki/ChromeDriver
-            ChromeDriverService service = startChromeDriverService();
-            return (new RemoteWebDriver(service.getUrl(), DesiredCapabilities.chrome()));
-
-        } else if (TestProperties.inst().BROWSER.equals("iexplore")) {
-            System.out.println("Using IE.");
-            File file = new File(TestProperties.getIEDriverPath());
-            System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
-
-            return new InternetExplorerDriver();
-        }else {
-            System.out.println("Using " + TestProperties.inst().BROWSER 
-                    + " is not supported!");
-            return null;
         }
+        System.out.println("Using " + browser + " is not supported!");
+        return null;
 
     }
     
-    private ChromeDriverService startChromeDriverService() {
-        ChromeDriverService chromeService = new ChromeDriverService.Builder()
-                .usingDriverExecutable(
-                        new File(TestProperties.getChromeDriverPath()))
-                .usingAnyFreePort().build();
-        try {
-            chromeService.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return chromeService;
-    }
 }

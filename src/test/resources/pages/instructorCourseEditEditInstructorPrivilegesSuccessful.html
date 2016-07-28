@@ -61,7 +61,7 @@
   <script src="/js/statusMessage.js" type="text/javascript">
   </script>
   <div class="pull-right">
-    <a class="small" href="../instructorHelp.html#editCourse" target="_blank">
+    <a class="small" href="/instructorHelp.jsp#editCourse" target="_blank">
       <span class="glyphicon glyphicon-info-sign">
       </span>
       More about configuring access permissions
@@ -88,6 +88,11 @@
           </span>
           Edit
         </a>
+        <a class="btn btn-primary btn-xs" data-original-title="Cancel editing instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrCancelLink1" style="display: none;" title="" type="button">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+          Cancel
+        </a>
         <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=new_email%40email.tmt&user=InsCrsEdit.test" id="instrDeleteLink1" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','new_email@email.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
@@ -96,7 +101,7 @@
       </div>
     </div>
     <div class="panel-body">
-      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor1>" method="post" name="formEditInstructors">
+      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor1" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.Helper">
         <input name="user" type="hidden" value="InsCrsEdit.test">
@@ -180,6 +185,11 @@
           </span>
           Edit
         </a>
+        <a class="btn btn-primary btn-xs" data-original-title="Cancel editing instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrCancelLink2" style="display: none;" title="" type="button">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+          Cancel
+        </a>
         <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.coord%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink2" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.coord@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
@@ -188,7 +198,7 @@
       </div>
     </div>
     <div class="panel-body">
-      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor2>" method="post" name="formEditInstructors">
+      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor2" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.coord">
         <input name="user" type="hidden" value="InsCrsEdit.test">
@@ -280,6 +290,11 @@
           </span>
           Edit
         </a>
+        <a class="btn btn-primary btn-xs" data-original-title="Cancel editing instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrCancelLink3" style="display: none;" title="" type="button">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+          Cancel
+        </a>
         <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink3" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.instructor@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
@@ -288,7 +303,7 @@
       </div>
     </div>
     <div class="panel-body">
-      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor3>" method="post" name="formEditInstructors">
+      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor3" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="user" type="hidden" value="InsCrsEdit.test">
         <div id="instructorTable3">
@@ -325,11 +340,8 @@
               <div class="col-sm-9">
                 <p class="form-control-static">
                   <span>
-                    Co-owner
+                    Custom
                   </span>
-                  <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
-                     View Details
-                  </a>
                 </p>
               </div>
             </div>
@@ -366,6 +378,11 @@
           </span>
           Edit
         </a>
+        <a class="btn btn-primary btn-xs" data-original-title="Cancel editing instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrCancelLink4" style="display: none;" title="" type="button">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+          Cancel
+        </a>
         <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.manager%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink4" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.manager@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
@@ -374,7 +391,7 @@
       </div>
     </div>
     <div class="panel-body">
-      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor4>" method="post" name="formEditInstructors">
+      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor4" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.manager">
         <input name="user" type="hidden" value="InsCrsEdit.test">
@@ -466,6 +483,11 @@
           </span>
           Edit
         </a>
+        <a class="btn btn-primary btn-xs" data-original-title="Cancel editing instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrCancelLink5" style="display: none;" title="" type="button">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+          Cancel
+        </a>
         <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink5" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
@@ -474,7 +496,7 @@
       </div>
     </div>
     <div class="panel-body">
-      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor5>" method="post" name="formEditInstructors">
+      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor5" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="user" type="hidden" value="InsCrsEdit.test">
         <div id="instructorTable5">
@@ -549,6 +571,11 @@
           </span>
           Edit
         </a>
+        <a class="btn btn-primary btn-xs" data-original-title="Cancel editing instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrCancelLink6" style="display: none;" title="" type="button">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+          Cancel
+        </a>
         <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.observer%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink6" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.observer@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
@@ -557,7 +584,7 @@
       </div>
     </div>
     <div class="panel-body">
-      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor6>" method="post" name="formEditInstructors">
+      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor6" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.observer">
         <input name="user" type="hidden" value="InsCrsEdit.test">
@@ -644,6 +671,11 @@
           </span>
           Edit
         </a>
+        <a class="btn btn-primary btn-xs" data-original-title="Cancel editing instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrCancelLink7" style="display: none;" title="" type="button">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+          Cancel
+        </a>
         <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.test%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink7" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.test@gmail.tmt', true);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
@@ -652,7 +684,7 @@
       </div>
     </div>
     <div class="panel-body">
-      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor7>" method="post" name="formEditInstructors">
+      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor7" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.test">
         <input name="user" type="hidden" value="InsCrsEdit.test">
@@ -739,6 +771,11 @@
           </span>
           Edit
         </a>
+        <a class="btn btn-primary btn-xs" data-original-title="Cancel editing instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrCancelLink8" style="display: none;" title="" type="button">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+          Cancel
+        </a>
         <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.tutor%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink8" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.tutor@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
@@ -747,7 +784,7 @@
       </div>
     </div>
     <div class="panel-body">
-      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor8>" method="post" name="formEditInstructors">
+      <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor8" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.tutor">
         <input name="user" type="hidden" value="InsCrsEdit.test">
@@ -817,6 +854,7 @@
   <br>
   <div class="align-center">
     <input class="btn btn-primary" id="btnShowNewInstructorForm" onclick="showNewInstructorForm()" type="button" value="Add New Instructor">
+    <input id="new-instructor-index" type="hidden" value="9">
   </div>
   <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
     <div class="panel-heading">
@@ -959,7 +997,7 @@
                           <div class="col-sm-9">
                             <div class="col-sm-12">
                               <div class="col-sm-4">
-                                <input checked="" name="sectiongroup0section0" type="checkbox" value="Section 1">
+                                <input name="sectiongroup0section0" type="checkbox" value="Section 1">
                                 Section 1
                               </div>
                               <div class="col-sm-4">
@@ -1081,7 +1119,7 @@
                                 Section 1
                               </div>
                               <div class="col-sm-4">
-                                <input checked="" name="sectiongroup1section1" type="checkbox" value="Section 2">
+                                <input name="sectiongroup1section1" type="checkbox" value="Section 2">
                                 Section 2
                               </div>
                               <div class="col-sm-4">
@@ -1203,7 +1241,7 @@
                                 Section 2
                               </div>
                               <div class="col-sm-4">
-                                <input checked="" name="sectiongroup2section2" type="checkbox" value="Section 3">
+                                <input name="sectiongroup2section2" type="checkbox" value="Section 3">
                                 Section 3
                               </div>
                             </div>

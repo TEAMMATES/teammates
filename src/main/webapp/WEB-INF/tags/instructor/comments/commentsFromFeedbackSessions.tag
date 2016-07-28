@@ -3,7 +3,7 @@
 <%@ attribute name="fsName" required="true" %>
 <%@ attribute name="fsIdx" required="true" %>
 <%@ attribute name="panelIdx" required="true" %>
-<div class="panel panel-primary">
+<div class="panel panel-primary feedback-session-panel">
     <div class="panel-heading" style="cursor: pointer;"
          onclick="loadFeedbackResponseComments('${data.account.googleId}','${courseId}','${fsName}', '${fsIdx}', this, true);">
         <strong>Comments in session: ${fsName}</strong>

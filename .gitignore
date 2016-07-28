@@ -1,4 +1,5 @@
-*.classpath
+.classpath
+.project
 .DS_Store
 .settings
 *.orig
@@ -16,10 +17,10 @@ chromedriver*
 *.db
 *.md.html
 libs/
+node_modules/
 
 .launches/TM - Start dev server.launch
 test-output/*
-testrunner/*
 src/test/current testng.xml
 src/main/webapp/WEB-INF/classes
 *.exe
@@ -38,3 +39,7 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+.checkstyle
+.pmd
+.ruleset

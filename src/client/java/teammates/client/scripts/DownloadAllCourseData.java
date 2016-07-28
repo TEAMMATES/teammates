@@ -10,13 +10,12 @@ import teammates.storage.entity.Course;
 
 public class DownloadAllCourseData extends OfflineBackup {
 
-   
-    
     public static void main(String[] args) throws IOException {
         DownloadAllCourseData downloadAllCourseData = new DownloadAllCourseData();
         downloadAllCourseData.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize();
         
@@ -32,7 +31,7 @@ public class DownloadAllCourseData extends OfflineBackup {
         
         Set<String> allCourses = new HashSet<String>();
         
-        for(Course course : courses) {
+        for (Course course : courses) {
             allCourses.add(course.getUniqueId());
         }
         return allCourses;

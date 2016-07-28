@@ -71,12 +71,21 @@
                   <input name="fsname" type="hidden" value="Second Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="Section A">
+                  <input id="filterTextForDownload" name="filtertext" type="hidden">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
+                  <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
                   <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-fsname="Second Session" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr" title="">
                     Publish Results
                   </a>
+                </div>
+                <br>
+                <div>
+                  <button class="btn btn-primary btn-block" id="button-print" type="input">
+                    Print View
+                  </button>
                 </div>
               </div>
             </div>
@@ -172,9 +181,9 @@
               <label class="col-sm-2 control-label" for="viewSelect">
                 Filter:
               </label>
-              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
+              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" id="filter-box-parent-div" title="">
                 <div class="input-group">
-                  <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
+                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
                   <a class="input-group-addon btn btn-default">
                     <span class="glyphicon glyphicon-search">
                     </span>
@@ -195,9 +204,15 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
                   Show Statistics
                 </label>
+              </div>
+            </div>
+            <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
+              <div class="checkbox padding-top-0 min-height-0">
+                <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" onchange="this.form.submit()" type="checkbox" value="true">
+                Indicate Missing Responses
               </div>
             </div>
           </div>
@@ -220,7 +235,7 @@
                     Section B
                   </option>
                   <option value="None">
-                    Not in a section
+                    No specific recipient
                   </option>
                 </select>
               </div>
@@ -254,6 +269,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-1" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -289,6 +305,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-2" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -390,7 +407,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -465,6 +482,40 @@
                     <input name="fsname" type="hidden" value="Second Session">
                     <input name="moderatedquestionid" type="hidden" value="${question.id}">
                     <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
                   </form>
                 </td>
               </tr>
@@ -619,6 +670,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-3" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -731,7 +783,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -809,6 +861,40 @@
                     <input name="fsname" type="hidden" value="Second Session">
                     <input name="moderatedquestionid" type="hidden" value="${question.id}">
                     <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
                   </form>
                 </td>
               </tr>
@@ -963,6 +1049,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-4" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -1016,24 +1103,24 @@
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Average of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Average of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Average of the visible responses" data-toggle="tooltip" title="">
                           Average
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Maximum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Maximum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Maximum of the visible responses" data-toggle="tooltip" title="">
                           Max
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Minimum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Minimum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Minimum of the visible responses" data-toggle="tooltip" title="">
                           Min
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
@@ -1092,7 +1179,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -1163,6 +1250,40 @@
                     <input name="fsname" type="hidden" value="Second Session">
                     <input name="moderatedquestionid" type="hidden" value="${question.id}">
                     <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
                   </form>
                 </td>
               </tr>
@@ -1317,6 +1438,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-5" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -1442,7 +1564,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -1520,6 +1642,40 @@
                     <input name="fsname" type="hidden" value="Second Session">
                     <input name="moderatedquestionid" type="hidden" value="${question.id}">
                     <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
                   </form>
                 </td>
               </tr>
@@ -1674,6 +1830,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-6" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -1831,7 +1988,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -1973,6 +2130,40 @@
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Alice Betsy&lt;/td&gt;'"
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
@@ -2032,6 +2223,142 @@
                     <input name="fsname" type="hidden" value="Second Session">
                     <input name="moderatedquestionid" type="hidden" value="${question.id}">
                     <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Benny Charles
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Alice Betsy&lt;/td&gt;'"
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Benny Charles
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
                   </form>
                 </td>
               </tr>
@@ -2594,6 +2921,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-7" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -2631,7 +2959,7 @@
               </div>
               <div class="col-sm-3 pull-right">
                 [
-                <a href="/instructorHelp.html#faq7a" id="interpret_help_link" target="_blank">
+                <a href="/instructorHelp.jsp#faq7a" id="interpret_help_link" target="_blank">
                   How do I interpret/use these values?
                 </a>
                 ]
@@ -2653,16 +2981,16 @@
                         </span>
                       </td>
                       <td class="button-sort-none" data-container="body" data-original-title="This is the student's own estimation of his/her contributions" data-placement="top" data-toggle="tooltip" id="button_sortclaimed" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Claimed Contribution">
+                        <span class="tool-tip-decorate" data-original-title="Claimed Contribution" data-toggle="tooltip" title="">
                           CC
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
                       <td class="button-sort-none" data-container="body" data-original-title="This is the average of what other team members think this student contributed" data-placement="top" data-toggle="tooltip" id="button_sortperceived" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Percived Contribution">
+                        <span class="tool-tip-decorate" data-original-title="Percived Contribution" data-toggle="tooltip" title="">
                           PC
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
@@ -2679,150 +3007,6 @@
                   <tbody>
                     <tr>
                       <td>
-                        Team 2
-                      </td>
-                      <td id="studentname">
-                        Charlie Dávis
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Team 2
-                      </td>
-                      <td id="studentname">
-                        Danny Engrid
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Team 2
-                      </td>
-                      <td id="studentname">
-                        Drop out
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Team 2
-                      </td>
-                      <td id="studentname">
-                        Extra guy
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
                         Team 1&lt;/td&gt;&lt;/div&gt;'"
                       </td>
                       <td id="studentname">
@@ -2834,17 +3018,21 @@
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -2857,7 +3045,7 @@
                         Benny Charles
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -2867,13 +3055,193 @@
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
                         <span class="color_neutral">
                           E
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Team 1&lt;/td&gt;&lt;/div&gt;'"
+                      </td>
+                      <td id="studentname">
+                        Fred Gabriel
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Team 2
+                      </td>
+                      <td id="studentname">
+                        Charlie Dávis
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Team 2
+                      </td>
+                      <td id="studentname">
+                        Danny Engrid
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Team 2
+                      </td>
+                      <td id="studentname">
+                        Drop out
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Team 2
+                      </td>
+                      <td id="studentname">
+                        Extra guy
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
                         </span>
                       </td>
                     </tr>
@@ -2912,7 +3280,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -3001,6 +3369,40 @@
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Alice Betsy&lt;/td&gt;'"
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
@@ -3067,6 +3469,149 @@
                     <input name="fsname" type="hidden" value="Second Session">
                     <input name="moderatedquestionid" type="hidden" value="${question.id}">
                     <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Benny Charles
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Alice Betsy&lt;/td&gt;'"
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Benny Charles
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="middlealign color_neutral">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="middlealign color_neutral">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="text-preserve-space color_neutral">
+                  <i>
+                    No Response
+                  </i>
+                  <span>
+                      [Perceived Contribution:
+                    <span class="color_neutral">
+                      N/A
+                    </span>
+                    ]
+                  </span>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
                   </form>
                 </td>
               </tr>
@@ -3629,6 +4174,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-8" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -3689,7 +4235,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -3708,10 +4254,10 @@
                   </div>
                 </td>
                 <td class="middlealign">
-                  Anonymous student 25643809's Team
+                  Anonymous student ${participant.hash}'s Team
                 </td>
                 <td class="middlealign">
-                  Anonymous student 25643809
+                  Anonymous student ${participant.hash}
                 </td>
                 <td class="text-preserve-space">
                   3
@@ -3737,10 +4283,10 @@
                   </div>
                 </td>
                 <td class="middlealign">
-                  Anonymous student 410339386's Team
+                  Anonymous student ${participant.hash}'s Team
                 </td>
                 <td class="middlealign">
-                  Anonymous student 410339386
+                  Anonymous student ${participant.hash}
                 </td>
                 <td class="text-preserve-space">
                   4
@@ -3770,6 +4316,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-9" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -3823,24 +4370,24 @@
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Average of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Average of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Average of the visible responses" data-toggle="tooltip" title="">
                           Average
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Maximum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Maximum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Maximum of the visible responses" data-toggle="tooltip" title="">
                           Max
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Minimum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Minimum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Minimum of the visible responses" data-toggle="tooltip" title="">
                           Min
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
@@ -3899,7 +4446,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -3909,10 +4456,10 @@
             <tbody>
               <tr>
                 <td class="middlealign">
-                  Anonymous student 410339386's Team
+                  Anonymous student ${participant.hash}'s Team
                 </td>
                 <td class="middlealign">
-                  Anonymous student 410339386
+                  Anonymous student ${participant.hash}
                 </td>
                 <td class="middlealign">
                   -
@@ -3941,6 +4488,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-10" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -3978,7 +4526,7 @@
               </div>
               <div class="col-sm-3 pull-right">
                 [
-                <a href="/instructorHelp.html#faq7a" id="interpret_help_link" target="_blank">
+                <a href="/instructorHelp.jsp#faq7a" id="interpret_help_link" target="_blank">
                   How do I interpret/use these values?
                 </a>
                 ]
@@ -4000,16 +4548,16 @@
                         </span>
                       </td>
                       <td class="button-sort-none" data-container="body" data-original-title="This is the student's own estimation of his/her contributions" data-placement="top" data-toggle="tooltip" id="button_sortclaimed" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Claimed Contribution">
+                        <span class="tool-tip-decorate" data-original-title="Claimed Contribution" data-toggle="tooltip" title="">
                           CC
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
                       <td class="button-sort-none" data-container="body" data-original-title="This is the average of what other team members think this student contributed" data-placement="top" data-toggle="tooltip" id="button_sortperceived" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Percived Contribution">
+                        <span class="tool-tip-decorate" data-original-title="Percived Contribution" data-toggle="tooltip" title="">
                           PC
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
@@ -4026,154 +4574,10 @@
                   <tbody>
                     <tr>
                       <td>
-                        Anonymous student 27458453's Team
+                        Anonymous student ${participant.hash}'s Team
                       </td>
                       <td id="studentname">
-                        Anonymous student 27458453
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Anonymous student 1426103091's Team
-                      </td>
-                      <td id="studentname">
-                        Anonymous student 1426103091
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Anonymous student 369443139's Team
-                      </td>
-                      <td id="studentname">
-                        Anonymous student 369443139
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Anonymous student 1749109019's Team
-                      </td>
-                      <td id="studentname">
-                        Anonymous student 1749109019
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                        ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Anonymous student 25643809's Team
-                      </td>
-                      <td id="studentname">
-                        Anonymous student 25643809
+                        Anonymous student ${participant.hash}
                       </td>
                       <td>
                         <span class="color-positive">
@@ -4181,30 +4585,34 @@
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                     </tr>
                     <tr>
                       <td>
-                        Anonymous student 410339386's Team
+                        Anonymous student ${participant.hash}'s Team
                       </td>
                       <td id="studentname">
-                        Anonymous student 410339386
+                        Anonymous student ${participant.hash}
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -4214,13 +4622,193 @@
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
                         <span class="color_neutral">
                           E
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Anonymous student ${participant.hash}'s Team
+                      </td>
+                      <td id="studentname">
+                        Anonymous student ${participant.hash}
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Anonymous student ${participant.hash}'s Team
+                      </td>
+                      <td id="studentname">
+                        Anonymous student ${participant.hash}
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Anonymous student ${participant.hash}'s Team
+                      </td>
+                      <td id="studentname">
+                        Anonymous student ${participant.hash}
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Anonymous student ${participant.hash}'s Team
+                      </td>
+                      <td id="studentname">
+                        Anonymous student ${participant.hash}
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Anonymous student ${participant.hash}'s Team
+                      </td>
+                      <td id="studentname">
+                        Anonymous student ${participant.hash}
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                        ,
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
                         </span>
                       </td>
                     </tr>
@@ -4259,7 +4847,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -4278,14 +4866,14 @@
                   </div>
                 </td>
                 <td class="middlealign">
-                  Anonymous student 25643809's Team
+                  Anonymous student ${participant.hash}'s Team
                 </td>
                 <td class="middlealign">
-                  Anonymous student 25643809
+                  Anonymous student ${participant.hash}
                 </td>
                 <td class="text-preserve-space">
                   <span class="color_neutral">
-                    N/A
+                    Equal Share
                   </span>
                 </td>
                 <td>
@@ -4309,14 +4897,14 @@
                   </div>
                 </td>
                 <td class="middlealign">
-                  Anonymous student 410339386's Team
+                  Anonymous student ${participant.hash}'s Team
                 </td>
                 <td class="middlealign">
-                  Anonymous student 410339386
+                  Anonymous student ${participant.hash}
                 </td>
                 <td class="text-preserve-space">
                   <span class="color_neutral">
-                    Equal Share
+                    N/A
                   </span>
                 </td>
                 <td>
@@ -4344,6 +4932,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-11" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -4393,7 +4982,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -4440,6 +5029,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-12" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="Section A">
       </form>
@@ -4493,24 +5083,24 @@
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Average of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Average of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Average of the visible responses" data-toggle="tooltip" title="">
                           Average
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Maximum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Maximum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Maximum of the visible responses" data-toggle="tooltip" title="">
                           Max
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Minimum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Minimum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Minimum of the visible responses" data-toggle="tooltip" title="">
                           Min
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
@@ -4569,7 +5159,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>

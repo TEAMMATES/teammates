@@ -6,27 +6,26 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.datatransfer.InstructorAttributes;
 
 public class AdminHomePage extends AppPage {
-    @FindBy (id="addInstructorDetailsSingleLine")
+    @FindBy (id = "addInstructorDetailsSingleLine")
     WebElement detailsSingleLineTextBox;
     
-    @FindBy (id="instructorShortName")
+    @FindBy (id = "instructorShortName")
     WebElement shortNameTextBox;
 
-    @FindBy (id="instructorName")
+    @FindBy (id = "instructorName")
     WebElement nameTextBox;
     
-    @FindBy (id="instructorEmail")
+    @FindBy (id = "instructorEmail")
     WebElement emailTextBox;
     
-    @FindBy (id="instructorInstitution")
+    @FindBy (id = "instructorInstitution")
     WebElement institutionTextBox;
     
-    @FindBy (id="btnAddInstructor")
+    @FindBy (id = "btnAddInstructor")
     WebElement submitButton;
     
-    @FindBy (id="btnAddInstructorDetailsSingleLineForm")
+    @FindBy (id = "btnAddInstructorDetailsSingleLineForm")
     WebElement submitButtonDetailsSingleLineForm;
-    
     
     public AdminHomePage(Browser browser) {
         super(browser);
@@ -57,7 +56,7 @@ public class AdminHomePage extends AppPage {
             fillTextBox(institutionTextBox, institute);
         }
 
-        submitButton.click();
+        click(submitButton);
         waitForElementToBeClickable(submitButton);
         return this;
     }
@@ -66,8 +65,12 @@ public class AdminHomePage extends AppPage {
         if (instructorDetails != null) {
             fillTextBox(detailsSingleLineTextBox, instructorDetails);
         }
-        submitButtonDetailsSingleLineForm.click();
+        click(submitButtonDetailsSingleLineForm);
         waitForElementToBeClickable(submitButtonDetailsSingleLineForm);
+    }
+    
+    public void clearInstructorDetailsSingleLineForm() {
+        fillTextBox(detailsSingleLineTextBox, "");
     }
     
     public String getMessageFromResultTable(int index) {

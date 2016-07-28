@@ -41,23 +41,26 @@ var FEEDBACK_QUESTION_NUMBEROFENTITIES = 'numofrecipients';
 var FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = 'numofrecipientstype';
 var FEEDBACK_QUESTION_TYPE = 'questiontype';
 var FEEDBACK_QUESTION_MCQCHOICE = 'mcqOption';
-var FEEDBACK_QUESTION_MCQOTHEROPTION = "mcqOtherOption";
-var FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = "mcqOtherOptionFlag";
+var FEEDBACK_QUESTION_MCQOTHEROPTION = 'mcqOtherOption';
+var FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = 'mcqOtherOptionFlag';
 var FEEDBACK_QUESTION_MSQCHOICE = 'msqOption';
-var FEEDBACK_QUESTION_MSQOTHEROPTION = "msqOtherOption";
-var FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = "msqOtherOptionFlag";
+var FEEDBACK_QUESTION_MSQOTHEROPTION = 'msqOtherOption';
+var FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = 'msqOtherOptionFlag';
 var FEEDBACK_QUESTION_CONSTSUMOPTION = 'constSumOption';
 var FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE = 'constSumOptionTable';
 var FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = 'constSumToRecipients';
 var FEEDBACK_QUESTION_CONSTSUMPOINTS = 'constSumPoints';
+var FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = 'constSumPointsForEachOption';
+var FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = 'constSumPointsForEachRecipient';
 var FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = 'noofchoicecreated';
 var FEEDBACK_QUESTION_NUMSCALE_MIN = 'numscalemin';
 var FEEDBACK_QUESTION_NUMSCALE_MAX = 'numscalemax';
 var FEEDBACK_QUESTION_NUMSCALE_STEP = 'numscalestep';
 var FEEDBACK_QUESTION_NUMBER = 'questionnum';
 var FEEDBACK_QUESTION_TEXT = 'questiontext';
+var FEEDBACK_QUESTION_DESCRIPTION = 'questiondescription';
 var FEEDBACK_QUESTION_EDITTEXT = 'questionedittext';
-var FEEDBACK_QUESTION_CANCELEDIT = 'questioncanceledit';
+var FEEDBACK_QUESTION_DISCARDCHANGES = 'questiondiscardchanges';
 var FEEDBACK_QUESTION_EDITTYPE = 'questionedittype';
 var FEEDBACK_QUESTION_SAVECHANGESTEXT = 'questionsavechangestext';
 var FEEDBACK_QUESTION_SHOWRESPONSESTO = 'showresponsesto';
@@ -77,7 +80,6 @@ var FEEDBACK_QUESTION_RANKOPTION = 'rankOption';
 var FEEDBACK_QUESTION_RANKOPTIONTABLE = 'rankOptionTable';
 var FEEDBACK_QUESTION_RANKTORECIPIENTS = 'rankToRecipients';
 
-
 // Used in feedbackResponseComments.js
 var FEEDBACK_RESPONSE_ID = 'responseid';
 var FEEDBACK_RESPONSE_COMMENT_ID = 'responsecommentid';
@@ -85,14 +87,16 @@ var FEEDBACK_RESPONSE_COMMENT_TEXT = 'responsecommenttext';
 
 // Status message type
 var StatusType = {
-    SUCCESS : "success",
-    INFO : "info",
-    WARNING : "warning",
-    DANGER : "danger",
-    isValidType : function(type) {
-        return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.WARNING || type === StatusType.DANGER;
+    SUCCESS: 'success',
+    INFO: 'info',
+    WARNING: 'warning',
+    DANGER: 'danger',
+    isValidType: function(type) {
+        return type === StatusType.SUCCESS || type === StatusType.INFO
+               || type === StatusType.WARNING || type === StatusType.DANGER;
     }
 };
+StatusType.DEFAULT = StatusType.INFO;
 
 // Display messages
 // Used for validating input
@@ -100,15 +104,15 @@ var DISPLAY_INPUT_FIELDS_EXTRA = 'There are too many fields.';
 var DISPLAY_INPUT_FIELDS_MISSING = 'There are missing fields.';
 var DISPLAY_GOOGLEID_INVALID = 'GoogleID should only consist of alphanumerics, fullstops, dashes or underscores.';
 var DISPLAY_EMAIL_INVALID = 'The e-mail address is invalid.';
-var DISPLAY_NAME_INVALID = 'Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets<br> and not more than 40 characters.';
+var DISPLAY_NAME_INVALID = 'Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, '
+                           + 'commas, slashes, round brackets<br> and not more than 40 characters.';
 var DISPLAY_STUDENT_TEAMNAME_INVALID = 'Team name should contain less than 60 characters.';
 
 // Used in instructorCourse.js only
-var DISPLAY_COURSE_LONG_ID = 'Course ID should not exceed ' +
-    COURSE_ID_MAX_LENGTH + ' characters.';
-var DISPLAY_COURSE_LONG_NAME = 'Course name should not exceed ' +
-    COURSE_NAME_MAX_LENGTH + ' characters.';
-var DISPLAY_COURSE_INVALID_ID = 'Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID. Spaces are not allowed for course ID.';
+var DISPLAY_COURSE_LONG_ID = 'Course ID should not exceed ' + COURSE_ID_MAX_LENGTH + ' characters.';
+var DISPLAY_COURSE_LONG_NAME = 'Course name should not exceed ' + COURSE_NAME_MAX_LENGTH + ' characters.';
+var DISPLAY_COURSE_INVALID_ID = 'Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs '
+                                + 'in course ID. Spaces are not allowed for course ID.';
 var DISPLAY_COURSE_COURSE_ID_EMPTY = 'Course ID cannot be empty.';
 var DISPLAY_COURSE_COURSE_NAME_EMPTY = 'Course name cannot be empty';
 
@@ -116,29 +120,27 @@ var DISPLAY_COURSE_COURSE_NAME_EMPTY = 'Course name cannot be empty';
 var DISPLAY_INSTRUCTOR_ID_EMPTY = 'Instructor ID cannot be empty.';
 var DISPLAY_INSTRUCTOR_NAME_EMPTY = 'Instructor name cannot be empty.';
 var DISPLAY_INSTRUCTOR_EMAIL_EMPTY = 'Instructor email cannot be empty.';
-var DISPLAY_CANNOT_DELETE_LAST_INSTRUCTOR = 'There is only ONE instructor left in the course. You are not allowed to delete this instructor.';
+var DISPLAY_CANNOT_DELETE_LAST_INSTRUCTOR = 'There is only ONE instructor left in the course. '
+                                            + 'You are not allowed to delete this instructor.';
 
 // Used in instructorCourseEnroll.js only
 var DISPLAY_ENROLLMENT_INPUT_EMPTY = 'Please input at least one student detail.';
 
-// Used in instructorEval.js only
-var DISPLAY_EVALUATION_NAMEINVALID = 'Please use only alphabets, numbers and whitespace in evaluation name.';
-var DISPLAY_EVALUATION_NAME_LENGTHINVALID = 'Evaluation name should not exceed 38 characters.';
-var DISPLAY_EVALUATION_SCHEDULEINVALID = 'The evaluation schedule (start/deadline) is not valid.<br>' +
-    'The start time should be in the future, and the deadline should be after start time.';
 var DISPLAY_FIELDS_EMPTY = 'Please fill in all the relevant fields.';
-var DISPLAY_INVALID_INPUT = 'Unexpected error. Invalid Input';
 
 // Used in instructorFeedback.js only
 var FEEDBACK_SESSION_COPY_INVALID = 'There is no feedback session to be copied.';
-var FEEDBACK_QUESTION_COPY_INVALID = 'There is no feedback question to be copied.';
-var DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE = 'This feedback session name already existed in this course. Please use another name.';
+var FEEDBACK_QUESTION_COPY_INVALID = 'There are no questions to be copied.';
+var DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
+        'This feedback session name already existed in this course. Please use another name.';
 var DISPLAY_FEEDBACK_SESSION_NAME_EMPTY = 'Feedback session name must not be empty.';
-var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = 'Please enter the maximum number of recipients each respondants should give feedback to.';
+var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
+        'Please enter the maximum number of recipients each respondants should give feedback to.';
 
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. The question text cannot be empty.';
 var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
-var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID = 'Please enter valid options. The interval is not divisible by the specified increment.';
+var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
+        'Please enter valid options. The interval is not divisible by the specified increment.';
 
 var DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
@@ -155,10 +157,25 @@ $(document).on('ajaxComplete ready', function() {
      * code that throws errors.
     */
     var $tooltips = $('[data-toggle="tooltip"]');
-    $tooltips.tooltip({html: true, container: 'body'});
+    $tooltips.tooltip({
+        html: true,
+        container: 'body'
+    });
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
+    
+    /**
+     * Underlines all span elements with tool-tips except for
+     * the ones without a text value. This is to exclude elements
+     * such as 'icons' from underlining.
+    */
+    $('span[data-toggle="tooltip"]').each(function() {
+        textValue = $(this).text().replace(/\s/g, '');
+        if (textValue) {
+            $(this).addClass('tool-tip-decorate');
+        }
+    });
 });
 
 /**
@@ -166,7 +183,7 @@ $(document).on('ajaxComplete ready', function() {
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
 function isTouchDevice() {
-    return true === (('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch));
+    return 'ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch;
 }
 
 /**
@@ -215,7 +232,7 @@ function toggleSort(divElement, comparator) {
  * @param ascending
  *     if this is true, it will be ascending order, else it will be descending order
  */
-function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
+function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
     // Get the table
     var $table = $(oneOfTableCell);
     
@@ -229,7 +246,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     
     // Iterate through column's contents to decide which comparator to use
     for (var i = row; i < $RowList.length; i++) {
-        if ($RowList[i].cells[colIdx - 1] == undefined || $RowList[i].cells[colIdx - 1] == null) {
+        if ($RowList[i].cells[colIdx - 1] === undefined) {
             continue;
         }
         
@@ -250,7 +267,8 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
         }
     }
     
-    if (comparator == null) {
+    var comparator = comp;
+    if (comparator === null || comparator === undefined) {
         if (columnType === 1) {
             comparator = sortNum;
         } else if (columnType === 2) {
@@ -261,21 +279,12 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     }
     
     store.sort(function(x, y) {
-        if (ascending === true) {
-            var compareResult = comparator(x[0].toUpperCase(), y[0].toUpperCase());
-            if (compareResult === 0) {
-                return x[2] - y[2];
-            } else {
-                return compareResult;
-            }
-        } else {
-            var compareResult = comparator(y[0].toUpperCase(), x[0].toUpperCase());
-            if (compareResult === 0) {
-                return x[2] - y[2];
-            } else {
-                return compareResult;
-            }
+        var compareResult = ascending ? comparator(x[0].toUpperCase(), y[0].toUpperCase())
+                                      : comparator(y[0].toUpperCase(), x[0].toUpperCase());
+        if (compareResult === 0) {
+            return x[2] - y[2];
         }
+        return compareResult;
     });
     
     // Must rewrap because .get() does not return a jQuery wrapped DOM node
@@ -287,8 +296,8 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     }
     
     // Must push to target tbody else it will generate a new tbody for the table
-    for (var i = 0; i < store.length; i++) {
-        $tbody.get(0).appendChild(store[i][1]);
+    for (var j = 0; j < store.length; j++) {
+        $tbody.get(0).appendChild(store[j][1]);
     }
     
     store = null;
@@ -303,7 +312,10 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
  */
 function sortBase(x, y) {
     // Text sorting
-    return (x < y ? -1 : x > y ? 1 : 0);
+    if (x < y) {
+        return -1;
+    }
+    return x > y ? 1 : 0;
 }
 
 /**
@@ -325,10 +337,12 @@ function sortNum(x, y) {
  * @returns 1 if Date x is after y, 0 if same and -1 if before
  */
 function sortDate(x, y) {
-    x = Date.parse(x);
-    y = Date.parse(y);
-    var comparisonResult = (x > y) ? 1 : (x < y) ? -1 : 0;
-    return comparisonResult;
+    var x0 = Date.parse(x);
+    var y0 = Date.parse(y);
+    if (x0 > y0) {
+        return 1;
+    }
+    return x0 < y0 ? -1 : 0;
 }
 
 /**
@@ -373,14 +387,13 @@ function isNumber(num) {
  * @param b
  */
 function sortByPoint(a, b) {
-    a = getPointValue(a, true);
-    b = getPointValue(b, true);
+    var a0 = getPointValue(a, true);
+    var b0 = getPointValue(b, true);
     
-    if (isNumber(a) && isNumber(b)) {
-        return sortNum(a, b);
-    } else {
-        return sortBase(a, b);
+    if (isNumber(a0) && isNumber(b0)) {
+        return sortNum(a0, b0);
     }
+    return sortBase(a0, b0);
 }
 
 /**
@@ -391,14 +404,13 @@ function sortByPoint(a, b) {
  * @param b
  */
 function sortByDiff(a, b) {
-    a = getPointValue(a, false);
-    b = getPointValue(b, false);
+    var a0 = getPointValue(a, false);
+    var b0 = getPointValue(b, false);
 
-    if (isNumber(a) && isNumber(b)) {
-        return sortNum(a, b);
-    } else {
-        return sortBase(a, b);
+    if (isNumber(a0) && isNumber(b0)) {
+        return sortNum(a0, b0);
     }
+    return sortBase(a0, b0);
 }
 
 /**
@@ -411,57 +423,55 @@ function sortByDiff(a, b) {
  * @returns
  */
 function getPointValue(s, ditchZero) {
-    if (s.lastIndexOf('<') !== -1) {
-        s = s.substring(0, s.lastIndexOf('<'));
-        s = s.substring(s.lastIndexOf('>') + 1);
+    var s0 = s;
+    if (s0.lastIndexOf('<') !== -1) {
+        s0 = s0.substring(0, s0.lastIndexOf('<'));
+        s0 = s0.substring(s0.lastIndexOf('>') + 1);
     }
     
-    if (s.indexOf('/') !== -1) {
-        if (s.indexOf('S') !== -1) {
+    if (s0.indexOf('/') !== -1) {
+        if (s0.indexOf('S') !== -1) {
             return 999; // Case N/S
         }
         
         return 1000; // Case N/A
     }
     
-    if (s === '0%') { // Case 0%
+    if (s0 === '0%') { // Case 0%
         if (ditchZero) {
             return 0;
-        } else {
-            return 100;
         }
+        return 100;
     }
     
-    s = s.replace('E', '');
-    s = s.replace('%', '');
+    s0 = s0.replace('E', '').replace('%', '');
     
-    if (s === '') {
+    if (s0 === '') {
         return 100; // Case E
     }
     
-    return 100 + eval(s); // Other typical cases
+    return 100 + parseInt(s0); // Other typical cases
 }
 
 /** -----------------------UI Related Helper Functions-----------------------* */
 
-
 /**
  * Checks if element is within browser's viewport.
- * @return true if it is within the viewport, false otherwise 
+ * @return true if it is within the viewport, false otherwise
  */
 function isWithinView(element) {
-    var viewHeight = window.innerHeight,
-        viewTop = window.scrollY,
-        viewBottom = viewTop + viewHeight;
+    var viewHeight = window.innerHeight;
+    var viewTop = window.scrollY;
+    var viewBottom = viewTop + viewHeight;
     
-    var elementHeight = element.offsetHeight,
-        elementTop = element.offsetTop,
-        elementBottom = elementTop + elementHeight;
+    var elementHeight = element.offsetHeight;
+    var elementTop = element.offsetTop;
+    var elementBottom = elementTop + elementHeight;
     
     return viewHeight >= elementHeight
            ? viewTop <= elementTop && viewBottom >= elementBottom          // all within view
-           : (viewTop <= elementTop && viewBottom >= elementTop)           // top within view
-             || (viewTop <= elementBottom && viewBottom >= elementBottom); // btm within view
+           : viewTop <= elementTop && viewBottom >= elementTop             // top within view
+             || viewTop <= elementBottom && viewBottom >= elementBottom;   // btm within view
 }
 
 /**
@@ -472,17 +482,17 @@ function isWithinView(element) {
  *                 400 ms will be used if any other string is supplied.
  */
 function scrollToPosition(scrollPos, duration) {
-    if (duration === undefined) {
+    if (duration === undefined || duration === null) {
         $(window).scrollTop(scrollPos);
     } else {
-        $('html, body').animate({scrollTop: scrollPos}, duration);
+        $('html, body').animate({ scrollTop: scrollPos }, duration);
     }
 }
 
 /**
  * Scrolls to an element.
  * Possible options are as follows:
- * 
+ *
  * @param element - element to scroll to
  * @param options - associative array with optional values:
  *                  * type: ['top'|'view'], defaults to 'top';
@@ -493,28 +503,32 @@ function scrollToPosition(scrollPos, duration) {
  *                  * duration: duration of animation,
  *                              defaults to 0 for scrolling without animation
  */
-function scrollToElement(element, options) {
-    var defaultOptions = {type: 'top', offset: 0, duration: 0};
+function scrollToElement(element, opts) {
+    var defaultOptions = {
+        type: 'top',
+        offset: 0,
+        duration: 0
+    };
     
-    options = options || {};
-    var type = options.type || defaultOptions.type,
-        offset = options.offset !== undefined ? options.offset : defaultOptions.offset,
-        duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
+    var options = opts || {};
+    var type = options.type || defaultOptions.type;
+    var offset = options.offset || defaultOptions.offset;
+    var duration = options.duration || defaultOptions.duration;
     
-    var isViewType = (type === 'view');
+    var isViewType = type === 'view';
     if (isViewType && isWithinView(element)) {
         return;
     }
     
-    var navbar = document.getElementsByClassName('navbar')[0],
-        navbarHeight = navbar ? navbar.offsetHeight : 0;
-    var footer = document.getElementById('footerComponent'),
-        footerHeight = footer ? footer.offsetHeight : 0;
+    var navbar = document.getElementsByClassName('navbar')[0];
+    var navbarHeight = navbar ? navbar.offsetHeight : 0;
+    var footer = document.getElementById('footerComponent');
+    var footerHeight = footer ? footer.offsetHeight : 0;
     var windowHeight = window.innerHeight - navbarHeight - footerHeight;
     
-    var isElementTallerThanWindow = (windowHeight < element.offsetHeight),
-        isFromAbove = (window.scrollY < element.offsetTop),
-        isAlignedToTop = (!isViewType || isElementTallerThanWindow || !isFromAbove);
+    var isElementTallerThanWindow = windowHeight < element.offsetHeight;
+    var isFromAbove = window.scrollY < element.offsetTop;
+    var isAlignedToTop = !isViewType || isElementTallerThanWindow || !isFromAbove;
     
     // default offset - from navbar / footer
     if (options.offset === undefined) {
@@ -557,33 +571,29 @@ function setStatusMessage(message, status) {
         return;
     }
 
-    // Default the status type to info if any invalid status is passed in
-    if (!StatusType.isValidType(status)) {
-        status = StatusType.INFO;
-    }
-    
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
-    var $statusMessage = $("<div></div>");
+    var $statusMessage = $('<div></div>');
     
-    $statusMessage.addClass("overflow-auto");
-    $statusMessage.addClass("alert");
-    $statusMessage.addClass("alert-" + status);
-    $statusMessage.addClass("statusMessage");
+    $statusMessage.addClass('overflow-auto');
+    $statusMessage.addClass('alert');
+    // Default the status type to info if any invalid status is passed in
+    $statusMessage.addClass('alert-' + (StatusType.isValidType(status) ? status : StatusType.INFO));
+    $statusMessage.addClass('statusMessage');
     $statusMessage.html(message);
     
     $statusMessagesToUser.empty();
     $statusMessagesToUser.append($statusMessage);
     $statusMessagesToUser.show();
     
-    scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
+    scrollToElement($statusMessagesToUser[0], { offset: window.innerHeight / 2 * -1 });
 }
 
 /**
  * Appends the status messages panels into the current list of panels of status messages.
  * @param  messages the list of status message panels to be added (not just text)
- * 
+ *
  */
-function appendStatusMessage(messages, error) {
+function appendStatusMessage(messages) {
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     
     $statusMessagesToUser.append($(messages));
@@ -604,11 +614,11 @@ function clearStatusMessages() {
  * Sanitize GoogleID by trimming space and '@gmail.com'
  * Used in instructorCourse, instructorCourseEdit, adminHome
  *
- * @param googleId
+ * @param rawGoogleId
  * @returns sanitizedGoolgeId
  */
-function sanitizeGoogleId(googleId) {
-    googleId = googleId.trim();
+function sanitizeGoogleId(rawGoogleId) {
+    var googleId = rawGoogleId.trim();
     var loc = googleId.toLowerCase().indexOf('@gmail.com');
     if (loc > -1) {
         googleId = googleId.substring(0, loc);
@@ -619,18 +629,18 @@ function sanitizeGoogleId(googleId) {
 /**
  * Check if the GoogleID is valid
  * GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
- * 
- * @param googleId
+ *
+ * @param rawGoogleId
  * @return {Boolean}
  */
-function isValidGoogleId(googleId) {
+function isValidGoogleId(rawGoogleId) {
     var isValidNonEmailGoogleId = false;
-    googleId = googleId.trim();
+    var googleId = rawGoogleId.trim();
     
     // match() retrieve the matches when matching a string against a regular expression.
     var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
     
-    isValidNonEmailGoogleId = (matches != null && matches[0] === googleId);
+    isValidNonEmailGoogleId = matches !== null && matches[0] === googleId;
     
     var isValidEmailGoogleId = isEmailValid(googleId);
     
@@ -650,18 +660,18 @@ function isValidGoogleId(googleId) {
  * @returns {Boolean}
  */
 function isEmailValid(email) {
-    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) != null;
+    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) !== null;
 }
 
 /**
  * Checks whether a person's name is valid.
  * (Used in instructorCourseEdit.js)
  *
- * @param name
+ * @param rawName
  * @returns {Boolean}
  */
-function isNameValid(name) {
-    name = name.trim();
+function isNameValid(rawName) {
+    var name = rawName.trim();
 
     if (name === '') {
         return false;
@@ -675,19 +685,18 @@ function isNameValid(name) {
         return false;
     } else if (name.length > NAME_MAX_LENGTH) {
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
 
 /**
  * Checks whether an institution name is valid
  * Used in adminHome page (through administrator.js)
- * @param name
+ * @param rawInstitution
  * @returns {Boolean}
  */
-function isInstitutionValid(institution) {
-    institution = institution.trim();
+function isInstitutionValid(rawInstitution) {
+    var institution = rawInstitution.trim();
 
     if (institution === '') {
         return false;
@@ -701,9 +710,8 @@ function isInstitutionValid(institution) {
         return false;
     } else if (institution.length > NAME_MAX_LENGTH) {
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
 
 /**
@@ -714,26 +722,25 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
     element.on('keydown', function(event) {
         var key = event.which;
         // Allow: backspace, delete, tab, escape, and enter
-        if (key === 46 || key === 8 || key === 9 || key === 27 || key === 13 ||
+        if (key === 46 || key === 8 || key === 9 || key === 27 || key === 13
             // Allow: Ctrl+A
-            (key === 65 && event.ctrlKey) ||
+            || key === 65 && event.ctrlKey
              // Allow: home, end, left, right
-            (key >= 35 && key <= 39) ||
+            || key >= 35 && key <= 39
              // Allow dot if decimal point is allowed
-            (decimalPointAllowed && key === 190) ||
+            || decimalPointAllowed && key === 190
              // Allow hyphen if negative is allowed
              // Code differs by browser (FF/Opera:109, IE/Chrome:189)
              // see http://www.javascripter.net/faq/keycodes.htm
-            (negativeAllowed && (key === 189 || key === 109))) {
+            || negativeAllowed && (key === 189 || key === 109)) {
             
             // let it happen, don't do anything
             return;
-        } else {
-            // Ensure that it is a number and stop the keypress
-            if (event.shiftKey || (key < 48 || key > 57) && (key < 96 || key > 105)) {
-                event.preventDefault();
-                return false;
-            }
+        }
+        // Ensure that it is a number and stop the keypress
+        if (event.shiftKey || (key < 48 || key > 57) && (key < 96 || key > 105)) {
+            event.preventDefault();
+            return false;
         }
     });
 }
@@ -752,30 +759,31 @@ function escapeRegExp(string) {
 /**
  * Sanitizes special characters such as ' and \ to \' and \\ respectively
  */
-function sanitizeForJs(string) {
+function sanitizeForJs(rawString) {
+    var string = rawString;
     string = replaceAll(string, '\\', '\\\\');
     string = replaceAll(string, '\'', '\\\'');
     return string;
 }
 
-
 /**
  * Highlights all words of searchKey (case insensitive), in a particular section
  * Format of the string  higlight plugin uses - ( ['string1','string2',...] )
- * @param searchKeyId - Id of searchKey input field 
- * @param sectionToHighlight - sections to higlight separated by ',' (comma) 
+ * @param searchKeyId - Id of searchKey input field
+ * @param sectionToHighlight - sections to higlight separated by ',' (comma)
  *                             Example- '.panel-body, #panel-data, .sub-container'
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
     var searchKey = $(searchKeyId).val();
     // trim symbols around every word in the string
     var symbolTrimmedSearchKey = [];
-    $.each(searchKey.split(/["'.-]/), function(){
+    $.each(searchKey.split(/["'.-]/), function() {
         symbolTrimmedSearchKey.push($.trim(this));
     });
     // remove empty elements from symbolTrimmedSearchKey
-    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n){
-        return (!(n == "")) });
+    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n) {
+        return n !== '';
+    });
     $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
 }
 
@@ -783,16 +791,18 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
  * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
  * the function.
  */
+/* eslint-disable no-extend-native */
 if (!String.prototype.includes) {
     String.prototype.includes = function() {
         'use strict';
         return String.prototype.indexOf.apply(this, arguments) !== -1;
-    }
+    };
 }
+/* eslint-enable no-extend-native */
 
 /**
  * Checks if the input value is a blank string
- * 
+ *
  * @param str
  * @returns true if the input is a blank string, false otherwise
  */
@@ -806,16 +816,16 @@ function isBlank(str) {
 /**
  * Sets the chevron of a panel from up to down or from down to up depending on its current state.
  * clickedElement must be at least the parent of the chevron.
- */ 
+ */
 function toggleChevron(clickedElement) {
     var $clickedElement = $(clickedElement);
-    var isChevronDown = $clickedElement.find(".glyphicon-chevron-down").length > 0;
-    var $chevronContainer = $clickedElement.find(".glyphicon");
+    var isChevronDown = $clickedElement.find('.glyphicon-chevron-down').length > 0;
+    var $chevronContainer = $clickedElement.find('.glyphicon');
 
-    //clearQueue to clear the animation queue to prevent animation build up
+    // clearQueue to clear the animation queue to prevent animation build up
     $chevronContainer.clearQueue();
 
-    if (isChevronDown) { 
+    if (isChevronDown) {
         setChevronToUp($chevronContainer);
     } else {
         setChevronToDown($chevronContainer);
@@ -826,16 +836,16 @@ function toggleChevron(clickedElement) {
  * Sets the chevron to point upwards.
  */
 function setChevronToUp(chevronContainer) {
-    chevronContainer.removeClass("glyphicon-chevron-down");
-    chevronContainer.addClass("glyphicon-chevron-up");
+    chevronContainer.removeClass('glyphicon-chevron-down');
+    chevronContainer.addClass('glyphicon-chevron-up');
 }
 
 /**
  * Sets the chevron to point downwards.
  */
 function setChevronToDown(chevronContainer) {
-    chevronContainer.removeClass("glyphicon-chevron-up");
-    chevronContainer.addClass("glyphicon-chevron-down");
+    chevronContainer.removeClass('glyphicon-chevron-up');
+    chevronContainer.addClass('glyphicon-chevron-down');
 }
 
 /**
@@ -847,10 +857,10 @@ function toggleSingleCollapse(e) {
     }
     var glyphIcon = $(this).find('.glyphicon');
     var className = $(glyphIcon[0]).attr('class');
-    if (className.indexOf('glyphicon-chevron-up') != -1) {
-        hideSingleCollapse($(e.currentTarget).attr('data-target'));
-    } else {
+    if (className.indexOf('glyphicon-chevron-up') === -1) {
         showSingleCollapse($(e.currentTarget).attr('data-target'));
+    } else {
+        hideSingleCollapse($(e.currentTarget).attr('data-target'));
     }
 }
 
@@ -871,8 +881,68 @@ function showSingleCollapse(e) {
 function hideSingleCollapse(e) {
     var heading = $(e).parent().children('.panel-heading');
     var glyphIcon = $(heading[0]).find('.glyphicon');
-    setChevronToDown($(glyphIcon[0]))
+    setChevronToDown($(glyphIcon[0]));
     $(e).collapse('hide');
     $(heading).find('a.btn').hide();
 }
 
+/**
+ * Wrapper for Bootbox.js (available at http://bootboxjs.com/)
+ * "Bootbox.js is a small JavaScript library which allows you to create programmatic dialog boxes using
+ *  Bootstrap modals"
+ */
+var BootboxWrapper = {
+    DEFAULT_OK_TEXT: 'OK',
+    DEFAULT_CANCEL_TEXT: 'Cancel',
+
+    /**
+     * Custom alert dialog to replace default alert() function
+     * Required params: titleText and messageText
+     * Optional params: okButtonText (defaults to "OK")
+     *                  color (defaults to StatusType.DEFAULT)
+     */
+    showModalAlert: function(titleText, messageText, okButtonText, color) {
+        bootbox.dialog({
+            title: titleText,
+            message: messageText,
+            buttons: {
+                okay: {
+                    label: okButtonText || BootboxWrapper.DEFAULT_OK_TEXT,
+                    className: 'modal-btn-ok btn-' + color || StatusType.DEFAULT
+                }
+            }
+        })
+        // applies bootstrap color to title background
+        .find('.modal-header').addClass('alert-' + color || StatusType.DEFAULT);
+    },
+
+    /**
+     * Custom confirmation dialog to replace default confirm() function
+     * Required params: titleText, messageText and okCallback
+     * Optional params: cancelCallBack (defaults to null)
+     *                  okButtonText (defaults to "OK")
+     *                  cancelButtonText (defaults to "Cancel")
+     *                  color (defaults to StatusType.INFO)
+     */
+    showModalConfirmation: function(titleText, messageText, okCallback, cancelCallback,
+                                    okButtonText, cancelButtonText, color) {
+        bootbox.dialog({
+            title: titleText,
+            message: messageText,
+            buttons: {
+                cancel: {
+                    label: cancelButtonText || BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                    className: 'modal-btn-cancel btn-default',
+                    callback: cancelCallback || null
+                },
+                ok: {
+                    label: okButtonText || BootboxWrapper.DEFAULT_OK_TEXT,
+                    className: 'modal-btn-ok btn-' + color || StatusType.DEFAULT,
+                    callback: okCallback
+                }
+            }
+        })
+        // applies bootstrap color to title background
+        .find('.modal-header').addClass('alert-' + color || StatusType.DEFAULT);
+    }
+};

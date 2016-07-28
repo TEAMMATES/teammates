@@ -15,7 +15,7 @@
         To :
         <div class="row">
             <div class="col-md-11">
-                <input id="addressReceiverEmails" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEVIERS%>" 
+                <input id="addressReceiverEmails" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS%>" 
                        placeholder="example1@email.com,example2@email.com..."
                        maxlength="500"
                        value="${(not empty emailToEdit) and (not empty emailToEdit.addressReceiver) ? emailToEdit.firstAddressReceiver : ''}">

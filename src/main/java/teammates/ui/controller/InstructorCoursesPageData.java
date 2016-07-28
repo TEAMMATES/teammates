@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.ui.template.ActiveCoursesTable;
@@ -17,7 +16,7 @@ import teammates.ui.template.ArchivedCoursesTableRow;
 import teammates.ui.template.ElementTag;
 
 /**
- * This is the PageData object for the 'Courses' page 
+ * This is the PageData object for the 'Courses' page
  */
 public class InstructorCoursesPageData extends PageData {
 
@@ -36,11 +35,11 @@ public class InstructorCoursesPageData extends PageData {
     }
     
     public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam,
-                     Map<String, InstructorAttributes> instructorsForCoursesParam){
-        init(activeCoursesParam, archivedCoursesParam, instructorsForCoursesParam, "", ""); 
+                     Map<String, InstructorAttributes> instructorsForCoursesParam) {
+        init(activeCoursesParam, archivedCoursesParam, instructorsForCoursesParam, "", "");
     }
     
-    public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam, 
+    public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam,
                      Map<String, InstructorAttributes> instructorsForCoursesParam, String courseIdToShowParam,
                      String courseNameToShowParam) {
         this.instructorsForCourses = instructorsForCoursesParam;
@@ -55,7 +54,7 @@ public class InstructorCoursesPageData extends PageData {
     }
 
     public boolean isUsingAjax() {
-      return this.isUsingAjax;
+        return this.isUsingAjax;
     }
     
     public String getCourseIdToShow() {
@@ -84,20 +83,24 @@ public class InstructorCoursesPageData extends PageData {
             
             List<ElementTag> actionsParam = new ArrayList<ElementTag>();
             
-            ElementTag unarchivedButton = createButton("Unarchive", "btn btn-default btn-xs", "t_course_unarchive" + idx,
-                                                       getInstructorCourseArchiveLink(course.id, false, false), "", "", false);
+            String unarchiveLink = getInstructorCourseArchiveLink(course.getId(), false, false);
+            ElementTag unarchivedButton = createButton("Unarchive", "btn btn-default btn-xs",
+                                                       "t_course_unarchive" + idx, unarchiveLink, "", "", false);
             
+            String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
+            Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
+                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs", "t_course_delete" + idx,
-                                                   getInstructorCourseDeleteLink(course.id, false), Const.Tooltips.COURSE_DELETE,
-                                                   "return toggleDeleteCourseConfirmation('" + course.id + "');",
-                                                   !instructorsForCourses.get(course.id).isAllowedForPrivilege(
-                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+                                                   deleteLink, Const.Tooltips.COURSE_DELETE,
+                                                   "return toggleDeleteCourseConfirmation('" + course.getId() + "');",
+                                                   !hasDeletePermission);
             
             actionsParam.add(unarchivedButton);
             actionsParam.add(deleteButton);
             
-            ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
-                                                                      Sanitizer.sanitizeForHtml(course.name), actionsParam);
+            ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(Sanitizer.sanitizeForHtml(course.getId()),
+                                                                      Sanitizer.sanitizeForHtml(course.getName()),
+                                                                                                actionsParam);
             archivedCoursesTable.getRows().add(row);
             
         }
@@ -115,29 +118,31 @@ public class InstructorCoursesPageData extends PageData {
             
             List<ElementTag> actionsParam = new ArrayList<ElementTag>();
             
+            Boolean hasModifyPermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
+                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
             ElementTag enrollButton = createButton("Enroll", "btn btn-default btn-xs t_course_enroll" + idx, "",
-                                                   getInstructorCourseEnrollLink(course.id),
-                                                   Const.Tooltips.COURSE_ENROLL, "", 
-                                                   !instructorsForCourses.get(course.id).isAllowedForPrivilege(
-                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+                                                   getInstructorCourseEnrollLink(course.getId()),
+                                                   Const.Tooltips.COURSE_ENROLL, "", !hasModifyPermission);
             
             ElementTag viewButton = createButton("View", "btn btn-default btn-xs t_course_view" + idx, "",
-                                                 getInstructorCourseDetailsLink(course.id), 
+                                                 getInstructorCourseDetailsLink(course.getId()),
                                                  Const.Tooltips.COURSE_DETAILS, "", false);
             
             ElementTag editButton = createButton("Edit", "btn btn-default btn-xs t_course_edit" + idx, "",
-                                                 getInstructorCourseEditLink(course.id), 
+                                                 getInstructorCourseEditLink(course.getId()),
                                                  Const.Tooltips.COURSE_EDIT, "", false);
             
             ElementTag archiveButton = createButton("Archive", "btn btn-default btn-xs t_course_archive" + idx, "",
-                                                    getInstructorCourseArchiveLink(course.id, true, false),
+                                                    getInstructorCourseArchiveLink(course.getId(), true, false),
                                                     Const.Tooltips.COURSE_ARCHIVE, "", false);
             
+            String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
+            Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
+                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs t_course_delete" + idx, "",
-                                                   getInstructorCourseDeleteLink(course.id, false),
-                                                   Const.Tooltips.COURSE_DELETE, "return toggleDeleteCourseConfirmation('" + course.id + "');",
-                                                   !(instructorsForCourses.get(course.id).isAllowedForPrivilege(
-                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)));
+                                                   deleteLink, Const.Tooltips.COURSE_DELETE,
+                                                   "return toggleDeleteCourseConfirmation('" + course.getId() + "');",
+                                                   !hasDeletePermission);
             
             actionsParam.add(enrollButton);
             actionsParam.add(viewButton);
@@ -145,9 +150,9 @@ public class InstructorCoursesPageData extends PageData {
             actionsParam.add(archiveButton);
             actionsParam.add(deleteButton);
             
-            ActiveCoursesTableRow row = new ActiveCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
-                                                                  Sanitizer.sanitizeForHtml(course.name), 
-                                                                  this.getInstructorCourseStatsLink(course.id),
+            ActiveCoursesTableRow row = new ActiveCoursesTableRow(Sanitizer.sanitizeForHtml(course.getId()),
+                                                                  Sanitizer.sanitizeForHtml(course.getName()),
+                                                                  this.getInstructorCourseStatsLink(course.getId()),
                                                                   actionsParam);
             activeCourses.getRows().add(row);
         }
@@ -155,26 +160,27 @@ public class InstructorCoursesPageData extends PageData {
         return activeCourses;
     }
     
-    private ElementTag createButton(String content, String buttonClass, String id, String href, String title, String onClick, boolean isDisabled){
+    private ElementTag createButton(String content, String buttonClass, String id, String href, String title,
+                                    String onClick, boolean isDisabled) {
         ElementTag button = new ElementTag(content);
         
         button.setAttribute("class", buttonClass);
         
-        if ((id != null) && (!id.equals(""))) {
+        if (id != null && !id.isEmpty()) {
             button.setAttribute("id", id);
         }
         
-        if ((href != null) && (!href.equals(""))) {
+        if (href != null && !href.isEmpty()) {
             button.setAttribute("href", href);
         }
         
-        if ((title != null) && (!title.equals(""))) {
+        if (title != null && !title.isEmpty()) {
             button.setAttribute("title", title);
             button.setAttribute("data-toggle", "tooltip");
             button.setAttribute("data-placement", "top");
         }
         
-        if ((onClick != null) && (!onClick.equals(""))) {
+        if (onClick != null && !onClick.isEmpty()) {
             button.setAttribute("onclick", onClick);
         }
         

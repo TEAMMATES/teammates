@@ -6,7 +6,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.util.Sanitizer;
 
 public class FeedbackResultsTable {
 

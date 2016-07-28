@@ -21,38 +21,36 @@ public class AdminAccountManagementPage extends AppPage {
                         "<h1>Instructor Account Management</h1>");
     }
 
-    public AdminAccountManagementPage clickDeleteInstructorStatus(
-            String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_delete")).click();
+    public AdminAccountManagementPage clickDeleteInstructorStatus(String instructorId) {
+        WebElement button = browser.driver.findElement(By.id(instructorId + "_delete"));
+        click(button);
         waitForPageToLoad();
         return this;
     }
 
-    public AdminAccountDetailsPage clickViewInstructorDetails(
-            String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_details")).click();
+    public AdminAccountDetailsPage clickViewInstructorDetails(String instructorId) {
+        WebElement button = browser.driver.findElement(By.id(instructorId + "_details"));
+        click(button);
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(AdminAccountDetailsPage.class);
     }
     
-    public AdminActivityLogPage clickViewRecentActions(
-            String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_recentActions")).click();
+    public AdminActivityLogPage clickViewRecentActions(String instructorId) {
+        WebElement button = browser.driver.findElement(By.id(instructorId + "_recentActions"));
+        click(button);
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(AdminActivityLogPage.class);
     }
 
-    public AdminAccountManagementPage clickAndCancelDeleteAccountLink(
-            String googleId) {
+    public AdminAccountManagementPage clickAndCancelDeleteAccountLink(String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
         clickAndCancel(deleteAccountLink);
         return this;
     }
 
-    public AdminAccountManagementPage clickAndConfirmDeleteAccountLink(
-            String googleId) {
+    public AdminAccountManagementPage clickAndConfirmDeleteAccountLink(String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
         clickAndConfirm(deleteAccountLink);
         waitForPageToLoad();
@@ -70,7 +68,7 @@ public class AdminAccountManagementPage extends AppPage {
     private WebElement getAccountTable() {
         List<WebElement> tables = browser.driver.findElements(By.cssSelector("table"));
         if (!tables.isEmpty()) {
-            return tables.get(0);   // only get the first table
+            return tables.get(0); // only get the first table
         }
         return null;
     }
@@ -86,7 +84,7 @@ public class AdminAccountManagementPage extends AppPage {
     public List<String> getTableHeaders() {
         List<String> result = new ArrayList<String>();
         List<WebElement> tableHeaders = browser.driver.findElements(By.cssSelector("table > thead > tr > th"));
-        for(int i = 0; i < tableHeaders.size(); i++) {
+        for (int i = 0; i < tableHeaders.size(); i++) {
             WebElement header = tableHeaders.get(i);
             result.add(header.getText());
         }
@@ -95,6 +93,6 @@ public class AdminAccountManagementPage extends AppPage {
 
     public void waitForAdminAccountsManagementPageToFinishLoading() {
         By currentPageEntryCountSpan = By.id("currentPageEntryCount");
-        waitForElementPresence(currentPageEntryCountSpan, 60);
+        waitForElementPresence(currentPageEntryCountSpan);
     }
 }

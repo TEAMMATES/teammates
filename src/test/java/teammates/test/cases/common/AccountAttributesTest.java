@@ -1,11 +1,11 @@
 package teammates.test.cases.common;
 
+import static teammates.common.util.Const.EOL;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.*;
-import static teammates.common.util.Const.EOL;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
@@ -20,12 +20,12 @@ public class AccountAttributesTest extends BaseTestCase {
     //TODO: test toString() method
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
     @Test
-    public void testGetInvalidStateInfo(){
+    public void testGetInvalidStateInfo() throws Exception {
         ______TS("valid account");
         
         AccountAttributes account = createValidAccountAttributesObject();
@@ -44,12 +44,26 @@ public class AccountAttributesTest extends BaseTestCase {
         ______TS("invalid account");
         
         account = createInvalidAccountAttributesObject();
-        String expectedError = "\"\" is not acceptable to TEAMMATES as a person name because it is empty. The value of a person name should be no longer than 100 characters. It should not be empty."+ EOL +
-                "\"invalid google id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 254 characters. It cannot be empty."+ EOL +
-                "\"invalid@email@com\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces."+ EOL +
-                "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as an institute name because it is too long. The value of an institute name should be no longer than 64 characters. It should not be empty.";
-        assertEquals("all valid values",false, account.isValid());
-        assertEquals("all valid values",expectedError, StringHelper.toString(account.getInvalidityInfo()));
+        String expectedError =
+                getPopulatedErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                    FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
+                      FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
+                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                      FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
+        assertFalse("all valid values", account.isValid());
+        assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
         
     }
     
@@ -62,8 +76,9 @@ public class AccountAttributesTest extends BaseTestCase {
     @Test
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
-        Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
-                                account.email, account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
+        Account expectedAccount =
+                new Account(account.googleId, account.name, account.isInstructor, account.email,
+                            account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
         Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
         
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
@@ -129,11 +144,10 @@ public class AccountAttributesTest extends BaseTestCase {
         String name = ""; //invalid name
         boolean isInstructor = false;
         String email = "invalid@email@com";
-        String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH+1);
+        String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         StudentProfileAttributes studentProfile = new StudentProfileAttributes();
         
-        AccountAttributes account = new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
-        return account;
+        return new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
     }
 
     private AccountAttributes createValidAccountAttributesObject() {
@@ -144,8 +158,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String email = "valid@email.com";
         String institute = "valid institute name";
         
-        AccountAttributes account = new AccountAttributes(googleId, name, isInstructor, email, institute);
-        return account;
+        return new AccountAttributes(googleId, name, isInstructor, email, institute);
     }
     
     private AccountAttributes createAccountAttributesToSanitize() {
@@ -166,7 +179,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
         
-        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail, 
+        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail,
                 profileInstitute, nationality, gender, moreInfo, pictureKey);
         
         return account;
@@ -177,6 +190,5 @@ public class AccountAttributesTest extends BaseTestCase {
     public static void tearDown() {
         printTestClassFooter();
     }
-
 
 }

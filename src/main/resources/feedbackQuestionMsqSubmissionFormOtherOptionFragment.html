@@ -3,13 +3,13 @@
         <div class="checkbox">
             <label class="bold-label">
                 <input type="checkbox"
-                       name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
+                       name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
                        ${disabled} ${checked} value="${msqChoiceValue}" data-text="msqOtherOptionText"> Other
             </label>
-            <input type="text" name="msqOtherOptionText-${qnIdx}-${responseIdx}" id="msqOtherOptionText-${qnIdx}-${responseIdx}" 
+            <input class="form-control margin-top-2px" type="text" name="msqOtherOptionText-${questionIndex}-${responseIndex}" id="msqOtherOptionText-${questionIndex}-${responseIndex}" 
                    ${text-disabled} value="${msqChoiceValue}">
-            <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}-${qnIdx}-${responseIdx}" 
-                   id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}-${qnIdx}-${responseIdx}" 
+            <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}-${questionIndex}-${responseIndex}" 
+                   id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}-${questionIndex}-${responseIndex}" 
                    value="${msqOtherOptionAnswer}">
         </div>
      </td>

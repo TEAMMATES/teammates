@@ -1,7 +1,7 @@
 var isFetchingCourses = false;
 var needsRetrying = false;
 
-$(document).ready(function(){
+$(document).ready(function() {
     var ajaxRequest = function(e) {
         if (isFetchingCourses) {
             return;
@@ -44,7 +44,7 @@ $(document).ready(function(){
                 $('#coursesList')
                     .removeClass('align-center')
                     .html(appendedCoursesTable);
-                toggleSort($("#button_sortcourseid"));
+                toggleSort($('#button_sortcourseid'));
                 linkAjaxForCourseStats();
             }
         });

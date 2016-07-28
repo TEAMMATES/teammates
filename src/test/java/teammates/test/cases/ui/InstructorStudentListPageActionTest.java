@@ -1,15 +1,13 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.test.util.Priority;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.Priority;
 import teammates.ui.controller.InstructorStudentListPageAction;
 import teammates.ui.controller.InstructorStudentListPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -29,7 +27,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         String instructorId = instructor.googleId;
 
@@ -46,7 +44,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=" + instructorId,
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"
@@ -68,7 +66,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=instructorWithoutCourses",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, r.getStatusMessage());
 
         islpd = (InstructorStudentListPageData) r.data;
@@ -91,7 +89,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=idOfInstructorOfArchivedCourse",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         islpd = (InstructorStudentListPageData) r.data;
@@ -117,7 +115,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=idOfInstructorOfArchivedCourse",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         islpd = (InstructorStudentListPageData) r.data;
@@ -132,7 +130,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
     }
 
-    private InstructorStudentListPageAction getAction(String... params) throws Exception {
+    private InstructorStudentListPageAction getAction(String... params) {
         return (InstructorStudentListPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

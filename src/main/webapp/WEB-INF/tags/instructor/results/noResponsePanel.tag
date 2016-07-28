@@ -19,7 +19,7 @@
                             onclick="toggleSort(this)" style="width: 30%;">
                             Name<span class="icon-sort unsorted"></span>
                         </th>
-                        <th>
+                        <th class="action-header">
                             Actions
                         </th>
                     </tr>
@@ -27,9 +27,16 @@
                 <tbody>
                     <c:forEach items="${noResponsePanel.emails}" var="email">
                         <tr>
-                            <td>${fn:escapeXml(noResponsePanel.teams[email])}</td>
+                            <c:choose>
+                                <c:when test="${not empty noResponsePanel.instructorStatus[email] && noResponsePanel.instructorStatus[email] == 'true'}">
+                                         <td><i>${fn:escapeXml(noResponsePanel.teams[email])}</i></td>
+                                </c:when>
+                                <c:otherwise>
+                                         <td>${fn:escapeXml(noResponsePanel.teams[email])}</td>
+                                </c:otherwise>
+                            </c:choose>
                             <td>${fn:escapeXml(noResponsePanel.names[email])}</td>
-                            <td>
+                            <td class="action-button-item">
                                 <c:if test="${not empty noResponsePanel.moderationButtons[email]}">
                                     <results:moderationButton moderationButton="${noResponsePanel.moderationButtons[email]}"/>
                                 </c:if>

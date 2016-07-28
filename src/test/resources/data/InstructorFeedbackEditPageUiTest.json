@@ -14,6 +14,13 @@
   	  "email": "tmms.instr@gmail.tmt",
   	  "institute": "TEAMMATES Test Institute 1"
   	},
+  	"thirdInstructor": {
+  	  "googleId": "CFeedbackEditUiT.instructor3",
+  	  "name": "Instructor 3",
+  	  "isInstructor": true,
+  	  "email": "tmms.instr@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
+  	},
   	"alice.tmms": {
   	  "googleId": "CFeedbackEditUiT.alice.tmms",
   	  "name": "Alice Betsy",
@@ -71,6 +78,32 @@
       "role":"Co-owner",
       "isDisplayedToStudents": false,
       "displayedName":"Co-owner</td></div>'\"",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor3": {
+      "googleId": "CFeedbackEditUiT.instructor3",
+      "courseId": "CFeedbackEditUiT.CS1101",
+      "name": "Instructor 2",
+      "email": "tmms.instr@course.tmt",
+      "role":"Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName":"Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -148,6 +181,22 @@
       "courseId" : "CFeedbackEditUiT.CS2104",
       "creatorEmail" : "tmms.test@gmail.tmt",
       "instructions": {"value" : "Instructions for Second session"},
+      "createdTime" : "2012-04-01 11:59 PM UTC",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2026-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2026-05-01 11:59 PM UTC",
+      "timeZone" : 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    },
+    "openSession3": {
+      "feedbackSessionName" : "Third Session",
+      "courseId" : "CFeedbackEditUiT.CS1101",
+      "creatorEmail" : "tmms.test@gmail.tmt",
+      "instructions": {"value" : "Instructions for Third session"},
       "createdTime" : "2012-04-01 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
       "endTime" : "2026-04-30 11:59 PM UTC",

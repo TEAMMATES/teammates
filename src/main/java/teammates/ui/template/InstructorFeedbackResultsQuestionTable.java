@@ -17,7 +17,7 @@ public class InstructorFeedbackResultsQuestionTable {
     
     private List<InstructorFeedbackResultsResponseRow> responses;
     
-    // store the attributes of the question for the non-display purposes 
+    // store the attributes of the question for the non-display purposes
     // such as form inputs
     private FeedbackQuestionAttributes question;
 
@@ -49,7 +49,7 @@ public class InstructorFeedbackResultsQuestionTable {
         this.questionStatisticsTable = questionStatisticsHtml;
         this.responses = responseRows;
         
-        this.isHasResponses = isHasResponses;  
+        this.isHasResponses = isHasResponses;
         
         this.question = question;
         
@@ -147,7 +147,9 @@ public class InstructorFeedbackResultsQuestionTable {
 
     public static void sortByQuestionNumber(List<InstructorFeedbackResultsQuestionTable> questionTables) {
         Collections.sort(questionTables, new Comparator<InstructorFeedbackResultsQuestionTable>() {
-            public int compare(InstructorFeedbackResultsQuestionTable questionTable1, InstructorFeedbackResultsQuestionTable questionTable2) {
+            @Override
+            public int compare(InstructorFeedbackResultsQuestionTable questionTable1,
+                               InstructorFeedbackResultsQuestionTable questionTable2) {
                 return questionTable1.question.questionNumber - questionTable2.question.questionNumber;
             }
         });

@@ -17,8 +17,8 @@ public class AdminAccountDetailsPageData extends PageData {
     private List<AdminAccountDetailsInstructorCourseListTableRow> instructorCourseListTable;
     private List<AdminAccountDetailsStudentCourseListTableRow> studentCourseListTable;
     
-    public AdminAccountDetailsPageData(AccountAttributes account, AccountAttributes accountInformation, 
-                                       List<CourseDetailsBundle> instructorCourseList, 
+    public AdminAccountDetailsPageData(AccountAttributes account, AccountAttributes accountInformation,
+                                       List<CourseDetailsBundle> instructorCourseList,
                                        List<CourseAttributes> studentCourseList) {
         super(account);
         this.accountInformation = accountInformation;
@@ -28,12 +28,12 @@ public class AdminAccountDetailsPageData extends PageData {
     
     private List<AdminAccountDetailsStudentCourseListTableRow> createStudentCourseListTable(
                                     List<CourseAttributes> studentCourseList) {
-        List<AdminAccountDetailsStudentCourseListTableRow> courseListTable = 
+        List<AdminAccountDetailsStudentCourseListTableRow> courseListTable =
                         new ArrayList<AdminAccountDetailsStudentCourseListTableRow>();
         
         if (studentCourseList != null) {
             for (CourseAttributes courseDetails : studentCourseList) {
-                AdminAccountDetailsStudentCourseListTableRow row = 
+                AdminAccountDetailsStudentCourseListTableRow row =
                         new AdminAccountDetailsStudentCourseListTableRow(
                                                         accountInformation.googleId, courseDetails);
                 courseListTable.add(row);
@@ -45,10 +45,12 @@ public class AdminAccountDetailsPageData extends PageData {
 
     private List<AdminAccountDetailsInstructorCourseListTableRow> createInstructorCourseListTable(
                                                             List<CourseDetailsBundle> instructorCourseList) {
-        List<AdminAccountDetailsInstructorCourseListTableRow> courseListTable = new ArrayList<AdminAccountDetailsInstructorCourseListTableRow>();
+        List<AdminAccountDetailsInstructorCourseListTableRow> courseListTable =
+                new ArrayList<AdminAccountDetailsInstructorCourseListTableRow>();
         if (instructorCourseList != null) {
-            for(CourseDetailsBundle courseDetails : instructorCourseList) {
-                AdminAccountDetailsInstructorCourseListTableRow row = new AdminAccountDetailsInstructorCourseListTableRow(accountInformation.googleId, courseDetails);
+            for (CourseDetailsBundle courseDetails : instructorCourseList) {
+                AdminAccountDetailsInstructorCourseListTableRow row =
+                        new AdminAccountDetailsInstructorCourseListTableRow(accountInformation.googleId, courseDetails);
                 courseListTable.add(row);
             }
         }
@@ -68,18 +70,18 @@ public class AdminAccountDetailsPageData extends PageData {
         return studentCourseListTable;
     }
     
-    public static String getAdminDeleteInstructorFromCourseLink(String instructorId, String courseId){
+    public static String getAdminDeleteInstructorFromCourseLink(String instructorId, String courseId) {
         String link = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_ID,instructorId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_ID, instructorId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         
         return link;
     }
     
-    public static String getAdminDeleteStudentFromCourseLink(String studentId, String courseId){
+    public static String getAdminDeleteStudentFromCourseLink(String studentId, String courseId) {
         String link = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_ID,studentId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_ID, studentId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         
         return link;
     }

@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import static teammates.ui.controller.StudentCourseJoinAction.getPageTypeOfUrl;
 
 import org.testng.annotations.BeforeClass;
@@ -24,7 +21,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
     }
 
@@ -80,9 +77,9 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
                 + "&" + Const.ParamsNames.USER_ID + "=" + idOfNewStudent,
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
-        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
+        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
                 + "?" + Const.ParamsNames.REGKEY + "=" + newStudentKey
-                + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE, 
+                + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE,
                 ((StudentCourseJoinConfirmationPageData) pageResult.data).getConfirmUrl());
         assertEquals("", pageResult.getStatusMessage());
         
@@ -128,8 +125,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         assertEquals("/page/somePage/somePage?key=abcdef", getPageTypeOfUrl("/page/somePage/somePage?key=abcdef"));
     }
 
-    private StudentCourseJoinAction getAction(String... params)
-            throws Exception {
+    private StudentCourseJoinAction getAction(String... params) {
         return (StudentCourseJoinAction) (gaeSimulation.getActionObject(uri,
                 params));
     }

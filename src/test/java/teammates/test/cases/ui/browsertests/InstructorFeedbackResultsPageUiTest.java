@@ -1,11 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.io.File;
-import java.util.logging.Logger;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
@@ -17,7 +12,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
@@ -26,6 +20,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.util.Priority;
+import teammates.test.util.FileHelper;
 
 /**
  * Tests 'Feedback Results' view of instructors.
@@ -33,20 +28,19 @@ import teammates.test.util.Priority;
  */
 @Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
-    protected static Logger log = Utils.getLogger();
 
     private static DataBundle testData;
     private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
 
     @BeforeMethod
-    public void refreshTestData() throws Exception {
+    public void refreshTestData() {
         testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -56,7 +50,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public void testHtmlContent() throws Exception {
         testContent();
         testModerateResponsesButton();
-        testLink();
     }
 
     @Test
@@ -108,17 +101,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         FeedbackQuestionAttributes firstQuestion = testData.feedbackQuestions.get("qn1InSession4");
         assertEquals(1, firstQuestion.questionNumber);
-        FeedbackQuestionAttributes firstQuestionFromDatastore = 
-                                        BackDoor.getFeedbackQuestion(firstQuestion.courseId, 
-                                                                     firstQuestion.feedbackSessionName, 
+        FeedbackQuestionAttributes firstQuestionFromDatastore =
+                                        BackDoor.getFeedbackQuestion(firstQuestion.courseId,
+                                                                     firstQuestion.feedbackSessionName,
                                                                      firstQuestion.questionNumber);
         
         FeedbackQuestionAttributes secondQuestion = testData.feedbackQuestions.get("qn2InSession4");
         assertEquals(2, secondQuestion.questionNumber);
         // need to retrieve question from datastore to get its questionId
-        FeedbackQuestionAttributes secondQuestionFromDatastore = 
-                                        BackDoor.getFeedbackQuestion(secondQuestion.courseId, 
-                                                                     secondQuestion.feedbackSessionName, 
+        FeedbackQuestionAttributes secondQuestionFromDatastore =
+                                        BackDoor.getFeedbackQuestion(secondQuestion.courseId,
+                                                                     secondQuestion.feedbackSessionName,
                                                                      secondQuestion.questionNumber);
         assertEquals(secondQuestion, secondQuestionFromDatastore);
         // make both questions have the same question number
@@ -131,22 +124,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // compare html for each question panel
         // to verify that the right responses are showing for each question
-        By firstQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
-                                             + firstQuestionFromDatastore.getId() + "']]" 
+        By firstQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='"
+                                             + firstQuestionFromDatastore.getId() + "']]"
                                              + "//div[contains(@class, 'table-responsive')]");
-        resultsPage.verifyHtmlPart(firstQuestionPanelResponses, 
+        resultsPage.verifyHtmlPart(firstQuestionPanelResponses,
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel1.html");
         
-        By secondQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
-                                              + secondQuestionFromDatastore.getId() + "']]"  
+        By secondQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='"
+                                              + secondQuestionFromDatastore.getId() + "']]"
                                               + "//div[contains(@class, 'table-responsive')]");
-        resultsPage.verifyHtmlPart(secondQuestionPanelResponses, 
+        resultsPage.verifyHtmlPart(secondQuestionPanelResponses,
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel2.html");
         
         
         ______TS("Results with sanitized data");
 
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr", "Session with sanitized data");
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr",
+                                                           "Session with sanitized data");
         resultsPage.waitForPanelsToExpand();
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
@@ -160,6 +154,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
+                                      "CFResultsUiT.fred.g@gmail.tmt",
                                       "CFResultsUiT.charlie.d@gmail.tmt", "CFResultsUiT.danny.e@gmail.tmt",
                                       "drop.out@gmail.tmt", "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
 
@@ -172,7 +167,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.waitForPageToLoad();
         
         ______TS("Typical case: test moderate responses button for instructors as givers");
-        verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt");
+        verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt",
+                                      "CFResultsUiT.instr@gmail.tmt");
         
     }
 
@@ -183,11 +179,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-1"));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
 
@@ -196,11 +192,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-0"));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-0"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
 
         ______TS("test sort by giver > question > recipient");
 
@@ -244,41 +240,41 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(7, ""));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(7, ""));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
 
         ______TS("Typical case: test in-table sort");
 
-        verifySortingOrder(By.id("button_sortFeedback"), 
-                           "1 Response to Danny.", 
-                           "2 Response to Benny.", 
-                           "3 Response to Emily.", 
+        verifySortingOrder(By.id("button_sortFeedback"),
+                           "1 Response to Danny.",
+                           "2 Response to Benny.",
+                           "3 Response to Emily.",
                            "4 Response to Charlie.");
 
-        verifySortingOrder(By.id("button_sortFromName"), 
+        verifySortingOrder(By.id("button_sortFromName"),
                            "Alice Betsy",
                            "Benny Charles",
                            "Benny Charles",
                             "Charlie Dávis");
         
-        verifySortingOrder(By.id("button_sortFromTeam"), 
+        verifySortingOrder(By.id("button_sortFromTeam"),
                            "Team 1",
                            "Team 1",
                            "Team 2",
                            "Team 2");
 
-        verifySortingOrder(By.id("button_sortToName"), 
-                           "Benny Charles", 
-                           "Charlie Dávis", 
+        verifySortingOrder(By.id("button_sortToName"),
+                           "Benny Charles",
+                           "Charlie Dávis",
                            "Danny Engrid",
                            "Emily");
 
         /*
          * Omitted as unable to check both forward and reverse order in one go
          * TODO: split up verifySortingOrder to enable this test
-        verifySortingOrder(By.id("button_sortToTeam"), 
+        verifySortingOrder(By.id("button_sortToTeam"),
                 "Team 2{*}Team 3",
                 "Team 1</td></div>'\"{*}Team 2",
                 "Team 1</td></div>'\"{*}Team 2",
@@ -372,7 +368,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by questions");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewGiverPhotoOnTableCell(0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewGiverPhotoOnTableCell(
+                0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, "profile_picture_default.png");
 
         ______TS("Typical case: ajax for view by question for helper 1");
@@ -396,64 +393,65 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "giver-recipient-question");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGRQ.html");
 
         ______TS("Typical case: test view photo for view by giver > recipient > question");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
-        
-        ______TS("Failure case: ajax error for giver > recipient > question");
-        // Change fs name so that the ajax request will fail
-        resultsPage.changeFsNameInAjaxLoadResponsesForm(1, "invalidFsName");
-        resultsPage.clickAjaxLoadResponsesPanel(1);
-        resultsPage.waitForAjaxError(1);
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
         
         ______TS("Typical case: ajax for view by giver > question > recipient");
         
-        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
+                                                                       "giver-question-recipient");
         
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGQR.html");
                 
         ______TS("Typical case: test view photo for view by giver > question > recipient");
         
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.clickViewPhotoLink(5, "profile_picture_default.png");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.clickViewPhotoLink("1-2", "profile_picture_default.png");
 
         ______TS("Typical case: ajax for view by recipient > question > giver");
 
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "recipient-question-giver");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByRQG.html");
 
         ______TS("Typical case: test view photo for view by recipient > question > giver");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.clickViewPhotoLink(6, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.clickViewPhotoLink("1-2", "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         
         ______TS("Typical case: ajax for view by recipient > giver > question");
 
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "recipient-giver-question");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByRGQ.html");
 
         ______TS("Typical case: test view photo for view by recipient > giver > question");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
     }
 
     public void testFilterAction() throws Exception {
@@ -468,15 +466,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.filterResponsesForSection("Section B");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredBySectionB.html");
 
-        ______TS("Typical case: filter by 'Not in a section'");
+        ______TS("Typical case: filter by 'No specific recipient'");
 
-        resultsPage.filterResponsesForSection("Not in a section");
+        resultsPage.filterResponsesForSection(Const.NO_SPECIFIC_RECIEPIENT);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredByNoSection.html");
         
         
-        ______TS("Verify that 'Not in a section' has a section panel on a non-question view");
+        ______TS("Verify that 'No specific recipient' has a section panel on a non-question view");
         resultsPage.displayByRecipientGiverQuestion();
-        assertTrue(resultsPage.isSectionPanelExist("Not in a section"));
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_RECIEPIENT));
         assertFalse(resultsPage.isSectionPanelExist("Section A"));
 
         resultsPage.displayByQuestion();
@@ -493,7 +491,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickInstructorPanelCollapseStudentsButton();
         resultsPage.waitForInstructorPanelStudentPanelsToCollapse();
         assertEquals("Expand Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
-        resultsPage.verifySpecifiedPanelIdsAreCollapsed(new int[] { 3, 4, 5 });
+        resultsPage.verifySpecifiedPanelIdsAreCollapsed(new String[] { "0-2", "0-3", "0-4" });
 
         resultsPage.clickGroupByTeam();
         resultsPage.displayByQuestion();
@@ -538,6 +536,26 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
+    @Test
+    public void testIndicateMissingResponses() {
+
+        ______TS("Typical case: Hide Missing Responses");
+
+        assertTrue(resultsPage.indicateMissingResponsesCheckbox.isSelected());
+        assertFalse(resultsPage.verifyMissingResponsesVisibility());
+
+        resultsPage.clickIndicateMissingResponses();
+        resultsPage.waitForPageToLoad();
+        assertFalse(resultsPage.indicateMissingResponsesCheckbox.isSelected());
+        assertTrue(resultsPage.verifyMissingResponsesVisibility());
+
+        resultsPage.clickIndicateMissingResponses();
+        resultsPage.waitForPageToLoad();
+        assertTrue(resultsPage.indicateMissingResponsesCheckbox.isSelected());
+        assertFalse(resultsPage.verifyMissingResponsesVisibility());
+
+    }
+    
     public void testSearchScript() throws Exception {
 
         ______TS("Typical case: test search/filter script");
@@ -546,6 +564,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ThreadHelper.waitFor(1000);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionSearch.html");
 
+        ______TS("Verify that search works on RGQ view");
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.clickGroupByTeam();
+        resultsPage.fillSearchBox("team 2");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
+        
+        resultsPage.fillSearchBox("alice");
+        resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
+        
+        resultsPage.fillSearchBox("Alice");
+        resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
+        
+        resultsPage.displayByQuestion();
     }
 
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
@@ -556,60 +587,61 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: add empty feedback response comment");
 
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "");
-        resultsPage.verifyCommentFormErrorMessage("-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "");
+        resultsPage.verifyCommentFormErrorMessage("-0-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
 
         ______TS("Typical case: add new feedback response comments");
 
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "test comment 1");
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "test comment 2");
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-1-1\"");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyContains("id=\"visibility-options-0-1-1-2\"");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 2");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-0-1-1\"");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyContains("id=\"visibility-options-0-1-0-1-2\"");
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1", "test comment 3");
-        resultsPage.verifyCommentRowContent("-1-1-1-1", "test comment 3", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1-1", "test comment 3");
+        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "test comment 3", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: edit existing feedback response comment");
 
-        resultsPage.editFeedbackResponseComment("-0-1-1-1", "edited test comment");
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "edited test comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.editFeedbackResponseComment("-1-1-1-1-1", "edited test comment");
+        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: delete existing feedback response comment");
 
-        resultsPage.deleteFeedbackResponseComment("-0-1-1-1");
-        resultsPage.verifyRowMissing("-0-1-1-1");
+        resultsPage.deleteFeedbackResponseComment("-1-1-1-1-1");
+        resultsPage.verifyRowMissing("-1-1-1-1-1");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: add edit and delete successively");
 
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "successive action comment");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "successive action comment");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-3", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
 
-        resultsPage.editFeedbackResponseComment("-0-1-1-2", "edited successive action comment");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "edited successive action comment", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-1-1", 1);
+        resultsPage.editFeedbackResponseComment("-0-1-0-1-3", "edited successive action comment");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-3", "edited successive action comment",
+                "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-0-1-3", 1);
 
-        resultsPage.deleteFeedbackResponseComment("-0-1-1-2");
-        resultsPage.verifyRowMissing("-0-1-1-2");
+        resultsPage.deleteFeedbackResponseComment("-0-1-0-1-3");
+        resultsPage.verifyRowMissing("-0-0-1-1-3");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyRowMissing("-0-1-1-2");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyRowMissing("-0-0-1-1-3");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
 
     }
@@ -636,41 +668,42 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         // If admin is an instructor, expected url is InstructorHomePage
         //                 otherwise, expected url is unauthorised.jsp
         assertTrue("Expected url is InstructorHomePage or Unauthorised page, but is " + afterReportDownloadUrl,
-                   afterReportDownloadUrl.contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
+                   afterReportDownloadUrl.contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
                    || afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
 
         // return to the previous page
         loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
     }
 
+    @Test
     public void testLink() {
-
-        ______TS("action: edit");
+        ______TS("action: test that edit link leads to correct edit page");
+        
         InstructorFeedbackEditPage editPage = resultsPage.clickEditLink();
         editPage.verifyContains("Edit Feedback Session");
-        editPage.verifyContains("CFResultsUiT.CS2104");
-        editPage.verifyContains("First Session");
-
+        assertEquals("CFResultsUiT.CS2104", editPage.getCourseId());
+        assertEquals("First Session", editPage.getFeedbackSessionName());
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 
     private void uploadPhotoForStudent(String googleId) throws Exception {
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
         String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
-        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]", 
+        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]",
                      BackDoor.uploadAndUpdateStudentProfilePicture(googleId, pictureData));
     }
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
         AppUrl resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
-                                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-        InstructorFeedbackResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+                                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
+        InstructorFeedbackResultsPage resultsPage =
+                loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
         resultsPage.waitForPageToLoad();
         return resultsPage;
     }
@@ -680,8 +713,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                              boolean needAjax, String viewType) {
         AppUrl resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
-                                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
         if (needAjax) {
             resultsUrl = resultsUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX,
@@ -692,7 +725,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
             resultsUrl = resultsUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
 
-        InstructorFeedbackResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultsPage =
+                loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
         if (needAjax) {
             resultsPage.waitForPageStructureToLoad();
         } else {
@@ -705,25 +739,25 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     private void verifySortingOrder(By sortIcon, String... values) {
         // check if the rows match the given order of values
         resultsPage.click(sortIcon);
-        String searchString = "";
+        StringBuilder searchString = new StringBuilder();
         for (int i = 0; i < values.length; i++) {
-            searchString += values[i] + "{*}";
+            searchString.append(values[i]).append("{*}");
         }
-        resultsPage.verifyContains(searchString);
+        resultsPage.verifyContains(searchString.toString());
 
         // click the sort icon again and check for the reverse order
         resultsPage.click(sortIcon);
-        searchString = "";
+        searchString.setLength(0);
         for (int i = values.length; i > 0; i--) {
-            searchString += values[i - 1] + "{*}";
+            searchString.append(values[i - 1]).append("{*}");
         }
-        resultsPage.verifyContains(searchString);
+        resultsPage.verifyContains(searchString.toString());
     }
 
     private void verifyModerateResponsesButton(int qnNumber, String... emails) {
         for (int i = 1; i <= emails.length; i++) {
-            resultsPage.verifyModerateResponseButtonBelongsTo(resultsPage.getModerateResponseButtonInQuestionView(qnNumber, i),
-                                                              emails[i - 1]);
+            resultsPage.verifyModerateResponseButtonBelongsTo(
+                    resultsPage.getModerateResponseButtonInQuestionView(qnNumber, i), emails[i - 1]);
         }
     }
 

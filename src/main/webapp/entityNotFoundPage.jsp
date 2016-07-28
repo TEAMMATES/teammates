@@ -19,9 +19,9 @@
                     <br><br>
                 </li>
             </ul>
-            If the problem persists, contact TEAMMATES support at <a>teammates@comp.nus.edu.sg</a>
+            If the problem persists, please inform <a class="link" href="contact.jsp" target="_blank">TEAMMATES support team</a>.
             <br><br>
-            <b>Note: </b>If the problematic link was received via email, remember to copy-paste that email content when contacting TEAMMATES support.
+            <b>Note: </b>If the problematic link was received via email, please also forward us the original email containing the link you clicked, to help us with the troubleshooting.
             <br><br>
             If you are a registered user you can go back to the <a href="/page/studentHomePage">home page</a>
             <br><br>

@@ -3,7 +3,6 @@ package teammates.client.scripts;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,24 +23,23 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.FileHelper;
 
 import com.google.gson.Gson;
 /**
  * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
  * of this script in parallel, use ParallelProfiler.Java.
- *  
+ * 
  * 
  * Notes:
  * -Edit name of the report file, the result will be written to a file in src/test/resources/data folder
  * -Make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)
  */
-
 
 /**
  * Annotations for Performance tests with
@@ -57,45 +55,42 @@ import com.google.gson.Gson;
     boolean customTimer() default false;
 }
 
-
-
-public class PerformanceProfiler extends Thread{
+public class PerformanceProfiler extends Thread {
     
-    private static final String defaultReportPath = TestProperties.TEST_DATA_FOLDER + "/"+"nameOfTheReportFile.txt";
-    private final Integer NUM_OF_RUNS = 2;
-    private final Integer WAIT_TIME_TEST = 1000;//waiting time between tests, in ms
-    private final Integer WAIT_TIME_RUN = 5000;//waiting time between runs, in ms
-    private final String runningDataSourceFile = "PerformanceProfilerRunningData.json";
+    private static final String defaultReportPath = TestProperties.TEST_DATA_FOLDER + "/" + "nameOfTheReportFile.txt";
+    private static final int NUM_OF_RUNS = 2;
+    private static final int WAIT_TIME_TEST = 1000; //waiting time between tests, in ms
+    private static final int WAIT_TIME_RUN = 5000; //waiting time between runs, in ms
+    private static final String runningDataSourceFile = "PerformanceProfilerRunningData.json";
     
     private String reportFilePath;
     private DataBundle data;
     private Gson gson = Utils.getTeammatesGson();
-    private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>> ();
-    private Browser browser;
+    private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
     
-    public PerformanceProfiler (String path) {
+    public PerformanceProfiler(String path) {
         reportFilePath = path;
     }
-    
 
+    @Override
     public void run() {
         //Data used for profiling
-        String jsonString= "";
+        String jsonString = "";
         try {
             jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        data = gson.fromJson(jsonString, DataBundle.class);    
+        data = gson.fromJson(jsonString, DataBundle.class);
 
         //Import previous results
         try {
-            results =importReportFile(reportFilePath);
-        } catch (IOException e1) {
-            e1.printStackTrace();
+            results = importReportFile(reportFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        for (int i =0; i< NUM_OF_RUNS ; i++)
-        {
+        Browser browser;
+        for (int i = 0; i < NUM_OF_RUNS; i++) {
             browser = BrowserPool.getBrowser();
             //overcome initial loading time with the below line
             //getInstructorAsJson();
@@ -134,23 +129,20 @@ public class PerformanceProfiler extends Thread{
             String name = test.name();
             boolean customTimer = test.customTimer();
             Type type = method.getReturnType();
-            if(!results.containsKey(name))
-            {
+            if (!results.containsKey(name)) {
                 results.put(name, new ArrayList<Float>());
             }
             try {
                 float duration = 0;
-                if (type.equals(String.class) && !customTimer)
-                {
+                if (type.equals(String.class) && !customTimer) {
                     long startTime = System.nanoTime();
-                    Object retVal = (String)method.invoke(this);
+                    Object retVal = (String) method.invoke(this);
                     long endTime = System.nanoTime();
-                    duration= (float) ((endTime - startTime)/1000000.0); //in miliSecond
-                    System.out.print("Name: " +name + "\tTime: " + duration +  "\tVal: " + retVal.toString() +"\n");
-                } else if (type.equals(Long.class) && customTimer)
-                {
-                    duration = (float) (((Long)(method.invoke(this)))/1000000.0);
-                    System.out.print("Name: " +name + "\tTime: " + duration + "\n");
+                    duration = (float) ((endTime - startTime) / 1000000.0); //in miliSecond
+                    System.out.print("Name: " + name + "\tTime: " + duration + "\tVal: " + retVal.toString() + "\n");
+                } else if (type.equals(Long.class) && customTimer) {
+                    duration = (float) (((Long) (method.invoke(this))) / 1000000.0);
+                    System.out.print("Name: " + name + "\tTime: " + duration + "\n");
                 }
                 // Add new duration to the arrayList of the test.
                 ArrayList<Float> countList = results.get(name);
@@ -172,26 +164,23 @@ public class PerformanceProfiler extends Thread{
      * Run this script as an single-thread Java application (for simple, non-parallel profiling)
      * For parallel profiling, please use ParallelProfiler.java
      * @param args
-     * @throws Exception
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         (new PerformanceProfiler(defaultReportPath)).start();
     }
-    
-    
+
     /**
      * The results from file stored in filePath
      * @param filePath
-     * @return HashMap<nameOfTest,durations> of the report stored in filePath 
+     * @return HashMap<nameOfTest,durations> of the report stored in filePath
      * @throws IOException
      */
-    private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException 
-    {
+    private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException {
         HashMap<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
         File reportFile = new File(filePath);
         
         // Create the report file if not existed
-        if(!reportFile.exists()){
+        if (!reportFile.exists()) {
             try {
                 reportFile.createNewFile();
             } catch (IOException e) {
@@ -203,16 +192,15 @@ public class PerformanceProfiler extends Thread{
         //Import old data to the HashMap
         BufferedReader br = new BufferedReader(new FileReader(filePath));
         String strLine;
-        while ((strLine = br.readLine()) != null)
-        {
-            System.out.println (strLine);
-            String[] strs= strLine.split("\\|");
+        while ((strLine = br.readLine()) != null) {
+            System.out.println(strLine);
+            String[] strs = strLine.split("\\|");
             
             String testName = strs[0];
             String[] durations = strs[2].split("\\,");
             
             ArrayList<Float> arr = new ArrayList<Float>();
-            for(String str : durations) {
+            for (String str : durations) {
                 Float f = Float.parseFloat(str);
                 arr.add(f);
             }
@@ -221,35 +209,32 @@ public class PerformanceProfiler extends Thread{
         br.close();
         return results;
     }
-    
 
     /**
      * Write the results to the file with path filePath
-     * @param filePath 
+     * @param filePath
      * @throws IOException
      */
-    private void printResult(String filePath) throws IOException
-    {
+    private void printResult(String filePath) throws IOException {
         List<String> list = new ArrayList<String>();
         for (String str : results.keySet()) {
-         list.add(str);
+            list.add(str);
         }
         Collections.sort(list);
         FileWriter fstream = new FileWriter(filePath);
         BufferedWriter out = new BufferedWriter(fstream);
 
         for (String str : list) {
-            String lineStr = "";
+            StringBuilder lineStrBuilder = new StringBuilder();
             ArrayList<Float> arr = results.get(str);
             Float total = 0.0f;
             for (Float f : arr) {
                 total += f;
-                lineStr  += f + " , ";
+                lineStrBuilder.append(f).append(" , ");
             }
-            lineStr = lineStr.substring(0,lineStr.length()-3); //remove last comma
-            Float average = total/arr.size();
-            lineStr = str + "| " +average + " | " + lineStr +"\n";
-            out.write(lineStr);
+            String lineStr = lineStrBuilder.substring(0, lineStrBuilder.length() - 3); //remove last comma
+            Float average = total / arr.size();
+            out.write(str + "| " + average + " | " + lineStr + "\n");
         }
         out.close();
     }
@@ -262,7 +247,7 @@ public class PerformanceProfiler extends Thread{
     
     @PerformanceTest(name = "Instructor login",customTimer = true)
     public Long instructorLogin() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL);
+        browser.goToUrl(TestProperties.TEAMMATES_URL);
         browser.click(browser.instructorLoginButton);
         long startTime = System.nanoTime();
         browser.login("testingforteammates@gmail.com", "testingforteammates", false);
@@ -271,12 +256,12 @@ public class PerformanceProfiler extends Thread{
 
     @PerformanceTest(name = "Instructor home page")
     String instructorHomePage() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorHome");        
+        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorHome");
         return "";
     }
     @PerformanceTest(name = "Instructor eval page")
     public String instructorEval() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEval");        
+        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorEval");
         return "";
     }
     
@@ -288,14 +273,15 @@ public class PerformanceProfiler extends Thread{
         cal.add(Calendar.DATE, +2);
         Date date2 = cal.getTime();
         long startTime = System.nanoTime();
-        browser.addEvaluation("idOf_Z2_Cou0_of_Coo0", "test", date1,date2,true, "This is the instructions, please follow", 5);
+        browser.addEvaluation("idOf_Z2_Cou0_of_Coo0", "test", date1, date2, true,
+                              "This is the instructions, please follow", 5);
         browser.waitForStatusMessage(Common.STATUS_EVALUATION_ADDED);
         return System.nanoTime() - startTime;
     }
     
     @PerformanceTest(name = "Instructor eval page")
     public String instructorEval2() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEval");        
+        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorEval");
         return "";
     }
     
@@ -310,7 +296,7 @@ public class PerformanceProfiler extends Thread{
     
     @PerformanceTest(name = "Instructor course page")
     public String instructorCourse() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourse");        
+        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorCourse");
         return "";
     }
     
@@ -324,7 +310,7 @@ public class PerformanceProfiler extends Thread{
     
     @PerformanceTest(name = "Instructor course page")
     public String instructorCourse2() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourse");        
+        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorCourse");
         return "";
     }
     
@@ -337,18 +323,18 @@ public class PerformanceProfiler extends Thread{
         browser.clickAndConfirm(deleteLinkLocator);
         return System.nanoTime() - startTime;
     }
-    
 
-    
     @PerformanceTest(name = "Instructor course student detail page")
     public String instructorCourseStudentDetails() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0&studentemail=testingforteammates%40gmail.com");        
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&studentemail=testingforteammates%40gmail.com");
         return "";
     }
     
     @PerformanceTest(name = "Instructor course enroll page")
     public String instructorCourseEnroll() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseEnroll?courseid=idOf_Z2_Cou0_of_Coo0");        
+        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorCourseEnroll?courseid=idOf_Z2_Cou0_of_Coo0");
         return "";
     }
     
@@ -363,7 +349,7 @@ public class PerformanceProfiler extends Thread{
     
     @PerformanceTest(name = "Instructor course enroll page")
     public String instructorCourseDetails() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");        
+        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
         return "";
     }
     
@@ -377,19 +363,23 @@ public class PerformanceProfiler extends Thread{
     
     @PerformanceTest(name = "Instructor eval results")
     public String instructorEvalResults() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");        
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/instructorEvalResults?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
         return "";
     }
     
     @PerformanceTest(name = "Instructor view student eval ")
     public String instructorViewStuEval() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");        
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/instructorEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");
         return "";
     }
     
     @PerformanceTest(name = "Instructor help page ")
     public String instructorHelp() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/instructorHelp.html");
+        browser.goToUrl(TestProperties.TEAMMATES_URL + "/instructorHelp.jsp");
         return "";
     }
     
@@ -407,29 +397,33 @@ public class PerformanceProfiler extends Thread{
     }
     @PerformanceTest(name = "Student homepage")
     public String stuHomepage() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentHome");
+        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/studentHome");
         return "";
     }
     
     @PerformanceTest(name = "Student course detail page")
     public String stuCoursepage() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
+        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/studentCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
         return "";
     }
     
     @PerformanceTest(name = "Student edit submission page")
     public String stuEditSubmissionPage() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentEvalEdit?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/studentEvalEdit?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
         return "";
     }
     @PerformanceTest(name = "Student edit submission ")
     public String stuEditSubmission() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
+        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/studentCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
         return "";
     }
     @PerformanceTest(name = "Student eval result ")
     public String stuEvalResultPage() {
-        browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/studentEvalResults?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
         return "";
     }
     
@@ -441,39 +435,31 @@ public class PerformanceProfiler extends Thread{
     }
     
     @PerformanceTest(name = "BD create instructor")
-    public String createInstructor()
-    {
+    public String createInstructor() {
         String status = "";
         Set<String> set = data.instructors.keySet();
-        for (String instructorKey : set)
-        {
+        for (String instructorKey : set) {
             InstructorAttributes instructor = data.instructors.get(instructorKey);
             status += BackDoor.createInstructor(instructor);
         }
         return status;
     }
     @PerformanceTest(name = "BD get instructor")
-    public String getInstructorAsJson()
-    {
+    public String getInstructorAsJson() {
         String status = "";
         Set<String> set = data.instructors.keySet();
-        for (String instructorKey : set)
-        {
+        for (String instructorKey : set) {
             InstructorAttributes instructor = data.instructors.get(instructorKey);
             status += BackDoor.getInstructorAsJson(instructor.googleId, instructor.courseId);
         }
         return status;
     }
-    
 
-    
     @PerformanceTest(name = "BD get courses by instructor")
-    public String getCoursesByInstructor()
-    {
+    public String getCoursesByInstructor() {
         String status = "";
         Set<String> set = data.instructors.keySet();
-        for (String instructorKey : set)
-        {
+        for (String instructorKey : set) {
             InstructorAttributes instructor = data.instructors.get(instructorKey);
             String[] courses = BackDoor.getCoursesByInstructorId(instructor.googleId);
             for (String courseName : courses) {
@@ -483,12 +469,10 @@ public class PerformanceProfiler extends Thread{
         return status;
     }
     @PerformanceTest(name = "BD create course")
-    public String createCourse()
-    {
+    public String createCourse() {
         String status = "";
         Set<String> set = data.courses.keySet();
-        for (String courseKey : set)
-        {
+        for (String courseKey : set) {
             CourseAttributes course = data.courses.get(courseKey);
             status += " " + BackDoor.createCourse(course);
         }
@@ -496,26 +480,21 @@ public class PerformanceProfiler extends Thread{
     }
     
     @PerformanceTest(name = "BD get course")
-    public String getCourseAsJson()
-    {
+    public String getCourseAsJson() {
         String status = "";
         Set<String> set = data.courses.keySet();
-        for (String courseKey : set)
-        {
+        for (String courseKey : set) {
             CourseAttributes course = data.courses.get(courseKey);
-            status += " " +BackDoor.getCourseAsJson(course.id);
+            status += " " + BackDoor.getCourseAsJson(course.id);
         }
         return status;
     }
-    
-    
+
     @PerformanceTest(name = "BD create student")
-    public String createStudent()
-    {
+    public String createStudent() {
         String status = "";
         Set<String> set = data.students.keySet();
-        for (String studentKey : set)
-        {
+        for (String studentKey : set) {
             StudentAttributes student = data.students.get(studentKey);
             status += " " + BackDoor.createStudent(student);
         }
@@ -538,86 +517,70 @@ public class PerformanceProfiler extends Thread{
 //        }
 //        return status;
 //    }
-    
-    
+
     @PerformanceTest(name = "BD get student")
-    public String getStudent()
-    {
-        String status = "";
+    public String getStudent() {
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.students.keySet();
-        for (String studentKey : set)
-        {
+        for (String studentKey : set) {
             StudentAttributes student = data.students.get(studentKey);
-            status += " " + BackDoor.getStudentAsJson(student.course, student.email);
+            status.append(' ').append(BackDoor.getStudentAsJson(student.course, student.email));
         }
-        return status;
+        return status.toString();
     }
     
     @PerformanceTest(name = "BD get key for student")
-    public String getKeyForStudent()
-    {
-        String status = "";
+    public String getKeyForStudent() {
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.students.keySet();
-        for (String studentKey : set)
-        {
+        for (String studentKey : set) {
             StudentAttributes student = data.students.get(studentKey);
-            status += " " + BackDoor.getKeyForStudent(student.course, student.email);
+            status.append(' ').append(BackDoor.getEncryptedKeyForStudent(student.course, student.email));
         }
-        return status;
+        return status.toString();
     }
     
     @PerformanceTest(name = "BD edit student")
-    public String editStudent()
-    {
-        String status = "";
+    public String editStudent() {
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.students.keySet();
-        for (String studentKey : set)
-        {
+        for (String studentKey : set) {
             StudentAttributes student = data.students.get(studentKey);
-            status += " " + BackDoor.editStudent(student.email, student);
+            status.append(' ').append(BackDoor.editStudent(student.email, student));
         }
-        return status;
+        return status.toString();
     }
-    
 
-    
     @PerformanceTest(name = "BD delete student")
-    public String deleteStudent()
-    {
-        String status = "";
+    public String deleteStudent() {
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.students.keySet();
-        for (String studentKey : set)
-        {
+        for (String studentKey : set) {
             StudentAttributes student = data.students.get(studentKey);
-            status += " " + BackDoor.deleteStudent(student.course, student.email);
+            status.append(' ').append(BackDoor.deleteStudent(student.course, student.email));
         }
-        return status;
+        return status.toString();
     }
-    
-    
+
     @PerformanceTest(name = "BD Delete Course")
-    public String deleteCourse()
-    {
-        String status = "";
+    public String deleteCourse() {
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.courses.keySet();
-        for (String courseKey : set)
-        {
+        for (String courseKey : set) {
             CourseAttributes course = data.courses.get(courseKey);
-            status += " " +BackDoor.deleteCourse(course.id);
+            status.append(' ').append(BackDoor.deleteCourse(course.getId()));
         }
-        return status;
+        return status.toString();
     }
     
     @PerformanceTest(name = "BD Delete Instructor")
-    public String deleteInstructor()
-    {
-        String status = "";
+    public String deleteInstructor() {
+        StringBuilder status = new StringBuilder();
         Set<String> set = data.instructors.keySet();
-        for (String instructorKey : set)
-        {
+        for (String instructorKey : set) {
             InstructorAttributes instructor = data.instructors.get(instructorKey);
-            status += BackDoor.deleteInstructor(instructor.email, instructor.courseId);
+            status.append(BackDoor.deleteInstructor(instructor.email, instructor.courseId));
         }
-        return status;
+        return status.toString();
     }
 }

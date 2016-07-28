@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -27,28 +23,28 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() {
         FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
-        assertNotNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));
+        assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         
         Action a = gaeSimulation.getActionObject(uri, submissionParams);
         RedirectResult r = (RedirectResult) a.executeAndPostProcess();
         
-        assertNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));
+        assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                         + "?error=false&user=idOfInstructor1OfCourse1", 
+                         + "?error=false&user=idOfInstructor1OfCourse1",
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED, r.getStatusMessage());
-        assertEquals(false, r.isError);
-    }    
+        assertFalse(r.isError);
+    }
 }

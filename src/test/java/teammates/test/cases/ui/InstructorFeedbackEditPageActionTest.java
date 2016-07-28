@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -26,7 +24,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         
@@ -42,25 +40,25 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         feedbackSessionAttributes = dataBundle.feedbackSessions.get("session1InCourse1");
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName()
         };
         
         instructorFeedbackEditPageAction = getAction(submissionParams);
         showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
         
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT
-                         + "?error=false&user=" + instructor1OfCourse1.googleId; 
+                         + "?error=false&user=" + instructor1OfCourse1.googleId;
         assertEquals(expectedString, showPageResult.getDestinationWithParams());
         
         assertEquals("", showPageResult.getStatusMessage());
         
-        expectedString = 
+        expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditPage|||instructorFeedbackEditPage|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||instructorFeedbackEdit "
                 + "Page Load<br>Editing information for Feedback Session "
-                + "<span class=\"bold\">[" + feedbackSessionAttributes.feedbackSessionName + "]</span>"
+                + "<span class=\"bold\">[" + feedbackSessionAttributes.getFeedbackSessionName() + "]</span>"
                 + "in Course: <span class=\"bold\">[idOfTypicalCourse1]</span>"
                 + "|||/page/instructorFeedbackEditPage";
         AssertHelper.assertLogMessageEquals(expectedString, instructorFeedbackEditPageAction.getLogMessage());
@@ -68,7 +66,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         ______TS("failure 1: non-existent feedback session");
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.courseId,
+                Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName for Session123"
         };
         
@@ -76,13 +74,13 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         try {
             showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch(UnauthorizedAccessException uae) {
+        } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
                          uae.getMessage());
         }
     }
     
-    private InstructorFeedbackEditPageAction getAction (String... params) throws Exception {
+    private InstructorFeedbackEditPageAction getAction(String... params) {
         return (InstructorFeedbackEditPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

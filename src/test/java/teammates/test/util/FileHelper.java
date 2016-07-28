@@ -1,71 +1,59 @@
 package teammates.test.util;
 
-import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Scanner;
 
 /**
  * File-related helper methods used for testing. There is another FileHelper on
  * the server side.
  */
-public class FileHelper {
-
-    public static void writeToFile(String fileName, String fileContent) {
-        try {
-
-            File file = new File(fileName);
-
-            // if file doesnt exists, then create it
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(fileContent);
-            bw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+public final class FileHelper {
+    
+    private FileHelper() {
+        // utility class
     }
     
-    public static void appendToFile(String fileName, String fileContent) {
-        try {
-
-            File file = new File(fileName);
-
-            // if file doesnt exists, then create it
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(fileContent);
-            bw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+     * Reads the file with the specified path as a String.
+     */
+    public static String readFile(String filePath) throws IOException {
+        Scanner sc = new Scanner(new BufferedReader(new FileReader(filePath)));
+        String result = sc.useDelimiter("\\Z").next();
+        sc.close();
+        return result;
     }
     
-    public static void deleteFile(String fileName) {
-       File file = new File(fileName);
-       file.delete();
+    /**
+     * Reads the file with the specified path as a byte array.
+     */
+    public static byte[] readFileAsBytes(String filePath) throws IOException {
+        FileInputStream fis = new FileInputStream(filePath);
+        byte[] buffer = new byte[1024 * 300];
+        fis.read(buffer);
+        fis.close();
+        return buffer;
+    }
+    
+    /**
+     * Saves the supplied content to the specified file path.
+     */
+    public static void saveFile(String filePath, String content) throws IOException {
+        FileWriter fw = new FileWriter(new File(filePath));
+        fw.write(content);
+        fw.close();
+    }
+    
+    /**
+     * Deletes the file with the specified path.
+     */
+    public static void deleteFile(String filePath) {
+        File file = new File(filePath);
+        file.delete();
     }
 
-    public static String readFile(String path, Charset encoding) {
-        byte[] encoded = null;
-        try {
-            encoded = Files.readAllBytes(Paths.get(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new String(encoded, encoding);
-    }
 }

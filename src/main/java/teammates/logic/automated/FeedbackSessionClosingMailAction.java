@@ -1,20 +1,17 @@
 package teammates.logic.automated;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 public class FeedbackSessionClosingMailAction extends EmailAction {
@@ -36,7 +33,7 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
     }
     
     public FeedbackSessionClosingMailAction(HashMap<String, String> paramMap) {
-        super(paramMap);
+        super();
         initializeNameAndDescription();
         
         feedbackSessionName = paramMap.get(ParamsNames.EMAIL_FEEDBACK);
@@ -55,31 +52,34 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
     }
 
     @Override
-    protected List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException {
-        Emails emailManager = new Emails();
-        List<MimeMessage> preparedEmails = null;
+    protected List<EmailWrapper> prepareMailToBeSent() {
         
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
         log.info("Fetching feedback session object for feedback session name : "
-                + feedbackSessionName + " and course : " + courseId);
+                 + feedbackSessionName + " and course : " + courseId);
         
-        if(feedbackObject != null) {
-             /*
-              * Check if feedback session was deleted between scheduling
-              * and the actual sending of emails
-              */
-            preparedEmails = emailManager
-                            .generateFeedbackSessionClosingEmails(feedbackObject);
-        } else {
-            log.severe("Feedback session object for feedback session name : " + feedbackSessionName +
-                       " for course : " + courseId +" could not be fetched" );
+        if (feedbackObject == null) {
+            log.severe("Feedback session object for feedback session name : " + feedbackSessionName
+                       + " for course : " + courseId + " could not be fetched");
+            return null;
         }
-        return preparedEmails;
+        
+        /*
+         * Check if feedback session was deleted between scheduling
+         * and the actual sending of emails
+         */
+        return new EmailGenerator().generateFeedbackSessionClosingEmails(feedbackObject);
+
     }
     
     private void initializeNameAndDescription() {
         actionName = Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION;
         actionDescription = "send closing reminders";
+    }
+
+    @Override
+    protected void doPostProcessingForUnsuccesfulSend() {
+        // TODO
     }
 }

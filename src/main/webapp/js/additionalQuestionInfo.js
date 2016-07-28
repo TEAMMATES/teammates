@@ -2,7 +2,7 @@
 function toggleAdditionalQuestionInfo(identifier) {
     var $questionButton = $('#questionAdditionalInfoButton-' + identifier);
 
-    if ($questionButton.text() == $questionButton.attr('data-more')) {
+    if ($questionButton.text() === $questionButton.attr('data-more')) {
         $questionButton.text($questionButton.attr('data-less'));
     } else {
         $questionButton.text($questionButton.attr('data-more'));

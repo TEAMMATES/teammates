@@ -6,7 +6,7 @@ public class FeedbackSessionsTableRow {
     private String tooltip;
     private String href;
     private String recent;
-    private String status;  
+    private String status;
     private InstructorFeedbackSessionActions actions;
         
     private ElementTag rowAttributes;

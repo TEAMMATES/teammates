@@ -3,15 +3,14 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Instructor;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 
 /**
  * The data transfer class for Instructor entities.
@@ -20,6 +19,9 @@ public class InstructorAttributes extends EntityAttributes {
     // Note: we should disable HTML escaping when creating gson string of the InstructorAttributes
     // objects because if the name of the instructor contains any html character, we cannot
     // search for the object by the name anymore.
+    
+    public static final String DEFAULT_DISPLAY_NAME = "Instructor";
+    
     private static Gson gson = Utils.getTeammatesGsonWithDisableHtmlEscaping();
     
     // Note: be careful when changing these variables as their names are used in *.json files.
@@ -34,8 +36,6 @@ public class InstructorAttributes extends EntityAttributes {
     public String displayedName;
 
     public InstructorPrivileges privileges;
-    
-    public static final String DEFAULT_DISPLAY_NAME = "Instructor";
     
     /**
      * Creates a new instructor with default access level and default displayedName
@@ -65,12 +65,12 @@ public class InstructorAttributes extends EntityAttributes {
      * @param instructorPrivilegesAsText
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
-                                String displayedName, String instructorPrivilegesAsText) {        
+                                String displayedName, String instructorPrivilegesAsText) {
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.isArchived = false;
         this.name = Sanitizer.sanitizeName(name);
-        this.email = Sanitizer.sanitizeEmail(email);
+        this.email = email;
         this.role = Sanitizer.sanitizeName(role);
         this.isDisplayedToStudents = true;
         this.displayedName = Sanitizer.sanitizeName(displayedName);
@@ -89,16 +89,16 @@ public class InstructorAttributes extends EntityAttributes {
      * @param privileges
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
-                                String displayedName, InstructorPrivileges privileges) {        
+                                String displayedName, InstructorPrivileges privileges) {
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.courseId = courseId;
         this.isArchived = false;
         this.name = Sanitizer.sanitizeName(name);
-        this.email = Sanitizer.sanitizeEmail(email);
+        this.email = email;
         this.role = Sanitizer.sanitizeName(role);
         this.isDisplayedToStudents = true;
         this.displayedName = Sanitizer.sanitizeName(displayedName);
-        this.privileges = privileges;    
+        this.privileges = privileges;
     }
     
     /**
@@ -123,7 +123,7 @@ public class InstructorAttributes extends EntityAttributes {
     public InstructorAttributes(Instructor instructor) {
         this.googleId = instructor.getGoogleId();
         this.courseId = instructor.getCourseId();
-        this.isArchived = instructor.getIsArchived();
+        this.isArchived = instructor.getIsArchived() != null && instructor.getIsArchived();
         this.name = instructor.getName();
         this.email = instructor.getEmail();
         
@@ -148,7 +148,8 @@ public class InstructorAttributes extends EntityAttributes {
         }
         
         if (instructor.getInstructorPrivilegesAsText() == null) {
-            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+            this.privileges =
+                    new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         } else {
             this.privileges = getInstructorPrivilegesFromText(instructor.getInstructorPrivilegesAsText());
         }
@@ -156,9 +157,20 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Deprecated
     public InstructorAttributes() {
-
+        // deprecated
     }
     
+    private InstructorAttributes(InstructorAttributes other) {
+        this(other.googleId, other.courseId, other.name, other.email,
+             other.role, other.isDisplayedToStudents, other.displayedName, other.privileges);
+        this.key = other.key;
+        this.isArchived = other.isArchived;
+    }
+    
+    public InstructorAttributes getCopy() {
+        return new InstructorAttributes(this);
+    }
+
     public String getTextFromInstructorPrivileges() {
         return gson.toJson(privileges, InstructorPrivileges.class);
     }
@@ -187,41 +199,53 @@ public class InstructorAttributes extends EntityAttributes {
         return googleId != null;
     }
 
+    @Override
     public Instructor toEntity() {
         if (key != null) {
             return new Instructor(googleId, courseId, name, email, key, role,
                                   isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
-        } else {
-            return new Instructor(googleId, courseId, isArchived, name, email, role,
-                                  isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
         }
+        return new Instructor(googleId, courseId, isArchived, name, email, role,
+                              isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
         String error;
         
         if (googleId != null) {
-            error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
-            if (!error.isEmpty()) { errors.add(error); }
+            error = validator.getInvalidityInfoForGoogleId(googleId);
+            if (!error.isEmpty()) {
+                errors.add(error);
+            }
         }
         
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if (!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForCourseId(courseId);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
-        error = validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
-        if (!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForPersonName(name);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL, email);
-        if (!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForEmail(email);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
-        error = validator.getInvalidityInfo(FieldType.PERSON_NAME, displayedName);
-        if (!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForPersonName(displayedName);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         return errors;
     }
     
+    @Override
     public String toString() {
         return getJsonString();
     }

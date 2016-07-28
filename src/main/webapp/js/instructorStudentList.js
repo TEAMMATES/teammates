@@ -1,5 +1,7 @@
 $(document).ready(function() {
     
+    attachEventToDeleteStudentLink();
+
     $('a[id^="enroll-"]').on('click', function(e) {
         e.stopImmediatePropagation(); // not executing click event for parent elements
         window.location = $(this).attr('href');
@@ -7,9 +9,8 @@ $(document).ready(function() {
     });
 
     var panels = $('div.panel');
-    var numPanels = -1;
 
-    bindCollapseEvents(panels, numPanels);
+    bindCollapseEvents(panels);
 
     // Binding for "Display Archived Courses" check box.
     $('#displayArchivedCourses_check').on('change', function() {
@@ -54,7 +55,7 @@ $(document).ready(function() {
         }
 
         // If none of of the sections are selected, hide the team's 'Select All' option
-        if ($('input[id^="section_check"]:checked').length == 0) {
+        if ($('input[id^="section_check"]:checked').length === 0) {
             $('#team_all').parent().hide();
             $('#show_email').parent().hide();
         } else {
@@ -74,7 +75,7 @@ $(document).ready(function() {
 
     // Binding for Teams checkboxes.
     $(document).on('change', '.team_check', function() {
-        if ($('input[id^="team_check"]:checked').length == 0) {
+        if ($('input[id^="team_check"]:checked').length === 0) {
             $('#show_email').parent().hide();
         } else {
             $('#show_email').parent().show();
@@ -113,11 +114,11 @@ $(document).ready(function() {
             $('input[id^="course_check"]').prop('checked', false);
             $('input[id^="team_check-"]').prop('checked', false);
             $('input[id^="team_check-"]').parent().remove();
-            var headings = $('.panel-heading');
-            for (var idx = 0; idx < headings.length; idx++) {
-                var className = $(headings[idx]).attr('class');
-                if (className.indexOf('ajax_submit') == -1) {
-                    $(headings[idx]).trigger('click');
+            var heads = $('.panel-heading');
+            for (var i = 0; i < heads.length; i++) {
+                var className = $(heads[i]).attr('class');
+                if (className.indexOf('ajax_submit') === -1) {
+                    $(heads[i]).trigger('click');
                 }
             }
         }
@@ -142,7 +143,7 @@ $(document).ready(function() {
             $('input[id^="team_check-"]').parent().hide();
         }
         applyFilters();
-    }); 
+    });
 
     // Binding for 'Select All' team option
     $('#team_all').on('change', function() {
@@ -157,7 +158,7 @@ $(document).ready(function() {
 
     $('th[id^="button_sortteam-"]').each(function() {
         var col = $(this).parent().children().index($(this));
-        if (col == 0) {
+        if (col === 0) {
             toggleSort($(this));
         }
     });
@@ -172,12 +173,10 @@ function triggerAjax(e) {
 // Binding check for course selection
 function checkCourseBinding(e) {
     var courseIdx = $(e).attr('id').split('-')[1];
-    var heading = $('#panelHeading-' + courseIdx);
-    var haveAjaxRequest = heading.attr('class').indexOf('ajax_submit') != -1;
 
     // Check/hide all section that is in this course
     if ($(e).prop('checked')) {
-        $('input[id^="section_check-'  + courseIdx + '-"]').prop('checked', true);
+        $('input[id^="section_check-' + courseIdx + '-"]').prop('checked', true);
         $('input[id^="section_check-' + courseIdx + '-"]').parent().show();
         $('input[id^="team_check-' + courseIdx + '-"]').prop('checked', true);
         $('input[id^="team_check-' + courseIdx + '-"]').parent().show();
@@ -190,14 +189,14 @@ function checkCourseBinding(e) {
     }
     
     // If all the courses are selected, check the 'Select All' option
-    if ($('input[id^="course_check"]:checked').length == $('input[id^="course_check"]').length) {
+    if ($('input[id^="course_check"]:checked').length === $('input[id^="course_check"]').length) {
         $('#course_all').prop('checked', true);
     } else {
         $('#course_all').prop('checked', false);
     }
     
     // If none of of the courses are selected, hide the section"s 'Select All' option
-    if ($('input[id^="course_check"]:checked').length == 0) {
+    if ($('input[id^="course_check"]:checked').length === 0) {
         $('#section_all').parent().hide();
         $('#team_all').parent().hide();
         $('#show_email').parent().hide();
@@ -219,7 +218,7 @@ function checkCourseBinding(e) {
  * Check if all available sections are selected
  */
 function checkAllSectionsSelected() {
-    if ($('input[id^="section_check"]:visible:checked').length == $('input[id^="section_check"]:visible').length) {
+    if ($('input[id^="section_check"]:visible:checked').length === $('input[id^="section_check"]:visible').length) {
         $('#section_all').prop('checked', true);
     } else {
         $('#section_all').prop('checked', false);
@@ -230,7 +229,7 @@ function checkAllSectionsSelected() {
  * Check if all available teams are selected
  */
 function checkAllTeamsSelected() {
-    if ($('input[id^="team_check"]:visible:checked').length == $('input[id^="team_check"]:visible').length) {
+    if ($('input[id^="team_check"]:visible:checked').length === $('input[id^="team_check"]:visible').length) {
         $('#team_all').prop('checked', true);
     } else {
         $('#team_all').prop('checked', false);
@@ -260,10 +259,10 @@ function gotoUrlWithParam(url, param, value) {
  */
 function removeParamInUrl(url, param) {
     var indexOfParam = url.indexOf('?' + param);
-    indexOfParam = (indexOfParam == -1) ? url.indexOf('&' + param) : indexOfParam;
+    indexOfParam = indexOfParam === -1 ? url.indexOf('&' + param) : indexOfParam;
     var indexOfAndSign = url.indexOf('&', indexOfParam + 1);
     var urlBeforeParam = url.substr(0, indexOfParam);
-    var urlAfterParamValue = (indexOfAndSign == -1) ? '' : url.substr(indexOfAndSign);
+    var urlAfterParamValue = indexOfAndSign === -1 ? '' : url.substr(indexOfAndSign);
     return urlBeforeParam + urlAfterParamValue;
 }
 
@@ -334,25 +333,17 @@ function filterEmails() {
  * TODO: expand to fuzzy search
  */
 $.extend($.expr[':'], {
-    'containsIN': function(elem, i, match, array) {
+    containsIN: function(elem) {
         return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
     }
 });
 
-/**
- * Function that shows confirmation dialog for removing a student from a course
- * @param studentName
- * @returns
- */
-function toggleDeleteStudentConfirmation(courseId, studentName) {
-    return confirm('Are you sure you want to remove ' + studentName + ' from the course ' + courseId + '?');
-}
- 
-function bindCollapseEvents(panels, numPanels) {
+function bindCollapseEvents(panels) {
+    var numPanels = -1;
     for (var i = 0; i < panels.length; i++) {
         var heading = $(panels[i]).children('.panel-heading');
         var bodyCollapse = $(panels[i]).children('.panel-collapse');
-        if (heading.length != 0 && bodyCollapse.length != 0) {
+        if (heading.length !== 0 && bodyCollapse.length !== 0) {
             numPanels++;
             $(heading[0]).attr('data-target', '#panelBodyCollapse-' + numPanels);
             $(heading[0]).attr('id', 'panelHeading-' + numPanels);
@@ -360,5 +351,4 @@ function bindCollapseEvents(panels, numPanels) {
             $(bodyCollapse[0]).attr('id', 'panelBodyCollapse-' + numPanels);
         }
     }
-    return numPanels;
 }

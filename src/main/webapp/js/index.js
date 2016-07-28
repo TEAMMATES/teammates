@@ -1,11 +1,12 @@
 // AJAX
-var xmlhttp = new getXMLObject();
+var xmlhttp = getXMLObject();
 
 // OPERATIONS
-var OPERATION_INSTRUCTORINATOR_LOGIN = "instructor_login";
-var OPERATION_STUDENT_LOGIN = "student_login";
+var OPERATION_INSTRUCTORINATOR_LOGIN = 'instructor_login';
+var OPERATION_STUDENT_LOGIN = 'student_login';
 
-//TESTIMONIALS
+// TESTIMONIALS
+/* eslint-disable max-len */ // testimonials are better left off as is
 var TESTIMONIALS = ['Congratulations for creating and managing such a wonderful and useful tool. I am planning to use for all the subjects I am teaching from now after getting fantastic feedback about this tool from my students. <br>- Faculty user, Australia',
  'I just wanted to let you know that TEAMMATES has been a great success!  Students love it. <br>-Faculty user, USA',
  'I had such a great experience with TEAMMATES in the previous semester that I am back for more! <br>-Faculty user, Pakistan',
@@ -15,7 +16,8 @@ var TESTIMONIALS = ['Congratulations for creating and managing such a wonderful 
  'These peer evaluations will be perfect for classes.  I can already see that this is going to be an excellent tool as I need the teams to evaluate each other on a weekly basis.  Adding a new evaluation item and the questions/response criteria is so easy through your system. <br>-Faculty user, USA',
  'Thank you for building such a wonderful tool. <br>-Faculty user, Canada'
  ];
-var LOOP_INTERVAL = "5000"; //in milliseconds
+/* eslint-enable max-len */
+var LOOP_INTERVAL = '5000'; // in milliseconds
 var CURRENT_TESTIMONIAL = 0;
 
 function instructorLogin() {
@@ -27,33 +29,33 @@ function instructorLogin() {
 
 function requestInstructorLogin() {
     if (xmlhttp) {
-        xmlhttp.open("POST", "/teammates", false);
-        xmlhttp.setRequestHeader("Content-Type",
-                "application/x-www-form-urlencoded;");
-        xmlhttp.send("operation=" + OPERATION_INSTRUCTORINATOR_LOGIN);
+        xmlhttp.open('POST', '/teammates', false);
+        xmlhttp.setRequestHeader('Content-Type',
+                'application/x-www-form-urlencoded;');
+        xmlhttp.send('operation=' + OPERATION_INSTRUCTORINATOR_LOGIN);
     }
 }
 
 function handleInstructorLogin() {
-    if (xmlhttp.status == 200) {
-        var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
+    if (xmlhttp.status === 200) {
+        var url = xmlhttp.responseXML.getElementsByTagName('url')[0];
         window.location = url.firstChild.nodeValue;
     }
 }
 
 function handleStudentLogin() {
-    if (xmlhttp.status == 200) {
-        var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
+    if (xmlhttp.status === 200) {
+        var url = xmlhttp.responseXML.getElementsByTagName('url')[0];
         window.location = url.firstChild.nodeValue;
     }
 }
 
 function studentLogin() {
     if (xmlhttp) {
-        xmlhttp.open("POST", "teammates", false);
-        xmlhttp.setRequestHeader("Content-Type",
-                "application/x-www-form-urlencoded;");
-        xmlhttp.send("operation=" + OPERATION_STUDENT_LOGIN);
+        xmlhttp.open('POST', 'teammates', false);
+        xmlhttp.setRequestHeader('Content-Type',
+                'application/x-www-form-urlencoded;');
+        xmlhttp.send('operation=' + OPERATION_STUDENT_LOGIN);
     }
 
     handleStudentLogin();
@@ -62,22 +64,22 @@ function studentLogin() {
 function getXMLObject() {
     var xmlHttp = false;
     try {
-        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+        xmlHttp = new ActiveXObject('Msxml2.XMLHTTP');
     } catch (e) {
         try {
-            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
         } catch (e2) {
             xmlHttp = false;
         }
     }
-    if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
+    if (!xmlHttp && typeof XMLHttpRequest !== 'undefined') {
         xmlHttp = new XMLHttpRequest();
     }
     return xmlHttp;
 }
 
 function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) {
-    var errorMsg = "Thousands of";
+    var errorMsg = 'Thousands of';
     if (!currentDate || !baseDate) {
         return errorMsg;
     }
@@ -92,33 +94,33 @@ function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) 
     return formatNumber(numberOfSubmissions);
 }
 
-//Setting submission count at page load
+// Setting submission count at page load
 onload = function() {
     
     // Parameters for the estimation calculation
-    var baseDate = new Date('March 30, 2016 00:00:00');  //The date the parameters were adjusted
-    var baseCount = 3000000;     //The submission count on the above date
-    var submissionPerHour = 128; //The rate at which the submission count is growing
+    var baseDate = new Date('March 30, 2016 00:00:00');  // The date the parameters were adjusted
+    var baseCount = 3000000;     // The submission count on the above date
+    var submissionPerHour = 128; // The rate at which the submission count is growing
     
-    //set the submission count in the page
+    // set the submission count in the page
     var e = document.getElementById('submissionsNumber');
     var currentDate = new Date();
     e.innerHTML = submissionCounter(currentDate, baseDate, submissionPerHour, baseCount);
 
-    setInterval(loopTestimonials,LOOP_INTERVAL);
+    setInterval(loopTestimonials, LOOP_INTERVAL);
 };
 
 // Format large number with commas
-function formatNumber(number) {
-    number += '';
+function formatNumber(n) {
+    var number = String(n);
     var expression = /(\d+)(\d{3})/;
     while (expression.test(number)) {
-        number = number.replace(expression, '$1' + ',' + '$2');
+        number = number.replace(expression, '$1,$2');
     }
     return number;
 }
 
-//looping through all the testimonials
+// looping through all the testimonials
 function loopTestimonials() {
     var tc = document.getElementById('testimonialContainer');
     

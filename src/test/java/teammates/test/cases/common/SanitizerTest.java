@@ -1,7 +1,5 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +63,7 @@ public class SanitizerTest extends BaseTestCase {
         String sanitized = Sanitizer.sanitizeForJs(unsanitized);
         assertEquals(expected, sanitized);
     }
+
     @Test
     public void testSanitizeForHtml() {
         sanitizeHtml_receivesNull_returnsNull();
@@ -80,9 +79,9 @@ public class SanitizerTest extends BaseTestCase {
 
     private void sanitizeHtmlTag_receivesHtml_returnsSanitized() {
         String unsanitized = "<div><td>&lt;</td></div>";
-         String expected = "&lt;div&gt;&lt;td&gt;&lt;&lt;/td&gt;&lt;/div&gt;";
-         String sanitized = Sanitizer.sanitizeForHtmlTag(unsanitized);
-         assertEquals(expected, sanitized);
+        String expected = "&lt;div&gt;&lt;td&gt;&lt;&lt;/td&gt;&lt;/div&gt;";
+        String sanitized = Sanitizer.sanitizeForHtmlTag(unsanitized);
+        assertEquals(expected, sanitized);
     }
 
     private void sanitizeHtmlTag_receivesNull_returnsNull() {
@@ -93,7 +92,7 @@ public class SanitizerTest extends BaseTestCase {
     private void sanitizeHtml_receivesNull_returnsNull() {
         String nullString = null;
         assertEquals(null, Sanitizer.sanitizeForHtml(nullString));
-    };
+    }
 
     private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
         String unsanitized = "< > \" / ' &"
@@ -102,19 +101,42 @@ public class SanitizerTest extends BaseTestCase {
                         + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
         String sanitized = Sanitizer.sanitizeForHtml(unsanitized);
         assertEquals(expected, sanitized);
-    };
+    }
 
     private void sanitizeHtml_receivesSanitized_returnsUnchanged() {
         String sanitized = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
                          + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
         assertEquals(sanitized, Sanitizer.sanitizeForHtml(sanitized));
-    };
+    }
     
     @Test
     public void testSanitizeForRichText() {
-        // Not tested - using org.apache.commons.lang3.StringEscapeUtils.escapeHtml4()
+        assertEquals(null, Sanitizer.sanitizeForRichText(null));
+        assertEquals("", Sanitizer.sanitizeForRichText(""));
+        assertEquals("<p>wihtout changes</p>", Sanitizer.sanitizeForRichText("<p>wihtout changes</p>"));
+        assertEquals("<p>spaces test</p>", Sanitizer.sanitizeForRichText("<p >spaces test</p >"));
+        String actualRichText = "<body onload=\"alert('onload');\">"
+                                + "<a href=\"https://teammatesv4.appspot.com\" onclick=\"alert('fail');\"></a>"
+                                + "<script>alert('fail');</script>"
+                                + "<h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6>"
+                                + "<hr />"
+                                + "<img src=\"https://teammatesv4.appspot.com/images/overview.png\" />"
+                                + "<p style=\"text-align:center\"><strong>Content</strong></p>"
+                                + "<div onmouseover=\"alert('onmouseover');\"></div>"
+                                + "<iframe></iframe>"
+                                + "<input></input>"
+                                + "<span style=\"color:#339966\">Content</span>";
+        String expectedRichText = "<a href=\"https://teammatesv4.appspot.com\"></a>"
+                                  + "<h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6>"
+                                  + "<hr />"
+                                  + "<img src=\"https://teammatesv4.appspot.com/images/overview.png\" />"
+                                  + "<p style=\"text-align:center\"><strong>Content</strong></p>"
+                                  + "<div></div>"
+                                  + "<span style=\"color:#339966\">Content</span>";
+        String sanitized = Sanitizer.sanitizeForRichText(actualRichText);
+        assertEquals(expectedRichText, sanitized);
     }
-    
+
     @Test
     public void testSanitizeForCsv() {
         sanitizeCsv_receivesUnsanitized_returnsSanitized();
@@ -168,5 +190,15 @@ public class SanitizerTest extends BaseTestCase {
         expected = "concat('Team 1</td></div>',\"'\",'\"','')";
         assertEquals(expected, Sanitizer.convertStringForXPath(text));
         
+    }
+    
+    @Test
+    public void testRemoveNonAscii() {
+        assertEquals("Hello world!", Sanitizer.removeNonAscii("Hello world!"));
+        
+        assertEquals("", Sanitizer.removeNonAscii("©¡¢â"));
+        
+        assertEquals("Coevaluacin Prctica (Part 1)",
+                     Sanitizer.removeNonAscii("Coevaluación Práctica (Part 1)"));
     }
 }

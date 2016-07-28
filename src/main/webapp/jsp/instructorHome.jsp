@@ -11,12 +11,12 @@
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Instructor Home" jsIncludes="${jsIncludes}">
     <home:search />
-    <br />
+    <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <ti:remindParticularStudentsModal remindParticularStudentsLink="${data.remindParticularStudentsLink}" />
     <c:if test="${data.account.instructor}">
         <home:sort isSortButtonsDisabled="${data.sortingDisabled}"/>
-        <br />
+        <br>
         <c:forEach items="${data.courseTables}" var="courseTable" varStatus="i">
             <home:coursePanel courseTable="${courseTable}" index="${i.index}" />
         </c:forEach>

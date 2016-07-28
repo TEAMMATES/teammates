@@ -2,10 +2,10 @@ package teammates.test.cases.testdriver;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.FileHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.FileHelper;
 
 public class AssertHelperTest extends BaseTestCase {
 
@@ -40,10 +40,10 @@ public class AssertHelperTest extends BaseTestCase {
     
         AssertHelper.assertContainsRegex(
                 "<div>{*}</div><p>!@#$%^&*(){}_+[]</p>",
-                "<html><body><div>Testing</div><p>!@#$%^&*(){}_+[]</p><a href='index.html'>HOME</a></body></html>");
+                "<html><body><div>Testing</div><p>!@#$%^&*(){}_+[]</p><a href='index.jsp'>HOME</a></body></html>");
         AssertHelper.assertContainsRegex("Fails on checking assert contains regex",
                 "<div>{*}</div>",
-                "<html><body><div>Testing</div><a href='index.html'>HOME</a></body></html>");
+                "<html><body><div>Testing</div><a href='index.jsp'>HOME</a></body></html>");
         
         AssertHelper.assertContainsRegex(
                 "<html>\n\t<body>\n\t\t<div{*}>Hello world!</div>\n\t</body>\n\t</html>",

@@ -35,7 +35,10 @@
               <textarea class="form-control" cols="120" id="enrollstudents" name="enrollstudents" placeholder="Paste student data here ..." rows="6" style="max-width:100%;">
               </textarea>
               <br>
-              <div id="statusMessagesToUser" style="display: none;">
+              <div id="statusMessagesToUser">
+                <div class="overflow-auto alert alert-warning statusMessage">
+                  There are existing feedback responses for this course. Modifying records of enrolled students will result in some existing responses from those modified students to be deleted. You may wish to download the data before you make the changes.
+                </div>
               </div>
               <script src="/js/statusMessage.js" type="text/javascript">
               </script>
@@ -61,7 +64,7 @@
         </span>
         <div class="moreInfoPointDetails">
           If you are not sure about the format of the spreadsheet,
-          <a href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv" id="spreadsheet_download">
+          <a href="https://docs.google.com/spreadsheets/d/1jODYiO_TcSoQ82t4E9rX-kfn1l7sEhb810rdlVJxHo0/edit?usp=sharing" id="spreadsheet-link">
             here
           </a>
           is a sample file.

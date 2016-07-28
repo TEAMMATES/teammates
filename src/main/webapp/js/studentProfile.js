@@ -1,13 +1,13 @@
 $(function() {
     $('.form-control').on('click', function() {
-        if ($(this).val() == $(this).attr('data-actual-value')) {
+        if ($(this).val() === $(this).attr('data-actual-value')) {
             $(this).select();
         }
     });
     
     $(window).load(function() {
         $('#studentPhoto').change(function() {
-            if ($(this).val() === "") {
+            if ($(this).val() === '') {
                 $('#profileUploadPictureSubmit').prop('disabled', true);
                 $('.filename-preview').val('No File Selected');
             } else {
@@ -23,16 +23,16 @@ $(function() {
             });
             picture.guillotine('fit');
             $('#profilePicEditRotateLeft').click(function() {
-                 picture.guillotine('rotateLeft');
+                picture.guillotine('rotateLeft');
             });
             $('#profilePicEditZoomIn').click(function() {
-                 picture.guillotine('zoomIn');
+                picture.guillotine('zoomIn');
             });
             $('#profilePicEditZoomOut').click(function() {
-                 picture.guillotine('zoomOut');
+                picture.guillotine('zoomOut');
             });
             $('#profilePicEditRotateRight').click(function() {
-                 picture.guillotine('rotateRight');
+                picture.guillotine('rotateRight');
             });
 
             // Panning handlers based on approach outlined here
@@ -40,6 +40,7 @@ $(function() {
             //
             // It utilizes an internal method from the library (_offset)
             // to update the (top, left) offset values for the image.
+            /* eslint-disable no-underscore-dangle */ // The method name is determined by external library (guillotine)
             $('#profilePicEditPanUp').click(function() {
                 var data = picture.guillotine('getData');
                 picture.guillotine('instance')._offset(data.x / data.w, (data.y - 10) / data.h);
@@ -56,9 +57,10 @@ $(function() {
                 var data = picture.guillotine('getData');
                 picture.guillotine('instance')._offset(data.x / data.w, (data.y + 10) / data.h);
             });
+            /* eslint-enable no-underscore-dangle */
             $('#pictureWidth').val(picture.prop('naturalWidth'));
             $('#pictureHeight').val(picture.prop('naturalHeight'));
-            if ($('#profilePic').attr('data-edit') == "true") {
+            if ($('#profilePic').attr('data-edit') === 'true') {
                 $('#studentPhotoUploader').modal({
                     show: true
                 });
@@ -67,11 +69,11 @@ $(function() {
     });
 });
 
-function finaliseEditPictureForm(event) {
-    var picture = $('#editableProfilePicture'),
-        transformData = picture.guillotine('getData'),
-        scaledWidth = picture.prop('naturalWidth') * transformData.scale,
-        scaledHeight = picture.prop('naturalHeight') * transformData.scale;
+function finaliseEditPictureForm() {
+    var picture = $('#editableProfilePicture');
+    var transformData = picture.guillotine('getData');
+    var scaledWidth = picture.prop('naturalWidth') * transformData.scale;
+    var scaledHeight = picture.prop('naturalHeight') * transformData.scale;
 
     $('#cropBoxLeftX').val(transformData.x);
     $('#cropBoxTopY').val(transformData.y);
@@ -83,33 +85,33 @@ function finaliseEditPictureForm(event) {
     $('#profilePictureEditForm').submit();
 }
 
-function finaliseUploadPictureForm(event) {
-    if ($('#studentPhoto').val() === "") {
+function finaliseUploadPictureForm() {
+    if ($('#studentPhoto').val() === '') {
         return;
     }
 
     initialSubmitMessage = $('#profileUploadPictureSubmit').html();
     $.ajax({
-        url: "/page/studentProfileCreateFormUrl?user=" + $("input[name='user']").val(),
-        beforeSend : function() {
-            $('#profileUploadPictureSubmit').html("<img src='../images/ajax-loader.gif'/>");
+        url: '/page/studentProfileCreateFormUrl?user=' + $("input[name='user']").val(),
+        beforeSend: function() {
+            $('#profileUploadPictureSubmit').html('<img src="/images/ajax-loader.gif">');
         },
         error: function() {
-            $('#profileUploadPictureSubmit').Text(initialSubmitMessage);
+            $('#profileUploadPictureSubmit').text(initialSubmitMessage);
             setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
-            scrollToTop({duration: ''});
+            scrollToTop({ duration: '' });
         },
         success: function(data) {
-            if (!data.isError) {
-                $('#profilePictureUploadForm').attr('enctype','multipart/form-data');
+            if (data.isError) {
+                $('#profileUploadPictureSubmit').text(initialSubmitMessage);
+                setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
+                scrollToTop({ duration: '' });
+            } else {
+                $('#profilePictureUploadForm').attr('enctype', 'multipart/form-data');
                 // for IE compatibility
-                $('#profilePictureUploadForm').attr('encoding','multipart/form-data');
+                $('#profilePictureUploadForm').attr('encoding', 'multipart/form-data');
                 $('#profilePictureUploadForm').attr('action', data.formUrl);
                 $('#profilePictureUploadForm').submit();
-            } else {
-                $('#profileUploadPictureSubmit').Text(initialSubmitMessage);
-                setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
-                scrollToTop({duration: ''});
             }
         }
     });

@@ -13,12 +13,11 @@ import teammates.test.pageobjects.BrowserPool;
 public class AppPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AppPage page;
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        browser = BrowserPool.getBrowser();        
+        browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/appPage0.html"));
     }
     
@@ -28,8 +27,8 @@ public class AppPageUiTest extends BaseUiTestCase {
         page.verifyTablePattern(0, patternString);
         page.verifyTablePattern(0, 0, patternString);
         
-        patternString = "01 January 2012{*}01 January 2013{*}02 January 2012{*}01 February 2012{*}" + 
-                "03 February 2012{*}12 December 2011{*}25 July 2012";
+        patternString = "01 January 2012{*}01 January 2013{*}02 January 2012{*}01 February 2012{*}"
+                      + "03 February 2012{*}12 December 2011{*}25 July 2012";
         page.verifyTablePattern(2, patternString);
         page.verifyTablePattern(0, 2, patternString);
         
@@ -53,7 +52,7 @@ public class AppPageUiTest extends BaseUiTestCase {
     //TODO: add test cases for other methods in AppPage
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
         BrowserPool.release(browser);
     }

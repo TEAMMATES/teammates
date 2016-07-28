@@ -15,7 +15,8 @@ public class FeedbackSessionPreviewForm {
     private List<ElementTag> studentToPreviewAsOptions;
     private List<ElementTag> instructorToPreviewAsOptions;
     
-    public FeedbackSessionPreviewForm(String courseId, String fsName, List<ElementTag> studentList, List<ElementTag> instructorList) {
+    public FeedbackSessionPreviewForm(String courseId, String fsName, List<ElementTag> studentList,
+                                      List<ElementTag> instructorList) {
         this.courseId = courseId;
         this.fsName = fsName;
         this.studentToPreviewAsOptions = studentList;

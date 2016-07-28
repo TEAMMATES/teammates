@@ -9,8 +9,8 @@ import teammates.common.util.Config;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 
-import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.PutException;
 import com.google.appengine.api.search.PutResponse;
@@ -25,20 +25,26 @@ import com.google.appengine.api.search.StatusCode;
  * Codes reference:
  * https://developers.google.com/appengine/docs/java/search/
  */
-public class SearchManager {
-    private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE = "Failed to put document %s into search index %s due to non-transient backend issue.";
-    private static final String ERROR_EXCEED_DURATION = "Operation did not succeed in time to put document %s into search index %s";
+public final class SearchManager {
+    private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE =
+            "Failed to put document %s into search index %s due to non-transient backend issue.";
+    private static final String ERROR_EXCEED_DURATION =
+            "Operation did not succeed in time to put document %s into search index %s";
     private static final Logger log = Utils.getLogger();
-    private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String,Index>>();
+    private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String, Index>>();
+    
+    private SearchManager() {
+        // utility class
+    }
     
     /*
      * Create or update the search document for the given document and index
      */
-    public static void putDocument(String indexName, Document document){
+    public static void putDocument(String indexName, Document document) {
         int elapsedTime = 0;
         boolean isSuccessful = tryPutDocument(indexName, document);
         while (!isSuccessful
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+                && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
             ThreadHelper.waitBriefly();
             //retry putting the document
             isSuccessful = tryPutDocument(indexName, document);
@@ -53,15 +59,15 @@ public class SearchManager {
         }
     }
     
-    private static boolean tryPutDocument(String indexName, Document document){
+    private static boolean tryPutDocument(String indexName, Document document) {
         Index index = getIndex(indexName);
         try {
             PutResponse result = index.put(document);
-            return (result.getResults().get(0).getCode() == StatusCode.OK);
+            return result.getResults().get(0).getCode() == StatusCode.OK;
         } catch (PutException e) {
             //if it's a transient error in the server, it can be re-tried
-            if(!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())){
-                log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName) 
+            if (!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
+                log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
                         + " e:\n" + TeammatesException.toStringWithStackTrace(e));
             }
             return false;
@@ -71,36 +77,36 @@ public class SearchManager {
     /*
      * Get document for index and the documentId
      */
-    public static Document getDocument(String indexName, String documentId){
+    public static Document getDocument(String indexName, String documentId) {
         return getIndex(indexName).get(documentId);
     }
     
     /*
      * Search document by query
      */
-    public static Results<ScoredDocument> searchDocuments(String indexName, Query query){
+    public static Results<ScoredDocument> searchDocuments(String indexName, Query query) {
         return getIndex(indexName).search(query);
     }
     
     /*
      * Delete document by documentId
      */
-    public static void deleteDocument(String indexName, String documentId){
+    public static void deleteDocument(String indexName, String documentId) {
         getIndex(indexName).deleteAsync(documentId);
     }
     
     /*
      * Delete documents by documentIds
      */
-    public static void deleteDocuments(String indexName, String[] documentIds){
+    public static void deleteDocuments(String indexName, String[] documentIds) {
         getIndex(indexName).deleteAsync(documentIds);
     }
     
     private static Index getIndex(String indexName) {
         Map<String, Index> indicesTable = getIndicesTable();
         Index index = indicesTable.get(indexName);
-        if(index == null){
-            IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build(); 
+        if (index == null) {
+            IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build();
             index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
             indicesTable.put(indexName, index);
         }

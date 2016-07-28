@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,14 +14,13 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Url;
+import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorStudentListAjaxPageData;
 import teammates.ui.template.StudentListSectionData;
 import teammates.ui.template.StudentListStudentData;
 import teammates.ui.template.StudentListTeamData;
 
-public class InstructorStudentListAjaxPageDataTest {
-
-    private InstructorStudentListAjaxPageData islapd;
+public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
     
     private AccountAttributes acct;
     private SectionDetailsBundle sampleSection;
@@ -31,13 +28,12 @@ public class InstructorStudentListAjaxPageDataTest {
     private StudentAttributes sampleStudent;
 
     private Map<String, Map<String, Boolean>> sectionPrivileges;
-    private Map<String, String> emailPhotoUrlMapping;
     
     private String photoUrl;
     
     @Test
     public void allTests() {
-        islapd = initializeData();
+        InstructorStudentListAjaxPageData islapd = initializeData();
         for (StudentListSectionData section : islapd.getSections()) {
             testSectionContent(section);
         }
@@ -72,9 +68,8 @@ public class InstructorStudentListAjaxPageDataTest {
     private void testStudentContent(StudentListStudentData student) {
         assertEquals(sampleStudent.name, student.getStudentName());
         assertEquals(sampleStudent.email, student.getStudentEmail());
-        assertEquals("'" + Sanitizer.sanitizeForJs(sampleStudent.course) + "','"
-                         + Sanitizer.sanitizeForJs(sampleStudent.name) + "'",
-                     student.getToggleDeleteConfirmationParams());
+        assertEquals(Sanitizer.sanitizeForJs(sampleStudent.name), student.getStudentNameForJs());
+        assertEquals(Sanitizer.sanitizeForJs(sampleStudent.course), student.getCourseIdForJs());
         assertEquals(photoUrl, student.getPhotoUrl());
         assertEquals(getCourseStudentDetailsLink(sampleStudent.course, sampleStudent.email, acct.googleId),
                      student.getCourseStudentDetailsLink());
@@ -115,7 +110,7 @@ public class InstructorStudentListAjaxPageDataTest {
         sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS, true);
         sectionPrivileges.put(sampleSection.name, sectionPrivilege);
 
-        emailPhotoUrlMapping = new HashMap<String, String>();
+        Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
         emailPhotoUrlMapping.put(sampleStudent.email, photoUrl);
         
         return new InstructorStudentListAjaxPageData(acct, "valid course id", 1, true, sections,
@@ -142,8 +137,9 @@ public class InstructorStudentListAjaxPageDataTest {
                                                    course, email, googleId);
     }
 
-    private String furnishLinkWithCourseEmailAndUserId(String link, String course, String studentEmail,
+    private String furnishLinkWithCourseEmailAndUserId(String rawLink, String course, String studentEmail,
                                                        String googleId) {
+        String link = rawLink;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, course);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);

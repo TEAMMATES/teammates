@@ -18,8 +18,8 @@ public class InstructorCourseEnrollResultPage extends AppPage {
         return getPageSource().contains("<h1>Enrollment Results for");
     }
     
-    public InstructorCourseEnrollPage clickEditLink(){
-        editLink.click();
+    public InstructorCourseEnrollPage clickEditLink() {
+        click(editLink);
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollPage.class);
     }

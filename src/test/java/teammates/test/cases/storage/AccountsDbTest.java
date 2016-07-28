@@ -1,11 +1,5 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,13 +7,14 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.ProfilesDb;
@@ -32,7 +27,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     private ProfilesDb profilesDb = new ProfilesDb();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
@@ -88,7 +83,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
             int numOfInstructors) throws Exception {
         AccountAttributes a;
         List<AccountAttributes> result = new ArrayList<AccountAttributes>();
-        for (int i = 0; i < numOfInstructors ; i++) {
+        for (int i = 0; i < numOfInstructors; i++) {
             a = getNewAccountAttributes();
             a.googleId = "id." + i;
             a.isInstructor = true;
@@ -100,7 +95,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     
     private void deleteInstructorAccounts(int numOfInstructors) {
         String googleId;
-        for (int i = 0; i < numOfInstructors ; i++) {
+        for (int i = 0; i < numOfInstructors; i++) {
             googleId = "id." + i;
             accountsDb.deleteAccount(googleId);
         }
@@ -164,9 +159,10 @@ public class AccountsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException(" - InvalidParametersException");
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
-                    "invalid email",
-                    FieldValidator.REASON_INCORRECT_FORMAT),
+                    getPopulatedErrorMessage(
+                        FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
+                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.EMAIL_MAX_LENGTH),
                     e.getMessage());
         }
         
@@ -197,7 +193,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.studentProfile.shortName = "Edite";
         accountsDb.updateAccount(a, true);
         
-        actualAccount = accountsDb.getAccount(a.googleId, true);        
+        actualAccount = accountsDb.getAccount(a.googleId, true);
         assertEquals(a.studentProfile.shortName, actualAccount.studentProfile.shortName);
         
         ______TS("success: profile not modified in the default case");
@@ -256,7 +252,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
             assertEquals(StringHelper.toString(a.getInvalidityInfo()), ipe.getMessage());
         }
         
-        // Only check first 2 parameters (course & email) which are used to identify the student entry. The rest are actually allowed to be null.
+        // Only check first 2 parameters (course & email) which are used to identify the student entry.
+        // The rest are actually allowed to be null.
         ______TS("failure: null parameter");
         try {
             accountsDb.updateAccount(null);
@@ -269,7 +266,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     @Test
     public void testDeleteAccount() throws Exception {
         AccountAttributes a = createNewAccount();
-        a.studentProfile.pictureKey = GoogleCloudStorageHelper.writeFileToGcs(a.googleId, "src/test/resources/images/profile_pic_default.png", "");
+        a.studentProfile.pictureKey = writeFileToGcs(a.googleId, "src/test/resources/images/profile_pic_default.png");
         profilesDb.updateStudentProfilePicture(a.googleId, a.studentProfile.pictureKey);
         
         ______TS("typical success case");
@@ -284,7 +281,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         StudentProfileAttributes deletedProfile = profilesDb.getStudentProfile(a.googleId);
         assertNull(deletedProfile);
         
-        assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId, true));
+        assertFalse(doesFileExistInGcs(new BlobKey(a.studentProfile.pictureKey)));
         
         ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);
@@ -305,7 +302,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         return a;
     }
     
-    private AccountAttributes getNewAccountAttributes() throws Exception {
+    private AccountAttributes getNewAccountAttributes() {
         AccountAttributes a = new AccountAttributes();
         a.googleId = "valid.googleId";
         a.name = "Valid Fresh Account";

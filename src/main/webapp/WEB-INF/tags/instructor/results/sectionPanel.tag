@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<%@ tag import="teammates.common.util.Config" %>
 <%@ tag import="teammates.common.util.Const" %>
 
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
@@ -36,20 +37,18 @@
             </div>
         </c:when>
         <c:otherwise>
-            <div class="panel-heading ajax_submit">
+            <div class="panel-heading ajax_auto">
                 <div class="row">
                     <div class="col-sm-9 panel-heading-text">
                         <strong>${sectionPanel.sectionNameForDisplay}</strong>
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">
-                            <a class="btn btn-success btn-xs" style="display:none" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
-                                Expand ${isGroupedByTeam ? 'Teams' : 'Students'}
+                            <a class="btn btn-success btn-xs" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
+                                Collapse ${isGroupedByTeam ? 'Teams' : 'Students'}
                             </a>
                             &nbsp;
-                            <div class="display-icon" style="display:inline;">
-                                <span class="glyphicon glyphicon-chevron-down"></span>
-                            </div>
+                            <span class="glyphicon glyphicon-chevron-down"></span>
                         </div>
                      </div>
                 </div>
@@ -62,7 +61,8 @@
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="${data.groupByTeam}">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="${data.sortType}">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on" id="showStats-${sectionIndex}">
-                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX%>" value="on" id="mainIndex-${sectionIndex}">
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>" value="${data.missingResponsesShown}">                    
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX%>" value="-1" id="mainIndex-${sectionIndex}">
                 </form>
             </div>
         </c:otherwise>
@@ -76,7 +76,7 @@
                     Sorry, we could not retrieve results. 
                     Please try again in a few minutes. If you continue to see this message, it could be because the report you are trying to display contains too much data to display in one page. e.g. more than 2,500 entries.
                     <ul><li>If that is the case, you can still use the 'By question' report to view responses. You can also download the results as a spreadsheet. If you would like to see the responses in other formats (e.g. 'Group by - Giver'), you can try to divide the course into smaller sections so that we can display responses one section at a time.</li>
-                    <li>If you believe the report you are trying to view is unlikely to have more than 2,500 entries, please contact us at <a href='mailto:teammates@comp.nus.edu.sg'>teammates@comp.nus.edu.sg</a> so that we can investigate.</li></ul>
+                    <li>If you believe the report you are trying to view is unlikely to have more than 2,500 entries, please contact us at <a href='mailto:<%= Config.SUPPORT_EMAIL %>'><%= Config.SUPPORT_EMAIL %></a> so that we can investigate.</li></ul>
                 </c:when>
                 <c:when test="${isGroupedByTeam}">
                     <c:forEach var="teamPanel" items="${sectionPanel.participantPanels}">

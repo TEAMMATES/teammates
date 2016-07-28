@@ -16,15 +16,14 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     
     private Logic logic = new Logic();
     private FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
-    
-    
+
     // modify this value to choose to update respondants for all sessions or a specific session
-    boolean isForAllSession = true; 
+    private boolean isForAllSession = true;
     // if modifying all sessions, modify this value to only update sessions with no respondants
-    boolean isOnlyModifyingZeroResponseRate = true; 
+    private boolean isOnlyModifyingZeroResponseRate = true;
 
     // modify for preview
-    boolean isPreview = true;
+    private boolean isPreview = true;
     
     public static void main(String[] args) throws IOException {
         final long startTime = System.currentTimeMillis();
@@ -47,18 +46,17 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
         }
     }
 
-    
     @SuppressWarnings("deprecation")
-    private void updateRespondantsForAllSessions(){
+    private void updateRespondantsForAllSessions() {
         List<FeedbackSessionAttributes> feedbackSessions;
         
-        feedbackSessions = isOnlyModifyingZeroResponseRate ? 
-                           getFeedbackSessionsWithZeroResponseRate() :
-                           fsDb.getAllFeedbackSessions();
+        feedbackSessions = isOnlyModifyingZeroResponseRate
+                         ? getFeedbackSessionsWithZeroResponseRate()
+                         : fsDb.getAllFeedbackSessions();
         
-       for(FeedbackSessionAttributes session : feedbackSessions){
-           updateRespondantsForSession(session.feedbackSessionName, session.courseId);
-       }   
+        for (FeedbackSessionAttributes session : feedbackSessions) {
+            updateRespondantsForSession(session.getFeedbackSessionName(), session.getCourseId());
+        }
     }
     
     public List<FeedbackSessionAttributes> getFeedbackSessionsWithZeroResponseRate() {
@@ -67,8 +65,9 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
         
         List<FeedbackSessionAttributes> feedbackSessionsWithNoRespondants = new ArrayList<FeedbackSessionAttributes>();
         
-        for(FeedbackSessionAttributes feedbackSession : feedbackSessions) {
-            if (feedbackSession.respondingStudentList.size() != 0 || feedbackSession.respondingInstructorList.size() != 0) {
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+            if (feedbackSession.getRespondingStudentList().size() != 0
+                    || feedbackSession.getRespondingInstructorList().size() != 0) {
                 continue;
             }
             
@@ -81,15 +80,17 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     /* Operation for a specific session */
     private void updateRespondantsForSession(String feedbackSessionName, String courseId) {
         if (isPreview) {
-            System.out.println("Modifying : [" + courseId + ": " + feedbackSessionName + "]"); 
+            System.out.println("Modifying : [" + courseId + ": " + feedbackSessionName + "]");
             return;
         }
         
         try {
             logic.updateRespondants(feedbackSessionName, courseId);
-            System.out.println("Successfully updated response rate for session " + feedbackSessionName + " in course " + courseId);
+            System.out.println("Successfully updated response rate for session " + feedbackSessionName
+                               + " in course " + courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            System.out.println("ERROR Failed to update respondants for session " + feedbackSessionName + " in course " + courseId);
+            System.out.println("ERROR Failed to update respondants for session " + feedbackSessionName
+                               + " in course " + courseId);
             e.printStackTrace();
         }
     }

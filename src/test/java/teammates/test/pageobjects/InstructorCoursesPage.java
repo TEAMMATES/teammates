@@ -1,25 +1,25 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.test.driver.AssertHelper;
-
 /** Represents the "Courses" page for Instructors. */
 public class InstructorCoursesPage extends AppPage {
-    /* Explanation: This class follows the 'Page Objects Pattern' and as 
+    /* Explanation: This class follows the 'Page Objects Pattern' and as
      * explained in https://code.google.com/p/selenium/wiki/PageObjects
-     * This class represents an abstraction for the the 'Courses' page as 
+     * This class represents an abstraction for the the 'Courses' page as
      * shown in the Browser. The test class interact with this object when it
      * wants to perform an action on the web page (e.g., click a button).
      */
     
     /* Explanation: These are the elements in the page that we want to interact
-     * with. The @FindBy annotation tells the PageFactory class 
-     * (see https://code.google.com/p/selenium/wiki/PageFactory) how to find 
-     * the element. 
+     * with. The @FindBy annotation tells the PageFactory class
+     * (see https://code.google.com/p/selenium/wiki/PageFactory) how to find
+     * the element.
      */
     @FindBy (id = "button_sortcoursename")
     private WebElement sortByCourseNameIcon;
@@ -36,7 +36,7 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "btnAddCourse")
     private WebElement submitButton;
 
-    public InstructorCoursesPage(Browser browser){
+    public InstructorCoursesPage(Browser browser) {
         super(browser);
     }
 
@@ -53,29 +53,29 @@ public class InstructorCoursesPage extends AppPage {
         fillTextBox(courseIdTextBox, courseId);
         fillTextBox(courseNameTextBox, courseName);
 
-        submitButton.click();
+        click(submitButton);
         waitForPageToLoad();
         return this;
     }
     
     public InstructorCoursesPage archiveCourse(String courseId) {
-        getArchiveLink(courseId).click();
+        click(getArchiveLink(courseId));
         waitForPageToLoad();
         return this;
     }
     
     public InstructorCoursesPage unarchiveCourse(String courseId) {
-        getUnarchiveLink(courseId).click();
+        click(getUnarchiveLink(courseId));
         waitForPageToLoad();
         return this;
     }
     
-    public String fillCourseIdTextBox(String value){
+    public String fillCourseIdTextBox(String value) {
         fillTextBox(courseIdTextBox, value);
         return getTextBoxValue(courseIdTextBox);
     }
     
-    public String fillCourseNameTextBox(String value){
+    public String fillCourseNameTextBox(String value) {
         fillTextBox(courseNameTextBox, value);
         return getTextBoxValue(courseNameTextBox);
     }
@@ -106,19 +106,19 @@ public class InstructorCoursesPage extends AppPage {
     }
     
     public InstructorCoursesPage sortByCourseName() {
-        sortByCourseNameIcon.click();
+        click(sortByCourseNameIcon);
         return this;
     }
     
     public InstructorCoursesPage sortByCourseId() {
-        sortByCourseIdIcon.click();
+        click(sortByCourseIdIcon);
         return this;
     }
 
     public InstructorCourseEnrollPage loadEnrollLink(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return goToLinkInRow(
-                By.className("t_course_enroll" + courseRowNumber), 
+                By.className("t_course_enroll" + courseRowNumber),
                 InstructorCourseEnrollPage.class);
     }
 
@@ -165,8 +165,9 @@ public class InstructorCoursesPage extends AppPage {
     public void waitForAjaxLoadCoursesError() {
         By element = By.id("retryAjax");
         waitForElementPresence(element);
-        WebElement statusMessage = browser.driver.findElement(By.id("statusMessagesToUser")).findElement(By.className("statusMessage"));
-        AssertHelper.assertContains("Courses could not be loaded. Click here to retry", statusMessage.getText());
+        WebElement statusMessage =
+                browser.driver.findElement(By.id("statusMessagesToUser")).findElement(By.className("statusMessage"));
+        assertEquals("Courses could not be loaded. Click here to retry.", statusMessage.getText());
     }
     
     public void waitForAjaxLoadCoursesSuccess() {
@@ -175,7 +176,9 @@ public class InstructorCoursesPage extends AppPage {
     }
     
     private int getCourseCount() {
-        return browser.driver.findElements(By.className("table")).get(0).findElements(By.tagName("tr")).size();
+        By activeCoursesTable = By.id("tableActiveCourses");
+        waitForElementPresence(activeCoursesTable);
+        return browser.driver.findElement(activeCoursesTable).findElements(By.tagName("tr")).size();
     }
 
     private int getRowNumberOfCourse(String courseId) {
@@ -192,22 +195,22 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     private WebElement getDeleteLinkInRow(int rowId) {
-        By deleteLink =  By.className("t_course_delete" + rowId);
+        By deleteLink = By.className("t_course_delete" + rowId);
         return browser.driver.findElement(deleteLink);
     }
     
     private WebElement getArchiveLinkInRow(int rowId) {
-        By archiveLink =  By.className("t_course_archive" + rowId);
+        By archiveLink = By.className("t_course_archive" + rowId);
         return browser.driver.findElement(archiveLink);
     }
     
     private WebElement getUnarchiveLinkInRow(int rowId) {
-        By archiveLink =  By.id("t_course_unarchive" + rowId);
+        By archiveLink = By.id("t_course_unarchive" + rowId);
         return browser.driver.findElement(archiveLink);
     }
 
-    private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {
-        browser.driver.findElement(locator).click();
+    private <T extends AppPage> T goToLinkInRow(By locator, Class<T> destinationPageType) {
+        click(browser.driver.findElement(locator));
         waitForPageToLoad();
         return changePageType(destinationPageType);
     }

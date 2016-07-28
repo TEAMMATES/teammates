@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,10 +14,10 @@ import teammates.ui.controller.InstructorFeedbackCopyAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackCopyActionTest extends BaseActionTest {
-    DataBundle dataBundle;    
+    DataBundle dataBundle;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY;
     }
@@ -32,7 +29,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testAccessControl() throws Exception{
+    public void testAccessControl() {
         
         String[] params = new String[]{
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Copied Session",
@@ -46,7 +43,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String expectedString = "";
@@ -116,7 +113,8 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Servlet Action Failure : Trying to create a Feedback Session that exists: Second feedback session/idOfTypicalCourse1|||"
+                + "Servlet Action Failure : Trying to create a Feedback Session that exists: "
+                + "Second feedback session/idOfTypicalCourse1|||"
                 + "/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -139,20 +137,17 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                            .toString(),
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
-        assertEquals(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                                   "",
-                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                   FieldValidator.REASON_EMPTY,
-                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                   FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH), 
+        assertEquals(getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                         FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
                      pageResult.getStatusMessage());
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
                 + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty."
-                + " The value of feedback session name should be no longer than 38 characters. It should not be empty.|||"
-                + "/page/instructorFeedbackCopy";
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as a/an feedback session name "
+                + "because it is empty. The value of a/an feedback session name should be no longer than "
+                + "38 characters. It should not be empty.|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         
@@ -192,7 +187,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
     
-    private InstructorFeedbackCopyAction getAction (String... params) throws Exception {
+    private InstructorFeedbackCopyAction getAction(String... params) {
         return (InstructorFeedbackCopyAction) gaeSimulation.getActionObject(uri, params);
     }
 }

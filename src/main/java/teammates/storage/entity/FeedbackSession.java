@@ -15,12 +15,15 @@ import teammates.common.util.Const;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Represents an instructor-created Feedback Session. 
+ * Represents an instructor-created Feedback Session.
  */
 @PersistenceCapable
 public class FeedbackSession {
 
     // Format is feedbackSessionName%courseId
+    // PMD.UnusedPrivateField and SingularField are suppressed
+    // as feedbackSessionId is persisted to the database
+    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     @PrimaryKey
     @Persistent
     private transient String feedbackSessionId;
@@ -32,7 +35,7 @@ public class FeedbackSession {
     private String courseId;
     
     @Persistent
-    private String creatorEmail; //TODO: should this be googleId? 
+    private String creatorEmail; //TODO: should this be googleId?
     
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
@@ -64,16 +67,16 @@ public class FeedbackSession {
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Date resultsVisibleFromTime;
     
-    /** This is legacy data that is no longer used. <br> 
-     * The value is set to Const.INT_UNINITIALIZED if it is already processed or 
+    /** This is legacy data that is no longer used. <br>
+     * The value is set to Const.INT_UNINITIALIZED if it is already processed or
      * the old value if it hasn't. <br>
      * TODO Remove this field
-     */ 
+     */
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private int timeZone;
     
-    /** This replaces the legacy field timeZone. <br> 
+    /** This replaces the legacy field timeZone. <br>
      * The value is null for legacy data. <br>
      * TODO Rename to timeZone after removing legacy field
      */
@@ -108,17 +111,20 @@ public class FeedbackSession {
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
-        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
-            feedbackSessionType, sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
+        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
+             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
+             feedbackSessionType, sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled,
+             isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
-            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, Set<String> instructorList, Set<String> studentList) {
+            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
+            Set<String> instructorList, Set<String> studentList) {
         this.feedbackSessionName = feedbackSessionName;
-        this.courseId = courseId;        
+        this.courseId = courseId;
         this.creatorEmail = creatorEmail;
         this.instructions = instructions;
         this.createdTime = createdTime;
@@ -140,8 +146,6 @@ public class FeedbackSession {
         this.respondingStudentList = studentList;
     }
 
-
-        
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }
@@ -214,7 +218,7 @@ public class FeedbackSession {
         this.resultsVisibleFromTime = resultsVisibleFromTime;
     }
     
-    /** This method automatically converts the legacy timeZone field to 
+    /** This method automatically converts the legacy timeZone field to
      * the new timeZoneDouble field and returns the value of timeZoneDouble.
      */
     public double getTimeZone() {
@@ -267,7 +271,7 @@ public class FeedbackSession {
     
     public boolean isOpeningEmailEnabled() {
         // Legacy data might not have this field
-        if(isOpeningEmailEnabled == null) { 
+        if (isOpeningEmailEnabled == null) {
             isOpeningEmailEnabled = true;
         }
         
@@ -280,7 +284,7 @@ public class FeedbackSession {
     
     public boolean isClosingEmailEnabled() {
         // Legacy data might not have this field
-        if(isClosingEmailEnabled == null) {
+        if (isClosingEmailEnabled == null) {
             isClosingEmailEnabled = true;
         }
         
@@ -293,7 +297,7 @@ public class FeedbackSession {
     
     public boolean isPublishedEmailEnabled() {
         // Legacy data might not have this field
-        if(isPublishedEmailEnabled == null) {
+        if (isPublishedEmailEnabled == null) {
             isPublishedEmailEnabled = true;
         }
         
@@ -304,19 +308,19 @@ public class FeedbackSession {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
-    public Set<String> getRespondingInstructorList(){
+    public Set<String> getRespondingInstructorList() {
         return this.respondingInstructorList;
     }
 
-    public void setRespondingInstructorList(Set<String> instructorList){
+    public void setRespondingInstructorList(Set<String> instructorList) {
         this.respondingInstructorList = instructorList;
     }
 
-    public Set<String> getRespondingStudentList(){
+    public Set<String> getRespondingStudentList() {
         return this.respondingStudentList;
     }
 
-    public void setRespodingStudentList(Set<String> studentList){
+    public void setRespodingStudentList(Set<String> studentList) {
         this.respondingStudentList = studentList;
     }
 
@@ -331,10 +335,10 @@ public class FeedbackSession {
                 + resultsVisibleFromTime + ", timeZone=" + timeZone
                 + ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
                 + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
-                + ", sentPublishedEmail=" + sentPublishedEmail 
+                + ", sentPublishedEmail=" + sentPublishedEmail
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled +"]";
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
     }
 
 }

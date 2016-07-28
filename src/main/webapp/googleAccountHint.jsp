@@ -24,9 +24,10 @@
                     belongs to you, please proceed to the login page.
                 </li>
                 <li>
-                    If that Google ID does not belong to you, please inform us at 
-                    <a class="link">teammates@comp.nus.edu.sg</a>. Please also forward us the original email containing the 
-                    link you clicked, to help us with the troubleshooting.
+                    If that Google ID does not belong to you, please inform 
+                    <a class="link" href="contact.jsp" target="_blank">TEAMMATES support team</a>.
+                    <br><br>
+                    <b>Note: </b>If the problematic link was received via email, please also forward us the original email containing the link you clicked, to help us with the troubleshooting.
                 </li>
             </ul>
         </div>
