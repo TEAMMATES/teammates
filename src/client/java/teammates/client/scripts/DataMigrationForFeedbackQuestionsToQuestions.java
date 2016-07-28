@@ -56,14 +56,15 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
         
         Datastore.initialize();
         List<FeedbackQuestionAttributes> feedbackQuestions = getFeedbackQuestionsToMigrate(target);
-        System.out.println("Size of feedbackQuestions = " + feedbackQuestions.size());
+        int studentsSize = feedbackQuestions.size();
+        System.out.println("Size of feedbackQuestions = " + studentsSize);
         
         int i = 0;
         for (FeedbackQuestionAttributes old : feedbackQuestions) {
-            if (i % 100 == 0) {
-                System.out.println("Question " + i);
-            }
             i += 1;
+            if (i % 100 == 0) {
+                System.out.println("Question " + i + " out of " + studentsSize);
+            }
             FeedbackSessionAttributes session =
                     new Logic().getFeedbackSession(old.getFeedbackSessionName(), old.getCourseId());
             if (session == null) {
@@ -77,6 +78,7 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
                 migrateQuestionInSession(old, session);
             }
         }
+        System.out.println("Completed :)");
     }
 
     private void printErrorMessageForOrphanedQuestion(FeedbackQuestionAttributes old) {
@@ -84,7 +86,7 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
         System.out.println(String.format("Error finding session %s",
                                          old.getFeedbackSessionName() + ":"
                                          + old.getCourseId()));
-        System.out.println("possibly due to orphaned responses");
+        System.out.println("possibly due to orphaned responses :(");
     }
 
     /**
@@ -98,12 +100,12 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
             e.printStackTrace();
             throw new RuntimeException(
                     String.format("Unable to update existing session %s with question %s",
-                                 session.getIdentificationString(),
-                                 old.getIdentificationString()),
-                                 e);
+                                  session.getIdentificationString(),
+                                  old.getIdentificationString()),
+                                  e);
         } catch (EntityAlreadyExistsException e) {
             // ignore if a copy of the old question already exists
-            System.out.println("New question type entity already exists for question:"
+            System.out.println("New question type entity already exists for question: "
                                + old.getIdentificationString());
         }
     }
@@ -112,9 +114,9 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
         FeedbackQuestionAttributes existingQn =
                 new QuestionsDb().getFeedbackQuestion(old.feedbackSessionName, old.courseId, old.getId());
         if (existingQn == null) {
-            System.out.println("Will create question: " + old.getIdentificationString());
+            System.out.println("Will create question: " + old.getIdentificationString() + "!");
         } else {
-            System.out.println("New question type entity already exists for question:"
+            System.out.println("New question type entity already exists for question: "
                                + existingQn.getIdentificationString());
         }
     }
