@@ -84,7 +84,7 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
         assertEquals(2, download.getWorkBook().getSheetAt(0).getLastRowNum());
         assertEquals(2, download.getWorkBook().getSheetAt(0).getRow(1).getLastCellNum());
         assertEquals(2, download.getWorkBook().getSheetAt(0).getRow(2).getLastCellNum());
-        assertEquals(true, download.getWorkBook().getSheetAt(0).getRow(2).getRowStyle().getFont().getBold());
+        assertTrue(download.getWorkBook().getSheetAt(0).getRow(2).getRowStyle().getFont().getBold());
         assertEquals(15, download.getWorkBook().getSheetAt(0).getRow(2).getRowStyle().getFont().getFontHeightInPoints());
     }
 }
