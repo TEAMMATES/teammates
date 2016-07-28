@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -547,21 +550,24 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                                    ? null
                                    : new Text(Sanitizer.sanitizeForRichText(this.questionDescription.getValue()));
     }
-
+    
+    private boolean isValidJsonString(String jsonString) {
+        try {
+            new JSONObject(jsonString);
+        } catch (JSONException e) {
+            return false;
+        }
+        return true;
+    }
+    
     /** 
      * This method converts the given Feedback*QuestionDetails object to JSON for storing
      * 
      * @param questionDetails
      */
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
-        // For Text questions, the questionText simply contains the question, not a JSON
-        // This is due to legacy data in the data store before there are multiple question types
-        if (questionDetails.getQuestionType() == FeedbackQuestionType.TEXT) {
-            questionMetaData = new Text(questionDetails.getQuestionText());
-        } else {
-            Gson gson = Utils.getTeammatesGson();
-            questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
-        }
+        Gson gson = Utils.getTeammatesGson();
+        questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
     }
 
     /** 
@@ -570,13 +576,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * @return The Feedback*QuestionDetails object representing the question's details
      */
     public FeedbackQuestionDetails getQuestionDetails() {
-        // For Text questions, the questionText simply contains the question, not a JSON
-        // This is due to legacy data in the data store before there are multiple question types
-        if (questionType == FeedbackQuestionType.TEXT) {
-            return new FeedbackTextQuestionDetails(questionMetaData.getValue());
+        final String questionMetaDataValue = questionMetaData.getValue();
+        // For old Text questions, the questionText simply contains the question, not a JSON
+        if (questionType == FeedbackQuestionType.TEXT && !isValidJsonString(questionMetaDataValue)) {
+            return new FeedbackTextQuestionDetails(questionMetaDataValue);
         }
         Gson gson = Utils.getTeammatesGson();
-        return gson.fromJson(questionMetaData.getValue(), getFeedbackQuestionDetailsClass());
+        return gson.fromJson(questionMetaDataValue, getFeedbackQuestionDetailsClass());
     }
 
     /** 

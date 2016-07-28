@@ -102,7 +102,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         qnForm.setQuestionText(questionDetails.getQuestionText());
         Text questionDescription = question.getQuestionDescription();
         qnForm.setQuestionDescription(questionDescription == null ? null : questionDescription.getValue());
-        qnForm.setQuestionNumberSuffix("-" + questionIndex);
         qnForm.setQuestionIndex(questionIndex);
         qnForm.setQuestionId(question.getId());
         qnForm.setQuestionTypeDisplayName(questionDetails.getQuestionTypeDisplayName());

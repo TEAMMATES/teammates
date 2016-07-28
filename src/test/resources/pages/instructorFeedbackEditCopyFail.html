@@ -818,7 +818,7 @@
   </div>
   <br>
   <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" editstatus="hasResponses" id="form_editquestion-1" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(1)" role="form">
-    <div class="panel panel-primary questionTable" id="questionTable1">
+    <div class="panel panel-primary questionTable" id="questionTable-1">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">
@@ -884,6 +884,20 @@
               </div>
               <input name="questiondescription-1" type="hidden">
             </div>
+            <div>
+              <br>
+              <div class="row">
+                <div class="col-xs-12 question-recommended-length">
+                  [Optional]
+                  <span class="tool-tip-decorate" data-original-title="The recommended length is shown for the respondent but not enforced" data-placement="top" data-toggle="tooltip" title="">
+                    Recommended length
+                  </span>
+                  for the response:
+                  <input class="form-control" disabled="" name="recommendedlength" type="number" value="">
+                  words
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <br>
@@ -948,17 +962,17 @@
               </select>
             </div>
           </div>
-          <div class="col-sm-12 row numberOfEntitiesElements1" style="display: none;">
-            <label class="control-label col-sm-4 small" id="numofrecipients_text-1">
+          <div class="col-sm-12 row numberOfEntitiesElements" style="display: none;">
+            <label class="control-label col-sm-4 small">
               The maximum number of
-              <span id="numofrecipients_text_inner-1">
+              <span class="number-of-entities-inner-text">
               </span>
               each respondant should give feedback to:
             </label>
             <div class="col-sm-8 form-control-static">
               <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
                 <input class="nonDestructive" disabled="" name="numofrecipientstype" type="radio" value="custom">
-                <input class="nonDestructive numberOfEntitiesBox width-75-pc" disabled="" id="numofrecipients-1" max="250" min="1" name="numofrecipients" type="number" value="1">
+                <input class="nonDestructive numberOfEntitiesBox width-75-pc" disabled="" max="250" min="1" name="numofrecipients" type="number" value="1">
               </div>
               <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
                 <input checked="" class="nonDestructive" disabled="" name="numofrecipientstype" type="radio" value="max">
@@ -1030,13 +1044,13 @@
                     </div>
                   </td>
                   <td>
-                    <input checked="" class="visibilityCheckbox answerCheckbox1 centered" disabled="" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox answerCheckbox centered" disabled="" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                   </td>
                   <td>
-                    <input checked="" class="visibilityCheckbox giverCheckbox1" disabled="" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox giverCheckbox" disabled="" type="checkbox" value="RECEIVER">
                   </td>
                   <td>
-                    <input checked="" class="visibilityCheckbox recipientCheckbox1" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
                   </td>
                 </tr>
                 <tr>
@@ -1046,13 +1060,13 @@
                     </div>
                   </td>
                   <td>
-                    <input class="visibilityCheckbox answerCheckbox1" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox answerCheckbox" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox giverCheckbox1" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox giverCheckbox" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox recipientCheckbox1" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox recipientCheckbox" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
                   </td>
                 </tr>
                 <tr>
@@ -1062,13 +1076,13 @@
                     </div>
                   </td>
                   <td>
-                    <input class="visibilityCheckbox answerCheckbox1" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox answerCheckbox" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox giverCheckbox1" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox giverCheckbox" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox recipientCheckbox1" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox recipientCheckbox" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                   </td>
                 </tr>
                 <tr>
@@ -1078,13 +1092,13 @@
                     </div>
                   </td>
                   <td>
-                    <input class="visibilityCheckbox answerCheckbox1" disabled="" type="checkbox" value="STUDENTS">
+                    <input class="visibilityCheckbox answerCheckbox" disabled="" type="checkbox" value="STUDENTS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox giverCheckbox1" disabled="" type="checkbox" value="STUDENTS">
+                    <input class="visibilityCheckbox giverCheckbox" disabled="" type="checkbox" value="STUDENTS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox recipientCheckbox1" disabled="" type="checkbox" value="STUDENTS">
+                    <input class="visibilityCheckbox recipientCheckbox" disabled="" type="checkbox" value="STUDENTS">
                   </td>
                 </tr>
                 <tr>
@@ -1094,13 +1108,13 @@
                     </div>
                   </td>
                   <td>
-                    <input checked="" class="visibilityCheckbox answerCheckbox1" disabled="" type="checkbox" value="INSTRUCTORS">
+                    <input checked="" class="visibilityCheckbox answerCheckbox" disabled="" type="checkbox" value="INSTRUCTORS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox giverCheckbox1" disabled="" type="checkbox" value="INSTRUCTORS">
+                    <input class="visibilityCheckbox giverCheckbox" disabled="" type="checkbox" value="INSTRUCTORS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox recipientCheckbox1" disabled="" type="checkbox" value="INSTRUCTORS">
+                    <input class="visibilityCheckbox recipientCheckbox" disabled="" type="checkbox" value="INSTRUCTORS">
                   </td>
                 </tr>
               </tbody>
@@ -1127,7 +1141,7 @@
   </form>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('')" role="form">
+  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" id="form_editquestion--1" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('-1')" role="form">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
       <div class="row">
         <div class="col-sm-12 row">
@@ -1203,7 +1217,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary questionTable" id="questionTableNew" style="display:none;">
+    <div class="panel panel-primary questionTable" id="questionTable--1" style="display:none;">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">
@@ -1237,18 +1251,18 @@
         <div class="col-sm-12 margin-15px background-color-light-blue">
           <div class="form-group" style="padding: 15px;">
             <h5 class="col-sm-2">
-              <label class="control-label" for="questiontext">
+              <label class="control-label" for="questiontext--1">
                 Question
               </label>
             </h5>
             <div class="col-sm-10">
-              <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext" name="questiontext" rows="2" tabindex="9" title="">
+              <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext--1" name="questiontext" rows="2" tabindex="9" title="">
               </textarea>
             </div>
           </div>
           <div class="form-group" style="padding: 0 15px;">
             <h5 class="col-sm-2">
-              <label class="align-left" for="questiondescription">
+              <label class="align-left" for="questiondescription--1">
                 [Optional]
                 <br>
                 Description
@@ -1257,7 +1271,23 @@
             <div class="col-sm-10">
               <div id="rich-text-toolbar-q-descr-container">
               </div>
-              <div class="panel panel-default panel-body" data-original-title="Please enter the description of the question." data-placement="top" data-toggle="tooltip" id="questiondescription" rows="5" tabindex="9" title="">
+              <div class="panel panel-default panel-body" data-original-title="Please enter the description of the question." data-placement="top" data-toggle="tooltip" id="questiondescription--1" rows="5" tabindex="9" title="">
+              </div>
+            </div>
+            <div id="textForm">
+              <div>
+                <br>
+                <div class="row">
+                  <div class="col-xs-12 question-recommended-length">
+                    [Optional]
+                    <span class="tool-tip-decorate" data-original-title="The recommended length is shown for the respondent but not enforced" data-placement="top" data-toggle="tooltip" title="">
+                      Recommended length
+                    </span>
+                    for the response:
+                    <input class="form-control" disabled="" name="recommendedlength" type="number" value="">
+                    words
+                  </div>
+                </div>
               </div>
             </div>
             <div id="mcqForm">
@@ -1295,7 +1325,7 @@
                     </div>
                     <div id="mcqAddOptionRow--1">
                       <div colspan="2">
-                        <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" onclick="addMcqOption(-1)" style="display:none">
+                        <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink--1" onclick="addMcqOption(-1)" style="display:none">
                           <span class="glyphicon glyphicon-plus">
                           </span>
                           add more options
@@ -1373,7 +1403,7 @@
                     </div>
                     <div id="msqAddOptionRow--1">
                       <div colspan="2">
-                        <a class="btn btn-primary btn-xs addOptionLink" id="msqAddOptionLink" onclick="addMsqOption(-1)" style="display:none">
+                        <a class="btn btn-primary btn-xs addOptionLink" id="msqAddOptionLink--1" onclick="addMsqOption(-1)" style="display:none">
                           <span class="glyphicon glyphicon-plus">
                           </span>
                           add more options
@@ -1475,7 +1505,7 @@
                   </div>
                   <div id="constSumAddOptionRow--1">
                     <div colspan="2">
-                      <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(-1)" style="display:none">
+                      <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink--1" onclick="addConstSumOption(-1)" style="display:none">
                         <span class="glyphicon glyphicon-plus">
                         </span>
                         add more options
@@ -1521,7 +1551,7 @@
                                 If you specify 100 points here and if there are 3 options, the total number of points to 
                                 distribute among 3 options will be 300 (i.e. 100 x 3)" data-placement="top" data-toggle="tooltip" title="">
                           <div class="col-xs-4 padding-0">
-                            <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                            <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPointsForEachOption--1" min="1" name="constSumPointsForEachOption" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
                           </div>
                           <div class="col-xs-6 padding-0">
                             <label class="margin-top-7px padding-left-7px">
@@ -1541,7 +1571,7 @@
                                 If you specify 100 points here and if there are 3 recipients, the total number of points to 
                                 distribute among 3 recipients will be 300 (i.e. 100 x 3)" data-placement="top" data-toggle="tooltip" title="">
                           <div class="col-xs-4 padding-0">
-                            <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                            <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPointsForEachRecipient--1" min="1" name="constSumPointsForEachRecipient" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
                           </div>
                           <div class="col-xs-6 padding-0">
                             <label class="margin-top-7px padding-left-7px">
@@ -1820,7 +1850,7 @@
               Who will give the feedback:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" id="givertype" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
+              <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
                 <option value="SELF">
                   Me (Session creator)
                 </option>
@@ -1841,7 +1871,7 @@
               Who the feedback is about:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" id="recipienttype" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
+              <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <option value="SELF">
                   Giver (Self feedback)
                 </option>
@@ -1870,16 +1900,16 @@
             </div>
           </div>
           <div class="col-sm-12 row numberOfEntitiesElements" style="display: none;">
-            <label class="control-label col-sm-4 small" id="numofrecipients_text-">
+            <label class="control-label col-sm-4 small">
               The maximum number of
-              <span id="numofrecipients_text_inner-">
+              <span class="number-of-entities-inner-text">
               </span>
               each respondant should give feedback to:
             </label>
             <div class="col-sm-8 form-control-static">
               <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
                 <input class="nonDestructive" name="numofrecipientstype" type="radio" value="custom">
-                <input class="nonDestructive numberOfEntitiesBox width-75-pc" id="numofrecipients" max="250" min="1" name="numofrecipients" type="number" value="1">
+                <input class="nonDestructive numberOfEntitiesBox width-75-pc" max="250" min="1" name="numofrecipients" type="number" value="1">
               </div>
               <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
                 <input checked="" class="nonDestructive" name="numofrecipientstype" type="radio" value="max">
@@ -1899,13 +1929,13 @@
             (Who can see the responses?)
           </div>
           <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel" onchange="toggleVisibilityEditTab(this)">
+            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel--1" onchange="toggleVisibilityEditTab(this)">
               <input type="radio">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit Visibility
             </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton" onchange="toggleVisibilityPreviewTab(this)">
+            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton--1" onchange="toggleVisibilityPreviewTab(this)">
               <input type="radio">
               <span class="glyphicon glyphicon-eye-open">
               </span>
@@ -1914,14 +1944,14 @@
           </div>
         </div>
         <div class="col-sm-12 background-color-light-green">
-          <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage">
+          <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage--1">
             This is the visibility as seen by the feedback giver.
             <ul class="background-color-warning">
             </ul>
           </div>
         </div>
         <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
-          <div class="visibilityOptions" id="visibilityOptions" style="display: none;">
+          <div class="visibilityOptions" id="visibilityOptions--1" style="display: none;">
             <table class="dataTable participantTable table table-striped text-center background-color-white">
               <tbody>
                 <tr>

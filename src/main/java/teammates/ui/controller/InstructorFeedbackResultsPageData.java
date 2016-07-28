@@ -42,8 +42,6 @@ import teammates.ui.template.InstructorFeedbackResultsSectionPanel;
 import teammates.ui.template.InstructorFeedbackResultsSessionPanel;
 
 public class InstructorFeedbackResultsPageData extends PageData {
-    private static final String DISPLAY_NAME_FOR_DEFAULT_SECTION = "Not in a section";
-
     private static final String MODERATE_RESPONSES_FOR_GIVER = "Moderate Responses";
     private static final String MODERATE_SINGLE_RESPONSE = "Moderate Response";
     
@@ -652,7 +650,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             sectionPanel.setDisplayingTeamStatistics(isTeamDisplayingStatistics);
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? DISPLAY_NAME_FOR_DEFAULT_SECTION
+                                                ? Const.NO_SPECIFIC_RECIEPIENT
                                                 : sectionName);
             break;
         case RECIPIENT_GIVER_QUESTION:
@@ -660,7 +658,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? DISPLAY_NAME_FOR_DEFAULT_SECTION
+                                                ? Const.NO_SPECIFIC_RECIEPIENT
                                                 : sectionName);
             break;
         default:
@@ -740,7 +738,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
 
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
-                Const.DEFAULT_SECTION, DISPLAY_NAME_FOR_DEFAULT_SECTION, true);
+                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_RECIEPIENT, true);
         sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
 
         for (String section : sections) {
