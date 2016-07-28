@@ -48,6 +48,7 @@ dependencies {
                     "com.sun.jersey:jersey-client:1.19",
                     "com.sun.jersey:jersey-core:1.19",
                     "com.sun.jersey.contribs:jersey-multipart:1.19",
+                    "joda-time:joda-time:2.9.4",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:1.9.2",
                     "org.apache.poi:poi:3.14",

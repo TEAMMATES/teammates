@@ -67,9 +67,12 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         feedbackEditPage.fillNewQuestionBox("ConstSum-option qn");
         feedbackEditPage.fillNewQuestionDescription("more details");
-        feedbackEditPage.fillConstSumPointsBox("", -1);
         
+        feedbackEditPage.fillConstSumPointsBox("", -1);
         assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
+        
+        feedbackEditPage.fillConstSumPointsForEachOptionBox("", -1);
+        assertEquals("1", feedbackEditPage.getConstSumPointsForEachOptionBox(-1));
         
         feedbackEditPage.clickAddQuestionButton();
         
@@ -107,7 +110,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("CONST SUM: add option");
 
         assertFalse(feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
-        feedbackEditPage.clickAddMoreConstSumOptionLink();
+        feedbackEditPage.clickAddMoreConstSumOptionLink(-1);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
 
         ______TS("CONST SUM: remove option");
@@ -119,9 +122,9 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         ______TS("CONST SUM: add option after remove");
 
-        feedbackEditPage.clickAddMoreConstSumOptionLink();
+        feedbackEditPage.clickAddMoreConstSumOptionLink(-1);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-3--1"));
-        feedbackEditPage.clickAddMoreConstSumOptionLink();
+        feedbackEditPage.clickAddMoreConstSumOptionLink(-1);
         feedbackEditPage.fillConstSumOption(4, "Option 5");
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-4--1"));
     }
@@ -133,10 +136,14 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillNewQuestionBox("const sum qn");
         feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.fillConstSumPointsBox("30", -1);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+        
+        assertEquals("30", feedbackEditPage.getConstSumPointsBox(1));
+        assertEquals("30", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumOptionQuestionAddSuccess.html");
     }
 
@@ -147,11 +154,14 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 1);
         feedbackEditPage.fillEditQuestionDescription("more details", 1);
-        feedbackEditPage.fillConstSumPointsBox("200", 1);
         feedbackEditPage.selectConstSumPointsOptions("PerOption", 1);
+        feedbackEditPage.fillConstSumPointsForEachOptionBox("200", 1);
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        
+        assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
+        assertEquals("200", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumOptionQuestionEditSuccess.html");
     }

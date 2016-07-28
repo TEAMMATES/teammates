@@ -1,4 +1,4 @@
-<div class="panel panel-primary questionTable" id="questionTable1">
+<div class="panel panel-primary questionTable" id="questionTable-1">
   <div class="panel-heading">
     <div class="row">
       <div class="col-sm-7">
@@ -165,10 +165,10 @@
             <option value="OWN_TEAM">
               Giver's team
             </option>
-            <option value="OWN_TEAM_MEMBERS">
+            <option style="display: none;" value="OWN_TEAM_MEMBERS">
               Giver's team members
             </option>
-            <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
+            <option style="display: none;" value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
               Giver's team members and Giver
             </option>
             <option value="NONE">
@@ -177,17 +177,17 @@
           </select>
         </div>
       </div>
-      <div class="col-sm-12 row numberOfEntitiesElements1" style="display: none;">
-        <label class="control-label col-sm-4 small" id="numofrecipients_text-1">
+      <div class="col-sm-12 row numberOfEntitiesElements" style="display: none;">
+        <label class="control-label col-sm-4 small">
           The maximum number of
-          <span id="numofrecipients_text_inner-1">
+          <span class="number-of-entities-inner-text">
           </span>
           each respondant should give feedback to:
         </label>
         <div class="col-sm-8 form-control-static">
           <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
             <input class="nonDestructive" name="numofrecipientstype" type="radio" value="custom">
-            <input class="nonDestructive numberOfEntitiesBox width-75-pc" id="numofrecipients-1" max="250" min="1" name="numofrecipients" type="number" value="1">
+            <input class="nonDestructive numberOfEntitiesBox width-75-pc" max="250" min="1" name="numofrecipients" type="number" value="1">
           </div>
           <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
             <input checked="" class="nonDestructive" name="numofrecipientstype" type="radio" value="max">
@@ -259,13 +259,13 @@
                 </div>
               </td>
               <td>
-                <input checked="" class="visibilityCheckbox answerCheckbox1 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
               </td>
               <td>
-                <input checked="" class="visibilityCheckbox giverCheckbox1" type="checkbox" value="RECEIVER">
+                <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
               </td>
               <td>
-                <input checked="" class="visibilityCheckbox recipientCheckbox1" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
+                <input checked="" class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
               </td>
             </tr>
             <tr>
@@ -275,13 +275,13 @@
                 </div>
               </td>
               <td>
-                <input class="visibilityCheckbox answerCheckbox1" type="checkbox" value="OWN_TEAM_MEMBERS">
+                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
               </td>
               <td>
-                <input class="visibilityCheckbox giverCheckbox1" type="checkbox" value="OWN_TEAM_MEMBERS">
+                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
               </td>
               <td>
-                <input class="visibilityCheckbox recipientCheckbox1" type="checkbox" value="OWN_TEAM_MEMBERS">
+                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
               </td>
             </tr>
             <tr>
@@ -291,13 +291,13 @@
                 </div>
               </td>
               <td>
-                <input class="visibilityCheckbox answerCheckbox1" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
               </td>
               <td>
-                <input class="visibilityCheckbox giverCheckbox1" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
               </td>
               <td>
-                <input class="visibilityCheckbox recipientCheckbox1" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
               </td>
             </tr>
             <tr>
@@ -307,13 +307,13 @@
                 </div>
               </td>
               <td>
-                <input class="visibilityCheckbox answerCheckbox1" type="checkbox" value="STUDENTS">
+                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
               </td>
               <td>
-                <input class="visibilityCheckbox giverCheckbox1" type="checkbox" value="STUDENTS">
+                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
               </td>
               <td>
-                <input class="visibilityCheckbox recipientCheckbox1" type="checkbox" value="STUDENTS">
+                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="STUDENTS">
               </td>
             </tr>
             <tr>
@@ -323,13 +323,13 @@
                 </div>
               </td>
               <td>
-                <input checked="" class="visibilityCheckbox answerCheckbox1" type="checkbox" value="INSTRUCTORS">
+                <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
               </td>
               <td>
-                <input checked="" class="visibilityCheckbox giverCheckbox1" type="checkbox" value="INSTRUCTORS">
+                <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
               </td>
               <td>
-                <input checked="" class="visibilityCheckbox recipientCheckbox1" type="checkbox" value="INSTRUCTORS">
+                <input checked="" class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTORS">
               </td>
             </tr>
           </tbody>

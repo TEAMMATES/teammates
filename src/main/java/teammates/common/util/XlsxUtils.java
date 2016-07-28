@@ -9,6 +9,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class XlsxUtils {
     
+    private XlsxUtils() {
+        // utility class
+    }
+
     public static XSSFCellStyle getDefaultStyle(XSSFWorkbook workBook) throws IOException {
         XSSFCellStyle defaultStyle = workBook.createCellStyle();
         XSSFFont defaultFont = workBook.createFont();

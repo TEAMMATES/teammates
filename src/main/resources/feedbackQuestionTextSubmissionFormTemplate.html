@@ -1,9 +1,17 @@
 <textarea rows="4" cols="100%" class="form-control"
     ${disabled} id="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
     name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
-    data-lengthTextId="responseLength-${questionIndex}-${responseIndex}">${existingResponse}</textarea>
-<div class="pull-right margin-top-7px">
-    <label class="text-color-gray font-weight-normal">Response length: </label>
-    <label class="text-color-gray font-weight-normal" id="responseLength-${questionIndex}-${responseIndex}">0</label>
-    <label class="text-color-gray font-weight-normal"> characters</label>
+    data-length-text-id="responseLength-${questionIndex}-${responseIndex}" data-recommended-text="${recommendedLength}">${existingResponse}</textarea>
+<div class="margin-top-7px text-color-gray font-weight-normal">
+    <div class="col-md-6 padding-0" ${recommendedLengthDisplay}>
+        Recommended length for the answer:
+        <span id="recommendedLength-${questionIndex}-${responseIndex}">
+            ${recommendedLength} </span>
+        words
+    </div>
+    <div class="pull-right">
+        Response length:
+        <span id="responseLength-${questionIndex}-${responseIndex}">0</span>
+        words 
+    </div>
 </div>
