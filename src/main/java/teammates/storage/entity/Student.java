@@ -188,7 +188,7 @@ public class Student implements StoreCallback {
     }
 
     public String getRegistrationKey() {
-        return (registrationKey == null) ? null : Student.getStringKeyForLongKey(registrationKey);
+        return registrationKey == null ? null : Student.getStringKeyForLongKey(registrationKey);
     }
 
     public String getCourseId() {

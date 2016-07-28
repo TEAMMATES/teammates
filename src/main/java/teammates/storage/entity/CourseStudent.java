@@ -30,7 +30,7 @@ public class CourseStudent implements StoreCallback {
     public transient boolean keepUpdateTimestamp;
 
     /**
-     * Format: email%courseId e.g., adam@gmail.com%cs1101
+     * @see #makeId()
      */
     @PrimaryKey
     @Persistent
@@ -114,10 +114,10 @@ public class CourseStudent implements StoreCallback {
         
         setCreatedAt(new Date());
 
-        setId(getEmail() + '%' + getCourseId());
+        setId(makeId());
         registrationKey = generateRegistrationKey();
     }
-    
+
     public CourseStudent(Student student) {
         googleId = student.getGoogleId();
         name = student.getName();
@@ -130,12 +130,17 @@ public class CourseStudent implements StoreCallback {
         registrationKey = student.getRegistrationKey();
         
         // copies the createdAt of the existing Student
-        // updatedAt is still set to the time when CourseStudent is written to the database
+        // updatedAt is set to the time when CourseStudent is written to the database
+        // see jdoPreStore
         createdAt = student.getCreatedAt();
         
-        setId(getEmail() + '%' + getCourseId());
+        setId(makeId());
     }
-
+    
+    private String makeId() {
+        return getEmail() + '%' + getCourseId();
+    }
+    
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -159,10 +164,6 @@ public class CourseStudent implements StoreCallback {
         return this.id;
     }
     
-    /**
-     * @param uniqueId
-     *          The ID of the entity (format: googleId%courseId).
-     */
     public void setId(String uniqueId) {
         this.id = uniqueId;
     }
@@ -210,7 +211,6 @@ public class CourseStudent implements StoreCallback {
         return comments;
     }
 
-    // null comment setting are not tested
     public void setComments(String comments) {
         this.comments = comments == null ? null : comments.trim();
     }
@@ -231,7 +231,6 @@ public class CourseStudent implements StoreCallback {
         return teamName;
     }
 
-    // null team name setting are not tested
     public void setTeamName(String teamName) {
         this.teamName = teamName == null ? null : teamName.trim();
     }
@@ -252,9 +251,7 @@ public class CourseStudent implements StoreCallback {
     }
     
     /**
-     * Generate unique registration key for the student.
-     * The key contains random elements to avoid being guessed.
-     * @return
+     * Returns unique registration key for the student.
      */
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();

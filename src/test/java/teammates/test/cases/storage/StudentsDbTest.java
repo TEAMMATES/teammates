@@ -14,7 +14,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
