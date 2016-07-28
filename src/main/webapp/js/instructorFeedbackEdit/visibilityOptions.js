@@ -369,8 +369,8 @@ function updateToggleVisibilityPreviewButton($containingForm, isLoadSuccessful) 
 }
 
 function formatPreviewTabHtml(visibilityMessage) {
-    var htmlString = 'This is the visibility as seen by the feedback giver.';
-    htmlString += '<ul class="background-color-warning">';
+    var htmlString = 'This is the visibility hint as seen by the feedback giver:';
+    htmlString += '<ul class="text-muted background-color-warning">';
     for (var i = 0; i < visibilityMessage.length; i++) {
         htmlString += '<li>' + visibilityMessage[i] + '</li>';
     }

@@ -36,9 +36,9 @@
 </div>
 <div class="col-sm-12 background-color-light-green">
     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-    <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage-${fqForm.questionIndex}">
-        This is the visibility as seen by the feedback giver.
-        <ul class="background-color-warning">
+    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-${fqForm.questionIndex}">
+        This is the visibility hint as seen by the feedback giver:
+        <ul class="text-muted background-color-warning">
         <c:forEach items="${fqForm.visibilitySettings.visibilityMessages}" var="msg">
             <li>${msg}</li>
         </c:forEach>
