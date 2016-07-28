@@ -642,7 +642,7 @@ public abstract class AppPage {
      * @return the resulting page.
      */
     public AppPage clickHiddenElementAndConfirm(String elementId) {
-        clickHiddenElement(elementId);
+        click(By.id(elementId));
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return this;
@@ -664,7 +664,7 @@ public abstract class AppPage {
      * @return the resulting page.
      */
     public void clickHiddenElementAndCancel(String elementId) {
-        clickHiddenElement(elementId);
+        click(By.id(elementId));
         waitForConfirmationModalAndClickCancel();
         waitForPageToLoad();
     }
@@ -1009,11 +1009,6 @@ public abstract class AppPage {
         }
     }
     
-    private void clickHiddenElement(String elementId) {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementById('" + elementId + "').click();");
-    }
-
     public void waitForAjaxLoaderGifToDisappear() {
         try {
             waitForElementToDisappear(By.xpath("//img[@src='/images/ajax-loader.gif' or @src='/images/ajax-preload.gif']"));
