@@ -7,7 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class XlsxUtils {
+public final class XlsxUtils {
     
     private XlsxUtils() {
         // utility class
