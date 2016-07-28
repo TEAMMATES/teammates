@@ -249,6 +249,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 * **Google App Engine SDK** [version 1.9.27]
 * **GitHub** : Used to host the repo and code reviewing.
 * **Gradle** : Build and dependency management tool.
+* **Node.js** : We use Node Package Manager (NPM) from Node.js as a dependency management tool.
 * **CheckStyle, PMD, FindBugs, Macker, ESLint** [all latest stable versions]: Static analysis tools for code quality check. The details of these tools can be found in [this document](staticAnalysis.md).
 * [**PowerPointLabs**](http://PowerPointLabs.info) [Sister project]: Used for creating demo videos.
 * Optional: [**HubTurbo**](https://github.com/HubTurbo/HubTurbo/wiki/Getting-Started) [Sister project]: 
@@ -259,7 +260,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 ####Tools used in implementation
 * **HTML** [version 5, using latest features is discouraged due to lack of enough Browser support], JavaScript, CSS
 * **Bootstrap** [version 3.1.1], as the front-end UI framework
-* **jQuery** [version 1.11.1]
+* **jQuery** [version 1.11.3]
   jQuery is a JavaScript Library that simplifies HTML document traversing, event handling, animating, and Ajax interactions for rapid web development.
 * **JSON** (JavaScript Object Notation): JSON is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the JavaScript.
 * **Gson** [version 2.2.2] Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object.
@@ -291,7 +292,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
     JaCoCo is a Java code coverage library. EclEmma is its plugin and integration for Eclipse.
 * **QUnit** [version 1.22.0]
     QUnit is a JavaScript unit test suite.
-* **Blanket.js** [version 1.2.1]
+* **Blanket.js** [version 1.2.3]
     Blanket.js is a JavaScript code coverage library.
 * **HttpUnit** [version 1.7]
     We use the ServletUnit component of HttpUnit to create HttpServletUnit objects used for testing.

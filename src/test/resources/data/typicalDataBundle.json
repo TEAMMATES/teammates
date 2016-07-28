@@ -875,6 +875,30 @@
             ]
             
         },
+	"qn5InSession1InCourse1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"New format Text question\",
+                          \"questionType\":\"TEXT\", \"recommendedLength\" : 100}"
+            },
+            "questionNumber":"5",
+            "questionType":"TEXT",
+            "giverType":"SELF",
+            "recipientType":"NONE",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+            
+        },
         "team.feedback":{
             "feedbackSessionName":"Second feedback session",
             "courseId":"idOfTypicalCourse1",

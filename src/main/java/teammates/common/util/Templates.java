@@ -43,6 +43,8 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosing.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
+        public static final String USER_FEEDBACK_SESSION_UNPUBLISHED =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");
         public static final String USER_PENDING_COMMENTS_CLEARED =
                 FileHelper.readResourceFile("userEmailTemplate-pendingCommentsCleared.html");
         public static final String SYSTEM_ERROR =
@@ -63,6 +65,8 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionTextSubmissionFormTemplate.html");
             public static final String TEXT_RESULT_STATS =
                     FileHelper.readResourceFile("feedbackQuestionTextResultStatsTemplate.html");
+            public static final String TEXT_EDIT_FORM =
+                    FileHelper.readResourceFile("feedbackQuestionTextEditFormTemplate.html");
 
             public static final String MCQ_SUBMISSION_FORM =
                     FileHelper.readResourceFile("feedbackQuestionMcqSubmissionFormTemplate.html");
@@ -295,6 +299,10 @@ public final class Templates {
             public static final String CONSTSUM_OPTION_POINT = "${constSumOptionPoint}";
             public static final String CONSTSUM_OPTION_VALUE = "${constSumOptionValue}";
             public static final String CONSTSUM_PARAM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
+            public static final String CONSTSUM_PARAM_POINTSFOREACHOPTION =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}";
+            public static final String CONSTSUM_PARAM_POINTSFOREACHRECIPIENT =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}";
             public static final String CONSTSUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
             public static final String CONSTSUM_TO_RECIPIENTS =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";

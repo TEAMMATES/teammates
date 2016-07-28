@@ -191,6 +191,27 @@ public class EmailGenerator {
         return emails;
     }
     
+    /**
+     * Generates the feedback session published emails for the given {@code session}.
+     */
+    public List<EmailWrapper> generateFeedbackSessionUnpublishedEmails(FeedbackSessionAttributes session) {
+        
+        String template = EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED;
+        
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        boolean isEmailNeeded = fsLogic.isFeedbackSessionViewableToStudents(session);
+        List<InstructorAttributes> instructors = isEmailNeeded
+                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                                                 : new ArrayList<InstructorAttributes>();
+        List<StudentAttributes> students = isEmailNeeded
+                                           ? studentsLogic.getStudentsForCourse(session.getCourseId())
+                                           : new ArrayList<StudentAttributes>();
+        
+        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+                                                                      EmailType.FEEDBACK_UNPUBLISHED.getSubject());
+        return emails;
+    }
+    
     private List<EmailWrapper> generateFeedbackSessionEmailBases(
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, String template, String subject) {
@@ -252,7 +273,7 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}",
                         "The email below has been sent to students of course: " + course.getId()
-                        + ".<p/><br><br>=== Email message as seen by the students ===<br>",
+                        + ".<p/><br>\n<br>\n=== Email message as seen by the students ===<br>\n",
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${supportEmail}", Config.SUPPORT_EMAIL);

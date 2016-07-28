@@ -44,7 +44,7 @@ public final class Const {
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String USER_NOT_IN_A_SECTION = "Not in a section";
+    public static final String NO_SPECIFIC_RECIEPIENT = "No specific recipient";
     
     public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT = "Anonymous";
@@ -623,6 +623,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
         public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
+        public static final String FEEDBACK_QUESTION_TEXT_RECOMMENDEDLENGTH = "recommendedlength";
         public static final String FEEDBACK_QUESTION_DESCRIPTION = "questiondescription";
         public static final String FEEDBACK_QUESTION_TYPE = "questiontype";
         public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
@@ -637,8 +638,11 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
+        // TODO: rename FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION to a more accurate name
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = "constSumPointsForEachOption";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = "constSumPointsForEachRecipient";
         public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "constSumUnevenDistribution";
         public static final String FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED = "isNotSureAllowedCheck";
         public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
@@ -962,6 +966,8 @@ public final class Const {
         public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_UNPUBLISHED_MAIL_ACTION =
+                                                                "feedbackSessionUnpublishedMailAction";
         public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
