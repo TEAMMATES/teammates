@@ -2,6 +2,12 @@ function updateConstSumPointsValue(questionNum) {
     if ($('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + '-' + questionNum).val() < 1) {
         $('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + '-' + questionNum).val(1);
     }
+    if ($('#' + FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION + '-' + questionNum).val() < 1) {
+        $('#' + FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION + '-' + questionNum).val(1);
+    }
+    if ($('#' + FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT + '-' + questionNum).val() < 1) {
+        $('#' + FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT + '-' + questionNum).val(1);
+    }
 }
 
 function addConstSumOption(questionNum) {

@@ -299,6 +299,40 @@ public class InstructorFeedbackEditPage extends AppPage {
         return constSumPointsBox.getAttribute("value");
     }
     
+    public void fillConstSumPointsForEachOptionBox(String points, int qnNumber) {
+        String idSuffix = getIdSuffix(qnNumber);
+        
+        WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachOption" + idSuffix));
+        // backspace to clear the extra 1 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", pointsBox);
+    }
+    
+    public String getConstSumPointsForEachOptionBox(int qnNumber) {
+        String idSuffix = getIdSuffix(qnNumber);
+        WebElement constSumPointsBox = browser.driver.findElement(By.id("constSumPointsForEachOption" + idSuffix));
+        return constSumPointsBox.getAttribute("value");
+    }
+    
+    public void fillConstSumPointsForEachRecipientBox(String points, int qnNumber) {
+        String idSuffix = getIdSuffix(qnNumber);
+        
+        WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachRecipient" + idSuffix));
+        // backspace to clear the extra 1 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", pointsBox);
+    }
+    
+    public String getConstSumPointsForEachRecipientBox(int qnNumber) {
+        String idSuffix = getIdSuffix(qnNumber);
+        WebElement constSumPointsBox = browser.driver.findElement(By.id("constSumPointsForEachRecipient" + idSuffix));
+        return constSumPointsBox.getAttribute("value");
+    }
+    
     public void fillRubricSubQuestionBox(String subQuestion, int qnNumber, int subQnIndex) {
         String idSuffix = getIdSuffix(qnNumber);
         
