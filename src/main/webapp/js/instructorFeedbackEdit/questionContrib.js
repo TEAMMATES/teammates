@@ -1,35 +1,30 @@
 function setDefaultContribQnVisibility(questionNum) {
-    var idSuffix = questionNum || 'New';
-    var idSuffix2 = questionNum || '';
-    
-    $currentQuestionTable = $('#questionTable' + idSuffix);
+    $currentQuestionTable = $('#questionTable-' + questionNum);
 
     $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);
     // All except STUDENTS can see answer
     $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('[class*="answerCheckbox' + idSuffix2 + '"]')
+                         .filter('.answerCheckbox')
                          .not('[value="STUDENTS"]').prop('checked', true);
     // Only instructor can see giver
     $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('[class*="giverCheckbox' + idSuffix2 + '"]')
+                         .filter('.giverCheckbox')
                          .filter('[value="INSTRUCTORS"]').prop('checked', true);
     // Recipient and instructor can see recipient
     $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('[class*="recipientCheckbox' + idSuffix2 + '"]')
+                         .filter('.recipientCheckbox')
                          .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
 
 }
 
 function setContribQnVisibilityFormat(questionNum) {
-    var idSuffix = questionNum || 'New';
-
-    $currentQuestionTable = $('#questionTable' + idSuffix);
+    $currentQuestionTable = $('#questionTable-' + questionNum);
 
     // Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
 
     $currentQuestionTable.find('input.visibilityCheckbox').off('change');
     
-    $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="answerCheckbox"]').change(function() {
+    $currentQuestionTable.find('input.visibilityCheckbox').filter('.answerCheckbox').change(function() {
         if (!$(this).prop('checked')) {
             if ($(this).val() === 'RECEIVER'
                     || $(this).val() === 'OWN_TEAM_MEMBERS'
@@ -60,7 +55,7 @@ function setContribQnVisibilityFormat(questionNum) {
                 || $(this).val() === 'OWN_TEAM_MEMBERS'
                 || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
             $currentQuestionTable.find('input.visibilityCheckbox')
-                                 .filter('[class*="answerCheckbox"]')
+                                 .filter('.answerCheckbox')
                                  .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')
                                  .prop('checked', $(this).prop('checked'));
         }
@@ -69,7 +64,7 @@ function setContribQnVisibilityFormat(questionNum) {
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="giverCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
             var visibilityOptionsRow = $(this).closest('tr');
-            visibilityOptionsRow.find('input[class*="answerCheckbox"]')
+            visibilityOptionsRow.find('input.answerCheckbox')
                                      .prop('checked', true)
                                      .trigger('change');
         }
@@ -78,7 +73,7 @@ function setContribQnVisibilityFormat(questionNum) {
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="recipientCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
             var visibilityOptionsRow = $(this).closest('tr');
-            visibilityOptionsRow.find('input[class*="answerCheckbox"]')
+            visibilityOptionsRow.find('input.answerCheckbox')
                                      .prop('checked', true)
                                      .trigger('change');
         }
@@ -93,9 +88,8 @@ function setContribQnVisibilityFormat(questionNum) {
 }
 
 function fixContribQnGiverRecipient(questionNum) {
-    var idSuffix = questionNum ? '-' + questionNum : '';
-    var $giverType = $('#givertype' + idSuffix);
-    var $recipientType = $('#recipienttype' + idSuffix);
+    var $giverType = $('#givertype-' + questionNum);
+    var $recipientType = $('#recipienttype-' + questionNum);
 
     // Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
     $giverType.find('option').not('[value="STUDENTS"]').hide();

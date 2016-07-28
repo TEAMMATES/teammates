@@ -4,7 +4,7 @@
         ${constSumEditFormOptionFragments}
         <div id="constSumAddOptionRow-${questionNumber}">
             <div colspan="2">
-                <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink"
+                <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink-${questionNumber}"
                         onclick="addConstSumOption(${questionNumber})" style="display:none">
                     <span class="glyphicon glyphicon-plus">
                     </span> add more options
@@ -65,8 +65,8 @@
                                 distribute among 3 options will be 300 (i.e. 100 x 3)">
                         <div class="col-xs-4 padding-0">
                             <input type="number" disabled class="form-control width-100-pc pointsBox"
-                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
-                                id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1"
+                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}"
+                                id="constSumPointsForEachOption-${questionNumber}" value="${constSumPoints}" min="1"
                                 step="1" onChange="updateConstSumPointsValue(${questionNumber})">
                         </div>
                         <div class="col-xs-6 padding-0">
@@ -89,8 +89,8 @@
                         <div class="col-xs-4 padding-0">
                             <input type="number" disabled
                                 class="form-control width-100-pc pointsBox"
-                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
-                                id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1"
+                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}"
+                                id="constSumPointsForEachRecipient-${questionNumber}" value="${constSumPoints}" min="1"
                                 step="1" onChange="updateConstSumPointsValue(${questionNumber})">
                         </div>
                         <div class="col-xs-6 padding-0">

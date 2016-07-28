@@ -17,6 +17,7 @@ chromedriver*
 *.db
 *.md.html
 libs/
+node_modules/
 
 .launches/TM - Start dev server.launch
 test-output/*

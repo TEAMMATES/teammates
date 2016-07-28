@@ -92,7 +92,7 @@
                                         </option>
                                     </c:forEach>
                                     <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected</c:if>>
-                                        Not in a section
+                                        <%=Const.NO_SPECIFIC_RECIEPIENT%>
                                     </option>
                                 </select>
                             </div>

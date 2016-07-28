@@ -47,7 +47,11 @@
             </ul>
             
             <c:if test="${questionWithResponses.question.giverTeam}">
-                    <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p> 
+                    <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p>
+            </c:if>
+            
+            <c:if test="${questionWithResponses.numOfResponseBoxes eq 0}">
+                 <p class="text-warning">${questionWithResponses.question.messageToDisplayIfNoRecipientAvailable}</p>  
             </c:if>
               
             <c:forEach items="${questionWithResponses.responses}" var="response">

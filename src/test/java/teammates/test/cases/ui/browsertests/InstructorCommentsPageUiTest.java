@@ -137,11 +137,17 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.showCommentsFromAll();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromAll.html");
         
+        assertFalse(commentsPage.isStudentCommentsPanelBodyVisible());
+        
         commentsPage.showCommentsFromGiver("you");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromYou.html");
         
+        assertTrue(commentsPage.isStudentCommentsPanelBodyVisible());
+        
         commentsPage.showCommentsFromGiver("others");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromOthers.html");
+        
+        assertTrue(commentsPage.isStudentCommentsPanelBodyVisible());
         
         commentsPage.showCommentsFromAllStatus();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromAllStatus.html");

@@ -220,7 +220,7 @@ $(document).ready(function() {
         
         // to show student comments (only works for Giver filter)
         if (commentToShow.hasClass('student-record-comments')) {
-            var studentCommentPanelBody = commentToShow.closest('.student-comments-panel').parent();
+            var studentCommentPanelBody = commentToShow.closest('.panel-body');
             studentCommentPanelBody.show();
         } else { // to show feedback question + feedback session panel
             var commentListRegionForFeedbackResponse = commentToShow.closest('tr');
@@ -245,7 +245,7 @@ $(document).ready(function() {
         // to hide student comments
         if (commentToHide.hasClass('student-record-comments')) {
             var studentCommentPanel = commentToHide.closest('.student-comments-panel');
-            var studentCommentPanelBody = commentToHide.parent();
+            var studentCommentPanelBody = commentToHide.closest('.panel-body');
             // if all student comments are hidden, then hide the student comments panel
             var allStudentCommentsAreHidden =
                     studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length

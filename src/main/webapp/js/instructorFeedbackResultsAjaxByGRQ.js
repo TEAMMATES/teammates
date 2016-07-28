@@ -63,20 +63,6 @@ $(document).ready(function() {
                 var childrenPanels = $sectionBody.find('div.panel');
                 bindCollapseEvents(childrenPanels, 0);
 
-                $('a[id^="collapse-panels-button-section-"],a[id^="collapse-panels-button-team-"]').off('click');
-                $('a[id^="collapse-panels-button-section-"]').on('click', function() {
-                    var isGroupByTeam = $('#frgroupbyteam').prop('checked');
-                    var childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : 'div.panel.panel-primary';
-                    var panels = $(this).closest('.panel-success').children('.panel-collapse')
-                                        .find(childPanelType).children('.panel-collapse');
-                    toggleCollapse(this, panels);
-                });
-                $('a[id^="collapse-panels-button-team-"]').on('click', function() {
-                    var panels = $(this).closest('.panel-warning').children('.panel-collapse')
-                                        .find('div.panel.panel-primary,div.panel.panel-default').children('.panel-collapse');
-                    toggleCollapse(this, panels);
-                });
-
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
                 showHideStats();
