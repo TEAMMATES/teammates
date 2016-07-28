@@ -180,16 +180,4 @@ public class FeedbackSubmitPage extends AppPage {
                 By.cssSelector("input[id$='OptionText-" + qnNumber + "-" + responseNumber + "']"));
         waitForElementToBeClickable(element);
     }
-
-    public void clickStudentHomeNavLink() {
-        click(browser.driver.findElement(By.id("studentHomeNavLink")));
-    }
-
-    public void clickStudentProfileNavLink() {
-        click(browser.driver.findElement(By.id("studentProfileNavLink")));
-    }
-
-    public void clickStudentCommentsNavLink() {
-        click(browser.driver.findElement(By.id("studentCommentsNavLink")));
-    }
 }

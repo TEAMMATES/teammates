@@ -76,8 +76,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
             click(submitButton);
         } else {
             // if team name is edited, the confirmation dialog will pop up
-            click(submitButton);
-            waitForConfirmationModalAndClickOk();
+            clickAndConfirm(submitButton);
         }
     }
     

@@ -90,9 +90,9 @@ public class InstructorCoursesPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickDeleteLink(String courseId) {
+    public WebElement getDeleteLink(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
-        click(getDeleteLinkInRow(courseRowNumber));
+        return getDeleteLinkInRow(courseRowNumber);
     }
     
     public WebElement getArchiveLink(String courseId) {

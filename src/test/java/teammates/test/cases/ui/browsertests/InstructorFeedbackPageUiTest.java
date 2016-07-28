@@ -559,13 +559,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        feedbackPage.clickDeleteLink(courseId, sessionName);
-        feedbackPage.waitForConfirmationModalAndClickCancel();
+        feedbackPage.clickAndCancel(feedbackPage.getDeleteLink(courseId, sessionName));
         assertNotNull("session should not have been deleted",
                       BackDoor.getFeedbackSession(courseId, sessionName));
     
-        feedbackPage.clickDeleteLink(courseId, sessionName);
-        feedbackPage.waitForConfirmationModalAndClickOk();
+        feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, sessionName));
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackDeleteSuccessful.html");
         
     }
@@ -595,12 +593,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         courseId = testData.feedbackSessions.get("manualSession").getCourseId();
         sessionName = testData.feedbackSessions.get("manualSession").getFeedbackSessionName();
         
-        feedbackPage.clickPublishLink(courseId, sessionName);
-        feedbackPage.waitForConfirmationModalAndClickCancel();
+        feedbackPage.clickAndCancel(feedbackPage.getPublishLink(courseId, sessionName));
         assertFalse(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         
-        feedbackPage.clickPublishLink(courseId, sessionName);
-        feedbackPage.waitForConfirmationModalAndClickOk();
+        feedbackPage.clickAndConfirm(feedbackPage.getPublishLink(courseId, sessionName));
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
         assertTrue(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackPublishSuccessful.html");
@@ -635,12 +631,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         courseId = testData.feedbackSessions.get("manualSession").getCourseId();
         sessionName = testData.feedbackSessions.get("manualSession").getFeedbackSessionName();
         
-        feedbackPage.clickUnpublishLink(courseId, sessionName);
-        feedbackPage.waitForConfirmationModalAndClickCancel();
+        feedbackPage.clickAndCancel(feedbackPage.getUnpublishLink(courseId, sessionName));
         assertTrue(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         
-        feedbackPage.clickUnpublishLink(courseId, sessionName);
-        feedbackPage.waitForConfirmationModalAndClickOk();
+        feedbackPage.clickAndConfirm(feedbackPage.getUnpublishLink(courseId, sessionName));
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
         assertFalse(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackUnpublishSuccessful.html");

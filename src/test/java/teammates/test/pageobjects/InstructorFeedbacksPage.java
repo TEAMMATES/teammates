@@ -421,9 +421,9 @@ public class InstructorFeedbacksPage extends AppPage {
         return getLinkAtTableRow("session-edit-for-test", sessionRowId);
     }
     
-    public void clickDeleteLink(String courseId, String sessionName) {
+    public WebElement getDeleteLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        click(getLinkAtTableRow("session-delete-for-test", sessionRowId));
+        return getLinkAtTableRow("session-delete-for-test", sessionRowId);
     }
     
     public WebElement getSubmitLink(String courseId, String sessionName) {
@@ -431,14 +431,14 @@ public class InstructorFeedbacksPage extends AppPage {
         return getLinkAtTableRow("session-submit-for-test", sessionRowId);
     }
     
-    public void clickPublishLink(String courseId, String sessionName) {
+    public WebElement getPublishLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        click(getLinkAtTableRow("session-publish-for-test", sessionRowId));
+        return getLinkAtTableRow("session-publish-for-test", sessionRowId);
     }
     
-    public void clickUnpublishLink(String courseId, String sessionName) {
+    public WebElement getUnpublishLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        click(getLinkAtTableRow("session-unpublish-for-test", sessionRowId));
+        return getLinkAtTableRow("session-unpublish-for-test", sessionRowId);
     }
     
     public void verifyPublishLinkHidden(String courseId, String sessionName) {

@@ -833,8 +833,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("session delete then cancel");
 
-        feedbackEditPage.clickDeleteSessionLink();
-        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteSessionLink());
         assertNotNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
 
 

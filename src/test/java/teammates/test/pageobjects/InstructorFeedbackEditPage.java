@@ -404,8 +404,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(addMsqOtherOptionCheckboxForNewQuestion);
     }
     
-    public void clickDeleteSessionLink() {
-        click(fsDeleteLink);
+    public WebElement getDeleteSessionLink() {
+        return fsDeleteLink;
     }
     
     public void clickDeleteQuestionLink(int qnIndex) {
@@ -785,8 +785,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage deleteSession() {
-        clickDeleteSessionLink();
-        waitForConfirmationModalAndClickOk();
+        clickAndConfirm(getDeleteSessionLink());
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);
     }
@@ -885,16 +884,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement removeRubricRowLink =
                 browser.driver.findElement(By.id("rubricRemoveSubQuestionLink" + idSuffix + "-" + row));
         //click(addRubricRowLink);
-        click(removeRubricRowLink);
-        waitForConfirmationModalAndClickOk();
+        clickAndConfirm(removeRubricRowLink);
     }
     
     public void clickRemoveRubricColLinkAndConfirm(int qnIndex, int col) {
         String idSuffix = getIdSuffix(qnIndex);
         WebElement removeRubricColLink =
                 browser.driver.findElement(By.id("rubricRemoveChoiceLink" + idSuffix + "-" + col));
-        click(removeRubricColLink);
-        waitForConfirmationModalAndClickOk();
+        clickAndConfirm(removeRubricColLink);
     }
 
     public void verifyRankOptionIsHiddenForNewQuestion(int optionIndex) {
