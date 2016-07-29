@@ -583,7 +583,6 @@ function showNewQuestionFrame(type) {
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
     scrollToElement($('#questionTable-' + NEW_QUESTION)[0], { duration: 1000 });
-    $('#questionTable-' + NEW_QUESTION).find('.visibilityOptions').hide();
 
     getVisibilityMessage($('#questionTable-' + NEW_QUESTION));
 }
@@ -726,6 +725,20 @@ function copyOptions() {
     $currTable.each(function(index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
+
+    // Hide visibility options and update common visibility options dropdown text if a common option is selected
+    var $prevQuestionForm = $('form[id^="form_editquestion-"]').eq(-2);
+    var $newQuestionForm = $('#form_editquestion-' + NEW_QUESTION);
+
+    var prevQuestionVisibilityOption = $prevQuestionForm.find('.visibility-options-dropdown > button').html();
+    $newQuestionForm.find('.visibility-options-dropdown > button').html(prevQuestionVisibilityOption);
+
+    var isCommonVisibilityOption = prevQuestionVisibilityOption.trim() !== 'Custom visibility option:';
+    if (isCommonVisibilityOption) {
+        $newQuestionForm.find('.visibilityOptions').hide();
+    } else {
+        $newQuestionForm.find('.visibilityOptions').show();
+    }
 
     matchVisibilityOptionToFeedbackPath($currGiver);
 }
