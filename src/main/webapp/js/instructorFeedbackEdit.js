@@ -22,6 +22,7 @@ $(document).ready(function() {
     hideUncommonPanels();
     hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
     attachVisibilityDropdownEvent();
+    attachVisibilityCheckboxEvent();
 });
 
 function addLoadingIndicator(button, loadingText) {

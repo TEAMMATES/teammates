@@ -73,6 +73,13 @@ function attachVisibilityDropdownEvent() {
     });
 }
 
+function attachVisibilityCheckboxEvent() {
+    $('body').on('click', 'input[type="checkbox"][class*="Checkbox"]', function(event) {
+        var $containingForm = $(event.target).closest('form');
+        updatePreviewTab($containingForm);
+    });
+}
+
 // ////////////// //
 // HELPER METHODS //
 // ////////////// //
