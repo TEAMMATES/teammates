@@ -53,14 +53,12 @@ public class BothQuestionsDb extends EntitiesDb {
     
 
     /**
-     * 
+     * Creates question. If the question already exist, simply writes over it instead of failing.
      * @param entityToAdd
-     * @return
      * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public FeedbackQuestionAttributes createFeedbackQuestionWithoutIntegrityCheck(
-            EntityAttributes entityToAdd) throws InvalidParametersException, EntityDoesNotExistException {
+            EntityAttributes entityToAdd) throws InvalidParametersException {
         FeedbackQuestionAttributes fqa =
                 oldQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(entityToAdd);
         return newQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(fqa);

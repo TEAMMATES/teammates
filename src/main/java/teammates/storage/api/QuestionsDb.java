@@ -2,7 +2,6 @@ package teammates.storage.api;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +20,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.entity.Question;
@@ -74,16 +74,20 @@ public class QuestionsDb extends EntitiesDb {
      * @param fqa
      * @return attributes written to the database
      * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(FeedbackQuestionAttributes fqa)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         try {
             QuestionsDbPersistenceAttributes questionAttributes = new QuestionsDbPersistenceAttributes(fqa);
             Question persistedQuestion = createEntity(questionAttributes);
             return new FeedbackQuestionAttributes(persistedQuestion);
         } catch (EntityAlreadyExistsException e) {
-            updateFeedbackQuestion(fqa);
+            try {
+                updateFeedbackQuestion(fqa);
+            } catch (EntityDoesNotExistException entityDoesNotExist) {
+                Assumption.fail("Unable to find question that should already exist "
+                                + TeammatesException.toStringWithStackTrace(entityDoesNotExist));
+            }
             return fqa;
         }
     }

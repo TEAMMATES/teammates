@@ -60,11 +60,10 @@ public class FeedbackQuestionsLogic {
      * @param fqa
      * @param questionNumber
      * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException if the session does not exist
      */
     public FeedbackQuestionAttributes createFeedbackQuestionNoIntegrityCheck(
             FeedbackQuestionAttributes fqa, int questionNumber)
-                    throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();
         return fqDb.createFeedbackQuestionWithoutIntegrityCheck(fqa);
