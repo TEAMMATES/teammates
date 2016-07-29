@@ -1,4 +1,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="teammates.common.util.Const" %>
+<c:set var="contactPage" value="<%= Const.ViewURIs.CONTACT %>" />
 <% response.setStatus(500);%>
 <t:errorPage>
     <div class="row">
@@ -8,7 +11,7 @@
                 Server failed to respond within a reasonable time. <br>
                 This may be due to an unusually high load at this time.<br> 
                 Please try again in a few minutes. If the problem persists,<br>
-                please inform TEAMMATES <a href="/contact.jsp">support team</a>. 
+                please inform TEAMMATES <a href="${contactPage}">support team</a>. 
             </p>
         </div>
     </div>

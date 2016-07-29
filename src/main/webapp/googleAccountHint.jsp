@@ -1,4 +1,5 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="teammates.common.util.Const"%>
 <%
     pageContext.setAttribute("expectedId", request.getAttribute(Const.ParamsNames.HINT));
@@ -6,6 +7,7 @@
     pageContext.setAttribute("logoutUrl", request.getAttribute(Const.ParamsNames.NEXT_URL));
     pageContext.setAttribute("homePage", Const.ActionURIs.STUDENT_HOME_PAGE);
 %>
+<c:set var="contactPage" value="<%= Const.ViewURIs.CONTACT %>" />
 <t:errorPage>
     <div class="panel panel-primary panel-narrow">
         <div class="panel-heading">
@@ -25,7 +27,7 @@
                 </li>
                 <li>
                     If that Google ID does not belong to you, please inform 
-                    <a class="link" href="contact.jsp" target="_blank">TEAMMATES support team</a>.
+                    <a class="link" href="${contactPage}" target="_blank">TEAMMATES support team</a>.
                     <br><br>
                     <b>Note: </b>If the problematic link was received via email, please also forward us the original email containing the link you clicked, to help us with the troubleshooting.
                 </li>
