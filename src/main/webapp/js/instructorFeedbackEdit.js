@@ -716,6 +716,9 @@ function copyOptions() {
         FeedbackPath.hideOtherOption($newQuestionForm);
         var prevQuestionSelectedOption = FeedbackPath.getDropdownText($prevQuestionForm);
         FeedbackPath.setDropdownText(prevQuestionSelectedOption, $newQuestionForm);
+    } else {
+        FeedbackPath.showOtherOption($newQuestionForm);
+        FeedbackPath.setDropdownText('Predefined combinations:', $newQuestionForm);
     }
 
     // Number of recipient setup

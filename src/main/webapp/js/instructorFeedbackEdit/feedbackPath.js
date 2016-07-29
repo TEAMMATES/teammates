@@ -71,7 +71,7 @@ var FeedbackPath = {
     },
 
     isCommonOptionSelected: function(containingForm) {
-        return containingForm.find('.feedback-path-dropdown > button').html() !== 'Predefined combinations:';
+        return containingForm.find('.feedback-path-dropdown > button').html().trim() !== 'Predefined combinations:';
     }
 };
 
