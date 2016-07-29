@@ -110,17 +110,20 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
     switch (selectedOption) {
     case 'OTHER':
         return;
-    case 'ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS': // recipient and instructor can see answer, but not giver name
+    case 'ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS':
+        // recipient and instructor can see answer and recipient, but not giver name
         allowRecipientToSee('.answerCheckbox', $containingForm);
         allowRecipientToSee('.recipientCheckbox', $containingForm);
 
         allowInstructorToSee('.answerCheckbox', $containingForm);
         allowInstructorToSee('.recipientCheckbox', $containingForm);
         break;
-    case 'ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS': // instructor can additionally see giver name
+    case 'ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS':
+        // recipient can see answer and recipient, but not giver name
         allowRecipientToSee('.answerCheckbox', $containingForm);
         allowRecipientToSee('.recipientCheckbox', $containingForm);
 
+        // instructor can see answer, recipient AND giver name
         allowInstructorToSee('.answerCheckbox', $containingForm);
         allowInstructorToSee('.giverCheckbox', $containingForm);
         allowInstructorToSee('.recipientCheckbox', $containingForm);
