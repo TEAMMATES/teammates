@@ -61,18 +61,15 @@
     "courses": {
         "course.with.tmtpleted.sessions.": {
             "id": "FSDTest.idOfTypicalCourse1",
-            "name": "Typical Course 1",
-            "isArchived": false
+            "name": "Typical Course 1"
         },
         "course.with.incomplete.session": {
             "id": "FSDTest.idOfTypicalCourse2",
-            "name": "Typical Course 2",
-            "isArchived": false
+            "name": "Typical Course 2"
         },
         "course.with.no.student": {
             "id": "FSDTest.idOfTypicalCourse3",
-            "name": "Typical Course 3",
-            "isArchived": false
+            "name": "Typical Course 3"
         }
     },
     
