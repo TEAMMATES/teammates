@@ -14,11 +14,11 @@
 
 <c:set var="isCommonOptionSelected" value="${fqForm.visibilitySettings.dropdownMenuLabel ne 'Custom visibility option:'}"></c:set>
 
-<div class="col-sm-12 padding-15px background-color-light-green">
+<div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="visibility-title">Visibility</b> (Who can see the responses?)
     </div>
-    <div class="visibility-options-dropdown btn-group col-sm-12 background-color-light-green">
+    <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-15px background-color-light-green">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             ${fqForm.visibilitySettings.dropdownMenuLabel}
         </button>
@@ -33,21 +33,7 @@
             <li><a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="OTHER">Custom visibility option...</a></li>
         </ul>
     </div>
-</div>
-<div class="col-sm-12 background-color-light-green">
-    <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-${fqForm.questionIndex}">
-        This is the visibility hint as seen by the feedback giver:
-        <ul class="text-muted background-color-warning">
-        <c:forEach items="${fqForm.visibilitySettings.visibilityMessages}" var="msg">
-            <li>${msg}</li>
-        </c:forEach>
-        </ul>
-    </div>
-</div>
-<!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-<div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
-    <div class="visibilityOptions" id="visibilityOptions-${fqForm.questionIndex}"<c:if test="${isCommonOptionSelected}"> style="display:none;"</c:if>>
+    <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-${fqForm.questionIndex}"<c:if test="${isCommonOptionSelected}"> style="display:none;"</c:if>>
         <table class="dataTable participantTable table table-striped text-center background-color-white">
             <tr>
                 <th class="text-center">User/Group</th>
@@ -165,5 +151,14 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
+    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-${fqForm.questionIndex}">
+        This is the visibility hint as seen by the feedback giver:
+        <ul class="text-muted background-color-warning">
+        <c:forEach items="${fqForm.visibilitySettings.visibilityMessages}" var="msg">
+            <li>${msg}</li>
+        </c:forEach>
+        </ul>
     </div>
 </div>
