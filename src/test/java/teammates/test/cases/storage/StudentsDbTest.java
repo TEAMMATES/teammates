@@ -408,25 +408,23 @@ public class StudentsDbTest extends BaseComponentTestCase {
     @SuppressWarnings("deprecation")
     // This method can be removed after all Students have been migrated to CourseStudents
     private boolean isOldStudentExists(StudentAttributes s) {
-        boolean isOldStudentExist = false;
         for (StudentAttributes studentsInDb : studentsDb.getAllOldStudents()) {
             if (studentsInDb.getId().equals(s.getId())) {
-                isOldStudentExist = true;
+                return true;
             }
         }
-        return isOldStudentExist;
+        return false;
     }
     
     @SuppressWarnings("deprecation")
     // This method can be removed after all Students have been migrated to CourseStudents
     private boolean isNewStudentExists(StudentAttributes s) {
-        boolean isNewStudentExist = false;
         for (StudentAttributes studentsInDb : studentsDb.getAllCourseStudents()) {
             if (studentsInDb.getId().equals(s.getId())) {
-                isNewStudentExist = true;
+                return true;
             }
         }
-        return isNewStudentExist;
+        return false;
     }
     
     private StudentAttributes createNewStudent() throws InvalidParametersException {
