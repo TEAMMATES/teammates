@@ -466,15 +466,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.filterResponsesForSection("Section B");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredBySectionB.html");
 
-        ______TS("Typical case: filter by 'Not in a section'");
+        ______TS("Typical case: filter by 'No specific recipient'");
 
-        resultsPage.filterResponsesForSection("Not in a section");
+        resultsPage.filterResponsesForSection(Const.NO_SPECIFIC_RECIEPIENT);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredByNoSection.html");
         
         
-        ______TS("Verify that 'Not in a section' has a section panel on a non-question view");
+        ______TS("Verify that 'No specific recipient' has a section panel on a non-question view");
         resultsPage.displayByRecipientGiverQuestion();
-        assertTrue(resultsPage.isSectionPanelExist("Not in a section"));
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_RECIEPIENT));
         assertFalse(resultsPage.isSectionPanelExist("Section A"));
 
         resultsPage.displayByQuestion();
@@ -494,6 +494,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifySpecifiedPanelIdsAreCollapsed(new String[] { "0-2", "0-3", "0-4" });
 
         resultsPage.clickGroupByTeam();
+
+        resultsPage.displayByGiverRecipientQuestion();
+        resultsPage.clickSectionCollapseStudentsButton();
+        resultsPage.waitForSectionStudentPanelsToCollapse();
+
         resultsPage.displayByQuestion();
 
         ______TS("Typical case: panels expand/collapse");
