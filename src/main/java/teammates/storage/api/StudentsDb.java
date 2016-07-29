@@ -160,6 +160,12 @@ public class StudentsDb extends EntitiesDb {
         return new StudentAttributes(s);
     }
     
+    /**
+     * Creates a CourseStudent copy of an existing Student.
+     * Can be removed after migrating all Students to CourseStudents
+     * @param courseId
+     * @param email
+     */
     public void copyStudentToCourseStudent(String courseId, String email) {
         CourseStudent courseStudent = new CourseStudent(getStudentEntityForEmail(courseId, email));
         getPm().makePersistent(courseStudent);
@@ -222,6 +228,7 @@ public class StudentsDb extends EntitiesDb {
             log.severe("Exception thrown trying to retrieve CourseStudent \n"
                        + TeammatesException.toStringWithStackTrace(e));
             // fall back on Student
+            // TODO change this to an Assumption.fail once all Students are migrated to CourseStudents
         }
         
         try {
@@ -388,6 +395,7 @@ public class StudentsDb extends EntitiesDb {
      * This method is not scalable. Not to be used unless for admin features.
      * @return the list of all students in the database.
      */
+    // TODO remove this method once all Students have been migrated to CourseStudents
     @Deprecated
     public List<StudentAttributes> getAllStudents() {
         Map<String, StudentAttributes> result = new LinkedHashMap<String, StudentAttributes>();
@@ -402,6 +410,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     @Deprecated
+    // TODO remove this method once all Students have been migrated to CourseStudents
     public List<StudentAttributes> getAllOldStudents() {
         List<StudentAttributes> students = new ArrayList<>();
         List<Student> studentEntities = getStudentEntities();
@@ -713,10 +722,9 @@ public class StudentsDb extends EntitiesDb {
     }
     
     /**
-     *  This verifies for either/both Student and CourseStudent.
      * @param courseId
      * @param email
-     * @throws EntityDoesNotExistException
+     * @throws EntityDoesNotExistException if the student specified by courseId and email does not exist,
      */
     public void verifyStudentExists(String courseId, String email)
             throws EntityDoesNotExistException {
@@ -926,6 +934,7 @@ public class StudentsDb extends EntitiesDb {
         return s1.getId().equals(s2.getId());
     }
     
+    // TODO remove this method once all Students have been migrated to CourseStudents
     private boolean isListContainsSameStudentAttributes(List<StudentAttributes> studentList, StudentAttributes student) {
         for (StudentAttributes s : studentList) {
             if (isSameStudentAttributes(s, student)) {

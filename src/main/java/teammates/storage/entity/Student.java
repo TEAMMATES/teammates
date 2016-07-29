@@ -19,6 +19,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * An association class that represents the association Account -->
  * [enrolled in] --> Course.
+ * TODO After migrating all Students to CourseStudents, this class should be removed.
  */
 @PersistenceCapable
 public class Student implements StoreCallback {

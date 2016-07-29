@@ -27,7 +27,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
      * While persisting to database,
      * the student is saved as the old {@code Student} entity type instead of
      * {@code CourseStudent}.
-     * 
+     *  Can be removed once all Students are migrated to CourseStudent.
      */
     private class OldStudentEntityPersistenceAttributes extends StudentAttributes {
         @Override
@@ -176,6 +176,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
                       studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(oldStudent.key)));
         assertNotNull("New registration key can be used to retrieve student",
                       studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(updatedStudent.key)));
+        assertEquals("old registration key was copied to new registration key",
+                     oldStudent.key, updatedStudent.key);
         
         
         ______TS("non existant student case");
@@ -309,7 +311,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                     copiedStudent.section, copiedStudent.email, copiedStudent.googleId,
                     copiedStudent.comments);
         StudentAttributes updatedCopiedStudent = studentsDb.getStudentForEmail(
-                copiedStudent.course, copiedStudent.email);
+                                                    copiedStudent.course, copiedStudent.email);
         assertTrue(updatedCopiedStudent.isEnrollInfoSameAs(copiedStudent));
         
     }
@@ -380,6 +382,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
     }
     
+    // This method can be removed after all Students have been migrated to CourseStudents
     private StudentAttributes createOldStudentAttributes(String testName)
             throws InvalidParametersException {
         StudentAttributes s = new OldStudentEntityPersistenceAttributes();
@@ -403,6 +406,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @SuppressWarnings("deprecation")
+    // This method can be removed after all Students have been migrated to CourseStudents
     private boolean isOldStudentExists(StudentAttributes s) {
         boolean isOldStudentExist = false;
         for (StudentAttributes studentsInDb : studentsDb.getAllOldStudents()) {
@@ -414,6 +418,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @SuppressWarnings("deprecation")
+    // This method can be removed after all Students have been migrated to CourseStudents
     private boolean isNewStudentExists(StudentAttributes s) {
         boolean isNewStudentExist = false;
         for (StudentAttributes studentsInDb : studentsDb.getAllCourseStudents()) {
