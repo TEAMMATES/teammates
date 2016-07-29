@@ -148,45 +148,75 @@ public class InstructorFeedbackEditPageData extends PageData {
             isResponsesVisibleFor.put(participantType.name(), true);
         }
 
-        String dropdownMenuLabel = getDropdownMenuLabel(question.showResponsesTo,
-                                                        question.showGiverNameTo, question.showRecipientNameTo);
+        String dropdownMenuLabel = getDropdownMenuLabel(question);
 
         return new FeedbackQuestionVisibilitySettings(question.getVisibilityMessage(), isResponsesVisibleFor,
                                                       isGiverNameVisibleFor, isRecipientNameVisibleFor, dropdownMenuLabel);
     }
 
-        boolean responsesVisibleToNotJustGiver = !showResponsesTo.isEmpty();
-        boolean giverNameVisibleOnlyToGiver = showGiverNameTo.isEmpty();
-        if (responsesVisibleToNotJustGiver && giverNameVisibleOnlyToGiver) {
+    private String getDropdownMenuLabel(FeedbackQuestionAttributes question) {
+        if (isVisibilitySetToAnonymousToRecipientAndInstructors(question)) {
             return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS");
         }
 
-        boolean responsesVisibleToNotJustInstructors = showResponsesTo.size() > 1;
-        boolean giverNameVisibleOnlyToInstructors = showGiverNameTo.size() == 1
-                                                    && showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        if (responsesVisibleToNotJustInstructors && giverNameVisibleOnlyToInstructors) {
+        if (isVisibilitySetToAnonymousToRecipientVisibleToInstructors(question)) {
             return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS");
         }
 
-        boolean responsesVisibleOnlyToInstructors = showResponsesTo.size() == 1
-                                                    && showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean recipientNameVisibleOnlyToInstructors = showRecipientNameTo.size() == 1
-                                                        && showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        if (responsesVisibleOnlyToInstructors && giverNameVisibleOnlyToInstructors && recipientNameVisibleOnlyToInstructors) {
+        if (isVisibilitySetToVisibleToInstructorsOnly(question)) {
             return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("VISIBLE_TO_INSTRUCTORS_ONLY");
         }
 
-        if (showResponsesTo.size() == 2 && showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
-                    && showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-            && showGiverNameTo.size() == 2 && showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
-                       && showGiverNameTo.contains(FeedbackParticipantType.RECEIVER)
-            && showRecipientNameTo.size() == 2 && showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
-                       && showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER)) {
+        if (isVisibilitySetToVisibleToRecipientAndInstructors(question)) {
             return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS");
         }
 
         return "Custom visibility option:";
     }
+
+    private boolean isVisibilitySetToAnonymousToRecipientAndInstructors(FeedbackQuestionAttributes question) {
+        boolean responsesVisibleToNotJustGiver = !question.showResponsesTo.isEmpty();
+        boolean giverNameVisibleOnlyToGiver = question.showGiverNameTo.isEmpty();
+
+        return responsesVisibleToNotJustGiver && giverNameVisibleOnlyToGiver;
+    }
+
+    private boolean isVisibilitySetToAnonymousToRecipientVisibleToInstructors(FeedbackQuestionAttributes question) {
+        boolean responsesVisibleToNotJustInstructors = question.showResponsesTo.size() > 1;
+        boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
+                && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+
+        return responsesVisibleToNotJustInstructors && giverNameVisibleOnlyToInstructors;
+    }
+
+    private boolean isVisibilitySetToVisibleToInstructorsOnly(FeedbackQuestionAttributes question) {
+        boolean responsesVisibleOnlyToInstructors = question.showResponsesTo.size() == 1
+                && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
+                && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean recipientNameVisibleOnlyToInstructors = question.showRecipientNameTo.size() == 1
+                && question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+
+        return responsesVisibleOnlyToInstructors && giverNameVisibleOnlyToInstructors
+                && recipientNameVisibleOnlyToInstructors;
+    }
+
+    private boolean isVisibilitySetToVisibleToRecipientAndInstructors(FeedbackQuestionAttributes question) {
+        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+                && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
+        boolean giverNameVisibleOnlyToRecipientAndInstructors = question.showGiverNameTo.size() == 2
+                && question.showGiverNameTo.size() == 2
+                && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                && question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER);
+        boolean recipientNameVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+                && question.showRecipientNameTo.size() == 2
+                && question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                && question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER);
+
+        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToRecipientAndInstructors
+                && recipientNameVisibleOnlyToRecipientAndInstructors;
+        }
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {
       
