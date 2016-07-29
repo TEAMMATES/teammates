@@ -2338,20 +2338,20 @@ public class FeedbackSessionsLogic {
                 emailNameTable.put(
                         response.giver + Const.TEAM_OF_EMAIL_OWNER,
                         getNameTeamNamePairForEmail(question.giverType,
-                                response.giver, roster, question)[pairType]);
+                                response.giver, roster, question, true)[pairType]);
             }
             
             StudentAttributes studentGiver = roster.getStudentForEmail(response.giver);
             if (studentGiver != null && !emailNameTable.containsKey(studentGiver.team)) {
                 emailNameTable.put(studentGiver.team, getNameTeamNamePairForEmail(
                                                         question.giverType,
-                                                        response.giver, roster, question)[pairType]);
+                                                        response.giver, roster, question, true)[pairType]);
             }
         } else if (!emailNameTable.containsKey(response.giver)) {
             emailNameTable.put(
                     response.giver,
                     getNameTeamNamePairForEmail(question.giverType,
-                            response.giver, roster, question)[pairType]);
+                            response.giver, roster, question, true)[pairType]);
         }
 
         FeedbackParticipantType recipientType = null;
@@ -2364,7 +2364,7 @@ public class FeedbackSessionsLogic {
             emailNameTable.put(
                     response.recipient,
                     getNameTeamNamePairForEmail(recipientType,
-                                                response.recipient, roster, question)[pairType]);
+                                                response.recipient, roster, question, false)[pairType]);
             
         }
     }
@@ -2448,7 +2448,7 @@ public class FeedbackSessionsLogic {
     // return a pair of String that contains Giver/Recipient'sName (at index 0)
     // and TeamName (at index 1)
     private String[] getNameTeamNamePairForEmail(FeedbackParticipantType type,
-            String email, CourseRoster roster, FeedbackQuestionAttributes question) {
+            String email, CourseRoster roster, FeedbackQuestionAttributes question, boolean isGiver) {
         String giverRecipientName = null;
         String giverRecipientLastName = null;
         String teamName = null;
@@ -2487,7 +2487,9 @@ public class FeedbackSessionsLogic {
         }
 
         if (type == FeedbackParticipantType.TEAMS || type == FeedbackParticipantType.OWN_TEAM
-                || type == FeedbackParticipantType.CUSTOM && question.isFeedbackPathsRecipientTypeTeams()) {
+                || type == FeedbackParticipantType.CUSTOM
+                && (isGiver && question.isFeedbackPathsGiverTypeTeams()
+                        || !isGiver && question.isFeedbackPathsRecipientTypeTeams())) {
             giverRecipientName = team;
             giverRecipientLastName = team;
             teamName = "";
