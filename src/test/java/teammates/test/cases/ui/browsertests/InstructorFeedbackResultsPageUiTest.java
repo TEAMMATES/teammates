@@ -98,7 +98,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public void testSessionWithNoSections() {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
                 "Session with no sections", true, "question");
-        assertEquals("",resultsPage.getStatus());
+        assertEquals("", resultsPage.getStatus());
     }
     
     @Test
