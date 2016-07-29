@@ -349,32 +349,12 @@ function updatePreviewTab($containingForm) {
         url: url,
         data: formData,
         success: function(data) {
-            updateToggleVisibilityPreviewButton($containingForm, true);
-            
             // update stored form data
             previousFormDataMap[questionNum] = formData;
             
             $previewTab.html(formatPreviewTabHtml(data.visibilityMessage));
-        },
-        error: function() {
-            updateToggleVisibilityPreviewButton($containingForm, false);
-            $containingForm.find('.visibilityOptionsLabel').click();
         }
     });
-}
-
-function updateToggleVisibilityPreviewButton($containingForm, isLoadSuccessful) {
-    var $visibilityPreviewButton = $containingForm.find('.visibilityMessageButton');
-    
-    var $radioInput = $visibilityPreviewButton.find('input[type="radio"]');
-    var icon = '<span class="glyphicon glyphicon-'
-               + (isLoadSuccessful ? 'eye-open' : 'warning-sign')
-               + '"></span>';
-    var message = isLoadSuccessful ? 'Preview Visibility'
-                                   : 'Visibility preview failed to load. Click here to retry.';
-    
-    $visibilityPreviewButton.html(icon + ' ' + message)
-                            .prepend($radioInput);
 }
 
 function formatPreviewTabHtml(visibilityMessage) {
