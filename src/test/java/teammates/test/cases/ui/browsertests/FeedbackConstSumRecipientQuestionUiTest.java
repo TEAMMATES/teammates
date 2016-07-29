@@ -67,9 +67,13 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
         feedbackEditPage.fillNewQuestionBox("ConstSum-recipient qn");
         feedbackEditPage.fillNewQuestionDescription("more details");
-        feedbackEditPage.fillConstSumPointsBox("", -1);
         
+        feedbackEditPage.fillConstSumPointsBox("", -1);
         assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
+        
+        feedbackEditPage.fillConstSumPointsForEachRecipientBox("", -1);
+        assertEquals("1", feedbackEditPage.getConstSumPointsForEachRecipientBox(-1));
+        
         assertFalse(feedbackEditPage.isElementVisible("constSumOptionTable--1"));
         
         feedbackEditPage.clickDiscardChangesLink(-1);
@@ -87,7 +91,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         ______TS("CONST SUM: set points options");
 
         feedbackEditPage.selectConstSumPointsOptions("PerRecipient", -1);
-        feedbackEditPage.fillConstSumPointsBox("100", -1);
+        feedbackEditPage.fillConstSumPointsForEachRecipientBox("30", -1);
         
     }
 
@@ -102,6 +106,9 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+        
+        assertEquals("30", feedbackEditPage.getConstSumPointsBox(1));
+        assertEquals("30", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionAddSuccess.html");
     }
 
@@ -117,6 +124,9 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        
+        assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
+        assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
     }
