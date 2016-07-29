@@ -434,7 +434,6 @@ public final class Const {
             Map<String, String> initializer =
                     new LinkedHashMap<String, String>();
 
-            initializer.put("NO_ONE", "Only feedback giver can see the response");
             initializer.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS", "Shown anonymously to recipient and instructors");
             initializer.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS", "Shown anonymously to recipient, visible to instructors");
             initializer.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");

@@ -109,8 +109,6 @@ function uncheckAllVisibilityOptionCheckboxes($containingForm) {
 function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
     switch (selectedOption) {
     case 'OTHER':
-    case 'NO_ONE':
-        // keep all checkboxes unchecked
         return;
     case 'ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS': // recipient and instructor can see answer, but not giver name
         allowRecipientToSee('.answerCheckbox', $containingForm);

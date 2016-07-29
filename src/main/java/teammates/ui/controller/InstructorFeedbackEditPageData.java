@@ -155,12 +155,6 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                       isGiverNameVisibleFor, isRecipientNameVisibleFor, dropdownMenuLabel);
     }
 
-    String getDropdownMenuLabel(List<FeedbackParticipantType> showResponsesTo,
-            List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo) {
-        if (showResponsesTo.isEmpty() && showGiverNameTo.isEmpty() && showRecipientNameTo.isEmpty()) {
-            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("NO_ONE");
-        }
-
         boolean responsesVisibleToNotJustGiver = !showResponsesTo.isEmpty();
         boolean giverNameVisibleOnlyToGiver = showGiverNameTo.isEmpty();
         if (responsesVisibleToNotJustGiver && giverNameVisibleOnlyToGiver) {
