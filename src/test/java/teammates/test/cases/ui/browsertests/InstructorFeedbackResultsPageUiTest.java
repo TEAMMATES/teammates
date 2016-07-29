@@ -95,6 +95,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
     
     @Test
+    public void testSessionWithNoSections() {
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
+                "Session with no sections", true, "question");
+        assertEquals("",resultsPage.getStatus());
+    }
+    
+    @Test
     public void testExceptionalCases() throws Exception {
         ______TS("Case where more than 1 question with same question number");
         // results page should be able to load incorrect data and still display it gracefully
