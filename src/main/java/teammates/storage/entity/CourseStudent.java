@@ -118,6 +118,11 @@ public class CourseStudent implements StoreCallback {
         registrationKey = generateRegistrationKey();
     }
 
+    /**
+     * Constructor used for copying an existing Student entity to CourseStudent.
+     * The createdAt date of the student is unchanged, but updatedAt is updated.
+     * The registration key of the Student is copied.
+     */
     public CourseStudent(Student student) {
         googleId = student.getGoogleId();
         name = student.getName();
