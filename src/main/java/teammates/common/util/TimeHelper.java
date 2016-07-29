@@ -330,6 +330,24 @@ public final class TimeHelper {
     }
     
     /**
+     * returns true if the session is closed within the past hour of calling this function
+     */
+    public static boolean isClosedWithinPastHour(Date endTime, int gracePeriod, double timeZone) {
+        Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        // Fix the time zone accordingly
+        now.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
+
+        Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        deadline.setTime(endTime);
+        deadline.add(Calendar.MINUTE, gracePeriod);
+
+        long nowMillis = now.getTimeInMillis();
+        long deadlineMillis = deadline.getTimeInMillis();
+        long differenceBetweenNowAndDeadline = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
+        return differenceBetweenNowAndDeadline == 0 && deadlineMillis < nowMillis;
+    }
+    
+    /**
      * Checks if the time falls between the period specified. Possible scenarios:
      * <ul>
      *  <li>{@code startTime <= time <= endTime}</li>
