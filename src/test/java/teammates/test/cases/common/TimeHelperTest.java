@@ -82,6 +82,33 @@ public class TimeHelperTest extends BaseTestCase {
     }
     
     @Test
+    public void testIsClosedWithinPastHour() {
+        Calendar timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        
+        ______TS("Time within past hour");
+        
+        timeCalendar.add(Calendar.MINUTE, -10);
+        assertTrue(TimeHelper.isWithinPastHour(timeCalendar.getTime()));
+        
+        ______TS("End time not within past hour");
+        
+        timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        timeCalendar.add(Calendar.MINUTE, -70);
+        assertFalse(TimeHelper.isWithinPastHour(timeCalendar.getTime()));
+        
+        timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        timeCalendar.add(Calendar.MINUTE, 10);
+        assertFalse(TimeHelper.isWithinPastHour(timeCalendar.getTime()));
+        
+
+        ______TS("Session ended but grace time left");
+        int gracePeriod = 15;
+        timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        timeCalendar.add(Calendar.MINUTE, -10);
+        assertFalse(TimeHelper.isWithinPastHour(new Date(timeCalendar.getTime().getTime() + gracePeriod * 60000)));
+    }
+    
+    @Test
     public void testIsTimeWithinPeriod() {
         Calendar startCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         Calendar endCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));

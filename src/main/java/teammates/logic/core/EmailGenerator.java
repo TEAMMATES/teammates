@@ -179,21 +179,20 @@ public class EmailGenerator {
         boolean isEmailNeededForStudents = false;
         try {
             isEmailNeededForStudents = fsLogic.isFeedbackSessionHasQuestionForStudents(
-                    session.getSessionName(), session.getCourseId());
+                    session.getFeedbackSessionName(), session.getCourseId());
         } catch (EntityDoesNotExistException e) {
-            // TODO Auto-generated catch block
+            log.severe("Course " + session.getCourseId() + " does not exist or "
+                    + "session " + session.getFeedbackSessionName() + " does not exist");
         }
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
         if (!session.isPrivateSession()) {
-            instructors = instructorsLogic.getInstructorsForCourse(session
-                    .getCourseId());
-
-            students = isEmailNeededForStudents
-                    ? studentsLogic.getStudentsForCourse(session.getCourseId())
-                    : new ArrayList<StudentAttributes>();
+            instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
+            if (isEmailNeededForStudents) {
+                students = studentsLogic.getStudentsForCourse(session.getCourseId());
+            }
         }
                                                  
         return generateFeedbackSessionClosedEmail(course, session, instructors, students);

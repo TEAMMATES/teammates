@@ -321,7 +321,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * returns true if the session is closed within the past hour of calling this function
      */
     public boolean isClosedWithinPastHour() {
-        return TimeHelper.isClosedWithinPastHour(endTime, gracePeriod, timeZone);
+        return TimeHelper.isWithinPastHour(new Date(endTime.getTime() + gracePeriod * 60000));
     }
 
     /**
