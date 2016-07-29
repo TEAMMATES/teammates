@@ -70,7 +70,8 @@ var CustomFeedbackPaths = {
         }
 
         CustomFeedbackPaths.allPossibleFeedbackRecipients = CustomFeedbackPaths.allPossibleFeedbackGivers.slice();
-        CustomFeedbackPaths.allPossibleFeedbackRecipients.push(CustomFeedbackPaths.TEAM_NAME_INSTRUCTORS);
+        CustomFeedbackPaths.allPossibleFeedbackRecipients.push(
+                CustomFeedbackPaths.TEAM_NAME_INSTRUCTORS + CustomFeedbackPaths.TEAM_PARTICIPANT_TYPE_SUFFIX);
         CustomFeedbackPaths.allPossibleFeedbackRecipients.push('Class');
     },
     
