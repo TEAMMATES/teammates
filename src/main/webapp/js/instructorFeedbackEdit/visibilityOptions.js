@@ -59,14 +59,14 @@ function attachVisibilityDropdownEvent() {
         setVisibilityDropdownMenuText($clickedElem.html(), $containingForm);
 
         var $editTab = $containingForm.find('.visibilityOptions');
-        if (selectedOption !== 'OTHER') {
+        if (selectedOption === 'OTHER') {
+            $editTab.show();
+            updateEditTab($containingForm);
+        } else {
             // only uncheck all checkboxes and update accordingly if a common option is selected
             uncheckAllVisibilityOptionCheckboxes($containingForm);
             checkCorrespondingCheckboxes(selectedOption, $containingForm);
             $editTab.hide();
-        } else {
-            $editTab.show();
-            updateEditTab($containingForm);
         }
 
         updatePreviewTab($containingForm);
@@ -84,7 +84,7 @@ function attachVisibilityCheckboxEvent() {
 // HELPER METHODS //
 // ////////////// //
 
-function setVisibilityDropdownMenuText (text, containingForm) {
+function setVisibilityDropdownMenuText(text, containingForm) {
     var visibilityDropdown = containingForm.find('.visibility-options-dropdown');
 
     if (text === 'Custom visibility option...') {
@@ -152,9 +152,6 @@ function allowRecipientToSee(checkboxClass, $containingForm) {
 }
 
 function allowInstructorToSee(checkboxClass, $containingForm) {
-    var recipientType = $containingForm.find('select[name="recipienttype"]').val();
-    var giverType = $containingForm.find('select[name="givertype"]').val();
-
     $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]').filter(checkboxClass).each(checkCheckbox);
 }
 
@@ -332,8 +329,6 @@ function updatePreviewTab($containingForm) {
     }
     
     var formData = $containingForm.serialize();
-    
-    var $editTab = $containingForm.find('.visibilityOptions');
     var $previewTab = $containingForm.find('.visibilityMessage');
     
     if (previousFormDataMap[questionNum] === formData) {
