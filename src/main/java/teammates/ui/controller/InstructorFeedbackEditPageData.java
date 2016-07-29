@@ -216,7 +216,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
         return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToRecipientAndInstructors
                 && recipientNameVisibleOnlyToRecipientAndInstructors;
-        }
+    }
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {
       

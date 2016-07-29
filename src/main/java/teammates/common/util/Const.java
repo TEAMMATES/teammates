@@ -435,7 +435,8 @@ public final class Const {
                     new LinkedHashMap<String, String>();
 
             initializer.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS", "Shown anonymously to recipient and instructors");
-            initializer.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS", "Shown anonymously to recipient, visible to instructors");
+            initializer.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS", "Shown anonymously to recipient, visible to "
+                            + "instructors");
             initializer.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");
             initializer.put("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS", "Visible to recipient and instructors");
 
