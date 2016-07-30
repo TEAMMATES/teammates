@@ -1,5 +1,8 @@
 <html>
 <head>
+<style id="mceDefaultStyles" type="text/css">
+  .mce-content-body div.mce-resizehandle {position: absolute;border: 1px solid black;background: #FFF;width: 5px;height: 5px;z-index: 10000}.mce-content-body .mce-resizehandle:hover {background: #000}.mce-content-body img[data-mce-selected], hr[data-mce-selected] {outline: 1px solid black;resize: none}.mce-content-body .mce-clonedresizable {position: absolute;opacity: .5;filter: alpha(opacity=50);z-index: 10000}.mce-content-body .mce-resize-helper {background: #555;background: rgba(0,0,0,0.75);border-radius: 3px;border: 1px;color: white;display: none;font-family: sans-serif;font-size: 12px;white-space: nowrap;line-height: 14px;margin: 5px 10px;padding: 5px;position: absolute;z-index: 10001} img:-moz-broken {-moz-force-broken-image-icon:1;min-width:24px;min-height:24px}
+</style>
 <title>
   TEAMMATES - Instructor
 </title>
@@ -9,8 +12,38 @@
 <link href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
+<<<<<<< HEAD:src/test/resources/pages/instructorCourseStudentDetailsRegistered.html
+=======
+<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
+</script>
+<script src="/js/googleAnalytics.js" type="text/javascript">
+</script>
+<script src="${lib.path}/jquery.min.js" type="text/javascript">
+</script>
+<script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
+</script>
+<script src="/js/lib/bootstrap.min.js" type="text/javascript">
+</script>
+<script src="/js/lib/bootbox.min.js" type="text/javascript">
+</script>
+<script src="/js/common.js" type="text/javascript">
+</script>
+<script src="/js/lib/tinymce.min.js" type="text/javascript">
+</script>
+<script src="/js/richTextEditor.js" type="text/javascript">
+</script>
+<script src="/js/instructor.js" type="text/javascript">
+</script>
+<script src="/js/contextualcomments.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+  var isShowCommentBox = false; var commentRecipient = '';
+</script>
+<link href="${lib.path}/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
+<link href="${lib.path}/skins/lightgray/content.inline.min.css" rel="stylesheet">
+>>>>>>> Adjust static html tests:src/test/resources/pages/InstructorCourseStudentDetailsRegistered.html
 </head>
-<body>
+<body spellcheck="false">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -308,8 +341,14 @@
           </tbody>
         </table>
       </div>
-      <textarea class="form-control" id="commentText" name="commenttext" placeholder="Enter your comment here ..." rows="6" style="margin-bottom: 15px;">
-      </textarea>
+      <div id="rich-text-toolbar-comment-container">
+      </div>
+      <div class="panel panel-default panel-body mce-content-body" contenteditable="true" id="commenttext" spellcheck="false" style="margin-bottom: 15px; position: relative;">
+        <p>
+          <br data-mce-bogus="1">
+        </p>
+      </div>
+      <input name="commenttext" type="hidden">
       <div style="text-align: center;">
         <input class="btn btn-primary" id="button_save_comment" type="submit" value="Save">
         <input class="btn btn-default" id="button_cancel_comment" type="button" value="Cancel">
