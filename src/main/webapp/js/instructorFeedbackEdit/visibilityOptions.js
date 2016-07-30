@@ -348,6 +348,9 @@ function updatePreviewTab($containingForm) {
             previousFormDataMap[questionNum] = formData;
             
             $previewTab.html(formatPreviewTabHtml(data.visibilityMessage));
+        },
+        error: function() {
+            showAjaxErrorMessage($containingForm);
         }
     });
 }
@@ -362,3 +365,17 @@ function formatPreviewTabHtml(visibilityMessage) {
     return htmlString;
 }
 
+function showAjaxErrorMessage($containingForm) {
+    var $previewTab = $containingForm.find('.visibilityMessage');
+
+    var htmlString = 'This is the visibility hint as seen by the feedback giver:';
+    htmlString += '<ul class="text-muted background-color-warning">';
+    htmlString += '<li">Error loading visibility hint. Click here to retry.</li>';
+    htmlString += '</ul>';
+
+    $previewTab.html(htmlString);
+    $previewTab.find('ul').on('click', function() {
+        $previewTab.html('');
+        updatePreviewTab($containingForm);
+    });
+}
