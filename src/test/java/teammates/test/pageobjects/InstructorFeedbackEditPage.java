@@ -447,10 +447,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(browser.driver.findElement(By.id("visibilityMessageButton-" + qnNumber)));
     }
     
-    public void clickVisibilityOptionsForQuestion1() {
-        click(browser.driver.findElement(By.className("visibilityOptionsLabel")));
-    }
-    
     public void clickVisibilityOptionsForQuestion(int qnNumber) {
         click(browser.driver.findElement(By.id("visibilityOptionsLabel-" + qnNumber)));
     }
@@ -463,6 +459,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityOptionsLabel")));
     }
     
+    public void selectCustomVisibilityOption(int qnNumber) {
+        click(browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber + " .visibility-options-dropdown "
+                                                        + "a[data-option-name=\"OTHER\"]")));
+    }
+
     public void clickAddQuestionButton() {
         click(addNewQuestionButton);
         waitForPageToLoad();

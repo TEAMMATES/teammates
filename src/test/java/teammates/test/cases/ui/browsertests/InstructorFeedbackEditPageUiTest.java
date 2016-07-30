@@ -248,7 +248,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("edit question 1 to Team-to-Team");
 
-        feedbackEditPage.clickVisibilityOptionsForQuestion1();
+        feedbackEditPage.selectCustomVisibilityOption(-1);
         feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
         
@@ -257,7 +257,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("test visibility options of question 1");
         feedbackEditPage.clickquestionSaveForQuestion1();
-        feedbackEditPage.clickVisibilityOptionsForQuestion1();
+        feedbackEditPage.selectCustomVisibilityOption(-1);
         
         //TODO: use simple element checks instead of html checks after adding names to the checkboxes
         //      in the edit page (follow todo in instructorsFeedbackEdit.js)
@@ -272,7 +272,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
         
         //change back
-        feedbackEditPage.clickVisibilityOptionsForQuestion1();
+        feedbackEditPage.selectCustomVisibilityOption(-1);
         feedbackEditPage.selectGiverTypeForQuestion1("Me (Session creator)");
         feedbackEditPage.selectRecipientTypeForQuestion1("Other students in the course");
         feedbackEditPage.clickquestionSaveForQuestion1();
@@ -737,9 +737,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private void testAjaxOnVisibilityMessageButton() {
         ______TS("Failure case: ajax on clicking visibility message button");
         
-        feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.changeQuestionTypeInForm(1, "InvalidQuestionType");
-        feedbackEditPage.clickVisibilityPreviewForQuestion1();
+        feedbackEditPage.selectCustomVisibilityOption(-1);
         feedbackEditPage.waitForAjaxErrorOnVisibilityMessageButton(1);
         assertFalse(feedbackEditPage.verifyVisibilityPreviewIsDisplayed(1));
     }
