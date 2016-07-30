@@ -89,22 +89,25 @@ public class EmailGenerator {
     
     /**
      * Generates the feedback submission confirmation email for the given {@code session} for {@code student}
-     * and {@code instructor}.
      */
-    public EmailWrapper generateFeedbackSubmissionConfirmationEmails(
-            FeedbackSessionAttributes session, StudentAttributes student,
-            InstructorAttributes instructor) {
+    public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
+            FeedbackSessionAttributes session, StudentAttributes student) {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        EmailWrapper email = new EmailWrapper();
+        EmailWrapper email = generateFeedbackSessionEmailBaseForStudentSubmissionConfirmation(course, session,
+                student);
+        return email;
+    }
+
+    /**
+     * Generates the feedback submission confirmation email for the given {@code session} for {@code instructor}.
+     */
+    public EmailWrapper generateFeedbackSubmissionConfirmationEmailForInstructor(
+            FeedbackSessionAttributes session, InstructorAttributes instructor) {
         
-        if (instructor != null) {
-            email = generateFeedbackSessionEmailBaseForInstructorSubmissionConfirmation(course, session,
-                    instructor);
-        }
-        if (student != null) {
-            email = generateFeedbackSessionEmailBaseForStudentSubmissionConfirmation(course, session,
-                    student);
-        }
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        EmailWrapper email = generateFeedbackSessionEmailBaseForInstructorSubmissionConfirmation(course, session,
+                instructor);
+        
         return email;
     }
     

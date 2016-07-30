@@ -1237,9 +1237,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. One parameter out of userId and unregisteredStudentEmail can be empty.<br>
      */
-    public void sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName,
-                                                   String userId, String unregisteredStudentEmail,
-                                                   String unregisteredStudentRegKey)
+    public void sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName, String userId,
+                                                   String unregisteredStudentEmail, String unregisteredStudentRegKey)
             throws EntityDoesNotExistException {
  
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
