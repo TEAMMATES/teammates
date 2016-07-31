@@ -575,6 +575,11 @@ Apply to thead to make headers not bold.
     min-width: 130px;
 }
 
+.visibilityMessage > ul {
+    margin-top: 5px;
+    padding: 5px 25px;
+}
+
 @media ( min-width :768px) {
     .bs-example {
         background-color: #fff;
