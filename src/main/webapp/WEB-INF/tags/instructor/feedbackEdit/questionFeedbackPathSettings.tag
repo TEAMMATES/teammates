@@ -11,7 +11,7 @@
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
     </div>
-    <div class="feedback-path-dropdown btn-group">
+    <div class="feedback-path-dropdown col-sm-12 btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <c:choose>
                 <c:when test="${isNewQuestion}">
