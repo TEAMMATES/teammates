@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -431,16 +432,47 @@ public final class Const {
                 COMMON_VISIBILITY_OPTIONS;
 
         static {
-            Map<String, String> initializer =
+            Map<String, String> visibilityOptionInit =
                     new LinkedHashMap<String, String>();
 
-            initializer.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS", "Shown anonymously to recipient and instructors");
-            initializer.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS", "Shown anonymously to recipient, visible to "
-                            + "instructors");
-            initializer.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");
-            initializer.put("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS", "Visible to recipient and instructors");
+            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS",
+                                       "Shown anonymously to recipient and instructors");
+            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS",
+                                       "Shown anonymously to recipient, visible to instructors");
+            visibilityOptionInit.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");
+            visibilityOptionInit.put("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS", "Visible to recipient and instructors");
 
-            COMMON_VISIBILITY_OPTIONS = Collections.unmodifiableMap(initializer);
+            COMMON_VISIBILITY_OPTIONS = Collections.unmodifiableMap(visibilityOptionInit);
+        }
+
+        public static final Map<FeedbackParticipantType, List<FeedbackParticipantType>>
+                COMMON_FEEDBACK_PATHS;
+
+        static {
+            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer =
+                    new LinkedHashMap<FeedbackParticipantType, List<FeedbackParticipantType>>();
+
+            initializer.put(FeedbackParticipantType.SELF,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS)));
+
+            initializer.put(FeedbackParticipantType.STUDENTS,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS,
+                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)));
+
+            initializer.put(FeedbackParticipantType.INSTRUCTORS,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS)));
+
+            COMMON_FEEDBACK_PATHS = Collections.unmodifiableMap(initializer);
         }
     
         // Mcq
@@ -657,8 +689,11 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
+        // TODO: rename FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION to a more accurate name
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = "constSumPointsForEachOption";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = "constSumPointsForEachRecipient";
         public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "constSumUnevenDistribution";
         public static final String FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED = "isNotSureAllowedCheck";
         public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
