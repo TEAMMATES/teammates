@@ -1135,8 +1135,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void waitForAjaxErrorOnVisibilityMessageButton(int questionNumber) {
-        String errorMessage = "Visibility preview failed to load.";
-        By buttonSelector = By.cssSelector("#visibilityMessageButton-" + questionNumber);
+        String errorMessage = "Error loading visibility hint. Click here to retry.";
+        By buttonSelector = By.cssSelector("#visibilityMessage-" + questionNumber + " > ul > li");
         waitForTextContainedInElementPresence(buttonSelector, errorMessage);
     }
 
