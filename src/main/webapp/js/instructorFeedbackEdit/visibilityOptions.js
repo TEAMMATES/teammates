@@ -370,7 +370,7 @@ function showAjaxErrorMessage($containingForm) {
 
     var htmlString = 'This is the visibility hint as seen by the feedback giver:';
     htmlString += '<ul class="text-muted background-color-warning">';
-    htmlString += '<li">Error loading visibility hint. Click here to retry.</li>';
+    htmlString += '<li>Error loading visibility hint. Click here to retry.</li>';
     htmlString += '</ul>';
 
     $previewTab.html(htmlString);
