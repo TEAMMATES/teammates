@@ -85,7 +85,6 @@
                         </option>
                     </c:forEach>
                 </select>
->>>>>>> master
         </div>
     </div>
     <div class="col-sm-12 row numberOfEntitiesElements">
