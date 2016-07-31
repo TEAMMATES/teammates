@@ -9,15 +9,27 @@
             You have no team members or you are not registered in any team
         </span>
     </c:when>
-                        
     <c:otherwise>
-        <c:forEach items="${data.studentCourseDetailsPanel.teammates}" var="student">
-            <c:if test="${not (student.email eq data.studentCourseDetailsPanel.studentEmail)}">
-                <a href="mailto:${student.email}">
-                    <c:out value="${student.name}" />
-                </a>
-                <br>
-            </c:if>
-        </c:forEach>
+        <table>
+            <tbody>
+                <c:forEach items="${data.studentCourseDetailsPanel.teammates}" var="student">
+                    <c:if test="${not (student.email eq data.studentCourseDetailsPanel.studentEmail)}">
+                        <tr>
+                            <td class="teamMembersPhotoCell" title="${student.name}" data-toggle="tooltip"
+                                    data-placement="top">
+                                <img id="profilePic" src="${student.publicProfilePictureUrl}"
+                                        class="profile-pic" data-toggle="modal">
+                            </td>
+                            <td class="teamMembersDetailsCell">
+                                <label>Name:</label>
+                                <c:out value=" ${student.name}" /> <br>
+                                <label>Email:</label>
+                                <a href="mailto:${student.email}"><c:out value="${student.email}"/></a>
+                            </td>
+                        </tr>
+                    </c:if>
+                </c:forEach>
+            </tbody>
+        </table>
     </c:otherwise>
 </c:choose>

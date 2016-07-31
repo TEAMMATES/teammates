@@ -151,6 +151,8 @@ var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
+    bindErrorImages('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell');
+	
     /**
      * Initializing then disabling is better than simply
      * not initializing for mobile due to some tooltips-specific
@@ -177,6 +179,19 @@ $(document).on('ajaxComplete ready', function() {
         }
     });
 });
+
+/**
+ * @param elements:
+ * identifier that points to elements with
+ * class: profile-pic-icon-click or profile-pic-icon-hover
+ */
+function bindErrorImages(elements) {
+    $(elements).children('img').on('error', function() {
+        if ($(this).attr('src') !== '') {
+            $(this).attr('src', '/images/profile_picture_default.png');
+        }
+    });
+}
 
 /**
  * Checks if the current device is touch based device
