@@ -18,7 +18,7 @@
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="visibility-title">Visibility</b> (Who can see the responses?)
     </div>
-    <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-15px">
+    <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             ${fqForm.visibilitySettings.dropdownMenuLabel}
         </button>
@@ -34,7 +34,7 @@
         </ul>
     </div>
     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-${fqForm.questionIndex}"<c:if test="${isCommonOptionSelected}"> style="display:none;"</c:if>>
-        <table class="dataTable participantTable table table-striped text-center background-color-white">
+        <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
             <tr>
                 <th class="text-center">User/Group</th>
                 <th class="text-center">Can see answer</th>
