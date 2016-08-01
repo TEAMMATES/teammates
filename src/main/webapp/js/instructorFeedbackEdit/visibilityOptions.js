@@ -10,24 +10,24 @@ var ROW_INSTRUCTORS = 5;
 
 function matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption) {
     var $containingForm = $(selectedFeedbackPathOption).closest('form');
-    updateEditTab($containingForm);
+    updateVisibilityCheckboxesDiv($containingForm);
 }
 
 function toggleVisibilityEditTab(clickedButton) {
     var $containingForm = $(clickedButton).closest('form');
     var $editTab = $containingForm.find('.visibilityOptions');
-    var $previewTab = $containingForm.find('.visibilityMessage');
+    var $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
 
     // enable edit
     $containingForm.find('[id|="questionedittext"]').click();
 
     if ($editTab.is(':hidden')) {
         $editTab.show();
-        $previewTab.hide();
-        updateEditTab($containingForm);
+        $visibilityMessageDiv.hide();
+        updateVisibilityCheckboxesDiv($containingForm);
     } else {
         $editTab.hide();
-        $previewTab.show();
+        $visibilityMessageDiv.show();
     }
 }
 
@@ -39,15 +39,15 @@ function toggleVisibilityPreviewTab(clickedButton) {
     var $disabledInputs = $containingForm.find('input:disabled, select:disabled');
     $disabledInputs.prop('disabled', false);
 
-    updateEditTab($containingForm);
+    updateVisibilityCheckboxesDiv($containingForm);
 
-    updatePreviewTab($containingForm);
+    updateVisibilityMessageDiv($containingForm);
     $disabledInputs.prop('disabled', true);
 }
 
 function getVisibilityMessage(clickedButton) {
     var $containingForm = $(clickedButton).closest('form');
-    updatePreviewTab($containingForm);
+    updateVisibilityMessageDiv($containingForm);
 }
 
 function attachVisibilityDropdownEvent() {
@@ -61,7 +61,7 @@ function attachVisibilityDropdownEvent() {
         var $editTab = $containingForm.find('.visibilityOptions');
         if (selectedOption === 'OTHER') {
             $editTab.show();
-            updateEditTab($containingForm);
+            updateVisibilityCheckboxesDiv($containingForm);
         } else {
             // only uncheck all checkboxes and update accordingly if a common option is selected
             uncheckAllVisibilityOptionCheckboxes($containingForm);
@@ -69,14 +69,14 @@ function attachVisibilityDropdownEvent() {
             $editTab.hide();
         }
 
-        updatePreviewTab($containingForm);
+        updateVisibilityMessageDiv($containingForm);
     });
 }
 
 function attachVisibilityCheckboxEvent() {
     $('body').on('click', 'input[type="checkbox"][class*="Checkbox"]', function(event) {
         var $containingForm = $(event.target).closest('form');
-        updatePreviewTab($containingForm);
+        updateVisibilityMessageDiv($containingForm);
     });
 }
 
@@ -156,10 +156,10 @@ function allowInstructorToSee(checkboxClass, $containingForm) {
 }
 
 /**
- * Updates the Edit Visibility tab to show/hide visibility option rows
+ * Updates the visibility checkboxes div to show/hide visibility option rows
  * according to the feedback path
  */
-function updateEditTab($containingForm) {
+function updateVisibilityCheckboxesDiv($containingForm) {
     enableAllRows($containingForm);
 
     disableRowsAccordingToGiver($containingForm);
@@ -314,11 +314,11 @@ function disableRowsForSpecificGiverRecipientCombinations($containingForm) {
 var previousFormDataMap = {};
 
 /**
- * Updates the Preview Visibility tab according to configurations in the
- * Edit Visibility tab (using AJAX)
+ * Updates the visibility message div according to configurations in the
+ * visibility checkboxes div (using AJAX)
  * @param $containingForm
  */
-function updatePreviewTab($containingForm) {
+function updateVisibilityMessageDiv($containingForm) {
     var questionNum = $containingForm.find('[name=questionnum]').val();
     var newQuestionNum = $('input[name=questionnum]').last().val();
     
@@ -329,14 +329,14 @@ function updatePreviewTab($containingForm) {
     }
     
     var formData = $containingForm.serialize();
-    var $previewTab = $containingForm.find('.visibilityMessage');
+    var $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
     
     if (previousFormDataMap[questionNum] === formData) {
         return;
     }
 
     // empty current visibility message in the form
-    $previewTab.html('');
+    $visibilityMessageDiv.html('');
     
     var url = '/page/instructorFeedbackQuestionvisibilityMessage';
     $.ajax({
@@ -347,7 +347,7 @@ function updatePreviewTab($containingForm) {
             // update stored form data
             previousFormDataMap[questionNum] = formData;
             
-            $previewTab.html(formatPreviewTabHtml(data.visibilityMessage));
+            $visibilityMessageDiv.html(formatVisibilityMessageDivHtml(data.visibilityMessage));
         },
         error: function() {
             showAjaxErrorMessage($containingForm);
@@ -355,7 +355,7 @@ function updatePreviewTab($containingForm) {
     });
 }
 
-function formatPreviewTabHtml(visibilityMessage) {
+function formatVisibilityMessageDivHtml(visibilityMessage) {
     var htmlString = 'This is the visibility hint as seen by the feedback giver:';
     htmlString += '<ul class="text-muted background-color-warning">';
     for (var i = 0; i < visibilityMessage.length; i++) {
@@ -366,16 +366,16 @@ function formatPreviewTabHtml(visibilityMessage) {
 }
 
 function showAjaxErrorMessage($containingForm) {
-    var $previewTab = $containingForm.find('.visibilityMessage');
+    var $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
 
     var htmlString = 'This is the visibility hint as seen by the feedback giver:';
     htmlString += '<ul class="text-muted background-color-warning">';
     htmlString += '<li>Error loading visibility hint. Click here to retry.</li>';
     htmlString += '</ul>';
 
-    $previewTab.html(htmlString);
-    $previewTab.find('ul').on('click', function() {
-        $previewTab.html('');
-        updatePreviewTab($containingForm);
+    $visibilityMessageDiv.html(htmlString);
+    $visibilityMessageDiv.find('ul').on('click', function() {
+        $visibilityMessageDiv.html('');
+        updateVisibilityMessageDiv($containingForm);
     });
 }
