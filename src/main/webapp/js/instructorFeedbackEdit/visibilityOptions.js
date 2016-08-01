@@ -84,13 +84,13 @@ function attachVisibilityCheckboxEvent() {
 // HELPER METHODS //
 // ////////////// //
 
-function setVisibilityDropdownMenuText(text, containingForm) {
-    var visibilityDropdown = containingForm.find('.visibility-options-dropdown');
+function setVisibilityDropdownMenuText(text, $containingForm) {
+    var $visibilityDropdown = $containingForm.find('.visibility-options-dropdown');
 
     if (text === 'Custom visibility option...') {
-        visibilityDropdown.find('button').html('Custom visibility option:');
+        $visibilityDropdown.find('button').html('Custom visibility option:');
     } else {
-        visibilityDropdown.find('button').html(text);
+        $visibilityDropdown.find('button').html(text);
     }
 }
 

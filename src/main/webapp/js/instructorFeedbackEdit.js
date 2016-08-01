@@ -744,8 +744,8 @@ function copyOptions() {
     var prevQuestionVisibilityOption = $prevQuestionForm.find('.visibility-options-dropdown > button').html();
     $newQuestionForm.find('.visibility-options-dropdown > button').html(prevQuestionVisibilityOption);
 
-    var isCommonVisibilityOption = prevQuestionVisibilityOption.trim() !== 'Custom visibility option:';
-    if (isCommonVisibilityOption) {
+    var isCommonVisibilityOptionSelected = prevQuestionVisibilityOption.trim() !== 'Custom visibility option:';
+    if (isCommonVisibilityOptionSelected) {
         $newQuestionForm.find('.visibilityOptions').hide();
     } else {
         $newQuestionForm.find('.visibilityOptions').show();
