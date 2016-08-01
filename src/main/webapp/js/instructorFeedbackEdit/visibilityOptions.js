@@ -50,6 +50,12 @@ function getVisibilityMessage(clickedButton) {
     updateVisibilityMessageDiv($containingForm);
 }
 
+/**
+ * bind events to the visibility dropdown menu to
+ *  - show/hide visibility checkboxes div
+ *  - update dropdown button text to reflected selected option
+ *  - update visibility message div
+ */
 function attachVisibilityDropdownEvent() {
     $('body').on('click', '.visibility-options-dropdown-option', function(event) {
         var $clickedElem = $(event.target);
@@ -73,6 +79,9 @@ function attachVisibilityDropdownEvent() {
     });
 }
 
+/**
+ * bind click event of each visibility checkbox to update visibility message div
+ */
 function attachVisibilityCheckboxEvent() {
     $('body').on('click', 'input[type="checkbox"][class*="Checkbox"]', function(event) {
         var $containingForm = $(event.target).closest('form');
@@ -106,6 +115,9 @@ function uncheckAllVisibilityOptionCheckboxes($containingForm) {
     $containingForm.find('input[type="checkbox"]').each(uncheckCheckbox);
 }
 
+/**
+ * Check the visibility checkboxes according to the common visibility option as selected using the dropdown menu
+ */
 function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
     switch (selectedOption) {
     case 'OTHER':
@@ -147,10 +159,18 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
     }
 }
 
+/**
+ * Checks the checkboxes for recipient
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
 function allowRecipientToSee(checkboxClass, $containingForm) {
     $containingForm.find('input[type="checkbox"][value="RECEIVER"]').filter(checkboxClass).each(checkCheckbox);
 }
 
+/**
+ * Checks the checkboxes for instructors
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
 function allowInstructorToSee(checkboxClass, $containingForm) {
     $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]').filter(checkboxClass).each(checkCheckbox);
 }
@@ -365,6 +385,9 @@ function formatVisibilityMessageDivHtml(visibilityMessage) {
     return htmlString;
 }
 
+/**
+ * Update visibility message div with error message and add onclick event for re-loading the visibility message
+ */
 function showAjaxErrorMessage($containingForm) {
     var $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
 
