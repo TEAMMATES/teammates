@@ -175,20 +175,20 @@ public class EmailGenerator {
      * @throws EntityDoesNotExistException
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
-
-        boolean isEmailNeededForStudents = false;
-        try {
-            isEmailNeededForStudents = fsLogic.isFeedbackSessionHasQuestionForStudents(
-                    session.getFeedbackSessionName(), session.getCourseId());
-        } catch (EntityDoesNotExistException e) {
-            log.severe("Course " + session.getCourseId() + " does not exist or "
-                    + "session " + session.getFeedbackSessionName() + " does not exist");
-        }
+        
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
         if (!session.isPrivateSession()) {
+            boolean isEmailNeededForStudents = false;
+            try {
+                isEmailNeededForStudents = fsLogic.isFeedbackSessionHasQuestionForStudents(
+                        session.getFeedbackSessionName(), session.getCourseId());
+            } catch (EntityDoesNotExistException e) {
+                log.severe("Course " + session.getCourseId() + " does not exist or "
+                        + "session " + session.getFeedbackSessionName() + " does not exist");
+            }
             instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
             if (isEmailNeededForStudents) {
                 students = studentsLogic.getStudentsForCourse(session.getCourseId());
