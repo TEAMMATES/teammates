@@ -68,20 +68,25 @@ The suppression should be as specific as possible, and the reason for violating 
 In Gradle build, the rules are configured by specifying the classes in the `visitors` variable.
 The plugin for Eclipse can be found [here](http://findbugs.cs.umd.edu/eclipse/).
 
+### Macker
+
+[Macker](https://github.com/andrena/macker) checks the architectural integrity of Java source code.
+The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-macker.xml).
+
 ### EclEmma/JaCoCo
 
 [EclEmma/JaCoCo](http://eclemma.org/jacoco/) measures code coverage for Java test run.
 Normally, the coverage will be run against all classes specified as the source code, but it can be configured to exclude classes matching certain name patterns.
 The plugin for Eclipse can be found [here](http://eclemma.org).
 
-### ESLint
+### ESLint (version 3.0.0)
 
 [ESLint](http://eslint.org) functions both to enforce coding standard and also to find potential bugs in JavaScript source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-eslint.yml).
 ESLint is a node.js package, currently not supported for Eclipse Java EE project.
-To set it up, [install node.js](https://nodejs.org/en/download/) if necessary and then install the ESLint package:
+To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (version 4 or later required) and then install the ESLint package:
 ```
-npm install -g eslint
+npm install -g eslint@3.0.0
 ```
 
 ##### Suppressing ESLint warnings
@@ -128,6 +133,12 @@ Alternatively, run the tools via Gradle:
 ```
 where `{toolType}` = checkstyle, pmd, findbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
 The reports can be found in the `build/reports/{toolType}/` directory.
+
+To run Macker analysis on all Java source files, run the following command:
+```
+./gradlew macker
+```
+The violations caught, if any, will be printed to the console itself.
 
 To run ESLint analysis on all JavaScript source files, run the following command:
 ```

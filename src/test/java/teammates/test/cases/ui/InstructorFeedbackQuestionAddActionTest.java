@@ -53,6 +53,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "5",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "The Content",
                 // This option is deleted during creation, don't pass parameter
@@ -101,6 +102,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Who do you like in the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
@@ -141,6 +143,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Choose all the food you like",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "Pizza",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", "Pasta",
@@ -194,6 +197,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "5",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The Content",
                 // This option is deleted during creation, don't pass parameter
@@ -242,6 +246,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Who do you like best in the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "2", // this field defaults to 2
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
@@ -282,6 +287,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What can be improved for this class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "4",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The content",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", "Teaching style",
@@ -336,6 +342,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "NUMSCALE",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Rate the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX, "5",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP, "0.5",
@@ -386,7 +393,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among the options.",
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "100",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "30",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "100",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "50",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, "true",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-1", "Option 1",
@@ -440,7 +450,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among students.",
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "100",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "30",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "50",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "100",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, "true",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, "true",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "2", // default value.
@@ -495,6 +508,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONTRIB",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT,
                 "How much has each team member including yourself, contributed to the project?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
@@ -534,6 +548,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONTRIB",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT,
                 "How much has each team member including yourself, contributed to the project?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
@@ -588,6 +603,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT,
                 "Please choose the most appropriate choices for the sub-questions below.",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", "SubQn-1",
@@ -847,7 +863,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      result.getDestinationWithParams());
 
-        assertEquals("NONE is not a valid feedback giver..", result.getStatusMessage());
+        assertEquals("NONE is not a valid feedback giver.", result.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"

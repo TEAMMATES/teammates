@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -837,14 +838,17 @@ public class FeedbackSessionsLogic {
     }
 
     public String getFeedbackSessionResultsSummaryAsCsv(
-            String feedbackSessionName, String courseId, String userEmail)
+            String feedbackSessionName, String courseId,
+            String userEmail, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
-        return getFeedbackSessionResultsSummaryInSectionAsCsv(feedbackSessionName, courseId, userEmail, null);
+        return getFeedbackSessionResultsSummaryInSectionAsCsv(
+                feedbackSessionName, courseId, userEmail, null, filterText, isMissingResponsesShown, isStatsShown);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
-            String feedbackSessionName, String courseId, String userEmail, String section)
+            String feedbackSessionName, String courseId, String userEmail,
+            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         long indicatedRange = (section == null) ? 10000 : -1;
@@ -873,18 +877,41 @@ public class FeedbackSessionsLogic {
         }
 
         exportBuilder.append(Const.EOL).append(Const.EOL);
-
-        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
-                .getQuestionResponseMap().entrySet()) {
-            exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(results, entry));
+        
+        Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet =
+                results.getQuestionResponseMap().entrySet();
+        
+        if (filterText != null && !filterText.isEmpty()) {
+            entrySet = filterQuestions(entrySet, filterText.toLowerCase());
+        }
+        
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
+            exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
+                    results, entry, isMissingResponsesShown, isStatsShown));
         }
         return exportBuilder.toString();
         
     }
 
+    private Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> filterQuestions(
+            Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet,
+            String filterText) {
+        
+        for (Iterator<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> it =
+                entrySet.iterator(); it.hasNext(); ) {
+            Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry = it.next();
+            if (!entry.getKey().getQuestionMetaData().getValue().toLowerCase().contains(filterText)) {
+                it.remove();
+            }
+        }
+       
+        return entrySet;
+    }
+
     private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
             FeedbackSessionResultsBundle fsrBundle,
-            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry) {
+            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry,
+            boolean isMissingResponsesShown, boolean isStatsShown) {
         
         FeedbackQuestionAttributes question = entry.getKey();
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
@@ -898,7 +925,7 @@ public class FeedbackSessionsLogic {
         
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
                                     question, fsrBundle);
-        if (!statistics.isEmpty()) {
+        if (!statistics.isEmpty() && isStatsShown) {
             exportBuilder.append("Summary Statistics,").append(Const.EOL);
             exportBuilder.append(statistics).append(Const.EOL);
         }
@@ -943,10 +970,14 @@ public class FeedbackSessionsLogic {
         }
         
         // add the rows for the possible givers and recipients who have missing responses
-        exportBuilder.append(getRemainingRowsInCsvFormat(fsrBundle, entry, question, questionDetails,
-                                            possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver))
-                     .append(Const.EOL + Const.EOL);
+        if (isMissingResponsesShown) {
+            exportBuilder.append(
+                    getRemainingRowsInCsvFormat(
+                            fsrBundle, entry, question, questionDetails,
+                            possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver));
+        }
         
+        exportBuilder.append(Const.EOL + Const.EOL);
         return exportBuilder;
     }
 
@@ -1471,6 +1502,9 @@ public class FeedbackSessionsLogic {
         sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
 
         updateFeedbackSession(sessionToUnpublish);
+        if (sessionToUnpublish.isPublishedEmailEnabled()) {
+            sendFeedbackSessionUnpublishedEmail(sessionToUnpublish);
+        }
     }
 
     public List<EmailWrapper> sendReminderForFeedbackSession(String courseId,
@@ -2602,6 +2636,10 @@ public class FeedbackSessionsLogic {
 
     private void sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
         addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_PUBLISHED);
+    }
+    
+    public void sendFeedbackSessionUnpublishedEmail(FeedbackSessionAttributes session) {
+        addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_UNPUBLISHED);
     }
 
     private void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes session, EmailType emailType) {

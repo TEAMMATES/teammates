@@ -117,11 +117,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return submitAction;
     }
     
-    public String getSubmitActionQuestion() {
-        return isModeration ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE
-                              : Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
-    }
-    
     public boolean isSubmittable() {
         return isSessionOpenForSubmission || isModeration;
     }
@@ -210,16 +205,13 @@ public class FeedbackSubmissionEditPageData extends PageData {
             if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS || numOfResponseBoxes > maxResponsesPossible) {
                 numOfResponseBoxes = maxResponsesPossible;
             }
-            
-            if (numOfResponseBoxes > 0) {
-                FeedbackSubmissionEditQuestion question = createQuestion(questionAttributes, qnIndx);
-                List<FeedbackSubmissionEditResponse> responses =
-                        createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
-            
-                questionsWithResponses.add(new StudentFeedbackSubmissionEditQuestionsWithResponses(
-                                                question, responses, numOfResponseBoxes, maxResponsesPossible));
-                qnIndx++;
-            }
+            FeedbackSubmissionEditQuestion question = createQuestion(questionAttributes, qnIndx);
+            List<FeedbackSubmissionEditResponse> responses =
+                    createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
+
+            questionsWithResponses.add(new StudentFeedbackSubmissionEditQuestionsWithResponses(
+                    question, responses, numOfResponseBoxes, maxResponsesPossible));
+            qnIndx++;
         }
     }
 

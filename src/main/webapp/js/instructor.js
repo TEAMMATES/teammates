@@ -50,6 +50,13 @@ function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
 }
 
 /**
+ * Function that shows confirmation dialog for removing a student from a course
+ */
+function toggleDeleteStudentConfirmation(courseId, studentName) {
+    return confirm('Are you sure you want to remove ' + studentName + ' from the course ' + courseId + '?');
+}
+
+/**
  * Pops up confirmation dialog whether to publish the specified
  * evaluation
  * @param name
@@ -200,7 +207,7 @@ function setupFsCopyModal() {
 function bindErrorImages(elements) {
     $(elements).children('img').on('error', function() {
         if ($(this).attr('src') !== '') {
-            $(this).attr('src', '../images/profile_picture_default.png');
+            $(this).attr('src', '/images/profile_picture_default.png');
         }
     });
 }
@@ -306,6 +313,22 @@ function bindDeleteButtons() {
         var feedbackSessionName = $button.data('fsname');
 
         return toggleDeleteFeedbackSessionConfirmation(courseId, feedbackSessionName);
+    });
+}
+
+function attachEventToDeleteStudentLink() {
+    $(document).on('click', '.course-student-delete-link', function(event) {
+        event.preventDefault();
+
+        var $clickedLink = $(event.target);
+        var messageText = 'Are you sure you want to remove ' + $clickedLink.data('studentName')
+                          + ' from the course ' + $clickedLink.data('courseId') + '?';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deletion', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
     });
 }
 

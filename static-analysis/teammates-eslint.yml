@@ -16,9 +16,6 @@ rules:
 
     # Possible Errors
 
-    # require or disallow trailing commas
-    comma-dangle: ["error", "never"]
-
     # disallow assignment operators in conditional expressions
     no-cond-assign: ["error", "except-parens"]
 
@@ -79,6 +76,9 @@ rules:
     # disallow calling global object properties as functions
     no-obj-calls: "error"
 
+    # Disallow use of Object.prototypes builtins directly
+    # no-prototype-builtins: "off"
+
     # disallow multiple spaces in regular expression literals
     no-regex-spaces: "error"
 
@@ -92,7 +92,7 @@ rules:
     no-unreachable: "error"
 
     # disallow control flow statements in finally blocks
-    # no-unsafe-finally: "off"
+    no-unsafe-finally: "error"
 
     # require calls to isNaN() when checking for NaN
     use-isnan: "error"
@@ -214,7 +214,7 @@ rules:
     # no-multi-str: "off"
 
     # disallow reassigning native objects
-    # no-native-reassign: "off"
+    no-native-reassign: "error"
 
     # disallow new operators outside of assignments or comparisons
     no-new: "error"
@@ -232,7 +232,7 @@ rules:
     # no-octal-escape: "off"
 
     # disallow reassigning function parameters
-    no-param-reassign: "error"
+    no-param-reassign: ["error", { "props": false }]
 
     # disallow usage of __proto__ property
     # no-proto: "off"
@@ -354,6 +354,9 @@ rules:
     # enforce camelcase naming convention
     camelcase: "error"
 
+    # require or disallow trailing commas
+    comma-dangle: ["error", "never"]
+
     # enforce consistent spacing before and after commas
     comma-spacing: "error"
 
@@ -408,6 +411,9 @@ rules:
     # enforce a maximum line length
     max-len: ["error", 125]
 
+    # enforce a maximum file length
+    # max-lines: "off"
+
     # enforce a maximum depth that callbacks can be nested
     # max-nested-callbacks: "off"
 
@@ -450,11 +456,14 @@ rules:
     # disallow if statements as the only statement in else blocks
     no-lonely-if: "error"
 
+    # disallow mixes of different operators
+    # no-mixed-operators: "off"
+
     # disallow mixed spaces and tabs for indentation
     no-mixed-spaces-and-tabs: "error"
 
     # disallow multiple empty lines
-    no-multiple-empty-lines: "error"
+    no-multiple-empty-lines: ["error", { "max": 1, "maxBOF": 0, "maxEOF": 1}]
 
     # disallow negated conditions
     no-negated-condition: "error"
@@ -488,6 +497,9 @@ rules:
 
     # disallow whitespace before properties
     no-whitespace-before-property: "error"
+
+    # enforce consistent line breaks inside braces
+    # object-curly-newline: "off"
 
     # enforce consistent spacing inside braces
     object-curly-spacing: ["error", "always"]
@@ -545,6 +557,9 @@ rules:
 
     # enforce consistent spacing after the // or /* in a comment
     spaced-comment: ["error", "always"]
+
+    # require or disallow Unicode BOM
+    # unicode-bom: "off"
 
     # require parenthesis around regex literals
     # wrap-regex: "off"

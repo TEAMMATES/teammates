@@ -33,10 +33,10 @@
         <c:set var="commentIndex" value="${0}"/>
         <c:forEach items="${commentsForStudentsTables}" var="commentsForStudentsTable">
             <div class="panel panel-info student-record-comments${commentsForStudentsTable.extraClass}"
-                 <c:if test="${empty commentsForStudentsTable.rows && not forRecordsPage}">style="display: none;"</c:if>>
+                 <c:if test="${empty commentsForStudentsTable.rows && (not forRecordsPage || not commentsForStudentsTable.representingSelf)}">style="display: none;"</c:if>>
                 <div class="panel-heading">
                     From <b>${fn:escapeXml(commentsForStudentsTable.giverDetails)}<c:if test="${not empty courseId}"> (${courseId})</c:if></b>
-                    <c:if test="${forRecordsPage}">
+                    <c:if test="${forRecordsPage && commentsForStudentsTable.representingSelf}">
                         <button type="button"
                                 class="btn btn-default btn-xs icon-button pull-right"
                                 id="button_add_comment"
@@ -55,7 +55,7 @@
                         <shared:commentRow comment="${commentRow}" commentIndex="${commentIndex}" />
                     </c:forEach>
                     <c:if test="${forRecordsPage}">
-                        <c:if test="${empty commentsForStudentsTable.rows}">
+                        <c:if test="${empty commentsForStudentsTable.rows && commentsForStudentsTable.representingSelf}">
                             <li class="list-group-item text-muted">
                                 <i>You don't have any comments on this student.</i>
                             </li>
@@ -86,13 +86,13 @@
                                                     User/Group
                                                 </th>
                                                 <th class="text-center">
-                                                    Can see your comment
+                                                    Can see this comment
                                                 </th>
                                                 <th class="text-center">
-                                                    Can see giver's name
+                                                    Can see comment giver's name
                                                 </th>
                                                 <th class="text-center">
-                                                    Can see recipient's name
+                                                    Can see comment recipient's name
                                                 </th>
                                             </tr>
                                             <tr id="recipient-person${newCommentIndex}">

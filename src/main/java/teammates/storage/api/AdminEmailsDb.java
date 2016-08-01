@@ -15,11 +15,11 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.AdminEmail;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class AdminEmailsDb extends EntitiesDb {
     
@@ -72,11 +72,7 @@ public class AdminEmailsDb extends EntitiesDb {
      * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
      */
     public void deleteAdminEmailUploadedFile(BlobKey key) {
-        try {
-            BlobstoreServiceFactory.getBlobstoreService().delete(key);
-        } catch (Exception e) {
-            log.warning("tried to delete non-existent file");
-        }
+        GoogleCloudStorageHelper.deleteFile(key);
     }
 
     /**

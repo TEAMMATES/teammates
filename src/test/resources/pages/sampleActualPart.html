@@ -23,7 +23,7 @@
         
         <div id="frameTopWrapper">
             <div id="logo">
-                <a href="/index.html">
+                <a href="/index.jsp">
                 <img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="TEAMMATES" />
                 </a>
             </div>            
@@ -32,7 +32,7 @@
                     <li class="current"><a href="/page/instructorHomePage?user=${test.instructor}" class='nav home' data-link="instructorHome">Home</a></li>
                     <li><a href="/page/instructorCoursesPage?user=${test.instructor}" class='nav courses' data-link="instructorCourse">Courses</a></li>
                     <li><a href="/page/instructorFeedbacksPage?user=${test.instructor}" class='nav evaluations' data-link="instructorEval">Sessions</a></li>
-                    <li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
+                    <li><a target="_blank" href="/instructorHelp.jsp" class='nav help'>Help</a></li>
                     <li><a href="/logout" class='nav logout'>Logout</a>
                      <b>(${test.instructor})</b></li>
                 </ul>
@@ -195,7 +195,7 @@
 <div id="contentFooter">
     <span class="floatleft">[TEAMMATES <span class="color_white">V${version}</span>]</span>
     [for <span class="color_white">TEAMMATES Test Institute 1</span>]
-    <span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
+    <span class="floatright">[Send <span class="color_white"><a href="/contact.jsp" target="_blank">Feedback</a></span>]</span>
 </div>
     </div>
 </body>

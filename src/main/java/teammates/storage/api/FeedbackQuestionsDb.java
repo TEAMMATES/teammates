@@ -96,13 +96,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 
         List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForSession(
                 feedbackSessionName, courseId);
-        List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
-
-        for (FeedbackQuestion question : questions) {
-            if (!JDOHelper.isDeleted(question)) {
-                fqList.add(new FeedbackQuestionAttributes(question));
-            }
-        }
+        List<FeedbackQuestionAttributes> fqList = getListOfQuestionAttributes(questions);
         
         return fqList;
     }
@@ -120,13 +114,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 
         List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForGiverType(
                 feedbackSessionName, courseId, giverType);
-        List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
-
-        for (FeedbackQuestion question : questions) {
-            if (!JDOHelper.isDeleted(question)) {
-                fqList.add(new FeedbackQuestionAttributes(question));
-            }
-        }
+        List<FeedbackQuestionAttributes> fqList = getListOfQuestionAttributes(questions);
         
         return fqList;
     }
@@ -140,15 +128,21 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForCourse(courseId);
-        List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> fqList = getListOfQuestionAttributes(questions);
+        
+        return fqList;
+    }
+    
+    private List<FeedbackQuestionAttributes> getListOfQuestionAttributes(List<FeedbackQuestion> questions) {
+        List<FeedbackQuestionAttributes> questionAttributes = new ArrayList<FeedbackQuestionAttributes>();
 
         for (FeedbackQuestion question : questions) {
             if (!JDOHelper.isDeleted(question)) {
-                fqList.add(new FeedbackQuestionAttributes(question));
+                questionAttributes.add(new FeedbackQuestionAttributes(question));
             }
         }
         
-        return fqList;
+        return questionAttributes;
     }
     
     /**
@@ -196,6 +190,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         fq.setQuestionNumber(newAttributes.questionNumber);
         fq.setQuestionText(newAttributes.questionMetaData);
+        fq.setQuestionDescription(newAttributes.questionDescription);
         fq.setQuestionType(newAttributes.questionType);
         fq.setGiverType(newAttributes.giverType);
         fq.setRecipientType(newAttributes.recipientType);

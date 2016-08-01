@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<macker>
+    <ruleset name="Test cases should not be dependent on each other">
+        <var name="testCasesPackage" value="teammates.test.cases" />
+        <access-rule>
+            <deny>
+                <from class="${testCasesPackage}.**" />
+                <to class="${testCasesPackage}.**" />
+                <allow>
+                    <!-- allow dependency from inner class -->
+                    <from class="${testCasesPackage}.**$**" />
+                </allow>
+                <allow>
+                    <!-- allow dependency to inner class -->
+                    <to class="${testCasesPackage}.**$**" />
+                </allow>
+                <allow>
+                    <!-- allow dependency to base class -->
+                    <to class="${testCasesPackage}.**Base**" />
+                </allow>
+                <allow>
+                    <!-- allow dependency from Feedback*QuestionUiTest to FeedbackQuestionUiTest -->
+                    <from class="${testCasesPackage}.ui.browsertests.Feedback*QuestionUiTest" />
+                    <to class="${testCasesPackage}.ui.browsertests.FeedbackQuestionUiTest" />
+                </allow>
+            </deny>
+        </access-rule>
+    </ruleset>
+    <ruleset name="Only UI tests can access page object classes">
+        <access-rule>
+            <deny>
+                <from class="teammates.test.**" />
+                <to class="teammates.test.pageobjects.*" />
+                <allow>
+                    <!-- allow dependency within the package -->
+                    <from class="teammates.test.pageobjects.*" />
+                </allow>
+                <allow>
+                    <!-- allow dependency from UI tests -->
+                    <from class="teammates.test.cases.ui.browsertests.*" />
+                </allow>
+            </deny>
+        </access-rule>
+    </ruleset>
+</macker>

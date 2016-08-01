@@ -18,6 +18,7 @@ buildscript {
 }
 
 configurations {
+    macker
     enhancer
     exclude
     testExclude
@@ -34,12 +35,20 @@ repositories {
 }
 
 dependencies {
+    macker          "de.andrena.tools.macker:macker:1.0.1"
+
     appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
     compile         "com.google.appengine.tools:appengine-gcs-client:0.3.13",
                     "com.google.appengine:appengine-api-labs:${appengineVersion}",
                     "com.google.code.gson:gson:2.2.2",
+                    "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239",
+                    "com.mailjet:mailjet-client:4.0.1",
                     "com.sendgrid:sendgrid-java:2.2.2",
+                    "com.sun.jersey:jersey-client:1.19",
+                    "com.sun.jersey:jersey-core:1.19",
+                    "com.sun.jersey.contribs:jersey-multipart:1.19",
+                    "joda-time:joda-time:2.9.4",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:1.9.2"
 
@@ -69,7 +78,8 @@ dependencies {
                     "com.google.appengine:appengine-testing:${appengineVersion}",
                     "httpunit:httpunit:1.7",
                     "javax.mail:mail:1.4.5",
-                    "org.seleniumhq.selenium:selenium-java:2.46.0",
+                    "org.apache.commons:commons-lang3:3.4",
+                    "org.seleniumhq.selenium:selenium-java:2.53.0",
                     "org.testng:testng:6.8.7"
 
     testExclude     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
@@ -261,7 +271,8 @@ task eslint(type: Exec) {
     def command = ["eslint"]
     def jsDirs = ["src/main/webapp/js", "src/test/javascript"]
     def configFile = ["-c", "static-analysis/teammates-eslint.yml"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile
+    def ignore = ["--ignore-pattern", "lib/"]
+    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile + ignore
 }
 
 checkstyle {
@@ -272,7 +283,7 @@ checkstyle {
 pmd {
     toolVersion = "5.4.1"
     consoleOutput = true
-    ruleSetFiles = files("static-analysis/teammates-pmd.xml")
+    ruleSetFiles = files("static-analysis/teammates-pmd.xml", "static-analysis/teammates-pmdMain.xml")
     ruleSets = []
 }
 
@@ -293,10 +304,16 @@ tasks.withType(FindBugs) {
     }
 }
 
+// workaround to get Macker to be downloaded first
+task mackerEmpty(type: Copy) {
+    from configurations.macker
+    into "static-analysis/macker"
+}
+
 task downloadStaticAnalysisTools {
     description "Downloads all static analysis tools."
     group "Static analysis"
-    dependsOn checkstyleEmpty, pmdEmpty, findbugsEmpty
+    dependsOn checkstyleEmpty, pmdEmpty, findbugsEmpty, mackerEmpty
 }
 
 task staticAnalysisMain {
@@ -307,10 +324,24 @@ task staticAnalysisTest {
     dependsOn checkstyleTest, pmdTest, findbugsTest
 }
 
+task macker << {
+    logging.setLevel(LogLevel.INFO)
+    ant.taskdef(name: "macker", classpath: configurations.macker.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
+    ant.macker(failonerror: true, verbose: false) {
+        rules(dir: "${projectDir}/static-analysis", includes: "teammates-macker.xml")
+        classes(dir: "${buildDir}/classes") {
+            include(name: "**/*.class")
+        }
+    }
+}
+
+macker.dependsOn testClasses
+macker.shouldRunAfter staticAnalysisMain, staticAnalysisTest
+
 task staticAnalysis {
     description "Runs the entire static analysis tasks."
     group "Static analysis"
-    dependsOn eslint, staticAnalysisMain, staticAnalysisTest
+    dependsOn eslint, staticAnalysisMain, staticAnalysisTest, macker
 }
 
 // TEST TASKS

@@ -71,12 +71,21 @@
                   <input name="fsname" type="hidden" value="Instructor Session">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="sectionname" type="hidden" value="All">
+                  <input id="filterTextForDownload" name="filtertext" type="hidden">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="false">
+                  <input name="frindicatemissingresponses" type="hidden" value="false">
                 </form>
                 <br>
                 <div>
                   <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="Instructor Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=FRankUiT.CS4221&fsname=Instructor+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=FRankUiT.instructor" title="">
                     Unpublish Results
                   </a>
+                </div>
+                <br>
+                <div>
+                  <button class="btn btn-primary btn-block" id="button-print" type="input">
+                    Print View
+                  </button>
                 </div>
               </div>
             </div>
@@ -172,9 +181,9 @@
               <label class="col-sm-2 control-label" for="viewSelect">
                 Filter:
               </label>
-              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
+              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" id="filter-box-parent-div" title="">
                 <div class="input-group">
-                  <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
+                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
                   <a class="input-group-addon btn btn-default">
                     <span class="glyphicon glyphicon-search">
                     </span>
@@ -195,9 +204,15 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
                   Show Statistics
                 </label>
+              </div>
+            </div>
+            <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
+              <div class="checkbox padding-top-0 min-height-0">
+                <input id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" onchange="this.form.submit()" type="checkbox" value="true">
+                Indicate Missing Responses
               </div>
             </div>
           </div>
@@ -220,7 +235,7 @@
                     Section 2
                   </option>
                   <option value="None">
-                    Not in a section
+                    No specific recipient
                   </option>
                 </select>
               </div>
@@ -254,6 +269,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-1" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -392,7 +408,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -453,6 +469,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-2" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -624,7 +641,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -725,6 +742,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-3" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -853,7 +871,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -940,6 +958,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-4" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -985,6 +1004,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-5" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -1043,6 +1063,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-6" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -1088,6 +1109,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-7" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -1133,6 +1155,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-8" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -1178,6 +1201,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-9" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -1223,6 +1247,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-10" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -1268,6 +1293,7 @@
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-11" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -1346,7 +1372,7 @@
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th>
+              <th class="action-header">
                 Actions
               </th>
             </tr>
@@ -1354,12 +1380,14 @@
           <tbody>
             <tr>
               <td>
-                <i>Instructors</i>
+                <i>
+                  Instructors
+                </i>
               </td>
               <td>
                 Teammates Helper who can only see section 1
               </td>
-              <td>
+              <td class="action-button-item">
               </td>
             </tr>
             <tr>
@@ -1369,7 +1397,7 @@
               <td>
                 Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
@@ -1385,7 +1413,7 @@
               <td>
                 Benny Charles
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
@@ -1401,7 +1429,7 @@
               <td>
                 Charlie Davis
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
@@ -1417,7 +1445,7 @@
               <td>
                 Danny Engrid
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
@@ -1433,7 +1461,7 @@
               <td>
                 Emily F.
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">

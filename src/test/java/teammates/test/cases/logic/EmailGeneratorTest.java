@@ -1,29 +1,31 @@
 package teammates.test.cases.logic;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.log.AppLogLine;
+import com.google.appengine.api.log.LogService.LogLevel;
+
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
-import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.driver.AssertHelper;
+import teammates.test.driver.EmailChecker;
 
 /**
  * SUT: {@link EmailGenerator}
@@ -35,18 +37,20 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     
-    private String fromEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
-    private String fromName = "TEAMMATES Admin";
-    private String replyTo = Config.SUPPORT_EMAIL;
+    /** indicates if the test-run is to use GodMode */
+    private static boolean isGodModeEnabled;
     
     @BeforeClass
     public void classSetUp() throws Exception {
         printTestClassHeader();
         removeAndRestoreTypicalDataInDatastore();
+        if (isGodModeEnabled) {
+            System.setProperty("godmode", "true");
+        }
     }
     
     @Test
-    public void testGenerateFeedbackSessionEmails() {
+    public void testGenerateFeedbackSessionEmails() throws IOException {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
@@ -54,14 +58,10 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(session.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
         
-        StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
-        StudentAttributes student2 = studentsLogic.getStudentForEmail(course.getId(), "student2InCourse1@gmail.tmt");
-        StudentAttributes student3 = studentsLogic.getStudentForEmail(course.getId(), "student3InCourse1@gmail.tmt");
+        StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student1InCourse1@gmail.tmt");
         
         InstructorAttributes instructor1 =
                 instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
-        InstructorAttributes instructor2 =
-                instructorsLogic.getInstructorForEmail(course.getId(), "instructor2@course1.tmt");
         
         ______TS("feedback session opening emails");
         
@@ -71,21 +71,18 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         String subject = String.format(EmailType.FEEDBACK_OPENING.getSubject(),
                                        course.getName(), session.getFeedbackSessionName());
         
-        String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .withRegistrationKey(StringHelper.encrypt(student1.key))
-                                 .withStudentEmail(student1.email)
-                                 .toAbsoluteString();
-        
-        String textInEmail = "Hello " + student1.name + "{*}The following feedback session is now open"
-                             + "{*}" + course.getId() + "{*}" + course.getName()
-                             + "{*}" + session.getFeedbackSessionName()
-                             + "{*}" + submitUrl + "{*}" + submitUrl;
-        
-        verifyEmail(emails.get(0), student1.email, subject, textInEmail);
-        
-        verifyEmail(emails.get(1), student2.email, subject, "The following feedback session is now open");
+        boolean hasStudent1ReceivedEmail = false;
+        boolean hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionOpeningEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionOpeningEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail && hasInstructor1ReceivedEmail);
         
         ______TS("feedback session reminders");
         
@@ -95,19 +92,20 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         subject = String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
         
-        submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                          .withCourseId(course.getId())
-                          .withSessionName(session.getFeedbackSessionName())
-                          .toAbsoluteString();
-        
-        textInEmail = "Hello " + instructor1.name + "{*}The following feedback session is "
-                      + "still open for submissions{*}" + course.getId() + "{*}" + course.getName()
-                      + "{*}" + session.getFeedbackSessionName() + "{*}" + submitUrl + "{*}" + submitUrl;
-        
-        verifyEmail(emails.get(1), instructor1.email, subject, textInEmail);
-        
-        verifyEmail(emails.get(2), instructor2.email, subject,
-                    "The following feedback session is still open for submissions");
+        hasStudent1ReceivedEmail = false;
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionReminderEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)
+                       && email.getContent().contains("The email below has been sent to students of course:")) {
+                verifyEmail(email, instructor1.email, subject, "/sessionReminderEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
         
         ______TS("feedback session closing alerts");
         
@@ -117,24 +115,25 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
         
-        submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                          .withCourseId(course.getId())
-                          .withSessionName(session.getFeedbackSessionName())
-                          .withRegistrationKey(StringHelper.encrypt(student1.key))
-                          .withStudentEmail(student1.email)
-                          .toAbsoluteString();
+        // student1 has completed the feedback session and closing alert is only sent for those who are
+        // yet to complete, so we resort to student5
+        StudentAttributes student5 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
         
-        textInEmail = "Hello " + student1.name + "{*}The following feedback session is closing soon"
-                      + "{*}" + course.getId() + "{*}" + course.getName()
-                      + "{*}" + session.getFeedbackSessionName()
-                      + "{*}" + submitUrl + "{*}" + submitUrl
-                      + "{*}You may ignore this email if you have already submitted feedback.";
-        
-        verifyEmail(emails.get(0), student1.email, subject, textInEmail);
-        
-        verifyEmail(emails.get(1), student3.email, subject, "The following feedback session is closing soon");
-        verifyEmail(emails.get(1), student3.email, subject,
-                    "You may ignore this email if you have already submitted feedback.");
+        hasStudent1ReceivedEmail = false; // use the same checker variable for brevity
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student5.email)) {
+                verifyEmail(email, student5.email, subject, "/sessionClosingEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(student1.email)) {
+                fail("student1 has completed the session and are not supposed to receive email");
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionClosingEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
         
         ______TS("feedback session published alerts");
         
@@ -144,26 +143,95 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         subject = String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
         
-        String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .withRegistrationKey(StringHelper.encrypt(student1.key))
-                                 .withStudentEmail(student1.email)
-                                 .toAbsoluteString();
+        hasStudent1ReceivedEmail = false;
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionPublishedEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionPublishedEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
         
-        textInEmail = "Hello " + student1.name + "{*}The feedback responses for the following "
-                      + "feedback session is now open for viewing{*}" + course.getId()
-                      + "{*}" + course.getName() + "{*}" + session.getFeedbackSessionName()
-                      + "{*}" + reportUrl + "{*}" + reportUrl;
+        ______TS("feedback session unpublished alerts");
         
-        verifyEmail(emails.get(0), student1.email, subject, textInEmail);
+        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(session);
+        assertEquals(10, emails.size());
         
-        verifyEmail(emails.get(1), student2.email, subject,
-                    "The feedback responses for the following feedback session is now open for viewing");
+        subject = String.format(EmailType.FEEDBACK_UNPUBLISHED.getSubject(),
+                                course.getName(), session.getFeedbackSessionName());
+        
+        hasStudent1ReceivedEmail = false;
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionUnpublishedEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionUnpublishedEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
+        
+        ______TS("no email alerts sent for sessions not answerable/viewable for students");
+        
+        FeedbackSessionAttributes privateSession =
+                fsLogic.getFeedbackSession("Private feedback session", "idOfTypicalCourse2");
+        
+        emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
+        emails = new EmailGenerator().generateFeedbackSessionClosingEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
+        emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
+        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
     }
     
     @Test
-    public void testGenerateStudentCourseJoinEmail() {
+    public void testGenerateInstructorJoinEmail() throws IOException {
+        
+        ______TS("instructor new account email");
+        
+        @SuppressWarnings("deprecation")
+        InstructorAttributes instructor =
+                new InstructorAttributes("googleId", "courseId", "Instructor Name", "instructor@email.tmt");
+        instructor.key = "skxxxxxxxxxks";
+        String shortName = "Instr";
+        String institute = "Test Institute";
+        
+        EmailWrapper email = new EmailGenerator()
+                .generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
+        String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), shortName);
+        
+        verifyEmail(email, instructor.email, subject, "/instructorNewAccountEmail.html");
+        assertEquals(email.getBcc(), Config.SUPPORT_EMAIL);
+        
+        ______TS("instructor course join email");
+        
+        CourseAttributes course = new CourseAttributes("course-id", "Course Name");
+        
+        email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
+        subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
+        
+        verifyEmail(email, instructor.email, subject, "/instructorCourseJoinEmail.html");
+        
+    }
+    
+    @Test
+    public void testGenerateStudentCourseJoinEmail() throws IOException {
+        
+        ______TS("student course join email");
         
         CourseAttributes course = new CourseAttributes("course-id", "Course Name");
         
@@ -175,69 +243,120 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         String subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
         
-        // check email body
-        String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
-        String textInEmail = "Hello " + student.name + "{*}" + course.getName()
-                             + "{*}" + joinUrl + "{*}" + joinUrl + "{*}";
+        verifyEmail(email, student.email, subject, "/studentCourseJoinEmail.html");
         
-        verifyEmail(email, student.email, subject, textInEmail);
+        ______TS("student course join email after Google ID reset");
+        
+        email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student);
+        subject = String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
+                                course.getName(), course.getId());
+        
+        verifyEmail(email, student.email, subject, "/studentCourseRejoinAfterGoogleIdResetEmail.html");
+        
     }
     
     @Test
-    public void testSystemCrashReportEmailContent() {
+    public void testSystemCrashReportEmailContent() throws IOException {
+        
+        ______TS("user is logged in and the error has message");
         
         AssertionError error = new AssertionError("invalid parameter");
-        String stackTrace = TeammatesException.toStringWithStackTrace(error);
         String requestMethod = "GET";
         String requestUserAgent = "user-agent";
         String requestPath = "/page/studentHome";
         String requestUrl = "/page/studentHome/";
         String requestParam = "{}";
-        UserType userType = new UserType("Not logged in");
+        UserType userType = new UserType("Actual user ABC");
         
         EmailWrapper email =
                 new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
                                                               requestUrl, requestParam, userType, error);
         
-        String textInEmail = "<b>Error Message</b><br><pre><code>" + error.getMessage()
-                             + "</code></pre>"
-                             + "<br><b>Actual user</b>" + "Not logged in"
-                             + "<br><b>Request Method</b>" + requestMethod
-                             + "<br><b>User Agent</b>" + requestUserAgent
-                             + "<br><b>Request Url</b>" + requestUrl
-                             + "<br><b>Request Path</b>" + requestPath
-                             + "<br><b>Request Parameters</b>" + requestParam
-                             + "<br><b>Stack Trace</b><pre><code>" + stackTrace + "</code></pre>";
+        // The stack trace is different depending on the environment in which the test is run at.
+        // As a workaround, after the last common line, change all the stack trace to "..."
+        String lastCommonLineRegex =
+                "(?s)(at org\\.testng\\.TestRunner\\.run\\(TestRunner\\.java:617\\)\\s*)at.*?(\\s*</code>)";
+        String modifiedContent = email.getContent().replaceAll(lastCommonLineRegex, "$1...$2");
+        email.setContent(modifiedContent);
         
         String subject = String.format(EmailType.ADMIN_SYSTEM_ERROR.getSubject(),
                                        Config.getAppVersion(), error.getMessage());
         
-        verifyEmail(email, Config.SUPPORT_EMAIL, subject, textInEmail);
+        verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/systemCrashReportEmail.html");
+        
+        ______TS("user is not logged in and the error has no message");
+        
+        error = new AssertionError();
+        email = new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
+                                                              requestUrl, requestParam, null, error);
+        subject = String.format(EmailType.ADMIN_SYSTEM_ERROR.getSubject(),
+                                Config.getAppVersion(), "java.lang.AssertionError");
+        modifiedContent = email.getContent().replaceAll(lastCommonLineRegex, "$1...$2");
+        email.setContent(modifiedContent);
+        
+        verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/systemCrashReportEmailLessInfo.html");
+        
     }
     
-    private void verifyEmail(EmailWrapper email, String recipient, String subject, String textInEmail) {
+    @Test
+    public void testGenerateCompiledLogsEmail() throws IOException {
+        AppLogLine typicalLogLine = new AppLogLine();
+        typicalLogLine.setLogLevel(LogLevel.ERROR);
+        typicalLogLine.setLogMessage("Typical log message");
+        
+        AppLogLine logLineWithLineBreak = new AppLogLine();
+        logLineWithLineBreak.setLogLevel(LogLevel.ERROR);
+        logLineWithLineBreak.setLogMessage("Log line \n with line break <br> and also HTML br tag");
+        
+        EmailWrapper email = new EmailGenerator().generateCompiledLogsEmail(
+                Arrays.asList(typicalLogLine, logLineWithLineBreak));
+        
+        String subject = String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(),
+                                       Config.getAppVersion());
+
+        verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/severeLogsCompilationEmail.html");
+    }
+    
+    @Test
+    public void testGenerateAdminEmail() {
+        String recipient = "recipient@email.com";
+        String content = "Generic content";
+        String subject = "Generic subject";
+        EmailWrapper email = new EmailGenerator().generateAdminEmail(content, subject, recipient);
+        
+        // Do not use verify email since the content is not based on any template
+        assertEquals(recipient, email.getRecipient());
+        assertEquals(subject, email.getSubject());
+        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
+        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
+        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
+        assertEquals(content, email.getContent());
+    }
+    
+    private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
+            throws IOException {
         // check recipient
-        assertEquals(recipient, email.getFirstRecipient());
+        assertEquals(recipient, email.getRecipient());
         
         // check subject
         assertEquals(subject, email.getSubject());
         
-        // check sender
-        assertEquals(fromName, email.getSenderName());
+        // check sender name
+        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
         
-        // check sender
-        assertEquals(fromEmail, email.getSenderEmail());
+        // check sender email
+        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
         
-        //check replyTo
-        assertEquals(replyTo, email.getReplyTo());
+        // check reply to address
+        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
         
-        String emailBody = email.getContent().toString();
+        String emailContent = email.getContent();
         
         // check email body for expected content
-        AssertHelper.assertContainsRegex(textInEmail, emailBody);
+        EmailChecker.verifyEmailContent(emailContent, emailContentFilePath);
         
         // check email body for no left placeholders
-        assertFalse(emailBody.contains("${"));
+        assertFalse(emailContent.contains("${"));
     }
     
     @AfterClass

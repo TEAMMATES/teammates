@@ -38,9 +38,9 @@
                         <label for="viewSelect" class="col-sm-2 control-label">
                             Filter:
                         </label>
-                        <div class="col-sm-10" data-toggle="tooltip" title="Filter the results in the current view">
+                        <div id="filter-box-parent-div" class="col-sm-10" data-toggle="tooltip" title="Filter the results in the current view">
                             <div class="input-group">
-                                <input type="text" id="results-search-box" class="form-control" placeholder="${filterPanel.sortType == 'question' ? 'Type keywords from the question to filter' : 'Type student/team name/section name to filter'}" onchange="updateResultsFilter()">
+                                <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT%>" id="results-search-box" class="form-control" placeholder="${filterPanel.sortType == 'question' ? 'Type keywords from the question to filter' : 'Type student/team name/section name to filter'}" onchange="updateResultsFilter()">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
@@ -57,8 +57,19 @@
                   <div data-toggle="tooltip" title="Show statistics">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${filterPanel.sortType == 'recipient-giver-question' or filterPanel.sortType == 'giver-recipient-question'}"> class="text-strike"</c:if>>
-                              <input type="checkbox" id="show-stats-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"<c:if test="${filterPanel.statsShown}"> checked</c:if>> Show Statistics
+                              <input type="checkbox" id="show-stats-checkbox" onchange="updateStatsCheckBox();" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"<c:if test="${filterPanel.statsShown}"> checked</c:if>> Show Statistics
                           </label>
+                      </div>
+                  </div>
+                  <div data-toggle="tooltip" title="Indicate missing responses">
+                      <div class="checkbox padding-top-0 min-height-0">
+                          <input type="checkbox" 
+                                onchange="this.form.submit()" 
+                                id="indicate-missing-responses-checkbox" 
+                                value="true" 
+                                name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>"
+                                <c:if test="${filterPanel.missingResponsesShown}"> checked</c:if>> 
+                          Indicate Missing Responses
                       </div>
                   </div>
                 </div>
@@ -81,7 +92,7 @@
                                         </option>
                                     </c:forEach>
                                     <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected</c:if>>
-                                        Not in a section
+                                        <%=Const.NO_SPECIFIC_RECIEPIENT%>
                                     </option>
                                 </select>
                             </div>

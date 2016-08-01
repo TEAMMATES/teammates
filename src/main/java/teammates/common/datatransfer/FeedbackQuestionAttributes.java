@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -23,6 +26,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * To get the question text use {@code getQuestionDetails().questionText}
      */
     public Text questionMetaData;
+    public Text questionDescription;
     public int questionNumber;
     public FeedbackQuestionType questionType;
     public FeedbackParticipantType giverType;
@@ -45,6 +49,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.courseId = fq.getCourseId();
         this.creatorEmail = fq.getCreatorEmail();
         this.questionMetaData = fq.getQuestionMetaData();
+        this.questionDescription = fq.getQuestionDescription() == null
+                                   ? null
+                                   : new Text(Sanitizer.sanitizeForRichText(fq.getQuestionDescription().getValue()));
         this.questionNumber = fq.getQuestionNumber();
         this.questionType = fq.getQuestionType();
         this.giverType = fq.getGiverType();
@@ -58,6 +65,31 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.updatedAt = fq.getUpdatedAt();
         
         removeIrrelevantVisibilityOptions();
+    }
+
+    private FeedbackQuestionAttributes(FeedbackQuestionAttributes other) {
+        this.feedbackQuestionId = other.getId();
+        this.feedbackSessionName = other.getFeedbackSessionName();
+        this.courseId = other.getCourseId();
+        this.creatorEmail = other.getCreatorEmail();
+        this.questionMetaData = other.getQuestionMetaData();
+        this.questionNumber = other.getQuestionNumber();
+        this.questionType = other.getQuestionType();
+        this.giverType = other.getGiverType();
+        this.recipientType = other.getRecipientType();
+        this.numberOfEntitiesToGiveFeedbackTo = other.getNumberOfEntitiesToGiveFeedbackTo();
+        this.showResponsesTo = new ArrayList<FeedbackParticipantType>(other.getShowResponsesTo());
+        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>(other.getShowGiverNameTo());
+        this.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(other.getShowRecipientNameTo());
+        
+        this.createdAt = other.getCreatedAt();
+        this.updatedAt = other.getUpdatedAt();
+        
+        removeIrrelevantVisibilityOptions();
+    }
+    
+    public FeedbackQuestionAttributes getCopy() {
+        return new FeedbackQuestionAttributes(this);
     }
 
     public Date getCreatedAt() {
@@ -80,7 +112,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     @Override
     public FeedbackQuestion toEntity() {
         return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
-                                    questionMetaData, questionNumber, questionType, giverType,
+                                    questionMetaData, questionDescription, questionNumber, questionType, giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
                                     showResponsesTo, showGiverNameTo, showRecipientNameTo);
     }
@@ -90,7 +122,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return "FeedbackQuestionAttributes [feedbackSessionName="
                + feedbackSessionName + ", courseId=" + courseId
                + ", creatorEmail=" + creatorEmail + ", questionText="
-               + questionMetaData + ", questionNumber=" + questionNumber
+               + questionMetaData + ", questionDescription=" + questionDescription
+               + ", questionNumber=" + questionNumber
                + ", questionType=" + questionType + ", giverType=" + giverType
                + ", recipientType=" + recipientType
                + ", numberOfEntitiesToGiveFeedbackTo="
@@ -310,6 +343,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
         result = prime * result + ((questionMetaData == null) ? 0 : questionMetaData.hashCode());
 
+        result = prime * result + ((questionDescription == null) ? 0 : questionDescription.hashCode());
+
         result = prime * result + ((questionType == null) ? 0 : questionType.hashCode());
 
         result = prime * result + ((recipientType == null) ? 0 : recipientType.hashCode());
@@ -383,6 +418,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             return false;
         }
 
+        if (questionDescription == null) {
+            if (other.questionDescription != null) {
+                return false;
+            }
+        } else if (!questionDescription.equals(other.questionDescription)) {
+            return false;
+        }
+
         if (questionType != other.questionType) {
             return false;
         }
@@ -426,6 +469,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
         if (newAttributes.questionMetaData == null) {
             newAttributes.questionMetaData = this.questionMetaData;
+        }
+
+        if (newAttributes.questionDescription == null) {
+            newAttributes.questionDescription = this.questionDescription;
         }
 
         if (newAttributes.questionType == null) {
@@ -499,26 +546,28 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public void sanitizeForSaving() {
-        this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
-        this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.creatorEmail = Sanitizer.sanitizeEmail(creatorEmail);
+        this.questionDescription = this.questionDescription == null
+                                   ? null
+                                   : new Text(Sanitizer.sanitizeForRichText(this.questionDescription.getValue()));
     }
-
+    
+    private boolean isValidJsonString(String jsonString) {
+        try {
+            new JSONObject(jsonString);
+        } catch (JSONException e) {
+            return false;
+        }
+        return true;
+    }
+    
     /** 
      * This method converts the given Feedback*QuestionDetails object to JSON for storing
      * 
      * @param questionDetails
      */
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
-        // For Text questions, the questionText simply contains the question, not a JSON
-        // This is due to legacy data in the data store before there are multiple question types
-        if (questionDetails.getQuestionType() == FeedbackQuestionType.TEXT) {
-            questionMetaData = new Text(questionDetails.getQuestionText());
-        } else {
-            Gson gson = Utils.getTeammatesGson();
-            questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
-        }
+        Gson gson = Utils.getTeammatesGson();
+        questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
     }
 
     /** 
@@ -527,13 +576,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * @return The Feedback*QuestionDetails object representing the question's details
      */
     public FeedbackQuestionDetails getQuestionDetails() {
-        // For Text questions, the questionText simply contains the question, not a JSON
-        // This is due to legacy data in the data store before there are multiple question types
-        if (questionType == FeedbackQuestionType.TEXT) {
-            return new FeedbackTextQuestionDetails(questionMetaData.getValue());
+        final String questionMetaDataValue = questionMetaData.getValue();
+        // For old Text questions, the questionText simply contains the question, not a JSON
+        if (questionType == FeedbackQuestionType.TEXT && !isValidJsonString(questionMetaDataValue)) {
+            return new FeedbackTextQuestionDetails(questionMetaDataValue);
         }
         Gson gson = Utils.getTeammatesGson();
-        return gson.fromJson(questionMetaData.getValue(), getFeedbackQuestionDetailsClass());
+        return gson.fromJson(questionMetaDataValue, getFeedbackQuestionDetailsClass());
     }
 
     /** 
@@ -563,6 +612,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     public Text getQuestionMetaData() {
         return questionMetaData;
+    }
+
+    public Text getQuestionDescription() {
+        return questionDescription;
+    }
+
+    public void setQuestionDescription(Text questionDescription) {
+        this.questionDescription = questionDescription;
     }
 
     public int getQuestionNumber() {

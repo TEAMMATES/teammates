@@ -10,7 +10,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.backdoor.BackDoorServlet;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -279,7 +278,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     private void verifyPictureIsPresent(String pictureKey) {
-        assertEquals(BackDoorServlet.RETURN_VALUE_TRUE, BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
+        assertTrue(BackDoor.isPicturePresentInGcs(pictureKey));
     }
 
     private StudentProfilePage getProfilePageForStudent(String studentId) {

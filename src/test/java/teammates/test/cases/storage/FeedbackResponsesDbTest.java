@@ -93,8 +93,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testCreateDeleteFeedbackResponse()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateDeleteFeedbackResponse() throws Exception {
         
         ______TS("standard success case");
         
@@ -141,9 +140,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.createEntity(fra);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE,
-                                                      "invalid course id!", FieldValidator.REASON_INCORRECT_FORMAT),
-                                        e.getLocalizedMessage());
+            AssertHelper.assertContains(
+                    getPopulatedErrorMessage(
+                        FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid course id!",
+                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
+                    e.getLocalizedMessage());
         }
         
     }
@@ -773,9 +775,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.updateFeedbackResponse(invalidFra);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE,
-                                            "invalid course_", FieldValidator.REASON_INCORRECT_FORMAT),
-                                        e.getLocalizedMessage());
+            AssertHelper.assertContains(
+                    getPopulatedErrorMessage(
+                        FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid course_",
+                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
+                    e.getLocalizedMessage());
         }
         
         ______TS("feedback response does not exist");

@@ -101,6 +101,19 @@ a#editUncommonSettingsButton:hover{
     cursor: hand;
 }
 
+/*
+Allow only mouse hover events for the element.
+!important is required to override Bootstrap .disabled class matches
+which usually match 2 classes (eg .btn.disabled)
+*/
+.mouse-hover-only {
+    pointer-events: auto !important;
+}
+
+.mouse-hover-only:active {
+    pointer-events: none !important;
+}
+
 .row-answered {
     background-color: #dff0d8;
 }
@@ -221,6 +234,14 @@ Apply to thead to make headers not bold.
 
 .padding-right-25px {
     padding-right: 25px !important;
+}
+
+.padding-left-35px {
+    padding-left: 35px;
+}
+
+.padding-left-7px {
+    padding-left: 7px;
 }
 
 .padding-top-0 {
@@ -374,7 +395,12 @@ Apply to thead to make headers not bold.
     border: 0;
 }
 
-/* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */ 
+.tool-tip-decorate {
+    border-bottom: 1px dotted #808080;
+    text-decoration: none;
+}
+
+/* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
 /* Prevents content overflow in navbar*/
 @media (min-width: 768px) and (max-width: 991px) {
     .container>.navbar-header {
@@ -529,6 +555,20 @@ Apply to thead to make headers not bold.
 
 .course-id-table-width {
     min-width: 100px;
+}
+
+.question-recommended-length {
+    color: gray;
+}
+
+.question-recommended-length > span {
+    margin-left: 7px;
+    border-bottom: 1px dotted;
+}
+
+.question-recommended-length > input {
+    width: 80px;
+    display: inline;
 }
 
 .session-name-table-width {
@@ -700,7 +740,7 @@ Apply to thead to make headers not bold.
 }
 
 /*////////////////////////////////////////////////////////////
-/////////////////////// Modal Dialogs ////////////////////////
+/////////////////////// Modal Dialogs ///////////////////////
 //////////////////////////////////////////////////////////*/
 
 .modal-header {
@@ -712,6 +752,58 @@ Apply to thead to make headers not bold.
     padding: 14px 15px 15px;
     margin-top: 0px;
 }
+
+/*////////////////////////////////////////////////////////////
+////////////////// Dropdowns with Submenus //////////////////
+//////////////////////////////////////////////////////////*/
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu > a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #cccccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover > a:after {
+    border-left-color: #ffffff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left > .dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+ }
 
 /*////////////////////////////////////////////////////////////
 ////////////////////////// Footer ///////////////////////////
