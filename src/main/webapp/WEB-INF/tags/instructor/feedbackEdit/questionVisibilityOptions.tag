@@ -18,7 +18,7 @@
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="visibility-title">Visibility</b> (Who can see the responses?)
     </div>
-    <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-15px background-color-light-green">
+    <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-15px">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             ${fqForm.visibilitySettings.dropdownMenuLabel}
         </button>
