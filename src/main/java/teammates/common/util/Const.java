@@ -436,9 +436,9 @@ public final class Const {
                     new LinkedHashMap<String, String>();
 
             visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS",
-                                       "Shown anonymously to recipient and instructors");
+                                     "Shown anonymously to recipient and instructors");
             visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS",
-                                       "Shown anonymously to recipient, visible to instructors");
+                                     "Shown anonymously to recipient, visible to instructors");
             visibilityOptionInit.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");
             visibilityOptionInit.put("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS", "Visible to recipient and instructors");
 

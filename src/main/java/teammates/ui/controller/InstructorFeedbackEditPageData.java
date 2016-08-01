@@ -129,12 +129,12 @@ public class InstructorFeedbackEditPageData extends PageData {
         for (FeedbackParticipantType giverType : question.showGiverNameTo) {
             isGiverNameVisibleFor.put(giverType.name(), true);
         }
-
+        
         Map<String, Boolean> isRecipientNameVisibleFor = new HashMap<String, Boolean>();
         for (FeedbackParticipantType recipientType : question.showRecipientNameTo) {
             isRecipientNameVisibleFor.put(recipientType.name(), true);
         }
-
+        
         Map<String, Boolean> isResponsesVisibleFor = new HashMap<String, Boolean>();
         for (FeedbackParticipantType participantType : question.showResponsesTo) {
             isResponsesVisibleFor.put(participantType.name(), true);
