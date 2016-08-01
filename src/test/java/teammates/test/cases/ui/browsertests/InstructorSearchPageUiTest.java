@@ -71,6 +71,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         
         ______TS("search for student comments");
         
+        searchContent = "student comment";
         searchPage.clickStudentCommentCheckBox();
         searchPage.clickStudentCheckBox();
         searchPage.clickSearchButton();
@@ -78,6 +79,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         
         ______TS("search for feedback response comments");
         
+        searchContent = "response comment";
         searchPage.clickStudentCommentCheckBox();
         searchPage.clickFeedbackResponseCommentCheckBox();
         searchPage.clickSearchButton();
@@ -105,12 +107,12 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         ______TS("search for students");
         
         searchPage.clearSearchBox();
-        searchContent = "student1";
+        searchContent = "Course1 In student1";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentsForStudent1.html");
         searchPage.clearSearchBox();
-        searchContent = "student2";
+        searchContent = "In student2";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.clickAndHoverPicture("studentphoto-c0.1");

@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-import java.util.List;
+import teammates.common.datatransfer.FeedbackParticipantType;
 
 /**
  * Data model for the settings common to all question types,
@@ -10,27 +10,14 @@ import java.util.List;
  * Used on instructorFeedbackEdit.jsp
  */
 public class FeedbackQuestionFeedbackPathSettings {
-    private List<ElementTag> giverParticipantOptions;
-    private List<ElementTag> recipientParticipantOptions;
+
+    private FeedbackParticipantType selectedGiver;
+    private FeedbackParticipantType selectedRecipient;
+
+    private boolean isCommonPathSelected;
     
     private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
     private int numOfEntitiesToGiveFeedbackToValue;
-
-    public List<ElementTag> getGiverParticipantOptions() {
-        return giverParticipantOptions;
-    }
-
-    public void setGiverParticipantOptions(List<ElementTag> giverParticipantOptions) {
-        this.giverParticipantOptions = giverParticipantOptions;
-    }
-
-    public List<ElementTag> getRecipientParticipantOptions() {
-        return recipientParticipantOptions;
-    }
-
-    public void setRecipientParticipantOptions(List<ElementTag> recipientParticipantOptions) {
-        this.recipientParticipantOptions = recipientParticipantOptions;
-    }
 
     public boolean isNumberOfEntitiesToGiveFeedbackToChecked() {
         return isNumberOfEntitiesToGiveFeedbackToChecked;
@@ -48,4 +35,27 @@ public class FeedbackQuestionFeedbackPathSettings {
         this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
     }
     
+    public boolean isCommonPathSelected() {
+        return isCommonPathSelected;
+    }
+
+    public void setCommonPathSelected(boolean isCommonPathSelected) {
+        this.isCommonPathSelected = isCommonPathSelected;
+    }
+
+    public FeedbackParticipantType getSelectedRecipient() {
+        return selectedRecipient;
+    }
+
+    public void setSelectedRecipient(FeedbackParticipantType selectedRecipient) {
+        this.selectedRecipient = selectedRecipient;
+    }
+
+    public FeedbackParticipantType getSelectedGiver() {
+        return selectedGiver;
+    }
+
+    public void setSelectedGiver(FeedbackParticipantType selectedGiver) {
+        this.selectedGiver = selectedGiver;
+    }
 }
