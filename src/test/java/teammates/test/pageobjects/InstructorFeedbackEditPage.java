@@ -473,27 +473,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickVisibilityPreviewForQuestion1() {
-        click(browser.driver.findElement(By.className("visibilityMessageButton")));
-    }
-    
-    public void clickVisibilityPreviewForQuestion(int qnNumber) {
-        click(browser.driver.findElement(By.id("visibilityMessageButton-" + qnNumber)));
-    }
-    
-    public void clickVisibilityOptionsForQuestion(int qnNumber) {
-        click(browser.driver.findElement(By.id("visibilityOptionsLabel-" + qnNumber)));
-    }
-    
-    public void clickVisibilityPreviewForNewQuestion() {
-        click(browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityMessageButton")));
-    }
-    
-    public void clickVisibilityOptionsForNewQuestion() {
-        click(browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityOptionsLabel")));
-    }
-    
-    public void selectCustomVisibilityOption(int qnNumber) {
+    public void enableVisibilityOptions(int qnNumber) {
         click(browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber + " .visibility-options-dropdown "
                                                         + "a[data-option-name=\"OTHER\"]")));
     }
@@ -1070,30 +1050,14 @@ public class InstructorFeedbackEditPage extends AppPage {
                 By.cssSelector("#question-copy-modal-status.alert-danger")).getText();
     }
     
-    public void clickEditLabel(int questionNumber) {
-        click(getEditLabel(questionNumber));
-    }
-    
-    public boolean verifyPreviewLabelIsActive(int questionNumber) {
-        return getPreviewLabel(questionNumber).getAttribute("class").contains("active");
-    }
-    
-    public boolean verifyEditLabelIsActive(int questionNumber) {
-        return getEditLabel(questionNumber).getAttribute("class").contains("active");
-    }
-    
-    public boolean verifyVisibilityPreviewIsDisplayed(int questionNumber) {
-        WebElement visibilityPreviewDiv = getVisibilityMessage(questionNumber);
-        List<WebElement> visibilityMessages = visibilityPreviewDiv.findElements(By.cssSelector("ul > li"));
-        return visibilityPreviewDiv.isDisplayed() && !visibilityMessages.isEmpty();
+    public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
+        WebElement visibilityMessageDiv = getVisibilityMessage(questionNumber);
+        List<WebElement> visibilityMessages = visibilityMessageDiv.findElements(By.cssSelector("ul > li"));
+        boolean isLoadVisibilityMessageAjaxError =
+                visibilityMessages.get(0).getText().equals("Error loading visibility hint. Click here to retry.");
+        return !visibilityMessages.isEmpty() && !isLoadVisibilityMessageAjaxError;
     }
 
-    public boolean isVisibilityPreviewDisplayedForNewQuestion() {
-        WebElement visibilityPreviewDiv = browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityMessage"));
-        List<WebElement> visibilityMessages = visibilityPreviewDiv.findElements(By.cssSelector("ul > li"));
-        return visibilityPreviewDiv.isDisplayed() && !visibilityMessages.isEmpty();
-    }
-    
     public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
         return getVisibilityOptions(questionNumber).isDisplayed();
     }
@@ -1103,14 +1067,6 @@ public class InstructorFeedbackEditPage extends AppPage {
                 By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
     }
 
-    public WebElement getPreviewLabel(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityMessageButton-" + questionNumber));
-    }
-    
-    public WebElement getEditLabel(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityOptionsLabel-" + questionNumber));
-    }
-    
     public WebElement getVisibilityMessage(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityMessage-" + questionNumber));
     }
