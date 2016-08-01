@@ -92,10 +92,15 @@ public class EmailGenerator {
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
             FeedbackSessionAttributes session, StudentAttributes student) {
+        
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        EmailWrapper email = generateFeedbackSessionEmailBaseForStudentSubmissionConfirmation(course, session,
-                student);
-        return email;
+        String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getFeedbackSessionName())
+                .withRegistrationKey(StringHelper.encrypt(student.key))
+                .withStudentEmail(student.email)
+                .toAbsoluteString();
+        return generateSubmissionConfirmationEmail(course, session, submitUrl, student.name, student.email);
     }
 
     /**
@@ -105,10 +110,12 @@ public class EmailGenerator {
             FeedbackSessionAttributes session, InstructorAttributes instructor) {
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        EmailWrapper email = generateFeedbackSessionEmailBaseForInstructorSubmissionConfirmation(course, session,
-                instructor);
-        
-        return email;
+        String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getFeedbackSessionName())
+                .toAbsoluteString();
+
+        return generateSubmissionConfirmationEmail(course, session, submitUrl, instructor.name, instructor.email);
     }
     
     private List<EmailWrapper> generateFeedbackSessionEmailBasesForInstructorReminders(
@@ -145,28 +152,6 @@ public class EmailGenerator {
         email.setContent(emailBody);
         return email;
         
-    }
-
-    private EmailWrapper generateFeedbackSessionEmailBaseForInstructorSubmissionConfirmation(
-            CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor) {
-        String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .toAbsoluteString();
-
-        return generateSubmissionConfirmationEmail(course, session, submitUrl, instructor.name, instructor.email);
-    }
-
-    private EmailWrapper generateFeedbackSessionEmailBaseForStudentSubmissionConfirmation(
-            CourseAttributes course, FeedbackSessionAttributes session, StudentAttributes student) {
-        
-        String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .withRegistrationKey(StringHelper.encrypt(student.key))
-                                 .withStudentEmail(student.email)
-                                 .toAbsoluteString();
-        return generateSubmissionConfirmationEmail(course, session, submitUrl, student.name, student.email);
     }
     
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructorReminders(
