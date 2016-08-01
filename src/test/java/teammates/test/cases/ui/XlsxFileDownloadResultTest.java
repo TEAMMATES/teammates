@@ -2,6 +2,8 @@ package teammates.test.cases.ui;
 
 import java.io.IOException;
 
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -18,7 +20,8 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
                 "/page/instructorFeedbackResultsDownload",
                 null, null, "Normal name",
                 fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
-        assertEquals(1, download.getWorkBook().getSheetAt(0).getLastRowNum());
+        XSSFSheet firstSheet = download.getWorkBook().getSheetAt(0);
+        assertEquals(1, firstSheet.getLastRowNum());
     }
 
     @Test
@@ -28,8 +31,9 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
                 "/page/instructorFeedbackResultsDownload",
                 null, null, "Normal name",
                 fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
-        assertEquals(1, download.getWorkBook().getSheetAt(0).getLastRowNum());
-        assertEquals(1, download.getWorkBook().getSheetAt(0).getRow(1).getLastCellNum());
+        XSSFSheet firstSheet = download.getWorkBook().getSheetAt(0);
+        assertEquals(1, firstSheet.getLastRowNum());
+        assertEquals(1, firstSheet.getRow(1).getLastCellNum());
     }
 
     @Test
@@ -39,8 +43,9 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
                 "/page/instructorFeedbackResultsDownload",
                 null, null, "Normal name",
                 fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
-        assertEquals(1, download.getWorkBook().getSheetAt(0).getLastRowNum());
-        assertEquals(2, download.getWorkBook().getSheetAt(0).getRow(1).getLastCellNum());
+        XSSFSheet firstSheet = download.getWorkBook().getSheetAt(0);
+        assertEquals(1, firstSheet.getLastRowNum());
+        assertEquals(2, firstSheet.getRow(1).getLastCellNum());
 
     }
 
@@ -51,9 +56,10 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
                 "/page/instructorFeedbackResultsDownload",
                 null, null, "Normal name",
                 fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
-        assertEquals(2, download.getWorkBook().getSheetAt(0).getLastRowNum());
-        assertEquals(2, download.getWorkBook().getSheetAt(0).getRow(1).getLastCellNum());
-        assertEquals(2, download.getWorkBook().getSheetAt(0).getRow(2).getLastCellNum());
+        XSSFSheet firstSheet = download.getWorkBook().getSheetAt(0);
+        assertEquals(2, firstSheet.getLastRowNum());
+        assertEquals(2, firstSheet.getRow(1).getLastCellNum());
+        assertEquals(2, firstSheet.getRow(2).getLastCellNum());
     }
 
     @Test
@@ -64,12 +70,13 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
                 "/page/instructorFeedbackResultsDownload",
                 null, null, "Normal name",
                 fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
-        assertEquals(3, download.getWorkBook().getSheetAt(0).getLastRowNum());
-        assertEquals(2, download.getWorkBook().getSheetAt(0).getRow(1).getLastCellNum());
-        assertEquals(2, download.getWorkBook().getSheetAt(0).getRow(2).getLastCellNum());
+        XSSFSheet firstSheet = download.getWorkBook().getSheetAt(0);
+        assertEquals(3, firstSheet.getLastRowNum());
+        assertEquals(2, firstSheet.getRow(1).getLastCellNum());
+        assertEquals(2, firstSheet.getRow(2).getLastCellNum());
         // Third row should only have one cell since it a single word with a
         // comma included.
-        assertEquals(1, download.getWorkBook().getSheetAt(0).getRow(3).getLastCellNum());
+        assertEquals(1, firstSheet.getRow(3).getLastCellNum());
 
     }
 
@@ -81,10 +88,12 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
                 "/page/instructorFeedbackResultsDownload",
                 null, null, "Normal name",
                 fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
-        assertEquals(2, download.getWorkBook().getSheetAt(0).getLastRowNum());
-        assertEquals(2, download.getWorkBook().getSheetAt(0).getRow(1).getLastCellNum());
-        assertEquals(2, download.getWorkBook().getSheetAt(0).getRow(2).getLastCellNum());
-        assertTrue(download.getWorkBook().getSheetAt(0).getRow(2).getRowStyle().getFont().getBold());
-        assertEquals(15, download.getWorkBook().getSheetAt(0).getRow(2).getRowStyle().getFont().getFontHeightInPoints());
+        XSSFSheet firstSheet = download.getWorkBook().getSheetAt(0);
+        assertEquals(2, firstSheet.getLastRowNum());
+        assertEquals(2, firstSheet.getRow(1).getLastCellNum());
+        XSSFRow questionRow = firstSheet.getRow(2);
+        assertEquals(2, questionRow.getLastCellNum());
+        assertTrue(questionRow.getRowStyle().getFont().getBold());
+        assertEquals(15, questionRow.getRowStyle().getFont().getFontHeightInPoints());
     }
 }
