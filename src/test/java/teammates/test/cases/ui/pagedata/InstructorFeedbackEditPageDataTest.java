@@ -32,9 +32,6 @@ import teammates.ui.template.FeedbackSessionsForm;
 public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
 
     private static final int DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO = 1;
-    private static final int NUM_GIVER_OPTIONS = 4;
-    private static final int NUM_RECIPIENT_OPTIONS = 8;
-    
     private static DataBundle dataBundle = getTypicalDataBundle();
 
     @Test
@@ -132,8 +129,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         FeedbackQuestionFeedbackPathSettings feedbackPath = questionForms.get(0).getFeedbackPathSettings();
         assertTrue(feedbackPath.isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO, feedbackPath.getNumOfEntitiesToGiveFeedbackToValue());
-        assertEquals(NUM_RECIPIENT_OPTIONS, feedbackPath.getRecipientParticipantOptions().size());
-        assertEquals(NUM_GIVER_OPTIONS, feedbackPath.getGiverParticipantOptions().size());
         assertEquals(1, questionForms.get(0).getQuestionIndex());
         
         // Test visibility settings for the zero'th question form
@@ -148,10 +143,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
        
         assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO,
                      questionForms.get(1).getFeedbackPathSettings().getNumOfEntitiesToGiveFeedbackToValue());
-        assertEquals(NUM_RECIPIENT_OPTIONS,
-                     questionForms.get(1).getFeedbackPathSettings().getRecipientParticipantOptions().size());
-        assertEquals(NUM_GIVER_OPTIONS,
-                     questionForms.get(1).getFeedbackPathSettings().getGiverParticipantOptions().size());
         
         verifyMapContains(questionForms.get(1).getVisibilitySettings().getResponseVisibleFor(),
                           Arrays.asList(FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.RECEIVER));
@@ -167,10 +158,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(questionForms.get(2).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO,
                      questionForms.get(2).getFeedbackPathSettings().getNumOfEntitiesToGiveFeedbackToValue());
-        assertEquals(NUM_RECIPIENT_OPTIONS,
-                     questionForms.get(2).getFeedbackPathSettings().getRecipientParticipantOptions().size());
-        assertEquals(NUM_GIVER_OPTIONS,
-                     questionForms.get(2).getFeedbackPathSettings().getGiverParticipantOptions().size());
                 
         verifyMapContains(questionForms.get(2).getVisibilitySettings().getResponseVisibleFor(),
                           Arrays.asList(FeedbackParticipantType.INSTRUCTORS,

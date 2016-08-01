@@ -135,6 +135,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         feedbackEditPage.fillNewQuestionBox("const sum qn");
         feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.fillConstSumPointsBox("30", -1);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
