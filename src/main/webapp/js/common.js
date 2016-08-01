@@ -615,7 +615,7 @@ function setStatusMessageToForm(message, status, form) {
     var $copyOfStatusMessagesToUser = populateStatusMessageDiv(message, status).clone().show();
     $(DIV_STATUS_MESSAGE).remove();
     $(form).prepend($copyOfStatusMessagesToUser);
-    scrollToElement($copyOfStatusMessagesToUser[0], { offset: window.innerHeight/8 * -1,
+    scrollToElement($copyOfStatusMessagesToUser[0], { offset: window.innerHeight /8 * -1,
                                                       duration: 1000 });
 
 }
