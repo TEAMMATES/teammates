@@ -167,18 +167,22 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private boolean isVisibilitySetToAnonymousToRecipientAndInstructors(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleToNotJustGiver = !question.showResponsesTo.isEmpty();
-        boolean giverNameVisibleOnlyToGiver = question.showGiverNameTo.isEmpty();
+        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+                && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
+        boolean giverNameVisibleToNoOne = question.showGiverNameTo.isEmpty();
 
-        return responsesVisibleToNotJustGiver && giverNameVisibleOnlyToGiver;
+        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleToNoOne;
     }
 
     private boolean isVisibilitySetToAnonymousToRecipientVisibleToInstructors(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleToNotJustInstructors = question.showResponsesTo.size() > 1;
+        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+                && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
         boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
-        return responsesVisibleToNotJustInstructors && giverNameVisibleOnlyToInstructors;
+        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToInstructors;
     }
 
     private boolean isVisibilitySetToVisibleToInstructorsOnly(FeedbackQuestionAttributes question) {
