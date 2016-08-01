@@ -1,10 +1,14 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public enum FeedbackParticipantType {
     // booleans represent: isValidGiver?, isValidRecipient? isValidViewer?
     // Strings represents: option shown in giver select box, option shown in recipient select box,
     // text displayed during feedback submission respectively.
-    SELF(true, true, false, "Me (Session creator)", "Giver (Self feedback)", ""),
+    SELF(true, true, false, "Feedback session creator (i.e., me)", "Giver (Self feedback)", ""),
     STUDENTS(true, true, true, "Students in this course", "Other students in the course", "Other students in the course"),
     INSTRUCTORS(true, true, true, "Instructors in this course", "Instructors in the course", "Instructors in this course"),
     TEAMS(true, true, false, "Teams in this course", "Other teams in the course", ""),
@@ -16,6 +20,28 @@ public enum FeedbackParticipantType {
     NONE(false, true, false, "", "Nobody specific (For general class feedback)", ""),
     // Used by feedbackResponseComment:
     GIVER(false, false, true, "", "", "");
+
+    public static final List<FeedbackParticipantType> GIVERS;
+    static {
+        List<FeedbackParticipantType> giverInitializer = new ArrayList<FeedbackParticipantType>();
+        for (FeedbackParticipantType participantType : FeedbackParticipantType.values()) {
+            if (participantType.isValidGiver()) {
+                giverInitializer.add(participantType);
+            }
+        }
+        GIVERS = Collections.unmodifiableList(giverInitializer);
+    }
+
+    public static final List<FeedbackParticipantType> RECIPIENTS;
+    static {
+        List<FeedbackParticipantType> recipientInitializer = new ArrayList<FeedbackParticipantType>();
+        for (FeedbackParticipantType participantType : FeedbackParticipantType.values()) {
+            if (participantType.isValidRecipient()) {
+                recipientInitializer.add(participantType);
+            }
+        }
+        RECIPIENTS = Collections.unmodifiableList(recipientInitializer);
+    }
 
     private final boolean validGiver;
     private final boolean validRecipient;
@@ -100,5 +126,19 @@ public enum FeedbackParticipantType {
         default:
             return super.toString();
         }
+    }
+
+    /**
+     * Gets {@code displayNameGiver} property
+     */
+    public String getDisplayNameGiver() {
+        return displayNameGiver;
+    }
+
+    /**
+     * Gets {@code displayNameRecipient} property
+     */
+    public String getDisplayNameRecipient() {
+        return displayNameRecipient;
     }
 }

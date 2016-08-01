@@ -1003,4 +1003,13 @@ public abstract class AppPage {
         browser.driver.manage().window().maximize();
     }
 
+    /**
+     * @return true if the element is in the user's visible area of a web page.
+     */
+    public boolean isElementInViewport(String id) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        String script = "return isWithinView(document.getElementById('" + id + "'));";
+        return (boolean) jsExecutor.executeScript(script);
+    }
+
 }
