@@ -727,14 +727,6 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(By.id("constSumPoints" + pointsOption + "-" + questionNumber)));
     }
     
-    public void selectGiverTypeForQuestion1(String giverType) {
-        selectDropdownByVisibleValue(giverDropdownForQuestion1, giverType);
-    }
-    
-    public void selectRecipientTypeForQuestion1(String recipientType) {
-        selectDropdownByVisibleValue(recipientDropdownForQuestion1, recipientType);
-    }
-    
     public String getGiverTypeForQuestion1() {
         return giverDropdownForQuestion1.getAttribute("value");
     }
@@ -819,6 +811,24 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void selectRecipientsToBeStudents(int qnNumber) {
         WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
         selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
+    }
+    
+    public void enableOtherFeedbackPathOptions(int qnNumber) {
+        WebElement questionTable = browser.driver.findElement(By.id("questionTable-" + qnNumber));
+        WebElement dropdownButton = questionTable.findElement(By.cssSelector(".feedback-path-dropdown > button"));
+        WebElement otherOption = questionTable.findElement(
+                                     By.className("feedback-path-dropdown-option-other"));
+        click(dropdownButton);
+        click(otherOption);
+    }
+
+    public void enableOtherFeedbackPathOptionsForNewQuestion() {
+        WebElement questionTable = browser.driver.findElement(By.id("questionTable--1"));
+        WebElement dropdownButton = questionTable.findElement(By.cssSelector(".feedback-path-dropdown > button"));
+        WebElement otherOption = questionTable.findElement(
+                                     By.className("feedback-path-dropdown-option-other"));
+        click(dropdownButton);
+        click(otherOption);
     }
 
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
