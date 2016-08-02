@@ -51,6 +51,8 @@ var FEEDBACK_QUESTION_CONSTSUMOPTION = 'constSumOption';
 var FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE = 'constSumOptionTable';
 var FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = 'constSumToRecipients';
 var FEEDBACK_QUESTION_CONSTSUMPOINTS = 'constSumPoints';
+var FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = 'constSumPointsForEachOption';
+var FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = 'constSumPointsForEachRecipient';
 var FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = 'noofchoicecreated';
 var FEEDBACK_QUESTION_NUMSCALE_MIN = 'numscalemin';
 var FEEDBACK_QUESTION_NUMSCALE_MAX = 'numscalemax';
@@ -775,16 +777,16 @@ function sanitizeForJs(rawString) {
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
     var searchKey = $(searchKeyId).val();
-    // trim symbols around every word in the string
-    var symbolTrimmedSearchKey = [];
-    $.each(searchKey.split(/["'.-]/), function() {
-        symbolTrimmedSearchKey.push($.trim(this));
+    // split search key string on symbols and spaces and add to searchKeyList
+    var searchKeyList = [];
+    $.each(searchKey.split(/[ "'.-]/), function() {
+        searchKeyList.push($.trim(this));
     });
-    // remove empty elements from symbolTrimmedSearchKey
-    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n) {
+    // remove empty elements from searchKeyList
+    searchKeyList = searchKeyList.filter(function(n) {
         return n !== '';
     });
-    $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
+    $(sectionToHighlight).highlight(searchKeyList);
 }
 
 /**

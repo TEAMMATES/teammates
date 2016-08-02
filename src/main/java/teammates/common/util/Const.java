@@ -1,8 +1,12 @@
 package teammates.common.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTimeZone;
 
@@ -426,6 +430,36 @@ public final class Const {
     }
     
     public static class FeedbackQuestion {
+
+        public static final Map<FeedbackParticipantType, List<FeedbackParticipantType>>
+                COMMON_FEEDBACK_PATHS;
+
+        static {
+            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer =
+                    new LinkedHashMap<FeedbackParticipantType, List<FeedbackParticipantType>>();
+
+            initializer.put(FeedbackParticipantType.SELF,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS)));
+
+            initializer.put(FeedbackParticipantType.STUDENTS,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS,
+                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)));
+
+            initializer.put(FeedbackParticipantType.INSTRUCTORS,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS)));
+
+            COMMON_FEEDBACK_PATHS = Collections.unmodifiableMap(initializer);
+        }
     
         // Mcq
         public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
@@ -642,8 +676,11 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
+        // TODO: rename FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION to a more accurate name
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = "constSumPointsForEachOption";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = "constSumPointsForEachRecipient";
         public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "constSumUnevenDistribution";
         public static final String FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED = "isNotSureAllowedCheck";
         public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
