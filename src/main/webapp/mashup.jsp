@@ -13,12 +13,12 @@
         <title>Teammates - Webpage Compilation</title>
         
         <link rel="shortcut icon" href="/favicon.png">
-        <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+        <link type="text/css" href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet">
+        <link type="text/css" href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet">
         <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
         <link type="text/css" href="/stylesheets/mashup.css" rel="stylesheet">
         <script type="text/javascript" src="/js/lib/jquery.min.js"></script>
-        <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
     </head>
     <body>
@@ -267,49 +267,49 @@
                 
                 <div class="pageinfo">Home Page</div>
                 <div id="index">
-                    <iframe class="full-width" src="../index.html"></iframe>
+                    <iframe class="full-width" src="/index.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Features Page</div>
                 <div id="features">
-                    <iframe class="full-width" src="../features.html"></iframe>
+                    <iframe class="full-width" src="/features.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">About Us Page</div>
                 <div id="about">
-                    <iframe class="full-width" src="../about.html"></iframe>
+                    <iframe class="full-width" src="/about.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Contact Page</div>
                 <div id="contact">
-                    <iframe class="full-width" src="../contact.html"></iframe>
+                    <iframe class="full-width" src="/contact.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Terms Of Use Page</div>
                 <div id="terms">
-                    <iframe class="full-width" src="../terms.html"></iframe>
+                    <iframe class="full-width" src="/terms.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Request Account Page</div>
                 <div id="request">
-                    <iframe class="full-width" src="../request.html"></iframe>
+                    <iframe class="full-width" src="/request.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Help Page</div>
                 <div id="studentHelp">
-                    <iframe class="full-width" src="../studentHelp.html"></iframe>
+                    <iframe class="full-width" src="/studentHelp.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Help Page</div>
                 <div id="instructorHelp">
-                    <iframe class="full-width" src="../instructorHelp.html"></iframe>
+                    <iframe class="full-width" src="/instructorHelp.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
@@ -352,15 +352,6 @@
                 $('#instructorFeedbackPreviewAsStudentPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.tmt #mainContent');
                 $('#instructorFeedbackPreviewAsInstructorPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.tmt #mainContent');
                 $('#instructorFeedbackSubmitPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
-                <%
-                    String instrQuestionId = null;
-                    if (FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3) != null) {
-                        instrQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3).getId();
-                %>
-                        $('#instructorFeedbackQuestionSubmitPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=instrQuestionId%> #mainContent');
-                <%
-                    }
-                %>
                 $('#instructorFeedbackResultsPageByGiverRecipientQuestion').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver-recipient-question #mainContent');
                 $('#instructorFeedbackResultsPageByRecipientGiverQuestion').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient-giver-question #mainContent');
                 $('#instructorFeedbackResultsPageByGiverQuestionRecipient').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver-question-recipient #mainContent');
@@ -383,15 +374,7 @@
                 $('#studentCourseDetailsPage').load('<%=Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104 #mainContent');
      
                 $('#studentFeedbackSubmitPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
-                <%
-                    String studentQuestionId = null;
-                    if (FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1) != null) {
-                        studentQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1).getId();
-                %>
-                        $('#studentFeedbackQuestionSubmitPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=studentQuestionId%> #mainContent');
-                <%
-                    }
-                %>
+
                 $('#studentFeedbackResultsPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
                 $('#studentCommentsPage').load('<%=Const.ActionURIs.STUDENT_COMMENTS_PAGE%>?user=alice.b.tmms&courseid=CS2104 #mainContent');
                 $('#adminHomePage').load('<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #mainContent');

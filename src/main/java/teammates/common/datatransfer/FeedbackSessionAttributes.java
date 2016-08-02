@@ -93,10 +93,11 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                      boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
                                      boolean isPublishedEmailEnabled, Set<String> instructorList,
                                      Set<String> studentList) {
-        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.creatorEmail = Sanitizer.sanitizeEmail(creatorId);
-        this.instructions = Sanitizer.sanitizeTextField(instructions);
+
+        this.feedbackSessionName = feedbackSessionName;
+        this.courseId = courseId;
+        this.creatorEmail = creatorId;
+        this.instructions = instructions == null ? null : new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));
         this.createdTime = createdTime;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -114,6 +115,21 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.respondingStudentList = studentList;
     }
     
+    private FeedbackSessionAttributes(FeedbackSessionAttributes other) {
+        this(other.feedbackSessionName, other.courseId, other.creatorEmail,
+            other.instructions, other.createdTime, other.startTime, other.endTime,
+            other.sessionVisibleFromTime, other.resultsVisibleFromTime, other.timeZone,
+            other.gracePeriod, other.feedbackSessionType,
+            other.sentOpenEmail, other.sentPublishedEmail,
+            other.isOpeningEmailEnabled, other.isClosingEmailEnabled,
+            other.isPublishedEmailEnabled, other.respondingInstructorList,
+            other.respondingStudentList);
+    }
+    
+    public FeedbackSessionAttributes getCopy() {
+        return new FeedbackSessionAttributes(this);
+    }
+
     public String getCourseId() {
         return courseId;
     }
@@ -131,7 +147,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
     
     public String getInstructionsString() {
-        return Sanitizer.sanitizeForHtml(instructions.getValue());
+        return Sanitizer.sanitizeForRichText(instructions.getValue());
     }
 
     @Override
@@ -407,11 +423,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public void sanitizeForSaving() {
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.creatorEmail = Sanitizer.sanitizeForHtml(creatorEmail);
 
         if (instructions != null) {
-            this.instructions = new Text(Sanitizer.sanitizeForHtml(instructions.getValue()));
+            this.instructions = new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));
         }
     }
 

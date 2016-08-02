@@ -108,7 +108,7 @@ public class InstructorCourseRemindAction extends Action {
         Map<String, JoinEmailData> logData = new TreeMap<String, JoinEmailData>();
         
         for (EmailWrapper email : emails) {
-            String recipient = email.getFirstRecipient();
+            String recipient = email.getRecipient();
             String userName = extractUserName(email.getContent());
             String regKey = extractRegistrationKey(email.getContent());
             logData.put(recipient, new JoinEmailData(userName, regKey));

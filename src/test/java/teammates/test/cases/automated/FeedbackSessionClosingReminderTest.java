@@ -176,18 +176,11 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         
         paramMap = createParamMapForAction(session2);
         fsClosingAction = new FeedbackSessionClosingMailAction(paramMap);
-        int course2StudentCount = 0; // there are no questions, so no students can see the session
-        int course2InstructorCount = 3;
-        String course2Name = CoursesLogic.inst().getCourse(session2.getCourseId()).getName();
         
+        // there are no questions, so no students can see the session => no students will be alerted
+        // => no instructors will be alerted
         preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
-        assertEquals(course2StudentCount + course2InstructorCount, preparedEmails.size());
-        
-        for (EmailWrapper email : preparedEmails) {
-            assertEquals(String.format(EmailType.FEEDBACK_CLOSING.getSubject(), course2Name,
-                                       session2.getFeedbackSessionName()),
-                         email.getSubject());
-        }
+        assertTrue(preparedEmails.isEmpty());
     }
     
     private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {

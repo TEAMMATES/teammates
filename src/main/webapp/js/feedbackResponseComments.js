@@ -119,54 +119,62 @@ var editCommentHandler = function(e) {
 
 var deleteCommentHandler = function(e) {
     var submitButton = $(this);
-    var formObject = $(this).parent();
-    var deletedCommentRow = $(this).closest('li');
-    var formData = formObject.serialize();
+    e.preventDefault();
+
+    BootboxWrapper.showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', function() {
+        var formObject = submitButton.parent();
+        var formData = formObject.serialize();
+        var panelHeading = submitButton.parents("[id^='panel_display-']").find('.panel-heading').first();
+
+        $.ajax({
+            type: 'POST',
+            url: submitButton.attr('href') + '?' + formData,
+            beforeSend: function() {
+                submitButton.html("<img src='/images/ajax-loader.gif'/>");
+            },
+            error: function() {
+                showErrorMessage('Failed to delete comment. Please try again.', submitButton);
+            },
+            success: function(data) {
+                if (data.isError) {
+                    showErrorMessage(data.errorMessage, submitButton);
+                } else if (isInCommentsPage()) {
+                    reloadFeedbackResponseComments(formObject, panelHeading);
+                } else {
+                    deleteCommentRow(submitButton);
+                }
+            }
+        });
+    }, null, BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
+};
+
+function deleteCommentRow(submitButton) {
+    var deletedCommentRow = submitButton.closest('li');
+    var frCommentList = submitButton.closest('.comments');
+
+    var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
+    if (numberOfItemInFrCommentList.length <= 2) {
+        deletedCommentRow.parent().hide();
+    }
+    if (frCommentList.find('li').length <= 1) {
+        frCommentList.hide();
+    }
+    deletedCommentRow.remove();
+    frCommentList.parent().find('div.delete_error_msg').remove();
+}
+
+function showErrorMessage(errorMessage, submitButton) {
     var editForm = submitButton.parent().next().next().next();
     var frCommentList = submitButton.closest('.comments');
-    var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
-    
-    e.preventDefault();
-    
-    $.ajax({
-        type: 'POST',
-        url: submitButton.attr('href') + '?' + formData,
-        beforeSend: function() {
-            submitButton.html("<img src='/images/ajax-loader.gif'/>");
-        },
-        error: function() {
-            if (editForm.is(':visible')) {
-                setFormErrorMessage(editForm.find('div > a'), 'Failed to delete comment. Please try again.');
-            } else if (frCommentList.parent().find('div.delete_error_msg').length === 0) {
-                frCommentList.after('<div class="delete_error_msg alert alert-danger">'
-                                    + 'Failed to delete comment. Please try again.</div>');
-            }
-            submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
-        },
-        success: function(data) {
-            if (data.isError) {
-                if (editForm.is(':visible')) {
-                    setFormErrorMessage(editForm.find('div > a'), data.errorMessage);
-                } else if (frCommentList.parent().find('div.delete_error_msg').length === 0) {
-                    frCommentList.after('<div class="delete_error_msg alert alert-danger">' + data.errorMessage + '</div>');
-                }
-                submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
-            } else if (isInCommentsPage()) {
-                reloadFeedbackResponseComments(formObject, panelHeading);
-            } else {
-                var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
-                if (numberOfItemInFrCommentList.length <= 2) {
-                    deletedCommentRow.parent().hide();
-                }
-                if (frCommentList.find('li').length <= 1) {
-                    frCommentList.hide();
-                }
-                deletedCommentRow.remove();
-                frCommentList.parent().find('div.delete_error_msg').remove();
-            }
-        }
-    });
-};
+
+    if (editForm.is(':visible')) {
+        setFormErrorMessage(editForm.find('div > a'), errorMessage);
+    } else if (frCommentList.parent().find('div.delete_error_msg').length === 0) {
+        frCommentList.after('<div class="delete_error_msg alert alert-danger">'
+                + errorMessage + '</div>');
+    }
+    submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
+}
 
 function registerResponseCommentsEvent() {
     $('body').on('click', 'form[class*="responseCommentAddForm"] > div > a[id^="button_save_comment_for_add"]',
@@ -249,12 +257,12 @@ function enableHoverToDisplayEditOptions() {
 $(document).ready(function() {
     registerResponseCommentsEvent();
     registerResponseCommentCheckboxEvent();
-    registerCheckboxEventForVisibilityOptions();
     enableHoverToDisplayEditOptions();
 });
 
 function removeUnwantedVisibilityOptions(commentId) {
-    var addFormId = 'showResponseCommentAddForm-' + commentId.split('-').splice(0, 3).join('-');
+    var commentIds = commentId.split('-');
+    var addFormId = 'showResponseCommentAddForm-' + commentIds.splice(0, commentIds.length).join('-');
     var checkboxesInInAddForm = $('#' + addFormId).find('tr').find('input.visibilityCheckbox');
     var valuesOfCheckbox = [];
     for (var i = 0; i < checkboxesInInAddForm.length; i++) {
@@ -294,8 +302,16 @@ function setFormErrorMessage(submitButton, msg) {
     }
 }
 
-function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
-    var id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, opts) {
+    var id;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
+    if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+    } else {
+        id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+    }
+
     $('#responseCommentTable' + id).show();
     if ($('#responseCommentTable' + id + ' > li').length <= 1) {
         $('#responseCommentTable' + id).css('margin-top', '15px');
@@ -304,8 +320,16 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
     $('#responseCommentAddForm' + id).focus();
 }
 
-function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
-    var id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, opts) {
+    var id;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
+    if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+    } else {
+        id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+    }
+
     if ($('#responseCommentTable' + id + ' > li').length <= 1) {
         $('#responseCommentTable' + id).css('margin-top', '0');
         $('#responseCommentTable' + id).hide();
@@ -314,13 +338,22 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
     removeFormErrorMessage($('#button_save_comment_for_add' + id));
 }
 
-function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
+function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, opts) {
     var id;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
     if (giverIndex || qnIndex || commentIndex) {
-        id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        if (isIncludeSection) {
+            id = '-' + opts.sectionIndex + '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        } else {
+            id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        }
+    } else if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + recipientIndex;
     } else {
         id = '-' + recipientIndex;
     }
+
     var commentBar = $('#plainCommentText' + id).parent().find('#commentBar' + id);
     commentBar.hide();
     $('#plainCommentText' + id).hide();
@@ -329,17 +362,57 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $('#responseCommentEditForm' + id + ' > div > textarea').focus();
 }
 
-function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIndex) {
+function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, opts) {
     var id;
-    if (questionIdx || responseIdx || commentIndex) {
-        if (commentIndex) {
-            id = '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx + '-' + commentIndex;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
+    if (questionIdx || responseIdx) {
+        if (isIncludeSection) {
+            id = '-' + opts.sectionIndex + '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx;
         } else {
             id = '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx;
         }
+    } else if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + sessionIdx;
     } else {
         id = '-' + sessionIdx;
     }
+
+    var visibilityEditForm = $('#visibility-options' + id);
+    if (visibilityEditForm.is(':visible')) {
+        visibilityEditForm.hide();
+        $('#frComment-visibility-options-trigger' + id)
+            .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+
+    } else {
+        visibilityEditForm.show();
+        $('#frComment-visibility-options-trigger' + id)
+            .html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+    }
+}
+
+function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIndex, opts) {
+    var id;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
+    if (questionIdx || responseIdx || commentIndex) {
+        if (commentIndex) {
+            if (isIncludeSection) {
+                id = '-' + opts.sectionIndex + '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx + '-' + commentIndex;
+            } else {
+                id = '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx + '-' + commentIndex;
+            }
+        } else if (isIncludeSection) {
+            id = '-' + opts.sectionIndex + '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx;
+        } else {
+            id = '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx;
+        }
+    } else if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + sessionIdx;
+    } else {
+        id = '-' + sessionIdx;
+    }
+
     var visibilityEditForm = $('#visibility-options' + id);
     if (visibilityEditForm.is(':visible')) {
         visibilityEditForm.hide();
@@ -353,13 +426,22 @@ function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentI
     }
 }
 
-function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
+function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, opts) {
     var id;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
     if (giverIndex || qnIndex || commentIndex) {
-        id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        if (isIncludeSection) {
+            id = '-' + opts.sectionIndex + '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        } else {
+            id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        }
+    } else if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + recipientIndex;
     } else {
         id = '-' + recipientIndex;
     }
+
     var commentBar = $('#plainCommentText' + id).parent().find('#commentBar' + id);
     commentBar.show();
     $('#plainCommentText' + id).show();
@@ -446,40 +528,4 @@ function updateBadgeForPendingComments(numberOfPendingComments) {
     $('.badge').text(numberOfPendingComments);
     $('.badge').parent().attr('data-original-title', 'Send email notification to ' + numberOfPendingComments
                               + ' recipient(s) of comments pending notification');
-}
-
-function registerCheckboxEventForVisibilityOptions() {
-    $('body').on('click', 'div[class*="student-record-comments"] * input[type=checkbox]', function(e) {
-        var table = $(this).closest('table');
-        var form = table.closest('form');
-        var visibilityOptions = [];
-        var target = $(e.target);
-        var visibilityOptionsRow = target.closest('tr');
-        
-        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
-            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
-        }
-        if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
-                && target.prop('checked')) {
-            visiblityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
-        }
-        
-        table.find('.answerCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showcommentsto']").val(visibilityOptions.join(', '));
-        
-        visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showgiverto']").val(visibilityOptions.join(', '));
-        
-        visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
-    });
 }

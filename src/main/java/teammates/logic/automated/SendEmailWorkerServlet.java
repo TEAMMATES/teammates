@@ -24,6 +24,8 @@ public class SendEmailWorkerServlet extends WorkerServlet {
         String emailSender = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SENDER);
         Assumption.assertNotNull(emailSender);
         
+        String emailSenderName = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SENDERNAME);
+        
         String emailReceiver = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_RECEIVER);
         Assumption.assertNotNull(emailReceiver);
         
@@ -31,14 +33,17 @@ public class SendEmailWorkerServlet extends WorkerServlet {
         Assumption.assertNotNull(emailReply);
         
         EmailWrapper message = new EmailWrapper();
-        message.addRecipient(emailReceiver);
+        message.setRecipient(emailReceiver);
         message.setSenderEmail(emailSender);
+        if (emailSenderName != null) {
+            message.setSenderName(emailSenderName);
+        }
         message.setContent(emailContent);
         message.setSubject(emailSubject);
         message.setReplyTo(emailReply);
         
         try {
-            new EmailSender().sendEmailWithLogging(message);
+            new EmailSender().sendEmail(message);
         } catch (Exception e) {
             log.severe("Error while sending email via servlet: " + TeammatesException.toStringWithStackTrace(e));
             

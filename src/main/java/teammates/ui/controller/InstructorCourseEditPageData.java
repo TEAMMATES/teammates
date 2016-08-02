@@ -119,6 +119,12 @@ public class InstructorCourseEditPageData extends PageData {
                                                        "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_EDIT,
                                                        null, isDisabled));
             
+            buttonContent = "<span class=\"glyphicon glyphicon-remove\"></span> Cancel";
+            instructorPanel.setCancelButton(createButton(buttonContent, "btn btn-primary btn-xs",
+                                                         "instrCancelLink" + instructorPanel.getIndex(),
+                                                         "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_CANCEL_EDIT,
+                                                         null, isDisabled));
+            
             buttonContent = "<span class=\"glyphicon glyphicon-trash\"></span> Delete";
             href = getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.email);
             onClick = "return toggleDeleteInstructorConfirmation('" + instructor.courseId + "','"

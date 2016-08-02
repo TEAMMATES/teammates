@@ -1,6 +1,6 @@
 var entryPerPage = 200;
 
-var start = 0;
+var begin = 0;
 var end = 0;
 var total = 0;
 
@@ -68,7 +68,7 @@ function caculateTotalPages() {
 }
 
 function updateEntriesCount() {
-    var newText = start + '~' + (end > total ? total : end);
+    var newText = begin + '~' + Math.min(end, total);
     
     $('span#currentPageEntryCount').text(newText);
     $('span#totalEntryCount').text(total);
@@ -80,10 +80,10 @@ function hideAllEntries() {
 
 function showFirstPage() {
     hideAllEntries();
-    start = 1;
+    begin = 1;
     end = entryPerPage;
     currentPage = 1;
-    showEntryInInterval(start, end);
+    showEntryInInterval(begin, end);
 }
 
 function showEntryInInterval(start, end) {
@@ -106,9 +106,9 @@ function reLabelOrderedAccountEntries() {
 }
 
 function showEntriesForSelectedPage() {
-    start = (currentPage - 1) * entryPerPage + 1;
-    end = start + entryPerPage - 1;
-    showEntryInInterval(start, end);
+    begin = (currentPage - 1) * entryPerPage + 1;
+    end = begin + entryPerPage - 1;
+    showEntryInInterval(begin, end);
     
 }
 

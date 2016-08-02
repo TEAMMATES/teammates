@@ -94,10 +94,10 @@ public class GoogleLoginPage extends LoginPage {
         fillTextBox(passwordTextBox, password);
         
         if (staySignedCheckbox.isSelected()) {
-            staySignedCheckbox.click();
+            click(staySignedCheckbox);
         }
         
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
     }
 

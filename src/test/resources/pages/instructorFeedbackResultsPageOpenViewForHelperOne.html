@@ -68,12 +68,21 @@
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
+                  <input id="filterTextForDownload" name="filtertext" type="hidden">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
+                  <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
                   <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.helper1" title="">
                     Unpublish Results
                   </a>
+                </div>
+                <br>
+                <div>
+                  <button class="btn btn-primary btn-block" id="button-print" type="input">
+                    Print View
+                  </button>
                 </div>
               </div>
             </div>
@@ -153,6 +162,7 @@
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-1" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -188,6 +198,7 @@
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-2" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -223,6 +234,7 @@
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-3" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -258,6 +270,7 @@
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-4" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -293,6 +306,7 @@
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-5" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -328,6 +342,7 @@
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-6" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -363,6 +378,7 @@
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-7" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -421,6 +437,7 @@
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-8" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -479,6 +496,7 @@
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-9" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -525,6 +543,7 @@
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-10" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -591,7 +610,7 @@
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th>
+              <th class="action-header">
                 Actions
               </th>
             </tr>
@@ -606,7 +625,7 @@
               <td>
                 Teammates Helper1
               </td>
-              <td>
+              <td class="action-button-item">
               </td>
             </tr>
             <tr>
@@ -618,7 +637,7 @@
               <td>
                 Teammates Helper2
               </td>
-              <td>
+              <td class="action-button-item">
               </td>
             </tr>
             <tr>
@@ -628,7 +647,7 @@
               <td>
                 Danny Engrid
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper1" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="disabled" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
@@ -644,7 +663,7 @@
               <td>
                 Extra guy
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper1" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="disabled" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
@@ -660,7 +679,7 @@
               <td>
                 Emily
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper1" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">

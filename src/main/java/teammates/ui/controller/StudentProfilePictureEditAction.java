@@ -1,12 +1,11 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
@@ -17,12 +16,6 @@ import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.OutputSettings;
 import com.google.appengine.api.images.Transform;
-import com.google.appengine.tools.cloudstorage.GcsFileOptions;
-import com.google.appengine.tools.cloudstorage.GcsFilename;
-import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
-import com.google.appengine.tools.cloudstorage.GcsService;
-import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
-import com.google.appengine.tools.cloudstorage.RetryParams;
 
 /**
  * Action: edits the profile picture based on the coordinates of
@@ -51,7 +44,7 @@ public class StudentProfilePictureEditAction extends Action {
             byte[] transformedImage = this.transformImage();
             if (!isError) {
                 // this branch is covered in UiTests (look at todo in transformImage())
-                uploadFileToGcs(transformedImage);
+                GoogleCloudStorageHelper.writeImageDataToGcs(account.googleId, transformedImage);
             }
         } catch (IOException e) {
             // Happens when GCS Service is down
@@ -63,29 +56,6 @@ public class StudentProfilePictureEditAction extends Action {
         }
 
         return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
-    }
-
-    /**
-     * Uploads the given image data to the cloud storage into a file with the
-     * user's googleId as the name.
-     * Returns a blobKey that can be used to identify the file.
-     * 
-     * @param fileName
-     * @param transformedImage
-     * @return BlobKey
-     * @throws IOException
-     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this
-     */
-    private void uploadFileToGcs(byte[] transformedImage) throws IOException {
-        GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
-
-        GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
-        GcsOutputChannel outputChannel = gcsService.createOrReplace(fileName,
-                                                                    new GcsFileOptions.Builder()
-                                                                                      .mimeType("image/png").build());
-
-        outputChannel.write(ByteBuffer.wrap(transformedImage));
-        outputChannel.close();
     }
 
     private byte[] transformImage() {

@@ -10,6 +10,7 @@
                 index="${instructorPanel.index}" 
                 resendInviteButton="${instructorPanel.resendInviteButton}"
                 editButton="${instructorPanel.editButton}"
+                cancelButton="${instructorPanel.cancelButton}"
                 deleteButton="${instructorPanel.deleteButton}" 
                 instructor="${instructorPanel.instructor}" 
         />

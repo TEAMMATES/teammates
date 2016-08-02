@@ -10,6 +10,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -30,8 +31,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "collapse-panels-button-team-0")
     public WebElement instructorPanelCollapseStudentsButton;
 
+    @FindBy(id = "collapse-panels-button-section-0")
+    public WebElement sectionCollapseStudentsButton;
+
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
+    
+    @FindBy(id = "indicate-missing-responses-checkbox")
+    public WebElement indicateMissingResponsesCheckbox;
     
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
@@ -118,25 +125,29 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void clickGroupByTeam() {
         WebElement button = browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM));
-        button.click();
+        click(button);
         waitForPageToLoad();
     }
 
     public void clickCollapseExpand() {
-        collapseExpandButton.click();
+        click(collapseExpandButton);
     }
 
     public void clickShowStats() {
-        showStatsCheckbox.click();
+        click(showStatsCheckbox);
     }
 
+    public void clickIndicateMissingResponses() {
+        click(indicateMissingResponsesCheckbox);
+    }
+    
     public void fillSearchBox(String s) {
         this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
     }
 
     public InstructorFeedbackEditPage clickEditLink() {
         WebElement button = browser.driver.findElement(By.linkText("[Edit]"));
-        button.click();
+        click(button);
         
         InstructorFeedbackEditPage editPage = changePageType(InstructorFeedbackEditPage.class);
         editPage.waitForPageToLoad();
@@ -146,7 +157,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public boolean clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
         WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-"
                                                                              + qnNumber + "-" + additionalInfoId));
-        qnAdditionalInfoButton.click();
+        click(qnAdditionalInfoButton);
         // Check if links toggle properly.
         WebElement qnAdditionalInfo = browser.driver.findElement(By.id("questionAdditionalInfo-"
                                                                        + qnNumber + "-" + additionalInfoId));
@@ -163,10 +174,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement addResponseCommentForm = browser.driver.findElement(By.id(addResponseCommentId));
         WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
         WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
-        showResponseCommentAddFormButton.click();
+        click(showResponseCommentAddFormButton);
         waitForElementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea")));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
-        addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
+        click(addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
         if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
             waitForElementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea")));
@@ -178,22 +189,22 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        commentRow.findElements(By.tagName("a")).get(1).click();
+        click(commentRow.findElements(By.tagName("a")).get(1));
 
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
         fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
-        commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
+        click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
         ThreadHelper.waitFor(1000);
     }
 
     public void clickVisibilityOptionForResponseCommentAndSave(String idString, int numOfTheCheckbox) {
         String idSuffix = idString.substring(18);
         WebElement commentRow = browser.driver.findElement(By.id(idString));
-        commentRow.findElements(By.tagName("a")).get(1).click();
+        click(commentRow.findElements(By.tagName("a")).get(1));
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + idSuffix));
-        commentRow.findElement(By.id("frComment-visibility-options-trigger" + idSuffix)).click();
-        commentRow.findElements(By.cssSelector("input[type='checkbox']")).get(numOfTheCheckbox).click();
-        commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
+        click(commentRow.findElement(By.id("frComment-visibility-options-trigger" + idSuffix)));
+        click(commentRow.findElements(By.cssSelector("input[type='checkbox']")).get(numOfTheCheckbox));
+        click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
         ThreadHelper.waitFor(1000);
     }
     
@@ -247,8 +258,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void waitForPanelsToExpand() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
-        
-        waitForElementsVisibility(webElements);
+        for (WebElement element : webElements) {
+            try {
+                waitForElementVisibility(element);
+            } catch (StaleElementReferenceException e) {
+                // Case when element has been removed after JS processing
+            }
+        }
     }
 
     public boolean verifyAllStatsVisibility() {
@@ -260,9 +276,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return true;
     }
 
+    public boolean verifyMissingResponsesVisibility() {
+        List<WebElement> pendingResponses = browser.driver.findElements(By.className("pending_response_row"));
+        return pendingResponses.isEmpty();
+    }
+    
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        commentRow.findElement(By.tagName("form")).findElement(By.tagName("a")).click();
+        click(commentRow.findElement(By.tagName("form")).findElement(By.tagName("a")));
+        waitForConfirmationModalAndClickOk();
         ThreadHelper.waitFor(1500);
     }
 
@@ -294,15 +316,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void clickAjaxLoadResponsesPanel(int index) {
         List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
-        ajaxPanels.get(index).click();
+        click(ajaxPanels.get(index));
     }
     
     public void clickAjaxNoResponsePanel() {
         WebElement ajaxPanels = browser.driver.findElement(By.cssSelector(".ajax_response_rate_submit"));
-        ajaxPanels.click();
+        click(ajaxPanels);
     }
 
-    public void clickViewPhotoLink(int panelBodyIndex, String urlRegex) {
+    public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
         WebElement photoCell = browser.driver.findElement(By.id(idOfPanelBody))
                                              .findElements(By.cssSelector(".profile-pic-icon-click"))
@@ -318,11 +340,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         List<WebElement> photos = browser.driver.findElements(By.cssSelector(".popover-content > img"));
         AssertHelper.assertContainsRegex(urlRegex, photos.get(photos.size() - 1).getAttribute("src"));
-
-        actions.moveByOffset(100, 100).click().perform();
     }
 
-    public void hoverClickAndViewStudentPhotoOnHeading(int panelHeadingIndex, String urlRegex) {
+    public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         String idOfPanelHeading = "panelHeading-" + panelHeadingIndex;
         WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
@@ -346,7 +366,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                  + "document.getElementsByClassName('popover')[0])");
     }
 
-    public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) {
+    public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
         WebElement photoLink = browser.driver.findElements(By.cssSelector('#' + idOfPanelBody + "> .panel-body > .row"))
                                              .get(0)
@@ -424,14 +444,25 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickInstructorPanelCollapseStudentsButton() {
-        instructorPanelCollapseStudentsButton.click();
+        click(instructorPanelCollapseStudentsButton);
+    }
+
+    public void clickSectionCollapseStudentsButton() {
+        click(sectionCollapseStudentsButton);
     }
 
     public void waitForInstructorPanelStudentPanelsToCollapse() {
-        List<WebElement> studentPanels = browser.driver.findElements(By.cssSelector("#panelBodyCollapse-2 .panel-collapse"));
+        List<WebElement> studentPanels = browser.driver.findElements(
+                By.cssSelector("#panelBodyCollapse-0-1 .panel-collapse"));
         waitForElementsToDisappear(studentPanels);
     }
-    
+
+    public void waitForSectionStudentPanelsToCollapse() {
+        List<WebElement> studentPanels = browser.driver.findElements(
+                By.cssSelector("#panelBodyCollapse-section-0-1 .panel-collapse"));
+        waitForElementsToDisappear(studentPanels);
+    }
+
     public void verifyPanelForParticipantIsDisplayed(String participantIdentifier) {
         WebElement panel = browser.driver.findElement(
                 By.xpath("//div[contains(@class, 'panel-primary') or contains(@class, 'panel-default')]"
@@ -439,8 +470,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         assertTrue(panel.isDisplayed());
     }
 
-    public void verifySpecifiedPanelIdsAreCollapsed(int[] ids) {
-        for (int id : ids) {
+    public void verifySpecifiedPanelIdsAreCollapsed(String[] ids) {
+        for (String id : ids) {
             WebElement panel = browser.driver.findElement(By.id("panelBodyCollapse-" + id));
             assertFalse(panel.isDisplayed());
         }

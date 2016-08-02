@@ -98,7 +98,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
             instructorsLogic.createInstructor(instr);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("\"" + instr.email + "\" is not acceptable to TEAMMATES as an email",
+            AssertHelper.assertContains("\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email",
                                 e.getMessage());
         }
         
@@ -793,7 +793,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
     
     private void verifyJoinInviteToInstructor(InstructorAttributes instructor, EmailWrapper email, String courseName,
                                               String courseId) {
-        assertEquals(instructor.email, email.getFirstRecipient());
+        assertEquals(instructor.email, email.getRecipient());
         assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), courseName, courseId),
                      email.getSubject());
     }

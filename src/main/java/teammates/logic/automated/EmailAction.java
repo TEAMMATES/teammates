@@ -146,7 +146,7 @@ public abstract class EmailAction {
         Map<String, EmailData> logData = new TreeMap<String, EmailData>();
         
         for (EmailWrapper email : emails) {
-            String recipient = email.getFirstRecipient();
+            String recipient = email.getRecipient();
             String userName = extractUserName((String) email.getContent());
             String regKey = extractRegistrationKey((String) email.getContent());
             logData.put(recipient, new EmailData(userName, regKey));

@@ -13,7 +13,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -112,23 +111,21 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     private void testShowFeedbackStatsLink() throws Exception {
         WebElement viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
-        
         String currentValidUrl = viewResponseLink.getAttribute("href");
         
         ______TS("test case: fail, fetch response rate of invalid url");
         homePage.setViewResponseLinkValue(viewResponseLink, "/invalid/url");
-        viewResponseLink.click();
+        homePage.clickViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.verifyHtmlMainContent("/InstructorHomeHTMLResponseRateFail.html");
         
         ______TS("test case: fail to fetch response rate again, check consistency of fail message");
-        viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
-        viewResponseLink.click();
+        homePage.clickViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.verifyHtmlMainContent("/InstructorHomeHTMLResponseRateFail.html");
         
         ______TS("test case: pass with valid url after multiple fails");
         viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.setViewResponseLinkValue(viewResponseLink, currentValidUrl);
-        viewResponseLink.click();
+        homePage.clickViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.verifyHtmlMainContent("/instructorHomeHTMLResponseRatePass.html");
     }
     
@@ -239,7 +236,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                                        feedbackSessionOpen.getFeedbackSessionName()));
         homePage.clickAndConfirm(homePage.getRemindLink(feedbackSessionOpen.getCourseId(),
                                                         feedbackSessionOpen.getFeedbackSessionName()));
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         
         //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
@@ -253,7 +250,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickAndConfirm(homePage.getRemindInnerLink(feedbackSessionOpen.getCourseId(),
                                                              feedbackSessionOpen.getFeedbackSessionName()));
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         
         //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
@@ -269,17 +266,19 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
                                                 feedbackSessionOpen.getFeedbackSessionName());
+        homePage.waitForAjaxLoaderGifToDisappear();
         homePage.submitRemindParticularUsersForm();
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
                                                 feedbackSessionOpen.getFeedbackSessionName());
+        homePage.waitForAjaxLoaderGifToDisappear();
         homePage.fillRemindParticularUsersForm();
         homePage.submitRemindParticularUsersForm();
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
         
@@ -389,7 +388,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.loadInstructorHomeTab();
     }
     
-    public void testCopyToFsAction() {
+    public void testCopyToFsAction() throws Exception {
         String feedbackSessionName = "First Feedback Session";
         String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
         
@@ -432,11 +431,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
         
         homePage.getFsCopyModal().verifyStatusMessage(
-                                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                                                   invalidFeedbackSessionName,
-                                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                                   FieldValidator.REASON_CONTAINS_INVALID_CHAR,
-                                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
+                getPopulatedErrorMessage(
+                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidFeedbackSessionName,
+                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                    FieldValidator.REASON_CONTAINS_INVALID_CHAR));
         homePage.getFsCopyModal().clickCloseButton();
         
         ______TS("Successful case: Home Page");

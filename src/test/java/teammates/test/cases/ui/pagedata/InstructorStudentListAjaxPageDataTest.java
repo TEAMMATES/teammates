@@ -68,9 +68,8 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
     private void testStudentContent(StudentListStudentData student) {
         assertEquals(sampleStudent.name, student.getStudentName());
         assertEquals(sampleStudent.email, student.getStudentEmail());
-        assertEquals("'" + Sanitizer.sanitizeForJs(sampleStudent.course) + "','"
-                         + Sanitizer.sanitizeForJs(sampleStudent.name) + "'",
-                     student.getToggleDeleteConfirmationParams());
+        assertEquals(Sanitizer.sanitizeForJs(sampleStudent.name), student.getStudentNameForJs());
+        assertEquals(Sanitizer.sanitizeForJs(sampleStudent.course), student.getCourseIdForJs());
         assertEquals(photoUrl, student.getPhotoUrl());
         assertEquals(getCourseStudentDetailsLink(sampleStudent.course, sampleStudent.email, acct.googleId),
                      student.getCourseStudentDetailsLink());

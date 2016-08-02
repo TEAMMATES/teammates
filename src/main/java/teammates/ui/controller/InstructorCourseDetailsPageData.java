@@ -47,12 +47,10 @@ public class InstructorCourseDetailsPageData extends PageData {
                                          "button_add_comment", null, "", "tooltip", null, isDisabled);
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        String onClick = "if(toggleSendRegistrationKeysConfirmation('"
-                          + sanitizeForJs(courseDetails.course.getId()) + "')) "
-                          + "window.location.href='"
-                          + sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId())) + "';";
-        courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null,
-                                          Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
+        String courseId = sanitizeForJs(courseDetails.course.getId());
+        String href = sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId()));
+        courseRemindButton = createButton(null, "btn btn-primary", "button_remind", href,
+                                          Const.Tooltips.COURSE_REMIND, "tooltip", courseId, isDisabled);
 
         this.sections = new ArrayList<StudentListSectionData>();
         for (SectionDetailsBundle section : courseDetails.sections) {
@@ -120,7 +118,7 @@ public class InstructorCourseDetailsPageData extends PageData {
     }
 
     private ElementTag createButton(String content, String buttonClass, String id, String href,
-                            String title, String dataToggle, String onClick, boolean isDisabled) {
+            String title, String dataToggle, String dataCourseId, boolean isDisabled) {
         ElementTag button = new ElementTag(content);
         
         if (buttonClass != null) {
@@ -144,8 +142,8 @@ public class InstructorCourseDetailsPageData extends PageData {
             button.setAttribute("data-toggle", dataToggle);
         }
                 
-        if (onClick != null) {
-            button.setAttribute("onclick", onClick);
+        if (dataCourseId != null) {
+            button.setAttribute("data-course-id", dataCourseId);
         }
         
         if (isDisabled) {

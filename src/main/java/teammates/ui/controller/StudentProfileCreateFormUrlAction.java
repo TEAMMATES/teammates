@@ -1,11 +1,9 @@
 package teammates.ui.controller;
 
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.GoogleCloudStorageHelper;
 
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.api.blobstore.UploadOptions;
 
 /**
  * Action: generates the UploadUrl for pictures given by students.
@@ -21,16 +19,12 @@ public class StudentProfileCreateFormUrlAction extends Action {
         return createAjaxResult(data);
     }
 
-    private UploadOptions generateUploadOptions() {
-        UploadOptions uploadOptions =
-                UploadOptions.Builder.withDefaults().googleStorageBucketName(Config.GCS_BUCKETNAME)
-                                     .maxUploadSizeBytes(Const.SystemParams.MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI);
-        return uploadOptions;
-    }
-
     private String getUploadUrl() {
         try {
-            return generateNewUploadUrl();
+            String uploadUrl =
+                    GoogleCloudStorageHelper.getNewUploadUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD);
+            statusToAdmin = "Created Url successfully: " + uploadUrl;
+            return uploadUrl;
         } catch (BlobstoreFailureException e) {
             isError = true;
             statusToAdmin = "Failed to create profile picture upload-url: " + e.getMessage();
@@ -42,15 +36,6 @@ public class StudentProfileCreateFormUrlAction extends Action {
             statusToAdmin = "Failed to create profile picture upload-url: " + e.getMessage();
         }
         return "";
-    }
-
-    private String generateNewUploadUrl() {
-        UploadOptions uploadOptions = generateUploadOptions();
-        String formPostUrl = BlobstoreServiceFactory.getBlobstoreService()
-                                                    .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD,
-                                                                     uploadOptions);
-        statusToAdmin = "Created Url successfully: " + formPostUrl;
-        return formPostUrl;
     }
 
 }

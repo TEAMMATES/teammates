@@ -64,7 +64,7 @@ public class CommentAttributesTest extends BaseTestCase {
     }
     
     @Test
-    public void testValidate() {
+    public void testValidate() throws Exception {
         CommentAttributes comment = new CommentAttributes(
                 null,
                 null,
@@ -95,14 +95,22 @@ public class CommentAttributesTest extends BaseTestCase {
                 );
         
         List<String> expectedErrorMessage = new ArrayList<String>();
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, incorrectEmail,
-                                               FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-1",
-                                               FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-3",
-                                               FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-2",
-                                               FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessage.add(getPopulatedErrorMessage(
+                                     FieldValidator.EMAIL_ERROR_MESSAGE, incorrectEmail,
+                                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                                     FieldValidator.EMAIL_MAX_LENGTH));
+        expectedErrorMessage.add(getPopulatedErrorMessage(
+                                     FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-1",
+                                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                                     FieldValidator.EMAIL_MAX_LENGTH));
+        expectedErrorMessage.add(getPopulatedErrorMessage(
+                                     FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-3",
+                                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                                     FieldValidator.EMAIL_MAX_LENGTH));
+        expectedErrorMessage.add(getPopulatedErrorMessage(
+                                     FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-2",
+                                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                                     FieldValidator.EMAIL_MAX_LENGTH));
         
         List<String> errorMemssage = comment.getInvalidityInfo();
         assertEquals(4, errorMemssage.size());
