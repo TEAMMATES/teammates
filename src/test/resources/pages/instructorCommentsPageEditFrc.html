@@ -171,10 +171,10 @@
           comments.idOfTypicalCourse1 : Typical Course 1 with 2 Evals
         </strong>
       </h4>
-      <div class="btn-group pull-right" style="">
-        <a class="btn btn-sm btn-info" data-original-title="Send email notification to 1 recipient(s) of comments pending notification" data-toggle="tooltip" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfTypicalCourse1&user=comments.idOfInstructor1OfCourse1" style="margin-right: 17px;" title="" type="button">
+      <div class="btn-group pull-right" style="display:none">
+        <a class="btn btn-sm btn-info" data-original-title="Send email notification to 0 recipient(s) of comments pending notification" data-toggle="tooltip" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfTypicalCourse1&user=comments.idOfInstructor1OfCourse1" style="margin-right: 17px;" title="" type="button">
           <span class="badge" style="margin-right: 5px">
-            1
+            0
           </span>
           <span class="glyphicon glyphicon-comment">
           </span>
@@ -1814,14 +1814,10 @@
                   <tr class="table-row-1-1-1">
                     <td>
                       <ul class="list-group comments" id="responseCommentTable-1-1-1">
-                        <li class="list-group-item list-group-item-warning giver_display-by-you status_display-public" id="responseCommentRow-1-1-1-1">
+                        <li class="list-group-item list-group-item-warning giver_display-by-you status_display-private" id="responseCommentRow-1-1-1-1">
                           <div id="commentBar-1-1-1-1">
                             <span class="text-muted">
-                              From: comments.instructor1@course1.tmt [${datetime.now}]
-                            </span>
-                            <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
-                            </span>
-                            <span class="glyphicon glyphicon-bell" data-original-title="This comment is pending to notify recipients" data-placement="top" data-toggle="tooltip" title="">
+                              From: comments.instructor1@course1.tmt [${datetime.now}] (last edited by comments.instructor1@course1.tmt at ${datetime.now})
                             </span>
                             <form class="responseCommentDeleteForm pull-right">
                               <a class="btn btn-default btn-xs icon-button" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResponseCommentDelete" id="commentdelete-1-1-1-1" style="display: none;" title="" type="button">
@@ -1842,10 +1838,9 @@
                           </div>
                           <div id="plainCommentText-1-1-1-1" style="margin-left: 15px;">
                             <p>
-                              added response comment
-                            </p>
-                            <p>
-                               
+                              edited response comment
+                              <br>
+                              a new line
                             </p>
                           </div>
                           <form class="responseCommentEditForm" id="responseCommentEditForm-1-1-1-1" style="display: none;">
@@ -1888,10 +1883,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                      <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                     <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                      <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-instructors-1-1-1-1">
@@ -1901,10 +1896,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                     <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                   </tr>
                                 </tbody>
@@ -1915,10 +1910,9 @@
                               </div>
                               <div class="panel panel-default panel-body" id="responsecommenttext-1-1-1-1">
                                 <p>
-                                  added response comment
-                                </p>
-                                <p>
-                                   
+                                  edited response comment
+                                  <br>
+                                  a new line
                                 </p>
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -1935,8 +1929,8 @@
                             <input name="courseid" type="hidden" value="comments.idOfTypicalCourse1">
                             <input name="fsname" type="hidden" value="comments.First feedback session">
                             <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="showresponsecommentsto" type="hidden" value="">
+                            <input name="showresponsegiverto" type="hidden" value="">
                           </form>
                         </li>
                         <li class="list-group-item list-group-item-warning giver_display-by-you status_display-private" id="responseCommentRow-1-1-1-2">

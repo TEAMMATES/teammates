@@ -86,8 +86,7 @@ var editCommentHandler = function(e) {
     e.preventDefault();
 
     var commentTextId = formObject.find('div[id^="responsecommenttext-"]').attr('id');
-    tinyMCE.get(commentTextId).save();
-    formObject.find('input[name^="responsecommenttext-"]').attr('name', 'responsecommenttext');
+    formObject.find('input[name=responsecommenttext]').val(tinyMCE.get(commentTextId).getContent());
 
     var formData = formObject.serialize();
     
