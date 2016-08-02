@@ -18,8 +18,8 @@ function readyInstructorStudentEditPage() {
         if ($('#newstudentemail').val() !== $('#studentemail').val() && $('#isAnyEmailSentForTheCourse').val()) {
             event.preventDefault();
             var $form = $(this).parents('form');
-            var messageText = 'Do you want to send the summary of all feedback sessions'
-                + 'along with all links of this course to the new email?';
+            var messageText = 'Do you want to resend past session links of this course to the new email '
+                              + $('#newstudentemail').val() + '?';
             var okCallback = function() {
                 $('#isSendEmail').val(true);
                 $form.submit();
@@ -29,9 +29,9 @@ function readyInstructorStudentEditPage() {
                 $form.submit();
             };
 
-            BootboxWrapper.showModalConfirmation('Send summary of course', messageText, okCallback, cancelCallback,
-                    'Yes, send the summary to new email',
-                    'No, I don\'t want to send email. Save the details.', StatusType.INFO);
+            BootboxWrapper.showModalConfirmationWithCancel('Resend past links to the new email?', messageText,
+                    okCallback, cancelCallback, null, 'Yes, save changes and resend links',
+                    'No, just save the changes', 'Canel', StatusType.INFO);
         }
     });
     

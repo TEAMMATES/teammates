@@ -62,7 +62,7 @@
             <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
             <br>
             <div class="align-center">
-                <input type="submit" class="btn btn-primary" id="button_submit" name="submit" value="Save Changes">
+                <input type="submit" class="btn btn-primary" id="button_submit" value="Save Changes">
             </div>
             <br>
             <br>

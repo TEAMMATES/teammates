@@ -109,23 +109,16 @@ public class EmailGenerator {
         String submitUrl = null;
         String reportUrl = null;
         
-        StringBuffer emailBody = new StringBuffer(1000);
-        
-        emailBody.append("Hello " + student.name
-                        + ",<br> <br> An instructor has updated your email address in the course [Course name: "
-                        + course.getName() + "] [Course ID: " + course.getId() + "]. "
-                        + "Given below are the relevant links for the course, updated to work with your new email address "
-                        + student.email);
-        
+        StringBuffer linksFragmentValue = new StringBuffer(1000);
         String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
         
-        if (isYetToJoinCourse(student)) {
-            emailBody.append(Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
-                    "${joinUrl}", joinUrl,
-                    "${courseName}", course.getName()));
-        }
+        String joinFragmentValue = "";
         
-        emailBody.append("<br><br>Below are the Feedback sessions of the course.<br>");
+        if (isYetToJoinCourse(student)) {
+            joinFragmentValue = Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
+                    "${joinUrl}", joinUrl,
+                    "${courseName}", course.getName());
+        }
         
         for (FeedbackSessionAttributes fsa : sessions) {
             if (fsa.isOpened()) {
@@ -150,7 +143,8 @@ public class EmailGenerator {
                 reportUrl = "{Feedback session is unpublished}";
             }
             
-            emailBody.append(Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
+            linksFragmentValue.append(Templates.populateTemplate(
+                    EmailTemplates.USER_FEEDBACK_SESSION_FRAGMENT_RESEND_ALL_LINKS,
                     "${feedbackSessionName}", fsa.getFeedbackSessionName(),
                     "${deadline}", fsa.isClosed() ? TimeHelper.formatTime12H(fsa.getEndTime())
                                                   + " {Passed}"
@@ -159,12 +153,18 @@ public class EmailGenerator {
                     "${reportUrl}", reportUrl));
         }
         
-        emailBody.append("<br> If you need any help or clarifications regarding TEAMMATES, please email us at "
-                    + Config.SUPPORT_EMAIL + "<p/>Regards,<br>TEAMMATES Team.");
-
+        String emailBody = Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
+                "${userName}", student.name,
+                "${userEmail}", student.email,
+                "${courseName}", course.getName(),
+                "${courseId}", course.getId(),
+                "${joinFragment}", joinFragmentValue,
+                "${linksFragment}", linksFragmentValue.toString(),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+        
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName()));
-        email.setContent(emailBody.toString());
+        email.setContent(emailBody);
 
         return email;
     }
