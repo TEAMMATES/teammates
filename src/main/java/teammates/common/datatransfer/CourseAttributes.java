@@ -79,6 +79,10 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public String getTimeZone() {
         return timeZone;
     }
+    
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
 
     @Override
     public List<String> getInvalidityInfo() {
