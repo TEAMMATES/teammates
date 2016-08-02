@@ -71,11 +71,11 @@ public class CoursesDbTest extends BaseComponentTestCase {
                                         e.getMessage());
         }
 
-        CourseAttributes invalidTimezoneCourse =
+        CourseAttributes invalidTimeZoneCourse =
                 new CourseAttributes("CDbT.tCC.newCourse", "Basic Computing", "InvalidTimeZone");
 
         try {
-            coursesDb.createEntity(invalidTimezoneCourse);
+            coursesDb.createEntity(invalidTimeZoneCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone",

@@ -156,7 +156,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
                             FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
-                     + "?error=true&user=" + instructorId + "&courseid=" + courseId,
+                         + "?error=true&user=" + instructorId + "&courseid=" + courseId,
                      redirectResult.getDestinationWithParams());
     }
 

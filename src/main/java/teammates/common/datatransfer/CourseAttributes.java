@@ -47,8 +47,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         this.isArchived = false;
     }
     
-    public CourseAttributes(String courseId, String name, String timeZone,
-                            boolean archiveStatus) {
+    public CourseAttributes(String courseId, String name, String timeZone, boolean archiveStatus) {
         this.id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
         this.timeZone = timeZone;

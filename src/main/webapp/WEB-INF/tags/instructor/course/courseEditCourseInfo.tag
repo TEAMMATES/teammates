@@ -59,7 +59,7 @@
                     </select>
                 </div>
                 <div class="col-sm-1">
-                    <input class="btn btn-primary" id="auto-detect-timezone" disabled value="Auto-Detect Timezone">
+                    <input type="button" class="btn btn-primary" id="auto-detect-time-zone" disabled value="Auto-Detect Time Zone">
                 </div>
             </div>
 
