@@ -40,6 +40,7 @@ public class AllJsTests extends BaseUiTestCase {
         
         print("Executed " + totalCases + " JavaScript Unit tests...");
 
+        // Some tests such as date-checking behave differently in Firefox and Chrome.
         int expectedFailedCases = "firefox".equals(TestProperties.BROWSER) ? 0 : 4;
         assertEquals(expectedFailedCases, failedCases);
         assertTrue(totalCases != 0);

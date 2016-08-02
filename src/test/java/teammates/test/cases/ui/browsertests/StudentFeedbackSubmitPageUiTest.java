@@ -521,12 +521,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         } else {
             assertEquals("1", frNumscale.getResponseDetails().getAnswerString());
             
+            // We need the final response value for this particular question to be "5"
             submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-            submitPage.fillResponseTextBox(14, 0, "50000");
+            submitPage.fillResponseTextBox(14, 0, "5");
             submitPage.clickSubmitButton();
             submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
-        
 
         ______TS("write response without specifying recipient");
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");

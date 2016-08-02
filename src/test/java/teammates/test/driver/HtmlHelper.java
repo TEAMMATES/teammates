@@ -164,6 +164,7 @@ public final class HtmlHelper {
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
                 if (isTinymceStyleAttribute(attribute)) {
+                    // the style definition differs across browsers; replace with placeholder
                     return generateTinymceStylePlaceholder(indentation);
                 }
             }

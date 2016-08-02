@@ -80,7 +80,7 @@ public final class TestProperties {
             
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
             
-            BROWSER = prop.getProperty("test.selenium.browser");
+            BROWSER = prop.getProperty("test.selenium.browser").toLowerCase();
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
             CHROMEDRIVER_PATH = prop.getProperty("test.chromedriver.path");
             
