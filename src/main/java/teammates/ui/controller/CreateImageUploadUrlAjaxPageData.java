@@ -2,11 +2,11 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.AccountAttributes;
 
-public class AdminEmailCreateImageUploadUrlAjaxPageData extends PageData {
+public class CreateImageUploadUrlAjaxPageData extends PageData {
     public String nextUploadUrl;
     public String ajaxStatus;
 
-    public AdminEmailCreateImageUploadUrlAjaxPageData(AccountAttributes account) {
+    public CreateImageUploadUrlAjaxPageData(AccountAttributes account) {
         super(account);
     }
     

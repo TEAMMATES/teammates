@@ -151,6 +151,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
      <servlet-mapping>
         <servlet-name>PublicImageServlet</servlet-name>
         <url-pattern>/public/publicEmailImageServe</url-pattern>
+        <url-pattern>/public/publicImageServe</url-pattern>
     </servlet-mapping>
     
     <security-constraint>
