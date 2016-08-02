@@ -16,17 +16,28 @@
         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
     
         <div id="instructorTable${instructorPanel.index}">
-            <c:if test="${not empty instructorPanel.instructor.googleId}" >
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Google ID:</label>
-                    <div class="col-sm-9">
-                        <input class="form-control immutable" type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>${instructorPanel.index}"
-                                value="${instructorPanel.instructor.googleId}" maxlength="<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%>" 
-                                tabindex="3" disabled>
-                    </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Google ID:</label>
+                <div class="col-sm-9">
+                    <c:choose>
+                        <c:when test="${not empty instructorPanel.instructor.googleId}">
+                            <input class="form-control immutable"
+                                type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>${instructorPanel.index}"
+                                value="${instructorPanel.instructor.googleId}"
+                                maxlength="<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%>" tabindex="3" disabled>
+                        </c:when>
+                        <c:otherwise>
+                            <p class="form-control-static">
+                                <span class="text-warning">
+                                    Not available. Instructor is yet to join this course.
+                                </span>
+                            </p>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
-            </c:if>
-        
+            </div>
+
             <div class="form-group">
                 <label class="col-sm-3 control-label">Name:</label>
                 <div class="col-sm-9">
