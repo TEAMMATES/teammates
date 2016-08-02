@@ -14,6 +14,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
+import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -69,6 +70,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     public void testContent() throws Exception {
 
+        ______TS("Typical case: large session with no sections");
+
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
+                "Session with no sections", true, "question");
+        AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING,
+                resultsPage.getStatus());
+        
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -92,13 +100,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
         
-    }
-    
-    @Test
-    public void testSessionWithNoSections() {
-        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
-                "Session with no sections", true, "question");
-        assertEquals("", resultsPage.getStatus());
     }
     
     @Test

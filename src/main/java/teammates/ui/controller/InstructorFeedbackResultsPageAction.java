@@ -118,19 +118,19 @@ public class InstructorFeedbackResultsPageAction extends Action {
         boolean isShowSectionWarningForParticipantView = !data.getBundle().isComplete
                                                    && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType);
         
-        // Warning for section wise does not make sense if there are no multiple sections.
-        boolean isMultipleSectionAvaialble;
-        if (data.getBundle().getRosterSectionTeamNameTable().size() > 1) {
-            isMultipleSectionAvaialble = true;
-        } else {
-            isMultipleSectionAvaialble = false;
-        }
-        
-        if (selectedSection.equals(ALL_SECTION_OPTION) && isMultipleSectionAvaialble
-                && (isShowSectionWarningForParticipantView
-                                                           || isShowSectionWarningForQuestionView)) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING,
-                                               StatusMessageColor.WARNING));
+        // Warning for section wise does not make sense if there are no multiple
+        // sections.
+        boolean isMultipleSectionAvaialble = data.getBundle().getRosterSectionTeamNameTable().size() > 1;
+
+        if (selectedSection.equals(ALL_SECTION_OPTION) && (isShowSectionWarningForParticipantView
+                || isShowSectionWarningForQuestionView)) {
+            if (isMultipleSectionAvaialble) {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING,
+                        StatusMessageColor.WARNING));
+            } else {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING,
+                        StatusMessageColor.WARNING));
+            }
             isError = true;
         }
         
