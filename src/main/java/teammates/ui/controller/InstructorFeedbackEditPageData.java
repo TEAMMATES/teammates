@@ -109,16 +109,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         qnForm.setQuestionNumberOptions(getQuestionNumberOptions(questionsSize));
         
-        FeedbackQuestionFeedbackPathSettings feedbackPathSettings = new FeedbackQuestionFeedbackPathSettings();
-        feedbackPathSettings.setGiverParticipantOptions(getParticipantOptions(question, true));
-        feedbackPathSettings.setRecipientParticipantOptions(getParticipantOptions(question, false));
-        
-        boolean isNumberOfEntitiesToGiveFeedbackToChecked =
-                question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
-        feedbackPathSettings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
-        feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
-                                                                   ? question.numberOfEntitiesToGiveFeedbackTo
-                                                                   : 1);
+        FeedbackQuestionFeedbackPathSettings feedbackPathSettings =
+                configureFeedbackPathSettings(question);
         qnForm.setFeedbackPathSettings(feedbackPathSettings);
 
         // maps for setting visibility
@@ -151,6 +143,28 @@ public class InstructorFeedbackEditPageData extends PageData {
         qnForms.add(qnForm);
     }
 
+    private FeedbackQuestionFeedbackPathSettings configureFeedbackPathSettings(
+            FeedbackQuestionAttributes question) {
+        FeedbackQuestionFeedbackPathSettings settings = new FeedbackQuestionFeedbackPathSettings();
+        settings.setSelectedGiver(question.giverType);
+        settings.setSelectedRecipient(question.recipientType);
+
+        boolean isNumberOfEntitiesToGiveFeedbackToChecked =
+                question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
+        settings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
+        settings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
+                                                       ? question.numberOfEntitiesToGiveFeedbackTo
+                                                       : 1);
+
+        boolean isCommonGiver = Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS.containsKey(question.giverType);
+        boolean isCommonPath =
+                    isCommonGiver && Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS.get(question.giverType)
+                                                           .contains(question.recipientType);
+        settings.setCommonPathSelected(isCommonPath);
+
+        return settings;
+    }
+
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {
       
         String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
@@ -159,42 +173,9 @@ public class InstructorFeedbackEditPageData extends PageData {
                                 .withSessionName(feedbackSession.getFeedbackSessionName())
                                 .toString();
         newQnForm = FeedbackQuestionEditForm.getNewQnForm(doneEditingLink, feedbackSession,
-                                                          getQuestionTypeChoiceOptions(), getParticipantOptions(null, true),
-                                                          getParticipantOptions(null, false),
+                                                          getQuestionTypeChoiceOptions(),
                                                           getQuestionNumberOptions(nextQnNum),
                                                           getNewQuestionSpecificEditFormHtml());
-    }
-
-    /**
-     * Returns a list of HTML options for selecting participant type.
-     * Used in instructorFeedbackEdit.jsp for selecting the participant type for a new question.
-     * isGiver refers to the feedback path (!isGiver == feedback's recipient)
-     */
-    private List<ElementTag> getParticipantOptions(FeedbackQuestionAttributes question, boolean isGiver) {
-        List<ElementTag> result = new ArrayList<ElementTag>();
-        for (FeedbackParticipantType option : FeedbackParticipantType.values()) {
-            
-            boolean isValidGiver = isGiver && option.isValidGiver();
-            boolean isValidRecipient = !isGiver && option.isValidRecipient();
-            
-            if (isValidGiver || isValidRecipient) {
-                String participantName = isValidGiver ? option.toDisplayGiverName()
-                                                      : option.toDisplayRecipientName();
-                
-                boolean isSelected = false;
-                // for existing questions
-                if (question != null) {
-                    boolean isGiverType = isValidGiver && question.giverType == option;
-                    boolean isRecipientType = isValidRecipient && question.recipientType == option;
-                    
-                    isSelected = isGiverType || isRecipientType;
-                }
-                
-                ElementTag optionTag = createOption(participantName, option.toString(), isSelected);
-                result.add(optionTag);
-            }
-        }
-        return result;
     }
 
     private List<ElementTag> getQuestionNumberOptions(int numQuestions) {

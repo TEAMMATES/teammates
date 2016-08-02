@@ -20,6 +20,7 @@ $(document).ready(function() {
     bindParticipantSelectChangeEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+    FeedbackPath.attachEvents();
     hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
 });
 
@@ -137,16 +138,12 @@ function bindFeedbackSessionEditFormSubmission() {
                 clearStatusMessages();
             },
             success: function(result) {
-                
                 if (result.hasError) {
                     setStatusMessage(result.statusForAjax, StatusType.DANGER);
                 } else {
                     setStatusMessage(result.statusForAjax, StatusType.SUCCESS);
                     disableEditFS();
                 }
-                
-                // focus on status message
-                scrollToElement($('#statusMessagesToUser'), { offset: ($('.navbar').height() + 30) * -1 });
             }
         });
     });
@@ -489,8 +486,9 @@ function restoreOriginal(questionNum) {
         $('#button_question_submit-' + questionNum).hide();
     }
 
-    // re-attach onChange event to show/hide numEntitiesBox according to recipient type
+    // re-attach events for form elements
     $('#' + FEEDBACK_QUESTION_RECIPIENTTYPE + '-' + questionNum).change(updateVisibilityOfNumEntitiesBox);
+    FeedbackPath.attachEvents();
 }
 
 function hideNewQuestionAndShowNewQuestionForm() {
@@ -500,6 +498,8 @@ function hideNewQuestionAndShowNewQuestionForm() {
     // re-enables all feedback path options, which may have been hidden by team contribution question
     $('#givertype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
     $('#recipienttype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
+    $('#questionTable-' + NEW_QUESTION).find('.feedback-path-dropdown > button').removeClass('disabled');
+    FeedbackPath.attachEvents();
 }
 
 /**
@@ -706,6 +706,20 @@ function copyOptions() {
     
     $currRecipient.val($prevRecipient.val());
     
+    // Hide other feedback path options and update common feedback path dropdown text if a common option is selected
+    var $prevQuestionForm = $('form[id^="form_editquestion-"]').eq(-2);
+    var $newQuestionForm = $('#form_editquestion-' + NEW_QUESTION);
+
+    var isPrevQuestionUsingCommonOption = FeedbackPath.isCommonOptionSelected($prevQuestionForm);
+    if (isPrevQuestionUsingCommonOption) {
+        FeedbackPath.hideOtherOption($newQuestionForm);
+        var prevQuestionSelectedOption = FeedbackPath.getDropdownText($prevQuestionForm);
+        FeedbackPath.setDropdownText(prevQuestionSelectedOption, $newQuestionForm);
+    } else {
+        FeedbackPath.showOtherOption($newQuestionForm);
+        FeedbackPath.setDropdownText('Predefined combinations:', $newQuestionForm);
+    }
+
     // Number of recipient setup
     formatNumberBox($currRecipient.val(), NEW_QUESTION);
     var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
