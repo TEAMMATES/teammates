@@ -1290,7 +1290,7 @@ public final class Const {
         public static final String FEEDBACK_RESULTS_QUESTIONVIEWWARNING =
                 "This session seems to have a large number of responses. "
                 + "It is recommended to view the results for one question at a time. "
-                + "To view responses for a particular question, click on the question below. ";
+                + "To view responses for a particular question, click on the question below.";
         public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
         public static final String ENROLL_LINES_PROBLEM =
