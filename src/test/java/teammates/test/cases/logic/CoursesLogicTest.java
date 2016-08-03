@@ -54,7 +54,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         testIsSampleCourse();
         testIsCoursePresent();
         testVerifyCourseIsPresent();
-        testSetArchiveStatusOfCourse();
         testGetCourseSummary();
         testGetCourseSummaryWithoutStats();
         testGetCourseDetails();
@@ -109,7 +108,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         List<CourseAttributes> archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
         
         assertEquals(1, archivedCourses.size());
-        assertTrue(archivedCourses.get(0).isArchived);
     
         ______TS("boundary: instructor without archive courses");
         instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
@@ -250,46 +248,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
     }
-    
-    public void testSetArchiveStatusOfCourse() throws Exception {
-        
-        CourseAttributes course = new CourseAttributes("CLogicT.new-course", "New course");
-        coursesDb.createEntity(course);
-        
-        ______TS("success: archive a course");
-        
-        coursesLogic.setArchiveStatusOfCourse(course.getId(), true);
-        
-        CourseAttributes courseRetrieved = coursesLogic.getCourse(course.getId());
-        assertTrue(courseRetrieved.isArchived);
-        
-        ______TS("success: unarchive a course");
-        
-        coursesLogic.setArchiveStatusOfCourse(course.getId(), false);
-        
-        courseRetrieved = coursesLogic.getCourse(course.getId());
-        assertFalse(courseRetrieved.isArchived);
-        
-        ______TS("fail: course doesn't exist");
-        
-        coursesDb.deleteCourse(course.getId());
-        
-        try {
-            coursesLogic.setArchiveStatusOfCourse(course.getId(), true);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("Course does not exist: CLogicT.new-course", e.getMessage());
-        }
-
-        ______TS("Null parameter");
-    
-        try {
-            coursesLogic.setArchiveStatusOfCourse(null, true);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
-        }
-    }
 
     public void testGetCourseSummary() throws Exception {
 
@@ -299,7 +257,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseDetailsBundle courseSummary = coursesLogic.getCourseSummary(course.getId());
         assertEquals(course.getId(), courseSummary.course.getId());
         assertEquals(course.getName(), courseSummary.course.getName());
-        assertFalse(courseSummary.course.isArchived);
 
         assertEquals(2, courseSummary.stats.teamsTotal);
         assertEquals(5, courseSummary.stats.studentsTotal);
@@ -363,7 +320,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseSummaryBundle courseSummary = coursesLogic.getCourseSummaryWithoutStats(course.getId());
         assertEquals(course.getId(), courseSummary.course.getId());
         assertEquals(course.getName(), courseSummary.course.getName());
-        assertFalse(courseSummary.course.isArchived);
 
         assertEquals(0, courseSummary.sections.size());
        
@@ -418,7 +374,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseDetailsBundle courseDetails = coursesLogic.getCourseDetails(course.getId());
         assertEquals(course.getId(), courseDetails.course.getId());
         assertEquals(course.getName(), courseDetails.course.getName());
-        assertFalse(courseDetails.course.isArchived);
 
         assertEquals(2, courseDetails.stats.teamsTotal);
         assertEquals(5, courseDetails.stats.studentsTotal);
@@ -684,15 +639,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                 .get("student2InCourse1");
         List<CourseAttributes> courseList = coursesLogic
                 .getCoursesForStudentAccount(studentInTwoCourses.googleId);
+        CourseAttributes.sortById(courseList);
         assertEquals(2, courseList.size());
-        // For some reason, index 0 is Course2 and index 1 is Course1
-        // Anyway in DataStore which follows a HashMap structure,
-        // there is no guarantee on the order of Entities' storage
-        CourseAttributes course1 = dataBundle.courses.get("typicalCourse2");
+
+        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         assertEquals(course1.getId(), courseList.get(0).getId());
         assertEquals(course1.getName(), courseList.get(0).getName());
     
-        CourseAttributes course2 = dataBundle.courses.get("typicalCourse1");
+        CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
         assertEquals(course2.getId(), courseList.get(1).getId());
         assertEquals(course2.getName(), courseList.get(1).getName());
     
@@ -745,8 +699,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         // Verify number of courses received
         assertEquals(2, courseList.size());
     
-        // Verify details of course 1 (note: index of course 1 is not 0)
-        CourseDetailsBundle actualCourse1 = courseList.get(1);
+        CourseDetailsBundle actualCourse1 = courseList.get(0);
         assertEquals(expectedCourse1.getId(), actualCourse1.course.getId());
         assertEquals(expectedCourse1.getName(), actualCourse1.course.getName());
    

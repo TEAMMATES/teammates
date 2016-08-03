@@ -121,7 +121,6 @@ public class CoursesDb extends EntitiesDb {
         }
         
         courseEntityToUpdate.setName(courseToUpdate.getName());
-        courseEntityToUpdate.setArchiveStatus(Boolean.valueOf(courseToUpdate.isArchived));
         
         log.info(courseToUpdate.getBackupIdentifier());
         getPm().close();

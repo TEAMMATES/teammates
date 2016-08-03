@@ -56,13 +56,13 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
 
     private void migrateCourse(CourseAttributes course) throws InvalidParametersException,
                                     EntityDoesNotExistException {
-        if (course.isArchived) {
-            if (isPreview) {
-                previewInstructorsIsArchivedInCourse(course);
-            } else {
-                setInstructorsIsArchivedInCourse(course);
-            }
+       // if (course.isArchived) {
+        if (isPreview) {
+            previewInstructorsIsArchivedInCourse(course);
+        } else {
+            setInstructorsIsArchivedInCourse(course);
         }
+       // }
     }
     
     @SuppressWarnings("deprecation")
@@ -94,7 +94,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     private void setInstructorsIsArchivedInCourse(CourseAttributes course)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertFalse(isPreview);
-        Assumption.assertTrue(course.isArchived);
+        //Assumption.assertTrue(course.isArchived);
         
         System.out.println("Updating instructors of old archived course: " + course.getId());
         
@@ -120,7 +120,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
      */
     private void previewInstructorsIsArchivedInCourse(CourseAttributes course) {
         Assumption.assertEquals(true, isPreview);
-        Assumption.assertTrue(course.isArchived);
+        //Assumption.assertTrue(course.isArchived);
         
         System.out.println("Previewing instructors of old archived course: " + course.getId());
         
