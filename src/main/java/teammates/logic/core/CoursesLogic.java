@@ -755,24 +755,6 @@ public class CoursesLogic {
     }
     
     /**
-     * Updates the 'archived' status of a course using the courseId.
-     * @param courseId
-     * @param archiveStatus if {@code true}, course is set to "archived".
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
-     */
-    public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus) throws InvalidParametersException,
-                                                                                        EntityDoesNotExistException {
-        
-        CourseAttributes courseToUpdate = getCourse(courseId);
-        if (courseToUpdate == null) {
-            throw new EntityDoesNotExistException("Course does not exist: " + courseId);
-        }
-        courseToUpdate.isArchived = archiveStatus;
-        coursesDb.updateCourse(courseToUpdate);
-    }
-    
-    /**
      * Updates the course details.
      * @param newCourse the course object containing new details of the course
      * @throws InvalidParametersException

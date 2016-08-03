@@ -54,7 +54,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         testIsSampleCourse();
         testIsCoursePresent();
         testVerifyCourseIsPresent();
-        testSetArchiveStatusOfCourse();
         testGetCourseSummary();
         testGetCourseSummaryWithoutStats();
         testGetCourseDetails();
@@ -109,7 +108,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         List<CourseAttributes> archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
         
         assertEquals(1, archivedCourses.size());
-        assertTrue(archivedCourses.get(0).isArchived);
     
         ______TS("boundary: instructor without archive courses");
         instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
@@ -250,46 +248,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
     }
-    
-    public void testSetArchiveStatusOfCourse() throws Exception {
-        
-        CourseAttributes course = new CourseAttributes("CLogicT.new-course", "New course", "UTC");
-        coursesDb.createEntity(course);
-        
-        ______TS("success: archive a course");
-        
-        coursesLogic.setArchiveStatusOfCourse(course.getId(), true);
-        
-        CourseAttributes courseRetrieved = coursesLogic.getCourse(course.getId());
-        assertTrue(courseRetrieved.isArchived);
-        
-        ______TS("success: unarchive a course");
-        
-        coursesLogic.setArchiveStatusOfCourse(course.getId(), false);
-        
-        courseRetrieved = coursesLogic.getCourse(course.getId());
-        assertFalse(courseRetrieved.isArchived);
-        
-        ______TS("fail: course doesn't exist");
-        
-        coursesDb.deleteCourse(course.getId());
-        
-        try {
-            coursesLogic.setArchiveStatusOfCourse(course.getId(), true);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("Course does not exist: CLogicT.new-course", e.getMessage());
-        }
-
-        ______TS("Null parameter");
-    
-        try {
-            coursesLogic.setArchiveStatusOfCourse(null, true);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
-        }
-    }
 
     public void testGetCourseSummary() throws Exception {
 
@@ -299,7 +257,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseDetailsBundle courseSummary = coursesLogic.getCourseSummary(course.getId());
         assertEquals(course.getId(), courseSummary.course.getId());
         assertEquals(course.getName(), courseSummary.course.getName());
-        assertFalse(courseSummary.course.isArchived);
 
         assertEquals(2, courseSummary.stats.teamsTotal);
         assertEquals(5, courseSummary.stats.studentsTotal);
@@ -364,7 +321,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseSummaryBundle courseSummary = coursesLogic.getCourseSummaryWithoutStats(course.getId());
         assertEquals(course.getId(), courseSummary.course.getId());
         assertEquals(course.getName(), courseSummary.course.getName());
-        assertFalse(courseSummary.course.isArchived);
 
         assertEquals(0, courseSummary.sections.size());
        
@@ -421,7 +377,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(course.getId(), courseDetails.course.getId());
         assertEquals(course.getName(), courseDetails.course.getName());
         assertEquals(course.getTimeZone(), courseDetails.course.getTimeZone());
-        assertFalse(courseDetails.course.isArchived);
 
         assertEquals(2, courseDetails.stats.teamsTotal);
         assertEquals(5, courseDetails.stats.studentsTotal);

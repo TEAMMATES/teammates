@@ -31,7 +31,6 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     
     //Note: be careful when changing these variables as their names are used in *.json files.
     public Date createdAt;
-    public boolean isArchived;
     private String id;
     private String name;
     private String timeZone;
@@ -44,14 +43,6 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         this.id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
         this.timeZone = timeZone;
-        this.isArchived = false;
-    }
-    
-    public CourseAttributes(String courseId, String name, String timeZone, boolean archiveStatus) {
-        this.id = Sanitizer.sanitizeTitle(courseId);
-        this.name = Sanitizer.sanitizeTitle(name);
-        this.timeZone = timeZone;
-        this.isArchived = archiveStatus;
     }
 
     public CourseAttributes(Course course) {
@@ -59,13 +50,6 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         this.name = course.getName();
         this.timeZone = course.getTimeZone();
         this.createdAt = course.getCreatedAt();
-        
-        Boolean status = course.getArchiveStatus();
-        if (status == null) {
-            this.isArchived = false;
-        } else {
-            this.isArchived = status.booleanValue();
-        }
     }
 
     public String getId() {
@@ -111,13 +95,13 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), getTimeZone(), Boolean.valueOf(isArchived), createdAt);
+        return new Course(getId(), getName(), getTimeZone(), createdAt);
     }
 
     @Override
     public String toString() {
         return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
-               + " timeZone: " + getTimeZone() + " isArchived: " + isArchived;
+               + " timeZone: " + getTimeZone();
     }
 
     @Override

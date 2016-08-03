@@ -807,19 +807,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
         coursesLogic.updateCourse(course);
     }
-    
-    /**
-     * Change the archive status of a course.<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @param courseId The course of which the archive status is to be changed
-     * @param archiveStatus The archive status to be set
-     */
-    public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus) throws InvalidParametersException,
-                                                                                        EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        coursesLogic.setArchiveStatusOfCourse(courseId, archiveStatus);
-    }
 
     /**
      * Change the archive status of a course for a instructor.<br>

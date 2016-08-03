@@ -34,21 +34,18 @@
             "id":"CHomeUiT.CS2104",
             "name":"Programming Language Concepts",
             "timeZone":"UTC",
-            "createdAt": "2012-04-01 11:58 PM UTC",
-            "isArchived":false
+            "createdAt": "2012-04-01 11:58 PM UTC"
         },
         "CHomeUiT.CS1101":{
             "id":"CHomeUiT.CS1101",
             "name":"Programming Methodology",
             "timeZone":"UTC",
-            "createdAt": "2012-04-01 11:59 PM UTC",
-            "isArchived":false
+            "createdAt": "2012-04-01 11:59 PM UTC"
         },
         "CHomeUiT.Sample":{
             "id":"newIns.wit-demo",
             "name":"Sample Course 101",
-            "timeZone":"UTC",
-            "isArchived":false
+            "timeZone":"UTC"
         }
     },
     "instructors":{

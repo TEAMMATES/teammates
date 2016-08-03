@@ -27,14 +27,11 @@ public class Course {
 
     @Persistent
     private Date createdAt;
-    
-    @Persistent
-    private Boolean archiveStatus;
 
     @Persistent
     private String timeZone;
 
-    public Course(String courseId, String courseName, String courseTimeZone, Boolean archiveStatus, Date createdAt) {
+    public Course(String courseId, String courseName, String courseTimeZone, Date createdAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (courseTimeZone == null) {
@@ -47,7 +44,6 @@ public class Course {
         } else {
             this.setCreatedAt(createdAt);
         }
-        this.setArchiveStatus(archiveStatus);
     }
 
     public String getUniqueId() {
@@ -74,14 +70,6 @@ public class Course {
         this.createdAt = createdAt;
     }
     
-    public Boolean getArchiveStatus() {
-        return archiveStatus;
-    }
-    
-    public void setArchiveStatus(Boolean status) {
-        this.archiveStatus = status;
-    }
-
     public String getTimeZone() {
         return timeZone;
     }

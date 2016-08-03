@@ -62,8 +62,7 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testToString() {
         CourseAttributes c = generateValidCourseAttributesObject();
-        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC isArchived: false",
-                     c.toString());
+        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC", c.toString());
     }
     
     public static CourseAttributes generateValidCourseAttributesObject() {

@@ -132,7 +132,6 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("Failure: update course with invalid parameters");
         
         CourseAttributes invalidCourse = new CourseAttributes("", "", "");
-        invalidCourse.isArchived = true;
         
         try {
             coursesDb.updateCourse(invalidCourse);
@@ -160,12 +159,11 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("success: typical case");
         
         CourseAttributes c = createNewCourse();
-        c.isArchived = true;
+        CourseAttributes updatedCourse = new CourseAttributes(c.getId(), c.getName() + " updated", "UTC");
      
-        coursesDb.updateCourse(c);
-        
-        CourseAttributes courseRetrieved = coursesDb.getCourse(c.getId());
-        assertEquals(c.isArchived, courseRetrieved.isArchived);
+        coursesDb.updateCourse(updatedCourse);
+        CourseAttributes retrieved = coursesDb.getCourse(c.getId());
+        assertEquals(c.getName() + " updated", retrieved.getName());
     }
     
     @Test
