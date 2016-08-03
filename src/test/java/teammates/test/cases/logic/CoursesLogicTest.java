@@ -643,15 +643,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                 .get("student2InCourse1");
         List<CourseAttributes> courseList = coursesLogic
                 .getCoursesForStudentAccount(studentInTwoCourses.googleId);
+        CourseAttributes.sortById(courseList);
         assertEquals(2, courseList.size());
-        // For some reason, index 0 is Course2 and index 1 is Course1
-        // Anyway in DataStore which follows a HashMap structure,
-        // there is no guarantee on the order of Entities' storage
-        CourseAttributes course1 = dataBundle.courses.get("typicalCourse2");
+
+        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         assertEquals(course1.getId(), courseList.get(0).getId());
         assertEquals(course1.getName(), courseList.get(0).getName());
     
-        CourseAttributes course2 = dataBundle.courses.get("typicalCourse1");
+        CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
         assertEquals(course2.getId(), courseList.get(1).getId());
         assertEquals(course2.getName(), courseList.get(1).getName());
     
@@ -704,8 +703,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         // Verify number of courses received
         assertEquals(2, courseList.size());
     
-        // Verify details of course 1 (note: index of course 1 is not 0)
-        CourseDetailsBundle actualCourse1 = courseList.get(1);
+        CourseDetailsBundle actualCourse1 = courseList.get(0);
         assertEquals(expectedCourse1.getId(), actualCourse1.course.getId());
         assertEquals(expectedCourse1.getName(), actualCourse1.course.getName());
    

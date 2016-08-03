@@ -170,6 +170,7 @@ public class CoursesLogic {
                 throws EntityDoesNotExistException {
         
         List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
+        CourseAttributes.sortById(courseList);
         List<CourseDetailsBundle> courseDetailsList = new ArrayList<CourseDetailsBundle>();
         
         for (CourseAttributes c : courseList) {
