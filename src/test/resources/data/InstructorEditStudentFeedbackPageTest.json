@@ -57,8 +57,7 @@
     "courses":{
         "IESFPTCourse":{
             "id":"IESFPTCourse",
-            "name":"IESFPTCourse",
-            "isArchived":false
+            "name":"IESFPTCourse"
         }
     },
     "instructors":{

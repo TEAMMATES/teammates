@@ -26,38 +26,31 @@
   "courses": {
     "course": {
       "id": "FeedbackEditCopy.CS2104",
-      "name": "Programming Language Concepts",
-      "isArchived": false
+      "name": "Programming Language Concepts"
     },
     "course2": {
       "id": "FeedbackEditCopy.CS1101",
-      "name": "Programming Methodology",
-      "isArchived": false
+      "name": "Programming Methodology"
     },
     "course3": {
       "id": "FeedbackEditCopy.CS2105",
-      "name": "Introduction to Computer Networks",
-      "isArchived": false
+      "name": "Introduction to Computer Networks"
     },
     "course4": {
       "id": "FeedbackEditCopy.CS2103",
-      "name": "Software Engineering",
-      "isArchived": false
+      "name": "Software Engineering"
     },
     "course5": {
       "id": "FeedbackEditCopy.CS2107",
-      "name": "Introduction to Information and System Security",
-      "isArchived": false
+      "name": "Introduction to Information and System Security"
     },
     "course6": {
       "id": "FeedbackEditCopy.CS2103R",
-      "name": "Software Engineering (R)",
-      "isArchived": false
+      "name": "Software Engineering (R)"
     },
     "course7": {
       "id": "FeedbackEditCopy.CS2102",
-      "name": "Introduction to Databases",
-      "isArchived": false
+      "name": "Introduction to Databases"
     }
   },
   
