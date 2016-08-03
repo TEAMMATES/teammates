@@ -94,16 +94,16 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
                                              : getTimeZoneId(sessions.get(0).getTimeZone());
         
         if (isPreview) {
-            System.out.println("Course " + course.getId() + " to be set to " + timeZone + ".");
+            System.out.println("Course " + course.getId() + " timezone to be set to " + timeZone + ".");
             return;
         }
         
         try {
             course.setTimeZone(timeZone);
             logic.updateCourse(course);
-            System.out.println("Course + " + course.getId() + " timezone successfully set to " + timeZone + ".");
+            System.out.println("Course " + course.getId() + " timezone successfully set to " + timeZone + ".");
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            System.out.println("Failed to set timezone for course + " + course.getId() + ".");
+            System.out.println("Failed to set timezone for course " + course.getId() + ".");
             e.printStackTrace();
         }
     }
@@ -117,14 +117,14 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
     }
     
     private List<CourseAttributes> getAllCoursesWithoutTimeZone() {
-        List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> coursesWithoutTimeZone = new ArrayList<CourseAttributes>();
         List<Course> courseEntities = getAllCourseEntities();
-        for (Course course : courseEntities) {
-            if (course.getTimeZone() == null && !JDOHelper.isDeleted(course)) {
-                courseAttributes.add(new CourseAttributes(course));
+        for (Course courseEntity : courseEntities) {
+            if (courseEntity.getTimeZone() == null && !JDOHelper.isDeleted(courseEntity)) {
+                coursesWithoutTimeZone.add(new CourseAttributes(courseEntity));
             }
         }
-        return courseAttributes;
+        return coursesWithoutTimeZone;
     }
     
     @SuppressWarnings("unchecked")
