@@ -14,6 +14,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseTestCase;
 
@@ -78,18 +79,21 @@ public class StudentAttributesTest extends BaseTestCase {
         expected = generateTypicalStudentObject();
         studentUnderTest = new StudentAttributes("  sect 1 ", "  team 1   ", "   name 1   ",
                                                  "   email@email.com  ", "  comment 1  ", "courseId1");
-        verifyStudentContent(expected, studentUnderTest.toEntity());
+        verifyStudentContent(expected, (CourseStudent) studentUnderTest.toEntity());
 
         ______TS("Typical case: contains google id");
         expected = generateTypicalStudentObject();
         studentUnderTest = new StudentAttributes("googleId.1", "email@email.com", "name 1", "comment 1",
                                                  "courseId1", "team 1", "section 1");
-        verifyStudentContentIncludingId(expected, studentUnderTest.toEntity());
+
+        verifyStudentContentIncludingId(expected, (CourseStudent) studentUnderTest.toEntity());
+
 
         ______TS("Typical case: initialize from entity");
         expected = generateTypicalStudentObject();
         studentUnderTest = new StudentAttributes(expected);
-        verifyStudentContentIncludingId(expected, studentUnderTest.toEntity());
+
+        verifyStudentContentIncludingId(expected, (CourseStudent) studentUnderTest.toEntity());
 
         ______TS("Failure case: empty course id");
         invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com", "c", "");
@@ -398,8 +402,20 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals(expected.getEmail(), actual.getEmail());
         assertEquals(expected.getComments(), actual.getComments());
     }
+    
+    private void verifyStudentContent(Student expected, CourseStudent actual) {
+        assertEquals(expected.getTeamName(), actual.getTeamName());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getEmail(), actual.getEmail());
+        assertEquals(expected.getComments(), actual.getComments());
+    }
 
     private void verifyStudentContentIncludingId(Student expected, Student actual) {
+        verifyStudentContent(expected, actual);
+        assertEquals(expected.getGoogleId(), actual.getGoogleId());
+    }
+    
+    private void verifyStudentContentIncludingId(Student expected, CourseStudent actual) {
         verifyStudentContent(expected, actual);
         assertEquals(expected.getGoogleId(), actual.getGoogleId());
     }
