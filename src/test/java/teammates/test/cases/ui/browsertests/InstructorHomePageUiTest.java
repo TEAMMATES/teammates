@@ -344,21 +344,15 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         // Both will be false before it is archived for testing
         assertFalse(instructor.isArchived);
         assertFalse(helper.isArchived);
-
-        assertFalse(BackDoor.getCourse(courseIdForCS1101).isArchived);
         
         ______TS("archive course action: click and confirm");
         
         homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS1101);
         
-        // archiving should only modify the isArchived status on the instructor
         instructor = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms", courseIdForCS1101);
         helper = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms.helper", courseIdForCS1101);
         assertTrue(instructor.isArchived);
-        assertTrue(helper.isArchived == null || !helper.isArchived);
-        
-        // the course's isArchived status should not be modified
-        assertFalse(BackDoor.getCourse(courseIdForCS1101).isArchived);
+        assertFalse(helper.isArchived);
         
         homePage.verifyHtmlMainContent("/instructorHomeCourseArchiveSuccessful.html");
         

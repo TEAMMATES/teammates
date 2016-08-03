@@ -60,8 +60,7 @@
     "courses":{
         "IFSubmitUiT.CS2104":{
             "id":"IFSubmitUiT.CS2104",
-            "name":"Programming Language Concepts",
-            "isArchived": false
+            "name":"Programming Language Concepts"
         }
     },
     "instructors":{
