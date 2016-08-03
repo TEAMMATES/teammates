@@ -14,7 +14,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
-import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.Question;
 
 import com.google.appengine.api.datastore.Text;
@@ -46,31 +45,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public FeedbackQuestionAttributes() {
         // attributes to be set after construction
     }
-    
-    public FeedbackQuestionAttributes(FeedbackQuestion fq) {
-        this.feedbackQuestionId = fq.getId();
-        this.feedbackSessionName = fq.getFeedbackSessionName();
-        this.courseId = fq.getCourseId();
-        this.creatorEmail = fq.getCreatorEmail();
-        this.questionMetaData = fq.getQuestionMetaData();
-        this.questionDescription = fq.getQuestionDescription() == null
-                                   ? null
-                                   : new Text(Sanitizer.sanitizeForRichText(fq.getQuestionDescription().getValue()));
-        this.questionNumber = fq.getQuestionNumber();
-        this.questionType = fq.getQuestionType();
-        this.giverType = fq.getGiverType();
-        this.recipientType = fq.getRecipientType();
-        this.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
-        this.showResponsesTo = new ArrayList<FeedbackParticipantType>(fq.getShowResponsesTo());
-        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>(fq.getShowGiverNameTo());
-        this.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(fq.getShowRecipientNameTo());
-        
-        this.createdAt = fq.getCreatedAt();
-        this.updatedAt = fq.getUpdatedAt();
-        
-        removeIrrelevantVisibilityOptions();
-    }
-    
+
     public FeedbackQuestionAttributes(Question fq) {
         this.feedbackQuestionId = fq.getId();
         this.feedbackSessionName = fq.getFeedbackSessionName();
@@ -136,11 +111,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public String getId() {
         return feedbackQuestionId;
     }
-
-    public void setId(String id) {
-        this.feedbackQuestionId = id;
-    }
     
+    public void setId(String feedbackQuestionId) {
+        this.feedbackQuestionId = feedbackQuestionId;
+    }
+
     public String makeId() {
         return courseId + "/" + feedbackSessionName + "/" + questionNumber
                + "/" + formatTimeForId(new Date());
@@ -152,8 +127,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     @Override
-    public Object toEntity() {
-        return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
+    public Question toEntity() {
+        String feedbackQuestionid = getId() == null ? makeId() : getId();
+        return new Question(feedbackQuestionid, feedbackSessionName, courseId, creatorEmail,
                                     questionMetaData, questionDescription, questionNumber, questionType, giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
                                     showResponsesTo, showGiverNameTo, showRecipientNameTo);

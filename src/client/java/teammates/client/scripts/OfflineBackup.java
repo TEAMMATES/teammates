@@ -29,7 +29,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.logic.api.Logic;
-import teammates.storage.api.BothQuestionsDb;
+import teammates.storage.api.QuestionsDb;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -213,7 +213,7 @@ public class OfflineBackup extends RemoteApiClient {
      */
     protected void retrieveAndSaveFeedbackQuestionsByCourse(String courseId) {
         
-        BothQuestionsDb feedbackQuestionDb = new BothQuestionsDb();
+        QuestionsDb feedbackQuestionDb = new QuestionsDb();
         List<FeedbackQuestionAttributes> feedbackQuestions = feedbackQuestionDb.getFeedbackQuestionsForCourse(courseId);
 
         appendToFile(currentFileName, "\t\"feedbackQuestions\":{\n");

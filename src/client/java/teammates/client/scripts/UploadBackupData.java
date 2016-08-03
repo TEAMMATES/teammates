@@ -29,7 +29,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.storage.api.BothQuestionsDb;
+import teammates.storage.api.QuestionsDb;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
@@ -72,7 +72,7 @@ public class UploadBackupData extends RemoteApiClient {
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
-    private static final BothQuestionsDb fqDb = new BothQuestionsDb();
+    private static final QuestionsDb fqDb = new QuestionsDb();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();

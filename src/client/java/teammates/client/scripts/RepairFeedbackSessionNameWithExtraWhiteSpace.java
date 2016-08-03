@@ -18,10 +18,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Question;
 
 /**
  * Previews and removes extra spaces in the feedbackSessionName field of
@@ -181,16 +181,16 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
      */
     private void fixFeedbackQuestionsOfFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Query q = getPm().newQuery(FeedbackQuestion.class);
+        Query q = getPm().newQuery(Question.class);
         
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
                     + "courseId == courseIdParam");
         @SuppressWarnings("unchecked")
-        List<FeedbackQuestion> questions =
-                (List<FeedbackQuestion>) q.execute(session.getFeedbackSessionName(), session.getCourseId());
+        List<Question> questions =
+                (List<Question>) q.execute(session.getFeedbackSessionName(), session.getCourseId());
         
-        for (FeedbackQuestion question : questions) {
+        for (Question question : questions) {
             question.setFeedbackSessionName(
                     StringHelper.removeExtraSpace(question.getFeedbackSessionName()));
         }

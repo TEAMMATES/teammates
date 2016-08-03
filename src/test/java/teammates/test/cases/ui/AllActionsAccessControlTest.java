@@ -28,11 +28,11 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.storage.api.BothQuestionsDb;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.api.QuestionsDb;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -43,7 +43,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     
     private final CommentsDb commentsDb = new CommentsDb();
     private final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
-    private final BothQuestionsDb fqDb = new BothQuestionsDb();
+    private final QuestionsDb fqDb = new QuestionsDb();
     private final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
     

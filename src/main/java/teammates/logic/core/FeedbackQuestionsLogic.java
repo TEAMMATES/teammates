@@ -25,7 +25,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
-import teammates.storage.api.BothQuestionsDb;
+import teammates.storage.api.QuestionsDb;
 
 public class FeedbackQuestionsLogic {
     
@@ -33,7 +33,7 @@ public class FeedbackQuestionsLogic {
 
     private static FeedbackQuestionsLogic instance;
     
-    private static final BothQuestionsDb fqDb = new BothQuestionsDb();
+    private static final QuestionsDb fqDb = new QuestionsDb();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -546,7 +546,8 @@ public class FeedbackQuestionsLogic {
             oldQuestion = fqDb.getFeedbackQuestion(newAttributes.feedbackSessionName,
                     newAttributes.courseId, newAttributes.questionNumber);
         } else {
-            oldQuestion = fqDb.getFeedbackQuestion(newAttributes.getId());
+            oldQuestion = fqDb.getFeedbackQuestion(newAttributes.feedbackSessionName,
+                    newAttributes.courseId, newAttributes.getId());
         }
         
         if (oldQuestion == null) {

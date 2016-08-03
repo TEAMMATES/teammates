@@ -92,6 +92,20 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
     
+    public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> feedbackQuestionsToAdd)
+            throws InvalidParametersException {
+        List<EntityAttributes> feedbackSessionsToUpdate = createEntities(feedbackQuestionsToAdd);
+        for (EntityAttributes entity : feedbackSessionsToUpdate) {
+            FeedbackQuestionAttributes question = (FeedbackQuestionAttributes) entity;
+            try {
+                updateFeedbackQuestion(question);
+            } catch (EntityDoesNotExistException e) {
+                Assumption.fail("Eventual Consistency while creating feedback questions "
+                                + TeammatesException.toStringWithStackTrace(e));
+            }
+        }
+    }
+    
     public void createFeedbackQuestions(
             FeedbackSessionAttributes session, Collection<FeedbackQuestionAttributes> questionsToAdd)
             throws InvalidParametersException, EntityDoesNotExistException {
