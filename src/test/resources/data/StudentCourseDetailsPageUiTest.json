@@ -38,8 +38,7 @@
   "courses": {
     "SCDetailsUiT.CS2104": {
       "id": "SCDetailsUiT.CS2104",
-      "name": "Programming Language Concepts",
-      "isArchived": false
+      "name": "Programming Language Concepts"
     }
   },
   
