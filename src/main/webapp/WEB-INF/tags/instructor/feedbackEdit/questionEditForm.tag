@@ -99,6 +99,7 @@
                             tabindex="9">
                             ${fqForm.questionDescription}
                         </div>
+                        <input type="hidden" name="questiondescription">
                     </div>
                     ${fqForm.questionSpecificEditFormHtml}
                 </div>

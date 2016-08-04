@@ -113,6 +113,7 @@
                             data-placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION_DESCRIPTION %>"
                             tabindex="9">
                         </div>
+                        <input type="hidden" name="questiondescription">
                     </div>
                     ${fqForm.questionSpecificEditFormHtml}
                 </div>
