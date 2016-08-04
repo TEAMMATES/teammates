@@ -116,7 +116,7 @@ function prepareDescription(form) {
     var questionNum = getQuestionNum(form);
     var content = tinyMCE.get('questiondescription-' + questionNum).getContent();
     form.find('input[name=questiondescription]').val(content);
-    form.find('input[name=questiondescription-' + questionNum +']').prop('disabled', true);
+    form.find('input[name=questiondescription-' + questionNum + ']').prop('disabled', true);
 }
 
 function bindFeedbackSessionEditFormSubmission() {
