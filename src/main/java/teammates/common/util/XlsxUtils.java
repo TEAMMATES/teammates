@@ -22,7 +22,6 @@ public final class XlsxUtils {
         defaultFont.setBold(false);
         defaultFont.setItalic(false);
         defaultStyle.setFont(defaultFont);
-        workBook.close();
         return defaultStyle;
     }
 
@@ -35,7 +34,6 @@ public final class XlsxUtils {
         questionFont.setBold(true);
         questionFont.setItalic(false);
         questionStyle.setFont(questionFont);
-        workBook.close();
         return questionStyle;
     }
 }
