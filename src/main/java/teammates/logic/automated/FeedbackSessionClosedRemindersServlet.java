@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
 
+/**
+ * Handle requests for closed sessions and send emails to instructors and students.
+ */
 @SuppressWarnings("serial")
 public class FeedbackSessionClosedRemindersServlet extends AutomatedRemindersServlet {
     
