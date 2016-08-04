@@ -40,18 +40,15 @@
   "courses": {
     "course": {
       "id": "CFeedbackUiT.CS2104",
-      "name": "Programming Language Concepts",
-      "isArchived": false
+      "name": "Programming Language Concepts"
     },
     "courseWithoutSessions": {
       "id": "CFeedbackUiT.coursewithoutsessions",
-      "name": "Course Without Sessions",
-      "isArchived": false
+      "name": "Course Without Sessions"
     },
     "anotherCourse": {
       "id": "CFeedbackUiT.CS1101",
-      "name": "Programming Methodology",
-      "isArchived": false
+      "name": "Programming Methodology"
     }
   },
   
