@@ -51,7 +51,7 @@
                                        name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>">
                                  Download Results <span class="caret"></span>
                                 </button>
-                                <ul id="download-result-dropdown" class="dropdown-menu">
+                                <ul id="download-result-dropdown" class="dropdown-menu download-type-list">
                                     <li data-downloadtype="<%=Const.FeedbackSessionResultsDownloadTypes.CSV%>"><a>As spreadsheet without formatting (.csv file)</a></li>
                                     <li data-downloadtype="<%=Const.FeedbackSessionResultsDownloadTypes.XLSX%>"><a>As normal spreadsheet (.xlsx file)</a></li>
                                 </ul>
