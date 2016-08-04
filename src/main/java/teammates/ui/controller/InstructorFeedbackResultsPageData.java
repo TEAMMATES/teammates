@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -13,8 +12,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.google.common.collect.ComparisonChain;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -966,21 +963,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // If question specific sorting is not needed, responses are sorted
-            // by alphabetical order of giver's name
+            // by default order (first by team name, then by display name)
             if (questionDetails.isQuestionSpecificSortingRequired()) {
                 Collections.sort(responseRows, questionDetails.getResponseRowsSortOrder());
             } else {
-                Collections.sort(responseRows, new Comparator<InstructorFeedbackResultsResponseRow>() {
-                    @Override
-                    public int compare(InstructorFeedbackResultsResponseRow a1,
-                            InstructorFeedbackResultsResponseRow a2) {
-                        return ComparisonChain.start()
-                                .compare(a1.getGiverTeam(), a2.getGiverTeam())
-                                .compare(a1.getGiverDisplayableIdentifier(),
-                                        a2.getGiverDisplayableIdentifier())
-                                .result();
-                    }
-                });
+                responseRows = InstructorFeedbackResultsResponseRow.sortListWithDefaultOrder(responseRows);
             }
             
         }
