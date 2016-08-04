@@ -178,7 +178,7 @@ function bindCopyButton() {
             $('#copyModalForm').submit();
         } else {
             $newSessionName.addClass('text-box-error');
-            $('#copyModal').animate({ scrollTop: $newSessionName.offset().top }, 500); 
+            $('#copyModal').animate({ scrollTop: $newSessionName.offset().top }, 500);
         }
         return false;
     });
