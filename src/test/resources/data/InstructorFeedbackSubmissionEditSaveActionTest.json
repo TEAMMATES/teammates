@@ -32,8 +32,7 @@
     "courses":{
         "idOfCourse1":{
             "id":"idOfCourse1",
-            "name":"Programming Language Concepts",
-            "isArchived": false
+            "name":"Programming Language Concepts"
         }
     },
     "instructors":{

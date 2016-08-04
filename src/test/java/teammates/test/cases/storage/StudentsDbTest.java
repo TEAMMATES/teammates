@@ -14,12 +14,28 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
+import teammates.storage.entity.Student;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 public class StudentsDbTest extends BaseComponentTestCase {
     
     private StudentsDb studentsDb = new StudentsDb();
+    
+    /**
+     * Allows saving of students as the old entity type.
+     * While persisting to database,
+     * the student is saved as the old {@code Student} entity type instead of
+     * {@code CourseStudent}.
+     *  Can be removed once all Students are migrated to CourseStudent.
+     */
+    private class OldStudentEntityPersistenceAttributes extends StudentAttributes {
+        @Override
+        public Student toEntity() {
+            return new Student(email, name, googleId, comments, course, team, section);
+        }
+
+    }
     
     @BeforeClass
     public static void setupClass() {
@@ -32,7 +48,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         StudentAttributes s = createNewStudent();
         
-        StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
+        StudentAttributes student = studentsDb.getStudentForEmail(s.course, s.email);
         assertNotNull(student);
         
         // Assert dates are now.
@@ -125,7 +141,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testGetStudent() throws InvalidParametersException, EntityDoesNotExistException {
         
@@ -135,12 +150,38 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team, s.section,
                                                      s.email, s.googleId, s.comments);
         
-        ______TS("typical success case: existent");
+        ______TS("typical success case for getStudentForRegistrationKey: existing student");
         StudentAttributes retrieved = studentsDb.getStudentForEmail(s.course, s.email);
         assertNotNull(retrieved);
         assertNotNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(retrieved.key)));
+
         assertNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt("notExistingKey")));
+        
+        ______TS("getStudentForRegistrationKey: key matches old student entity without a CourseStudent copy");
+        
+        StudentAttributes oldStudent = createOldStudentAttributes("getStudent");
+        assertTrue("Old student entity should be created", isOldStudentExists(oldStudent));
+        assertFalse("New student entity should not be created", isNewStudentExists(oldStudent));
+        assertNotNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(oldStudent.key)));
+        
+        ______TS("getStudentForRegistrationKey works for a student having both Student and CourseStudent");
+        
+        StudentAttributes updatedStudent =
+                copyOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
+        assertTrue(isOldStudentExists(oldStudent));
+        assertTrue(isNewStudentExists(oldStudent));
+    
+        
+        assertNotNull("Old registration key can be used to retrieve student",
+                      studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(oldStudent.key)));
+        assertNotNull("New registration key can be used to retrieve student",
+                      studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(updatedStudent.key)));
+        assertEquals("old registration key was copied to new registration key",
+                     oldStudent.key, updatedStudent.key);
+        
+        
         ______TS("non existant student case");
+
         retrieved = studentsDb.getStudentForEmail("any-course-id", "non-existent@email.com");
         assertNull(retrieved);
         
@@ -179,7 +220,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testupdateStudentWithoutDocument() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateStudentWithoutDocument() throws InvalidParametersException, EntityDoesNotExistException {
         
         // Create a new student with valid attributes
         StudentAttributes s = createNewStudent();
@@ -242,6 +283,37 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         StudentAttributes updatedStudent = studentsDb.getStudentForEmail(s.course, s.email);
         assertTrue(updatedStudent.isEnrollInfoSameAs(s));
+        
+        
+        ______TS("Can update old student entity without a CourseStudent copy");
+        
+        StudentAttributes oldStudent = createOldStudentAttributes("updateStudent");
+        assertTrue("Old student entity should be created", isOldStudentExists(oldStudent));
+        assertFalse("New student entity should not be created", isNewStudentExists(oldStudent));
+        
+        oldStudent.section = "new section";
+        studentsDb.updateStudentWithoutSearchability(
+                oldStudent.course, oldStudent.email, oldStudent.name, oldStudent.team, oldStudent.section,
+                oldStudent.email, oldStudent.googleId, oldStudent.comments);
+        StudentAttributes updatedOldStudent = studentsDb.getStudentForEmail(
+                                                        oldStudent.course, oldStudent.email);
+        assertTrue(updatedOldStudent.isEnrollInfoSameAs(oldStudent));
+        
+        ______TS("update works for a student having both Student and CourseStudent");
+        
+        StudentAttributes copiedStudent =
+                copyOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
+        assertTrue(isOldStudentExists(oldStudent));
+        assertTrue(isNewStudentExists(oldStudent));
+        copiedStudent.name = "new name";
+        studentsDb.updateStudentWithoutSearchability(
+                    copiedStudent.course, copiedStudent.email, copiedStudent.name, copiedStudent.team,
+                    copiedStudent.section, copiedStudent.email, copiedStudent.googleId,
+                    copiedStudent.comments);
+        StudentAttributes updatedCopiedStudent = studentsDb.getStudentForEmail(
+                                                    copiedStudent.course, copiedStudent.email);
+        assertTrue(updatedCopiedStudent.isEnrollInfoSameAs(copiedStudent));
+        
     }
 
     @SuppressWarnings("deprecation")
@@ -285,8 +357,74 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         studentsDb.deleteStudent(s.course, s.email);
 
-      //Untested case: The deletion is not persisted immediately (i.e. persistence delay)
-      //       Reason: Difficult to reproduce a persistence delay during testing
+        ______TS("Can delete old student entity without a CourseStudent copy");
+        
+        StudentAttributes oldStudent = createOldStudentAttributes("deleteStudent");
+        assertTrue("Old student entity should be created", isOldStudentExists(oldStudent));
+        assertFalse("New student entity should not be created", isNewStudentExists(oldStudent));
+        
+        studentsDb.deleteStudent(oldStudent.course, oldStudent.email);
+        assertNull(studentsDb.getStudentForEmail(oldStudent.course, oldStudent.email));
+        assertFalse(isOldStudentExists(oldStudent));
+        
+        ______TS("delete works for a student having both Student and CourseStudent");
+        oldStudent = createOldStudentAttributes("deleteStudent");
+        copyOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
+        
+        assertTrue(isOldStudentExists(oldStudent));
+        assertTrue(isNewStudentExists(oldStudent));
+        
+        studentsDb.deleteStudent(oldStudent.course, oldStudent.email);
+        assertNull(studentsDb.getStudentForEmail(oldStudent.course, oldStudent.email));
+        
+        assertFalse(isOldStudentExists(oldStudent));
+        assertFalse(isNewStudentExists(oldStudent));
+        
+    }
+    
+    // This method can be removed after all Students have been migrated to CourseStudents
+    private StudentAttributes createOldStudentAttributes(String testName)
+            throws InvalidParametersException {
+        StudentAttributes s = new OldStudentEntityPersistenceAttributes();
+        s.name = "valid student";
+        s.course = "valid-course" + testName;
+        s.email = "validOldStudent" + testName + "@email.com";
+        s.team = "validTeamName";
+        s.section = "validSectionName";
+        s.comments = "";
+        s.googleId = "";
+        
+        studentsDb.createEntityWithoutExistenceCheck(s);
+        
+        return studentsDb.getStudentForEmail(s.course, s.email);
+    }
+    
+    private StudentAttributes copyOldStudentEntityToCourseStudent(String email, String course)
+            throws InvalidParametersException {
+        studentsDb.copyStudentToCourseStudent(course, email);
+        return studentsDb.getStudentForEmail(course, email);
+    }
+    
+    @SuppressWarnings("deprecation")
+    // This method can be removed after all Students have been migrated to CourseStudents
+    private boolean isOldStudentExists(StudentAttributes s) {
+        for (StudentAttributes studentsInDb : studentsDb.getAllOldStudents()) {
+            if (studentsInDb.getId().equals(s.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    @SuppressWarnings("deprecation")
+    // This method can be removed after all Students have been migrated to CourseStudents
+    private boolean isNewStudentExists(StudentAttributes s) {
+        for (StudentAttributes studentsInDb : studentsDb.getAllCourseStudents()) {
+            if (studentsInDb.getId().equals(s.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
     
     private StudentAttributes createNewStudent() throws InvalidParametersException {

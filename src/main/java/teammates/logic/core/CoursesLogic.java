@@ -169,6 +169,7 @@ public class CoursesLogic {
                 throws EntityDoesNotExistException {
         
         List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
+        CourseAttributes.sortById(courseList);
         List<CourseDetailsBundle> courseDetailsList = new ArrayList<CourseDetailsBundle>();
         
         for (CourseAttributes c : courseList) {
@@ -751,24 +752,6 @@ public class CoursesLogic {
         }
         
         return courseList;
-    }
-    
-    /**
-     * Updates the 'archived' status of a course using the courseId.
-     * @param courseId
-     * @param archiveStatus if {@code true}, course is set to "archived".
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
-     */
-    public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus) throws InvalidParametersException,
-                                                                                        EntityDoesNotExistException {
-        
-        CourseAttributes courseToUpdate = getCourse(courseId);
-        if (courseToUpdate == null) {
-            throw new EntityDoesNotExistException("Course does not exist: " + courseId);
-        }
-        courseToUpdate.isArchived = archiveStatus;
-        coursesDb.updateCourse(courseToUpdate);
     }
     
     /**
