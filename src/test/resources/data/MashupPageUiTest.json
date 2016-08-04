@@ -65,13 +65,11 @@
     "courses":{
         "CS2104":{
             "id":"CS2104",
-            "name":"Programming Language Concepts",
-            "isArchived": false
+            "name":"Programming Language Concepts"
         },
         "CS1101":{
             "id":"CS1101",
-            "name":"Programming Methodology",
-            "isArchived": false
+            "name":"Programming Methodology"
         },
         "CS4215":{
             "id":"CS4215",

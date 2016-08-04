@@ -84,18 +84,15 @@
         "typicalCourse1":{
             "id":"comments.idOfTypicalCourse1",
             "name":"Typical Course 1 with 2 Evals",
-            "createdAt": "2012-04-01 11:59 PM UTC",
-            "isArchived":false
+            "createdAt": "2012-04-01 11:59 PM UTC"
         },
         "sampleCourse":{
             "id":"comments.idOfSampleCourse-demo",
-            "name":"Sample Course",
-            "isArchived":false
+            "name":"Sample Course"
         },
         "uriCharsCourse":{
             "id":"comments.idOfUriCharsCourse",
-            "name":"Course with # Session",
-            "isArchived":false
+            "name":"Course with # Session"
         },
         "archivedCourse":{
             "id":"comments.idOfArchivedCourse",
