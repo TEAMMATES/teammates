@@ -1,74 +1,68 @@
 package teammates.storage.entity;
 
+import java.security.SecureRandom;
 import java.util.Date;
 
 import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
-import teammates.common.util.Const;
+import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
 
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * An association class that represents the association Account -->
  * [enrolled in] --> Course.
- * TODO After migrating all Students to CourseStudents, this class should be removed.
  */
 @PersistenceCapable
-public class Student implements StoreCallback {
-    // TODO: some of the serialized names are not correct.
-    
+public class CourseStudent implements StoreCallback {
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp.
      * Set to true when using scripts to update entities when you want to
      * preserve the lastUpdate time stamp.
      **/
     @NotPersistent
-    public boolean keepUpdateTimestamp;
+    public transient boolean keepUpdateTimestamp;
+
+    /**
+     * @see #makeId()
+     */
+    @PrimaryKey
+    @Persistent
+    private String id;
     
     @Persistent
     private Date createdAt;
     
     @Persistent
     private Date updatedAt;
-    
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private transient Long registrationKey;
+
+    @Persistent
+    private transient String registrationKey;
 
     /**
-     * The student's Google ID. Used as the foreign key for the Account object.
-     * This can be null/empty if the student's hasn't joined the course yet.
+     * The student's Google ID. Links to the Account object.
+     * This can be null if the student hasn't joined the course yet.
      */
     @Persistent
     @SerializedName("google_id")
-    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MemberName the database uses ID
-    private String ID;
-    // CHECKSTYLE.ON:AbbreviationAsWordInName|MemberName
+    private String googleId;
 
-    /**
-     * The email used to contact the student regarding this course.
-     */
     @Persistent
     @SerializedName("email")
     private String email;
 
     /**
      * The student's Course ID. References the primary key of the course.
-     * This shows the course the student is taking.
      */
     @Persistent
     @SerializedName("coursename")
-    // CHECKSTYLE.OFF:AbbreviationAsWordInName the database uses courseID
-    private String courseID;
-    // CHECKSTYLE.ON:AbbreviationAsWordInName
+    private String courseId;
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
@@ -108,21 +102,52 @@ public class Student implements StoreCallback {
      * @param courseId
      * @param teamName
      */
-    public Student(String email, String name, String googleId, String comments, String courseId,
-                   String teamName, String sectionName) {
-        this.setEmail(email);
-        this.setName(name);
-        this.setGoogleId(googleId);
-        this.setComments(comments);
-        this.setCourseId(courseId);
-        this.setTeamName(teamName);
-        this.setSectionName(sectionName);
+    public CourseStudent(String email, String name, String googleId, String comments, String courseId,
+                         String teamName, String sectionName) {
+        setEmail(email);
+        setName(name);
+        setGoogleId(googleId);
+        setComments(comments);
+        setCourseId(courseId);
+        setTeamName(teamName);
+        setSectionName(sectionName);
         
-        this.setCreatedAt(new Date());
+        setCreatedAt(new Date());
+
+        this.id = makeId();
+        registrationKey = generateRegistrationKey();
+    }
+
+    /**
+     * Constructor used for copying an existing Student entity to CourseStudent.
+     * The createdAt date of the student is unchanged, but updatedAt is updated.
+     * The registration key of the Student is copied.
+     */
+    public CourseStudent(Student student) {
+        googleId = student.getGoogleId();
+        name = student.getName();
+        lastName = student.getLastName();
+        email = student.getEmail();
+        courseId = student.getCourseId();
+        comments = student.getComments();
+        teamName = student.getTeamName();
+        sectionName = student.getSectionName();
+        registrationKey = student.getRegistrationKey();
+        
+        // copies the createdAt of the existing Student
+        // updatedAt is set to the time when CourseStudent is written to the database
+        // see jdoPreStore
+        createdAt = student.getCreatedAt();
+        
+        this.id = makeId();
+    }
+    
+    private String makeId() {
+        return getEmail() + '%' + getCourseId();
     }
     
     public Date getCreatedAt() {
-        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
+        return createdAt;
     }
     
     public void setCreatedAt(Date created) {
@@ -131,7 +156,7 @@ public class Student implements StoreCallback {
     }
     
     public Date getUpdatedAt() {
-        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
+        return updatedAt;
     }
     
     public void setLastUpdate(Date updatedAt) {
@@ -139,7 +164,11 @@ public class Student implements StoreCallback {
             this.updatedAt = updatedAt;
         }
     }
-
+    
+    public String getUniqueId() {
+        return this.id;
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -149,11 +178,11 @@ public class Student implements StoreCallback {
     }
 
     public String getGoogleId() {
-        return ID;
+        return googleId;
     }
 
     public void setGoogleId(String googleId) {
-        this.ID = googleId == null ? null : googleId.trim();
+        this.googleId = googleId == null ? null : googleId.trim();
     }
 
     public String getName() {
@@ -183,28 +212,26 @@ public class Student implements StoreCallback {
         return comments;
     }
 
-    // null comment setting are not tested
     public void setComments(String comments) {
         this.comments = comments == null ? null : comments.trim();
     }
-
+    
     public String getRegistrationKey() {
-        return registrationKey == null ? null : Student.getStringKeyForLongKey(registrationKey);
+        return registrationKey;
     }
-
+ 
     public String getCourseId() {
-        return courseID;
+        return courseId;
     }
 
     public void setCourseId(String courseId) {
-        this.courseID = courseId.trim();
+        this.courseId = courseId.trim();
     }
 
     public String getTeamName() {
         return teamName;
     }
 
-    // null team name setting are not tested
     public void setTeamName(String teamName) {
         this.teamName = teamName == null ? null : teamName.trim();
     }
@@ -217,21 +244,21 @@ public class Student implements StoreCallback {
         this.sectionName = sectionName == null ? null : sectionName.trim();
     }
 
-    // not tested as this is part of client script
-    public boolean isRegistered() {
-        // Null or "" => unregistered
-        return ID != null && !ID.isEmpty();
-    }
-
-    public static String getStringKeyForLongKey(long longKey) {
-        return KeyFactory.createKeyString(Student.class.getSimpleName(), longKey);
-    }
-    
     /**
      * Called by jdo before storing takes place.
      */
-    @Override
     public void jdoPreStore() {
         this.setLastUpdate(new Date());
+    }
+    
+    /**
+     * Returns unique registration key for the student.
+     */
+    private String generateRegistrationKey() {
+        String uniqueId = getUniqueId();
+        Assumption.assertNotNull(uniqueId);
+        
+        SecureRandom prng = new SecureRandom();
+        return uniqueId + "%" + prng.nextInt();
     }
 }
