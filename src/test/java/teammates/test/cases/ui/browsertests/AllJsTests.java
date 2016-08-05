@@ -45,7 +45,7 @@ public class AllJsTests extends BaseUiTestCase {
         assertEquals(expectedFailedCases, failedCases);
         assertTrue(totalCases != 0);
         
-        print("As expected, 0 failed tests out of " + totalCases + " tests.");
+        print("As expected, " + expectedFailedCases + " failed tests out of " + totalCases + " tests.");
 
         float coverage = page.getCoverage();
         
