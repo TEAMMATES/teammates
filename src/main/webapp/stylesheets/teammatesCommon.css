@@ -751,6 +751,24 @@ Apply to thead to make headers not bold.
 	table-layout: fixed;
 }
 
+.question-description {
+    min-height: 120px;
+}
+
+.content-editor {
+    padding: 5px 10px;
+}
+
+.content-editor:before {
+    display: none;
+}
+
+.content-editor.empty:before {
+    display: block;
+    color: gray;
+    content: attr(data-placeholder);
+}
+
 /*////////////////////////////////////////////////////////////
 /////////////////////// Modal Dialogs ///////////////////////
 //////////////////////////////////////////////////////////*/
