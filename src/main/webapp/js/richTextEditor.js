@@ -66,3 +66,16 @@ function initEditorCallback(editor) {
         setPlaceholderText(editor);
     });
 }
+
+/**
+ * Destroys an instance of TinyMCE rich-text editor.
+ */
+function destroyEditor(id) {
+    if (typeof tinyMCE === 'undefined') {
+        return;
+    }
+    var currentEditor = tinyMCE.get(id);
+    if (currentEditor) {
+        currentEditor.destroy();
+    }
+}

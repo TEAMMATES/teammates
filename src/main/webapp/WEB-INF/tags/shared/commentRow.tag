@@ -266,7 +266,7 @@
                     <div class="panel panel-default panel-body" id="commentText${commentIndex}">
                          ${comment.commentText}
                     </div>
-                    <input type="hidden" name="commenttext">
+                    <input type="hidden" name="<%= Const.ParamsNames.COMMENT_TEXT %>">
                 </div>
                 <div class="col-sm-offset-5">
                     <input id="commentsave-${commentIndex}"

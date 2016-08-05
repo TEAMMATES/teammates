@@ -193,7 +193,7 @@
         <div class="panel panel-default panel-body" id="${textAreaId}-${divId}">
             ${frc.commentText}
         </div>
-        <input type="hidden" name="responsecommenttext">
+        <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>">
     </div>
     <div class="col-sm-offset-5">
         <a href="${submitLink}"

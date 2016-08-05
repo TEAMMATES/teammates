@@ -961,19 +961,6 @@ function hideSingleCollapse(e) {
 }
 
 /**
- * Destroys an instance of TinyMCE rich-text editor.
- */
-function destroyEditor(id) {
-    if (typeof tinyMCE === 'undefined') {
-        return;
-    }
-    var currentEditor = tinyMCE.get(id);
-    if (currentEditor) {
-        currentEditor.destroy();
-    }
-}
-
-/**
  * Wrapper for Bootbox.js (available at http://bootboxjs.com/)
  * "Bootbox.js is a small JavaScript library which allows you to create programmatic dialog boxes using
  *  Bootstrap modals"
