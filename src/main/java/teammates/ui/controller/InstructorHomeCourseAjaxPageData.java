@@ -93,15 +93,15 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                           className + "archive-for-test",
                                           getInstructorCourseArchiveLink(courseId, true, true),
                                           Const.Tooltips.COURSE_ARCHIVE);
-        addAttributeIf(true, archive, "onclick", "return toggleArchiveCourseConfirmation('" + courseId + "')");
+        addAttributeIf(true, archive, "data-course-id", courseId);
         
         ElementTag delete = createButton("Delete",
-                                         className + "delete-for-test",
+                                         className + "delete-for-test course-delete-link",
                                          getInstructorCourseDeleteLink(courseId, true),
                                          Const.Tooltips.COURSE_DELETE);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE),
                        delete, disabled, null);
-        addAttributeIf(true, delete, "onclick", "return toggleDeleteCourseConfirmation('" + courseId + "')");
+        addAttributeIf(true, delete, "data-course-id", courseId);
         
         if (pendingCommentsCount <= 0) {
             return Arrays.asList(enroll, view, edit, add, archive, delete);
