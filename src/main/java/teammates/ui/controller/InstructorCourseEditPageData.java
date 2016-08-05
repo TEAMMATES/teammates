@@ -205,7 +205,7 @@ public class InstructorCourseEditPageData extends PageData {
         String buttonContent = "<span class=\"glyphicon glyphicon-pencil\"></span> Edit";
         String buttonId = "instrEditLink" + panelIndex;
 
-        return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INFO_EDIT, isDisabled);
+        return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_EDIT, isDisabled);
     }
 
     private ElementTag createCancelEditInstructorButton(int panelIndex, boolean isDisabled) {
