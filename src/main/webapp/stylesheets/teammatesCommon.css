@@ -312,6 +312,10 @@ Apply to thead to make headers not bold.
     white-space: pre-wrap;
 }
 
+.word-wrap-break {
+	word-wrap: break-word;
+}
+
 .text-strike {
     text-decoration: line-through;
 }
@@ -737,6 +741,28 @@ Apply to thead to make headers not bold.
 
 .table-column-no-float {
     float: none !important;
+}
+
+.fixed-table-layout {
+	table-layout: fixed;
+}
+
+.question-description {
+    min-height: 120px;
+}
+
+.content-editor {
+    padding: 5px 10px;
+}
+
+.content-editor:before {
+    display: none;
+}
+
+.content-editor.empty:before {
+    display: block;
+    color: gray;
+    content: attr(data-placeholder);
 }
 
 /*////////////////////////////////////////////////////////////

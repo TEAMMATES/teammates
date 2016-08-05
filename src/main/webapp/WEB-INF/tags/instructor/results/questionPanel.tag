@@ -59,7 +59,7 @@
                 </div>
                 <c:if test="${questionPanel.showResponseRows}">
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered dataTable margin-0">
+                        <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                 <tr>
                                     <c:forEach items="${questionPanel.columns}" var="thElement">
