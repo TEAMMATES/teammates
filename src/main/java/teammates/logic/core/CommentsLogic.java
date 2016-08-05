@@ -714,7 +714,8 @@ public class CommentsLogic {
             Map<String, FeedbackQuestionAttributes> feedbackQuestionsTable, FeedbackResponseCommentAttributes frc) {
         FeedbackQuestionAttributes relatedQuestion = feedbackQuestionsTable.get(frc.feedbackQuestionId);
         if (relatedQuestion == null) {
-            relatedQuestion = fqLogic.getFeedbackQuestion(frc.feedbackQuestionId);
+            relatedQuestion = fqLogic.getFeedbackQuestion(
+                    frc.feedbackSessionName, frc.courseId, frc.feedbackQuestionId);
             feedbackQuestionsTable.put(frc.feedbackQuestionId, relatedQuestion);
         }
         return relatedQuestion;

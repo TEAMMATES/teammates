@@ -47,7 +47,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         
         relatedSession = logic.getFeedbackSession(comment.feedbackSessionName, comment.courseId);
         
-        relatedQuestion = logic.getFeedbackQuestion(comment.feedbackQuestionId);
+        relatedQuestion = logic.getFeedbackQuestion(
+                comment.feedbackSessionName, comment.courseId, comment.feedbackQuestionId);
         
         relatedResponse = logic.getFeedbackResponse(comment.feedbackResponseId);
         

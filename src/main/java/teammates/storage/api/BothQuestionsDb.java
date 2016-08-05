@@ -64,7 +64,8 @@ public class BothQuestionsDb extends EntitiesDb {
      * * All parameters are non-null.
      * @return Null if not found.
      */
-    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
+    public FeedbackQuestionAttributes getFeedbackQuestion(
+            String feedbackSessionName, String courseId, String feedbackQuestionId) {
         FeedbackQuestionAttributes oldQuestion = oldQuestionsDb.getFeedbackQuestion(feedbackQuestionId);
         if (oldQuestion != null) {
             FeedbackQuestionAttributes newQuestion = newQuestionsDb.getFeedbackQuestion(

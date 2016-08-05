@@ -445,13 +445,17 @@ public final class BackDoor {
         return Utils.getTeammatesGson().fromJson(jsonString, FeedbackQuestionAttributes.class);
     }
     
-    public static FeedbackQuestionAttributes getFeedbackQuestion(String questionId) {
-        String jsonString = getFeedbackQuestionForIdAsJson(questionId);
+    public static FeedbackQuestionAttributes getFeedbackQuestion(String courseId,
+            String feedbackSessionName, String questionId) {
+        String jsonString = getFeedbackQuestionForIdAsJson(courseId, feedbackSessionName, questionId);
         return Utils.getTeammatesGson().fromJson(jsonString, FeedbackQuestionAttributes.class);
     }
     
-    public static String getFeedbackQuestionForIdAsJson(String questionId) {
+    public static String getFeedbackQuestionForIdAsJson(String courseId,
+            String feedbackSessionName, String questionId) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON);
+        params.put(BackDoorServlet.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
         params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_ID, questionId);
         return makePostRequest(params);
     }
@@ -472,8 +476,11 @@ public final class BackDoor {
         return makePostRequest(params);
     }
 
-    public static String deleteFeedbackQuestion(String questionId) {
+    public static String deleteFeedbackQuestion(String courseId,
+            String feedbackSessionName, String questionId) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_FEEDBACK_QUESTION);
+        params.put(BackDoorServlet.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
         params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_ID, questionId);
         return makePostRequest(params);
     }

@@ -257,11 +257,15 @@ public class BackDoorServlet extends HttpServlet {
             int qnNumber = Integer.parseInt(req.getParameter(PARAMETER_FEEDBACK_QUESTION_NUMBER));
             return backDoorLogic.getFeedbackQuestionAsJson(feedbackSessionName, courseId, qnNumber);
         } else if (action.equals(OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON)) {
+            String feedbackSessionName = req.getParameter(PARAMETER_FEEDBACK_SESSION_NAME);
+            String courseId = req.getParameter(PARAMETER_COURSE_ID);
             String questionId = req.getParameter(PARAMETER_FEEDBACK_QUESTION_ID);
-            return backDoorLogic.getFeedbackQuestionForIdAsJson(questionId);
+            return backDoorLogic.getFeedbackQuestionForIdAsJson(feedbackSessionName, courseId, questionId);
         } else if (action.equals(OPERATION_DELETE_FEEDBACK_QUESTION)) {
+            String feedbackSessionName = req.getParameter(PARAMETER_FEEDBACK_SESSION_NAME);
+            String courseId = req.getParameter(PARAMETER_COURSE_ID);
             String questionId = req.getParameter(PARAMETER_FEEDBACK_QUESTION_ID);
-            backDoorLogic.deleteFeedbackQuestion(questionId);
+            backDoorLogic.deleteFeedbackQuestion(feedbackSessionName, courseId, questionId);
         } else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON)) {
             String feedbackQuestionId = req.getParameter(PARAMETER_FEEDBACK_QUESTION_ID);
             String giverEmail = req.getParameter(PARAMETER_GIVER_EMAIL);

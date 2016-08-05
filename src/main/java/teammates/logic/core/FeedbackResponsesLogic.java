@@ -483,7 +483,8 @@ public class FeedbackResponsesLogic {
                 getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
 
         for (FeedbackResponseAttributes response : responsesFromUser) {
-            question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+            question = fqLogic.getFeedbackQuestion(
+                    response.feedbackSessionName, response.courseId, response.feedbackQuestionId);
             if (question.giverType == FeedbackParticipantType.TEAMS
                     || isRecipientTypeTeamMembers(question)) {
                 frDb.deleteEntity(response);
@@ -494,7 +495,8 @@ public class FeedbackResponsesLogic {
                 getFeedbackResponsesForReceiverForCourse(courseId, userEmail);
 
         for (FeedbackResponseAttributes response : responsesToUser) {
-            question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+            question = fqLogic.getFeedbackQuestion(
+                    response.feedbackSessionName, response.courseId, response.feedbackQuestionId);
             if (isRecipientTypeTeamMembers(question)) {
                 frDb.deleteEntity(response);
             }
@@ -536,8 +538,8 @@ public class FeedbackResponsesLogic {
     public boolean updateFeedbackResponseForChangingTeam(StudentEnrollDetails enrollment,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
 
-        FeedbackQuestionAttributes question = fqLogic
-                .getFeedbackQuestion(response.feedbackQuestionId);
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
+                response.feedbackSessionName, response.courseId, response.feedbackQuestionId);
 
         boolean isGiverSameForResponseAndEnrollment = response.giver
                 .equals(enrollment.email);
@@ -642,6 +644,7 @@ public class FeedbackResponsesLogic {
     }
 
     public void deleteFeedbackResponsesForQuestionAndCascade(
+            String feedbackSessionName, String courseId,
             String feedbackQuestionId, boolean hasResponseRateUpdate) {
         List<FeedbackResponseAttributes> responsesForQuestion =
                 getFeedbackResponsesForQuestion(feedbackQuestionId);
@@ -658,8 +661,8 @@ public class FeedbackResponsesLogic {
         }
 
         try {
-            FeedbackQuestionAttributes question = fqLogic
-                    .getFeedbackQuestion(feedbackQuestionId);
+            FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
+                    feedbackSessionName, courseId, feedbackQuestionId);
             boolean isInstructor = question.giverType == FeedbackParticipantType.SELF
                                    || question.giverType == FeedbackParticipantType.INSTRUCTORS;
             for (String email : emails) {

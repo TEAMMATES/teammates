@@ -197,12 +197,14 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("get by id");
 
-        actual = fqDb.getFeedbackQuestion(actual.getId());
+        actual = fqDb.getFeedbackQuestion(expected.feedbackSessionName,
+                expected.courseId, actual.getId());
         assertEquals(expected.toString(), actual.toString());
 
         ______TS("get non-existent question by id");
 
-        actual = fqDb.getFeedbackQuestion("non-existent id");
+        actual = fqDb.getFeedbackQuestion(expected.feedbackSessionName,
+                expected.courseId, "non-existent id");
 
         assertNull(actual);
   

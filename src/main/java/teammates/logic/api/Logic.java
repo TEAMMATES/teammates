@@ -1487,9 +1487,11 @@ public class Logic {
      * * All parameters are non-null. <br>
      * 
      */
-    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
+    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
+                                                          String courseId,
+                                                          String feedbackQuestionId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
-        return feedbackQuestionsLogic.getFeedbackQuestion(feedbackQuestionId);
+        return feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestionId);
     }
 
     /**
@@ -1754,9 +1756,9 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void deleteFeedbackQuestion(String questionId) {
+    public void deleteFeedbackQuestion(String feedbackSessionName, String courseId, String questionId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionId);
-        feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
+        feedbackQuestionsLogic.deleteFeedbackQuestionCascade(feedbackSessionName, courseId, questionId);
     }
 
     /**
