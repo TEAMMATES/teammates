@@ -66,7 +66,7 @@ public class FeedbackQuestionsLogic {
             throws InvalidParametersException {
         fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();
-        return fqDb.createFeedbackQuestionWithoutIntegrityCheck(fqa);
+        return fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
     }
     
     public FeedbackQuestionAttributes copyFeedbackQuestion(
@@ -75,7 +75,8 @@ public class FeedbackQuestionsLogic {
             String feedbackSessionName, String courseId, String instructorEmail)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        FeedbackQuestionAttributes question = getFeedbackQuestion(feedbackQuestionId);
+        FeedbackQuestionAttributes question = getFeedbackQuestion(
+                oldFeedbackSessionName, oldCourseId, feedbackQuestionId);
         question.feedbackSessionName = feedbackSessionName;
         question.courseId = courseId;
         question.creatorEmail = instructorEmail;
@@ -94,8 +95,9 @@ public class FeedbackQuestionsLogic {
      * *    This method should only be used if the question already exists in the<br>
      * datastore and has an ID already generated.
      */
-    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
-        return fqDb.getFeedbackQuestion(feedbackQuestionId);
+    public FeedbackQuestionAttributes getFeedbackQuestion(
+            String feedbackSessionName, String courseId, String feedbackQuestionId) {
+        return fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestionId);
     }
     
     /**
@@ -556,7 +558,9 @@ public class FeedbackQuestionsLogic {
         }
         
         if (oldQuestion.isChangesRequiresResponseDeletion(newAttributes)) {
-            frLogic.deleteFeedbackResponsesForQuestionAndCascade(oldQuestion.getId(), hasResponseRateUpdate);
+            frLogic.deleteFeedbackResponsesForQuestionAndCascade(
+                    oldQuestion.feedbackSessionName, oldQuestion.courseId,
+                    oldQuestion.getId(), hasResponseRateUpdate);
         }
         
         oldQuestion.updateValues(newAttributes);
@@ -575,7 +579,8 @@ public class FeedbackQuestionsLogic {
                 getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         
         for (FeedbackQuestionAttributes question : questions) {
-            deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(question.getId());
+            deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(
+                    feedbackSessionName, courseId, question.getId());
         }
         
     }
@@ -590,9 +595,10 @@ public class FeedbackQuestionsLogic {
      * 
      * @param feedbackQuestionId
      */
-    private void deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(String feedbackQuestionId) {
+    private void deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(
+            String feedbackSessionName, String courseId, String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDeleteById =
-                        getFeedbackQuestion(feedbackQuestionId);
+                        getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestionId);
         
         if (questionToDeleteById == null) {
             log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
@@ -613,9 +619,10 @@ public class FeedbackQuestionsLogic {
      * 
      * @param feedbackQuestionId
      */
-    public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
+    public void deleteFeedbackQuestionCascade(
+            String feedbackSessionName, String courseId, String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDeleteById =
-                        getFeedbackQuestion(feedbackQuestionId);
+                        getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestionId);
         
         if (questionToDeleteById == null) {
             log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
@@ -653,7 +660,8 @@ public class FeedbackQuestionsLogic {
             return; // Silently fail if question does not exist.
         }
         // Cascade delete responses for question.
-        frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateUpdate);
+        frLogic.deleteFeedbackResponsesForQuestionAndCascade(
+                feedbackSessionName, courseId, questionToDelete.getId(), hasResponseRateUpdate);
         
         List<FeedbackQuestionAttributes> questionsInSession = null;
         try {

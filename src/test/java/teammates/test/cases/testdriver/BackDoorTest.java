@@ -79,7 +79,7 @@ public class BackDoorTest extends BaseTestCase {
         // ----------deleting Feedback Question entities-------------------------
         fq = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         verifyPresentInDatastore(fq);
-        status = BackDoor.deleteFeedbackQuestion(fq.getId());
+        status = BackDoor.deleteFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.getId());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(fq);
 
@@ -378,7 +378,8 @@ public class BackDoorTest extends BaseTestCase {
     }
 
     private void verifyAbsentInDatastore(FeedbackQuestionAttributes fq) {
-        assertEquals("null", BackDoor.getFeedbackQuestionForIdAsJson(fq.getId()));
+        assertEquals("null", BackDoor.getFeedbackQuestionForIdAsJson(
+                fq.courseId, fq.feedbackSessionName, fq.getId()));
     }
     
     private void verifyAbsentInDatastore(FeedbackResponseAttributes fr) {
