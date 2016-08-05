@@ -9,6 +9,7 @@
             You have no team members or you are not registered in any team
         </span>
     </c:when>
+                        
     <c:otherwise>
         <table>
             <tbody>

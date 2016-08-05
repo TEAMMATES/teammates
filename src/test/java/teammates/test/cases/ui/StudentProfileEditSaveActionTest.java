@@ -8,12 +8,17 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.RedirectResult;
+import teammates.ui.controller.ShowPageResult;
+import teammates.ui.controller.StudentCourseDetailsPageAction;
+import teammates.ui.controller.StudentCourseDetailsPageData;
 import teammates.ui.controller.StudentProfileEditSaveAction;
 
 public class StudentProfileEditSaveActionTest extends BaseActionTest {
@@ -33,6 +38,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         
         testActionWithInvalidParameters(student);
         testActionTypicalSuccess(student);
+        testTeamMemberDetailsOnViewTeamPage();
         testActionInMasqueradeMode(student);
     }
 
@@ -73,7 +79,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
     }
 
-    private void testActionTypicalSuccess(AccountAttributes student) {
+    private void testActionTypicalSuccess(AccountAttributes student) throws EntityDoesNotExistException {
         String[] submissionParams = createValidParamsForProfile();
         StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         gaeSimulation.loginAsStudent(student.googleId);
@@ -90,6 +96,32 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, result.getStatusMessage());
         
         verifyLogMessage(student, action, expectedProfile, false);
+    }
+    
+    private void testTeamMemberDetailsOnViewTeamPage() throws EntityDoesNotExistException {
+        
+        StudentAttributes student1 = dataBundle.students.get("student1InCourse1");
+        
+        gaeSimulation.logoutUser();
+        gaeSimulation.loginAsStudent(dataBundle.accounts.get("student2InCourse1").googleId);
+        String[] submissionParam = new String[] {
+                Const.ParamsNames.COURSE_ID, student1.course
+        };
+        
+        StudentCourseDetailsPageAction pageAction = getCourseDetailsAction(submissionParam);
+        ShowPageResult pageResult = getShowPageResult(pageAction);
+        StudentCourseDetailsPageData pageData = (StudentCourseDetailsPageData) pageResult.data;
+        
+        List<StudentAttributes> actualStudentsList = pageData.getStudentCourseDetailsPanel().getTeammates();
+        boolean isStudentDisplayedOnViewTeam = false;
+        for (StudentAttributes stud : actualStudentsList) {
+            if (student1.email.equals(stud.email) && student1.name.equals(stud.name)
+                    && student1.getPublicProfilePictureUrl().equals(stud.getPublicProfilePictureUrl())) {
+                isStudentDisplayedOnViewTeam = true;
+            }
+        }
+        
+        assertTrue(isStudentDisplayedOnViewTeam);
     }
 
     private void testActionInMasqueradeMode(AccountAttributes student) {
@@ -144,6 +176,11 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
     private StudentProfileEditSaveAction getAction(String[] submissionParams) {
         return (StudentProfileEditSaveAction) gaeSimulation.getActionObject(uri, submissionParams);
+    }
+    
+    private StudentCourseDetailsPageAction getCourseDetailsAction(String... params) {
+        return (StudentCourseDetailsPageAction) (gaeSimulation.getActionObject(
+                Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE, params));
     }
 
 }
