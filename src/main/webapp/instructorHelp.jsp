@@ -1,7 +1,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:helpPage>
   <h1>Help for Instructors</h1>
-  <a name="#top"></a>
     <div class='row'>
       <div class='col-md-3 pull-right'>
           <div id='sidenav'>
@@ -243,24 +242,13 @@
             </div>
           </li>
         </ol>
-        <p align="right">
-          <a href="#Top">Back to Top
-          </a>
-        </p>
-        <a href="#Top">
-        </a>
       </div>
-      <a href="#Top">
-        <!--tips-->
-        <br>
-        <hr id="tips">
-        <br>
-      </a>
+      <!--tips-->
+      <br>
+      <hr id="tips">
+      <br>
       <h4>
-        <a href="#Top">
-        </a>
-        <a name="tips">Tips for conducting 'team peer evaluation' sessions
-        </a>
+        <a name="tips">Tips for conducting 'team peer evaluation' sessions</a>
       </h4>
       <div id="contentHolder">
         <br>
@@ -330,22 +318,13 @@
             </li>
           </ul>
         </div>
-        <p align="right">
-          <a href="#Top">Back to Top
-          </a>
-        </p>
-        <a href="#Top">
-        </a>
       </div>
-      <a href="#Top">
-        <!--editCourse-->
-        <br>
-        <hr id="add-edit-instructors">
-        <br>
+      <!--editCourse-->
+      <br>
+      <hr id="add-edit-instructors">
+      <br>
       </a>
       <h4>
-        <a href="#Top">
-        </a>
         <a name="editCourse">Add/Edit instructors</a>
       </h4>
       <div id="contentHolder">
@@ -767,22 +746,13 @@
           </li>
           <br>
         </ul>
-        <p align="right">
-          <a href="#Top">Back to Top
-          </a>
-        </p>
-        <a href="#Top">
-        </a>
       </div>
-      <a href="#Top">
-        <!--sessionTypes-->
-        <br>
-        <hr id="sessions">
-        <br>
+      <!--sessionTypes-->
+      <br>
+      <hr id="sessions">
+      <br>
       </a>
       <h4>
-        <a href="#Top">
-        </a>
         <a name="sessionTypes">Sessions</a>
       </h4>
       <div id="contentHolder">
@@ -4738,7 +4708,7 @@
                 </a>
                 Team contribution questions are a specialized question type designed for team contribution evaluations.
                 <br> They allow estimation of percived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ
-                <a href="#Top">here</a>.
+                <a href="#faq">here</a>.
                 <br>
                 <br> An alternative to this specialized calculation scheme is to use the Distribute Points (among recipients) question, which provides a simple average calculation scheme.
                 <br>
@@ -6785,24 +6755,12 @@
             </div>
           </li>
         </ol>
-        <p align="right">
-          <a href="#Top">Back to Top
-          </a>
-        </p>
-        <a href="#Top">
-        </a>
       </div>
-      <a href="#Top">
-      </a>
-      <a href="#Top">
-        <!--sessionTypes-->
-        <br>
-        <hr id="comments">
-        <br>
-      </a>
+      <!--sessionTypes-->
+      <br>
+      <hr id="comments">
+      <br>
       <h4>
-        <a href="#Top">
-        </a>
         <a name="editComments">Comments</a>
       </h4>
       <div id="contentHolder">
@@ -7464,20 +7422,12 @@
           </li>
         </ol>
         <br>
-        <p align="right">
-          <a href="#Top">Back to Top
-          </a>
-        </p>
       </div>
-      <a href="#Top">
-        <!--FAQ -->
-        <br>
-        <hr id="faq">
-        <br>
-      </a>
+      <!--FAQ -->
+      <br>
+      <hr id="faq">
+      <br>
       <h4>
-        <a href="#Top">
-        </a>
         <a name="faq">Frequently Asked Questions</a>
       </h4>
       <div id="contentHolder">
@@ -7665,15 +7615,7 @@
               </div>
             </li>
           </ul>
-          <p align="right">
-            <a href="#Top">Back to Top
-            </a>
-          </p>
-          <a href="#Top">
-          </a>
         </div>
-        <a href="#Top">
-        </a>
       </div>
     </div>
   </div>
