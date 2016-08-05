@@ -686,6 +686,20 @@ public abstract class AppPage {
         }
     }
     
+    /**
+     * @param elementId
+     *            Id of the element
+     * @param targetClass
+     *            className
+     * @return {@code true} if there exists an element with the given id and
+     *         class name.
+     */
+    public boolean isElementHasClass(String elementId, String targetClass) {
+        List<WebElement> elementsMatched = browser.driver
+                .findElements(By.cssSelector("#" + elementId + "." + targetClass));
+        return elementsMatched.size() > 0;
+    }
+
     public boolean isNamedElementVisible(String elementName) {
         try {
             return browser.driver.findElement(By.name(elementName)).isDisplayed();
@@ -1012,23 +1026,4 @@ public abstract class AppPage {
         return (boolean) jsExecutor.executeScript(script);
     }
     
-    /**
-     * @param elementId Id of the element
-     * @param targetClass className
-     * @return {@code true} if the element has the given class
-     */
-    public boolean isElementHasClass(String elementId, String targetClass) {
-        try {
-            String classNames = browser.driver.findElement(By.id(elementId)).getAttribute("class");
-            for (String className : classNames.split(" ")) {
-                if (className.equals(targetClass)) {
-                    return true;
-                }
-            }
-            return false;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
 }
