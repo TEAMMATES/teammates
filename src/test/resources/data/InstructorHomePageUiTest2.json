@@ -11,8 +11,7 @@
     "courses":{
         "CHomeUiT.Sample":{
             "id":"newIns.wit-demo",
-            "name":"Sample Course 101",
-            "isArchived":false
+            "name":"Sample Course 101"
         }
     },
     "instructors":{

@@ -91,7 +91,7 @@
         <li>
           <a class="nav logout" href="/logout" id="btnLogout">
             Logout (
-            <span class="text-info">
+            <span class="text-info tool-tip-decorate" data-original-title="InsCrsEdit.Helper" data-placement="bottom" data-toggle="tooltip" title="">
               InsCrsEdit.Helper
             </span>
             )
@@ -507,6 +507,18 @@
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="user" type="hidden" value="InsCrsEdit.Helper">
         <div id="instructorTable4">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">
+              Google ID:
+            </label>
+            <div class="col-sm-9">
+              <p class="form-control-static">
+                <span class="text-warning">
+                  Not available. Instructor is yet to join this course.
+                </span>
+              </p>
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-sm-3 control-label">
               Name:

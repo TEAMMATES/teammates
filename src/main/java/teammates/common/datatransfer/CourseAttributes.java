@@ -31,7 +31,6 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     
     //Note: be careful when changing these variables as their names are used in *.json files.
     public Date createdAt;
-    public boolean isArchived;
     private String id;
     private String name;
     
@@ -42,26 +41,12 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public CourseAttributes(String courseId, String name) {
         this.id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
-        this.isArchived = false;
-    }
-    
-    public CourseAttributes(String courseId, String name, boolean archiveStatus) {
-        this.id = Sanitizer.sanitizeTitle(courseId);
-        this.name = Sanitizer.sanitizeTitle(name);
-        this.isArchived = archiveStatus;
     }
 
     public CourseAttributes(Course course) {
         this.id = course.getUniqueId();
         this.name = course.getName();
         this.createdAt = course.getCreatedAt();
-        
-        Boolean status = course.getArchiveStatus();
-        if (status == null) {
-            this.isArchived = false;
-        } else {
-            this.isArchived = status.booleanValue();
-        }
     }
 
     public String getId() {
@@ -94,13 +79,12 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), Boolean.valueOf(isArchived), createdAt);
+        return new Course(getId(), getName(), createdAt);
     }
 
     @Override
     public String toString() {
-        return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
-               + " isArchived: " + isArchived;
+        return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName();
     }
 
     @Override

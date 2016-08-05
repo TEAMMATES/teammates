@@ -58,7 +58,7 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testToString() {
         CourseAttributes c = generateValidCourseAttributesObject();
-        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name isArchived: false", c.toString());
+        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name", c.toString());
     }
     
     public static CourseAttributes generateValidCourseAttributesObject() {
