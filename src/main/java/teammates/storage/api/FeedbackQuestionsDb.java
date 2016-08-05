@@ -137,7 +137,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         return fqList;
     }
     
-    private List<FeedbackQuestionAttributes> getListOfQuestionAttributes(List<FeedbackQuestion> questions) {
+    public static List<FeedbackQuestionAttributes> getListOfQuestionAttributes(List<FeedbackQuestion> questions) {
         List<FeedbackQuestionAttributes> questionAttributes = new ArrayList<FeedbackQuestionAttributes>();
 
         for (FeedbackQuestion question : questions) {

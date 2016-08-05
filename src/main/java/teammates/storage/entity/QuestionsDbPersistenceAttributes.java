@@ -2,6 +2,7 @@ package teammates.storage.entity;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 
 /**
  * Handles the conversion of FeedbackQuestionAttributes to Question in QuestionsDb
@@ -47,10 +48,14 @@ public class QuestionsDbPersistenceAttributes extends FeedbackQuestionAttributes
         if (getId() == null) {
             Assumption.fail("Question id should be set");
         }
-        return new Question(getId(),
+        Question q = new Question(getId(),
                             feedbackSessionName, courseId, creatorEmail,
                             questionMetaData, questionDescription, questionNumber, questionType, giverType,
                             recipientType, numberOfEntitiesToGiveFeedbackTo,
                             showResponsesTo, showGiverNameTo, showRecipientNameTo);
+        if (getCreatedAt() != Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP) {
+            q.setCreatedAt(getCreatedAt());
+        }
+        return q;
     }
 }
