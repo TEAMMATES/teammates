@@ -32,6 +32,21 @@ $(document).ready(function() {
         });
     });
     
+    // Click event binding for course archive button
+    $('body').on('click', '.course-archive-for-test', function(event) {
+        event.preventDefault();
+        $clickedLink = $(event.target);
+
+        var messageText = 'Are you sure you want to archive ' + $clickedLink.data('courseId') + '? '
+            + 'This action can be reverted by going to the "courses" tab and unarchiving the desired course(s).';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm archiving course', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
+    });
+
     // AJAX loading of course panels
     var $coursePanels = $('div[id|="course"]');
     $.each($coursePanels, function() {
@@ -69,18 +84,6 @@ $(document).ready(function() {
     // Automatically load top few course panels
     $coursePanels.slice(0, COURSE_PANELS_TO_AUTO_LOAD_COUNT).click();
 });
-
-/**
- * This is the function invoked when an instructor clicks on the archive button, which asks the instructor
- * to confirm whether or not the course should be archived
- *
- * @param courseId
- * @returns a boolean to either continue or stop the action from continuing
- */
-function toggleArchiveCourseConfirmation(courseId) {
-    return confirm('Are you sure you want to archive ' + courseId + '? This action can be reverted'
-                   + ' by going to the "courses" tab and unarchiving the desired course(s).');
-}
 
 /**
  * This is the comparator that is used for sorting start and end times on the InstructorHome page
