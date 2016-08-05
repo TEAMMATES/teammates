@@ -1616,8 +1616,10 @@ public class FeedbackSessionsLogic {
         
         try {
             EmailWrapper email = instructor == null
-                    ? new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session, student)
-                    : new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor);
+                    ? new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session,
+                            student, TimeHelper.formatTime12H(Calendar.getInstance().getTime()))
+                    : new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
+                            instructor, TimeHelper.formatTime12H(Calendar.getInstance().getTime()));
             new EmailSender().sendEmail(email);
             return email;
         } catch (Exception e) {

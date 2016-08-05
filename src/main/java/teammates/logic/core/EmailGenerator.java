@@ -1,7 +1,6 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -91,7 +90,7 @@ public class EmailGenerator {
      * Generates the feedback submission confirmation email for the given {@code session} for {@code student}
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
-            FeedbackSessionAttributes session, StudentAttributes student) {
+            FeedbackSessionAttributes session, StudentAttributes student, String timestamp) {
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -100,14 +99,14 @@ public class EmailGenerator {
                 .withRegistrationKey(StringHelper.encrypt(student.key))
                 .withStudentEmail(student.email)
                 .toAbsoluteString();
-        return generateSubmissionConfirmationEmail(course, session, submitUrl, student.name, student.email);
+        return generateSubmissionConfirmationEmail(course, session, submitUrl, student.name, student.email, timestamp);
     }
 
     /**
      * Generates the feedback submission confirmation email for the given {@code session} for {@code instructor}.
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForInstructor(
-            FeedbackSessionAttributes session, InstructorAttributes instructor) {
+            FeedbackSessionAttributes session, InstructorAttributes instructor, String timestamp) {
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -115,7 +114,7 @@ public class EmailGenerator {
                 .withSessionName(session.getFeedbackSessionName())
                 .toAbsoluteString();
 
-        return generateSubmissionConfirmationEmail(course, session, submitUrl, instructor.name, instructor.email);
+        return generateSubmissionConfirmationEmail(course, session, submitUrl, instructor.name, instructor.email, timestamp);
     }
     
     private List<EmailWrapper> generateFeedbackSessionEmailBasesForInstructorReminders(
@@ -132,10 +131,9 @@ public class EmailGenerator {
     
     private EmailWrapper generateSubmissionConfirmationEmail(
             CourseAttributes course, FeedbackSessionAttributes session, String submitUrl,
-            String userName, String userEmail) {
+            String userName, String userEmail, String timeStamp) {
         String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
         String subject = EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject();
-        String timeStamp = TimeHelper.formatTime12H(Calendar.getInstance().getTime());
         
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", userName,
