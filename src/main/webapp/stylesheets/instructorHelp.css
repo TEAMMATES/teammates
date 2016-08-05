@@ -1,0 +1,33 @@
+.fixed {
+    position: fixed;
+    top: 28px;
+    z-index: 999;
+}
+
+#sidenav > .nav > .active > a, #sidenav > .nav > li > a:hover {
+    border-left: 5px solid #428bca;
+    padding-left: 13px;
+    background-color: #eee;
+    color: #2a6496;
+}
+
+#sidenav > .nav .nav > .active > a, #sidenav > .nav .nav > li > a:hover {
+    border-left: 5px solid #428bca;
+    padding-left: 27px;
+    color: #2a6496;
+}
+
+#sidenav > .nav > li > a {
+    padding: 5px 18px;
+}
+
+#sidenav > .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 32px;
+}
+
+#sidenav > .nav .nav {
+    display: none;
+}
+

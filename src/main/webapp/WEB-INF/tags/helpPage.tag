@@ -6,6 +6,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TEAMMATES</title>
+    <script src='js/lib/jquery.min.js'></script>
+    <script src='js/lib/bootstrap.min.js'></script>
+    <script src='js/instructorHelp.js'></script>
+    <link rel="stylesheet" href="/stylesheets/instructorHelp.css">
     <link rel="stylesheet" href="/stylesheets/lib/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/lib/bootstrap-theme.min.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
