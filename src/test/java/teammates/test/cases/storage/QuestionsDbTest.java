@@ -23,7 +23,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.QuestionsDb;
-import teammates.storage.entity.QuestionsDbPersistenceAttributes;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -379,7 +378,7 @@ public class QuestionsDbTest extends BaseComponentTestCase {
         return fsa;
     }
 
-    private QuestionsDbPersistenceAttributes getNewFeedbackQuestionAttributes() {
+    private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
         FeedbackQuestionAttributes fqa = new FeedbackQuestionAttributes();
 
         fqa.courseId = "testCourse";
@@ -400,7 +399,7 @@ public class QuestionsDbTest extends BaseComponentTestCase {
         
         fqa.setId(fqa.makeId());
 
-        return new QuestionsDbPersistenceAttributes(fqa);
+        return fqa;
     }
 
     private List<FeedbackQuestionAttributes> createFeedbackQuestions(int num) throws Exception {
