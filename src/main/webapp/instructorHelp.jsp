@@ -42,7 +42,6 @@
           </div>
       </div>
       <div class='col-md-8'>
-
       <!-- Getting Started -->
       <br>
       <hr id="getting-started">
@@ -50,7 +49,6 @@
       <h4>
         <a name="gs">Getting Started</a>
       </h4>
-
       <div id="contentHolder">
         <br>
         <ol type="1">
@@ -115,7 +113,6 @@
               Go to the ‘Sessions’ page and create a session (there are different session types to choose from).
               <br>
               <br>
-
               <div class="bs-example" id="sessionTypeSelectionHtml">
                 <div class="well well-plain">
                   <div class="row" data-toggle="tooltip" data-placement="top" title="Select a different type of session here.">
@@ -139,7 +136,6 @@
               </div>
               <br>
               <div class="helpSectionContent">
-
                 <ul>
                   <li>Session with your own questions</li>
                   <div style="margin: 0 auto; padding: 0 50px;">
@@ -163,23 +159,15 @@
                     <br> Feedback giver: students in the course
                     <br> Feedback recipient: giver's team members
                     <br>
-
-
                   </li>
                   <br>
                   <li>You can set the visibility options for each question:
                     <br>Allows you to set who can see the answers, giver name and recipient name for each question.
-
                     <br>
                     <br>See
                     <a href="#sessionTypes">here</a> for more info about session types.</li>
-
                 </ul>
                 <br>
-
-
-
-
               </div>
             </div>
           </li>
@@ -263,7 +251,6 @@
         </a>
       </div>
       <a href="#Top">
-
         <!--FAQ -->
         <br>
         <hr id="faq">
@@ -274,7 +261,6 @@
         </a>
         <a name="faq">Frequently Asked Questions</a>
       </h4>
-
       <div id="contentHolder">
         <div class="bulletPointsIndent">
           <ul>
@@ -372,7 +358,6 @@
                 <br>
               </div>
             </li>
-
             <li>
               <b>
                 <a name="faq8" id="question">What to do if a student says he cannot submit an evaluation due to some technical glitch?</a>
@@ -472,7 +457,6 @@
         </a>
       </div>
       <a href="#Top">
-
         <!--tips-->
         <br>
         <hr id="tips">
@@ -484,7 +468,6 @@
         <a name="tips">Tips for conducting 'team peer evaluation' sessions
         </a>
       </h4>
-
       <div id="contentHolder">
         <br>
         <p>Any evaluation system has both positive and negative effects on those being evaluated. As teachers, you are probably keen to maximize the positive effect of this system on your course while minimizing any negative effects. Here are some of the things you could do:</p>
@@ -561,7 +544,6 @@
         </a>
       </div>
       <a href="#Top">
-
         <!--editCourse-->
         <br>
         <hr id="add-edit-instructors">
@@ -589,31 +571,24 @@
                   <div class="panel-heading">
                     <strong>Instructor 3:</strong>
                     <div class="pull-right">
-
                       <a href="javascript:;" id="instrEditLink3" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit instructor details" disabled="">
                         <span class="glyphicon glyphicon-pencil"></span> Edit</a>
                       <a href="#" id="instrDeleteLink3" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course" disabled="">
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                     </div>
                   </div>
-
                   <div class="panel-body">
                     <form method="post" action="#" id="formEditInstructor3" name="formEditInstructors" class="form form-horizontal">
                       <input type="hidden" name="courseid" value="testCourse">
-
                       <input type="hidden" name="instructorid" value="sampleInstr">
-
                       <input type="hidden" name="user" value="sampleInstr">
-
                       <div id="instructorTable3">
-
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Google ID:</label>
                           <div class="col-sm-9">
                             <input class="form-control immutable" type="text" id="instructorid3" value="sampleInstr" maxlength="45" tabindex="3" disabled="">
                           </div>
                         </div>
-
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Name:</label>
                           <div class="col-sm-9">
@@ -639,10 +614,8 @@
                             <div class="col-sm-9">
                               <p class="form-control-static">
                                 <span>Co-owner</span>
-
                                 <a href="javascript:;">
                                   &nbsp;View Details</a>
-
                               </p>
                             </div>
                           </div>
@@ -671,12 +644,10 @@
                   <div class="panel-heading">
                     <strong>Instructors 2:</strong>
                   </div>
-
                   <div class="panel-body fill-plain">
                     <form class="form form-horizontal">
                       <input type="hidden" name="courseid" value="testCourse2">
                       <input type="hidden" name="user" value="sampleInstr">
-
                       <div id="instructorAddTable">
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Name:</label>
@@ -784,31 +755,24 @@
                   <div class="panel-heading">
                     <strong>Instructor 1:</strong>
                     <div class="pull-right">
-
                       <a href="javascript:;" id="instrEditLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit instructor details" style="display: none;">
                         <span class="glyphicon glyphicon-pencil"></span> Edit</a>
                       <a href="#" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course">
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                     </div>
                   </div>
-
                   <div class="panel-body">
                     <form class="form form-horizontal">
                       <input type="hidden" name="courseid" value="testCourse2">
-
                       <input type="hidden" name="instructorid" value="sampleInstr">
-
                       <input type="hidden" name="user" value="sampleInstr">
-
                       <div id="instructorTable1">
-
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Google ID:</label>
                           <div class="col-sm-9">
                             <input class="form-control immutable" type="text" id="instructorid1" value="sampleInstr" maxlength="45" tabindex="3" disabled="">
                           </div>
                         </div>
-
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Name:</label>
                           <div class="col-sm-9">
@@ -834,15 +798,12 @@
                             <div class="col-sm-9">
                               <p class="form-control-static">
                                 <span>Co-owner</span>
-
                                 <a href="javascript:;">
                                   &nbsp;View Details</a>
-
                               </p>
                             </div>
                           </div>
                         </div>
-
                         <div id="accessControlEditDivForInstr1" style="">
                           <div class="form-group">
                             <div class="col-sm-3">
@@ -911,8 +872,6 @@
                                     </div>
                                   </div>
                                 </div>
-
-
                                 <div id="tuneSectionPermissionsDiv0ForInstructor1" style="">
                                   <div class="panel panel-info">
                                     <div class="panel-heading">
@@ -924,7 +883,6 @@
                                         </div>
                                         <div class="col-sm-9">
                                           <div class="col-sm-12">
-
                                             <div class="col-sm-4">
                                               <input type="checkbox" name="sectiongroup0section0" value="section 1" checked=""> section 1
                                             </div>
@@ -932,7 +890,6 @@
                                               <input type="checkbox" name="sectiongroup0section1" value="section 2"> section 2
                                             </div>
                                           </div>
-
                                         </div>
                                         <div class="col-sm-1">
                                           <a href="javascript:;" class="pull-right">
@@ -948,7 +905,6 @@
                                           </p>
                                         </div>
                                       </div>
-
                                       <input type="hidden" name="issectiongroup0set" value="true">
                                     </div>
                                     <div class="panel-body">
@@ -975,9 +931,7 @@
                                       </div>
                                       <a href="javascript:;" id="toggleSessionLevelInSection0ForInstructor1" class="small col-sm-5">Give different permissions for sessions in this section</a>
                                       <div id="tuneSessionPermissionsDiv0ForInstructor1" class="row" style="display: none;">
-
                                         <input type="hidden" name="issectiongroup0sessionsset" value="false">
-
                                         <table class="table table-striped">
                                           <thead>
                                             <tr>
@@ -988,7 +942,6 @@
                                             </tr>
                                           </thead>
                                           <tbody>
-
                                             <tr>
                                               <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
                                             </tr>
@@ -998,9 +951,7 @@
                                     </div>
                                   </div>
                                 </div>
-
                                 <a href="javascript:;" class="small" id="addSectionLevelForInstructor1">Give different permissions for a specific section</a>
-
                               </div>
                             </div>
                           </div>
@@ -1018,7 +969,6 @@
               <br>
               <br> If a course does have sections, the link 'Give different permissions for a specific section' will be shown for customization for different sections. In the panel for section-level privilege settings, you can choose more than one section to apply the same set of settings. You can also set settings for different sessions for student in that section by click the link 'Give different permissions for sessions in this section'.
               <br>
-
             </div>
           </li>
           <br>
@@ -1031,7 +981,6 @@
         </a>
       </div>
       <a href="#Top">
-
         <!--sessionTypes-->
         <br>
         <hr id="sessions">
@@ -1042,7 +991,6 @@
         </a>
         <a name="sessionTypes">Sessions</a>
       </h4>
-
       <div id="contentHolder">
         <br>
         <ol style="list-style-type: none;">
@@ -1201,10 +1149,8 @@
               <br>
               <br>
             </p>
-
             <div class="bs-example">
               <div id="createSessionHtmlCustomizable">
-
                 <div class="well well-plain">
                   <form class="form-group" name="form_feedbacksession">
                     <div class="row" data-toggle="tooltip" data-placement="top" title="Select a different type of session here.">
@@ -1225,7 +1171,6 @@
                       </div>
                     </div>
                     <br>
-
                     <div class="panel panel-primary">
                       <div class="panel-body">
                         <div class="row">
@@ -1240,7 +1185,6 @@
                                   <option value="CS2013">CS2103</option>
                                   <option value="Other course">Other course</option>
                                 </select>
-
                               </div>
                             </div>
                           </div>
@@ -1290,7 +1234,6 @@
                                   <option value="12.75">(UTC +12:45) Chatham Islands</option>
                                   <option value="13">(UTC +13:00) Phoenix Islands, Tokelau, Tonga</option>
                                   <option value="14">(UTC +14:00) Line Islands</option>
-
                                 </select>
                               </div>
                             </div>
@@ -1432,7 +1375,6 @@
                           </div>
                         </div>
                       </div>
-
                     </div>
                     <div class="panel panel-primary">
                       <div class="panel-body">
@@ -1455,7 +1397,6 @@
                               </div>
                               <div class="col-md-4">
                                 <select class="form-control" name="visibletime" id="visibletime" disabled="">
-
                                   <option value="1">0100H</option>
                                   <option value="2">0200H</option>
                                   <option value="3">0300H</option>
@@ -1496,7 +1437,6 @@
                               </div>
                             </div>
                           </div>
-
                           <div class="col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                             <div class="row">
                               <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later.">
@@ -1506,7 +1446,6 @@
                             <div class="row radio">
                               <div class="col-md-2" data-toggle="tooltip" data-placement="top" title="Select this option to use a custom time for when the responses of the feedback session<br>will be visible to the designated recipients.">
                                 <label for="resultsVisibleFromButton_custom">At</label>
-
                                 <input type="radio" name="resultsVisibleFromButton" id="resultsVisibleFromButton_custom" value="custom">
                               </div>
                               <div class="col-md-5">
@@ -1610,10 +1549,7 @@
                   <br>
                   <br>
                 </div>
-
-
               </div>
-
             </div>
           </li>
           <br>
@@ -1626,7 +1562,6 @@
               </a>
             </span>
             <div>
-
               <p>
                 After setting up a session, you will be brought to the session edit page to setup the questions. (You can also get here by clicking the edit button action for a particular session)
                 <br>
@@ -1635,10 +1570,7 @@
                 <br>
                 <br> At the bottom of the page, you can add questions to the session:
               </p>
-
-
             </div>
-
             <div class="bs-example" id="addQuestion">
               <div class="well well-plain inputTable" id="addNewQuestionTable">
                 <div class="row">
@@ -1671,7 +1603,6 @@
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-sm-6">
                 <p>There are several question types to choose from.
@@ -1761,9 +1692,7 @@
               <br> As for visibility options, only the instructors can see all the feedback as well as who gave feedback to whom.
               <br>
             </p>
-
             <div class="bs-example" id="settingQuestion">
-
               <form class="form-horizontal form_question" editstatus="hasResponses">
                 <div class="panel panel-primary questionTable">
                   <div class="panel-heading">
@@ -1780,7 +1709,6 @@
                             <option value="6">6</option>
                             <option value="7">7</option>
                             <option value="8">8</option>
-
                           </select> &nbsp; Essay question
                         </span>
                         <span class="pull-right">
@@ -1796,7 +1724,6 @@
                       <div>
                         <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" tabindex="9" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Tutor's comments about the class in general</textarea>
                       </div>
-
                     </div>
                     <br>
                     <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
@@ -1948,12 +1875,10 @@
                         <label class="btn btn-xs btn-info active visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityOptions(this)">
                           <input type="radio">
                           <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-
                         </label>
                         <label class="btn btn-xs btn-info visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityMessage(this)">
                           <input type="radio">
                           <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-
                         </label>
                       </div>
                     </div>
@@ -1961,11 +1886,8 @@
                       <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-1">
                         This is the visibility as seen by the feedback giver.
                         <ul class="margin-bottom-15px background-color-warning">
-
                           <li>The receiving team can see your response, and your name.</li>
-
                           <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-
                         </ul>
                       </div>
                     </div>
@@ -2070,11 +1992,8 @@
                     </div>
                   </div>
                 </div>
-
               </form>
-
             </div>
-
             <br>
             <span class="alert alert-success">
               <span class="glyphicon glyphicon-info-sign"></span> Remember to
@@ -2084,11 +2003,8 @@
             <br>When the session is open, an instructor can answer the above question. This is how it will look like:
             <br>
             <br>
-
             <div class="bs-example" id="intructorQuestionAnswer">
-
               <div class="form-horizontal">
-
                 <div class="panel panel-primary">
                   <div class="panel-heading">Question 1:
                     <br>
@@ -2097,13 +2013,9 @@
                   <div class="panel-body">
                     <p class="text-muted">Only the following persons can see your responses: </p>
                     <ul class="text-muted">
-
                       <li class="unordered">The receiving teams can see your response, and your name.</li>
-
                       <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
-
                     </ul>
-
                     <br>
                     <div class="form-group margin-0">
                       <div class="col-sm-2 form-inline" style="text-align:right">
@@ -2112,7 +2024,6 @@
                           <option value="" selected=""></option>
                           <option value="Team 1">Team 1</option>
                           <option value="Team 3" style="display: none;">Team 3</option>
-
                         </select>
                         <span> Team 1</span>
                       </div>
@@ -2120,7 +2031,6 @@
                         <textarea rows="4" cols="100%" class="form-control" name="responsetext-1-0"></textarea>
                       </div>
                     </div>
-
                     <br>
                     <div class="form-group margin-0">
                       <div class="col-sm-2 form-inline" style="text-align:right">
@@ -2129,7 +2039,6 @@
                           <option value="" selected=""></option>
                           <option value="Team 1" style="display: none;">Team 1</option>
                           <option value="Team 3">Team 3</option>
-
                         </select>
                         <span> Team 3</span>
                       </div>
@@ -2139,7 +2048,6 @@
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
             <br>
@@ -2147,8 +2055,6 @@
             <br>Here is another example question:
             <br>
             <br>
-
-
             <div class="bs-example">
               <form class="form-horizontal form_question" role="form">
                 <div class="panel panel-primary questionTable" id="questionTable1">
@@ -2172,7 +2078,6 @@
                             <option value="12">12</option>
                             <option value="13">13</option>
                             <option value="14">14</option>
-
                           </select>
                           &nbsp; Multiple-choice (single answer) question
                         </span>
@@ -2221,7 +2126,6 @@
                                 </span>
                               </div>
                             </div>
-
                             <div id="mcqAddOptionRow-1">
                               <div colspan="2">
                                 <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" style="">
@@ -2231,7 +2135,6 @@
                               </div>
                             </div>
                           </div>
-
                           <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-1" value="2">
                         </div>
                         <div class="col-sm-6">
@@ -2264,7 +2167,6 @@
                             <option value="STUDENTS" selected="">Students in this course</option>
                             <option value="INSTRUCTORS">Instructors in this course</option>
                             <option value="TEAMS">Teams in this course</option>
-
                           </select>
                         </div>
                       </div>
@@ -2282,7 +2184,6 @@
                             <option value="OWN_TEAM_MEMBERS" selected="">Giver's team members</option>
                             <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
                             <option value="NONE">Nobody specific (For general class feedback)</option>
-
                           </select>
                         </div>
                       </div>
@@ -2314,12 +2215,10 @@
                         <label class="btn btn-xs btn-info visibilityOptionsLabel active" id="visibilityOptionsLabel-1">
                           <input type="radio">
                           <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-
                         </label>
                         <label class="btn btn-xs btn-info visibilityMessageButton" id="visibilityMessageButton-1">
                           <input type="radio">
                           <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-
                         </label>
                       </div>
                     </div>
@@ -2327,11 +2226,8 @@
                       <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-1" style="display: none;">
                         This is the visibility as seen by the feedback giver.
                         <ul class="background-color-warning">
-
                           <li>The receiving student can see your response, but not your name.</li>
-
                           <li>Instructors in this course can see your response, the name of the recipient, but not your name.</li>
-
                         </ul>
                       </div>
                     </div>
@@ -2345,7 +2241,6 @@
                               <th class="text-center">Can see giver's name</th>
                               <th class="text-center">Can see recipient's name</th>
                             </tr>
-
                             <tr>
                               <td class="text-left">
                                 <div data-toggle="tooltip" data-placement="top" title="Control what feedback recipient(s) can view">
@@ -2362,11 +2257,6 @@
                                 <input class="visibilityCheckbox recipientCheckbox1" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
                               </td>
                             </tr>
-
-
-
-
-
                             <tr>
                               <td class="text-left">
                                 <div data-toggle="tooltip" data-placement="top" title="Control what team members of feedback giver can view">
@@ -2383,11 +2273,6 @@
                                 <input class="visibilityCheckbox recipientCheckbox1" type="checkbox" value="OWN_TEAM_MEMBERS">
                               </td>
                             </tr>
-
-
-
-
-
                             <tr style="display: none;">
                               <td class="text-left">
                                 <div data-toggle="tooltip" data-placement="top" title="Control what team members of feedback recipients can view">
@@ -2404,10 +2289,6 @@
                                 <input class="visibilityCheckbox recipientCheckbox1" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                               </td>
                             </tr>
-
-
-
-
                             <tr>
                               <td class="text-left">
                                 <div data-toggle="tooltip" data-placement="top" title="Control what other students can view">
@@ -2456,7 +2337,6 @@
             <br>
             <br>As you can see, these session are very flexible and can cater for a wide variety of feedback scenarios, all within a single session.
             <br>
-
           </li>
           <br>
           <br>
@@ -2467,14 +2347,12 @@
                 <h3>3. Previewing a session</h3>
               </a>
             </span>
-
             <p>
               To see how the session looks like to anyone in the course, we can use the
               <b>Preview as</b> feature to take a look at how the current session would look like to any student or instructor when they are submitting responses.
               <br>
               <br> This allows easy and convenient confirmation that the questions and their settings are correct.
             </p>
-
             <div class="bs-example" id="preview">
               <div class="well well-plain inputTable" id="questionPreviewTable">
                 <div class="row">
@@ -2527,7 +2405,6 @@
                 <h3>4. Viewing results</h3>
               </a>
             </span>
-
             <p>
               You can view results of sessions by clicking the
               <b>View Results</b> action of a session
@@ -2631,14 +2508,11 @@
                 </div>
               </div>
             </div>
-
             An example is given below:
             <br>
             <br>
-
             <div class="bs-example" id="responcesSortbyGiver">
               <div class="well well-plain">
-
                 <div class="panel panel-primary">
                   <div class="panel-heading">
                     From:
@@ -2646,13 +2520,11 @@
                     <a class="link-in-dark-bg" href="#responcesSortbyGiver">[alice.b.tmms@gmail.com]</a>
                   </div>
                   <div class="panel-body">
-
                     <div class="row ">
                       <div class="col-md-2">
                         <strong>To: -</strong>
                       </div>
                       <div class="col-md-10">
-
                         <div class="panel panel-info">
                           <div class="panel-heading">
                             Question 6: What do you like about our product?
@@ -2680,20 +2552,15 @@
                                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                               </button>
                             </div>
-
-
                           </div>
                         </div>
-
                       </div>
                     </div>
-
                     <div class="row border-top-gray">
                       <div class="col-md-2">
                         <strong>To: Alice Betsy (Team 2)</strong>
                       </div>
                       <div class="col-md-10">
-
                         <div class="panel panel-info">
                           <div class="panel-heading">Question 1: What is the best selling point of your product?
                           </div>
@@ -2705,21 +2572,16 @@
                                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                               </button>
                             </div>
-
-
                           </div>
                         </div>
-
                       </div>
                     </div>
-
                     <div class="row border-top-gray">
                       <div class="col-md-2">
                         <strong>To: Benny Charles (Team 1)
                         </strong>
                       </div>
                       <div class="col-md-10">
-
                         <div class="panel panel-info">
                           <div class="panel-heading">Question 2: Comment about 5 other students</div>
                           <div class="panel-body">
@@ -2730,18 +2592,12 @@
                                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                               </button>
                             </div>
-
-
                           </div>
                         </div>
-
                       </div>
                     </div>
-
                   </div>
                 </div>
-
-
                 <div class="panel panel-primary" id="benny">
                   <div class="panel-heading">
                     From:
@@ -2749,14 +2605,12 @@
                     <a class="link-in-dark-bg" href="#benny">[benny.c.tmms@gmail.com]</a>
                   </div>
                   <div class="panel-body">
-
                     <div class="row ">
                       <div class="col-md-2">
                         <strong>To: Charlie Davis (Team 1)
                         </strong>
                       </div>
                       <div class="col-md-10">
-
                         <div class="panel panel-info">
                           <div class="panel-heading">Question 2: Comment about 5 other students</div>
                           <div class="panel-body">
@@ -2766,21 +2620,16 @@
                                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                               </button>
                             </div>
-
-
                           </div>
                         </div>
-
                       </div>
                     </div>
-
                     <div class="row border-top-gray">
                       <div class="col-md-2">
                         <strong>To: Danny Engrid (Team 2)
                         </strong>
                       </div>
                       <div class="col-md-10">
-
                         <div class="panel panel-info">
                           <div class="panel-heading">Question 2: Comment about 5 other students</div>
                           <div class="panel-body">
@@ -2790,14 +2639,10 @@
                                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                               </button>
                             </div>
-
-
                           </div>
                         </div>
-
                       </div>
                     </div>
-
                   </div>
                 </div>
                 <!-- second -->
@@ -2808,13 +2653,11 @@
                     <a class="link-in-dark-bg" href="#charlie">[charlie.d.tmms@gmail.com]</a>
                   </div>
                   <div class="panel-body">
-
                     <div class="row ">
                       <div class="col-md-2">
                         <strong>To: Alice Betsy (Team 2)</strong>
                       </div>
                       <div class="col-md-10">
-
                         <div class="panel panel-info">
                           <div class="panel-heading">Question 2: Comment about 5 other students</div>
                           <div class="panel-body">
@@ -2825,18 +2668,13 @@
                                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                               </button>
                             </div>
-
-
                           </div>
                         </div>
-
                       </div>
                     </div>
-
                   </div>
                 </div>
                 <!-- third -->
-
                 <div class="panel panel-warning">
                   <div class="panel-heading" data-target="#panelBodyCollapse-12" style="cursor: pointer;">
                     <div class="display-icon pull-right">
@@ -2847,17 +2685,14 @@
                     <div class="panel-body padding-0">
                       <table class="table table-striped table-bordered margin-0">
                         <tbody>
-
                           <tr>
                             <td>Danny Engrid</td>
                           </tr>
-
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
             <br>
@@ -2866,21 +2701,16 @@
             <br>
             <br>
             <br>
-
-
             <div class="bs-example">
-
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4>Question 1: Tutor comments about the team presentation</h4>
-
                   <div class="panel panel-primary">
                     <div class="panel-heading">
                       <b>To:</b> Team 1
                     </div>
                     <table class="table">
                       <tbody>
-
                         <tr class="resultSubheader">
                           <td>
                             <span class="bold">
@@ -2891,18 +2721,15 @@
                         <tr>
                           <td class="multiline">The content was good but overran the time limit</td>
                         </tr>
-
                       </tbody>
                     </table>
                   </div>
-
                   <div class="panel panel-primary">
                     <div class="panel-heading">
                       <b>To:</b> Team 1
                     </div>
                     <table class="table">
                       <tbody>
-
                         <tr class="resultSubheader">
                           <td>
                             <span class="bold">
@@ -2913,14 +2740,11 @@
                           <td class="multiline">Good presentation.Please keep to the time limit
                           </td>
                         </tr>
-
                       </tbody>
                     </table>
                   </div>
-
                 </div>
               </div>
-
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4>
@@ -2932,18 +2756,14 @@
                         <li>Yes</li>
                         <li>No</li>
                       </ul>
-
                     </small>
-
                   </h4>
-
                   <div class="panel panel-primary">
                     <div class="panel-heading">
                       <b>To:</b> You
                     </div>
                     <table class="table">
                       <tbody>
-
                         <tr class="resultSubheader">
                           <td>
                             <span class="bold">
@@ -2954,20 +2774,15 @@
                         <tr>
                           <td class="multiline">No</td>
                         </tr>
-
-
-
                       </tbody>
                     </table>
                   </div>
-
                   <div class="panel panel-primary">
                     <div class="panel-heading">
                       <b>To:</b> You
                     </div>
                     <table class="table">
                       <tbody>
-
                         <tr class="resultSubheader">
                           <td>
                             <span class="bold">
@@ -2978,9 +2793,6 @@
                         <tr>
                           <td class="multiline">No</td>
                         </tr>
-
-
-
                       </tbody>
                     </table>
                   </div>
@@ -2990,7 +2802,6 @@
                     </div>
                     <table class="table">
                       <tbody>
-
                         <tr class="resultSubheader">
                           <td>
                             <span class="bold">
@@ -3001,17 +2812,11 @@
                         <tr>
                           <td class="multiline">Yes</td>
                         </tr>
-
-
-
                       </tbody>
                     </table>
                   </div>
-
                 </div>
               </div>
-
-
             </div>
             <br>
             <br>
@@ -3055,7 +2860,6 @@
                 <a href="#fbRankRecipients">Rank Recipients question</a>
               </li>
             </ul>
-
             <div class="row">
               <div class="col-sm-12">
                 <a name="fbEssay">
@@ -3085,7 +2889,6 @@
                                 <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
-
                               </select>
                               &nbsp; Essay question
                             </span>
@@ -3102,7 +2905,6 @@
                           <div>
                             <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" tabindex="9" disabled="" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">What general mistakes did the students in the class make?</textarea>
                           </div>
-
                         </div>
                         <br>
                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
@@ -3119,7 +2921,6 @@
                                 <option value="STUDENTS">Students in this course</option>
                                 <option value="INSTRUCTORS" selected="">Instructors in this course</option>
                                 <option value="TEAMS">Teams in this course</option>
-
                               </select>
                             </div>
                           </div>
@@ -3137,7 +2938,6 @@
                                 <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
                                 <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
                                 <option value="NONE" selected="">Nobody specific (For general class feedback)</option>
-
                               </select>
                             </div>
                           </div>
@@ -3169,12 +2969,10 @@
                             <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityOptions(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-
                             </label>
                             <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityMessage(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-
                             </label>
                           </div>
                         </div>
@@ -3182,11 +2980,8 @@
                           <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-1">
                             This is the visibility as seen by the feedback giver.
                             <ul class="background-color-warning">
-
                               <li>Other students in the course can see your response, and your name.</li>
-
                               <li>Instructors in this course can see your response, and your name.</li>
-
                             </ul>
                           </div>
                         </div>
@@ -3295,7 +3090,6 @@
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-sm-12">
                 <a name="fbMcq">
@@ -3326,7 +3120,6 @@
                                 <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
-
                               </select>
                               &nbsp; Multiple-choice (single answer) question
                             </span>
@@ -3375,7 +3168,6 @@
                                     </span>
                                   </div>
                                 </div>
-
                                 <div id="mcqAddOptionRow-7">
                                   <div colspan="2">
                                     <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" onclick="addMcqOption(7)" style="display: none;">
@@ -3385,7 +3177,6 @@
                                   </div>
                                 </div>
                               </div>
-
                               <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-7" value="2" disabled="">
                             </div>
                             <div class="col-sm-6">
@@ -3418,7 +3209,6 @@
                                 <option value="STUDENTS" selected="">Students in this course</option>
                                 <option value="INSTRUCTORS">Instructors in this course</option>
                                 <option value="TEAMS">Teams in this course</option>
-
                               </select>
                             </div>
                           </div>
@@ -3436,7 +3226,6 @@
                                 <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
                                 <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
                                 <option value="NONE">Nobody specific (For general class feedback)</option>
-
                               </select>
                             </div>
                           </div>
@@ -3468,12 +3257,10 @@
                             <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-7" onchange="toggleVisibilityOptions(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-
                             </label>
                             <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-7" onchange="toggleVisibilityMessage(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-
                             </label>
                           </div>
                         </div>
@@ -3481,11 +3268,8 @@
                           <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-7">
                             This is the visibility as seen by the feedback giver.
                             <ul class="background-color-warning">
-
                               <li>You can see your own feedback in the results page later on.</li>
-
                               <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-
                             </ul>
                           </div>
                         </div>
@@ -3592,7 +3376,6 @@
                     </div>
                   </form>
                 </div>
-
                 Example with generated options:
                 <div class="bs-example">
                   <form class="form-horizontal form_question" role="form" method="post" >
@@ -3615,7 +3398,6 @@
                                 <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
-
                               </select>
                               &nbsp; Multiple-choice (single answer) question
                             </span>
@@ -3636,7 +3418,6 @@
                             <br>
                             <div class="col-sm-6">
                               <div id="mcqChoiceTable-4">
-
                                 <div id="mcqAddOptionRow-4">
                                   <div colspan="2">
                                     <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" onclick="addMcqOption(4)" style="display: none;">
@@ -3646,7 +3427,6 @@
                                   </div>
                                 </div>
                               </div>
-
                               <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-4" value="0" disabled="">
                             </div>
                             <div class="col-sm-6">
@@ -3679,7 +3459,6 @@
                                 <option value="STUDENTS" selected="">Students in this course</option>
                                 <option value="INSTRUCTORS">Instructors in this course</option>
                                 <option value="TEAMS">Teams in this course</option>
-
                               </select>
                             </div>
                           </div>
@@ -3697,7 +3476,6 @@
                                 <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
                                 <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
                                 <option value="NONE" selected="">Nobody specific (For general class feedback)</option>
-
                               </select>
                             </div>
                           </div>
@@ -3729,12 +3507,10 @@
                             <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-4" onchange="toggleVisibilityOptions(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-
                             </label>
                             <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-4" onchange="toggleVisibilityMessage(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-
                             </label>
                           </div>
                         </div>
@@ -3742,9 +3518,7 @@
                           <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-4">
                             This is the visibility as seen by the feedback giver.
                             <ul class="background-color-warning">
-
                               <li>Instructors in this course can see your response, and your name.</li>
-
                             </ul>
                           </div>
                         </div>
@@ -3851,7 +3625,6 @@
                     </div>
                   </form>
                 </div>
-
                 Multiple-choice (single answer) questions also provide some statistics for the results collected, which includes the response count for each option, and the percentage for which each option was chosen. An example for the above question:
                 <div class="bs-example">
                   <div class="panel panel-info">
@@ -3872,7 +3645,6 @@
                     </div>
                     <div class="panel-collapse collapse in" id="panelBodyCollapse-4">
                       <div class="panel-body padding-0" id="questionBody-3">
-
                         <div class="resultStatistics">
                           <div class="panel-body">
                             <div class="row">
@@ -3956,37 +3728,29 @@
                             <thead>
                             </thead>
                             <tbody>
-
                               <tr>
-
                                 <td class="middlealign">Alice Betsy</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">-</td>
                                 <td class="middlealign">-</td>
                                 <td class="multiline">Team 1</td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Charlie Davis</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">-</td>
                                 <td class="middlealign">-</td>
                                 <td class="multiline">Team 2</td>
                               </tr>
-
                             </tbody>
                           </table>
                         </div>
-
                       </div>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
-
             <div class="row">
               <div class="col-sm-12">
                 <a name="fbMsq">
@@ -3998,7 +3762,6 @@
                 <a href="#fbMcq">above</a> for details.
               </div>
             </div>
-
             <div class="row">
               <div class="col-sm-12">
                 <a name="fbNumscale">
@@ -4008,7 +3771,6 @@
                 <br> To set up the question, provide the question text as well as the minimum, maximum values the student can input, as well as the increment, or precision of the number that is required.
                 <br> If this sounds confusing, you can fiddle with the numbers and see what the acceptable responses are.
                 <br>
-
                 <div class="bs-example">
                   <form class="form-horizontal form_question" role="form" method="post" >
                     <div class="panel panel-primary questionTable" id="questionTable3">
@@ -4030,7 +3792,6 @@
                                 <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
-
                               </select>
                               &nbsp; Numerical-scale question
                             </span>
@@ -4087,7 +3848,6 @@
                                 <option value="STUDENTS" selected="">Students in this course</option>
                                 <option value="INSTRUCTORS">Instructors in this course</option>
                                 <option value="TEAMS">Teams in this course</option>
-
                               </select>
                             </div>
                           </div>
@@ -4105,7 +3865,6 @@
                                 <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
                                 <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
                                 <option value="NONE">Nobody specific (For general class feedback)</option>
-
                               </select>
                             </div>
                           </div>
@@ -4137,12 +3896,10 @@
                             <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-3" onchange="toggleVisibilityOptions(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-
                             </label>
                             <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-3" onchange="toggleVisibilityMessage(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-
                             </label>
                           </div>
                         </div>
@@ -4150,11 +3907,8 @@
                           <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-3">
                             This is the visibility as seen by the feedback giver.
                             <ul class="background-color-warning">
-
                               <li>The receiving instructor can see your response, and your name.</li>
-
                               <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-
                             </ul>
                           </div>
                         </div>
@@ -4261,10 +4015,8 @@
                     </div>
                   </form>
                 </div>
-
                 Statistics for numerical scale questions are also provided, including the average, minimum and maximum of the responses given.
                 <br>
-
                 <div class="bs-example">
                   <div class="panel panel-info">
                     <div class="panel-heading" data-target="#panelBodyCollapse-3" style="cursor: pointer;">
@@ -4284,7 +4036,6 @@
                     </div>
                     <div class="panel-collapse collapse in" id="panelBodyCollapse-3">
                       <div class="panel-body padding-0" id="questionBody-2">
-
                         <div class="resultStatistics">
                           <div class="panel-body">
                             <div class="row">
@@ -4347,36 +4098,29 @@
                             <thead>
                             </thead>
                             <tbody>
-
                               <tr>
-
                                 <td class="middlealign">Alice Betsy</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Instructor A</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="multiline">4</td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Charlie Davis</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Instructor A</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="multiline">5</td>
                               </tr>
-
                             </tbody>
                           </table>
                         </div>
-
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-sm-12">
                 <a name="fbConstSumOptions">
@@ -4389,8 +4133,6 @@
                 <b>Points to distribute X number of options</b>, which multiplies the points specified by the number of options.
                 <br> For example, if there are 5 options and
                 <b>Points to distribute X number of options</b> is set to 100, students will have to split 500 points in total to the 5 options.
-
-
                 <div class="bs-example">
                   <form class="form-horizontal form_question" role="form" method="post" >
                     <div class="panel panel-primary questionTable" id="questionTable9">
@@ -4412,7 +4154,6 @@
                                 <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
-
                               </select>
                               &nbsp; Distribute points (among options) question
                             </span>
@@ -4454,7 +4195,6 @@
                                   </span>
                                 </div>
                               </div>
-
                               <div id="constSumAddOptionRow-9">
                                 <div colspan="2">
                                   <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(9)" style="display:none">
@@ -4463,7 +4203,6 @@
                                   </a>
                                 </div>
                               </div>
-
                               <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-9" value="2" disabled="">
                               <input type="hidden" name="constSumToRecipients" id="constSumToRecipients-9" value="false" disabled="">
                             </div>
@@ -4475,7 +4214,6 @@
                                       <b>Total Points to distribute: </b>
                                     </label>
                                   </div>
-
                                   <div class="col-xs-12 margin-bottom-7px padding-left-35px">
                                     <div class="col-xs-1">
                                       <input type="radio" id="constSumPointsTotal-9"
@@ -4491,7 +4229,6 @@
                                     <div class="col-xs-6 padding-0">
                                       <label class="margin-top-7px padding-left-7px">in total</label>
                                     </div>
-
                                   </div>
                                   <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Option-9" >
                                     <div class="col-xs-1">
@@ -4500,7 +4237,6 @@
                                           value="true" >
                                     </div>
                                     <div class="col-xs-4 padding-0">
-
                                       <input type="number" disabled
                                           class="form-control width-100-pc pointsBox"
                                           name="constSumPoints"
@@ -4565,7 +4301,6 @@
                                 <option value="STUDENTS" selected="">Students in this course</option>
                                 <option value="INSTRUCTORS">Instructors in this course</option>
                                 <option value="TEAMS">Teams in this course</option>
-
                               </select>
                             </div>
                           </div>
@@ -4583,7 +4318,6 @@
                                 <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
                                 <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
                                 <option value="NONE">Nobody specific (For general class feedback)</option>
-
                               </select>
                             </div>
                           </div>
@@ -4615,12 +4349,10 @@
                             <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-9" onchange="toggleVisibilityOptions(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-
                             </label>
                             <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-9" onchange="toggleVisibilityMessage(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-
                             </label>
                           </div>
                         </div>
@@ -4628,11 +4360,8 @@
                           <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-9">
                             This is the visibility as seen by the feedback giver.
                             <ul class="background-color-warning">
-
                               <li>You can see your own feedback in the results page later on.</li>
-
                               <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-
                             </ul>
                           </div>
                         </div>
@@ -4738,7 +4467,6 @@
                       </div>
                     </div>
                   </form>
-
                 When viewing results, statistics on the average points for each option are provided.
                 <div class="bs-example">
                   <div class="panel panel-info">
@@ -4761,7 +4489,6 @@
                     </div>
                     <div class="panel-collapse collapse in" id="panelBodyCollapse-9">
                       <div class="panel-body padding-0" id="questionBody-8">
-
                         <div class="resultStatistics">
                           <div class="panel-body">
                             <div class="row">
@@ -4836,9 +4563,7 @@
                             <thead>
                             </thead>
                             <tbody>
-
                               <tr>
-
                                 <td class="middlealign">Alice Betsy</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Alice Betsy</td>
@@ -4850,9 +4575,7 @@
                                   </ul>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Charlie Davis</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Charlie Davis</td>
@@ -4864,11 +4587,9 @@
                                   </ul>
                                 </td>
                               </tr>
-
                             </tbody>
                           </table>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -4876,7 +4597,6 @@
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-sm-12">
                 <a name="fbConstSumRecipients">
@@ -4889,7 +4609,6 @@
                 <b>Points to distribute X number of recipients</b>, which multiplies the points specified by the number of recipients.
                 <br> For example, if there are 5 team members and
                 <b>Points to distribute X number of recipients</b> is set to 100, students will have to split 500 points in total to the 5 members.
-
                 <div class="bs-example">
                   <form class="form-horizontal form_question" role="form" method="post" >
                     <div class="panel panel-primary questionTable" id="questionTable10">
@@ -4911,7 +4630,6 @@
                                 <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
-
                               </select>
                               &nbsp; Distribute points (among recipients) question
                             </span>
@@ -5047,7 +4765,6 @@
                                 <option value="STUDENTS" selected="">Students in this course</option>
                                 <option value="INSTRUCTORS">Instructors in this course</option>
                                 <option value="TEAMS">Teams in this course</option>
-
                               </select>
                             </div>
                           </div>
@@ -5065,7 +4782,6 @@
                                 <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
                                 <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" selected="">Giver's team members and Giver</option>
                                 <option value="NONE">Nobody specific (For general class feedback)</option>
-
                               </select>
                             </div>
                           </div>
@@ -5097,12 +4813,10 @@
                             <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-10" onchange="toggleVisibilityOptions(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-
                             </label>
                             <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-10" onchange="toggleVisibilityMessage(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-
                             </label>
                           </div>
                         </div>
@@ -5110,11 +4824,8 @@
                           <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-10">
                             This is the visibility as seen by the feedback giver.
                             <ul class="background-color-warning">
-
                               <li>The receiving student can see your response, and your name.</li>
-
                               <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-
                             </ul>
                           </div>
                         </div>
@@ -5226,7 +4937,6 @@
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-sm-12">
                 <a name="fbContrib">
@@ -5261,7 +4971,6 @@
                                 <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
-
                               </select>
                               &nbsp; Team contribution question
                             </span>
@@ -5278,7 +4987,6 @@
                           <div>
                             <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-11" data-toggle="tooltip" data-placement="top" tabindex="9" disabled="" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rate the contribution of yourself and your team members towards the latest project.</textarea>
                           </div>
-
                         </div>
                         <br>
                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
@@ -5295,7 +5003,6 @@
                                 <option value="STUDENTS" selected="">Students in this course</option>
                                 <option value="INSTRUCTORS">Instructors in this course</option>
                                 <option value="TEAMS">Teams in this course</option>
-
                               </select>
                             </div>
                           </div>
@@ -5313,7 +5020,6 @@
                                 <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
                                 <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" selected="">Giver's team members and Giver</option>
                                 <option value="NONE">Nobody specific (For general class feedback)</option>
-
                               </select>
                             </div>
                           </div>
@@ -5345,12 +5051,10 @@
                             <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-11" onchange="toggleVisibilityOptions(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-
                             </label>
                             <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-11" onchange="toggleVisibilityMessage(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-
                             </label>
                           </div>
                         </div>
@@ -5358,15 +5062,10 @@
                           <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-11">
                             This is the visibility as seen by the feedback giver.
                             <ul class="background-color-warning">
-
                               <li>The receiving student can see your response, but not your name.</li>
-
                               <li>Your team members can see your response, but not the name of the recipient, or your name.</li>
-
                               <li>The recipient's team members can see your response, but not the name of the recipient, or your name.</li>
-
                               <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-
                             </ul>
                           </div>
                         </div>
@@ -5493,7 +5192,6 @@
                     </div>
                     <div class="panel-collapse collapse in" id="panelBodyCollapse-1">
                       <div class="panel-body padding-0" id="questionBody-0">
-
                         <div class="resultStatistics">
                           <div class="panel-body">
                             <div class="row">
@@ -5728,9 +5426,7 @@
                             <thead>
                             </thead>
                             <tbody>
-
                               <tr>
-
                                 <td class="middlealign">Alice Betsy</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Alice Betsy</td>
@@ -5741,9 +5437,7 @@
                                     <span class="color_neutral">Equal Share</span>]</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Alice Betsy</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Benny Charles</td>
@@ -5752,9 +5446,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Alice Betsy</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Danny Engrid</td>
@@ -5763,9 +5455,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Alice Betsy</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Emma Farrell</td>
@@ -5774,9 +5464,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Benny Charles</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Alice Betsy</td>
@@ -5785,9 +5473,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Benny Charles</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Benny Charles</td>
@@ -5798,9 +5484,7 @@
                                     <span class="color_neutral">Equal Share</span>]</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Benny Charles</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Danny Engrid</td>
@@ -5809,9 +5493,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Benny Charles</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Emma Farrell</td>
@@ -5820,9 +5502,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Charlie Davis</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Charlie Davis</td>
@@ -5833,9 +5513,7 @@
                                     <span class="color-negative">Equal Share -18%</span>]</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Charlie Davis</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Francis Gabriel</td>
@@ -5844,9 +5522,7 @@
                                   <span class="color-positive">Equal Share +6%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Charlie Davis</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Gene Hudson</td>
@@ -5855,9 +5531,7 @@
                                   <span class="color-positive">Equal Share +6%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Charlie Davis</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Happy Guy</td>
@@ -5866,9 +5540,7 @@
                                   <span class="color-positive">Equal Share +6%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Danny Engrid</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Alice Betsy</td>
@@ -5877,9 +5549,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Danny Engrid</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Benny Charles</td>
@@ -5888,9 +5558,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Danny Engrid</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Danny Engrid</td>
@@ -5901,9 +5569,7 @@
                                     <span class="color_neutral">Equal Share</span>]</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Danny Engrid</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Emma Farrell</td>
@@ -5912,9 +5578,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Emma Farrell</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Alice Betsy</td>
@@ -5923,9 +5587,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Emma Farrell</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Benny Charles</td>
@@ -5934,9 +5596,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Emma Farrell</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Danny Engrid</td>
@@ -5945,9 +5605,7 @@
                                   <span class="color_neutral">Equal Share</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Emma Farrell</td>
                                 <td class="middlealign">Team 1</td>
                                 <td class="middlealign">Emma Farrell</td>
@@ -5958,9 +5616,7 @@
                                     <span class="color_neutral">Equal Share</span>]</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Francis Gabriel</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Charlie Davis</td>
@@ -5969,9 +5625,7 @@
                                   <span class="color-negative">Equal Share -20%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Francis Gabriel</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Francis Gabriel</td>
@@ -5982,9 +5636,7 @@
                                     <span class="color-positive">Equal Share +6%</span>]</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Francis Gabriel</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Gene Hudson</td>
@@ -5993,9 +5645,7 @@
                                   <span class="color-positive">Equal Share +5%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Francis Gabriel</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Happy Guy</td>
@@ -6004,9 +5654,7 @@
                                   <span class="color-positive">Equal Share +10%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Gene Hudson</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Charlie Davis</td>
@@ -6015,9 +5663,7 @@
                                   <span class="color-negative">Equal Share -18%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Gene Hudson</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Francis Gabriel</td>
@@ -6026,9 +5672,7 @@
                                   <span class="color-positive">Equal Share +6%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Gene Hudson</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Gene Hudson</td>
@@ -6039,9 +5683,7 @@
                                     <span class="color-positive">Equal Share +5%</span>]</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Gene Hudson</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Happy Guy</td>
@@ -6050,9 +5692,7 @@
                                   <span class="color-positive">Equal Share +8%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Happy Guy</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Charlie Davis</td>
@@ -6061,9 +5701,7 @@
                                   <span class="color-negative">Equal Share -20%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Happy Guy</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Francis Gabriel</td>
@@ -6072,9 +5710,7 @@
                                   <span class="color-positive">Equal Share +8%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Happy Guy</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Gene Hudson</td>
@@ -6083,9 +5719,7 @@
                                   <span class="color-positive">Equal Share +7%</span>
                                 </td>
                               </tr>
-
                               <tr>
-
                                 <td class="middlealign">Happy Guy</td>
                                 <td class="middlealign">Team 2</td>
                                 <td class="middlealign">Happy Guy</td>
@@ -6096,11 +5730,9 @@
                                     <span class="color-positive">Equal Share +7%</span>]</span>
                                 </td>
                               </tr>
-
                             </tbody>
                           </table>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -6127,13 +5759,9 @@
                       <div class="panel-body">
                         <p class="text-muted">Only the following persons can see your responses: </p>
                         <ul class="text-muted">
-
                           <li class="unordered">Other students in the course can see your response, the name of the recipient, and your name.</li>
-
                           <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
-
                         </ul>
-
                         <br>
                         <div class="form-group margin-0">
                           <div class="col-sm-2 form-inline" style="text-align:right">
@@ -6159,7 +5787,6 @@
                                       <th class="rubricCol-10-3">
                                         <p>Strongly Disagree</p>
                                       </th>
-
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -6183,7 +5810,6 @@
                                         <input class="overlay" type="radio" id="rubricChoice-10-0-0-3" name="rubricChoice-10-0-0" value="0-3">
                                         <span class="color_neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
                                       </td>
-
                                     </tr>
                                     <tr>
                                       <td>
@@ -6205,9 +5831,7 @@
                                         <input class="overlay" type="radio" id="rubricChoice-10-0-1-3" name="rubricChoice-10-0-1" value="1-3">
                                         <span class="color_neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
                                       </td>
-
                                     </tr>
-
                                   </tbody>
                                 </table>
                               </div>
@@ -6215,7 +5839,6 @@
                             <input type="hidden" id="rubricResponse-10-0" name="responsetext-10-0" value="">
                           </div>
                         </div>
-
                         <br>
                         <div class="form-group margin-0">
                           <div class="col-sm-2 form-inline" style="text-align:right">
@@ -6241,7 +5864,6 @@
                                       <th class="rubricCol-10-3">
                                         <p>Strongly Disagree</p>
                                       </th>
-
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -6265,7 +5887,6 @@
                                         <input class="overlay" type="radio" id="rubricChoice-10-1-0-3" name="rubricChoice-10-1-0" value="0-3">
                                         <span class="color_neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
                                       </td>
-
                                     </tr>
                                     <tr>
                                       <td>
@@ -6287,9 +5908,7 @@
                                         <input class="overlay" type="radio" id="rubricChoice-10-1-1-3" name="rubricChoice-10-1-1" value="1-3">
                                         <span class="color_neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
                                       </td>
-
                                     </tr>
-
                                   </tbody>
                                 </table>
                               </div>
@@ -6327,7 +5946,6 @@
                                 <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
-
                               </select>
                               &nbsp; Rubric question
                             </span>
@@ -6394,7 +6012,6 @@
                                     <td class="align-center rubricCol-12-1">
                                       <textarea class="form-control nonDestructive" rows="3" id="rubricDesc-12-0-1" name="rubricDesc-0-1" disabled=""></textarea>
                                     </td>
-
                                   </tr>
                                   <tr id="rubricRow-12-1">
                                     <td>
@@ -6411,9 +6028,7 @@
                                     <td class="align-center rubricCol-12-1">
                                       <textarea class="form-control nonDestructive" rows="3" id="rubricDesc-12-1-1" name="rubricDesc-1-1" disabled="">Less than half the time</textarea>
                                     </td>
-
                                   </tr>
-
                                 </tbody>
                               </table>
                             </div>
@@ -6448,7 +6063,6 @@
                                 <option value="STUDENTS" selected="">Students in this course</option>
                                 <option value="INSTRUCTORS">Instructors in this course</option>
                                 <option value="TEAMS">Teams in this course</option>
-
                               </select>
                             </div>
                           </div>
@@ -6466,7 +6080,6 @@
                                 <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
                                 <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" selected="">Giver's team members and Giver</option>
                                 <option value="NONE">Nobody specific (For general class feedback)</option>
-
                               </select>
                             </div>
                           </div>
@@ -6498,12 +6111,10 @@
                             <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-12" onchange="toggleVisibilityOptions(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-
                             </label>
                             <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-12" onchange="toggleVisibilityMessage(this)">
                               <input type="radio" disabled="">
                               <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-
                             </label>
                           </div>
                         </div>
@@ -6511,11 +6122,8 @@
                           <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-12">
                             This is the visibility as seen by the feedback giver.
                             <ul class="background-color-warning">
-
                               <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-
                               <li>Other students in the course can see your response, the name of the recipient, and your name.</li>
-
                             </ul>
                           </div>
                         </div>
@@ -6657,7 +6265,6 @@
                                 <th>
                                   <p>Average</p>
                                 </th>
-
                               </tr>
                             </thead>
                             <tbody>
@@ -6680,7 +6287,6 @@
                                 <td>
                                   2.13
                                 </td>
-
                               </tr>
                               <tr>
                                 <td>
@@ -6701,9 +6307,7 @@
                                 <td>
                                   2.86
                                 </td>
-
                               </tr>
-
                             </tbody>
                           </table>
                         </div>
@@ -6713,7 +6317,6 @@
                 </div>
               </div>
             </div>
-            
             <div class="row">
               <div class="col-sm-12">
                 <a name="fbRankOptions">
@@ -6721,7 +6324,6 @@
                 </a>
                 Rank options questions are question where the students rank options that are created by you. 
                 <br>
-              
                 <br> To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times. 
                 <br>
                 <br>
@@ -6734,11 +6336,9 @@
                             <span>
                               <strong>Question</strong>
                               <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-3" disabled="">
-                                
                                   <option value="1">
                                     1
                                   </option>
-                                
                               </select>
                               &nbsp;Rank (options) question
                             </span>
@@ -6762,7 +6362,6 @@
                       <div class="panel-body">
                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                           <div>
-                            
                             <textarea class="form-control textvalue nonDestructive" rows="5" name="questiontext" id="questiontext-3" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rank the following factors in order of importance to your group, where 1 is the most important. </textarea>
                           </div>
                           <div class="row">
@@ -6812,7 +6411,6 @@
                       </span>
                     </div>
                   </div>
-                        
                       <div id="rankAddOptionRow-3">
                         <div colspan="2">
                           <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-3" onclick="addRankOption(3)" style="display:none">
@@ -6821,7 +6419,6 @@
                           </a>
                         </div>
                       </div>
-                      
                       <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-3" value="4" disabled="">
                     </div>
                     <div class="col-sm-6">
@@ -6830,21 +6427,10 @@
                         <span style="margin-left: 5px; font-weight: bold;">Allow response giver to give the same rank to multiple options</span>
                       </div>
                     </div>
-                    
                     <br>
                   </div>
                         </div>
-                        
                         <br>
-                        
-
-
-
-
-
-
-
-
                   <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                     <div class="col-sm-12 padding-0">
                       <b>Feedback Path</b> (Who is giving feedback about whom?)
@@ -6855,23 +6441,18 @@
                       </label>
                       <div class="col-sm-7">
                         <select class="form-control participantSelect" id="givertype-3" name="givertype" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                          
                             <option value="SELF">
                               Me (Session creator)
                             </option>
-                          
                             <option value="STUDENTS">
                               Students in this course
                             </option>
-                          
                             <option value="INSTRUCTORS">
                               Instructors in this course
                             </option>
-                          
                             <option selected="" value="TEAMS">
                               Teams in this course
                             </option>
-                          
                         </select>
                       </div>
                     </div>
@@ -6881,39 +6462,30 @@
                       </label>
                       <div class="col-sm-7">
                         <select class="form-control participantSelect" id="recipienttype-3" name="recipienttype" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
-                          
                             <option selected="" value="SELF">
                               Giver (Self feedback)
                             </option>
-                          
                             <option value="STUDENTS">
                               Other students in the course
                             </option>
-                          
                             <option value="INSTRUCTORS">
                               Instructors in the course
                             </option>
-                          
                             <option value="TEAMS">
                               Other teams in the course
                             </option>
-                          
                             <option value="OWN_TEAM">
                               Giver's team
                             </option>
-                          
                             <option value="OWN_TEAM_MEMBERS">
                               Giver's team members
                             </option>
-                          
                             <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
                               Giver's team members and Giver
                             </option>
-                          
                             <option value="NONE">
                               Nobody specific (For general class feedback)
                             </option>
-                          
                         </select>
                       </div>
                     </div>
@@ -6935,24 +6507,7 @@
                       </div>
                     </div>
                   </div>
-
                   <br>
-
-                        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                   <div class="col-sm-12 padding-15px background-color-light-green">
                     <div class="col-sm-12 padding-0">
                       <b>Visibility</b> (Who can see the responses?)
@@ -6972,11 +6527,8 @@
                     <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-3">
                       This is the visibility as seen by the feedback giver.
                       <ul class="background-color-warning">
-                      
                         <li>You can see your own feedback in the results page later on.</li>
-                      
                         <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                      
                       </ul>
                     </div>
                   </div>
@@ -7072,7 +6624,6 @@
                       </tbody></table>
                     </div>
                   </div>
-                        
                         <div>
                           <span class="pull-right">
                             <input id="button_question_submit-3" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
@@ -7092,8 +6643,6 @@
                     <input type="hidden" name="user" value="inst@email.com">
                   </form>
                 </div>
-                
-
             </div>
             <div class="row">
               <div class="col-sm-12">
@@ -7114,11 +6663,9 @@
                             <span>
                               <strong>Question</strong>
                               <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-4" disabled="">
-                                
                                   <option value="1">
                                     1
                                   </option>
-                                
                               </select>
                               &nbsp;Rank (recipients) question
                             </span>
@@ -7142,7 +6689,6 @@
                       <div class="panel-body">
                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                           <div>
-                            
                             <textarea class="form-control textvalue nonDestructive" rows="5" name="questiontext" id="questiontext-4" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rank the teams in your class, based on how much work you think the teams have put in. </textarea>
                           </div>
                           <div class="row">
@@ -7156,17 +6702,7 @@
                     <br>
                   </div>
                         </div>
-                        
                         <br>
-                        
-
-
-
-
-
-
-
-
                   <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                     <div class="col-sm-12 padding-0">
                       <b>Feedback Path</b> (Who is giving feedback about whom?)
@@ -7177,23 +6713,18 @@
                       </label>
                       <div class="col-sm-7">
                         <select class="form-control participantSelect" id="givertype-4" name="givertype" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                          
                             <option value="SELF">
                               Me (Session creator)
                             </option>
-                          
                             <option selected="" value="STUDENTS">
                               Students in this course
                             </option>
-                          
                             <option value="INSTRUCTORS">
                               Instructors in this course
                             </option>
-                          
                             <option value="TEAMS">
                               Teams in this course
                             </option>
-                          
                         </select>
                       </div>
                     </div>
@@ -7203,39 +6734,30 @@
                       </label>
                       <div class="col-sm-7">
                         <select class="form-control participantSelect" id="recipienttype-4" name="recipienttype" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
-                          
                             <option value="SELF">
                               Giver (Self feedback)
                             </option>
-                          
                             <option value="STUDENTS">
                               Other students in the course
                             </option>
-                          
                             <option value="INSTRUCTORS">
                               Instructors in the course
                             </option>
-                          
                             <option selected="" value="TEAMS">
                               Other teams in the course
                             </option>
-                          
                             <option value="OWN_TEAM">
                               Giver's team
                             </option>
-                          
                             <option value="OWN_TEAM_MEMBERS">
                               Giver's team members
                             </option>
-                          
                             <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
                               Giver's team members and Giver
                             </option>
-                          
                             <option value="NONE">
                               Nobody specific (For general class feedback)
                             </option>
-                          
                         </select>
                       </div>
                     </div>
@@ -7257,24 +6779,7 @@
                       </div>
                     </div>
                   </div>
-
                   <br>
-
-                        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                   <div class="col-sm-12 padding-15px background-color-light-green">
                     <div class="col-sm-12 padding-0">
                       <b>Visibility</b> (Who can see the responses?)
@@ -7294,11 +6799,8 @@
                     <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-4">
                       This is the visibility as seen by the feedback giver.
                       <ul class="background-color-warning">
-                      
                         <li>The receiving team can see your response, and your name.</li>
-                      
                         <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                      
                       </ul>
                     </div>
                   </div>
@@ -7394,7 +6896,6 @@
                       </tbody></table>
                     </div>
                   </div>
-                        
                         <div>
                           <span class="pull-right">
                             <input id="button_question_submit-4" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
@@ -7414,7 +6915,6 @@
                     <input type="hidden" name="user" value="inst@email.com">
                   </form>  
                 </div>
-                
                 <br> The statistics for both rank questions show the average rank an option/recipient received. Ties are handled during the computation of statistics. If duplicate ranks are allowed to be given, ties are resolved by assigning the best rank to the occurences of tied values. For example, for the data {1, 3, 3, 4}, the ranks will be converted to {1, 2, 2, 4}. 
                 <br>
                 <br>
@@ -7448,7 +6948,6 @@
                       Team 1
                     </td>
                     <td>
-                      
                     </td>
                     <td>
                       1 , 1 , 2
@@ -7461,7 +6960,6 @@
                       Team 2
                     </td>
                     <td>
-                      
                     </td>
                     <td>
                       1 , 2
@@ -7474,7 +6972,6 @@
                       Team 3
                     </td>
                     <td>
-                      
                     </td>
                     <td>
                       1 , 2
@@ -7488,11 +6985,9 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
               </div>
-
             </div>
           </li>
         </ol>
@@ -7506,7 +7001,6 @@
       <a href="#Top">
       </a>
       <a href="#Top">
-
         <!--sessionTypes-->
         <br>
         <hr id="comments">
@@ -7619,15 +7113,12 @@
                       <label class="col-sm-3 control-label">Instructors:</label>
                       <div class="col-sm-6" id="instructors">
                         <div class="form-control-static">
-
                           Co-owner: Demo (demo@demo.com)
                           <br>
                           <br>
-
                         </div>
                       </div>
                     </div>
-
                     <div class="form-group">
                       <div class="align-center">
                         <input type="button" class="btn btn-primary" id="button_remind" data-toggle="tooltip" data-placement="top" value="Remind Students to Join" tabindex="1" title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile">
@@ -7728,15 +7219,12 @@
                     <div class="col-md-12">
                       To:
                       <strong>Rose (Team 2)</strong>
-
                     </div>
                     <div class="col-md-12 text-muted small">
                       <br> From: Alice (Team 1)
-
                     </div>
                   </div>
                   <div class="col-md-10">
-
                     <div class="panel panel-info">
                       <div class="panel-heading">Question 3:
                         <span >Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
@@ -7755,9 +7243,7 @@
                             <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                           </button>
                         </div>
-
                         <ul class="list-group" id="responseCommentTable-8-0-1" style="margin-top: 15px;">
-
                           <!-- frComment Add form -->
                           <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-8-0-1" style="">
                             <form class="responseCommentAddForm">
@@ -7791,7 +7277,6 @@
                                           <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER" checked="">
                                         </td>
                                       </tr>
-
                                       <tr id="response-recipient-8-0-1">
                                         <td class="text-left">
                                           <div data-toggle="tooltip" data-placement="top" title="Control what response recipient(s) can view">
@@ -7804,11 +7289,6 @@
                                           <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER" checked="">
                                         </td>
                                       </tr>
-
-
-
-
-
                                       <tr id="response-instructors-8-0-1">
                                         <td class="text-left">
                                           <div data-toggle="tooltip" data-placement="top" title="Control what instructors can view">
@@ -7821,7 +7301,6 @@
                                           <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS" checked="">
                                         </td>
                                       </tr>
-
                                     </tbody>
                                   </table>
                                 </div>
@@ -7836,7 +7315,6 @@
                         </ul>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -7877,29 +7355,21 @@
                     <b>You</b>
                   </div>
                   <ul class="list-group comments">
-
                     <li id="4538783999459328" class="list-group-item list-group-item-warning status_display-public">
                       <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
                         <div id="commentBar-1" style="display: block;">
-
                           <span class="text-muted">To
                             <b>Alice</b> (Team 1,
                             <a href="mailto:alice.b.tmms@gmail.com">alice.b.tmms@gmail.com</a>) on 01 Apr 2016, 23:59</span>
-
                           <a type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="Delete this comment">
                             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                           </a>
                           <a type="button" id="commentedit-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('1');" data-toggle="tooltip" data-placement="top" title="Edit this comment">
                             <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                           </a>
-
-
                           <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title="This comment is visible to instructors"></span>
-
-
                         </div>
                         <div id="plainCommentText1" style="margin-left: 15px; display: block;">Comment from Instructor to Student Alice</div>
-
                         <div id="commentTextEdit1" style="display: none;">
                           <div class="form-group form-inline">
                             <div class="form-group text-muted">
@@ -7919,7 +7389,6 @@
                                   <th class="text-center">Can see comment giver's name</th>
                                   <th class="text-center">Can see comment recipient's name</th>
                                 </tr>
-
                                 <tr id="recipient-person1">
                                   <td class="text-left">
                                     <div data-toggle="tooltip" data-placement="top" title="Control what comment recipient(s) can view">
@@ -7935,8 +7404,6 @@
                                     <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" type="checkbox" value="PERSON" disabled="">
                                   </td>
                                 </tr>
-
-
                                 <tr id="recipient-team1">
                                   <td class="text-left">
                                     <div data-toggle="tooltip" data-placement="top" title="Control what team members of comment recipients can view">
@@ -7952,8 +7419,6 @@
                                     <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM">
                                   </td>
                                 </tr>
-
-
                                 <tr id="recipient-section1">
                                   <td class="text-left">
                                     <div data-toggle="tooltip" data-placement="top" title="Control what students in the same section can view">
@@ -7969,7 +7434,6 @@
                                     <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="SECTION">
                                   </td>
                                 </tr>
-
                                 <tr id="recipient-course1">
                                   <td class="text-left">
                                     <div data-toggle="tooltip" data-placement="top" title="Control what other students in this course can view">
@@ -8013,7 +7477,6 @@
                         </div>
                       </form>
                     </li>
-
                   </ul>
                 </div>
               </div>
@@ -8106,7 +7569,6 @@
                       </div>
                     </div>
                   </div>
-
                   <div id="panel_display-1">
                     <br>
                     <div class="panel panel-primary">
@@ -8114,38 +7576,27 @@
                         <strong>Comments for students</strong>
                       </div>
                       <div class="panel-body">
-
-
                         <div class="panel panel-info student-record-comments giver_display-by-you">
                           <div class="panel-heading">
                             From
                             <b>You</b>
                           </div>
                           <ul class="list-group comments">
-
                             <li id="4691616115720192" class="list-group-item list-group-item-warning status_display-public">
                               <form name="form_commentedit" class="form_comment" id="form_commentedit-1">
                                 <div id="commentBar-1">
-
                                   <span class="text-muted">To
                                     <b>All students in this course</b> on 01 Jun 2012, 19:20</span>
-
                                   <a type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="Delete this comment" style="display: none;">
                                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                   </a>
                                   <a type="button" id="commentedit-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('1');" data-toggle="tooltip" data-placement="top" title="Edit this comment" style="display: none;">
                                     <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                   </a>
-
-
                                   <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title="This comment is visible to the whole class"></span>
-
-
                                   <span class="glyphicon glyphicon-bell" data-toggle="tooltip" data-placement="top" title="This comment is pending notification. i.e., you have not sent a notification about this comment yet"></span>
-
                                 </div>
                                 <div id="plainCommentText1" style="margin-left: 15px;">Hi all!</div>
-
                                 <div id="commentTextEdit1" style="display: none;">
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
@@ -8165,9 +7616,6 @@
                                           <th class="text-center">Can see comment giver's name</th>
                                           <th class="text-center">Can see comment recipient's name</th>
                                         </tr>
-
-
-
                                         <tr id="recipient-course1">
                                           <td class="text-left">
                                             <div data-toggle="tooltip" data-placement="top" title="Control what other students in this course can view">
@@ -8211,15 +7659,11 @@
                                 </div>
                               </form>
                             </li>
-
                           </ul>
                         </div>
-
                       </div>
                     </div>
                   </div>
-
-
                 </div>
               </div>
             </div>
