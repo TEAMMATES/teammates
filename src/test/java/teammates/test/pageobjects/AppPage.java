@@ -697,7 +697,7 @@ public abstract class AppPage {
     public boolean isElementHasClass(String elementId, String targetClass) {
         List<WebElement> elementsMatched = browser.driver
                 .findElements(By.cssSelector("#" + elementId + "." + targetClass));
-        return elementsMatched.size() > 0;
+        return !elementsMatched.isEmpty();
     }
 
     public boolean isNamedElementVisible(String elementName) {
