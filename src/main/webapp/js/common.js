@@ -562,6 +562,30 @@ function scrollToTop(duration) {
 var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
 /**
+ * Populates the status div with the message and the message status.
+ * Default message type is info.
+ *
+ * @param message the text message to be shown to the user
+ * @param status type
+ * @return created status message div
+ */
+function populateStatusMessageDiv(message, status) {
+    var $statusMessageDivToUser = $(DIV_STATUS_MESSAGE);
+    var $statusMessageDivContent = $('<div></div>');
+    
+    $statusMessageDivContent.addClass('overflow-auto');
+    $statusMessageDivContent.addClass('alert');
+    // Default the status type to info if any invalid status is passed in
+    $statusMessageDivContent.addClass('alert-' + (StatusType.isValidType(status) ? status : StatusType.INFO));
+    $statusMessageDivContent.addClass('statusMessage');
+    $statusMessageDivContent.html(message);
+    
+    $statusMessageDivToUser.empty();
+    $statusMessageDivToUser.append($statusMessageDivContent);
+    return $statusMessageDivToUser;
+}
+
+/**
  * Sets a status message and the message status.
  * Default message type is info.
  *
@@ -572,22 +596,30 @@ function setStatusMessage(message, status) {
     if (message === '' || message === undefined || message === null) {
         return;
     }
+    var $statusMessageDivToUser = populateStatusMessageDiv(message, status);
+    $statusMessageDivToUser.show();
+    scrollToElement($statusMessageDivToUser[0], { offset: window.innerHeight / 2 * -1 });
+}
 
-    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
-    var $statusMessage = $('<div></div>');
-    
-    $statusMessage.addClass('overflow-auto');
-    $statusMessage.addClass('alert');
-    // Default the status type to info if any invalid status is passed in
-    $statusMessage.addClass('alert-' + (StatusType.isValidType(status) ? status : StatusType.INFO));
-    $statusMessage.addClass('statusMessage');
-    $statusMessage.html(message);
-    
-    $statusMessagesToUser.empty();
-    $statusMessagesToUser.append($statusMessage);
-    $statusMessagesToUser.show();
-    
-    scrollToElement($statusMessagesToUser[0], { offset: window.innerHeight / 2 * -1 });
+/**
+ * Sets a status message and the message status to a given form.
+ * Default message type is info.
+ *
+ * @param message the text message to be shown to the user
+ * @param status type
+ * @param form form which should own the status
+ */
+function setStatusMessageToForm(message, status, form) {
+    if (message === '' || message === undefined || message === null) {
+        return;
+    }
+    // Copy the statusMessage and prepend to form
+    var $copyOfStatusMessagesToUser = populateStatusMessageDiv(message, status).clone().show();
+    $(DIV_STATUS_MESSAGE).remove();
+    $(form).prepend($copyOfStatusMessagesToUser);
+    scrollToElement($copyOfStatusMessagesToUser[0], { offset: window.innerHeight / 8 * -1,
+                                                      duration: 1000 });
+
 }
 
 /**
