@@ -811,6 +811,7 @@ Apply to thead to make headers not bold.
 
 .content-editor {
     padding: 5px 10px;
+    overflow: auto;
 }
 
 .content-editor:before {
