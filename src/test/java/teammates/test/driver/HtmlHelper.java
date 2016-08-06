@@ -167,6 +167,15 @@ public final class HtmlHelper {
                     return generateTimeZoneSelectorPlaceholder(indentation);
                 }
             }
+        } else if (currentNode.getNodeName().equalsIgnoreCase("style")) {
+            NamedNodeMap attributes = currentNode.getAttributes();
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Node attribute = attributes.item(i);
+                if (isTinymceStyleAttribute(attribute)) {
+                    // the style definition differs across browsers; replace with placeholder
+                    return generateTinymceStylePlaceholder(indentation);
+                }
+            }
         }
         
         return generateNodeStringRepresentation(currentNode, indentation, isPart);
@@ -182,6 +191,10 @@ public final class HtmlHelper {
     
     private static String generateTimeZoneSelectorPlaceholder(String indentation) {
         return indentation + "${timezone.options}\n";
+    }
+    
+    private static String generateTinymceStylePlaceholder(String indentation) {
+        return indentation + "${tinymce.style}\n";
     }
     
     private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
@@ -226,6 +239,10 @@ public final class HtmlHelper {
                  || "body".equals(currentNodeName));
     }
 
+    private static boolean isTinymceStyleAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "mceDefaultStyles");
+    }
+    
     /**
      * Checks for tooltips (i.e any <code>div</code> with class <code>tooltip</code> in it)
      */

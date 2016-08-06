@@ -115,13 +115,18 @@ Refer to [this document](staticAnalysis.md) for details on the tools used, how t
 
 
 
-1. TEAMMATES automated testing requires Firefox (works on Windows and OS-X).
-   Only Firefox between versions 38.0.5 and 46.0 are supported, although the primary support is for 46.0.
+1. TEAMMATES automated testing requires Firefox (versions 38.0.5 to 46.0.1) or Chrome, both of which work on Windows and Mac OS.
+   It is recommended to use Firefox 46.0 as this is the browser used in Travis build.
    To downgrade your Firefox version, obtain the executable from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/).
    If you want to use a different path for this version, choose `custom setup` during install.
    After installation, specify the Firefox path in `test.properties` by modifying the `test.firefox.path` property.
    Remember to disable the auto-updates (`Options → Advanced tab → Update`).
    
+   If you want to use Chrome for testing, you need to
+   download the latest stable chromedriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+   and update the `test.chromedriver.path` value in `test.properties`.
+   The site will also inform the versions of Chrome that can be used with the driver.
+
 2. Before running the test suite, both the server and the test environment 
    should be using the UTC time zone.
    
@@ -166,18 +171,27 @@ Refer to [this document](staticAnalysis.md) for details on the tools used, how t
 
 To change the browser that is used in the UI tests, go to the `test.properties` 
 file and change the `test.selenium.browser` value to the browser you want to test. 
-Currently only `firefox` is accepted.
+Possible values are `firefox` and `chrome`.
 In addition, you need to configure the browser you have selected so that 
 it works with the test suite. 
 
 ####Firefox
 
-* If you are planning to test changes to JavaScript code, disable 
-  javascript caching for Firefox - Enter `about:config` into the 
-  Firefox address bar and set: `network.http.use-cache = false`
+* If you are planning to test changes to JavaScript code, disable javascript caching for Firefox:
+    * Enter `about:config` into the Firefox address bar and set `network.http.use-cache = false`.
 * If you have installed a separate Firefox version, you can choose which 
   Firefox binary to use. You can specify the custom path in `test.firefox.path` 
   value inside the `test.properties` file.
+
+####Chrome
+* If you are planning to test changes to JavaScript code, disable javascript caching for Chrome:
+    * Press Ctrl+Shift+J to bring up the Web Console.
+    * Click on the settings button at the bottom-right corner.
+    * Under the General tab, check 'Disable Cache'.
+* The chromedriver process started by the test suite will not automatically get killed after the tests have finished executing.
+  You will need to manually kill these processes after the tests are done.
+  On Windows, you can do this using the Task Manager or `taskkill /f /im chromedriver.exe` command.
+  On Mac, use the Activity Monitor or `sudo killall chromedriver` command in the similar manner.
 
 ###Running the test suite outside Eclipse
 Typically, we run the test suite within Eclipse. But core developers may prefer
@@ -282,7 +296,8 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 
 * **Selenium** [version 2.53.0]
     Selenium automates browsers. We use it for automating our UI tests.
-    We require Selenium standalone server and Java language bindings.
+    We require Selenium standalone server, Java language bindings (all bundled in Selenium Java),
+    and Chrome driver for testing with Chrome.
 * **JavaMail** [version 1.4.5]
     The JavaMail API provides a platform-independent and protocol-independent framework to build mail and messaging applications.
     Usage: For accessing test users' email accounts to examine emails sent from TEAMMATES.
