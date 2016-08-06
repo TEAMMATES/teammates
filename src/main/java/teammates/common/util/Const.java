@@ -428,12 +428,10 @@ public final class Const {
     
     public static class FeedbackQuestion {
 
-        public static final Map<String, String>
-                COMMON_VISIBILITY_OPTIONS;
+        public static final Map<String, String> COMMON_VISIBILITY_OPTIONS;
 
         static {
-            Map<String, String> visibilityOptionInit =
-                    new LinkedHashMap<String, String>();
+            Map<String, String> visibilityOptionInit = new LinkedHashMap<String, String>();
 
             visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS",
                                      "Shown anonymously to recipient and instructors");
