@@ -57,8 +57,8 @@ function getVisibilityMessage(clickedButton) {
  *  - update visibility message div
  */
 function attachVisibilityDropdownEvent() {
-    $('body').on('click', '.visibility-options-dropdown-option', function(event) {
-        var $clickedElem = $(event.target);
+    $('body').on('click', '.visibility-options-dropdown-option', function() {
+        var $clickedElem = $(this);
         var selectedOption = $clickedElem.data('optionName');
         var $containingForm = $clickedElem.closest('form');
 
@@ -83,8 +83,8 @@ function attachVisibilityDropdownEvent() {
  * bind click event of each visibility checkbox to update visibility message div
  */
 function attachVisibilityCheckboxEvent() {
-    $('body').on('click', '.visibilityCheckbox', function(event) {
-        var $containingForm = $(event.target).closest('form');
+    $('body').on('click', '.visibilityCheckbox', function() {
+        var $containingForm = $(this).closest('form');
         updateVisibilityMessageDiv($containingForm);
     });
 }
