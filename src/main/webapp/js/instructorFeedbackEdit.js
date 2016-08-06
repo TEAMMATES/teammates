@@ -147,8 +147,8 @@ function disableEditFS() {
     $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
 
-    destroyEditor('instructions');
     if (typeof richTextEditorBuilder !== 'undefined') {
+        destroyEditor('instructions');
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
             readonly: true
@@ -190,8 +190,8 @@ function enableEditFS() {
                               .not('.disabled')
                               .prop('disabled', false);
 
-    destroyEditor('instructions');
     if (typeof richTextEditorBuilder !== 'undefined') {
+        destroyEditor('instructions');
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
@@ -245,8 +245,8 @@ function backupQuestion(questionNum) {
  * @param questionNum
  */
 function enableQuestion(questionNum) {
-    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
     if (typeof richTextEditorBuilder !== 'undefined') {
+        destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum, {
             inline: true,
@@ -314,8 +314,8 @@ function enableQuestion(questionNum) {
 }
 
 function enableNewQuestion() {
-    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + NEW_QUESTION);
     if (typeof richTextEditorBuilder !== 'undefined') {
+        destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + NEW_QUESTION);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + NEW_QUESTION, {
             inline: true,
@@ -365,8 +365,8 @@ function enableNewQuestion() {
  * @param questionNum
  */
 function disableQuestion(questionNum) {
-    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
     if (typeof richTextEditorBuilder !== 'undefined') {
+        destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum, {
             inline: true,
