@@ -23,7 +23,16 @@
 </script>
 <script src="/js/common.js" type="text/javascript">
 </script>
+<script src="/js/lib/moment.min.js" type="text/javascript">
+</script>
+<script src="/js/lib/moment-timezone-with-data-2010-2020.min.js" type="text/javascript">
+</script>
+<script src="/js/timezone.js" type="text/javascript">
+</script>
 <script src="/js/instructor.js" type="text/javascript">
+</script>
+<script>
+  var courseTimeZone = "UTC";
 </script>
 <script src="/js/instructorCourseEdit.js" type="text/javascript">
 </script>
@@ -144,6 +153,17 @@
           </label>
           <div class="col-sm-9">
             <input class="form-control" data-original-title="The name of the course, e.g. Software Engineering." data-placement="top" data-toggle="tooltip" disabled="" id="coursename" maxlength="64" name="coursename" tabindex="2" title="" type="text" value="Programming Language Concepts">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">
+            Time Zone:
+          </label>
+          <div class="col-sm-6">
+            ${timezone.options}
+          </div>
+          <div class="col-sm-1">
+            <input class="btn btn-primary" disabled="" id="auto-detect-time-zone" type="button" value="Auto-Detect Time Zone">
           </div>
         </div>
         <div class="form-group">

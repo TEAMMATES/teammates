@@ -28,12 +28,12 @@
       "CS1101": {
         "id": "CCAddUiTest.CS1101",
         "name": "Programming Methodology",
-        "isArchived" : false
+        "timeZone": "UTC"
       },
       "CS2104": {
-      	"id": "CCAddUiTest.CS2104",
-      	"name": "Programming Language Concept",
-      	"isArchived" : false
+        "id": "CCAddUiTest.CS2104",
+        "name": "Programming Language Concept",
+        "timeZone": "UTC"
       }
   },
 

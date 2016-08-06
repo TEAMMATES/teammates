@@ -463,7 +463,14 @@ $(function() {
 function editCourse() {
     $('#btnSaveCourse').show();
     $('#' + COURSE_NAME).prop('disabled', false);
+    $('#' + COURSE_TIME_ZONE).prop('disabled', false);
+    $('#auto-detect-time-zone').prop('disabled', false);
     $('#courseEditLink').hide();
+}
+
+function autoDetectTimeZone() {
+    var $selectElement = $('#' + COURSE_TIME_ZONE);
+    TimeZone.autoDetectAndUpdateTimeZone($selectElement);
 }
 
 $(document).ready(function() {
@@ -479,4 +486,14 @@ $(document).ready(function() {
 
     bindRemindInstructorLink();
     bindDeleteInstructorLink();
+    
+    if (typeof moment !== 'undefined') {
+        var $selectElement = $('#' + COURSE_TIME_ZONE);
+        TimeZone.prepareTimeZoneInput($selectElement);
+        TimeZone.updateTimeZone($selectElement, courseTimeZone);
+
+        $('#auto-detect-time-zone').on('click', function() {
+            autoDetectTimeZone();
+        });
+    }
 });

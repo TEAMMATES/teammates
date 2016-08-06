@@ -18,12 +18,15 @@ public class InstructorCourseEditSaveAction extends Action {
         
         String courseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_NAME, courseName);
+        
+        String courseTimeZone = getRequestParamValue(Const.ParamsNames.COURSE_TIME_ZONE);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId),
                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
         
-        CourseAttributes courseToEdit = new CourseAttributes(courseId, courseName);
+        CourseAttributes courseToEdit = new CourseAttributes(courseId, courseName, courseTimeZone);
         
         try {
             logic.updateCourse(courseToEdit);

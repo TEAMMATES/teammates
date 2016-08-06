@@ -49,7 +49,7 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
         displayArchive = false;
 
         // only course ID and name are used
-        sampleCourse = new CourseAttributes("validCourseId", "Sample course name");
+        sampleCourse = new CourseAttributes("validCourseId", "Sample course name", "UTC");
 
         isCourseArchived = false;
         isInstructorAllowedToModify = true;
