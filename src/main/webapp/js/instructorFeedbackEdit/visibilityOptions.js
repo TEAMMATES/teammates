@@ -103,6 +103,17 @@ function setVisibilityDropdownMenuText(text, $containingForm) {
     }
 }
 
+function showVisibilityCheckboxesIfCustomOptionSelected($containingForm) {
+    var selectedOption = $containingForm.find('.visibility-options-dropdown > button').text().trim();
+    var $visibilityCheckboxes = $containingForm.find('.visibilityOptions');
+    if (selectedOption === 'Custom visibility option:') {
+        updateVisibilityCheckboxesDiv($containingForm);
+        $visibilityCheckboxes.show();
+    } else {
+        $visibilityCheckboxes.hide();
+    }
+}
+
 var checkCheckbox = function(index, checkbox) {
     checkbox.checked = true;
 };

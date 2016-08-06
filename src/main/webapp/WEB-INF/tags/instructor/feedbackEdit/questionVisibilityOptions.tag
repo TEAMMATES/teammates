@@ -12,8 +12,6 @@
 <c:set var="FEEDBACK_STUDENTS"><%=FeedbackParticipantType.STUDENTS.name()%></c:set>
 <c:set var="FEEDBACK_INSTRUCTORS"><%=FeedbackParticipantType.INSTRUCTORS.name()%></c:set>
 
-<c:set var="isCommonOptionSelected" value="${fqForm.visibilitySettings.dropdownMenuLabel ne 'Custom visibility option:'}"></c:set>
-
 <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="visibility-title">Visibility</b> (Who can see the responses?)
@@ -33,7 +31,7 @@
             <li><a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="OTHER">Custom visibility option...</a></li>
         </ul>
     </div>
-    <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-${fqForm.questionIndex}"<c:if test="${isCommonOptionSelected}"> style="display:none;"</c:if>>
+    <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-${fqForm.questionIndex}" style="display:none;">
         <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
             <tr>
                 <th class="text-center">User/Group</th>
