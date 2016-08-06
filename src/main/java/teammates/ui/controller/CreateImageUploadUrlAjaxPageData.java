@@ -9,5 +9,4 @@ public class CreateImageUploadUrlAjaxPageData extends PageData {
     public CreateImageUploadUrlAjaxPageData(AccountAttributes account) {
         super(account);
     }
-    
 }

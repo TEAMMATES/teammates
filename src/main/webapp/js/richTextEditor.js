@@ -92,7 +92,6 @@ function RichTextEditor(params) {
     };
 
     var createImageUploadUrl = function() {
-
         $.ajax({
             type: 'POST',
             url: additionalParams.createImageUploadUrl,

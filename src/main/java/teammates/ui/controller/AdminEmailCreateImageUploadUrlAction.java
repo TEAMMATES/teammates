@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
-//import teammates.logic.api.GateKeeper;
 import teammates.logic.api.GateKeeper;
 
 public class AdminEmailCreateImageUploadUrlAction extends CreateImageUploadUrlAction {

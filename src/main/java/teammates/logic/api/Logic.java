@@ -2608,7 +2608,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
         adminEmailsLogic.deleteAdminEmailUploadedFile(key);
     }
-    
+
     /**
      * Deletes uploaded file
      * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage

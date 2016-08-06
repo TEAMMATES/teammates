@@ -14,7 +14,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 public class ImageUploadAction extends Action {
 
     FileUploadPageData data;
-    
+
     @Override
     protected ActionResult execute() {
         data = new FileUploadPageData(account);
@@ -76,7 +76,7 @@ public class ImageUploadAction extends Action {
            
         return image;
     }
-    
+
     protected void deleteImage(BlobKey blobKey) {
         if (blobKey.equals(new BlobKey(""))) {
             return;
@@ -92,9 +92,8 @@ public class ImageUploadAction extends Action {
                     + bfe.getMessage() + Const.EOL;
         }
     }
-    
+
     protected void deleteUploadedFile(BlobKey blobKey) {
         logic.deleteUploadedFile(blobKey);
     }
-    
 }

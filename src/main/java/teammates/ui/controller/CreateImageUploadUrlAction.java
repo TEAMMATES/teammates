@@ -25,7 +25,7 @@ public class CreateImageUploadUrlAction extends Action {
             isError = true;
             data.ajaxStatus = "An error occurred when creating upload URL, please try again";
         }
-        
+
         return data;
     }
 
