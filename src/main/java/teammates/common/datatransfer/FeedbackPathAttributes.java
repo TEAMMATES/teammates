@@ -91,7 +91,7 @@ public class FeedbackPathAttributes extends EntityAttributes {
     }
     
     public boolean isStudentFeedbackPathGiver(StudentAttributes student) {
-        return this.isStudentFeedbackPathParticipant(student, giver);
+        return isStudentFeedbackPathParticipant(student, giver);
     }
     
     public boolean isStudentFeedbackPathRecipient(StudentAttributes student) {

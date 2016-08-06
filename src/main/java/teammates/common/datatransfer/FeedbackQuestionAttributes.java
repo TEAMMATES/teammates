@@ -287,6 +287,18 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
+    
+    public boolean isGiverATeam() {
+        return giverType.isTeam()
+                || giverType == FeedbackParticipantType.CUSTOM
+                && isFeedbackPathsGiverTypeTeams();
+    }
+    
+    public boolean isRecipientATeam() {
+        return recipientType.isTeam()
+                || recipientType == FeedbackParticipantType.CUSTOM
+                && isFeedbackPathsRecipientTypeTeams();
+    }
 
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
         return showResponsesTo.contains(userType);

@@ -2337,34 +2337,24 @@ public class FeedbackSessionsLogic {
             if (!emailNameTable.containsKey(response.giver + Const.TEAM_OF_EMAIL_OWNER)) {
                 emailNameTable.put(
                         response.giver + Const.TEAM_OF_EMAIL_OWNER,
-                        getNameTeamNamePairForEmail(question.giverType,
-                                response.giver, roster, question, true)[pairType]);
+                        getNameTeamNamePairForEmail(response.giver, roster, question, true)[pairType]);
             }
             
             StudentAttributes studentGiver = roster.getStudentForEmail(response.giver);
             if (studentGiver != null && !emailNameTable.containsKey(studentGiver.team)) {
                 emailNameTable.put(studentGiver.team, getNameTeamNamePairForEmail(
-                                                        question.giverType,
                                                         response.giver, roster, question, true)[pairType]);
             }
         } else if (!emailNameTable.containsKey(response.giver)) {
             emailNameTable.put(
                     response.giver,
-                    getNameTeamNamePairForEmail(question.giverType,
-                            response.giver, roster, question, true)[pairType]);
+                    getNameTeamNamePairForEmail(response.giver, roster, question, true)[pairType]);
         }
 
-        FeedbackParticipantType recipientType = null;
-        if (question.recipientType == FeedbackParticipantType.SELF) {
-            recipientType = question.giverType;
-        } else {
-            recipientType = question.recipientType;
-        }
         if (!emailNameTable.containsKey(response.recipient)) {
             emailNameTable.put(
                     response.recipient,
-                    getNameTeamNamePairForEmail(recipientType,
-                                                response.recipient, roster, question, false)[pairType]);
+                    getNameTeamNamePairForEmail(response.recipient, roster, question, false)[pairType]);
             
         }
     }
@@ -2447,7 +2437,7 @@ public class FeedbackSessionsLogic {
 
     // return a pair of String that contains Giver/Recipient'sName (at index 0)
     // and TeamName (at index 1)
-    private String[] getNameTeamNamePairForEmail(FeedbackParticipantType type,
+    private String[] getNameTeamNamePairForEmail(
             String email, CourseRoster roster, FeedbackQuestionAttributes question, boolean isGiver) {
         String giverRecipientName = null;
         String giverRecipientLastName = null;
@@ -2486,10 +2476,7 @@ public class FeedbackSessionsLogic {
             }
         }
 
-        if (type == FeedbackParticipantType.TEAMS || type == FeedbackParticipantType.OWN_TEAM
-                || type == FeedbackParticipantType.CUSTOM
-                && (isGiver && question.isFeedbackPathsGiverTypeTeams()
-                        || !isGiver && question.isFeedbackPathsRecipientTypeTeams())) {
+        if (isGiver && question.isGiverATeam() || !isGiver && question.isRecipientATeam()) {
             giverRecipientName = team;
             giverRecipientLastName = team;
             teamName = "";
