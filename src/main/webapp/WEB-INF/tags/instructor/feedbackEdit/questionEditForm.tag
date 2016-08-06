@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="panel-body">
-            <div class="col-sm-12 margin-15px background-color-light-blue">
+            <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
                 <div class="form-group" style="padding: 15px;">
                     <h5 class="col-sm-2">
                         <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${fqForm.questionIndex}">
@@ -77,6 +77,7 @@
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
+                            placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION %>"
                             tabindex="9"
                             disabled>${fqForm.questionText}</textarea>
                     </div>
@@ -90,7 +91,8 @@
                     </h5>
                     <div class="col-sm-10">
                         <div id="rich-text-toolbar-q-descr-container-${fqForm.questionIndex}"></div>
-                        <div class="well panel panel-default panel-body" rows="5"
+                        <div class="well panel panel-default panel-body question-description"
+                            data-placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION_DESCRIPTION %>"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_DESCRIPTION %>"
@@ -102,8 +104,6 @@
                 </div>
             </div>
 
-
-            <br>
             <feedbackEdit:questionFeedbackPathSettings fqForm="${fqForm}"/>
             <feedbackEdit:questionVisibilityOptions fqForm="${fqForm}"/>
             

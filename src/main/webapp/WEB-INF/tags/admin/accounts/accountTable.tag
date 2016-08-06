@@ -62,9 +62,8 @@
                                 href="${row.adminDeleteInstructorStatusLink}" role="button">
                                 <span class="glyphicon glyphicon-remove"></span> Delete Instructor Status
                             </a>
-                            <a class="btn btn-link btn-xs" id="${row.account.googleId}_deleteAccount"
-                                href="${row.adminDeleteAccountLink}"
-                                onclick="return toggleDeleteAccountConfirmation('${row.account.googleId}')"> 
+                            <a class="admin-delete-account-link btn btn-link btn-xs" id="${row.account.googleId}_deleteAccount"
+                                href="${row.adminDeleteAccountLink}" data-google-id="${row.account.googleId}">
                                 <span class="glyphicon glyphicon-trash"></span> Delete Entire Account
                             </a>
 

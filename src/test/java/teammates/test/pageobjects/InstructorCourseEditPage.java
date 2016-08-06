@@ -320,6 +320,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void clickInviteInstructorLink(int instrNum) {
         click(getInviteInstructorLink(instrNum));
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
     }
     

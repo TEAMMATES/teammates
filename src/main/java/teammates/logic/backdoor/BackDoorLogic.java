@@ -22,7 +22,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -445,22 +444,6 @@ public class BackDoorLogic extends Logic {
                 + "%" + responseIdParam[1] + "%" + responseIdParam[2];
         
         return responseComment;
-    }
-    
-
-    /**
-     * Creates a COURSE without an INSTRUCTOR relation
-     * Used in persisting DataBundles for Test cases
-     */
-    public void createCourseWithArchiveStatus(CourseAttributes course)
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
-        try {
-            coursesLogic.setArchiveStatusOfCourse(course.getId(), course.isArchived);
-        } catch (EntityDoesNotExistException e) {
-            coursesLogic.createCourse(course.getId(), course.getName());
-            coursesLogic.setArchiveStatusOfCourse(course.getId(), course.isArchived);
-        }
     }
 
     public void deleteExistingData(DataBundle dataBundle) {

@@ -12,8 +12,7 @@
   "courses": {
     "course": {
       "id": "AutSessRem.course",
-      "name": "Test Course for Aut Sessions Reminder",
-      "isArchived": false
+      "name": "Test Course for Aut Sessions Reminder"
     }
   },
   

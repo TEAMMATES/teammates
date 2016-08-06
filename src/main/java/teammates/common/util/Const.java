@@ -1,8 +1,12 @@
 package teammates.common.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -44,7 +48,7 @@ public final class Const {
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String USER_NOT_IN_A_SECTION = "Not in a section";
+    public static final String NO_SPECIFIC_RECIEPIENT = "No specific recipient";
     
     public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT = "Anonymous";
@@ -423,6 +427,36 @@ public final class Const {
     }
     
     public static class FeedbackQuestion {
+
+        public static final Map<FeedbackParticipantType, List<FeedbackParticipantType>>
+                COMMON_FEEDBACK_PATHS;
+
+        static {
+            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer =
+                    new LinkedHashMap<FeedbackParticipantType, List<FeedbackParticipantType>>();
+
+            initializer.put(FeedbackParticipantType.SELF,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS)));
+
+            initializer.put(FeedbackParticipantType.STUDENTS,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS,
+                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)));
+
+            initializer.put(FeedbackParticipantType.INSTRUCTORS,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS)));
+
+            COMMON_FEEDBACK_PATHS = Collections.unmodifiableMap(initializer);
+        }
     
         // Mcq
         public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
@@ -623,6 +657,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
         public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
+        public static final String FEEDBACK_QUESTION_TEXT_RECOMMENDEDLENGTH = "recommendedlength";
         public static final String FEEDBACK_QUESTION_DESCRIPTION = "questiondescription";
         public static final String FEEDBACK_QUESTION_TYPE = "questiontype";
         public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
@@ -637,8 +672,11 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
+        // TODO: rename FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION to a more accurate name
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = "constSumPointsForEachOption";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = "constSumPointsForEachRecipient";
         public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "constSumUnevenDistribution";
         public static final String FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED = "isNotSureAllowedCheck";
         public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
@@ -1382,6 +1420,14 @@ public final class Const {
         
         // POST parameter null message
         public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
+    }
+
+    public class PlaceholderText {
+        public static final String FEEDBACK_QUESTION = "A concise version of the question e.g. "
+                + "&quot;How well did the team member communicate?&quot;";
+        public static final String FEEDBACK_QUESTION_DESCRIPTION = "More details about the question e.g. &quot;In answering "
+                + "the question, do consider communications made informally within the team, and formal communications with "
+                + "the instructors and tutors.&quot;";
     }
 
 }

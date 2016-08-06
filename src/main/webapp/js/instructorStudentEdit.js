@@ -1,3 +1,5 @@
+var INSTRUCTOR_STUDENT_EDIT_FORM = '#instructor-student-edit-form';
+
 $(document).ready(function() {
     readyInstructorStudentEditPage();
 });
@@ -8,34 +10,49 @@ $(document).ready(function() {
  */
 function readyInstructorStudentEditPage() {
     
-    $('#button_submit').click(function(event) {
-        if ($('#button_submit').attr('editStatus') === 'mustDeleteResponses') {
-            return confirm('Editing these fields will result in some existing responses '
-                           + 'from this student to be deleted. You may download the data before '
-                           + 'you make the changes. Are you sure you want to continue?');
-        }
-        
-        if ($('#newstudentemail').val() !== $('#studentemail').val() && $('#isAnyEmailSentForTheCourse').val()) {
+    $(INSTRUCTOR_STUDENT_EDIT_FORM).on('submit', function(event) {
+        if ($(INSTRUCTOR_STUDENT_EDIT_FORM).attr('editStatus') === 'mustDeleteResponses') {
+            isSubmitFormForEditingTeamName = false;
             event.preventDefault();
-            var $form = $(this).parents('form');
-            var messageText = 'Do you want to resend past session links of this course to the new email '
-                              + $('#newstudentemail').val() + '?';
+
+            var messageText = 'Editing these fields will result in some existing responses from this student '
+                              + 'to be deleted. You may download the data before you make the changes. Are '
+                              + 'you sure you want to continue?';
             var okCallback = function() {
-                $('#isSendEmail').val(true);
-                $form.submit();
-            };
-            var cancelCallback = function() {
-                $('#isSendEmail').val(false);
-                $form.submit();
+                if ($('#newstudentemail').val() !== $('#studentemail').val() && $('#isAnyEmailSentForTheCourse').val()) {
+                    sendEmailToNewEmailOption(event);
+                } else {
+                    event.target.submit();
+                }
             };
 
-            BootboxWrapper.showModalConfirmationWithCancel('Resend past links to the new email?', messageText,
-                    okCallback, cancelCallback, null, 'Yes, save changes and resend links',
-                    'No, just save the changes', 'Canel', StatusType.INFO);
+            BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
+                    BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
+        } else if ($('#newstudentemail').val() !== $('#studentemail').val() && $('#isAnyEmailSentForTheCourse').val()) {
+            sendEmailToNewEmailOption(event);
         }
     });
     
+    function sendEmailToNewEmailOption(event) {
+        isSubmitFormForEditingEmail = false;
+        event.preventDefault();
+        var messageText = 'Do you want to resend past session links of this course to the new email '
+            + $('#newstudentemail').val() + '?';
+        var yesCallback = function() {
+            $('#isSendEmail').val(true);
+            event.target.submit();
+        };
+        var noCallback = function() {
+            $('#isSendEmail').val(false);
+            event.target.submit();
+        };
+
+        BootboxWrapper.showModalConfirmationWithCancel('Resend past links to the new email?', messageText,
+                yesCallback, noCallback, null, 'Yes, save changes and resend links',
+                'No, just save the changes', 'Canel', StatusType.INFO);
+    }
+    
     $('#teamname').change(function() {
-        $('#button_submit').attr('editStatus', 'mustDeleteResponses');
+        $(INSTRUCTOR_STUDENT_EDIT_FORM).attr('editStatus', 'mustDeleteResponses');
     });
 }

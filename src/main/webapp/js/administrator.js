@@ -116,42 +116,51 @@ function showHideErrorMessage(s) {
     $('#' + s).toggle();
 }
 
-function toggleDeleteAccountConfirmation(googleId) {
-    var rawList = document.getElementById('courses_' + googleId).innerHTML;
-    var list = rawList.replace(/<br>/g, '\n').trim() + '\n\n';
-
-    return confirm('Are you sure you want to delete the account ' + googleId
-                   + '?\n\n' + list
-                   + 'This operation will delete ALL information about this account '
-                   + 'from the system.');
-}
-
-jQuery(document).ready(function() {
+$(document).ready(function() {
     var offset = 220;
     var duration = 500;
-    jQuery(window).scroll(function() {
-        if (jQuery(this).scrollTop() > offset) {
-            jQuery('.back-to-top-left').fadeIn(duration);
-            jQuery('.back-to-top-right').fadeIn(duration);
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > offset) {
+            $('.back-to-top-left').fadeIn(duration);
+            $('.back-to-top-right').fadeIn(duration);
         } else {
-            jQuery('.back-to-top-left').fadeOut(duration);
-            jQuery('.back-to-top-right').fadeOut(duration);
+            $('.back-to-top-left').fadeOut(duration);
+            $('.back-to-top-right').fadeOut(duration);
         }
     });
 
-    jQuery('.back-to-top-left').click(function(event) {
+    $('.back-to-top-left').click(function(event) {
         event.preventDefault();
-        jQuery('html, body').animate({
+        $('html, body').animate({
             scrollTop: 0
         }, duration);
         return false;
     });
 
-    jQuery('.back-to-top-right').click(function(event) {
+    $('.back-to-top-right').click(function(event) {
         event.preventDefault();
-        jQuery('html, body').animate({
+        $('html, body').animate({
             scrollTop: 0
         }, duration);
         return false;
+    });
+    
+    $('.admin-delete-account-link').on('click', function(event) {
+        event.preventDefault();
+
+        var $clickedLink = $(event.target);
+        var googleId = $clickedLink.data('googleId');
+        var existingCourses = document.getElementById('courses_' + googleId).innerHTML;
+
+        var messageText = 'Are you sure you want to delete the account ' + googleId + '?'
+                          + '<br><br>' + existingCourses
+                          + '<br><br>This operation will delete ALL information about this account from the system.';
+
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deletion', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
     });
 });

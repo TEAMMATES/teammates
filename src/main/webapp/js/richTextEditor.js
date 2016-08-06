@@ -33,7 +33,10 @@ var richTextEditorBuilder = {
 
             toolbar1: 'insertfile undo redo | styleselect | bold italic underline | '
                     + 'alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-            toolbar2: 'print preview | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen'
+            toolbar2: 'print preview | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen',
+
+            init_instance_callback: 'initEditorCallback'
+
         };
     },
 
@@ -42,5 +45,23 @@ var richTextEditorBuilder = {
             selector: selector
         }, opts));
     }
+
 };
 /* eslint-enable camelcase */
+
+function setPlaceholderText(editor) {
+    if (editor.getContent() === '') {
+        tinymce.DOM.addClass(editor.bodyElement, 'empty');
+    } else {
+        tinymce.DOM.removeClass(editor.bodyElement, 'empty');
+    }
+}
+
+function initEditorCallback(editor) {
+    tinymce.DOM.addClass(editor.bodyElement, 'content-editor');
+    setPlaceholderText(editor);
+
+    editor.on('selectionchange', function() {
+        setPlaceholderText(editor);
+    });
+}

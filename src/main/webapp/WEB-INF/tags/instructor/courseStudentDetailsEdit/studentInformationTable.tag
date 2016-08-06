@@ -8,7 +8,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <div class="panel panel-primary">
     <div class="panel-body fill-plain">
-        <form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE%>" method="post" class="form form-horizontal">
+        <form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE%>" method="post" id="instructor-student-edit-form" class="form form-horizontal">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${studentInfoTable.course}">
             <input type="hidden" id = "isSendEmail" name="isSendEmail" value="false">
             <input type="hidden" id = "isAnyEmailSentForTheCourse" name="isAnyEmailSentForTheCourse" value="${anyEmailSentForTheCourse}">
