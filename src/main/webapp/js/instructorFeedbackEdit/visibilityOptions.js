@@ -114,16 +114,16 @@ function showVisibilityCheckboxesIfCustomOptionSelected($containingForm) {
     }
 }
 
-var checkCheckbox = function(index, checkbox) {
+var checkCheckboxCallback = function(index, checkbox) {
     checkbox.checked = true;
 };
 
-var uncheckCheckbox = function(index, checkbox) {
+var uncheckCheckboxCallback = function(index, checkbox) {
     checkbox.checked = false;
 };
 
 function uncheckAllVisibilityOptionCheckboxes($containingForm) {
-    $containingForm.find('input[type="checkbox"]').each(uncheckCheckbox);
+    $containingForm.find('input[type="checkbox"]').each(uncheckCheckboxCallback);
 }
 
 /**
@@ -175,7 +175,7 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
  * @param checkboxClass - the CSS class of the checkbox to be checked
  */
 function allowRecipientToSee(checkboxClass, $containingForm) {
-    $containingForm.find('input[type="checkbox"][value="RECEIVER"]').filter(checkboxClass).each(checkCheckbox);
+    $containingForm.find('input[type="checkbox"][value="RECEIVER"]').filter(checkboxClass).each(checkCheckboxCallback);
 }
 
 /**
@@ -183,7 +183,7 @@ function allowRecipientToSee(checkboxClass, $containingForm) {
  * @param checkboxClass - the CSS class of the checkbox to be checked
  */
 function allowInstructorToSee(checkboxClass, $containingForm) {
-    $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]').filter(checkboxClass).each(checkCheckbox);
+    $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]').filter(checkboxClass).each(checkCheckboxCallback);
 }
 
 /**
