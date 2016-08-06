@@ -96,7 +96,7 @@ function attachVisibilityCheckboxEvent() {
 function setVisibilityDropdownMenuText(text, $containingForm) {
     var $visibilityDropdown = $containingForm.find('.visibility-options-dropdown');
 
-    if (text === 'Custom visibility option...') {
+    if (text === 'Custom visibility options...') {
         $visibilityDropdown.find('button').html('Custom visibility option:');
     } else {
         $visibilityDropdown.find('button').html(text);

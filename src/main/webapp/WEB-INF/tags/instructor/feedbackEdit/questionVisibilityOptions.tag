@@ -28,7 +28,7 @@
                 </li>
             </c:forEach>
             <li role="separator" class="divider"></li>
-            <li><a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="OTHER">Custom visibility option...</a></li>
+            <li><a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="OTHER">Custom visibility options...</a></li>
         </ul>
     </div>
     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-${fqForm.questionIndex}" style="display:none;">
