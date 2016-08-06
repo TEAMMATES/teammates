@@ -62,7 +62,7 @@ function attachVisibilityDropdownEvent() {
         var selectedOption = $clickedElem.data('optionName');
         var $containingForm = $clickedElem.closest('form');
 
-        setVisibilityDropdownMenuText($clickedElem.html(), $containingForm);
+        setVisibilityDropdownMenuText($clickedElem.text(), $containingForm);
 
         var $editTab = $containingForm.find('.visibilityOptions');
         if (selectedOption === 'OTHER') {
@@ -97,9 +97,9 @@ function setVisibilityDropdownMenuText(text, $containingForm) {
     var $visibilityDropdown = $containingForm.find('.visibility-options-dropdown');
 
     if (text === 'Custom visibility options...') {
-        $visibilityDropdown.find('button').html('Custom visibility option:');
+        $visibilityDropdown.find('button').text('Custom visibility option:');
     } else {
-        $visibilityDropdown.find('button').html(text);
+        $visibilityDropdown.find('button').text(text);
     }
 }
 

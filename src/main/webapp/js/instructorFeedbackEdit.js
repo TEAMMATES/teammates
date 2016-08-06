@@ -743,8 +743,8 @@ function copyOptions() {
     });
 
     // Hide visibility options and update common visibility options dropdown text if a common option is selected
-    var prevQuestionVisibilityOption = $prevQuestionForm.find('.visibility-options-dropdown > button').html();
-    $newQuestionForm.find('.visibility-options-dropdown > button').html(prevQuestionVisibilityOption);
+    var prevQuestionVisibilityOption = $prevQuestionForm.find('.visibility-options-dropdown > button').text();
+    $newQuestionForm.find('.visibility-options-dropdown > button').text(prevQuestionVisibilityOption);
 
     var isCommonVisibilityOptionSelected = prevQuestionVisibilityOption.trim() !== 'Custom visibility option:';
     if (isCommonVisibilityOptionSelected) {
