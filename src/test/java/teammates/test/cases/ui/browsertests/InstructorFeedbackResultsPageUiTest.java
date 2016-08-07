@@ -14,14 +14,13 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
-import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
-import teammates.test.util.Priority;
 import teammates.test.util.FileHelper;
+import teammates.test.util.Priority;
 
 /**
  * Tests 'Feedback Results' view of instructors.
@@ -74,8 +73,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
                 "Session with no sections", true, "question");
-        AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING,
-                resultsPage.getStatus());
+        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING);
         
         ______TS("Typical case: standard session results");
 
