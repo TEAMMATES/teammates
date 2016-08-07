@@ -213,7 +213,7 @@ public class BackDoorTest extends BaseTestCase {
 
         String courseId = "tmapitt.tcc.course";
         CourseAttributes course = new CourseAttributes(courseId,
-                "Name of tmapitt.tcc.instructor");
+                "Name of tmapitt.tcc.instructor", "UTC");
         
         // Make sure not already inside
         BackDoor.deleteCourse(courseId);

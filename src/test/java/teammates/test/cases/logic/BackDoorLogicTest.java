@@ -53,7 +53,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         }
 
         ______TS("invalid parameters in an entity");
-        CourseAttributes invalidCourse = new CourseAttributes("invalid id", "valid course name");
+        CourseAttributes invalidCourse = new CourseAttributes("invalid id", "valid course name", "UTC");
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);
         try {

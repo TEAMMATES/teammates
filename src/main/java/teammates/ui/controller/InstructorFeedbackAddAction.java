@@ -13,6 +13,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
@@ -125,7 +126,11 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         int questionNumber = 1;
         for (FeedbackQuestionAttributes fqa : questions) {
-            logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
+            try {
+                logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
+            } catch (EntityDoesNotExistException e) {
+                Assumption.fail("Session disappeared");
+            }
             questionNumber++;
         }
     }

@@ -28,8 +28,8 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.api.BothQuestionsDb;
 import teammates.storage.api.CommentsDb;
-import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -43,7 +43,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     
     private final CommentsDb commentsDb = new CommentsDb();
     private final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
-    private final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private final BothQuestionsDb fqDb = new BothQuestionsDb();
     private final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
     
@@ -165,7 +165,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ADD;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "ticac.tac.id",
-                Const.ParamsNames.COURSE_NAME, "ticac tac name"};
+                Const.ParamsNames.COURSE_NAME, "ticac tac name",
+                Const.ParamsNames.COURSE_TIME_ZONE, "UTC"};
         
         verifyOnlyInstructorsCanAccess(submissionParams);
         
@@ -189,7 +190,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_DELETE;
         CoursesLogic.inst().createCourseAndInstructor(
                 dataBundle.instructors.get("instructor1OfCourse1").googleId,
-                "icdat.owncourse", "New course");
+                "icdat.owncourse", "New course", "UTC");
         
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "icdat.owncourse"
@@ -208,7 +209,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         /* Test access for admin in masquerade mode */
         CoursesLogic.inst().createCourseAndInstructor(
                 dataBundle.instructors.get("instructor1OfCourse1").googleId,
-                "icdat.owncourse", "New course");
+                "icdat.owncourse", "New course", "UTC");
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
     

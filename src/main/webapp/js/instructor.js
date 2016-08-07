@@ -14,79 +14,13 @@ $(document).ready(function() {
     
     // bind the show picture onhover events
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
+
+    // bind the event handler to show confirmation modal
+    bindCourseDeleteLinks();
+    bindSessionDeleteLinks();
 });
 
 // -----------------------------------------------------------------------------
-
-/**
- * Function that shows confirmation dialog for deleting a course
- * @param courseID
- * @returns
- */
-function toggleDeleteCourseConfirmation(courseID) {
-    return confirm('Are you sure you want to delete the course: ' + courseID + '? '
-                   + 'This operation will delete all students and sessions in this course. '
-                   + 'All instructors of this course will not be able to access it hereafter as well.');
-}
-
-/**
- * Pops up confirmation dialog whether to delete specified evaluation
- * @param courseID
- * @param name
- * @returns
- */
-function toggleDeleteEvaluationConfirmation(courseID, name) {
-    return confirm('Are you sure you want to delete the evaluation ' + name + ' in ' + courseID + '?');
-}
-
-/**
- * Pops up confirmation dialog whether to delete specified evaluation
- * @param courseID
- * @param name
- * @returns
- */
-function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
-    return confirm('Are you sure you want to delete the feedback session ' + name + ' in ' + courseID + '?');
-}
-
-/**
- * Function that shows confirmation dialog for removing a student from a course
- */
-function toggleDeleteStudentConfirmation(courseId, studentName) {
-    return confirm('Are you sure you want to remove ' + studentName + ' from the course ' + courseId + '?');
-}
-
-/**
- * Pops up confirmation dialog whether to publish the specified
- * evaluation
- * @param name
- */
-function togglePublishEvaluation(name, isSendingPublishEmail) {
-    if (isSendingPublishEmail) {
-        return confirm('Are you sure you want to publish the responses for the session "' + name + '"?'
-                       + ' An email will be sent to students to inform them that the responses are ready for viewing.');
-    }
-    return confirm('Are you sure you want to publish the responses for the session "' + name + '"?');
-}
-
-/**
- * Pops up confirmation dialog whether to unpublish the specified
- * evaluation
- * @param name
- */
-function toggleUnpublishEvaluation(name) {
-    return confirm('Are you sure you want to unpublish the session ' + name + '?');
-}
-
-/**
- * Pops up confirmation dialog whether to remind students to fill in a specified
- * evaluation.
- * @param courseID
- * @param evaluationName
- */
-function toggleRemindStudents(evaluationName) {
-    return confirm('Send e-mails to remind students who have not submitted their feedback for ' + evaluationName + '?');
-}
 
 /**
  * Checks whether a team's name is valid
@@ -306,13 +240,53 @@ function bindStudentPhotoHoverLink(elements) {
 }
 
 function bindDeleteButtons() {
-    $('body').on('click', '.session-delete-for-test', function() {
+    $('body').on('click', '.session-delete-for-test', function(event) {
+        event.preventDefault();
 
-        var $button = $(this);
+        var $button = $(event.target);
         var courseId = $button.data('courseid');
         var feedbackSessionName = $button.data('fsname');
 
-        return toggleDeleteFeedbackSessionConfirmation(courseId, feedbackSessionName);
+        var messageText = 'Are you want to delete the feedback session ' + feedbackSessionName + ' in ' + courseId + '?';
+        var okCallback = function() {
+            window.location = $button.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+    });
+}
+
+function bindCourseDeleteLinks() {
+    $('body').on('click', '.course-delete-link', function(event) {
+        event.preventDefault();
+
+        $clickedLink = $(event.target);
+        var messageText = 'Are you sure you want to delete the course: ' + $clickedLink.data('courseId') + '? '
+                          + 'This operation will delete all students and sessions in this course. '
+                          + 'All instructors of this course will not be able to access it hereafter as well.';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deleting course', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+    });
+}
+
+function bindSessionDeleteLinks() {
+    $('body').on('click', '#fsDeleteLink', function(event) {
+        event.preventDefault();
+
+        var $clickedLink = $(event.target);
+        var messageText = 'Are you sure you want to delete the feedback session ' + $clickedLink.data('feedbackSessionName')
+                          + ' in ' + $clickedLink.data('courseId') + '?';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
     });
 }
 
@@ -333,27 +307,55 @@ function attachEventToDeleteStudentLink() {
 }
 
 function bindRemindButtons() {
-    $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', function(e) {
-        if (!toggleRemindStudents($(this).data('fsname'))) {
-            e.preventDefault();
-        }
+    $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', function(event) {
+        event.preventDefault();
+
+        $button = $(event.target);
+        var messageText = 'Send e-mails to remind students who have not submitted their feedback for '
+                          + $button.data('fsname') + '?';
+        var okCallback = function() {
+            window.location = $button.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm sending reminders', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
     });
 }
 
 function bindPublishButtons() {
-    $('body').on('click', '.session-publish-for-test', function() {
+    $('body').on('click', '.session-publish-for-test', function(event) {
+        event.preventDefault();
  
         var $button = $(this);
         var feedbackSessionName = $button.data('fsname');
-        var isSendingPublishedEmail = $button.data('sending-published-email');
+        var messageText = 'Are you sure you want to publish the responses for the session "' + feedbackSessionName + '"?';
 
-        return togglePublishEvaluation(feedbackSessionName, isSendingPublishedEmail);
+        var isSendingPublishedEmail = $button.data('sending-published-email');
+        if (isSendingPublishedEmail) {
+            messageText += ' An email will be sent to students to inform them that the responses are ready for viewing.';
+        }
+
+        var okCallback = function() {
+            window.location = $button.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm publishing responses', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
     });
 }
 
 function bindUnpublishButtons() {
-    $('body').on('click', '.session-unpublish-for-test', function() {
-        return toggleUnpublishEvaluation($(this).data('fsname'));
+    $('body').on('click', '.session-unpublish-for-test', function(event) {
+        event.preventDefault();
+
+        $button = $(event.target);
+        var messageText = 'Are you sure you want to unpublish the session ' + $button.data('fsname') + '?';
+        var okCallback = function() {
+            window.location = $button.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm unpublishing responses', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
     });
 }
 

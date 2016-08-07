@@ -11,7 +11,8 @@
     "courses":{
         "CHomeUiT.Sample":{
             "id":"newIns.wit-demo",
-            "name":"Sample Course 101"
+            "name":"Sample Course 101",
+            "timeZone":"UTC"
         }
     },
     "instructors":{

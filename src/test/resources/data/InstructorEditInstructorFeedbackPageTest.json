@@ -57,7 +57,8 @@
     "courses":{
         "IEIFPTCourse":{
             "id":"IEIFPTCourse",
-            "name":"IEIFPTCourse"
+            "name":"IEIFPTCourse",
+            "timeZone":"UTC"
         }
     },
     "instructors":{
