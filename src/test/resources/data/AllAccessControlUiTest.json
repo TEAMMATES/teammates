@@ -105,33 +105,32 @@
     "courses":{
         "typicalCourse1":{
             "id":"idOfTypicalCourse1.access",
-            "name":"Typical Course 1 with 2 Evals",
-            "isArchived":false
+            "name":"Typical Course 1 with 2 Evals"
+            
         },
         "typicalCourse2":{
             "id":"idOfTypicalCourse2.access",
-            "name":"Typical Course 2 with 1 Evals",
-            "isArchived":false
+            "name":"Typical Course 2 with 1 Evals"
+            
         },
         "courseNoEvals":{
             "id":"idOfCourseNoEvals.access",
-            "name":"Typical Course 3 with 0 Evals",
-            "isArchived":false
+            "name":"Typical Course 3 with 0 Evals"
+            
         },
         "sampleCourse":{
             "id":"idOfSampleCourse-demo.access",
-            "name":"Sample Course",
-            "isArchived":false
+            "name":"Sample Course"
+            
         },
         "archivedCourse":{
             "id":"idOfArchivedCourse.access",
-            "name":"Archived Course",
-            "isArchived":true
+            "name":"Archived Course"
         },
         "unregisteredCourse":{
             "id":"idOfUnregisteredCourse.access",
-            "name":"Unregistered Course",
-            "isArchived":false
+            "name":"Unregistered Course"
+            
         }
     },
     "instructors":{
@@ -404,6 +403,7 @@
             "displayedName":"Instructor",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
+            "isArchived":true,
             "displayedName":"Instructor",
             "privileges": {
                 "courseLevel": {

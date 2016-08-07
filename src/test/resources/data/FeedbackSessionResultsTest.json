@@ -68,13 +68,11 @@
     "courses": {
         "typicalCourse1": {
             "id": "FSRTest.idOfTypicalCourse1",
-            "name": "Typical Course 1",
-            "isArchived": false
+            "name": "Typical Course 1"
         },
         "course.no.sessions": {
             "id": "FSRTest.idOfNoSessionsCourse",
-            "name": "No Sessions Course" ,
-            "isArchived": false
+            "name": "No Sessions Course"
         }
     },
     
