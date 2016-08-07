@@ -91,7 +91,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
 
         if (questionDetailsErrors.isEmpty()) {
-            logic.updateFeedbackQuestionWithQuestionNumberUpdate(updatedQuestion);
+            logic.updateFeedbackQuestion(updatedQuestion);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber

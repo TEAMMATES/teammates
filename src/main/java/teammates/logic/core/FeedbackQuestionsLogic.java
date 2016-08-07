@@ -475,20 +475,6 @@ public class FeedbackQuestionsLogic {
         return numberOfResponsesNeeded <= 0 ? true : false;
     }
     
-    
-    /**
-     * Updates the feedback question, including propagating question number update,
-     * shifts other questions up/down
-     * depending on the change.
-     * @throws EntityAlreadyExistsException
-     */
-    public void updateFeedbackQuestionWithQuestionNumberUpdate(FeedbackQuestionAttributes newQuestion)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-
-        updateFeedbackQuestion(newQuestion, true);
-    }
-    
-    
     /**
      * Adjust questions between the old and new number,
      * if the new number is smaller, then shift up (increase qn#) all questions in between.

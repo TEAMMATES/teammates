@@ -1733,34 +1733,21 @@ public class Logic {
     
     /**
      * Updates a question and adjusts question numbers if required.<br>
+     * The FeedbackQuestionAttributes should have the updated attributes
+     * together with the original ID of the question. Preserves null attributes.
      * Preconditions: <br>
      * * All parameters are non-null.
      * @throws EntityAlreadyExistsException
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public void updateFeedbackQuestionWithQuestionNumberUpdate(FeedbackQuestionAttributes updatedQuestion)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
-        feedbackQuestionsLogic.updateFeedbackQuestionWithQuestionNumberUpdate(updatedQuestion);
-    }
-    
-    /**
-     * Updates the details of a Feedback Question.<br>
-     * The FeedbackQuestionAttributes should have the updated attributes
-     * together with the original ID of the question. Preserves null
-     * attributes.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes updatedQuestion)
             throws InvalidParametersException, EntityDoesNotExistException {
-        
+
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
         feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
     }
-
+    
     /**
      * Deletes the feedback question and the responses associated to it. Fails
      * silently if there is no such feedback question. <br>
