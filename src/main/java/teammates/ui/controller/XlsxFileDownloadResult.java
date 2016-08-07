@@ -38,7 +38,8 @@ public class XlsxFileDownloadResult extends FileDownloadResult {
 
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8");
+        resp.setContentType(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8");
         resp.setHeader("Content-Disposition", getContentDispositionHeader());
         ServletOutputStream outStream = resp.getOutputStream();
         workBook.write(outStream);
@@ -50,15 +51,17 @@ public class XlsxFileDownloadResult extends FileDownloadResult {
         workBook = new XSSFWorkbook();
         XSSFSheet sheet = workBook.createSheet("sheet1");
         int rowNumber = 0;
-        String[] lines = fileContent.split(Const.EOL);
-        for (String line : lines) {
-            // Split by comma only if comma has a zero or even number of quotes in front.
-            String[] str = line.split(CSV_LINE_DELIMITTER_REGEX, -1);
+        String[] rows = getIndividualRowsFromContent(fileContent);
+        for (String row : rows) {
+            // Split by comma only if comma has a zero or even number of quotes
+            // in front of the word. This is done to handle inputs with commas.
+            String[] str = row.split(CSV_LINE_DELIMITTER_REGEX, -1);
             rowNumber++;
             XSSFRow currentRow = sheet.createRow(rowNumber);
 
-            // Questions are marked bold and with bigger font.
-            if (line.matches(QUESTION_LINE_REGEX)) {
+            // Questions are marked bold and with bigger font. This is a test
+            // change to ensure text formatting is possible.
+            if (row.matches(QUESTION_LINE_REGEX)) {
                 currentRow.setRowStyle(XlsxUtils.getQuestionStyle(workBook));
             } else {
                 currentRow.setRowStyle(XlsxUtils.getDefaultStyle(workBook));
@@ -74,7 +77,25 @@ public class XlsxFileDownloadResult extends FileDownloadResult {
         return workBook;
     }
 
+    /**
+     * Removes the unnecessary quotes at the beginning and end from the final
+     * cell value.
+     * 
+     * @param cellValue
+     * @return escaped cellValue
+     */
     private String escapeQuotes(String cellValue) {
         return cellValue.replaceAll("^\"|\"$", "").replaceAll("\"\"", "\"");
+    }
+
+    /**
+     * Separates the rows using the line separator. Also look out for user
+     * inputs in multiple lines.
+     * 
+     * @param fileContent
+     * @return the individual rows of the file
+     */
+    private String[] getIndividualRowsFromContent(String fileContent) {
+        return fileContent.split(Const.EOL + "(?=(?:(?:[^\"]*+\"){2})*+[^\"]*+$)");
     }
 }
