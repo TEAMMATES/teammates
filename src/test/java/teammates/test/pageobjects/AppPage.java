@@ -696,8 +696,8 @@ public abstract class AppPage {
      *         class name.
      */
     public boolean isElementHasClass(String elementId, String targetClass) {
-        List<WebElement> elementsMatched = browser.driver
-                .findElements(By.cssSelector("#" + elementId + "." + targetClass));
+        List<WebElement> elementsMatched =
+                browser.driver.findElements(By.cssSelector("#" + elementId + "." + targetClass));
         return !elementsMatched.isEmpty();
     }
 
@@ -1015,5 +1015,4 @@ public abstract class AppPage {
         String script = "return isWithinView(document.getElementById('" + id + "'));";
         return (boolean) jsExecutor.executeScript(script);
     }
-    
 }
