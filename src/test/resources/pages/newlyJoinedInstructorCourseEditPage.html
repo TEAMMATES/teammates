@@ -16,7 +16,7 @@
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT.instr1.gma-demo&next=%2Fpage%2FinstructorCoursesPage&user=${test.instructor}" id="courseDeleteLink" onclick="return toggleDeleteCourseConfirmation('AHPUiT.instr1.gma-demo');" title="" type="button">
+        <a class="btn btn-primary btn-xs course-delete-link" data-course-id="AHPUiT.instr1.gma-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT.instr1.gma-demo&next=%2Fpage%2FinstructorCoursesPage&user=${test.instructor}" id="courseDeleteLink" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -41,6 +41,17 @@
           </label>
           <div class="col-sm-9">
             <input class="form-control" data-original-title="The name of the course, e.g. Software Engineering." data-placement="top" data-toggle="tooltip" disabled="" id="coursename" maxlength="64" name="coursename" tabindex="2" title="" type="text" value="Sample Course 101">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">
+            Time Zone:
+          </label>
+          <div class="col-sm-6">
+            ${timezone.options}
+          </div>
+          <div class="col-sm-1">
+            <input class="btn btn-primary" disabled="" id="auto-detect-time-zone" type="button" value="Auto-Detect Time Zone">
           </div>
         </div>
         <div class="form-group">
@@ -90,7 +101,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=AHPUiT.instr1.gma-demo&instructoremail=AHPUiT.instr1%40gmail.tmt&user=${test.instructor}" id="instrDeleteLink1" onclick="return toggleDeleteInstructorConfirmation('AHPUiT.instr1.gma-demo','AHPUiT.instr1@gmail.tmt', true);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="AHPUiT.instr1.gma-demo" data-instructor-name="AHPUiT Instrúctör" data-is-delete-self="true" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=AHPUiT.instr1.gma-demo&instructoremail=AHPUiT.instr1%40gmail.tmt&user=${test.instructor}" id="instrDeleteLink1" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete

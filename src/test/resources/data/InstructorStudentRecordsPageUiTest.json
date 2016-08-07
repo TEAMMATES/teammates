@@ -55,15 +55,18 @@
     "courses":{
         "CS2104":{
             "id":"ISR.CS2104",
-            "name":"Programming Language Concepts"
+            "name":"Programming Language Concepts",
+            "timeZone":"UTC"
         },
         "CS1101":{
             "id":"ISR.CS1101",
-            "name":"Programming Methodology"
+            "name":"Programming Methodology",
+            "timeZone":"UTC"
         },
         "NoEvalCourse":{
             "id":"ISR.NoEval",
-            "name":"No Eval Course"
+            "name":"No Eval Course",
+            "timeZone":"UTC"
         }
     },
     "instructors":{

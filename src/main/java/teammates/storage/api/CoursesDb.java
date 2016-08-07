@@ -121,6 +121,7 @@ public class CoursesDb extends EntitiesDb {
         }
         
         courseEntityToUpdate.setName(courseToUpdate.getName());
+        courseEntityToUpdate.setTimeZone(courseToUpdate.getTimeZone());
         
         log.info(courseToUpdate.getBackupIdentifier());
         getPm().close();
@@ -137,7 +138,8 @@ public class CoursesDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        CourseAttributes entityToDelete = new CourseAttributes(courseId, "Non-existent course");
+        // only the courseId is important here, everything else are placeholders
+        CourseAttributes entityToDelete = new CourseAttributes(courseId, "Non-existent course", "UTC");
         
         deleteEntity(entityToDelete);
     }

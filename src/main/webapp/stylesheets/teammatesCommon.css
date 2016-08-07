@@ -704,6 +704,11 @@ Apply to thead to make headers not bold.
     margin-right: 5px;
 }
 
+.time-zone-info-box {
+    margin: 7px 0 0 0;
+    padding: 10px;
+}
+
 .unsorted {
     background: url(../images/sortSideButton.png);
 }
@@ -745,6 +750,24 @@ Apply to thead to make headers not bold.
 
 .fixed-table-layout {
 	table-layout: fixed;
+}
+
+.question-description {
+    min-height: 120px;
+}
+
+.content-editor {
+    padding: 5px 10px;
+}
+
+.content-editor:before {
+    display: none;
+}
+
+.content-editor.empty:before {
+    display: block;
+    color: gray;
+    content: attr(data-placeholder);
 }
 
 /*////////////////////////////////////////////////////////////

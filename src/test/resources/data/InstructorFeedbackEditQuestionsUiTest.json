@@ -26,11 +26,13 @@
   "courses": {
     "course": {
       "id": "CFeedbackEditUiT.CS2104",
-      "name": "Programming Language Concepts"
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
     },
     "course2": {
       "id": "CFeedbackEditUiT.CS1101",
-      "name": "Programming Methodology"
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
     }
   },
   

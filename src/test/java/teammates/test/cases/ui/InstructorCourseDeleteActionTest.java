@@ -36,7 +36,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         verifyAssumptionFailure();
 
         ______TS("Typical case, 2 courses, redirect to homepage");
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course");
+        CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course", "UTC");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
@@ -85,7 +85,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, deleteAction.getLogMessage());
         
         ______TS("Masquerade mode, delete last course, no next URL, redirect to Courses page");
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id2", "New course");
+        CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id2", "New course", "UTC");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "icdct.tpa.id2",
         };

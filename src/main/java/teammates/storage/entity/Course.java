@@ -6,6 +6,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import teammates.common.util.Const;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -26,9 +28,17 @@ public class Course {
     @Persistent
     private Date createdAt;
 
-    public Course(String courseId, String courseName, Date createdAt) {
+    @Persistent
+    private String timeZone;
+
+    public Course(String courseId, String courseName, String courseTimeZone, Date createdAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
+        if (courseTimeZone == null) {
+            this.setTimeZone(Const.DEFAULT_TIMEZONE);
+        } else {
+            this.setTimeZone(courseTimeZone);
+        }
         if (createdAt == null) {
             this.setCreatedAt(new Date());
         } else {
@@ -58,5 +68,13 @@ public class Course {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+    
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
     }
 }
