@@ -260,7 +260,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(0, sessionList.size());
     }
     
-    public void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateAndDeleteFeedbackSession() throws Exception {
         ______TS("test create");
         
         FeedbackSessionAttributes fs = getNewFeedbackSession();
