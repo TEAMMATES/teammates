@@ -83,7 +83,7 @@
         </td>
     </c:if>
     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-    <td class="text-preserve-space<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.displayableResponse}</td>
+    <td class="word-wrap-break text-preserve-space<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.displayableResponse}</td>
     <c:if test="${responseRow.actionsDisplayed}">
         <td>
             <c:if test="${not empty responseRow.moderationButton}">

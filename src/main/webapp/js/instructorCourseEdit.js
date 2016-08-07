@@ -89,14 +89,6 @@ function hideNewInstructorForm() {
     $('#btnShowNewInstructorForm').show();
 }
 
-/**
- * Functions to trigger registration key sending to a specific instructor in the
- * course.
- */
-function toggleSendRegistrationKey() {
-    return confirm('Do you wish to re-send the invitation email to this instructor now?');
-}
-
 function hideAllTunePermissionsDivs(instrNum) {
     var $tunePermissionsDiv = $('#tunePermissionsDivForInstructor' + instrNum);
     $tunePermissionsDiv.find('div[id^="tuneSectionPermissionsDiv"]').each(function(i) {
@@ -356,20 +348,42 @@ function checkPrivilegesOfTutorForModal() {
     $('#tunePermissionsDivForInstructorAll #instructorRoleModalLabel').html('Permissions for Tutor');
 }
 
-/**
- * Function that shows confirmation dialog for deleting a instructor
- * @param courseID
- * @param instructorName
- * @param isDeleteOwnself
- * @returns
- */
-function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOwnself) {
-    if (isDeleteOwnself) {
-        return confirm('Are you sure you want to delete your instructor role from the course ' + courseID + '? '
-                       + 'You will not be able to access the course anymore.');
-    }
-    return confirm('Are you sure you want to delete the instructor ' + instructorName + ' from ' + courseID + '? '
-                   + 'He/she will not be able to access the course anymore.');
+function bindDeleteInstructorLink() {
+    $('[id^="instrDeleteLink"]').on('click', function(event) {
+        event.preventDefault();
+        var $clickedLink = $(event.target);
+
+        var messageText = $clickedLink.data('isDeleteSelf')
+                          ? 'Are you sure you want to delete your instructor role from the course <strong>'
+                              + $clickedLink.data('courseId') + '</strong>? '
+                              + 'You will not be able to access the course anymore.'
+                          : 'Are you sure you want to delete the instructor <strong>' + $clickedLink.data('instructorName')
+                              + '</strong> from the course <strong>' + $clickedLink.data('courseId') + '</strong>? '
+                              + 'He/she will not be able to access the course anymore.';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deleting instructor', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+    });
+}
+
+function bindRemindInstructorLink() {
+    $('[id^="instrRemindLink"]').on('click', function(event) {
+        event.preventDefault();
+        var $clickedLink = $(event.target);
+
+        var messageText = 'Do you wish to re-send the invitation email to instructor <strong>'
+                          + $clickedLink.data('instructorName') + '</strong> from course <strong>'
+                          + $clickedLink.data('courseId') + '</strong>';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm re-sending invitation email', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
+    });
 }
 
 function bindChangingRole(index) {
@@ -449,7 +463,14 @@ $(function() {
 function editCourse() {
     $('#btnSaveCourse').show();
     $('#' + COURSE_NAME).prop('disabled', false);
+    $('#' + COURSE_TIME_ZONE).prop('disabled', false);
+    $('#auto-detect-time-zone').prop('disabled', false);
     $('#courseEditLink').hide();
+}
+
+function autoDetectTimeZone() {
+    var $selectElement = $('#' + COURSE_TIME_ZONE);
+    TimeZone.autoDetectAndUpdateTimeZone($selectElement);
 }
 
 $(document).ready(function() {
@@ -462,4 +483,17 @@ $(document).ready(function() {
     bindCheckboxToggle();
     var index = $('#new-instructor-index').val();
     bindChangingRole(index);
+
+    bindRemindInstructorLink();
+    bindDeleteInstructorLink();
+    
+    if (typeof moment !== 'undefined') {
+        var $selectElement = $('#' + COURSE_TIME_ZONE);
+        TimeZone.prepareTimeZoneInput($selectElement);
+        TimeZone.updateTimeZone($selectElement, courseTimeZone);
+
+        $('#auto-detect-time-zone').on('click', function() {
+            autoDetectTimeZone();
+        });
+    }
 });

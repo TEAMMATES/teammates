@@ -92,6 +92,7 @@
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${NEW_QUESTION}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
+                            placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION %>"
                             tabindex="9"
                             disabled></textarea>
                     </div>
@@ -105,10 +106,11 @@
                     </h5>
                     <div class="col-sm-10">
                         <div id="rich-text-toolbar-q-descr-container"></div>
-                        <div class="panel panel-default panel-body" rows="5"
+                        <div class="panel panel-default panel-body question-description"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${NEW_QUESTION}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_DESCRIPTION %>"
+                            data-placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION_DESCRIPTION %>"
                             tabindex="9">
                         </div>
                     </div>

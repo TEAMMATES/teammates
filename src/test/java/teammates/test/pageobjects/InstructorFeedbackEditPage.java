@@ -371,6 +371,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void clickQuestionEditForQuestion1() {
+        waitForElementToBeClickable(questionEditForQuestion1);
         click(questionEditForQuestion1);
     }
     
