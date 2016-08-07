@@ -33,7 +33,8 @@
   "courses": {
     "InsCrsEdit.CS2104": {
       "id": "InsCrsEdit.CS2104",
-      "name": "Programming Language Concepts"
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
     }
   },
   
