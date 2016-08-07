@@ -15,6 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -344,6 +345,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @Test
     public void testViewPhotoAndAjaxForLargeScaledSession() throws Exception {
 
+        // Mouseover actions do not work on Selenium-Chrome
+        if ("chrome".equals(TestProperties.BROWSER)) {
+            return;
+        }
+        
         uploadPhotoForStudent(testData.students.get("Alice").googleId);
 
         ______TS("Typical case: ajax for view by questions");

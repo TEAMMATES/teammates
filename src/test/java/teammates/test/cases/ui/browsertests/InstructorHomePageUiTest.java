@@ -236,6 +236,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                                        feedbackSessionOpen.getFeedbackSessionName()));
         homePage.clickAndConfirm(homePage.getRemindLink(feedbackSessionOpen.getCourseId(),
                                                         feedbackSessionOpen.getFeedbackSessionName()));
+
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         
@@ -452,6 +453,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
         // Wait for modal to appear and show error.
         homePage.getFsCopyModal().waitForModalLoadingError();
+        homePage.getFsCopyModal().clickCloseButton();
 
     }
 

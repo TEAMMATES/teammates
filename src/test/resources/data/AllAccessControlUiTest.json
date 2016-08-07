@@ -105,32 +105,33 @@
     "courses":{
         "typicalCourse1":{
             "id":"idOfTypicalCourse1.access",
-            "name":"Typical Course 1 with 2 Evals"
-            
+            "name":"Typical Course 1 with 2 Evals",
+            "timeZone":"UTC"
         },
         "typicalCourse2":{
             "id":"idOfTypicalCourse2.access",
-            "name":"Typical Course 2 with 1 Evals"
-            
+            "name":"Typical Course 2 with 1 Evals",
+            "timeZone":"UTC"
         },
         "courseNoEvals":{
             "id":"idOfCourseNoEvals.access",
-            "name":"Typical Course 3 with 0 Evals"
-            
+            "name":"Typical Course 3 with 0 Evals",
+            "timeZone":"UTC"
         },
         "sampleCourse":{
             "id":"idOfSampleCourse-demo.access",
-            "name":"Sample Course"
-            
+            "name":"Sample Course",
+            "timeZone":"UTC"
         },
         "archivedCourse":{
             "id":"idOfArchivedCourse.access",
-            "name":"Archived Course"
+            "name":"Archived Course",
+            "timeZone":"UTC"
         },
         "unregisteredCourse":{
             "id":"idOfUnregisteredCourse.access",
-            "name":"Unregistered Course"
-            
+            "name":"Unregistered Course",
+            "timeZone":"UTC"
         }
     },
     "instructors":{

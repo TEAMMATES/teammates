@@ -1,8 +1,6 @@
 <html>
 <head>
-<style id="mceDefaultStyles" type="text/css">
-  .mce-content-body div.mce-resizehandle {position: absolute;border: 1px solid black;background: #FFF;width: 5px;height: 5px;z-index: 10000}.mce-content-body .mce-resizehandle:hover {background: #000}.mce-content-body img[data-mce-selected], hr[data-mce-selected] {outline: 1px solid black;resize: none}.mce-content-body .mce-clonedresizable {position: absolute;opacity: .5;filter: alpha(opacity=50);z-index: 10000}.mce-content-body .mce-resize-helper {background: #555;background: rgba(0,0,0,0.75);border-radius: 3px;border: 1px;color: white;display: none;font-family: sans-serif;font-size: 12px;white-space: nowrap;line-height: 14px;margin: 5px 10px;padding: 5px;position: absolute;z-index: 10001} img:-moz-broken {-moz-force-broken-image-icon:1;min-width:24px;min-height:24px}
-</style>
+${tinymce.style}
 <title>
   TEAMMATES - Instructor
 </title>
@@ -149,7 +147,7 @@
             <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
               Save Changes
             </button>
-            <a class="btn btn-primary btn-sm" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackEditUiT.instructor" id="fsDeleteLink" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackEditUiT.CS2104','First Session');" title="">
+            <a class="btn btn-primary btn-sm" data-course-id="CFeedbackEditUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackEditUiT.instructor" id="fsDeleteLink" title="">
               Delete
             </a>
             <span class="tool-tip-decorate" data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
@@ -338,7 +336,7 @@
                 <div class="col-sm-10">
                   <div id="richtext-toolbar-container">
                   </div>
-                  <div class="panel panel-default panel-body mce-content-body" id="instructions" spellcheck="false">
+                  <div class="panel panel-default panel-body mce-content-body content-editor" id="instructions" spellcheck="false">
                     <p>
                       Instructions for first session
                     </p>
@@ -1030,7 +1028,7 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext--1" name="questiontext" rows="2" tabindex="9" title="">
+              <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext--1" name="questiontext" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" rows="2" tabindex="9" title="">
               </textarea>
             </div>
           </div>
@@ -1045,7 +1043,7 @@
             <div class="col-sm-10">
               <div id="rich-text-toolbar-q-descr-container">
               </div>
-              <div class="panel panel-default panel-body" data-original-title="Please enter the description of the question." data-placement="top" data-toggle="tooltip" id="questiondescription--1" rows="5" tabindex="9" title="">
+              <div class="panel panel-default panel-body question-description" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription--1" tabindex="9" title="">
               </div>
             </div>
             <div id="textForm">

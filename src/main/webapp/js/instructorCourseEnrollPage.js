@@ -16,7 +16,8 @@ var loadUpFunction = function() {
             if (keycode === ENTER_KEYCODE) {
                 if (isUserTyping(e.target.value) && !notified) {
                     notified = true;
-                    alert(typingErrMsg);
+                    BootboxWrapper.showModalAlert('Invalid separator', typingErrMsg, BootboxWrapper.DEFAULT_OK_TEXT,
+                                                  StatusType.WARNING);
                 }
             }
         });

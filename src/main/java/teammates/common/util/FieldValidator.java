@@ -8,6 +8,7 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackParticipantType;
 
 import com.google.appengine.api.datastore.Text;
+import org.joda.time.DateTimeZone;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -78,6 +79,7 @@ public class FieldValidator {
 
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
+    public static final String COURSE_TIME_ZONE_FIELD_NAME = "course time zone";
     
     public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
@@ -101,6 +103,7 @@ public class FieldValidator {
     public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
     public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
     public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR = "starts with a non-alphanumeric character";
+    public static final String REASON_UNAVAILABLE_AS_CHOICE = "not available as a choice";
 
     // error message components
     public static final String ERROR_INFO =
@@ -149,6 +152,11 @@ public class FieldValidator {
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String GOOGLE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
+
+    public static final String HINT_FOR_CORRECT_COURSE_TIME_ZONE =
+            "The value must be one of the values from the time zone dropdown selector.";
+    public static final String COURSE_TIME_ZONE_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_TIME_ZONE;
 
     public static final String GENDER_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
@@ -455,6 +463,22 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForPersonName(String personName) {
         return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
+    }
+    
+    /**
+     * Checks if the given string is a non-null string contained in {@link DateTimeZone}'s
+     * list of time zone IDs.
+     * @param timeZoneValue
+     * @return An explanation of why the {@code timeZoneValue} is not acceptable.
+     *         Returns an empty string if the {@code timeZoneValue} is acceptable.
+     */
+    public String getInvalidityInfoForCourseTimeZone(String timeZoneValue) {
+        Assumption.assertTrue("Non-null value expected", timeZoneValue != null);
+        if (!DateTimeZone.getAvailableIDs().contains(timeZoneValue)) {
+            return getPopulatedErrorMessage(COURSE_TIME_ZONE_ERROR_MESSAGE, timeZoneValue, COURSE_TIME_ZONE_FIELD_NAME,
+                                            REASON_UNAVAILABLE_AS_CHOICE);
+        }
+        return "";
     }
 
     /**
