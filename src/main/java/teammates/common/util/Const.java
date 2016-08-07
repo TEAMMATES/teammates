@@ -8,6 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTimeZone;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 
 
@@ -67,6 +69,7 @@ public final class Const {
     
     public static final String DEFAULT_SECTION = "None";
     
+    public static final String DEFAULT_TIMEZONE = DateTimeZone.UTC.getID();
     
     /* 
      * These constants are used as variable values to mean that the variable
@@ -573,6 +576,7 @@ public final class Const {
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
         public static final String COURSE_INDEX = "courseidx";
+        public static final String COURSE_TIME_ZONE = "coursetimezone";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
         public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
         public static final String INSTRUCTOR_ID = "instructorid";

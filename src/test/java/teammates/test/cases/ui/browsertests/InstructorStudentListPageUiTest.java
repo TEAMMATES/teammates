@@ -15,6 +15,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -139,6 +140,11 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     }
 
     private void testShowPhoto() throws Exception {
+        // Mouseover actions do not work on Selenium-Chrome
+        if ("chrome".equals(TestProperties.BROWSER)) {
+            return;
+        }
+        
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 

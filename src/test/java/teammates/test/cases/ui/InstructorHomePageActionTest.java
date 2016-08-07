@@ -73,7 +73,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         String newCourseIdForSorting = "idOfTypicalCourse"; // should be 1st if sort by course id
         String newCourseNameForSorting = "Typical Course 3"; //should be 3rd if sort by course name
         logic.createCourseAndInstructor(instructorWithMultipleCourses, newCourseIdForSorting,
-                                        newCourseNameForSorting);
+                                        newCourseNameForSorting, "UTC");
         
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);

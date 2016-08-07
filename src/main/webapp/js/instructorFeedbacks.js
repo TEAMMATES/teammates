@@ -13,26 +13,26 @@ function checkFeedbackQuestion(form) {
     if (recipientType === 'STUDENTS' || recipientType === 'TEAMS') {
         if ($(form).find('[name|=' + FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE + ']:checked').val() === 'custom'
                 && !$(form).find('.numberOfEntitiesBox').val()) {
-            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER, form);
             return false;
         }
     }
     if (!$(form).find('[name=' + FEEDBACK_QUESTION_TEXT + ']').val()) {
-        setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER);
+        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER, form);
         return false;
     }
     if ($(form).find('[name=' + FEEDBACK_QUESTION_TYPE + ']').val() === 'NUMSCALE') {
         if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val()
                 || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val()
                 || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
-            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER, form);
             return false;
         }
         var qnNum = getQuestionNumFromEditForm(form);
         if (updateNumScalePossibleValues(qnNum)) {
             return true;
         }
-        setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER);
+        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER, form);
         return false;
     }
     return true;
@@ -52,13 +52,13 @@ function extractQuestionNumFromEditFormId(id) {
 function checkEditFeedbackSession(form) {
     if (form.visibledate.getAttribute('disabled')) {
         if (!form.visibledate.value) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, StatusType.DANGER);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, StatusType.DANGER, form);
             return false;
         }
     }
     if (form.publishdate.getAttribute('disabled')) {
         if (!form.publishdate.value) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, StatusType.DANGER);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, StatusType.DANGER, form);
             return false;
         }
     }

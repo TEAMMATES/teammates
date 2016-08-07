@@ -219,7 +219,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("instructor course join email");
         
-        CourseAttributes course = new CourseAttributes("course-id", "Course Name");
+        CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
         
         email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
@@ -233,7 +233,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("student course join email");
         
-        CourseAttributes course = new CourseAttributes("course-id", "Course Name");
+        CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
         
         StudentAttributes student = new StudentAttributes();
         student.name = "Student Name";

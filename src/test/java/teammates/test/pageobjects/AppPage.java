@@ -536,9 +536,8 @@ public abstract class AppPage {
     public void selectDropdownByVisibleValue(WebElement element, String value) {
         Select select = new Select(element);
         select.selectByVisibleText(value);
-        String selectedVisibleValue = select.getFirstSelectedOption().getText();
+        String selectedVisibleValue = select.getFirstSelectedOption().getText().trim();
         assertEquals(value, selectedVisibleValue);
-        element.sendKeys(Keys.RETURN);
     }
     
     /** 
@@ -555,7 +554,6 @@ public abstract class AppPage {
         select.selectByValue(value);
         String selectedVisibleValue = select.getFirstSelectedOption().getAttribute("value");
         assertEquals(value, selectedVisibleValue);
-        element.sendKeys(Keys.RETURN);
     }
 
     /**

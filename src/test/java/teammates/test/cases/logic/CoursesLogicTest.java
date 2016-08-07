@@ -83,7 +83,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("success: typical case");
 
-        CourseAttributes c = new CourseAttributes("Computing101-getthis", "Basic Computing Getting");
+        CourseAttributes c = new CourseAttributes("Computing101-getthis", "Basic Computing Getting", "UTC");
         coursesDb.createEntity(c);
 
         assertEquals(c.getId(), coursesLogic.getCourse(c.getId()).getId());
@@ -172,19 +172,19 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         ______TS("typical case: not a sample course");
         
-        CourseAttributes notSampleCousre = new CourseAttributes("course.id", "not sample course");
+        CourseAttributes notSampleCousre = new CourseAttributes("course.id", "not sample course", "UTC");
         
         assertFalse(coursesLogic.isSampleCourse(notSampleCousre.getId()));
         
         ______TS("typical case: is a sample course");
         
-        CourseAttributes sampleCourse = new CourseAttributes("course.id-demo3", "sample course");
+        CourseAttributes sampleCourse = new CourseAttributes("course.id-demo3", "sample course", "UTC");
         assertTrue(coursesLogic.isSampleCourse(sampleCourse.getId()));
         
         ______TS("typical case: is a sample course with '-demo' in the middle of its id");
         
         CourseAttributes sampleCourse2 = new CourseAttributes("course.id-demo3-demo33",
-                                                              "sample course with additional -demo");
+                                                              "sample course with additional -demo", "UTC");
         assertTrue(coursesLogic.isSampleCourse(sampleCourse2.getId()));
         
         ______TS("Null parameter");
@@ -201,13 +201,13 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("typical case: not an existent course");
         
-        CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course");
+        CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course", "UTC");
 
         assertFalse(coursesLogic.isCoursePresent(nonExistentCourse.getId()));
 
         ______TS("typical case: an existent course");
         
-        CourseAttributes existingCourse = new CourseAttributes("idOfTypicalCourse1", "existing course");
+        CourseAttributes existingCourse = new CourseAttributes("idOfTypicalCourse1", "existing course", "UTC");
 
         assertTrue(coursesLogic.isCoursePresent(existingCourse.getId()));
 
@@ -225,7 +225,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("typical case: verify a non-existent course");
        
-        CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course");
+        CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course", "UTC");
 
         try {
             coursesLogic.verifyCourseIsPresent(nonExistentCourse.getId());
@@ -236,7 +236,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("typical case: verify an existent course");
        
-        CourseAttributes existingCourse = new CourseAttributes("idOfTypicalCourse1", "existing course");
+        CourseAttributes existingCourse = new CourseAttributes("idOfTypicalCourse1", "existing course", "UTC");
         coursesLogic.verifyCourseIsPresent(existingCourse.getId());
         
         ______TS("Null parameter");
@@ -272,10 +272,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         spa.googleId = "instructor1";
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
-        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
+        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Asia/Singapore");
         courseSummary = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseSummary.course.getId());
         assertEquals("course 1", courseSummary.course.getName());
+        assertEquals("Asia/Singapore", courseSummary.course.getTimeZone());
         
         assertEquals(0, courseSummary.stats.teamsTotal);
         assertEquals(0, courseSummary.stats.studentsTotal);
@@ -330,10 +331,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
-        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
+        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "America/Los_Angeles");
         courseSummary = coursesLogic.getCourseSummaryWithoutStats("course1");
         assertEquals("course1", courseSummary.course.getId());
         assertEquals("course 1", courseSummary.course.getName());
+        assertEquals("America/Los_Angeles", courseSummary.course.getTimeZone());
          
         assertEquals(0, courseSummary.sections.size());
         
@@ -374,6 +376,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseDetailsBundle courseDetails = coursesLogic.getCourseDetails(course.getId());
         assertEquals(course.getId(), courseDetails.course.getId());
         assertEquals(course.getName(), courseDetails.course.getName());
+        assertEquals(course.getTimeZone(), courseDetails.course.getTimeZone());
 
         assertEquals(2, courseDetails.stats.teamsTotal);
         assertEquals(5, courseDetails.stats.studentsTotal);
@@ -389,10 +392,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
-        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
+        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Australia/Adelaide");
         courseDetails = coursesLogic.getCourseDetails("course1");
         assertEquals("course1", courseDetails.course.getId());
         assertEquals("course 1", courseDetails.course.getName());
+        assertEquals("Australia/Adelaide", courseDetails.course.getTimeZone());
         
         assertEquals(0, courseDetails.stats.teamsTotal);
         assertEquals(0, courseDetails.stats.studentsTotal);
@@ -440,7 +444,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
-        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
+        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "UTC");
         teams = coursesLogic.getTeamsForCourse("course1");
 
         assertEquals(0, teams.size());
@@ -518,7 +522,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
-        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
+        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "UTC");
         teamNum = coursesLogic.getNumberOfTeams("course1");
 
         assertEquals(0, teamNum);
@@ -561,7 +565,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
-        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
+        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "UTC");
         enrolledNum = coursesLogic.getTotalEnrolledInCourse("course1");
 
         assertEquals(0, enrolledNum);
@@ -604,7 +608,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
-        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
+        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "UTC");
         unregisteredNum = coursesLogic.getTotalUnregisteredInCourse("course1");
 
         assertEquals(0, unregisteredNum);
@@ -991,14 +995,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
          */
         ______TS("typical case");
         
-        CourseAttributes c = new CourseAttributes("Computing101-fresh", "Basic Computing");
-        coursesLogic.createCourse(c.getId(), c.getName());
+        CourseAttributes c = new CourseAttributes("Computing101-fresh", "Basic Computing", "Asia/Singapore");
+        coursesLogic.createCourse(c.getId(), c.getName(), c.getTimeZone());
         verifyPresentInDatastore(c);
         coursesLogic.deleteCourseCascade(c.getId());
         ______TS("Null parameter");
     
         try {
-            coursesLogic.createCourse(null, c.getName());
+            coursesLogic.createCourse(null, c.getName(), c.getTimeZone());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Non-null value expected", e.getMessage());
@@ -1018,14 +1022,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         ______TS("fails: account doesn't exist");
         
-        CourseAttributes c = new CourseAttributes("fresh-course-tccai", "Fresh course for tccai");
+        CourseAttributes c = new CourseAttributes("fresh-course-tccai", "Fresh course for tccai", "America/Los Angeles");
         
         @SuppressWarnings("deprecation")
         InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.getId(),
                                                           "Instructor for tccai", "ins.for.iccai@gmail.tmt");
         
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName());
+            coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("for a non-existent instructor", e.getMessage());
@@ -1045,7 +1049,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         a.studentProfile.googleId = i.googleId;
         accountsDb.createAccount(a);
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName());
+            coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("doesn't have instructor privileges", e.getMessage());
@@ -1058,26 +1062,29 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         a.isInstructor = true;
         accountsDb.updateAccount(a);
         
-        CourseAttributes invalidCourse = new CourseAttributes("invalid id", "Fresh course for tccai");
+        CourseAttributes invalidCourse = new CourseAttributes("invalid id", "Fresh course for tccai", "InvalidTimeZone");
         
         try {
-            coursesLogic.createCourseAndInstructor(i.googleId, invalidCourse.getId(), invalidCourse.getName());
+            coursesLogic.createCourseAndInstructor(i.googleId, invalidCourse.getId(), invalidCourse.getName(),
+                                                   invalidCourse.getTimeZone());
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course ID", e.getMessage());
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone", e.getMessage());
         }
         verifyAbsentInDatastore(invalidCourse);
         verifyAbsentInDatastore(i);
         
         ______TS("fails: error during instructor creation due to duplicate instructor");
         
-        CourseAttributes courseWithDuplicateInstructor = new CourseAttributes("fresh-course-tccai",
-                                                                              "Fresh course for tccai");
+        CourseAttributes courseWithDuplicateInstructor =
+                new CourseAttributes("fresh-course-tccai", "Fresh course for tccai", "UTC");
         instructorsDb.createEntity(i); //create a duplicate instructor
         
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
-                                                   courseWithDuplicateInstructor.getName());
+                                                   courseWithDuplicateInstructor.getName(),
+                                                   courseWithDuplicateInstructor.getTimeZone());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course",
@@ -1091,7 +1098,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
-                                                   courseWithDuplicateInstructor.getName());
+                                                   courseWithDuplicateInstructor.getName(),
+                                                   courseWithDuplicateInstructor.getTimeZone());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course",
@@ -1107,7 +1115,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         instructorsDb.deleteInstructor(i.courseId, i.email);
         
         coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
-                                               courseWithDuplicateInstructor.getName());
+                                               courseWithDuplicateInstructor.getName(),
+                                               courseWithDuplicateInstructor.getTimeZone());
         verifyPresentInDatastore(courseWithDuplicateInstructor);
         verifyPresentInDatastore(i);
         
@@ -1115,7 +1124,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     
         try {
             coursesLogic.createCourseAndInstructor(null, courseWithDuplicateInstructor.getId(),
-                                                   courseWithDuplicateInstructor.getName());
+                                                   courseWithDuplicateInstructor.getName(),
+                                                   courseWithDuplicateInstructor.getTimeZone());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
