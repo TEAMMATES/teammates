@@ -38,7 +38,7 @@ public class XlsxFileDownloadResult extends FileDownloadResult {
 
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        resp.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8");
         resp.setHeader("Content-Disposition", getContentDispositionHeader());
         ServletOutputStream outStream = resp.getOutputStream();
         workBook.write(outStream);
@@ -52,8 +52,7 @@ public class XlsxFileDownloadResult extends FileDownloadResult {
         int rowNumber = 0;
         String[] lines = fileContent.split(Const.EOL);
         for (String line : lines) {
-            // Split by comma only if comma has a zero or even number of quotes
-            // infront.
+            // Split by comma only if comma has a zero or even number of quotes in front.
             String[] str = line.split(CSV_LINE_DELIMITTER_REGEX, -1);
             rowNumber++;
             XSSFRow currentRow = sheet.createRow(rowNumber);
@@ -69,9 +68,13 @@ public class XlsxFileDownloadResult extends FileDownloadResult {
             for (int i = 0; i < str.length; i++) {
                 currentCell = currentRow.createCell(i);
                 currentCell.setCellStyle(currentRow.getRowStyle());
-                currentCell.setCellValue(str[i]);
+                currentCell.setCellValue(escapeQuotes(str[i]));
             }
         }
         return workBook;
+    }
+
+    private String escapeQuotes(String cellValue) {
+        return cellValue.replaceAll("^\"|\"$", "").replaceAll("\"\"", "\"");
     }
 }
