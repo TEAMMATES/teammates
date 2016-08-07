@@ -27,7 +27,7 @@ public final class HtmlHelper {
     private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
-    private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
+    private static final String REGEX_QUESTION_ID_TIMESTAMP = "[0-9]{17}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( UTC)?";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
@@ -422,10 +422,8 @@ public final class HtmlHelper {
                       // anonymous student identifier on results page
                       .replaceAll("Anonymous (student|instructor|team) " + REGEX_ANONYMOUS_PARTICIPANT_HASH,
                                   "Anonymous $1 \\${participant\\.hash}")
-                      // questionid as value
-                      .replaceAll("value=\"" + REGEX_QUESTION_ID + "\"", "value=\"\\${question\\.id}\"")
-                      // questionid as part of responseid
-                      .replaceAll("\"" + REGEX_QUESTION_ID + "%", "\"\\${question\\.id}%")
+                      // questionid
+                      .replaceAll("/" + REGEX_QUESTION_ID_TIMESTAMP, "/\\${question\\.id\\.timestamp}")
                       // commentid in quotes, used as values
                       .replaceAll("\"" + REGEX_COMMENT_ID + "\"", "\"\\${comment\\.id}\"")
                       // commentid in URLs
