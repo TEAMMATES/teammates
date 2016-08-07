@@ -326,18 +326,17 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         ______TS("standard update, no existing responses, with 'keep existing' policy");
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
         questionToUpdate.questionMetaData = new Text("new question text");
-        questionToUpdate.questionNumber = 3;
         List<FeedbackParticipantType> newVisibility =
                 new LinkedList<FeedbackParticipantType>();
         newVisibility.add(FeedbackParticipantType.INSTRUCTORS);
         questionToUpdate.showResponsesTo = newVisibility;
         // Check keep existing policy.
-        String originalCourseId = questionToUpdate.courseId;
-        questionToUpdate.courseId = null;
+        List<FeedbackParticipantType> originalShowGiverNameTo = questionToUpdate.showGiverNameTo;
+        questionToUpdate.showGiverNameTo = null;
         
         fqLogic.updateFeedbackQuestion(questionToUpdate);
         
-        questionToUpdate.courseId = originalCourseId;
+        questionToUpdate.showGiverNameTo = originalShowGiverNameTo;
 
         FeedbackQuestionAttributes updatedQuestion =
                 fqLogic.getFeedbackQuestion(questionToUpdate.feedbackSessionName,
