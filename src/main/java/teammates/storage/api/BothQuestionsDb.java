@@ -66,15 +66,14 @@ public class BothQuestionsDb extends EntitiesDb {
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(
             String feedbackSessionName, String courseId, String feedbackQuestionId) {
-        FeedbackQuestionAttributes oldQuestion = oldQuestionsDb.getFeedbackQuestion(feedbackQuestionId);
-        if (oldQuestion != null) {
-            FeedbackQuestionAttributes newQuestion = newQuestionsDb.getFeedbackQuestion(
-                    oldQuestion.feedbackSessionName, oldQuestion.courseId, oldQuestion.getId());
-            if (newQuestion != null) {
-                return newQuestion;
-            }
+        FeedbackQuestionAttributes newQuestion = newQuestionsDb.getFeedbackQuestion(
+                feedbackSessionName, courseId, feedbackQuestionId);
+
+        if (newQuestion != null) {
+            return newQuestion;
         }
-        return oldQuestion;
+
+        return oldQuestionsDb.getFeedbackQuestion(feedbackQuestionId);
     }
     
     /**
@@ -84,15 +83,14 @@ public class BothQuestionsDb extends EntitiesDb {
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(
                 String feedbackSessionName, String courseId, int questionNumber) {
+        FeedbackQuestionAttributes newQuestion = newQuestionsDb.getFeedbackQuestion(
+                feedbackSessionName, courseId, questionNumber);
+        if (newQuestion != null) {
+            return newQuestion;
+        }
+     
         FeedbackQuestionAttributes oldQuestion =
                 oldQuestionsDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
-        if (oldQuestion != null) {
-            FeedbackQuestionAttributes newQuestion = newQuestionsDb.getFeedbackQuestion(
-                    oldQuestion.feedbackSessionName, oldQuestion.courseId, oldQuestion.getId());
-            if (newQuestion != null) {
-                return newQuestion;
-            }
-        }
         return oldQuestion;
     }
     
