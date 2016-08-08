@@ -13,6 +13,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
@@ -51,15 +52,11 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                 
                 editQuestion(updatedQuestion);
             } else if ("delete".equals(editType)) {
-                // branch not tested because if it's not edit or delete, Assumption.fail will cause test failure
                 deleteQuestion(updatedQuestion);
             } else {
-                // Assumption.fails are not tested
                 Assumption.fail("Invalid editType");
             }
-        } catch (InvalidParametersException e) {
-            // This part is not tested because GateKeeper handles if this happens, would be
-            // extremely difficult to replicate a situation whereby it gets past GateKeeper
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             setStatusForException(e);
         }
         
@@ -75,8 +72,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                         + updatedQuestion.courseId + "]</span> deleted.<br>";
     }
 
-    private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException,
-                                                                                 EntityDoesNotExistException {
+    private void editQuestion(FeedbackQuestionAttributes updatedQuestion)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         String err = validateQuestionGiverRecipientVisibility(updatedQuestion);
         
         if (!err.isEmpty()) {
@@ -93,7 +90,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
 
         if (questionDetailsErrors.isEmpty()) {
-            logic.updateFeedbackQuestionNumber(updatedQuestion);
+            logic.updateFeedbackQuestionWithQuestionNumberUpdate(updatedQuestion);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber
