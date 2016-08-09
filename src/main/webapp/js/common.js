@@ -245,7 +245,11 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
     var columnType = 0;
     var store = [];
     var $RowList = $('tr', $table);
-    
+    var shouldConsiderToolTip = false;
+    if (comp.toString() == instructorHomeDateComparator.toString()) {
+        shouldConsiderToolTip = true;
+    }
+    var textToCompare;
     // Iterate through column's contents to decide which comparator to use
     for (var i = row; i < $RowList.length; i++) {
         if ($RowList[i].cells[colIdx - 1] === undefined) {
@@ -255,14 +259,20 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
         // $.trim trims leading/trailing whitespaces
         // jQuery(...).text() works like .innerText, but works in Firefox (.innerText does not)
         // $RowList[i].cells[colIdx - 1] is where we get the table cell from
-        var innerText = $.trim(jQuery($RowList[i].cells[colIdx - 1]).text());
+        // If shouldConsiderToolTip is true, we consider the tooltip value instead of innerText
+        if (shouldConsiderToolTip) {
+            textToCompare = $.trim(jQuery($RowList[i].cells[colIdx - 1]).
+                    find('span').attr('data-original-title'));
+        } else {
+            textToCompare = $.trim(jQuery($RowList[i].cells[colIdx - 1]).text());
+        }
         
         // Store rows together with the innerText to compare
-        store.push([innerText, $RowList[i], i]);
+        store.push([textToCompare, $RowList[i], i]);
         
-        if ((columnType === 0 || columnType === 1) && isNumber(innerText)) {
+        if ((columnType === 0 || columnType === 1) && isNumber(textToCompare)) {
             columnType = 1;
-        } else if ((columnType === 0 || columnType === 2) && isDate(innerText)) {
+        } else if ((columnType === 0 || columnType === 2) && isDate(textToCompare)) {
             columnType = 2;
         } else {
             columnType = 3;
