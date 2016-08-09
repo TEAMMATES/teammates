@@ -580,6 +580,14 @@ Apply to thead to make headers not bold.
     padding: 5px 25px;
 }
 
+.visibilityMessage > ul > li {
+    cursor: default;
+}
+
+.visibilityMessage > ul > li > a {
+    cursor: pointer;
+}
+
 @media ( min-width :768px) {
     .bs-example {
         background-color: #fff;
