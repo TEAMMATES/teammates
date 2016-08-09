@@ -200,10 +200,6 @@ public class BaseTestCase {
         AssertJUnit.assertEquals(expected, actual, delta);
     }
     
-    protected static void assertEquals(String message, Object expected, Object actual) {
-        AssertJUnit.assertEquals(message, expected, actual);
-    }
-    
     protected static void assertEquals(Object expected, Object actual) {
         AssertJUnit.assertEquals(expected, actual);
     }

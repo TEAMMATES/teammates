@@ -2,8 +2,6 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
@@ -55,7 +53,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
                 statusToUser.add(new StatusMessage("No questions are indicated to be copied", StatusMessageColor.DANGER));
                 isError = true;
             }
-        } catch (InvalidParametersException | EntityDoesNotExistException | EntityAlreadyExistsException e) {
+        } catch (InvalidParametersException e) {
             // This part is not tested because GateKeeper handles if this happens, would be
             // extremely difficult to replicate a situation whereby it gets past GateKeeper
             statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));

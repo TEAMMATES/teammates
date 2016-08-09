@@ -19,7 +19,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.StudentsLogic;
-import teammates.storage.api.BothQuestionsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.ActionResult;
@@ -40,7 +40,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     public void testExecuteAndPostProcess() throws Exception {
         ______TS("edit existing answer");
 
-        BothQuestionsDb fqDb = new BothQuestionsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
         assertNotNull("Feedback question not found in database", fq);
 

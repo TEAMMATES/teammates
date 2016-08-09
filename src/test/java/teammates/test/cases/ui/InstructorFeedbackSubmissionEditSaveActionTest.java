@@ -15,7 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.storage.api.BothQuestionsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.ActionResult;
@@ -78,7 +78,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         ______TS("Successful case: edit existing answer");
 
-        BothQuestionsDb fqDb = new BothQuestionsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First Session", "idOfCourse1", 1);
         assertNotNull("Feedback question not found in database", fq);
 
