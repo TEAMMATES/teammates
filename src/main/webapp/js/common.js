@@ -246,11 +246,15 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
     var store = [];
     var $RowList = $('tr', $table);
     var shouldConsiderToolTip = false;
+    
+    // For date comparisons in instructor home page we should use 
+    // the tool-tip value instead of display text since display text does not contain the year.
     if (comp.toString() === instructorHomeDateComparator.toString()) {
         shouldConsiderToolTip = true;
     }
-    var textToCompare;
+    
     // Iterate through column's contents to decide which comparator to use
+    var textToCompare;
     for (var i = row; i < $RowList.length; i++) {
         if ($RowList[i].cells[colIdx - 1] === undefined) {
             continue;
