@@ -317,16 +317,16 @@ public class EmailGenerator {
         List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
 
         for (InstructorAttributes instructor : instructors) {
-            emails.add(feedbackSessionClosedEmail(course, session, instructor.name, instructor.email));
+            emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email));
         }
         for (StudentAttributes student : students) {
-            emails.add(feedbackSessionClosedEmail(course, session, student.name, student.email));
+            emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email));
         }
         
         return emails;
     }
     
-    private EmailWrapper feedbackSessionClosedEmail(CourseAttributes course,
+    private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
             FeedbackSessionAttributes session, String userName, String userEmail) {
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
