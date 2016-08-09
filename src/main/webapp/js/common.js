@@ -249,10 +249,10 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
     
     // For date comparisons in instructor home page we should use
     // the tool-tip value instead of display text since display text does not contain the year.
-    if (comp.toString() === instructorHomeDateComparator.toString()) {
+    if (comp && comp.toString().includes('instructorHomeDateComparator')) {
         shouldConsiderToolTip = true;
     }
-    
+
     // Iterate through column's contents to decide which comparator to use
     var textToCompare;
     for (var i = row; i < $RowList.length; i++) {
