@@ -570,7 +570,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     @Override
-    protected FeedbackSession getEntity(EntityAttributes attributes) {
+    protected Object getEntity(EntityAttributes attributes) {
         FeedbackSessionAttributes feedbackSessionToGet = (FeedbackSessionAttributes) attributes;
         return getFeedbackSessionEntity(feedbackSessionToGet.getFeedbackSessionName(),
                                         feedbackSessionToGet.getCourseId());

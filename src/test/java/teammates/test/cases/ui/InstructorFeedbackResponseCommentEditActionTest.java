@@ -11,7 +11,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.storage.api.BothQuestionsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
@@ -30,7 +30,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
     
     @Test
     public void testExcecuteAndPostProcess() throws Exception {
-        BothQuestionsDb feedbackQuestionsDb = new BothQuestionsDb();
+        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
 
