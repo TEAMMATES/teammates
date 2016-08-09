@@ -272,7 +272,8 @@ public class QuestionsDb extends EntitiesDb {
     }
 
     private void adjustQuestionNumbersInSession(
-            FeedbackQuestionAttributes questionToSave, int oldQuestionNumber, FeedbackSession session) {
+            FeedbackQuestionAttributes questionToSave, int oldQuestionNumber, FeedbackSession session)
+            throws EntityDoesNotExistException {
         List<FeedbackQuestionAttributes> questionsForAdjustingNumbers = getFeedbackQuestionsForSession(session);
         
         // remove question getting edited
@@ -295,9 +296,11 @@ public class QuestionsDb extends EntitiesDb {
      * @param oldQuestionNumber
      * @param newQuestionNumber
      * @param questions sorted list of question
+     * @throws EntityDoesNotExistException
      */
     public void adjustQuestionNumbers(
-            int oldQuestionNumber, int newQuestionNumber, List<FeedbackQuestionAttributes> questions) {
+            int oldQuestionNumber, int newQuestionNumber, List<FeedbackQuestionAttributes> questions)
+            throws EntityDoesNotExistException {
         adjustQuestionNumbersWithoutCommitting(oldQuestionNumber, newQuestionNumber, questions);
         getPm().close();
     }
@@ -311,9 +314,11 @@ public class QuestionsDb extends EntitiesDb {
      * @param oldQuestionNumber
      * @param newQuestionNumber
      * @param questions
+     * @throws EntityDoesNotExistException
      */
     private void adjustQuestionNumbersWithoutCommitting(
-            int oldQuestionNumber, int newQuestionNumber, List<FeedbackQuestionAttributes> questions) {
+            int oldQuestionNumber, int newQuestionNumber, List<FeedbackQuestionAttributes> questions)
+            throws EntityDoesNotExistException {
         if (oldQuestionNumber <= 0 || newQuestionNumber <= 0) {
             Assumption.fail("Invalid question number");
         }
@@ -325,7 +330,8 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
     
-    private void increaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions) {
+    private void increaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions)
+            throws EntityDoesNotExistException {
         for (FeedbackQuestionAttributes question : questions) {
             if (question.questionNumber >= start && question.questionNumber <= end) {
                 adjustQuestionNumberOfQuestion(question, 1);
@@ -333,7 +339,8 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
     
-    private void decreaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions) {
+    private void decreaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions)
+            throws EntityDoesNotExistException {
         for (FeedbackQuestionAttributes question : questions) {
             if (question.questionNumber >= start && question.questionNumber <= end) {
                 adjustQuestionNumberOfQuestion(question, -1);
@@ -341,17 +348,14 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
 
-    private void adjustQuestionNumberOfQuestion(FeedbackQuestionAttributes question, int change) {
+    private void adjustQuestionNumberOfQuestion(FeedbackQuestionAttributes question, int change)
+            throws EntityDoesNotExistException {
         FeedbackQuestionAttributes updatedQuestion = question.getCopy();
         updatedQuestion.questionNumber += change;
         try {
             updateFeedbackQuestionWithoutComitting(updatedQuestion);
         } catch (InvalidParametersException e) {
             Assumption.fail("Invalid question." + e);
-        } catch (EntityDoesNotExistException e) {
-            // this can happen if question is an old question which did not have a Question copy of it
-            // TODO Remove silencing the exception, this is not expected after the migration.
-            log.warning("EntityDoesNotExistException thrown for " + e);
         }
     }
     

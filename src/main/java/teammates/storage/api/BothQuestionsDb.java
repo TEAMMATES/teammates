@@ -12,6 +12,8 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.storage.entity.Question;
 import teammates.storage.entity.QuestionsDbPersistenceAttributes;
 
@@ -29,6 +31,7 @@ public class BothQuestionsDb extends EntitiesDb {
     @Override
     public Object createEntity(EntityAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
         FeedbackQuestionAttributes fqa = (FeedbackQuestionAttributes) entityToAdd;
         fqa.setId(fqa.makeId());
         return newQuestionsDb.createEntity(new QuestionsDbPersistenceAttributes(fqa));
@@ -169,13 +172,13 @@ public class BothQuestionsDb extends EntitiesDb {
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes question)
             throws InvalidParametersException, EntityDoesNotExistException {
-        oldQuestionsDb.updateFeedbackQuestion(question);
-        
         try {
             newQuestionsDb.updateFeedbackQuestion(question);
         } catch (EntityDoesNotExistException e) {
             // can happen on old questions where a copy of new question type does not exist
+            oldQuestionsDb.updateFeedbackQuestion(question);  
         }
+        
     }
     
     /**
@@ -190,11 +193,11 @@ public class BothQuestionsDb extends EntitiesDb {
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes question, boolean keepUpdateTimestamp)
             throws InvalidParametersException, EntityDoesNotExistException {
-        oldQuestionsDb.updateFeedbackQuestion(question, keepUpdateTimestamp);
         try {
             newQuestionsDb.updateFeedbackQuestion(question, keepUpdateTimestamp);
         } catch (EntityDoesNotExistException e) {
             // can happen on old questions where a copy of new question type does not exist
+            oldQuestionsDb.updateFeedbackQuestion(question, keepUpdateTimestamp);
         }
         
     }
@@ -234,18 +237,30 @@ public class BothQuestionsDb extends EntitiesDb {
     public void saveQuestionAndAdjustQuestionNumbers(
             FeedbackQuestionAttributes question, boolean isUpdating, int oldQuestionNumber)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        FeedbackQuestionAttributes fqaSaved =
-                oldQuestionsDb.saveQuestionAndAdjustQuestionNumbers(question, isUpdating, oldQuestionNumber);
         try {
-            newQuestionsDb.saveQuestionAndAdjustQuestionNumbers(fqaSaved, isUpdating, oldQuestionNumber);
+            oldQuestionsDb.saveQuestionAndAdjustQuestionNumbers(question, isUpdating, oldQuestionNumber);
         } catch (EntityDoesNotExistException e) {
             // can happen on old questions where a copy of new question type does not exist
+        }
+        try {
+            question.setId(question.makeId());
+            newQuestionsDb.saveQuestionAndAdjustQuestionNumbers(question, isUpdating, oldQuestionNumber);
+        } catch (EntityDoesNotExistException e) {
+            // can happen on new questions where a copy of new question type does not exist
         }
     }
 
     public void adjustQuestionNumbers(int oldQuestionNumber, int newQuestionNumber,
                                       List<FeedbackQuestionAttributes> questions) {
-        oldQuestionsDb.adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
-        newQuestionsDb.adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
+        try {
+            newQuestionsDb.adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
+        } catch (EntityDoesNotExistException e) {
+            // can happen on new questions where a copy of old question type does not exist
+        }
+        try {
+            oldQuestionsDb.adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
+        } catch (EntityDoesNotExistException e) {
+            // can happen on old questions where a copy of new question type does not exist
+        }
     }
 }
