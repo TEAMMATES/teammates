@@ -74,6 +74,11 @@
             "id":"CFResultsUiT.SanitizedTeam",
             "name":"Sanization Concepts",
             "timeZone":"UTC"
+        },
+        "CFResultsUiT.NoSections":{
+            "id":"CFResultsUiT.NoSections",
+            "name":"NoSection Course",
+            "timeZone":"UTC"
         }
     },
     "instructors":{
@@ -200,6 +205,32 @@
                 "sectionLevel": {},
                 "sessionLevel": {}
             }
+        },
+         "CFResultsUiT.NoSections.instr":{
+            "googleId":"CFResultsUiT.instr",
+            "courseId":"CFResultsUiT.NoSections",
+            "name":"Teammates Test",
+            "email":"CFResultsUiT.instr@gmail.tmt",
+            "role":"Co-owner",
+            "isInstructor":true,
+            "displayedName":"Instructor",
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         }
     },
     "students":{
@@ -292,6 +323,14 @@
             "comments":"This student's name is Benn'y Charle's</td></div>'\"",
             "team":"Team '1</td></div>'\"",
             "section":"Section A"
+        },
+        "NoSections.Benny":{
+            "googleId":"CFResultsUiT.benny.no",
+            "email":"CFResultsUiT.benny.no@gmail.tmt",
+            "course":"CFResultsUiT.NoSections",
+            "name":"Benn'y Charle's",
+            "comments":"This student's name is Benn'y Charle's</td></div>'\"",
+            "team":"Team '1</td></div>'\""
         }
     },
     "feedbackSessions":{
@@ -385,6 +424,24 @@
             "sentOpenEmail":true,
             "sentPublishedEmail":true
         },
+        "Session with no sections":{
+            "feedbackSessionName":"NoSections Session",
+            "courseId":"CFResultsUiT.NoSections",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "instructions":{
+                "value":"This session has errors"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-02 11:59 PM UTC",
+            "endTime":"2026-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":20,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":true
+        },
         "Session with Instructors as Givers":{
             "feedbackSessionName":"Instructors as Givers",
             "courseId":"CFResultsUiT.CS2104",
@@ -405,6 +462,33 @@
         }
     },
     "feedbackQuestions":{
+     "qn1InNoSectionsSession":{
+            "feedbackSessionName":"NoSections Session",
+            "courseId":"CFResultsUiT.NoSections",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"Dummy question for NoSections course session"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":3,
+            "showResponsesTo":[
+                "INSTRUCTORS",
+                "RECEIVER",
+                "STUDENTS",
+                "OWN_TEAM_MEMBERS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS",
+                "OWN_TEAM_MEMBERS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ]
+        },
         "qn1InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"CFResultsUiT.CS2104",
@@ -1595,6 +1679,17 @@
             "recipientSection":"Section A",
             "responseMetaData":{
                 "value":"I like you so I give you above A-"
+            }
+        },
+        "NoSectionsResponse1":{
+            "feedbackSessionName":"NoSections Session",
+            "courseId":"CFResultsUiT.NoSections",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giver":"CFResultsUiT.benny.no@gmail.tmt",
+            "recipient":"CFResultsUiT.benny.no@gmail.tmt",
+            "responseMetaData":{
+                "value":"Benny self feedback."
             }
         }
     }
