@@ -1615,11 +1615,12 @@ public class FeedbackSessionsLogic {
         Assumption.assertFalse(student == null && instructor == null);
         
         try {
+            String timestamp = TimeHelper.formatTime12H(Calendar.getInstance().getTime());
             EmailWrapper email = instructor == null
                     ? new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session,
-                            student, TimeHelper.formatTime12H(Calendar.getInstance().getTime()))
+                            student, timestamp)
                     : new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
-                            instructor, TimeHelper.formatTime12H(Calendar.getInstance().getTime()));
+                            instructor, timestamp);
             new EmailSender().sendEmail(email);
             return email;
         } catch (Exception e) {

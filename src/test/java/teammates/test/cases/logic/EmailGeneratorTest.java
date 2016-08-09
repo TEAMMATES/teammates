@@ -190,18 +190,15 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         time.set(Calendar.MINUTE, 30);
         EmailWrapper email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(
                 session, student1, TimeHelper.formatTime12H(time.getTime()));
-        assertNotNull(email);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
-                session.getFeedbackSessionName());
+                                session.getFeedbackSessionName());
         verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailForStudent.html");
 
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
                 instructor1, TimeHelper.formatTime12H(time.getTime()));
-        assertNotNull(email);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
-                session.getFeedbackSessionName());
-        verifyEmail(email, instructor1.email, subject,
-                "/sessionSubmissionConfirmationEmailForInstructor.html");
+                                session.getFeedbackSessionName());
+        verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailForInstructor.html");
 
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
         
