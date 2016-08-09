@@ -246,7 +246,7 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
     var store = [];
     var $RowList = $('tr', $table);
     var shouldConsiderToolTip = false;
-    if (comp.toString() == instructorHomeDateComparator.toString()) {
+    if (comp.toString() === instructorHomeDateComparator.toString()) {
         shouldConsiderToolTip = true;
     }
     var textToCompare;
@@ -261,8 +261,8 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
         // $RowList[i].cells[colIdx - 1] is where we get the table cell from
         // If shouldConsiderToolTip is true, we consider the tooltip value instead of innerText
         if (shouldConsiderToolTip) {
-            textToCompare = $.trim(jQuery($RowList[i].cells[colIdx - 1]).
-                    find('span').attr('data-original-title'));
+            textToCompare = $.trim(jQuery($RowList[i].cells[colIdx - 1]).find('span')
+                                                                        .attr('data-original-title'));
         } else {
             textToCompare = $.trim(jQuery($RowList[i].cells[colIdx - 1]).text());
         }
