@@ -33,7 +33,11 @@ public class QuestionsDbTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws InvalidParametersException, EntityAlreadyExistsException {
         printTestClassHeader();
-        new FeedbackSessionsLogic().createFeedbackSession(getFeedbackSessionAttributes());
+        FeedbackSessionsLogic feedbackSessionsLogic = new FeedbackSessionsLogic();
+        FeedbackSessionAttributes session = getFeedbackSessionAttributes();
+        feedbackSessionsLogic.deleteFeedbackSessionCascade(
+                session.getFeedbackSessionName(), session.getCourseId());
+        feedbackSessionsLogic.createFeedbackSession(session);
     }
     
     @Test

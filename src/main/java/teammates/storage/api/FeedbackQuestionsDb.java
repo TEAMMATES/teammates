@@ -322,7 +322,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     }
     
     public void adjustQuestionNumbers(int oldQuestionNumber, int newQuestionNumber,
-            List<FeedbackQuestionAttributes> questions) {
+            List<FeedbackQuestionAttributes> questions)
+            throws EntityDoesNotExistException {
         if (oldQuestionNumber < 0 || newQuestionNumber < 0) {
             Assumption.fail("Invalid question number");
         }
@@ -334,7 +335,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         }
     }
     
-    private void increaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions) {
+    private void increaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions)
+            throws EntityDoesNotExistException {
         for (FeedbackQuestionAttributes question : questions) {
             if (question.questionNumber >= start && question.questionNumber <= end) {
                 adjustQuestionNumberOfQuestion(question, 1);
@@ -342,7 +344,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         }
     }
     
-    private void decreaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions) {
+    private void decreaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions)
+            throws EntityDoesNotExistException {
         for (FeedbackQuestionAttributes question : questions) {
             if (question.questionNumber >= start && question.questionNumber <= end) {
                 adjustQuestionNumberOfQuestion(question, -1);
@@ -350,15 +353,14 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         }
     }
 
-    private void adjustQuestionNumberOfQuestion(FeedbackQuestionAttributes question, int change) {
+    private void adjustQuestionNumberOfQuestion(FeedbackQuestionAttributes question, int change)
+            throws EntityDoesNotExistException {
         FeedbackQuestionAttributes updatedQuestion = question.getCopy();
         updatedQuestion.questionNumber += change;
         try {
             updateFeedbackQuestion(updatedQuestion);
         } catch (InvalidParametersException e) {
             Assumption.fail("Invalid question." + e);
-        } catch (EntityDoesNotExistException e) {
-            Assumption.fail("Question disappeared. " + e);
         }
     }
     

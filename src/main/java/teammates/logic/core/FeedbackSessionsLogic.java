@@ -143,6 +143,7 @@ public class FeedbackSessionsLogic {
         copiedFeedbackSession.setCreatedTime(new Date());
         copiedFeedbackSession.setRespondingInstructorList(new HashSet<String>());
         copiedFeedbackSession.setRespondingStudentList(new HashSet<String>());
+        copiedFeedbackSession.setQuestions(new ArrayList<FeedbackQuestionAttributes>());
         fsDb.createEntity(copiedFeedbackSession);
         
         List<FeedbackQuestionAttributes> feedbackQuestions =
@@ -336,7 +337,8 @@ public class FeedbackSessionsLogic {
                 new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
 
-        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
+                fsa.getFeedbackSessionName(), fsa.getCourseId(), feedbackQuestionId);
         
         InstructorAttributes instructorGiver = instructor;
         StudentAttributes studentGiver = null;
@@ -458,7 +460,8 @@ public class FeedbackSessionsLogic {
                 new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
 
-        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
+                feedbackSessionName, courseId, feedbackQuestionId);
 
         Set<String> hiddenInstructorEmails = null;
 
@@ -1972,7 +1975,8 @@ public class FeedbackSessionsLogic {
                                ? getFeedbackSessionResponseStatus(session, roster, allQuestions)
                                : null;
             } else {
-                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(questionId);
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
+                                                        feedbackSessionName, courseId, questionId);
                 if (question != null) {
                     relevantQuestions.put(question.getId(), question);
                     

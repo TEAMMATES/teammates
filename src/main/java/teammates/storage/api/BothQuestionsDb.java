@@ -12,7 +12,8 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.entity.FeedbackQuestion;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.storage.entity.Question;
 import teammates.storage.entity.QuestionsDbPersistenceAttributes;
 
@@ -30,22 +31,19 @@ public class BothQuestionsDb extends EntitiesDb {
     @Override
     public Object createEntity(EntityAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackQuestionAttributes fqa =
-                new FeedbackQuestionAttributes((FeedbackQuestion) oldQuestionsDb.createEntity(entityToAdd));
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
+        FeedbackQuestionAttributes fqa = (FeedbackQuestionAttributes) entityToAdd;
+        fqa.setId(fqa.makeId());
         return newQuestionsDb.createEntity(new QuestionsDbPersistenceAttributes(fqa));
     }
     
     public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd)
             throws InvalidParametersException {
-        // maybe too slow?
-        oldQuestionsDb.createFeedbackQuestions(questionsToAdd);
         List<QuestionsDbPersistenceAttributes> questionsToPersist = new ArrayList<>();
         for (FeedbackQuestionAttributes question : questionsToAdd) {
-            FeedbackQuestion persistedQuestion = (FeedbackQuestion) oldQuestionsDb.getEntity(question);
-            
-            FeedbackQuestionAttributes oldQuestionAttributes = new FeedbackQuestionAttributes(persistedQuestion);
+            question.setId(question.makeId());
             QuestionsDbPersistenceAttributes newQuestionAttributes =
-                    new QuestionsDbPersistenceAttributes(oldQuestionAttributes);
+                    new QuestionsDbPersistenceAttributes(question);
             questionsToPersist.add(newQuestionAttributes);
         }
         newQuestionsDb.createEntities(questionsToPersist);
@@ -59,8 +57,8 @@ public class BothQuestionsDb extends EntitiesDb {
      */
     public FeedbackQuestionAttributes createFeedbackQuestionWithoutIntegrityCheck(
             EntityAttributes entityToAdd) throws InvalidParametersException {
-        FeedbackQuestionAttributes fqa =
-                oldQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(entityToAdd);
+        FeedbackQuestionAttributes fqa = (FeedbackQuestionAttributes) entityToAdd;
+        fqa.setId(fqa.makeId());
         return newQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
     }
     
@@ -69,16 +67,16 @@ public class BothQuestionsDb extends EntitiesDb {
      * * All parameters are non-null.
      * @return Null if not found.
      */
-    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
-        FeedbackQuestionAttributes oldQuestion = oldQuestionsDb.getFeedbackQuestion(feedbackQuestionId);
-        if (oldQuestion != null) {
-            FeedbackQuestionAttributes newQuestion = newQuestionsDb.getFeedbackQuestion(
-                    oldQuestion.feedbackSessionName, oldQuestion.courseId, oldQuestion.getId());
-            if (newQuestion != null) {
-                return newQuestion;
-            }
+    public FeedbackQuestionAttributes getFeedbackQuestion(
+            String feedbackSessionName, String courseId, String feedbackQuestionId) {
+        FeedbackQuestionAttributes newQuestion = newQuestionsDb.getFeedbackQuestion(
+                feedbackSessionName, courseId, feedbackQuestionId);
+
+        if (newQuestion != null) {
+            return newQuestion;
         }
-        return oldQuestion;
+
+        return oldQuestionsDb.getFeedbackQuestion(feedbackQuestionId);
     }
     
     /**
@@ -88,15 +86,14 @@ public class BothQuestionsDb extends EntitiesDb {
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(
                 String feedbackSessionName, String courseId, int questionNumber) {
+        FeedbackQuestionAttributes newQuestion = newQuestionsDb.getFeedbackQuestion(
+                feedbackSessionName, courseId, questionNumber);
+        if (newQuestion != null) {
+            return newQuestion;
+        }
+     
         FeedbackQuestionAttributes oldQuestion =
                 oldQuestionsDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
-        if (oldQuestion != null) {
-            FeedbackQuestionAttributes newQuestion = newQuestionsDb.getFeedbackQuestion(
-                    oldQuestion.feedbackSessionName, oldQuestion.courseId, oldQuestion.getId());
-            if (newQuestion != null) {
-                return newQuestion;
-            }
-        }
         return oldQuestion;
     }
     
@@ -175,13 +172,13 @@ public class BothQuestionsDb extends EntitiesDb {
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes question)
             throws InvalidParametersException, EntityDoesNotExistException {
-        oldQuestionsDb.updateFeedbackQuestion(question);
-        
         try {
             newQuestionsDb.updateFeedbackQuestion(question);
         } catch (EntityDoesNotExistException e) {
             // can happen on old questions where a copy of new question type does not exist
+            oldQuestionsDb.updateFeedbackQuestion(question);  
         }
+        
     }
     
     /**
@@ -196,11 +193,11 @@ public class BothQuestionsDb extends EntitiesDb {
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes question, boolean keepUpdateTimestamp)
             throws InvalidParametersException, EntityDoesNotExistException {
-        oldQuestionsDb.updateFeedbackQuestion(question, keepUpdateTimestamp);
         try {
             newQuestionsDb.updateFeedbackQuestion(question, keepUpdateTimestamp);
         } catch (EntityDoesNotExistException e) {
             // can happen on old questions where a copy of new question type does not exist
+            oldQuestionsDb.updateFeedbackQuestion(question, keepUpdateTimestamp);
         }
         
     }
@@ -240,18 +237,30 @@ public class BothQuestionsDb extends EntitiesDb {
     public void saveQuestionAndAdjustQuestionNumbers(
             FeedbackQuestionAttributes question, boolean isUpdating, int oldQuestionNumber)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        FeedbackQuestionAttributes fqaSaved =
-                oldQuestionsDb.saveQuestionAndAdjustQuestionNumbers(question, isUpdating, oldQuestionNumber);
         try {
-            newQuestionsDb.saveQuestionAndAdjustQuestionNumbers(fqaSaved, isUpdating, oldQuestionNumber);
+            oldQuestionsDb.saveQuestionAndAdjustQuestionNumbers(question, isUpdating, oldQuestionNumber);
         } catch (EntityDoesNotExistException e) {
             // can happen on old questions where a copy of new question type does not exist
+        }
+        try {
+            question.setId(question.makeId());
+            newQuestionsDb.saveQuestionAndAdjustQuestionNumbers(question, isUpdating, oldQuestionNumber);
+        } catch (EntityDoesNotExistException e) {
+            // can happen on new questions where a copy of new question type does not exist
         }
     }
 
     public void adjustQuestionNumbers(int oldQuestionNumber, int newQuestionNumber,
                                       List<FeedbackQuestionAttributes> questions) {
-        oldQuestionsDb.adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
-        newQuestionsDb.adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
+        try {
+            newQuestionsDb.adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
+        } catch (EntityDoesNotExistException e) {
+            // can happen on new questions where a copy of old question type does not exist
+        }
+        try {
+            oldQuestionsDb.adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
+        } catch (EntityDoesNotExistException e) {
+            // can happen on old questions where a copy of new question type does not exist
+        }
     }
 }

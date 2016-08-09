@@ -340,7 +340,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         questionToUpdate.courseId = originalCourseId;
 
         FeedbackQuestionAttributes updatedQuestion =
-                fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+                fqLogic.getFeedbackQuestion(questionToUpdate.feedbackSessionName,
+                                            questionToUpdate.courseId, questionToUpdate.getId());
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
         
         ______TS("cascading update, non-destructive changes, existing responses are preserved");
@@ -353,7 +354,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
                         questionToUpdate.getId()).size();
         
         fqLogic.updateFeedbackQuestion(questionToUpdate);
-        updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+        updatedQuestion = fqLogic.getFeedbackQuestion(
+                questionToUpdate.feedbackSessionName, questionToUpdate.courseId, questionToUpdate.getId());
         
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
         assertEquals(
@@ -368,7 +370,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertFalse(frLogic.getFeedbackResponsesForQuestion(questionToUpdate.getId()).isEmpty());
         
         fqLogic.updateFeedbackQuestion(questionToUpdate);
-        updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+        updatedQuestion = fqLogic.getFeedbackQuestion(
+                questionToUpdate.feedbackSessionName, questionToUpdate.courseId, questionToUpdate.getId());
         
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
         assertEquals(frLogic.getFeedbackResponsesForQuestion(
@@ -377,7 +380,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         ______TS("failure: question does not exist");
         
         questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
-        fqLogic.deleteFeedbackQuestionCascade(questionToUpdate.getId());
+        fqLogic.deleteFeedbackQuestionCascade(
+                questionToUpdate.feedbackSessionName, questionToUpdate.courseId, questionToUpdate.getId());
         
         try {
             fqLogic.updateFeedbackQuestion(questionToUpdate);
@@ -405,7 +409,10 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         //Success case already tested in update
         ______TS("question already does not exist, silently fail");
         
-        fqLogic.deleteFeedbackQuestionCascade("non-existent-question-id");
+        FeedbackQuestionAttributes question = getQuestionFromDatastore("qn2InSession2InCourse2");
+        
+        fqLogic.deleteFeedbackQuestionCascade(
+                question.feedbackSessionName, question.courseId, "non-existent-question-id");
         //No error should be thrown.
         
     }

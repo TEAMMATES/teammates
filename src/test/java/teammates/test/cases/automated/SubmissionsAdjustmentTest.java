@@ -284,8 +284,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
                 .getFeedbackResponsesForReceiverForCourse(student.course, student.email);
         
         for (FeedbackResponseAttributes response : studentReceiverResponses) {
-            FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst()
-                    .getFeedbackQuestion(response.feedbackQuestionId);
+            FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst().getFeedbackQuestion(
+                            response.feedbackSessionName, response.courseId, response.feedbackQuestionId);
             if (question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
                 returnList.add(response);
             }
@@ -295,8 +295,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
                 .getFeedbackResponsesFromGiverForCourse(student.course, student.email);
         
         for (FeedbackResponseAttributes response : studentGiverResponses) {
-            FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst()
-                    .getFeedbackQuestion(response.feedbackQuestionId);
+            FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst().getFeedbackQuestion(
+                            response.feedbackSessionName, response.courseId, response.feedbackQuestionId);
             if (question.giverType == FeedbackParticipantType.TEAMS
                     || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
                 returnList.add(response);

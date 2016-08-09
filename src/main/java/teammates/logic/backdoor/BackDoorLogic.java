@@ -317,9 +317,10 @@ public class BackDoorLogic extends Logic {
         return Utils.getTeammatesGson().toJson(fq);
     }
     
-    public String getFeedbackQuestionForIdAsJson(String questionId) {
+    public String getFeedbackQuestionForIdAsJson(
+            String feedbackSessionName, String courseId, String questionId) {
         FeedbackQuestionAttributes fq =
-                feedbackQuestionsLogic.getFeedbackQuestion(questionId);
+                feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionId);
         return Utils.getTeammatesGson().toJson(fq);
     }
 

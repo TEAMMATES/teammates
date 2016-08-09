@@ -440,6 +440,24 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
             fqDb.deleteEntity(fqa);
         }
     }
+    
+    protected static void verifyAbsentInDatastore(FeedbackQuestionAttributes fq) {
+        assertNull(fqDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));
+    }
+    
+    protected static void verifyPresentInDatastore(FeedbackQuestionAttributes expected) {
+        verifyPresentInDatastore(expected, false);
+    }
+    
+    protected static void verifyPresentInDatastore(FeedbackQuestionAttributes expected, boolean wildcardId) {
+        FeedbackQuestionAttributes expectedCopy = expected.getCopy();
+        FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
+                expectedCopy.feedbackSessionName, expectedCopy.courseId, expectedCopy.questionNumber);
+        if (wildcardId) {
+            expectedCopy.setId(actual.getId());
+        }
+        assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
+    }
 
     @AfterClass
     public static void classTearDown() {

@@ -516,10 +516,16 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                     feedbackEditPage.isCopySubmitButtonEnabled());
         
         // revert back to state expected by tests after this by deleting new copied questions
-        String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 4).getId();
-        BackDoor.deleteFeedbackQuestion(questionId);
-        questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 3).getId();
-        BackDoor.deleteFeedbackQuestion(questionId);
+        FeedbackQuestionAttributes feedbackQuestionToDelete =
+                BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 4);
+        
+        BackDoor.deleteFeedbackQuestion(
+                feedbackQuestionToDelete.courseId, feedbackQuestionToDelete.feedbackSessionName,
+                feedbackQuestionToDelete.getId());
+        feedbackQuestionToDelete = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 3);
+        BackDoor.deleteFeedbackQuestion(
+                feedbackQuestionToDelete.courseId, feedbackQuestionToDelete.feedbackSessionName,
+                feedbackQuestionToDelete.getId());
         
     }
     
@@ -783,8 +789,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
 
         // Delete the new question through the backdoor so that it still appears in the browser
-        String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1).getId();
-        String status = BackDoor.deleteFeedbackQuestion(questionId);
+        FeedbackQuestionAttributes questionToDelete = BackDoor.getFeedbackQuestion(
+                courseId, feedbackSessionName, 1);
+        String status = BackDoor.deleteFeedbackQuestion(
+                questionToDelete.courseId, questionToDelete.feedbackSessionName, questionToDelete.getId());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
         // Edit the deleted question and save
