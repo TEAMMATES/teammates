@@ -119,11 +119,11 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                    && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType);
         
         // Warning for section wise does not make sense if there are no multiple sections.
-        boolean isMultipleSectionAvaialble = data.getBundle().getRosterSectionTeamNameTable().size() > 1;
+        boolean isMultipleSectionAvailable = data.getBundle().getRosterSectionTeamNameTable().size() > 1;
 
         if (selectedSection.equals(ALL_SECTION_OPTION) && (isShowSectionWarningForParticipantView
                                                            || isShowSectionWarningForQuestionView)) {
-            if (isMultipleSectionAvaialble) {
+            if (isMultipleSectionAvailable) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING,
                                                    StatusMessageColor.WARNING));
             } else {
