@@ -9,7 +9,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.storage.api.BothQuestionsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
@@ -29,7 +29,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
     
     @Test
     public void testExecuteAndPostProcess() {
-        BothQuestionsDb feedbackQuestionsDb = new BothQuestionsDb();
+        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
 
