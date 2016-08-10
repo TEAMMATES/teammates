@@ -21,7 +21,6 @@ buildscript {
 }
 
 configurations {
-    macker
     staticAnalysis
     enhancer
     exclude
@@ -39,12 +38,10 @@ repositories {
 }
 
 dependencies {
-    macker          "de.andrena.tools.macker:macker:1.0.1"
-
     staticAnalysis  "com.puppycrawl.tools:checkstyle:${checkstyleVersion}",
                     "net.sourceforge.pmd:pmd-java:${pmdVersion}",
                     "com.google.code.findbugs:findbugs:${findbugsVersion}",
-                    configurations.macker
+                    "de.andrena.tools.macker:macker:1.0.1"
 
     appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
@@ -99,12 +96,6 @@ dependencies {
 }
 
 sourceSets {
-    empty {
-        // Placeholder empty source for downloading all static analysis tools without running anything
-        java {
-            srcDir "static-analysis"
-        }
-    }
     main {
         java {
             srcDir "src/main/java"
@@ -314,12 +305,6 @@ tasks.withType(FindBugs) {
     }
 }
 
-// workaround to get Macker to be downloaded first
-task mackerEmpty(type: Copy) {
-    from configurations.macker
-    into "static-analysis/macker"
-}
-
 task installEslint(type: Exec) {
     commandLine "npm", "install", "eslint@3.0.0"
 }
@@ -327,7 +312,10 @@ task installEslint(type: Exec) {
 task downloadStaticAnalysisTools {
     description "Downloads all static analysis tools."
     group "Static analysis"
-    dependsOn checkstyleEmpty, pmdEmpty, findbugsEmpty, mackerEmpty, installEslint
+    doFirst {
+        configurations.staticAnalysis.resolve()
+    }
+    finalizedBy installEslint
 }
 
 task staticAnalysisMain {
@@ -340,7 +328,7 @@ task staticAnalysisTest {
 
 task macker << {
     logging.setLevel(LogLevel.INFO)
-    ant.taskdef(name: "macker", classpath: configurations.macker.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
+    ant.taskdef(name: "macker", classpath: configurations.staticAnalysis.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
     ant.macker(failonerror: true, verbose: false) {
         rules(dir: "${projectDir}/static-analysis", includes: "teammates-macker.xml")
         classes(dir: "${buildDir}/classes") {
