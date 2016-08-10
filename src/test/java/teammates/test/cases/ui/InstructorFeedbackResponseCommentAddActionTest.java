@@ -11,7 +11,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.storage.api.BothQuestionsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentAddAction;
@@ -32,7 +32,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
     
     @Test
     public void testExcecuteAndPostProcess() throws Exception {
-        BothQuestionsDb feedbackQuestionsDb = new BothQuestionsDb();
+        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
 
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
