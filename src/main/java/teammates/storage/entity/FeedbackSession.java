@@ -1,15 +1,10 @@
 package teammates.storage.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
-import javax.jdo.JDOHelper;
 import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -31,7 +26,7 @@ public class FeedbackSession {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     @PrimaryKey
     @Persistent
-    private String feedbackSessionId;
+    private transient String feedbackSessionId;
     
     @Persistent
     private String feedbackSessionName;
@@ -101,6 +96,7 @@ public class FeedbackSession {
     @Persistent
     private boolean sentPublishedEmail;
 
+    //TODO change to primitive types and update getter
     @Persistent
     private Boolean isOpeningEmailEnabled;
     
@@ -110,20 +106,15 @@ public class FeedbackSession {
     @Persistent
     private Boolean isPublishedEmailEnabled;
     
-    @Persistent
-    @Order(extensions = @Extension(vendorName = "datanucleus", key = "list-ordering", value = "questionNumber asc"))
-    private List<Question> feedbackQuestions;
-    
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
-             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
-             sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled, isClosingEmailEnabled,
-             isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>(),
-             new ArrayList<Question>());
+             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
+             feedbackSessionType, sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled,
+             isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
@@ -131,8 +122,7 @@ public class FeedbackSession {
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
-            Set<String> instructorList, Set<String> studentList,
-            List<Question> questions) {
+            Set<String> instructorList, Set<String> studentList) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -154,11 +144,6 @@ public class FeedbackSession {
         this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
         this.respondingInstructorList = instructorList;
         this.respondingStudentList = studentList;
-        this.feedbackQuestions = questions;
-    }
-    
-    public String getId() {
-        return feedbackSessionId;
     }
 
     public String getFeedbackSessionName() {
@@ -337,19 +322,6 @@ public class FeedbackSession {
 
     public void setRespodingStudentList(Set<String> studentList) {
         this.respondingStudentList = studentList;
-    }
-    
-    public List<Question> getFeedbackQuestions() {
-        if (feedbackQuestions == null) {
-            feedbackQuestions = new ArrayList<>();
-        }
-        for (Iterator<Question> iter = feedbackQuestions.iterator(); iter.hasNext();) {
-            Question question = iter.next();
-            if (JDOHelper.isDeleted(question)) {
-                iter.remove();
-            }
-        }
-        return feedbackQuestions;
     }
 
     @Override

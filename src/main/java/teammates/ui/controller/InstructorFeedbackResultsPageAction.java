@@ -117,10 +117,19 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                    && Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType);
         boolean isShowSectionWarningForParticipantView = !data.getBundle().isComplete
                                                    && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType);
+        
+        // Warning for section wise does not make sense if there are no multiple sections.
+        boolean isMultipleSectionAvailable = data.getBundle().getRosterSectionTeamNameTable().size() > 1;
+
         if (selectedSection.equals(ALL_SECTION_OPTION) && (isShowSectionWarningForParticipantView
                                                            || isShowSectionWarningForQuestionView)) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING,
-                                               StatusMessageColor.WARNING));
+            if (isMultipleSectionAvailable) {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING,
+                                                   StatusMessageColor.WARNING));
+            } else {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING,
+                                                   StatusMessageColor.WARNING));
+            }
             isError = true;
         }
         

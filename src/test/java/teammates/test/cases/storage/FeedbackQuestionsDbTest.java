@@ -405,21 +405,21 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.questionNumber = i;
             fqa.giverType = FeedbackParticipantType.INSTRUCTORS;
-            fqDb.createEntityWithoutExistenceCheck(fqa);
+            fqDb.createEntity(fqa);
         }
 
         for (int i = 1; i <= numberOfQuestionsToCreate[1]; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.questionNumber = numberOfQuestionsToCreate[0] + i;
             fqa.giverType = FeedbackParticipantType.STUDENTS;
-            fqDb.createEntityWithoutExistenceCheck(fqa);
+            fqDb.createEntity(fqa);
         }
 
         for (int i = 1; i <= numberOfQuestionsToCreate[2]; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.giverType = FeedbackParticipantType.SELF;
             fqa.questionNumber = numberOfQuestionsToCreate[0] + numberOfQuestionsToCreate[1] + i;
-            fqDb.createEntityWithoutExistenceCheck(fqa);
+            fqDb.createEntity(fqa);
         }
 
         for (int i = 1; i <= numberOfQuestionsToCreate[3]; i++) {
@@ -427,7 +427,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
             fqa.giverType = FeedbackParticipantType.TEAMS;
             fqa.questionNumber = numberOfQuestionsToCreate[0] + numberOfQuestionsToCreate[1]
                                  + numberOfQuestionsToCreate[2] + i;
-            fqDb.createEntityWithoutExistenceCheck(fqa);
+            fqDb.createEntity(fqa);
         }
 
         return numberOfQuestionsToCreate;
