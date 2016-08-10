@@ -287,7 +287,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.waitForElementVisibility(browser.driver.findElement(By.id("questionTable--1")));
         feedbackEditPage.enableVisibilityOptions(-1);
-        feedbackEditPage.clickResponseVisiblityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
+        feedbackEditPage.clickResponseVisibilityCheckBox("RECEIVER_TEAM_MEMBERS", -1);
         
         feedbackEditPage.waitForTextContainedInElementPresence(
                 By.id("visibilityMessage--1"),
@@ -739,6 +739,17 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     private void testAjaxOnVisibilityMessageButton() {
+        ______TS("Test visibility message corresponds to visibility options");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.enableOtherFeedbackPathOptions(1);
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.enableVisibilityOptions(1);
+        feedbackEditPage.clickGiverNameVisibilityCheckBox("STUDENTS", 1);
+        assertTrue("Visibility message does not correspond to visibility options",
+                   feedbackEditPage.getVisibilityMessage(1).contains("Other students in the course can see your response, "
+                                                                     + "and your name, but not the name of the recipient"));
+
         ______TS("Failure case: ajax on clicking visibility message button");
         
         feedbackEditPage.changeQuestionTypeInForm(1, "InvalidQuestionType");

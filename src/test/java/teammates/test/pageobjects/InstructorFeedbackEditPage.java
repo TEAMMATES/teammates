@@ -1051,7 +1051,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
-        WebElement visibilityMessageDiv = getVisibilityMessage(questionNumber);
+        WebElement visibilityMessageDiv = getVisibilityMessageDiv(questionNumber);
         List<WebElement> visibilityMessages = visibilityMessageDiv.findElements(By.cssSelector("ul > li"));
         boolean isLoadVisibilityMessageAjaxError =
                 visibilityMessages.get(0).getText().equals("Error loading visibility hint. Click here to retry.");
@@ -1067,10 +1067,15 @@ public class InstructorFeedbackEditPage extends AppPage {
                 By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
     }
 
-    public WebElement getVisibilityMessage(int questionNumber) {
+    public WebElement getVisibilityMessageDiv(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityMessage-" + questionNumber));
     }
     
+    public String getVisibilityMessage(int questionNumber) {
+        WebElement visibilityMessageDiv = getVisibilityMessageDiv(questionNumber);
+        return visibilityMessageDiv.getText();
+    }
+
     public WebElement getVisibilityOptions(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityOptions-" + questionNumber));
     }
@@ -1096,10 +1101,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForTextContainedInElementPresence(buttonSelector, errorMessage);
     }
 
-    public void clickResponseVisiblityCheckBoxForNewQuestion(String checkBoxValue) {
-        By responseVisibilitycheckBox = By.cssSelector("#questionTable--1 input[value='" + checkBoxValue
+    public void clickResponseVisibilityCheckBox(String checkBoxValue, int questionNumber) {
+        By responseVisibilitycheckBox = By.cssSelector("#questionTable-" + questionNumber + " input[value='" + checkBoxValue
                                                        + "'].answerCheckbox");
         WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
+        waitForElementVisibility(checkbox);
+        click(checkbox);
+    }
+
+    public void clickGiverNameVisibilityCheckBox(String checkBoxValue, int questionNumber) {
+        By giverNameVisibilitycheckBox = By.cssSelector("#questionTable-" + questionNumber + " input[value='" + checkBoxValue
+                                                       + "'].giverCheckbox");
+        WebElement checkbox = browser.driver.findElement(giverNameVisibilitycheckBox);
         waitForElementVisibility(checkbox);
         click(checkbox);
     }
