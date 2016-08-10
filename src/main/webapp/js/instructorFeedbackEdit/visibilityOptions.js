@@ -83,7 +83,7 @@ function attachVisibilityDropdownEvent() {
  * bind click event of each visibility checkbox to update visibility message div
  */
 function attachVisibilityCheckboxEvent() {
-    $('body').on('click', '.visibilityCheckbox', function() {
+    $('body').on('change', '.visibilityCheckbox', function() {
         var $containingForm = $(this).closest('form');
         updateVisibilityMessageDiv($containingForm);
     });
