@@ -19,9 +19,9 @@ import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.AccountsDb;
-import teammates.storage.api.BothQuestionsDb;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -39,17 +39,18 @@ import com.google.gson.Gson;
 public class BaseComponentTestCase extends BaseTestCase {
 
     protected static GaeSimulation gaeSimulation = GaeSimulation.inst();
-    protected static Gson gson = Utils.getTeammatesGson();
     
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CommentsDb commentsDb = new CommentsDb();
     private static final CoursesDb coursesDb = new CoursesDb();
-    private static final BothQuestionsDb fqDb = new BothQuestionsDb();
+    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
+
+    private static Gson gson = Utils.getTeammatesGson();
 
     @BeforeTest
     public void testSetUp() {
@@ -162,7 +163,6 @@ public class BaseComponentTestCase extends BaseTestCase {
                 fsDb.getFeedbackSession(expectedCopy.getCourseId(), expected.getFeedbackSessionName());
         expectedCopy.setRespondingInstructorList(actual.getRespondingInstructorList());
         expectedCopy.setRespondingStudentList(actual.getRespondingStudentList());
-        expectedCopy.setQuestions(actual.getQuestions());
         assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
     }
 

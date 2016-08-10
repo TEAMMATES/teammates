@@ -20,8 +20,8 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
-import teammates.test.util.Priority;
 import teammates.test.util.FileHelper;
+import teammates.test.util.Priority;
 
 /**
  * Tests 'Feedback Results' view of instructors.
@@ -70,6 +70,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     public void testContent() throws Exception {
 
+        ______TS("Typical case: large session with no sections");
+
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
+                "Session with no sections", true, "question");
+        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING);
+        
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
