@@ -18,9 +18,8 @@ import teammates.common.util.Const;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
-public class FeedbackQuestion implements StoreCallback {
-    // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes.
-    
+public class Question implements StoreCallback {
+
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set
      * to true when using scripts to update entities when you want to preserve
@@ -29,10 +28,15 @@ public class FeedbackQuestion implements StoreCallback {
     @NotPersistent
     public boolean keepUpdateTimestamp;
     
+    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
-    private transient String feedbackQuestionId;
+    private String encodedKey;
+    
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Extension(vendorName = "datanucleus", key = "gae.pk-name", value = "true")
+    private String feedbackQuestionId;
         
     @Persistent
     private String feedbackSessionName;
@@ -40,17 +44,16 @@ public class FeedbackQuestion implements StoreCallback {
     @Persistent
     private String courseId;
     
-    // TODO: Do we need this field since creator of FS = creator of qn? (can be removed -damith)
+    // TODO: Consider removing creatorEmail since it's not necessary
     @Persistent
     private String creatorEmail;
     
-    // TODO: rename to questionMetaData, will require database conversion
-    private Text questionText;
+    private Text questionMetaData;
     
-    private Text questionDescription;
-
     @Persistent
     private int questionNumber;
+    
+    private Text questionDescription;
     
     @Persistent
     private FeedbackQuestionType questionType;
@@ -82,9 +85,11 @@ public class FeedbackQuestion implements StoreCallback {
     @Persistent
     private Date updatedAt;
     
-    public FeedbackQuestion(
+    public Question(
+            String questionId,
             String feedbackSessionName, String courseId, String creatorEmail,
-            Text questionText, Text questionDescription, int questionNumber, FeedbackQuestionType questionType,
+            Text questionText, Text questionDescription, int questionNumber,
+            FeedbackQuestionType questionType,
             FeedbackParticipantType giverType,
             FeedbackParticipantType recipientType,
             int numberOfEntitiesToGiveFeedbackTo,
@@ -92,11 +97,11 @@ public class FeedbackQuestion implements StoreCallback {
             List<FeedbackParticipantType> showGiverNameTo,
             List<FeedbackParticipantType> showRecipientNameTo) {
         
-        this.feedbackQuestionId = null; // Allow GAE to generate key.
+        this.feedbackQuestionId = questionId;
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
-        this.questionText = questionText;
+        this.questionMetaData = questionText;
         this.questionDescription = questionDescription;
         this.questionNumber = questionNumber;
         this.questionType = questionType;
@@ -107,6 +112,28 @@ public class FeedbackQuestion implements StoreCallback {
         this.showGiverNameTo = showGiverNameTo;
         this.showRecipientNameTo = showRecipientNameTo;
         this.setCreatedAt(new Date());
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        
+        if (other == null) {
+            return false;
+        }
+        if (!(other instanceof Question)) {
+            return false;
+        }
+        
+        final Question question = (Question) other;
+        return feedbackQuestionId.equals(question.feedbackQuestionId);
+    }
+    
+    @Override
+    public int hashCode() {
+        return feedbackQuestionId.hashCode();
     }
 
     public Date getCreatedAt() {
@@ -122,6 +149,10 @@ public class FeedbackQuestion implements StoreCallback {
         setLastUpdate(newDate);
     }
     
+    public String getCreatorEmail() {
+        return creatorEmail;
+    }
+    
     public void setLastUpdate(Date newDate) {
         if (!keepUpdateTimestamp) {
             this.updatedAt = newDate;
@@ -131,11 +162,6 @@ public class FeedbackQuestion implements StoreCallback {
     public String getId() {
         return feedbackQuestionId;
     }
-
-    /* Auto generated. Don't set this.
-    public void setFeedbackQuestionId(String feedbackQuestionId) {
-        this.feedbackQuestionId = feedbackQuestionId;
-    }*/
 
     public String getFeedbackSessionName() {
         return feedbackSessionName;
@@ -153,32 +179,24 @@ public class FeedbackQuestion implements StoreCallback {
         this.courseId = courseId;
     }
 
-    public String getCreatorEmail() {
-        return creatorEmail;
-    }
-
-    public void setCreatorEmail(String creatorEmail) {
-        this.creatorEmail = creatorEmail;
-    }
-
     public Text getQuestionMetaData() {
-        return questionText;
+        return questionMetaData;
     }
 
     public void setQuestionText(Text questionText) {
-        this.questionText = questionText;
-    }
-
-    public Text getQuestionDescription() {
-        return questionDescription;
-    }
-
-    public void setQuestionDescription(Text questionDescription) {
-        this.questionDescription = questionDescription;
+        this.questionMetaData = questionText;
     }
 
     public FeedbackQuestionType getQuestionType() {
         return questionType;
+    }
+    
+    public void setQuestionDescription(Text questionDescription) {
+        this.questionDescription = questionDescription;
+    }
+
+    public Text getQuestionDescription() {
+        return questionDescription;
     }
 
     public void setQuestionType(FeedbackQuestionType questionType) {

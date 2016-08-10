@@ -33,11 +33,11 @@ import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
-import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.QuestionsDb;
 import teammates.storage.api.StudentsDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -50,7 +50,7 @@ public class BackDoorLogic extends Logic {
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
-    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private static final QuestionsDb fqDb = new QuestionsDb();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
     
@@ -317,9 +317,10 @@ public class BackDoorLogic extends Logic {
         return Utils.getTeammatesGson().toJson(fq);
     }
     
-    public String getFeedbackQuestionForIdAsJson(String questionId) {
+    public String getFeedbackQuestionForIdAsJson(
+            String feedbackSessionName, String courseId, String questionId) {
         FeedbackQuestionAttributes fq =
-                feedbackQuestionsLogic.getFeedbackQuestion(questionId);
+                feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionId);
         return Utils.getTeammatesGson().toJson(fq);
     }
 

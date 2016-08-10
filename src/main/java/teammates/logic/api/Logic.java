@@ -1487,9 +1487,11 @@ public class Logic {
      * * All parameters are non-null. <br>
      * 
      */
-    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
+    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
+                                                          String courseId,
+                                                          String feedbackQuestionId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
-        return feedbackQuestionsLogic.getFeedbackQuestion(feedbackQuestionId);
+        return feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestionId);
     }
 
     /**
@@ -1668,23 +1670,27 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @throws EntityAlreadyExistsException if question already exists
+     * @throws EntityDoesNotExistException if session that the question belongs to doesn't exist
      */
-    public void createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) throws InvalidParametersException {
+    public void createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
         feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
     }
     
     /**
      * Used for creating initial questions for template sessions only.
-     * Does not check if feedback session exists.
      * Does not check if question number supplied is valid(does not check for clashes, or make adjustments)
      * Preconditions: <br>
      * * All parameters are non-null.
      * * questionNumber is > 0
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException if session does not exist
      */
     public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(
             FeedbackQuestionAttributes feedbackQuestion, int questionNumber)
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
         Assumption.assertTrue(questionNumber > 0);
@@ -1694,11 +1700,14 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @throws InvalidParametersException
+     * @throws EntityAlreadyExistsException
+     * @throws EntityDoesNotExistException
      */
     public FeedbackQuestionAttributes copyFeedbackQuestion(String oldCourseId, String oldFeedbackSessionName,
                                                            String feedbackQuestionId, String feedbackSessionName,
                                                            String courseId, String instructorEmail)
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldFeedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldCourseId);
@@ -1712,41 +1721,31 @@ public class Logic {
     }
     
     /**
-     * Updates the question number of a Feedback Question.<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void updateFeedbackQuestionNumber(FeedbackQuestionAttributes updatedQuestion)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
-        feedbackQuestionsLogic.updateFeedbackQuestionNumber(updatedQuestion);
-    }
-    
-    /**
-     * Updates the details of a Feedback Question.<br>
+     * Updates a question and adjusts question numbers if required.<br>
      * The FeedbackQuestionAttributes should have the updated attributes
-     * together with the original ID of the question. Preserves null
-     * attributes.
+     * together with the original ID of the question. Preserves null attributes.
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @throws EntityAlreadyExistsException
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes updatedQuestion)
             throws InvalidParametersException, EntityDoesNotExistException {
-        
+
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
         feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
     }
-
+    
     /**
      * Deletes the feedback question and the responses associated to it. Fails
      * silently if there is no such feedback question. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void deleteFeedbackQuestion(String questionId) {
+    public void deleteFeedbackQuestion(String feedbackSessionName, String courseId, String questionId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionId);
-        feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
+        feedbackQuestionsLogic.deleteFeedbackQuestionCascade(feedbackSessionName, courseId, questionId);
     }
 
     /**

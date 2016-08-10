@@ -10,8 +10,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.api.QuestionsDb;
 import teammates.ui.controller.InstructorEditInstructorFeedbackSaveAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -38,7 +38,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     }
     
     private void testModifyResponses() {
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        QuestionsDb fqDb = new QuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
 
@@ -151,7 +151,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     }
 
     private void testIncorrectParameters() {
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        QuestionsDb fqDb = new QuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
 
@@ -222,7 +222,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     }
     
     private void testDifferentPrivileges() {
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        QuestionsDb fqDb = new QuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
 
@@ -301,7 +301,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     }
     
     private void testSubmitResponseForInvalidQuestion() {
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        QuestionsDb fqDb = new QuestionsDb();
         FeedbackQuestionAttributes fq;
 
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -376,7 +376,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     }
 
     private void testClosedSession() {
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        QuestionsDb fqDb = new QuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("Closed feedback session", "IEIFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
 

@@ -144,7 +144,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 1;
-        fqLogic.updateFeedbackQuestionNumber(questionToUpdate);
+        fqLogic.updateFeedbackQuestion(questionToUpdate);
         
         List<FeedbackQuestionAttributes> actualList =
                 fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
@@ -175,7 +175,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 3;
-        fqLogic.updateFeedbackQuestionNumber(questionToUpdate);
+        fqLogic.updateFeedbackQuestion(questionToUpdate);
         
         actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
         
@@ -194,19 +194,19 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         try {
             fqLogic.createFeedbackQuestion(question);
             signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(e.getMessage(), "Session disappeared.");
+        } catch (EntityDoesNotExistException e) {
+            assertEquals(e.getMessage(), "Session disappeared");
         }
         
         ______TS("Add question for course that does not exist");
         question = getQuestionFromDatastore("qn1InSession1InCourse1");
-        question.courseId = "non-existent course id";
+        question.courseId = "non-existent-course-id";
         question.setId(null);
         try {
             fqLogic.createFeedbackQuestion(question);
             signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(e.getMessage(), "Session disappeared.");
+        } catch (EntityDoesNotExistException e) {
+            assertEquals(e.getMessage(), "Session disappeared");
         }
         
         ______TS("Add questions sequentially");
@@ -240,7 +240,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         List<FeedbackQuestionAttributes> actualList =
                 fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
         
-        assertEquals(actualList.size(), expectedList.size());
+        assertEquals(expectedList.size(), actualList.size());
         for (int i = 0; i < actualList.size(); i++) {
             assertEquals(actualList.get(i), expectedList.get(i));
         }
@@ -326,21 +326,21 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         ______TS("standard update, no existing responses, with 'keep existing' policy");
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
         questionToUpdate.questionMetaData = new Text("new question text");
-        questionToUpdate.questionNumber = 3;
         List<FeedbackParticipantType> newVisibility =
                 new LinkedList<FeedbackParticipantType>();
         newVisibility.add(FeedbackParticipantType.INSTRUCTORS);
         questionToUpdate.showResponsesTo = newVisibility;
         // Check keep existing policy.
-        String originalCourseId = questionToUpdate.courseId;
-        questionToUpdate.courseId = null;
+        List<FeedbackParticipantType> originalShowGiverNameTo = questionToUpdate.showGiverNameTo;
+        questionToUpdate.showGiverNameTo = null;
         
         fqLogic.updateFeedbackQuestion(questionToUpdate);
         
-        questionToUpdate.courseId = originalCourseId;
+        questionToUpdate.showGiverNameTo = originalShowGiverNameTo;
 
         FeedbackQuestionAttributes updatedQuestion =
-                fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+                fqLogic.getFeedbackQuestion(questionToUpdate.feedbackSessionName,
+                                            questionToUpdate.courseId, questionToUpdate.getId());
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
         
         ______TS("cascading update, non-destructive changes, existing responses are preserved");
@@ -353,7 +353,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
                         questionToUpdate.getId()).size();
         
         fqLogic.updateFeedbackQuestion(questionToUpdate);
-        updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+        updatedQuestion = fqLogic.getFeedbackQuestion(
+                questionToUpdate.feedbackSessionName, questionToUpdate.courseId, questionToUpdate.getId());
         
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
         assertEquals(
@@ -368,7 +369,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertFalse(frLogic.getFeedbackResponsesForQuestion(questionToUpdate.getId()).isEmpty());
         
         fqLogic.updateFeedbackQuestion(questionToUpdate);
-        updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+        updatedQuestion = fqLogic.getFeedbackQuestion(
+                questionToUpdate.feedbackSessionName, questionToUpdate.courseId, questionToUpdate.getId());
         
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
         assertEquals(frLogic.getFeedbackResponsesForQuestion(
@@ -377,13 +379,14 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         ______TS("failure: question does not exist");
         
         questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
-        fqLogic.deleteFeedbackQuestionCascade(questionToUpdate.getId());
+        fqLogic.deleteFeedbackQuestionCascade(
+                questionToUpdate.feedbackSessionName, questionToUpdate.courseId, questionToUpdate.getId());
         
         try {
             fqLogic.updateFeedbackQuestion(questionToUpdate);
             signalFailureToDetectException("Expected EntityDoesNotExistException not caught.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals(e.getMessage(), "Trying to update a feedback question that does not exist.");
+            assertEquals("Trying to update a feedback question that does not exist.", e.getMessage());
         }
         
         ______TS("failure: invalid parameters");
@@ -405,7 +408,10 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         //Success case already tested in update
         ______TS("question already does not exist, silently fail");
         
-        fqLogic.deleteFeedbackQuestionCascade("non-existent-question-id");
+        FeedbackQuestionAttributes question = getQuestionFromDatastore("qn2InSession2InCourse2");
+        
+        fqLogic.deleteFeedbackQuestionCascade(
+                question.feedbackSessionName, question.courseId, "non-existent-question-id");
         //No error should be thrown.
         
     }
@@ -643,7 +649,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
                 question.feedbackSessionName, question.courseId, question.questionNumber);
         return question;
     }
-    
+
     @AfterClass
     public static void classTearDown() {
         printTestClassFooter();
