@@ -404,7 +404,7 @@ function showAjaxErrorMessage($containingForm) {
 
     var htmlString = 'This is the visibility hint as seen by the feedback giver:';
     htmlString += '<ul class="text-muted background-color-warning">';
-    htmlString += '<li><a>Error loading visibility hint. Click here to retry.<a></li>';
+    htmlString += '<li><a>Error loading visibility hint. Click here to retry.</a></li>';
     htmlString += '</ul>';
 
     $visibilityMessageDiv.html(htmlString);
