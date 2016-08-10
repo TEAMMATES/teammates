@@ -115,7 +115,7 @@
               <div class="bs-example" id="sessionTypeSelectionHtml">
                 <div class="well well-plain">
                   <div class="row" data-toggle="tooltip" data-placement="top" title="Select a different type of session here.">
-                    <h4 class="label-control col-md-2 text-md">Create new </h4>
+                    <h4 class="label-control col-md-12 text-md">Create new </h4>
                     <div class="col-md-5">
                       <select class="form-control" name="fstype" id="fstype">
                         <option value="STANDARD" selected="">
@@ -126,8 +126,8 @@
                         </option>
                       </select>
                     </div>
-                    <h4 class="label-control col-md-1 text-md">Or: </h4>
-                    <div class="col-md-3">
+                    <h4 class="label-control col-md-12 text-md">Or: </h4>
+                    <div class="col-md-12">
                       <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
                     </div>
                   </div>
@@ -918,7 +918,7 @@
                 <div class="well well-plain">
                   <form class="form-group" name="form_feedbacksession">
                     <div class="row" data-toggle="tooltip" data-placement="top" title="Select a different type of session here.">
-                      <h4 class="label-control col-md-2 text-md">Create new </h4>
+                      <h4 class="label-control col-md-12 text-md">Create new </h4>
                       <div class="col-md-5">
                         <select class="form-control" name="fstype" id="fstype">
                           <option value="STANDARD" selected="">
@@ -929,8 +929,8 @@
                           </option>
                         </select>
                       </div>
-                      <h4 class="label-control col-md-1 text-md">Or: </h4>
-                      <div class="col-md-3">
+                      <h4 class="label-control col-md-12 text-md">Or: </h4>
+                      <div class="col-md-12">
                         <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
                       </div>
                     </div>
@@ -1145,7 +1145,7 @@
                         <div class="row">
                           <div class="col-md-6">
                             <div class="row">
-                              <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below.">
+                              <div class="col-md-12" data-toggle="tooltip" data-placement="top" title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below.">
                                 <label class="label-control">
                                   Session visible from </label>
                               </div>
@@ -1189,13 +1189,13 @@
                               </div>
                             </div>
                             <div class="row radio">
-                              <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Select this option to have the feedback session become visible when it is open for submissions (as selected above).">
+                              <div class="col-md-12" data-toggle="tooltip" data-placement="top" title="Select this option to have the feedback session become visible when it is open for submissions (as selected above).">
                                 <label for="sessionVisibleFromButton_atopen">Submission opening time </label>
                                 <input type="radio" name="sessionVisibleFromButton" id="sessionVisibleFromButton_atopen" value="atopen">
                               </div>
                             </div>
                             <div class="row radio">
-                              <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Select this option if you want the feedback session to never be visible. Use this option if you want to use this as a private feedback session.">
+                              <div class="col-md-12" data-toggle="tooltip" data-placement="top" title="Select this option if you want the feedback session to never be visible. Use this option if you want to use this as a private feedback session.">
                                 <label for="sessionVisibleFromButton_never">Never (this is a private session)</label>
                                 <input type="radio" name="sessionVisibleFromButton" id="sessionVisibleFromButton_never" value="never">
                               </div>
@@ -1203,7 +1203,7 @@
                           </div>
                           <div class="col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                             <div class="row">
-                              <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later.">
+                              <div class="col-md-12" data-toggle="tooltip" data-placement="top" title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later.">
                                 <label class="label-control">Responses visible from</label>
                               </div>
                             </div>
@@ -1245,20 +1245,20 @@
                               </div>
                             </div>
                             <div class="row radio">
-                              <div class="col-md-3" data-toggle="tooltip" data-placement="top" title="Select this option to have the feedback responses be immediately visible<br>when the session becomes visible to users.">
+                              <div class="col-md-12" data-toggle="tooltip" data-placement="top" title="Select this option to have the feedback responses be immediately visible<br>when the session becomes visible to users.">
                                 <label for="resultsVisibleFromButton_atvisible">Immediately</label>
                                 <input type="radio" name="resultsVisibleFromButton" id="resultsVisibleFromButton_atvisible" value="atvisible">
                               </div>
                             </div>
                             <div class="row radio">
-                              <div class="col-md-4" data-toggle="tooltip" data-placement="top" title="Select this option if you intend to manually publish the session later on.">
+                              <div class="col-md-12" data-toggle="tooltip" data-placement="top" title="Select this option if you intend to manually publish the session later on.">
                                 <label for="resultsVisibleFromButton_later">Publish manually
                                 </label>
                                 <input type="radio" name="resultsVisibleFromButton" id="resultsVisibleFromButton_later" value="later">
                               </div>
                             </div>
                             <div class="row radio">
-                              <div class="col-md-2" data-toggle="tooltip" data-placement="top" title="Select this option if you intend never to publish the responses.">
+                              <div class="col-md-12" data-toggle="tooltip" data-placement="top" title="Select this option if you intend never to publish the responses.">
                                 <label for="resultsVisibleFromButton_never">Never</label>
                                 <input type="radio" name="resultsVisibleFromButton" id="resultsVisibleFromButton_never" value="never">
                               </div>
@@ -1275,27 +1275,27 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-sm-2" data-toggle="tooltip" data-placement="top" title="If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.">
+                          <div class="col-sm-12" data-toggle="tooltip" data-placement="top" title="If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.">
                             <div class="checkbox">
                               <label for="sendreminderemail_join">Join reminder
                               </label>
                               <input type="checkbox" id="sendreminderemail_join" disabled="">
                             </div>
                           </div>
-                          <div class="col-sm-3" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session is open for submission." disabled="">
+                          <div class="col-sm-12" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session is open for submission." disabled="">
                             <div class="checkbox">
                               <label>Session opening reminder
                               </label>
                               <input type="checkbox" name="sendreminderemail" id="sendreminderemail_open" value="FEEDBACK_OPENING">
                             </div>
                           </div>
-                          <div class="col-sm-3" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.">
+                          <div class="col-sm-12" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.">
                             <div class="checkbox">
                               <label for="sendreminderemail_closing">Session closing reminder</label>
                               <input type="checkbox" name="sendreminderemail" id="sendreminderemail_closing" value="FEEDBACK_CLOSING">
                             </div>
                           </div>
-                          <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session results is published.">
+                          <div class="col-sm-12" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session results is published.">
                             <div class="checkbox">
                               <label for="sendreminderemail_published">Results published announcement</label>
                               <input type="checkbox" name="sendreminderemail" id="sendreminderemail_published" value="FEEDBACK_PUBLISHED">
