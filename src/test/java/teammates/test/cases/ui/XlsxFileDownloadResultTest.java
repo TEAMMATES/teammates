@@ -14,7 +14,7 @@ import teammates.ui.controller.XlsxFileDownloadResult;
 public class XlsxFileDownloadResultTest extends BaseTestCase {
 
     @Test
-    public void testEmptyContentXslFileDownloadResult() {
+    public void testEmptyContentXlsFileDownloadResult() {
         String fileContent = "";
         XlsxFileDownloadResult download = new XlsxFileDownloadResult(
                 "/page/instructorFeedbackResultsDownload",
@@ -25,7 +25,7 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
     }
 
     @Test
-    public void testOneWordContentXslFileDownloadResult() {
+    public void testOneWordContentXlsFileDownloadResult() {
         String fileContent = "one";
         XlsxFileDownloadResult download = new XlsxFileDownloadResult(
                 "/page/instructorFeedbackResultsDownload",
@@ -37,7 +37,7 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
     }
 
     @Test
-    public void testTwoWordsContentXslFileDownloadResult() {
+    public void testTwoWordsContentXlsFileDownloadResult() {
         String fileContent = "one,two";
         XlsxFileDownloadResult download = new XlsxFileDownloadResult(
                 "/page/instructorFeedbackResultsDownload",
@@ -50,7 +50,7 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
     }
 
     @Test
-    public void testTwoRowsContentXslFileDownloadResult() {
+    public void testTwoRowsContentXlsFileDownloadResult() {
         String fileContent = "one,two" + Const.EOL + "three, four";
         XlsxFileDownloadResult download = new XlsxFileDownloadResult(
                 "/page/instructorFeedbackResultsDownload",
@@ -63,7 +63,7 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
     }
 
     @Test
-    public void testWordsWithCommaContentXslFileDownloadResult() {
+    public void testWordsWithCommaContentXlsFileDownloadResult() {
         String fileContent = "one,two" + Const.EOL + "three, four" + Const.EOL
                 + Sanitizer.sanitizeForCsv("five, six");
         XlsxFileDownloadResult download = new XlsxFileDownloadResult(

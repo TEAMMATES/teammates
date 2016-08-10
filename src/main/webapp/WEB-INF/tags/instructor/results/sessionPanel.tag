@@ -48,8 +48,8 @@
                         <form id="download-form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
                             <div id="feedbackDataButtons">
                                 <button id="button_download" type="submit" data-toggle="dropdown" class="btn btn-primary btn-block dropdown-toggle"
-                                       name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>">
-                                 Download Results <span class="caret"></span>
+                                        name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>">
+                                    Download Results <span class="caret"></span>
                                 </button>
                                 <ul id="download-result-dropdown" class="dropdown-menu download-type-list">
                                     <li data-downloadtype="<%=Const.FeedbackSessionResultsDownloadTypes.CSV%>"><a>As spreadsheet without formatting (.csv file)</a></li>
