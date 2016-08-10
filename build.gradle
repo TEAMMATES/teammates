@@ -184,6 +184,31 @@ task createConfigs << {
     }
 }
 
+task createLaunches << {
+    def templatesToCopy = [
+        ".launches/All tests.launch.xml",
+        ".launches/All tests (GodMode).launch.xml",
+        ".launches/Failed tests.launch.xml",
+        ".launches/Failed tests (GodMode).launch.xml",
+        ".launches/Local tests.launch.xml",
+        ".launches/Travis tests.launch.xml",
+        ".launches/Staging tests.launch.xml"
+    ]
+    templatesToCopy.findAll {
+        !(new File(it.replace(".xml", ""))).exists()
+    }.each {
+        filename -> copy {
+            from filename
+            into new File(filename).getParent()
+            rename '(.*).xml', '$1'
+        }
+        filename = filename.replace(".xml", "")
+        def fileContents = new File(filename).getText("UTF-8")
+        def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
+        new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
+    }
+}
+
 task copyDepsToWebInfLib(type: Copy) {
     from configurations.runtime
     into "src/main/webapp/WEB-INF/lib/"
@@ -210,7 +235,7 @@ task printUserHomeDir << {
 task setup {
     description "Sets up the project by obtaining necessary files and configurations points."
     group "Setup"
-    dependsOn eclipseProject, createConfigs
+    dependsOn eclipseProject, createConfigs, createLaunches
 }
 
 // RUN SERVER TASKS
