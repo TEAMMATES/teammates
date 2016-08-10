@@ -2120,47 +2120,74 @@
               <br> This allows easy and convenient confirmation that the questions and their settings are correct.
             </p>
             <div class="bs-example" id="preview">
-              <div class="well well-plain inputTable" id="questionPreviewTable">
-                <div class="row">
-                  <form class="form-horizontal">
-                    <label class="control-label col-sm-2 text-right">
-                      Preview Session:
-                    </label>
-                  </form>
-                  <div class="col-sm-5" data-toggle="tooltip" data-placement="top" title="View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled.">
-                    <form name="form_previewasstudent" class="form_preview">
-                      <div class="col-sm-6">
-                        <select class="form-control" name="previewas">
-                          <option value="alice.b.tmms@gmail.com">[Team 1] Alice Betsy</option>
-                          <option value="benny.c.tmms@gmail.com">[Team 1] Benny Charles</option>
-                          <option value="danny.e.tmms@gmail.com">[Team 1] Danny Engrid</option>
-                          <option value="emma.f.tmms@gmail.com">[Team 1] Emma Farrell</option>
-                          <option value="charlie.d.tmms@gmail.com">[Team 2] Charlie Davis</option>
-                          <option value="francis.g.tmms@gmail.com">[Team 2] Francis Gabriel</option>
-                          <option value="gene.h.tmms@gmail.com">[Team 2] Gene Hudson</option>
-                        </select>
-                      </div>
-                      <div class="col-sm-6">
-                        <input id="button_preview_student" class="btn btn-primary" value="Preview as Student">
-                      </div>
-                    </form>
-                  </div>
-                  <div class="col-sm-5" data-toggle="tooltip" data-placement="top" title="View how this session would look like to an instructor who is submitting feedback.">
-                    <form class="form_preview">
-                      <div class="col-sm-6">
-                        <select class="form-control" name="previewas">
-                          <option value="inst@gmail.com">Instructor A</option>
-                        </select>
-                      </div>
-                      <div class="col-sm-6">
-                        <input id="button_preview_instructor" class="btn btn-primary" value="Preview as Instructor">
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div>
-              </div>
+							<div class="well well-plain inputTable" id="questionPreviewTable">
+								<div class="row">
+									<form class="form-horizontal">
+										<label class="control-label col-xs-6 col-md-6 tablet-align-left" style="text-align:left;">
+											Preview Session:
+										</label>
+									</form>
+									<div data-original-title="View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled." class="col-xs-12 col-md-12 row tablet-margin-top-10px" data-toggle="tooltip" data-placement="top" title="">
+										<form method="post" action="/page/instructorFeedbackPreviewAsStudent" name="form_previewasstudent" class="form_preview" target="_blank">
+
+											<div class="col-sm-6 col-md-6">
+												<select class="form-control margin-bottom-7px" name="previewas">
+
+													<option value="jean@email.com">
+													[Team 1] Jean Wong
+													</option>
+
+													<option value="ravi@email.com">
+													[Team 1] Ravi Kumar
+													</option>
+
+													<option value="tom@email.com">
+													[Team 1] Tom Jacobs
+													</option>
+
+													<option value="ling@coolmai.com">
+													[Team 2] Chun Ling
+													</option>
+
+													<option value="desmond@email.com">
+													[Team 2] Desmond Wu
+													</option>
+
+													<option value="harsha@school.com">
+													[Team 3] Harsha Silva
+													</option>
+
+												</select>
+											</div>
+											<input name="fsname" value="Test common visibility options" type="hidden">
+											<input name="courseid" value="test-course-2" type="hidden">
+											<div class="col-sm-6 col-md-6">
+												<input id="button_preview_student" class="btn btn-primary" value="Preview as Student" type="submit">
+											</div>
+											<input name="user" value="khoo@example.com" type="hidden">
+										</form>
+									</div>
+									<div data-original-title="View how this session would look like to an instructor who is submitting feedback." class="col-xs-12 col-md-12 row tablet-margin-top-10px" data-toggle="tooltip" data-placement="top" title="">
+										<form method="post" action="/page/instructorFeedbackPreviewAsInstructor" name="form_previewasinstructor" class="form_preview" target="_blank">
+											<div class="col-sm-6 col-md-6">
+												<select class="form-control margin-bottom-7px" name="previewas">
+
+													<option value="khoo@example.com">
+													Khoo
+													</option>
+
+												</select>
+											</div>
+											<input name="fsname" value="Test common visibility options" type="hidden">
+											<input name="courseid" value="test-course-2" type="hidden">
+											<div class="col-sm-6 col-md-6">
+												<input id="button_preview_instructor" class="btn btn-primary" value="Preview as Instructor" type="submit">
+											</div>
+											<input name="user" value="khoo@example.com" type="hidden">
+										</form>
+									</div>
+								</div>
+							</div>
             </div>
           </li>
           <br>
