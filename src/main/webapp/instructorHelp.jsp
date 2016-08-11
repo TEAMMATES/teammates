@@ -4730,1714 +4730,1708 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <a name="fbContrib">
-                  <h4>Team contribution question</h4>
-                </a>
-                Team contribution questions are a specialized question type designed for team contribution evaluations.
-                <br> They allow estimation of percived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ
-                <a href="#faq">here</a>.
-                <br>
-                <br> An alternative to this specialized calculation scheme is to use the Distribute Points (among recipients) question, which provides a simple average calculation scheme.
-                <br>
-                <br> To setup the question, simply give some question text. The giver and recipient is fixed for this special question type.
-                <br>
-                <div class="bs-example">
-                  <form class="form-horizontal form_question" role="form" method="post" >
-                    <div class="panel panel-primary questionTable" id="questionTable11">
-                      <div class="panel-heading">
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <span>
-                              <strong>Question</strong>
-                              <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-11" disabled="">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                              </select>
-                              &nbsp; Team contribution question
-                            </span>
-                            <span class="pull-right">
-                              <a class="btn btn-primary btn-xs" id="questionedittext-11" data-toggle="tooltip" data-placement="top" onclick="enableEdit(11,12)" title="Edit this question">Edit</a>
-                              <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-11">Save Changes</a>
-                              <a class="btn btn-primary btn-xs" onclick="deleteQuestion(11)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="panel-body">
-                        <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                          <div>
-                            <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-11" data-toggle="tooltip" data-placement="top" tabindex="9" disabled="" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rate the contribution of yourself and your team members towards the latest project.</textarea>
-                          </div>
-                        </div>
-                        <br>
-                        <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-                          <div class="col-sm-12 padding-0">
-                            <b>Feedback Path</b> (Who is giving feedback to whom?)
-                          </div>
-                          <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="Who will give feedback">
-                            <label class="col-sm-5 control-label">
-                              Who will give the feedback:
-                            </label>
-                            <div class="col-sm-7">
-                              <select class="form-control participantSelect" name="givertype" id="givertype-11" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                                <option value="SELF">Me (Session creator)</option>
-                                <option value="STUDENTS" selected="">Students in this course</option>
-                                <option value="INSTRUCTORS">Instructors in this course</option>
-                                <option value="TEAMS">Teams in this course</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="Who the feedback is about">
-                            <label class="col-sm-5 control-label">
-                              Who the feedback is about:
-                            </label>
-                            <div class="col-sm-7">
-                              <select class="form-control participantSelect" name="recipienttype" id="recipienttype-11" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
-                                <option value="SELF">Giver (Self feedback)</option>
-                                <option value="STUDENTS">Other students in the course</option>
-                                <option value="INSTRUCTORS">Instructors in the course</option>
-                                <option value="TEAMS">Other teams in the course</option>
-                                <option value="OWN_TEAM">Giver's team</option>
-                                <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
-                                <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" selected="">Giver's team members and Giver</option>
-                                <option value="NONE">Nobody specific (For general class feedback)</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                          </div>
-                          <div class="col-sm-6 numberOfEntitiesElements11" style="display: none;">
-                            <label id="numofrecipients_text-11" class="control-label col-sm-4 small">
-                              The maximum number of
-                              <span id="numofrecipients_text_inner-11"></span> each respondant should give feedback to:
-                            </label>
-                            <div class="col-sm-8 form-control-static">
-                              <div class="col-sm-6">
-                                <input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom" disabled="">
-                                <input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-11" min="1" max="250" value="1" disabled="">
-                              </div>
-                              <div class="col-sm-6">
-                                <input class="nonDestructive" type="radio" name="numofrecipientstype" checked="" value="max" disabled="">
-                                <span class="">Unlimited</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <br>
-                        <div class="col-sm-12 padding-15px background-color-light-green">
-                          <div class="col-sm-12 padding-0">
-                            <b>Visibility</b> (Who can see the responses?)
-                          </div>
-                          <div class="col-sm-6 btn-group" data-toggle="buttons">
-                            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-11" onchange="toggleVisibilityOptions(this)">
-                              <input type="radio" disabled="">
-                              <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-                            </label>
-                            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-11" onchange="toggleVisibilityMessage(this)">
-                              <input type="radio" disabled="">
-                              <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-                            </label>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 background-color-light-green">
-                          <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-11">
-                            This is the visibility as seen by the feedback giver.
-                            <ul class="background-color-warning">
-                              <li>The receiving student can see your response, but not your name.</li>
-                              <li>Your team members can see your response, but not the name of the recipient, or your name.</li>
-                              <li>The recipient's team members can see your response, but not the name of the recipient, or your name.</li>
-                              <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 margin-bottom-15px background-color-light-green">
-                          <div class="visibilityOptions" id="visibilityOptions-11" style="display: none;">
-                            <table class="dataTable participantTable table table-striped text-center background-color-white">
-                              <tbody>
-                                <tr>
-                                  <th class="text-center">User/Group</th>
-                                  <th class="text-center">Can see answer</th>
-                                  <th class="text-center">Can see giver's name</th>
-                                  <th class="text-center">Can see recipient's name</th>
-                                </tr>
-                                <tr>
-                                  <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="Control what feedback recipient(s) can view">
-                                      Recipient(s)
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox answerCheckbox11 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox giverCheckbox11" type="checkbox" value="RECEIVER" disabled="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox recipientCheckbox11" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="Control what team members of feedback giver can view">
-                                      Giver's Team Members
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox answerCheckbox11" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="" checked="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox giverCheckbox11" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox recipientCheckbox11" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="Control what team members of feedback recipients can view">
-                                      Recipient's Team Members
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox answerCheckbox11" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="" checked="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox giverCheckbox11" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox recipientCheckbox11" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="Control what other students can view">
-                                      Other students
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox answerCheckbox11" type="checkbox" value="STUDENTS" disabled="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox giverCheckbox11" type="checkbox" value="STUDENTS" disabled="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox recipientCheckbox11" type="checkbox" value="STUDENTS" disabled="">
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="Control what instructors can view">
-                                      Instructors
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox answerCheckbox11" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox giverCheckbox11" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox recipientCheckbox11" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                        <div>
-                          <span class="pull-right">
-                            <input id="button_question_submit-11" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <br> The results and statistics are presented as follows. See
-                <a href="#faq7a">here</a> on how to use these results.
-                <br>
-                <div class="bs-example">
-                  <div class="panel panel-info">
-                    <div class="panel-heading" data-target="#panelBodyCollapse-1" style="cursor: pointer;">
-                      <div class="display-icon pull-right">
-                        <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                      </div>
-                      <strong>Question 1: </strong>
-                      <span >Please rate the estimated contribution of your team members and yourself.&nbsp;
-                        <span >
-                          <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
-                          <br>
-                          <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
-                        </span>
-                      </span>
-                    </div>
-                    <div class="panel-collapse collapse in" id="panelBodyCollapse-1">
-                      <div class="panel-body padding-0" id="questionBody-0">
-                        <div class="resultStatistics">
-                          <div class="panel-body">
-                            <div class="row">
-                              <div class="col-sm-4 text-color-gray">
-                                <strong>
-                                  Response Summary
-                                </strong>
-                              </div>
-                              <div class="col-sm-3 pull-right">
-                                [
-                                <a href="#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-sm-12">
-                                <table class="table table-bordered table-responsive margin-0">
-                                  <thead>
-                                    <tr>
-                                      <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);">Team
-                                        <span class="icon-sort unsorted"></span>
-                                      </td>
-                                      <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
-                                        <span class="icon-sort unsorted"></span>
-                                      </td>
-                                      <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the student's own estimation of his/her contributions">
-                                        <abbr title="Claimed Contribution">CC</abbr>
-                                        <span class="icon-sort unsorted"></span>
-                                      </td>
-                                      <td class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the average of what other team members think this student contributed">
-                                        <abbr title="Percived Contribution">PC</abbr>
-                                        <span class="icon-sort unsorted"></span>
-                                      </td>
-                                      <td class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="Perceived Contribution - Claimed Contribution">Diff
-                                        <span class="icon-sort unsorted"></span>
-                                      </td>
-                                      <td class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="The list of points that this student received from others">Ratings Received</td>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>Team 1</td>
-                                      <td id="studentname">
-                                        Emma Farrell
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                      <td>
-                                        <span>0</span>
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>,
-                                        <span class="color_neutral">E</span>,
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Team 1</td>
-                                      <td id="studentname">
-                                        Danny Engrid
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                      <td>
-                                        <span>0</span>
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>,
-                                        <span class="color_neutral">E</span>,
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Team 1</td>
-                                      <td id="studentname">
-                                        Alice Betsy
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                      <td>
-                                        <span>0</span>
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>,
-                                        <span class="color_neutral">E</span>,
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Team 1</td>
-                                      <td id="studentname">
-                                        Benny Charles
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                      <td>
-                                        <span>0</span>
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>,
-                                        <span class="color_neutral">E</span>,
-                                        <span class="color_neutral">E</span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Team 2</td>
-                                      <td id="studentname">
-                                        Gene Hudson
-                                      </td>
-                                      <td>
-                                        <span class="color-positive">E +4%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color-positive">E +5%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color-positive">+1%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>,
-                                        <span class="color-positive">E +9%</span>,
-                                        <span class="color-positive">E +7%</span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Team 2</td>
-                                      <td id="studentname">
-                                        Francis Gabriel
-                                      </td>
-                                      <td>
-                                        <span class="color-positive">E +5%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color-positive">E +6%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color-positive">+1%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>,
-                                        <span class="color-positive">E +7%</span>,
-                                        <span class="color-positive">E +10%</span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Team 2</td>
-                                      <td id="studentname">
-                                        Happy Guy
-                                      </td>
-                                      <td>
-                                        <span class="color-positive">E +5%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color-positive">E +7%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color-positive">+2%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color_neutral">E</span>,
-                                        <span class="color-positive">E +9%</span>,
-                                        <span class="color-positive">E +12%</span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Team 2</td>
-                                      <td id="studentname">
-                                        Charlie Davis
-                                      </td>
-                                      <td>
-                                        <span class="color-negative">E -16%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color-negative">E -18%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color-negative">-2%</span>
-                                      </td>
-                                      <td>
-                                        <span class="color-negative">E -19%</span>,
-                                        <span class="color-negative">E -19%</span>,
-                                        <span class="color-negative">E -17%</span>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="table-responsive">
-                          <table class="table table-striped table-bordered dataTable margin-0">
-                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                              <tr>
-                                <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
-                                  Giver
-                                  <span class="icon-sort unsorted"></span>
-                                </th>
-                                <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
-                                  Team
-                                  <span class="icon-sort unsorted"></span>
-                                </th>
-                                <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
-                                  Recipient
-                                  <span class="icon-sort unsorted"></span>
-                                </th>
-                                <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
-                                  Team
-                                  <span class="icon-sort unsorted"></span>
-                                </th>
-                                <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
-                                  Feedback
-                                  <span class="icon-sort unsorted"></span>
-                                </th>
-                              </tr>
-                            </thead>
-                            <thead>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td class="middlealign">Alice Betsy</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Alice Betsy</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                  <span>&nbsp;&nbsp;[Perceived Contribution:
-                                    <span class="color_neutral">Equal Share</span>]</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Alice Betsy</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Benny Charles</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Alice Betsy</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Danny Engrid</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Alice Betsy</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Emma Farrell</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Benny Charles</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Alice Betsy</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Benny Charles</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Benny Charles</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                  <span>&nbsp;&nbsp;[Perceived Contribution:
-                                    <span class="color_neutral">Equal Share</span>]</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Benny Charles</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Danny Engrid</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Benny Charles</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Emma Farrell</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Charlie Davis</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Charlie Davis</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-negative">Equal Share -16%</span>
-                                  <span>&nbsp;&nbsp;[Perceived Contribution:
-                                    <span class="color-negative">Equal Share -18%</span>]</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Charlie Davis</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Francis Gabriel</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +6%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Charlie Davis</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Gene Hudson</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +6%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Charlie Davis</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Happy Guy</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +6%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Danny Engrid</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Alice Betsy</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Danny Engrid</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Benny Charles</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Danny Engrid</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Danny Engrid</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                  <span>&nbsp;&nbsp;[Perceived Contribution:
-                                    <span class="color_neutral">Equal Share</span>]</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Danny Engrid</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Emma Farrell</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Emma Farrell</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Alice Betsy</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Emma Farrell</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Benny Charles</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Emma Farrell</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Danny Engrid</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Emma Farrell</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="middlealign">Emma Farrell</td>
-                                <td class="middlealign">Team 1</td>
-                                <td class="multiline">
-                                  <span class="color_neutral">Equal Share</span>
-                                  <span>&nbsp;&nbsp;[Perceived Contribution:
-                                    <span class="color_neutral">Equal Share</span>]</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Francis Gabriel</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Charlie Davis</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-negative">Equal Share -20%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Francis Gabriel</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Francis Gabriel</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +5%</span>
-                                  <span>&nbsp;&nbsp;[Perceived Contribution:
-                                    <span class="color-positive">Equal Share +6%</span>]</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Francis Gabriel</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Gene Hudson</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +5%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Francis Gabriel</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Happy Guy</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +10%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Gene Hudson</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Charlie Davis</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-negative">Equal Share -18%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Gene Hudson</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Francis Gabriel</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +6%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Gene Hudson</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Gene Hudson</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +4%</span>
-                                  <span>&nbsp;&nbsp;[Perceived Contribution:
-                                    <span class="color-positive">Equal Share +5%</span>]</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Gene Hudson</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Happy Guy</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +8%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Happy Guy</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Charlie Davis</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-negative">Equal Share -20%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Happy Guy</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Francis Gabriel</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +8%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Happy Guy</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Gene Hudson</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +7%</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="middlealign">Happy Guy</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="middlealign">Happy Guy</td>
-                                <td class="middlealign">Team 2</td>
-                                <td class="multiline">
-                                  <span class="color-positive">Equal Share +5%</span>
-                                  <span>&nbsp;&nbsp;[Perceived Contribution:
-                                    <span class="color-positive">Equal Share +7%</span>]</span>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+						<div class="col-sm-12">
+							<a name="fbContrib">
+								<h4>Team contribution question</h4>
+							</a>
+							Team contribution questions are a specialized question type designed for team contribution evaluations.
+							<br> They allow estimation of percived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ
+							<a href="#faq">here</a>.
+							<br>
+							<br> An alternative to this specialized calculation scheme is to use the Distribute Points (among recipients) question, which provides a simple average calculation scheme.
+							<br>
+							<br> To setup the question, simply give some question text. The giver and recipient is fixed for this special question type.
+							<br>
+							<div class="bs-example">
+								<form class="form-horizontal form_question" role="form" method="post" >
+									<div class="panel panel-primary questionTable" id="questionTable11">
+										<div class="panel-heading">
+											<div class="row">
+												<div class="col-sm-12">
+													<span>
+														<strong>Question</strong>
+														<select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-11" disabled="">
+															<option value="1">1</option>
+															<option value="2">2</option>
+															<option value="3">3</option>
+															<option value="4">4</option>
+															<option value="5">5</option>
+															<option value="6">6</option>
+															<option value="7">7</option>
+															<option value="8">8</option>
+															<option value="9">9</option>
+															<option value="10">10</option>
+															<option value="11">11</option>
+															<option value="12">12</option>
+														</select>
+														&nbsp; Team contribution question
+													</span>
+													<span class="pull-right">
+														<a class="btn btn-primary btn-xs" id="questionedittext-11" data-toggle="tooltip" data-placement="top" onclick="enableEdit(11,12)" title="Edit this question">Edit</a>
+														<a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-11">Save Changes</a>
+														<a class="btn btn-primary btn-xs" onclick="deleteQuestion(11)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+													</span>
+												</div>
+											</div>
+										</div>
+										<div class="panel-body">
+											<div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
+												<div>
+													<textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-11" data-toggle="tooltip" data-placement="top" tabindex="9" disabled="" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rate the contribution of yourself and your team members towards the latest project.</textarea>
+												</div>
+											</div>
+											<br>
+											<div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+												<div class="col-sm-12 padding-0">
+													<b>Feedback Path</b> (Who is giving feedback to whom?)
+												</div>
+												<div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="Who will give feedback">
+													<label class="col-sm-5 control-label">
+														Who will give the feedback:
+													</label>
+													<div class="col-sm-7">
+														<select class="form-control participantSelect" name="givertype" id="givertype-11" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+															<option value="SELF">Me (Session creator)</option>
+															<option value="STUDENTS" selected="">Students in this course</option>
+															<option value="INSTRUCTORS">Instructors in this course</option>
+															<option value="TEAMS">Teams in this course</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="Who the feedback is about">
+													<label class="col-sm-5 control-label">
+														Who the feedback is about:
+													</label>
+													<div class="col-sm-7">
+														<select class="form-control participantSelect" name="recipienttype" id="recipienttype-11" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+															<option value="SELF">Giver (Self feedback)</option>
+															<option value="STUDENTS">Other students in the course</option>
+															<option value="INSTRUCTORS">Instructors in the course</option>
+															<option value="TEAMS">Other teams in the course</option>
+															<option value="OWN_TEAM">Giver's team</option>
+															<option value="OWN_TEAM_MEMBERS">Giver's team members</option>
+															<option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" selected="">Giver's team members and Giver</option>
+															<option value="NONE">Nobody specific (For general class feedback)</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-sm-6">
+												</div>
+												<div class="col-sm-6 numberOfEntitiesElements11" style="display: none;">
+													<label id="numofrecipients_text-11" class="control-label col-sm-4 small">
+														The maximum number of
+														<span id="numofrecipients_text_inner-11"></span> each respondant should give feedback to:
+													</label>
+													<div class="col-sm-8 form-control-static">
+														<div class="col-sm-6">
+															<input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom" disabled="">
+															<input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-11" min="1" max="250" value="1" disabled="">
+														</div>
+														<div class="col-sm-6">
+															<input class="nonDestructive" type="radio" name="numofrecipientstype" checked="" value="max" disabled="">
+															<span class="">Unlimited</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<br>
+											<div class="col-sm-12 padding-15px background-color-light-green">
+												<div class="col-sm-12 padding-0">
+													<b>Visibility</b> (Who can see the responses?)
+												</div>
+												<div class="col-sm-6 btn-group" data-toggle="buttons">
+													<label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-11" onchange="toggleVisibilityOptions(this)">
+														<input type="radio" disabled="">
+														<span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+													</label>
+													<label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-11" onchange="toggleVisibilityMessage(this)">
+														<input type="radio" disabled="">
+														<span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+													</label>
+												</div>
+											</div>
+											<div class="col-sm-12 background-color-light-green">
+												<div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-11">
+													This is the visibility as seen by the feedback giver.
+													<ul class="background-color-warning">
+														<li>The receiving student can see your response, but not your name.</li>
+														<li>Your team members can see your response, but not the name of the recipient, or your name.</li>
+														<li>The recipient's team members can see your response, but not the name of the recipient, or your name.</li>
+														<li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
+													</ul>
+												</div>
+											</div>
+											<div class="col-sm-12 margin-bottom-15px background-color-light-green">
+												<div class="visibilityOptions" id="visibilityOptions-11" style="display: none;">
+													<table class="dataTable participantTable table table-striped text-center background-color-white">
+														<tbody>
+															<tr>
+																<th class="text-center">User/Group</th>
+																<th class="text-center">Can see answer</th>
+																<th class="text-center">Can see giver's name</th>
+																<th class="text-center">Can see recipient's name</th>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="Control what feedback recipient(s) can view">
+																		Recipient(s)
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox11 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox11" type="checkbox" value="RECEIVER" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox11" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="Control what team members of feedback giver can view">
+																		Giver's Team Members
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox11" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox11" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox11" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="Control what team members of feedback recipients can view">
+																		Recipient's Team Members
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox11" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox11" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox11" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="Control what other students can view">
+																		Other students
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox11" type="checkbox" value="STUDENTS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox11" type="checkbox" value="STUDENTS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox11" type="checkbox" value="STUDENTS" disabled="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="Control what instructors can view">
+																		Instructors
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox11" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox11" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox11" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<div>
+												<span class="pull-right">
+													<input id="button_question_submit-11" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+												</span>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<br> The results and statistics are presented as follows. See
+							<a href="#faq7a">here</a> on how to use these results.
+							<br>
+							<div class="bs-example">
+								<div class="panel panel-info">
+									<div class="panel-heading" data-target="#panelBodyCollapse-1" style="cursor: pointer;">
+										<div class="display-icon pull-right">
+											<span class="glyphicon glyphicon-chevron-up pull-right"></span>
+										</div>
+										<strong>Question 1: </strong>
+										<span >Please rate the estimated contribution of your team members and yourself.&nbsp;
+											<span >
+												<a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
+												<br>
+												<span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
+											</span>
+										</span>
+									</div>
+									<div class="panel-collapse collapse in" id="panelBodyCollapse-1">
+										<div class="panel-body padding-0" id="questionBody-0">
+											<div class="resultStatistics">
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-sm-4 text-color-gray">
+															<strong>
+																Response Summary
+															</strong>
+														</div>
+														<div class="col-sm-3 pull-right">
+															[
+															<a href="#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-12">
+															<table class="table table-bordered table-responsive margin-0">
+																<thead>
+																	<tr>
+																		<td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);">Team
+																			<span class="icon-sort unsorted"></span>
+																		</td>
+																		<td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
+																			<span class="icon-sort unsorted"></span>
+																		</td>
+																		<td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the student's own estimation of his/her contributions">
+																			<abbr title="Claimed Contribution">CC</abbr>
+																			<span class="icon-sort unsorted"></span>
+																		</td>
+																		<td class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the average of what other team members think this student contributed">
+																			<abbr title="Percived Contribution">PC</abbr>
+																			<span class="icon-sort unsorted"></span>
+																		</td>
+																		<td class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="Perceived Contribution - Claimed Contribution">Diff
+																			<span class="icon-sort unsorted"></span>
+																		</td>
+																		<td class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="The list of points that this student received from others">Ratings Received</td>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td>Team 1</td>
+																		<td id="studentname">
+																			Emma Farrell
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>
+																		</td>
+																		<td>
+																			<span>0</span>
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>,
+																			<span class="color_neutral">E</span>,
+																			<span class="color_neutral">E</span>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>Team 1</td>
+																		<td id="studentname">
+																			Danny Engrid
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>
+																		</td>
+																		<td>
+																			<span>0</span>
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>,
+																			<span class="color_neutral">E</span>,
+																			<span class="color_neutral">E</span>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>Team 1</td>
+																		<td id="studentname">
+																			Alice Betsy
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>
+																		</td>
+																		<td>
+																			<span>0</span>
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>,
+																			<span class="color_neutral">E</span>,
+																			<span class="color_neutral">E</span>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>Team 1</td>
+																		<td id="studentname">
+																			Benny Charles
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>
+																		</td>
+																		<td>
+																			<span>0</span>
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>,
+																			<span class="color_neutral">E</span>,
+																			<span class="color_neutral">E</span>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>Team 2</td>
+																		<td id="studentname">
+																			Gene Hudson
+																		</td>
+																		<td>
+																			<span class="color-positive">E +4%</span>
+																		</td>
+																		<td>
+																			<span class="color-positive">E +5%</span>
+																		</td>
+																		<td>
+																			<span class="color-positive">+1%</span>
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>,
+																			<span class="color-positive">E +9%</span>,
+																			<span class="color-positive">E +7%</span>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>Team 2</td>
+																		<td id="studentname">
+																			Francis Gabriel
+																		</td>
+																		<td>
+																			<span class="color-positive">E +5%</span>
+																		</td>
+																		<td>
+																			<span class="color-positive">E +6%</span>
+																		</td>
+																		<td>
+																			<span class="color-positive">+1%</span>
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>,
+																			<span class="color-positive">E +7%</span>,
+																			<span class="color-positive">E +10%</span>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>Team 2</td>
+																		<td id="studentname">
+																			Happy Guy
+																		</td>
+																		<td>
+																			<span class="color-positive">E +5%</span>
+																		</td>
+																		<td>
+																			<span class="color-positive">E +7%</span>
+																		</td>
+																		<td>
+																			<span class="color-positive">+2%</span>
+																		</td>
+																		<td>
+																			<span class="color_neutral">E</span>,
+																			<span class="color-positive">E +9%</span>,
+																			<span class="color-positive">E +12%</span>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>Team 2</td>
+																		<td id="studentname">
+																			Charlie Davis
+																		</td>
+																		<td>
+																			<span class="color-negative">E -16%</span>
+																		</td>
+																		<td>
+																			<span class="color-negative">E -18%</span>
+																		</td>
+																		<td>
+																			<span class="color-negative">-2%</span>
+																		</td>
+																		<td>
+																			<span class="color-negative">E -19%</span>,
+																			<span class="color-negative">E -19%</span>,
+																			<span class="color-negative">E -17%</span>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="table-responsive">
+												<table class="table table-striped table-bordered dataTable margin-0">
+													<thead class="background-color-medium-gray text-color-gray font-weight-normal">
+														<tr>
+															<th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+																Giver
+																<span class="icon-sort unsorted"></span>
+															</th>
+															<th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+																Team
+																<span class="icon-sort unsorted"></span>
+															</th>
+															<th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+																Recipient
+																<span class="icon-sort unsorted"></span>
+															</th>
+															<th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+																Team
+																<span class="icon-sort unsorted"></span>
+															</th>
+															<th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+																Feedback
+																<span class="icon-sort unsorted"></span>
+															</th>
+														</tr>
+													</thead>
+													<thead>
+													</thead>
+													<tbody>
+														<tr>
+															<td class="middlealign">Alice Betsy</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Alice Betsy</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+																<span>&nbsp;&nbsp;[Perceived Contribution:
+																	<span class="color_neutral">Equal Share</span>]</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Alice Betsy</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Benny Charles</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Alice Betsy</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Danny Engrid</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Alice Betsy</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Emma Farrell</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Benny Charles</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Alice Betsy</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Benny Charles</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Benny Charles</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+																<span>&nbsp;&nbsp;[Perceived Contribution:
+																	<span class="color_neutral">Equal Share</span>]</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Benny Charles</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Danny Engrid</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Benny Charles</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Emma Farrell</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Charlie Davis</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Charlie Davis</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-negative">Equal Share -16%</span>
+																<span>&nbsp;&nbsp;[Perceived Contribution:
+																	<span class="color-negative">Equal Share -18%</span>]</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Charlie Davis</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Francis Gabriel</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +6%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Charlie Davis</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Gene Hudson</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +6%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Charlie Davis</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Happy Guy</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +6%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Danny Engrid</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Alice Betsy</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Danny Engrid</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Benny Charles</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Danny Engrid</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Danny Engrid</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+																<span>&nbsp;&nbsp;[Perceived Contribution:
+																	<span class="color_neutral">Equal Share</span>]</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Danny Engrid</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Emma Farrell</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Emma Farrell</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Alice Betsy</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Emma Farrell</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Benny Charles</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Emma Farrell</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Danny Engrid</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Emma Farrell</td>
+															<td class="middlealign">Team 1</td>
+															<td class="middlealign">Emma Farrell</td>
+															<td class="middlealign">Team 1</td>
+															<td class="multiline">
+																<span class="color_neutral">Equal Share</span>
+																<span>&nbsp;&nbsp;[Perceived Contribution:
+																	<span class="color_neutral">Equal Share</span>]</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Francis Gabriel</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Charlie Davis</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-negative">Equal Share -20%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Francis Gabriel</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Francis Gabriel</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +5%</span>
+																<span>&nbsp;&nbsp;[Perceived Contribution:
+																	<span class="color-positive">Equal Share +6%</span>]</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Francis Gabriel</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Gene Hudson</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +5%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Francis Gabriel</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Happy Guy</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +10%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Gene Hudson</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Charlie Davis</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-negative">Equal Share -18%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Gene Hudson</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Francis Gabriel</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +6%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Gene Hudson</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Gene Hudson</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +4%</span>
+																<span>&nbsp;&nbsp;[Perceived Contribution:
+																	<span class="color-positive">Equal Share +5%</span>]</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Gene Hudson</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Happy Guy</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +8%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Happy Guy</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Charlie Davis</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-negative">Equal Share -20%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Happy Guy</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Francis Gabriel</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +8%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Happy Guy</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Gene Hudson</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +7%</span>
+															</td>
+														</tr>
+														<tr>
+															<td class="middlealign">Happy Guy</td>
+															<td class="middlealign">Team 2</td>
+															<td class="middlealign">Happy Guy</td>
+															<td class="middlealign">Team 2</td>
+															<td class="multiline">
+																<span class="color-positive">Equal Share +5%</span>
+																<span>&nbsp;&nbsp;[Perceived Contribution:
+																	<span class="color-positive">Equal Share +7%</span>]</span>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<a name="fbRubric">
+								<h4>Rubric question</h4>
+							</a>
+							Rubric questions allow instructors to create multiple sub-questions, with highly customizable choices and descriptions.
+							<br>
+							<br> To the student, the question looks similar to:
+							<br>
+							<br>
+							<div class="bs-example">
+								<div class="form-horizontal">
+									<div class="panel panel-primary">
+										<div class="panel-heading">Question 10:
+											<br>
+											<span >Please answer the following questions.</span>
+										</div>
+										<div class="panel-body">
+											<p class="text-muted">Only the following persons can see your responses: </p>
+											<ul class="text-muted">
+												<li class="unordered">Other students in the course can see your response, the name of the recipient, and your name.</li>
+												<li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
+											</ul>
+											<br>
+											<div class="form-group margin-0">
+												<div class="col-sm-2 form-inline" style="text-align:right">
+													<label for="input">To:</label>
+													<span> Charlie Davis</span>
+												</div>
+												<div class="col-sm-10">
+													<div class="row">
+														<div class="col-sm-12 table-responsive">
+															<table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-0">
+																<thead>
+																	<tr>
+																		<th class="col-md-1"></th>
+																		<th class="rubricCol-10-0">
+																			<p>Strongly Agree</p>
+																		</th>
+																		<th class="rubricCol-10-1">
+																			<p>Agree</p>
+																		</th>
+																		<th class="rubricCol-10-2">
+																			<p>Disagree</p>
+																		</th>
+																		<th class="rubricCol-10-3">
+																			<p>Strongly Disagree</p>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td>
+																			<p>a) This student has contributed significantly to the project.</p>
+																		</td>
+																		<td class="col-md-1 cell-selected">
+																			<input class="overlay" type="radio" id="rubricChoice-10-0-0-0" name="rubricChoice-10-0-0" value="0-0" checked="">
+																			<span class="color_neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-0-0-1" name="rubricChoice-10-0-0" value="0-1">
+																			<span class="color_neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-0-0-2" name="rubricChoice-10-0-0" value="0-2">
+																			<span class="color_neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-0-0-3" name="rubricChoice-10-0-0" value="0-3">
+																			<span class="color_neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>
+																			<p>b) This student delivers quality work.</p>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-0-1-0" name="rubricChoice-10-0-1" value="1-0">
+																			<span class="color_neutral overlay"> Provides work of the highest quality.</span>
+																		</td>
+																		<td class="col-md-1 cell-selected">
+																			<input class="overlay" type="radio" id="rubricChoice-10-0-1-1" name="rubricChoice-10-0-1" value="1-1" checked="">
+																			<span class="color_neutral overlay"> Provides high quality work.</span>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-0-1-2" name="rubricChoice-10-0-1" value="1-2">
+																			<span class="color_neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-0-1-3" name="rubricChoice-10-0-1" value="1-3">
+																			<span class="color_neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+													<input type="hidden" id="rubricResponse-10-0" name="responsetext-10-0" value="">
+												</div>
+											</div>
+											<br>
+											<div class="form-group margin-0">
+												<div class="col-sm-2 form-inline" style="text-align:right">
+													<label for="input">To:</label>
+													<span> Francis Gabriel</span>
+												</div>
+												<div class="col-sm-10">
+													<div class="row">
+														<div class="col-sm-12 table-responsive">
+															<table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-1">
+																<thead>
+																	<tr>
+																		<th class="col-md-1"></th>
+																		<th class="rubricCol-10-0">
+																			<p>Strongly Agree</p>
+																		</th>
+																		<th class="rubricCol-10-1">
+																			<p>Agree</p>
+																		</th>
+																		<th class="rubricCol-10-2">
+																			<p>Disagree</p>
+																		</th>
+																		<th class="rubricCol-10-3">
+																			<p>Strongly Disagree</p>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td>
+																			<p>a) This student has contributed significantly to the project.</p>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-1-0-0" name="rubricChoice-10-1-0" value="0-0">
+																			<span class="color_neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-1-0-1" name="rubricChoice-10-1-0" value="0-1">
+																			<span class="color_neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
+																		</td>
+																		<td class="col-md-1 cell-selected">
+																			<input class="overlay" type="radio" id="rubricChoice-10-1-0-2" name="rubricChoice-10-1-0" value="0-2" checked="">
+																			<span class="color_neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-1-0-3" name="rubricChoice-10-1-0" value="0-3">
+																			<span class="color_neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>
+																			<p>b) This student delivers quality work.</p>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-1-1-0" name="rubricChoice-10-1-1" value="1-0">
+																			<span class="color_neutral overlay"> Provides work of the highest quality.</span>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-1-1-1" name="rubricChoice-10-1-1" value="1-1">
+																			<span class="color_neutral overlay"> Provides high quality work.</span>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-1-1-2" name="rubricChoice-10-1-1" value="1-2">
+																			<span class="color_neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
+																		</td>
+																		<td class="col-md-1">
+																			<input class="overlay" type="radio" id="rubricChoice-10-1-1-3" name="rubricChoice-10-1-1" value="1-3">
+																			<span class="color_neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+													<input type="hidden" id="rubricResponse-10-1" name="responsetext-10-1" value="">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<br> To setup the question, enter the main question text, and add choices and sub-questions by using the add column and add row buttons.
+							<br> Rows and columns can be deleted by clicking on the respective 'x' buttons. Optional description text can be used to specify and describe the choices.
+							<br> You may also assign weights to the choices for calculating statistics.
+							<br>
+							<br>
+							<div class="bs-example">
+								<form class="form-horizontal form_question" role="form" method="post" >
+									<div class="panel panel-primary questionTable" id="questionTable12">
+										<div class="panel-heading">
+											<div class="row">
+												<div class="col-sm-12">
+													<span>
+														<strong>Question</strong>
+														<select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-12" disabled="">
+															<option value="1">1</option>
+															<option value="2">2</option>
+															<option value="3">3</option>
+															<option value="4">4</option>
+															<option value="5">5</option>
+															<option value="6">6</option>
+															<option value="7">7</option>
+															<option value="8">8</option>
+															<option value="9">9</option>
+															<option value="10">10</option>
+															<option value="11">11</option>
+															<option value="12">12</option>
+														</select>
+														&nbsp; Rubric question
+													</span>
+													<span class="pull-right">
+														<a class="btn btn-primary btn-xs" id="questionedittext-12" data-toggle="tooltip" data-placement="top" onclick="enableEdit(12,12)" title="Edit this question">Edit</a>
+														<a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-12">Save Changes</a>
+														<a class="btn btn-primary btn-xs" onclick="deleteQuestion(12)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+													</span>
+												</div>
+											</div>
+										</div>
+										<div class="panel-body">
+											<div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
+												<div>
+													<textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-12" data-toggle="tooltip" data-placement="top" tabindex="9" disabled="" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Please choose the best choice for the following sub-questions.</textarea>
+												</div>
+												<div class="row">
+													<br>
+													<div class="col-sm-12 table-responsive">
+														<table class="table table-bordered margin-0" id="rubricEditTable-12">
+															<thead>
+																<tr>
+																	<th style="text-align:center; vertical-align:middle;">Choices</th>
+																	<th class="rubricCol-12-0">
+																		<div class="col-sm-12 input-group">
+																			<input type="text" class="form-control" value="Yes" id="rubricChoice-12-0" name="rubricChoice-0" disabled="">
+																			<span class="input-group-addon btn btn-default rubricRemoveChoiceLink-12" id="rubricRemoveChoiceLink-12-0" onclick="removeRubricCol(0, 12)" onmouseover="highlightRubricCol(0, 12, true)" onmouseout="highlightRubricCol(0, 12, false)" style="display: none;">
+																				<span class="glyphicon glyphicon-remove"></span>
+																			</span>
+																		</div>
+																	</th>
+																	<th class="rubricCol-12-1">
+																		<div class="col-sm-12 input-group">
+																			<input type="text" class="form-control" value="No" id="rubricChoice-12-1" name="rubricChoice-1" disabled="">
+																			<span class="input-group-addon btn btn-default rubricRemoveChoiceLink-12" id="rubricRemoveChoiceLink-12-1" onclick="removeRubricCol(1, 12)" onmouseover="highlightRubricCol(1, 12, true)" onmouseout="highlightRubricCol(1, 12, false)" style="display: none;">
+																				<span class="glyphicon glyphicon-remove"></span>
+																			</span>
+																		</div>
+																	</th>
+																</tr>
+																<tr id="rubricWeights-1">
+																	<th style="text-align:center; vertical-align:middle;"><input type="checkbox" class="nonDestructive" id="rubricAssignWeights-1" name="rubricAssignWeights" checked="" disabled=""><label data-toggle="tooltip" data-placement="top" data-original-title="Assign weights to the columns for calculating statistics.">Weights</label></th>
+																	<th class="rubricCol-1-0">
+																		<input type="number" class="form-control nonDestructive" value="1.5" id="rubricWeight-1-0" name="rubricWeight-0" step="0.01" disabled="">
+																	</th>
+																	<th class="rubricCol-1-1">
+																		<input type="number" class="form-control nonDestructive" value="-1.5" id="rubricWeight-1-1" name="rubricWeight-1" step="0.01" disabled="">
+																	</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr id="rubricRow-12-0">
+																	<td>
+																		<div class="col-sm-12 input-group">
+																			<span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-12" id="rubricRemoveSubQuestionLink-12-0" onclick="removeRubricRow(0,12)" onmouseover="highlightRubricRow(0, 12, true)" onmouseout="highlightRubricRow(0, 12, false)" style="display: none;">
+																				<span class="glyphicon glyphicon-remove"></span>
+																			</span>
+																			<textarea class="form-control" rows="3" id="rubricSubQn-12-0" name="rubricSubQn-0" disabled="">This student has done a good job.</textarea>
+																		</div>
+																	</td>
+																	<td class="align-center rubricCol-12-0">
+																		<textarea class="form-control nonDestructive" rows="3" id="rubricDesc-12-0-0" name="rubricDesc-0-0" disabled=""></textarea>
+																	</td>
+																	<td class="align-center rubricCol-12-1">
+																		<textarea class="form-control nonDestructive" rows="3" id="rubricDesc-12-0-1" name="rubricDesc-0-1" disabled=""></textarea>
+																	</td>
+																</tr>
+																<tr id="rubricRow-12-1">
+																	<td>
+																		<div class="col-sm-12 input-group">
+																			<span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-12" id="rubricRemoveSubQuestionLink-12-1" onclick="removeRubricRow(1,12)" onmouseover="highlightRubricRow(1, 12, true)" onmouseout="highlightRubricRow(1, 12, false)" style="display: none;">
+																				<span class="glyphicon glyphicon-remove"></span>
+																			</span>
+																			<textarea class="form-control" rows="3" id="rubricSubQn-12-1" name="rubricSubQn-1" disabled="">This student has tried his/her best.</textarea>
+																		</div>
+																	</td>
+																	<td class="align-center rubricCol-12-0">
+																		<textarea class="form-control nonDestructive" rows="3" id="rubricDesc-12-1-0" name="rubricDesc-1-0" disabled="">Most of the time</textarea>
+																	</td>
+																	<td class="align-center rubricCol-12-1">
+																		<textarea class="form-control nonDestructive" rows="3" id="rubricDesc-12-1-1" name="rubricDesc-1-1" disabled="">Less than half the time</textarea>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+													<input type="hidden" name="rubricNumRows" id="rubricNumRows-12" value="2" disabled="">
+													<input type="hidden" name="rubricNumCols" id="rubricNumCols-12" value="2" disabled="">
+												</div>
+												<div class="row">
+													<div class="col-sm-6 align-left">
+														<a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink-12" onclick="addRubricRow(12)" style="display: none;">
+															<span class="glyphicon glyphicon-arrow-down"> </span> add row</a>
+													</div>
+													<div class="col-sm-6 align-right">
+														<a class="btn btn-xs btn-primary" id="rubricAddChoiceLink-12" onclick="addRubricCol(12)" style="display: none;">add column
+															<span class="glyphicon glyphicon-arrow-right"></span>
+														</a>
+													</div>
+													<br>
+												</div>
+											</div>
+											<br>
+											<div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+												<div class="col-sm-12 padding-0">
+													<b>Feedback Path</b> (Who is giving feedback to whom?)
+												</div>
+												<div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="Who will give feedback">
+													<label class="col-sm-5 control-label">
+														Who will give the feedback:
+													</label>
+													<div class="col-sm-7">
+														<select class="form-control participantSelect" name="givertype" id="givertype-12" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+															<option value="SELF">Me (Session creator)</option>
+															<option value="STUDENTS" selected="">Students in this course</option>
+															<option value="INSTRUCTORS">Instructors in this course</option>
+															<option value="TEAMS">Teams in this course</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="Who the feedback is about">
+													<label class="col-sm-5 control-label">
+														Who the feedback is about:
+													</label>
+													<div class="col-sm-7">
+														<select class="form-control participantSelect" name="recipienttype" id="recipienttype-12" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+															<option value="SELF">Giver (Self feedback)</option>
+															<option value="STUDENTS">Other students in the course</option>
+															<option value="INSTRUCTORS">Instructors in the course</option>
+															<option value="TEAMS">Other teams in the course</option>
+															<option value="OWN_TEAM">Giver's team</option>
+															<option value="OWN_TEAM_MEMBERS">Giver's team members</option>
+															<option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" selected="">Giver's team members and Giver</option>
+															<option value="NONE">Nobody specific (For general class feedback)</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-sm-6">
+												</div>
+												<div class="col-sm-6 numberOfEntitiesElements12" style="display: none;">
+													<label id="numofrecipients_text-12" class="control-label col-sm-4 small">
+														The maximum number of
+														<span id="numofrecipients_text_inner-12"></span> each respondant should give feedback to:
+													</label>
+													<div class="col-sm-8 form-control-static">
+														<div class="col-sm-6">
+															<input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom" disabled="">
+															<input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-12" min="1" max="250" value="1" disabled="">
+														</div>
+														<div class="col-sm-6">
+															<input class="nonDestructive" type="radio" name="numofrecipientstype" checked="" value="max" disabled="">
+															<span class="">Unlimited</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<br>
+											<div class="col-sm-12 padding-15px background-color-light-green">
+												<div class="col-sm-12 padding-0">
+													<b>Visibility</b> (Who can see the responses?)
+												</div>
+												<div class="col-sm-6 btn-group" data-toggle="buttons">
+													<label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-12" onchange="toggleVisibilityOptions(this)">
+														<input type="radio" disabled="">
+														<span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+													</label>
+													<label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-12" onchange="toggleVisibilityMessage(this)">
+														<input type="radio" disabled="">
+														<span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+													</label>
+												</div>
+											</div>
+											<div class="col-sm-12 background-color-light-green">
+												<div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-12">
+													This is the visibility as seen by the feedback giver.
+													<ul class="background-color-warning">
+														<li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
+														<li>Other students in the course can see your response, the name of the recipient, and your name.</li>
+													</ul>
+												</div>
+											</div>
+											<div class="col-sm-12 margin-bottom-15px background-color-light-green">
+												<div class="visibilityOptions" id="visibilityOptions-12" style="display: none;">
+													<table class="dataTable participantTable table table-striped text-center background-color-white">
+														<tbody>
+															<tr>
+																<th class="text-center">User/Group</th>
+																<th class="text-center">Can see answer</th>
+																<th class="text-center">Can see giver's name</th>
+																<th class="text-center">Can see recipient's name</th>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="Control what feedback recipient(s) can view">
+																		Recipient(s)
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox12 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox12" type="checkbox" value="RECEIVER" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox12" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="Control what team members of feedback giver can view">
+																		Giver's Team Members
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox12" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox12" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox12" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="Control what team members of feedback recipients can view">
+																		Recipient's Team Members
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox12" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox12" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox12" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="Control what other students can view">
+																		Other students
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox12" type="checkbox" value="STUDENTS" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox12" type="checkbox" value="STUDENTS" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox12" type="checkbox" value="STUDENTS" disabled="" checked="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="Control what instructors can view">
+																		Instructors
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox12" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox12" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox12" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<div>
+												<span class="pull-right">
+													<input id="button_question_submit-12" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+												</span>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<br> The statistics for rubric question show the frquency which a choice is selected for each sub-question.
+							<br> If weights are assigned to the choices, they will be shown beside their corresponding choices.
+							<br>
+							<br>
+							<div class="bs-example">
+								<div class="resultStatistics">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-4 text-color-gray">
+												<strong>
+													Response Summary
+												</strong>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-12 table-responsive">
+												<table class="table table-striped table-bordered margin-0">
+													<thead>
+														<tr>
+															<th></th>
+															<th>
+																<p>Strongly Agree<span style="font-weight:normal;"> (Weight: 4)</span></p>
+															</th>
+															<th>
+																<p>Agree<span style="font-weight:normal;"> (Weight: 3)</span></p>
+															</th>
+															<th>
+																<p>Disagree<span style="font-weight:normal;"> (Weight: 2)</span></p>
+															</th>
+															<th>
+																<p>Strongly Disagree<span style="font-weight:normal;"> (Weight: 1)</span></p>
+															</th>
+															<th>
+																<p>Average</p>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>
+																<p>a) This student has contributed significantly to the project.</p>
+															</td>
+															<td>
+																12% (1)
+															</td>
+															<td>
+																25% (2)
+															</td>
+															<td>
+																25% (2)
+															</td>
+															<td>
+																38% (3)
+															</td>
+															<td>
+																2.13
+															</td>
+														</tr>
+														<tr>
+															<td>
+																<p>b) This student delivers quality work.</p>
+															</td>
+															<td>
+																29% (2)
+															</td>
+															<td>
+																43% (3)
+															</td>
+															<td>
+																14% (1)
+															</td>
+															<td>
+																14% (1)
+															</td>
+															<td>
+																2.86
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<a name="fbRankOptions">
+								<h4>Rank Options question</h4>
+							</a>
+							Rank options questions are question where the students rank options that are created by you. 
+							<br>
+							<br> To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times. 
+							<br>
+							<br>
+							<div class="bs-example">
+								<form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions" onsubmit="tallyCheckboxes(3)">
+									<div class="panel panel-primary questionTable" id="questionTable3">
+										<div class="panel-heading">
+											<div class="row">
+												<div class="col-sm-12">
+													<span>
+														<strong>Question</strong>
+														<select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-3" disabled="">
+																<option value="1">
+																	1
+																</option>
+														</select>
+														&nbsp;Rank (options) question
+													</span>
+													<span class="pull-right">
+														<a class="btn btn-primary btn-xs" id="questionedittext-3" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(3,4)" data-original-title="Edit this question">
+															Edit
+														</a>
+														<a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-3">
+															Save Changes
+														</a>
+														<a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(3)" id="questiondiscardchanges-3" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard your changes">
+															Cancel
+														</a>
+														<a class="btn btn-primary btn-xs" onclick="deleteQuestion(3)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">
+															Delete
+														</a>
+													</span>
+												</div>
+											</div>
+										</div>
+										<div class="panel-body">
+											<div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
+												<div>
+													<textarea class="form-control textvalue nonDestructive" rows="5" name="questiontext" id="questiontext-3" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rank the following factors in order of importance to your group, where 1 is the most important. </textarea>
+												</div>
+												<div class="row">
+									<br>
+									<div class="col-sm-6" id="rankOptionTable-3">
+										<div id="rankOptionRow-0-3">
+									<div class="input-group col-sm-12">
+										<input class="form-control" type="text" disabled="" name="rankOption-0" id="rankOption-0-3" value="Clearly defined goals for the next milestone">
+										<span class="input-group-btn">
+											<button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(0,3)" style="display:none" tabindex="-1" disabled="">
+												<span class="glyphicon glyphicon-remove">
+												</span>
+											</button>
+										</span>
+									</div>
+								</div>
+								<div id="rankOptionRow-1-3">
+									<div class="input-group col-sm-12">
+										<input class="form-control" type="text" disabled="" name="rankOption-1" id="rankOption-1-3" value="Commitment of all group members">
+										<span class="input-group-btn">
+											<button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(1,3)" style="display:none" tabindex="-1" disabled="">
+												<span class="glyphicon glyphicon-remove">
+												</span>
+											</button>
+										</span>
+									</div>
+								</div>
+								<div id="rankOptionRow-2-3">
+									<div class="input-group col-sm-12">
+										<input class="form-control" type="text" disabled="" name="rankOption-2" id="rankOption-2-3" value="Good coordination between group members">
+										<span class="input-group-btn">
+											<button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(2,3)" style="display:none" tabindex="-1" disabled="">
+												<span class="glyphicon glyphicon-remove">
+												</span>
+											</button>
+										</span>
+									</div>
+								</div>
+								<div id="rankOptionRow-3-3">
+									<div class="input-group col-sm-12">
+										<input class="form-control" type="text" disabled="" name="rankOption-3" id="rankOption-3-3" value="Better time management">
+										<span class="input-group-btn">
+											<button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(3,3)" style="display:none" tabindex="-1" disabled="">
+												<span class="glyphicon glyphicon-remove">
+												</span>
+											</button>
+										</span>
+									</div>
+								</div>
+										<div id="rankAddOptionRow-3">
+											<div colspan="2">
+												<a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-3" onclick="addRankOption(3)" style="display:none">
+													<span class="glyphicon glyphicon-plus">
+													</span> add more options
+												</a>
+											</div>
+										</div>
+										<input type="hidden" name="noofchoicecreated" id="noofchoicecreated-3" value="4" disabled="">
+									</div>
+									<div class="col-sm-6">
+										<div class="form-inline col-sm-12" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this will allow response givers to give the same rank to multiple options">
+											<input type="checkbox" name="rankAreDuplicatesAllowed" id="rankAreDuplicatesAllowed-3" checked="" disabled="">
+											<span style="margin-left: 5px; font-weight: bold;">Allow response giver to give the same rank to multiple options</span>
+										</div>
+									</div>
+									<br>
+								</div>
+											</div>
+											<br>
+								<div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+									<div class="col-sm-12 padding-0">
+										<b>Feedback Path</b> (Who is giving feedback about whom?)
+									</div>
+									<div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
+										<label class="col-sm-5 control-label">
+											Who will give the feedback:
+										</label>
+										<div class="col-sm-7">
+											<select class="form-control participantSelect" id="givertype-3" name="givertype" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+													<option value="SELF">
+														Me (Session creator)
+													</option>
+													<option value="STUDENTS">
+														Students in this course
+													</option>
+													<option value="INSTRUCTORS">
+														Instructors in this course
+													</option>
+													<option selected="" value="TEAMS">
+														Teams in this course
+													</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who the feedback is about">
+										<label class="col-sm-5 control-label">
+											Who the feedback is about:
+										</label>
+										<div class="col-sm-7">
+											<select class="form-control participantSelect" id="recipienttype-3" name="recipienttype" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+													<option selected="" value="SELF">
+														Giver (Self feedback)
+													</option>
+													<option value="STUDENTS">
+														Other students in the course
+													</option>
+													<option value="INSTRUCTORS">
+														Instructors in the course
+													</option>
+													<option value="TEAMS">
+														Other teams in the course
+													</option>
+													<option value="OWN_TEAM">
+														Giver's team
+													</option>
+													<option value="OWN_TEAM_MEMBERS">
+														Giver's team members
+													</option>
+													<option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
+														Giver's team members and Giver
+													</option>
+													<option value="NONE">
+														Nobody specific (For general class feedback)
+													</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-sm-6">
+									</div>
+									<div class="col-sm-6 numberOfEntitiesElements3" style="display: none;">
+										<label id="numofrecipients_text-3" class="control-label col-sm-4 small">
+											The maximum number of <span id="numofrecipients_text_inner-3"></span> each respondant should give feedback to:
+										</label>
+										<div class="col-sm-8 form-control-static">
+											<div class="col-sm-6">
+												<input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom" disabled="">
+												<input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-3" value="1" min="1" max="250" disabled="">
+											</div>
+											<div class="col-sm-6">
+												<input class="nonDestructive" type="radio" name="numofrecipientstype" checked="" value="max" disabled="">
+												<span class="">Unlimited</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="col-sm-12 padding-15px background-color-light-green">
+									<div class="col-sm-12 padding-0">
+										<b>Visibility</b> (Who can see the responses?)
+									</div>
+									<div class="col-sm-6 btn-group" data-toggle="buttons">
+										<label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-3" onchange="toggleVisibilityOptions(this)">
+											<input type="radio" disabled="">
+											<span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+										</label>
+										<label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-3" onchange="toggleVisibilityMessage(this)">
+											<input type="radio" disabled="">
+											<span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+										</label>
+									</div>
+								</div>
+								<div class="col-sm-12 background-color-light-green">
+									<div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-3">
+										This is the visibility as seen by the feedback giver.
+										<ul class="background-color-warning">
+											<li>You can see your own feedback in the results page later on.</li>
+											<li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
+										</ul>
+									</div>
+								</div>
+								<div class="col-sm-12 margin-bottom-15px background-color-light-green">
+									<div class="visibilityOptions" id="visibilityOptions-3" style="display: none;">
+										<table class="dataTable participantTable table table-striped text-center background-color-white">
+											<tbody><tr>
+												<th class="text-center">User/Group</th>
+												<th class="text-center">Can see answer</th>
+												<th class="text-center">Can see giver's name</th>
+												<th class="text-center">Can see recipient's name</th>
+											</tr>
+											<tr>
+												<td class="text-left">
+													<div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what feedback recipient(s) can view">
+														Recipient(s)
+													</div>
+												</td>
+												<td>
+													<input class="visibilityCheckbox answerCheckbox3 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
+												</td>
+												<td>
+													<input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="RECEIVER" disabled="" checked="">
+												</td>
+												<td>
+													<input class="visibilityCheckbox recipientCheckbox3" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
+												</td>
+											</tr>
+											<tr>
+												<td class="text-left">
+													<div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback giver can view">
+														Giver's Team Members
+													</div>
+												</td>
+												<td>
+													<input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
+												</td>
+												<td>
+													<input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
+												</td>
+												<td>
+													<input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
+												</td>
+											</tr>
+											<tr>
+												<td class="text-left">
+													<div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback recipients can view">
+														Recipient's Team Members
+													</div>
+												</td>
+												<td>
+													<input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
+												</td>
+												<td>
+													<input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
+												</td>
+												<td>
+													<input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
+												</td>
+											</tr>
+											<tr>
+												<td class="text-left">
+													<div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
+														Other students
+													</div>
+												</td>
+												<td>
+													<input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="STUDENTS" disabled="">
+												</td>
+												<td>
+													<input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="STUDENTS" disabled="">
+												</td>
+												<td>
+													<input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="STUDENTS" disabled="">
+												</td>
+											</tr>
+											<tr>
+												<td class="text-left">
+													<div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+														Instructors
+													</div>
+												</td>
+												<td>
+													<input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+												</td>
+												<td>
+													<input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+												</td>
+												<td>
+													<input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+												</td>
+											</tr>
+										</tbody></table>
+									</div>
+								</div>
+											<div>
+												<span class="pull-right">
+													<input id="button_question_submit-3" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
+												</span>
+											</div>
+										</div>
+									</div>
+									<input type="hidden" name="fsname" value="rankk">
+									<input type="hidden" name="courseid" value="instr.ema-demo">
+									<input type="hidden" name="questionid" value="ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgKzgCQw">
+									<input type="hidden" name="questionnum" value="3">
+									<input type="hidden" name="questiontype" value="RANK_OPTIONS">
+									<input type="hidden" name="questionedittype" id="questionedittype-3" value="edit">
+									<input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS">
+									<input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS">
+									<input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS">
+									<input type="hidden" name="user" value="inst@email.com">
+								</form>
+							</div>
             </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <a name="fbRubric">
-                  <h4>Rubric question</h4>
-                </a>
-                Rubric questions allow instructors to create multiple sub-questions, with highly customizable choices and descriptions.
-                <br>
-                <br> To the student, the question looks similar to:
-                <br>
-                <br>
-                <div class="bs-example">
-                  <div class="form-horizontal">
-                    <div class="panel panel-primary">
-                      <div class="panel-heading">Question 10:
-                        <br>
-                        <span >Please answer the following questions.</span>
-                      </div>
-                      <div class="panel-body">
-                        <p class="text-muted">Only the following persons can see your responses: </p>
-                        <ul class="text-muted">
-                          <li class="unordered">Other students in the course can see your response, the name of the recipient, and your name.</li>
-                          <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                        </ul>
-                        <br>
-                        <div class="form-group margin-0">
-                          <div class="col-sm-2 form-inline" style="text-align:right">
-                            <label for="input">To:</label>
-                            <span> Charlie Davis</span>
-                          </div>
-                          <div class="col-sm-10">
-                            <div class="row">
-                              <div class="col-sm-12 table-responsive">
-                                <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-0">
-                                  <thead>
-                                    <tr>
-                                      <th class="col-md-1"></th>
-                                      <th class="rubricCol-10-0">
-                                        <p>Strongly Agree</p>
-                                      </th>
-                                      <th class="rubricCol-10-1">
-                                        <p>Agree</p>
-                                      </th>
-                                      <th class="rubricCol-10-2">
-                                        <p>Disagree</p>
-                                      </th>
-                                      <th class="rubricCol-10-3">
-                                        <p>Strongly Disagree</p>
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <p>a) This student has contributed significantly to the project.</p>
-                                      </td>
-                                      <td class="col-md-1 cell-selected">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-0-0-0" name="rubricChoice-10-0-0" value="0-0" checked="">
-                                        <span class="color_neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-0-0-1" name="rubricChoice-10-0-0" value="0-1">
-                                        <span class="color_neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-0-0-2" name="rubricChoice-10-0-0" value="0-2">
-                                        <span class="color_neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-0-0-3" name="rubricChoice-10-0-0" value="0-3">
-                                        <span class="color_neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                        <p>b) This student delivers quality work.</p>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-0-1-0" name="rubricChoice-10-0-1" value="1-0">
-                                        <span class="color_neutral overlay"> Provides work of the highest quality.</span>
-                                      </td>
-                                      <td class="col-md-1 cell-selected">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-0-1-1" name="rubricChoice-10-0-1" value="1-1" checked="">
-                                        <span class="color_neutral overlay"> Provides high quality work.</span>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-0-1-2" name="rubricChoice-10-0-1" value="1-2">
-                                        <span class="color_neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-0-1-3" name="rubricChoice-10-0-1" value="1-3">
-                                        <span class="color_neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                            <input type="hidden" id="rubricResponse-10-0" name="responsetext-10-0" value="">
-                          </div>
-                        </div>
-                        <br>
-                        <div class="form-group margin-0">
-                          <div class="col-sm-2 form-inline" style="text-align:right">
-                            <label for="input">To:</label>
-                            <span> Francis Gabriel</span>
-                          </div>
-                          <div class="col-sm-10">
-                            <div class="row">
-                              <div class="col-sm-12 table-responsive">
-                                <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-1">
-                                  <thead>
-                                    <tr>
-                                      <th class="col-md-1"></th>
-                                      <th class="rubricCol-10-0">
-                                        <p>Strongly Agree</p>
-                                      </th>
-                                      <th class="rubricCol-10-1">
-                                        <p>Agree</p>
-                                      </th>
-                                      <th class="rubricCol-10-2">
-                                        <p>Disagree</p>
-                                      </th>
-                                      <th class="rubricCol-10-3">
-                                        <p>Strongly Disagree</p>
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <p>a) This student has contributed significantly to the project.</p>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-1-0-0" name="rubricChoice-10-1-0" value="0-0">
-                                        <span class="color_neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-1-0-1" name="rubricChoice-10-1-0" value="0-1">
-                                        <span class="color_neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
-                                      </td>
-                                      <td class="col-md-1 cell-selected">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-1-0-2" name="rubricChoice-10-1-0" value="0-2" checked="">
-                                        <span class="color_neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-1-0-3" name="rubricChoice-10-1-0" value="0-3">
-                                        <span class="color_neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                        <p>b) This student delivers quality work.</p>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-1-1-0" name="rubricChoice-10-1-1" value="1-0">
-                                        <span class="color_neutral overlay"> Provides work of the highest quality.</span>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-1-1-1" name="rubricChoice-10-1-1" value="1-1">
-                                        <span class="color_neutral overlay"> Provides high quality work.</span>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-1-1-2" name="rubricChoice-10-1-1" value="1-2">
-                                        <span class="color_neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
-                                      </td>
-                                      <td class="col-md-1">
-                                        <input class="overlay" type="radio" id="rubricChoice-10-1-1-3" name="rubricChoice-10-1-1" value="1-3">
-                                        <span class="color_neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                            <input type="hidden" id="rubricResponse-10-1" name="responsetext-10-1" value="">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <br> To setup the question, enter the main question text, and add choices and sub-questions by using the add column and add row buttons.
-                <br> Rows and columns can be deleted by clicking on the respective 'x' buttons. Optional description text can be used to specify and describe the choices.
-                <br> You may also assign weights to the choices for calculating statistics.
-                <br>
-                <br>
-                <div class="bs-example">
-                  <form class="form-horizontal form_question" role="form" method="post" >
-                    <div class="panel panel-primary questionTable" id="questionTable12">
-                      <div class="panel-heading">
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <span>
-                              <strong>Question</strong>
-                              <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-12" disabled="">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                              </select>
-                              &nbsp; Rubric question
-                            </span>
-                            <span class="pull-right">
-                              <a class="btn btn-primary btn-xs" id="questionedittext-12" data-toggle="tooltip" data-placement="top" onclick="enableEdit(12,12)" title="Edit this question">Edit</a>
-                              <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-12">Save Changes</a>
-                              <a class="btn btn-primary btn-xs" onclick="deleteQuestion(12)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="panel-body">
-                        <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                          <div>
-                            <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-12" data-toggle="tooltip" data-placement="top" tabindex="9" disabled="" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Please choose the best choice for the following sub-questions.</textarea>
-                          </div>
-                          <div class="row">
-                            <br>
-                            <div class="col-sm-12 table-responsive">
-                              <table class="table table-bordered margin-0" id="rubricEditTable-12">
-                                <thead>
-                                  <tr>
-                                    <th style="text-align:center; vertical-align:middle;">Choices</th>
-                                    <th class="rubricCol-12-0">
-                                      <div class="col-sm-12 input-group">
-                                        <input type="text" class="form-control" value="Yes" id="rubricChoice-12-0" name="rubricChoice-0" disabled="">
-                                        <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-12" id="rubricRemoveChoiceLink-12-0" onclick="removeRubricCol(0, 12)" onmouseover="highlightRubricCol(0, 12, true)" onmouseout="highlightRubricCol(0, 12, false)" style="display: none;">
-                                          <span class="glyphicon glyphicon-remove"></span>
-                                        </span>
-                                      </div>
-                                    </th>
-                                    <th class="rubricCol-12-1">
-                                      <div class="col-sm-12 input-group">
-                                        <input type="text" class="form-control" value="No" id="rubricChoice-12-1" name="rubricChoice-1" disabled="">
-                                        <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-12" id="rubricRemoveChoiceLink-12-1" onclick="removeRubricCol(1, 12)" onmouseover="highlightRubricCol(1, 12, true)" onmouseout="highlightRubricCol(1, 12, false)" style="display: none;">
-                                          <span class="glyphicon glyphicon-remove"></span>
-                                        </span>
-                                      </div>
-                                    </th>
-                                  </tr>
-                                  <tr id="rubricWeights-1">
-                                    <th style="text-align:center; vertical-align:middle;"><input type="checkbox" class="nonDestructive" id="rubricAssignWeights-1" name="rubricAssignWeights" checked="" disabled=""><label data-toggle="tooltip" data-placement="top" data-original-title="Assign weights to the columns for calculating statistics.">Weights</label></th>
-                                    <th class="rubricCol-1-0">
-                                      <input type="number" class="form-control nonDestructive" value="1.5" id="rubricWeight-1-0" name="rubricWeight-0" step="0.01" disabled="">
-                                    </th>
-                                    <th class="rubricCol-1-1">
-                                      <input type="number" class="form-control nonDestructive" value="-1.5" id="rubricWeight-1-1" name="rubricWeight-1" step="0.01" disabled="">
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr id="rubricRow-12-0">
-                                    <td>
-                                      <div class="col-sm-12 input-group">
-                                        <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-12" id="rubricRemoveSubQuestionLink-12-0" onclick="removeRubricRow(0,12)" onmouseover="highlightRubricRow(0, 12, true)" onmouseout="highlightRubricRow(0, 12, false)" style="display: none;">
-                                          <span class="glyphicon glyphicon-remove"></span>
-                                        </span>
-                                        <textarea class="form-control" rows="3" id="rubricSubQn-12-0" name="rubricSubQn-0" disabled="">This student has done a good job.</textarea>
-                                      </div>
-                                    </td>
-                                    <td class="align-center rubricCol-12-0">
-                                      <textarea class="form-control nonDestructive" rows="3" id="rubricDesc-12-0-0" name="rubricDesc-0-0" disabled=""></textarea>
-                                    </td>
-                                    <td class="align-center rubricCol-12-1">
-                                      <textarea class="form-control nonDestructive" rows="3" id="rubricDesc-12-0-1" name="rubricDesc-0-1" disabled=""></textarea>
-                                    </td>
-                                  </tr>
-                                  <tr id="rubricRow-12-1">
-                                    <td>
-                                      <div class="col-sm-12 input-group">
-                                        <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-12" id="rubricRemoveSubQuestionLink-12-1" onclick="removeRubricRow(1,12)" onmouseover="highlightRubricRow(1, 12, true)" onmouseout="highlightRubricRow(1, 12, false)" style="display: none;">
-                                          <span class="glyphicon glyphicon-remove"></span>
-                                        </span>
-                                        <textarea class="form-control" rows="3" id="rubricSubQn-12-1" name="rubricSubQn-1" disabled="">This student has tried his/her best.</textarea>
-                                      </div>
-                                    </td>
-                                    <td class="align-center rubricCol-12-0">
-                                      <textarea class="form-control nonDestructive" rows="3" id="rubricDesc-12-1-0" name="rubricDesc-1-0" disabled="">Most of the time</textarea>
-                                    </td>
-                                    <td class="align-center rubricCol-12-1">
-                                      <textarea class="form-control nonDestructive" rows="3" id="rubricDesc-12-1-1" name="rubricDesc-1-1" disabled="">Less than half the time</textarea>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <input type="hidden" name="rubricNumRows" id="rubricNumRows-12" value="2" disabled="">
-                            <input type="hidden" name="rubricNumCols" id="rubricNumCols-12" value="2" disabled="">
-                          </div>
-                          <div class="row">
-                            <div class="col-sm-6 align-left">
-                              <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink-12" onclick="addRubricRow(12)" style="display: none;">
-                                <span class="glyphicon glyphicon-arrow-down"> </span> add row</a>
-                            </div>
-                            <div class="col-sm-6 align-right">
-                              <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink-12" onclick="addRubricCol(12)" style="display: none;">add column
-                                <span class="glyphicon glyphicon-arrow-right"></span>
-                              </a>
-                            </div>
-                            <br>
-                          </div>
-                        </div>
-                        <br>
-                        <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-                          <div class="col-sm-12 padding-0">
-                            <b>Feedback Path</b> (Who is giving feedback to whom?)
-                          </div>
-                          <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="Who will give feedback">
-                            <label class="col-sm-5 control-label">
-                              Who will give the feedback:
-                            </label>
-                            <div class="col-sm-7">
-                              <select class="form-control participantSelect" name="givertype" id="givertype-12" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                                <option value="SELF">Me (Session creator)</option>
-                                <option value="STUDENTS" selected="">Students in this course</option>
-                                <option value="INSTRUCTORS">Instructors in this course</option>
-                                <option value="TEAMS">Teams in this course</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="Who the feedback is about">
-                            <label class="col-sm-5 control-label">
-                              Who the feedback is about:
-                            </label>
-                            <div class="col-sm-7">
-                              <select class="form-control participantSelect" name="recipienttype" id="recipienttype-12" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
-                                <option value="SELF">Giver (Self feedback)</option>
-                                <option value="STUDENTS">Other students in the course</option>
-                                <option value="INSTRUCTORS">Instructors in the course</option>
-                                <option value="TEAMS">Other teams in the course</option>
-                                <option value="OWN_TEAM">Giver's team</option>
-                                <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
-                                <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" selected="">Giver's team members and Giver</option>
-                                <option value="NONE">Nobody specific (For general class feedback)</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                          </div>
-                          <div class="col-sm-6 numberOfEntitiesElements12" style="display: none;">
-                            <label id="numofrecipients_text-12" class="control-label col-sm-4 small">
-                              The maximum number of
-                              <span id="numofrecipients_text_inner-12"></span> each respondant should give feedback to:
-                            </label>
-                            <div class="col-sm-8 form-control-static">
-                              <div class="col-sm-6">
-                                <input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom" disabled="">
-                                <input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-12" min="1" max="250" value="1" disabled="">
-                              </div>
-                              <div class="col-sm-6">
-                                <input class="nonDestructive" type="radio" name="numofrecipientstype" checked="" value="max" disabled="">
-                                <span class="">Unlimited</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <br>
-                        <div class="col-sm-12 padding-15px background-color-light-green">
-                          <div class="col-sm-12 padding-0">
-                            <b>Visibility</b> (Who can see the responses?)
-                          </div>
-                          <div class="col-sm-6 btn-group" data-toggle="buttons">
-                            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-12" onchange="toggleVisibilityOptions(this)">
-                              <input type="radio" disabled="">
-                              <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-                            </label>
-                            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-12" onchange="toggleVisibilityMessage(this)">
-                              <input type="radio" disabled="">
-                              <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-                            </label>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 background-color-light-green">
-                          <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-12">
-                            This is the visibility as seen by the feedback giver.
-                            <ul class="background-color-warning">
-                              <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                              <li>Other students in the course can see your response, the name of the recipient, and your name.</li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="col-sm-12 margin-bottom-15px background-color-light-green">
-                          <div class="visibilityOptions" id="visibilityOptions-12" style="display: none;">
-                            <table class="dataTable participantTable table table-striped text-center background-color-white">
-                              <tbody>
-                                <tr>
-                                  <th class="text-center">User/Group</th>
-                                  <th class="text-center">Can see answer</th>
-                                  <th class="text-center">Can see giver's name</th>
-                                  <th class="text-center">Can see recipient's name</th>
-                                </tr>
-                                <tr>
-                                  <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="Control what feedback recipient(s) can view">
-                                      Recipient(s)
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox answerCheckbox12 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox giverCheckbox12" type="checkbox" value="RECEIVER" disabled="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox recipientCheckbox12" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="">
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="Control what team members of feedback giver can view">
-                                      Giver's Team Members
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox answerCheckbox12" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox giverCheckbox12" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox recipientCheckbox12" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="Control what team members of feedback recipients can view">
-                                      Recipient's Team Members
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox answerCheckbox12" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox giverCheckbox12" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox recipientCheckbox12" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="Control what other students can view">
-                                      Other students
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox answerCheckbox12" type="checkbox" value="STUDENTS" disabled="" checked="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox giverCheckbox12" type="checkbox" value="STUDENTS" disabled="" checked="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox recipientCheckbox12" type="checkbox" value="STUDENTS" disabled="" checked="">
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="Control what instructors can view">
-                                      Instructors
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox answerCheckbox12" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox giverCheckbox12" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                                  </td>
-                                  <td>
-                                    <input class="visibilityCheckbox recipientCheckbox12" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                        <div>
-                          <span class="pull-right">
-                            <input id="button_question_submit-12" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <br> The statistics for rubric question show the frquency which a choice is selected for each sub-question.
-                <br> If weights are assigned to the choices, they will be shown beside their corresponding choices.
-                <br>
-                <br>
-                <div class="bs-example">
-                  <div class="resultStatistics">
-                    <div class="panel-body">
-                      <div class="row">
-                        <div class="col-sm-4 text-color-gray">
-                          <strong>
-                            Response Summary
-                          </strong>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12 table-responsive">
-                          <table class="table table-striped table-bordered margin-0">
-                            <thead>
-                              <tr>
-                                <th></th>
-                                <th>
-                                  <p>Strongly Agree<span style="font-weight:normal;"> (Weight: 4)</span></p>
-                                </th>
-                                <th>
-                                  <p>Agree<span style="font-weight:normal;"> (Weight: 3)</span></p>
-                                </th>
-                                <th>
-                                  <p>Disagree<span style="font-weight:normal;"> (Weight: 2)</span></p>
-                                </th>
-                                <th>
-                                  <p>Strongly Disagree<span style="font-weight:normal;"> (Weight: 1)</span></p>
-                                </th>
-                                <th>
-                                  <p>Average</p>
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <p>a) This student has contributed significantly to the project.</p>
-                                </td>
-                                <td>
-                                  12% (1)
-                                </td>
-                                <td>
-                                  25% (2)
-                                </td>
-                                <td>
-                                  25% (2)
-                                </td>
-                                <td>
-                                  38% (3)
-                                </td>
-                                <td>
-                                  2.13
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <p>b) This student delivers quality work.</p>
-                                </td>
-                                <td>
-                                  29% (2)
-                                </td>
-                                <td>
-                                  43% (3)
-                                </td>
-                                <td>
-                                  14% (1)
-                                </td>
-                                <td>
-                                  14% (1)
-                                </td>
-                                <td>
-                                  2.86
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <a name="fbRankOptions">
-                  <h4>Rank Options question</h4>
-                </a>
-                Rank options questions are question where the students rank options that are created by you. 
-                <br>
-                <br> To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times. 
-                <br>
-                <br>
-                <div class="bs-example">
-                  <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions" onsubmit="tallyCheckboxes(3)">
-                    <div class="panel panel-primary questionTable" id="questionTable3">
-                      <div class="panel-heading">
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <span>
-                              <strong>Question</strong>
-                              <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-3" disabled="">
-                                  <option value="1">
-                                    1
-                                  </option>
-                              </select>
-                              &nbsp;Rank (options) question
-                            </span>
-                            <span class="pull-right">
-                              <a class="btn btn-primary btn-xs" id="questionedittext-3" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(3,4)" data-original-title="Edit this question">
-                                Edit
-                              </a>
-                              <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-3">
-                                Save Changes
-                              </a>
-                              <a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(3)" id="questiondiscardchanges-3" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard your changes">
-                                Cancel
-                              </a>
-                              <a class="btn btn-primary btn-xs" onclick="deleteQuestion(3)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">
-                                Delete
-                              </a>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="panel-body">
-                        <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                          <div>
-                            <textarea class="form-control textvalue nonDestructive" rows="5" name="questiontext" id="questiontext-3" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rank the following factors in order of importance to your group, where 1 is the most important. </textarea>
-                          </div>
-                          <div class="row">
-                    <br>
-                    <div class="col-sm-6" id="rankOptionTable-3">
-                      <div id="rankOptionRow-0-3">
-                    <div class="input-group col-sm-12">
-                      <input class="form-control" type="text" disabled="" name="rankOption-0" id="rankOption-0-3" value="Clearly defined goals for the next milestone">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(0,3)" style="display:none" tabindex="-1" disabled="">
-                          <span class="glyphicon glyphicon-remove">
-                          </span>
-                        </button>
-                      </span>
-                    </div>
-                  </div>
-                  <div id="rankOptionRow-1-3">
-                    <div class="input-group col-sm-12">
-                      <input class="form-control" type="text" disabled="" name="rankOption-1" id="rankOption-1-3" value="Commitment of all group members">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(1,3)" style="display:none" tabindex="-1" disabled="">
-                          <span class="glyphicon glyphicon-remove">
-                          </span>
-                        </button>
-                      </span>
-                    </div>
-                  </div>
-                  <div id="rankOptionRow-2-3">
-                    <div class="input-group col-sm-12">
-                      <input class="form-control" type="text" disabled="" name="rankOption-2" id="rankOption-2-3" value="Good coordination between group members">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(2,3)" style="display:none" tabindex="-1" disabled="">
-                          <span class="glyphicon glyphicon-remove">
-                          </span>
-                        </button>
-                      </span>
-                    </div>
-                  </div>
-                  <div id="rankOptionRow-3-3">
-                    <div class="input-group col-sm-12">
-                      <input class="form-control" type="text" disabled="" name="rankOption-3" id="rankOption-3-3" value="Better time management">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(3,3)" style="display:none" tabindex="-1" disabled="">
-                          <span class="glyphicon glyphicon-remove">
-                          </span>
-                        </button>
-                      </span>
-                    </div>
-                  </div>
-                      <div id="rankAddOptionRow-3">
-                        <div colspan="2">
-                          <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-3" onclick="addRankOption(3)" style="display:none">
-                            <span class="glyphicon glyphicon-plus">
-                            </span> add more options
-                          </a>
-                        </div>
-                      </div>
-                      <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-3" value="4" disabled="">
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-inline col-sm-12" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this will allow response givers to give the same rank to multiple options">
-                        <input type="checkbox" name="rankAreDuplicatesAllowed" id="rankAreDuplicatesAllowed-3" checked="" disabled="">
-                        <span style="margin-left: 5px; font-weight: bold;">Allow response giver to give the same rank to multiple options</span>
-                      </div>
-                    </div>
-                    <br>
-                  </div>
-                        </div>
-                        <br>
-                  <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-                    <div class="col-sm-12 padding-0">
-                      <b>Feedback Path</b> (Who is giving feedback about whom?)
-                    </div>
-                    <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
-                      <label class="col-sm-5 control-label">
-                        Who will give the feedback:
-                      </label>
-                      <div class="col-sm-7">
-                        <select class="form-control participantSelect" id="givertype-3" name="givertype" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                            <option value="SELF">
-                              Me (Session creator)
-                            </option>
-                            <option value="STUDENTS">
-                              Students in this course
-                            </option>
-                            <option value="INSTRUCTORS">
-                              Instructors in this course
-                            </option>
-                            <option selected="" value="TEAMS">
-                              Teams in this course
-                            </option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who the feedback is about">
-                      <label class="col-sm-5 control-label">
-                        Who the feedback is about:
-                      </label>
-                      <div class="col-sm-7">
-                        <select class="form-control participantSelect" id="recipienttype-3" name="recipienttype" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
-                            <option selected="" value="SELF">
-                              Giver (Self feedback)
-                            </option>
-                            <option value="STUDENTS">
-                              Other students in the course
-                            </option>
-                            <option value="INSTRUCTORS">
-                              Instructors in the course
-                            </option>
-                            <option value="TEAMS">
-                              Other teams in the course
-                            </option>
-                            <option value="OWN_TEAM">
-                              Giver's team
-                            </option>
-                            <option value="OWN_TEAM_MEMBERS">
-                              Giver's team members
-                            </option>
-                            <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                              Giver's team members and Giver
-                            </option>
-                            <option value="NONE">
-                              Nobody specific (For general class feedback)
-                            </option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                    </div>
-                    <div class="col-sm-6 numberOfEntitiesElements3" style="display: none;">
-                      <label id="numofrecipients_text-3" class="control-label col-sm-4 small">
-                        The maximum number of <span id="numofrecipients_text_inner-3"></span> each respondant should give feedback to:
-                      </label>
-                      <div class="col-sm-8 form-control-static">
-                        <div class="col-sm-6">
-                          <input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom" disabled="">
-                          <input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-3" value="1" min="1" max="250" disabled="">
-                        </div>
-                        <div class="col-sm-6">
-                          <input class="nonDestructive" type="radio" name="numofrecipientstype" checked="" value="max" disabled="">
-                          <span class="">Unlimited</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <br>
-                  <div class="col-sm-12 padding-15px background-color-light-green">
-                    <div class="col-sm-12 padding-0">
-                      <b>Visibility</b> (Who can see the responses?)
-                    </div>
-                    <div class="col-sm-6 btn-group" data-toggle="buttons">
-                      <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-3" onchange="toggleVisibilityOptions(this)">
-                        <input type="radio" disabled="">
-                        <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-                      </label>
-                      <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-3" onchange="toggleVisibilityMessage(this)">
-                        <input type="radio" disabled="">
-                        <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 background-color-light-green">
-                    <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-3">
-                      This is the visibility as seen by the feedback giver.
-                      <ul class="background-color-warning">
-                        <li>You can see your own feedback in the results page later on.</li>
-                        <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 margin-bottom-15px background-color-light-green">
-                    <div class="visibilityOptions" id="visibilityOptions-3" style="display: none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white">
-                        <tbody><tr>
-                          <th class="text-center">User/Group</th>
-                          <th class="text-center">Can see answer</th>
-                          <th class="text-center">Can see giver's name</th>
-                          <th class="text-center">Can see recipient's name</th>
-                        </tr>
-                        <tr>
-                          <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what feedback recipient(s) can view">
-                              Recipient(s)
-                            </div>
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox answerCheckbox3 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="RECEIVER" disabled="" checked="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox recipientCheckbox3" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback giver can view">
-                              Giver's Team Members
-                            </div>
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback recipients can view">
-                              Recipient's Team Members
-                            </div>
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
-                              Other students
-                            </div>
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="STUDENTS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="STUDENTS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="STUDENTS" disabled="">
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
-                              Instructors
-                            </div>
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                          </td>
-                        </tr>
-                      </tbody></table>
-                    </div>
-                  </div>
-                        <div>
-                          <span class="pull-right">
-                            <input id="button_question_submit-3" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <input type="hidden" name="fsname" value="rankk">
-                    <input type="hidden" name="courseid" value="instr.ema-demo">
-                    <input type="hidden" name="questionid" value="ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgKzgCQw">
-                    <input type="hidden" name="questionnum" value="3">
-                    <input type="hidden" name="questiontype" value="RANK_OPTIONS">
-                    <input type="hidden" name="questionedittype" id="questionedittype-3" value="edit">
-                    <input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS">
-                    <input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS">
-                    <input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS">
-                    <input type="hidden" name="user" value="inst@email.com">
-                  </form>
-                </div>
-            </div>
-            <div class="row">
               <div class="col-sm-12">
                 <a name="fbRankRecipients">
                   <h4>Rank Recipients question</h4>
@@ -6778,8 +6772,6 @@
                   </div>
                 </div>
               </div>
-              </div>
-            </div>
           </li>
         </ol>
       </div>
