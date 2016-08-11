@@ -66,16 +66,17 @@
         "CS2104":{
             "id":"CS2104",
             "name":"Programming Language Concepts",
-            "isArchived": false
+            "timeZone":"UTC"
         },
         "CS1101":{
             "id":"CS1101",
             "name":"Programming Methodology",
-            "isArchived": false
+            "timeZone":"UTC"
         },
         "CS4215":{
             "id":"CS4215",
-            "name":"Programming Language Implementation"
+            "name":"Programming Language Implementation",
+            "timeZone":"UTC"
         }
     },
     "instructors":{

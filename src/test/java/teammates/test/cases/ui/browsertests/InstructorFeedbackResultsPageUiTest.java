@@ -15,12 +15,13 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
-import teammates.test.util.Priority;
 import teammates.test.util.FileHelper;
+import teammates.test.util.Priority;
 
 /**
  * Tests 'Feedback Results' view of instructors.
@@ -69,6 +70,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     public void testContent() throws Exception {
 
+        ______TS("Typical case: large session with no sections");
+
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
+                "Session with no sections", true, "question");
+        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING);
+        
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -344,6 +351,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @Test
     public void testViewPhotoAndAjaxForLargeScaledSession() throws Exception {
 
+        // Mouseover actions do not work on Selenium-Chrome
+        if ("chrome".equals(TestProperties.BROWSER)) {
+            return;
+        }
+        
         uploadPhotoForStudent(testData.students.get("Alice").googleId);
 
         ______TS("Typical case: ajax for view by questions");
@@ -466,15 +478,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.filterResponsesForSection("Section B");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredBySectionB.html");
 
-        ______TS("Typical case: filter by 'Not in a section'");
+        ______TS("Typical case: filter by 'No specific recipient'");
 
-        resultsPage.filterResponsesForSection("Not in a section");
+        resultsPage.filterResponsesForSection(Const.NO_SPECIFIC_RECIEPIENT);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredByNoSection.html");
         
         
-        ______TS("Verify that 'Not in a section' has a section panel on a non-question view");
+        ______TS("Verify that 'No specific recipient' has a section panel on a non-question view");
         resultsPage.displayByRecipientGiverQuestion();
-        assertTrue(resultsPage.isSectionPanelExist("Not in a section"));
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_RECIEPIENT));
         assertFalse(resultsPage.isSectionPanelExist("Section A"));
 
         resultsPage.displayByQuestion();
@@ -494,6 +506,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifySpecifiedPanelIdsAreCollapsed(new String[] { "0-2", "0-3", "0-4" });
 
         resultsPage.clickGroupByTeam();
+
+        resultsPage.displayByGiverRecipientQuestion();
+        resultsPage.clickSectionCollapseStudentsButton();
+        resultsPage.waitForSectionStudentPanelsToCollapse();
+
         resultsPage.displayByQuestion();
 
         ______TS("Typical case: panels expand/collapse");

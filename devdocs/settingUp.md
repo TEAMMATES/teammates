@@ -115,13 +115,18 @@ Refer to [this document](staticAnalysis.md) for details on the tools used, how t
 
 
 
-1. TEAMMATES automated testing requires Firefox (works on Windows and OS-X).
-   Only Firefox between versions 38.0.5 and 46.0 are supported, although the primary support is for 46.0.
+1. TEAMMATES automated testing requires Firefox (versions 38.0.5 to 46.0.1) or Chrome, both of which work on Windows and Mac OS.
+   It is recommended to use Firefox 46.0 as this is the browser used in Travis build.
    To downgrade your Firefox version, obtain the executable from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/).
    If you want to use a different path for this version, choose `custom setup` during install.
    After installation, specify the Firefox path in `test.properties` by modifying the `test.firefox.path` property.
    Remember to disable the auto-updates (`Options → Advanced tab → Update`).
    
+   If you want to use Chrome for testing, you need to
+   download the latest stable chromedriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+   and update the `test.chromedriver.path` value in `test.properties`.
+   The site will also inform the versions of Chrome that can be used with the driver.
+
 2. Before running the test suite, both the server and the test environment 
    should be using the UTC time zone.
    
@@ -166,18 +171,27 @@ Refer to [this document](staticAnalysis.md) for details on the tools used, how t
 
 To change the browser that is used in the UI tests, go to the `test.properties` 
 file and change the `test.selenium.browser` value to the browser you want to test. 
-Currently only `firefox` is accepted.
+Possible values are `firefox` and `chrome`.
 In addition, you need to configure the browser you have selected so that 
 it works with the test suite. 
 
 ####Firefox
 
-* If you are planning to test changes to JavaScript code, disable 
-  javascript caching for Firefox - Enter `about:config` into the 
-  Firefox address bar and set: `network.http.use-cache = false`
+* If you are planning to test changes to JavaScript code, disable javascript caching for Firefox:
+    * Enter `about:config` into the Firefox address bar and set `network.http.use-cache = false`.
 * If you have installed a separate Firefox version, you can choose which 
   Firefox binary to use. You can specify the custom path in `test.firefox.path` 
   value inside the `test.properties` file.
+
+####Chrome
+* If you are planning to test changes to JavaScript code, disable javascript caching for Chrome:
+    * Press Ctrl+Shift+J to bring up the Web Console.
+    * Click on the settings button at the bottom-right corner.
+    * Under the General tab, check 'Disable Cache'.
+* The chromedriver process started by the test suite will not automatically get killed after the tests have finished executing.
+  You will need to manually kill these processes after the tests are done.
+  On Windows, you can do this using the Task Manager or `taskkill /f /im chromedriver.exe` command.
+  On Mac, use the Activity Monitor or `sudo killall chromedriver` command in the similar manner.
 
 ###Running the test suite outside Eclipse
 Typically, we run the test suite within Eclipse. But core developers may prefer
@@ -249,6 +263,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 * **Google App Engine SDK** [version 1.9.27]
 * **GitHub** : Used to host the repo and code reviewing.
 * **Gradle** : Build and dependency management tool.
+* **Node.js** : We use Node Package Manager (NPM) from Node.js as a dependency management tool.
 * **CheckStyle, PMD, FindBugs, Macker, ESLint** [all latest stable versions]: Static analysis tools for code quality check. The details of these tools can be found in [this document](staticAnalysis.md).
 * [**PowerPointLabs**](http://PowerPointLabs.info) [Sister project]: Used for creating demo videos.
 * Optional: [**HubTurbo**](https://github.com/HubTurbo/HubTurbo/wiki/Getting-Started) [Sister project]: 
@@ -259,7 +274,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 ####Tools used in implementation
 * **HTML** [version 5, using latest features is discouraged due to lack of enough Browser support], JavaScript, CSS
 * **Bootstrap** [version 3.1.1], as the front-end UI framework
-* **jQuery** [version 1.11.1]
+* **jQuery** [version 1.11.3]
   jQuery is a JavaScript Library that simplifies HTML document traversing, event handling, animating, and Ajax interactions for rapid web development.
 * **JSON** (JavaScript Object Notation): JSON is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the JavaScript.
 * **Gson** [version 2.2.2] Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object.
@@ -281,7 +296,8 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 
 * **Selenium** [version 2.53.0]
     Selenium automates browsers. We use it for automating our UI tests.
-    We require Selenium standalone server and Java language bindings.
+    We require Selenium standalone server, Java language bindings (all bundled in Selenium Java),
+    and Chrome driver for testing with Chrome.
 * **JavaMail** [version 1.4.5]
     The JavaMail API provides a platform-independent and protocol-independent framework to build mail and messaging applications.
     Usage: For accessing test users' email accounts to examine emails sent from TEAMMATES.
@@ -291,7 +307,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
     JaCoCo is a Java code coverage library. EclEmma is its plugin and integration for Eclipse.
 * **QUnit** [version 1.22.0]
     QUnit is a JavaScript unit test suite.
-* **Blanket.js** [version 1.2.1]
+* **Blanket.js** [version 1.2.3]
     Blanket.js is a JavaScript code coverage library.
 * **HttpUnit** [version 1.7]
     We use the ServletUnit component of HttpUnit to create HttpServletUnit objects used for testing.

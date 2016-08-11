@@ -12,21 +12,25 @@
         "CHomeUiT.Course1":{
             "id":"ins.wit-demo1",
             "name":"Sample Course 101",
+            "timeZone":"UTC",
             "createdAt": "2012-04-01 11:59 PM UTC"
         },
         "CHomeUiT.Course2":{
             "id":"ins.wit-demo2",
             "name":"Sample Course 201",
+            "timeZone":"UTC",
             "createdAt": "2012-04-01 11:58 PM UTC"
         },
         "CHomeUiT.Course3":{
             "id":"ins.wit-demo3",
             "name":"Sample Course 301",
+            "timeZone":"UTC",
             "createdAt": "2012-04-01 11:57 PM UTC"
         },
         "CHomeUiT.Unloaded":{
             "id":"ins.wit-Unloaded",
             "name":"Sample Course Unloaded",
+            "timeZone":"UTC",
             "createdAt": "2012-04-01 11:56 PM UTC"
         }
     },

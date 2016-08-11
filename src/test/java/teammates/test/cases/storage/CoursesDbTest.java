@@ -35,7 +35,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Success: typical case");
         
-        CourseAttributes c = new CourseAttributes("CDbT.tCC.newCourse", "Basic Computing");
+        CourseAttributes c = new CourseAttributes("CDbT.tCC.newCourse", "Basic Computing", "UTC");
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
         
@@ -51,7 +51,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: create a course with invalid parameter");
 
-        CourseAttributes invalidIdCourse = new CourseAttributes("Invalid id", "Basic Computing");
+        CourseAttributes invalidIdCourse = new CourseAttributes("Invalid id", "Basic Computing", "UTC");
         try {
             coursesDb.createEntity(invalidIdCourse);
             signalFailureToDetectException();
@@ -62,13 +62,24 @@ public class CoursesDbTest extends BaseComponentTestCase {
         }
 
         String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
-        CourseAttributes invalidNameCourse = new CourseAttributes("CDbT.tCC.newCourse", longCourseName);
+        CourseAttributes invalidNameCourse = new CourseAttributes("CDbT.tCC.newCourse", longCourseName, "UTC");
         try {
             coursesDb.createEntity(invalidNameCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is too long",
                                         e.getMessage());
+        }
+
+        CourseAttributes invalidTimeZoneCourse =
+                new CourseAttributes("CDbT.tCC.newCourse", "Basic Computing", "InvalidTimeZone");
+
+        try {
+            coursesDb.createEntity(invalidTimeZoneCourse);
+            signalFailureToDetectException();
+        } catch (InvalidParametersException e) {
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone",
+                                         e.getMessage());
         }
 
         ______TS("Failure: null parameter");
@@ -120,8 +131,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         
         ______TS("Failure: update course with invalid parameters");
         
-        CourseAttributes invalidCourse = new CourseAttributes("", "");
-        invalidCourse.isArchived = true;
+        CourseAttributes invalidCourse = new CourseAttributes("", "", "");
         
         try {
             coursesDb.updateCourse(invalidCourse);
@@ -131,11 +141,13 @@ public class CoursesDbTest extends BaseComponentTestCase {
                                         e.getMessage());
             AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is empty",
                                         e.getMessage());
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone",
+                                        e.getMessage());
         }
         
         ______TS("fail: non-exisitng course");
         
-        CourseAttributes nonExistentCourse = new CourseAttributes("CDbT.non-exist-course", "Non existing course");
+        CourseAttributes nonExistentCourse = new CourseAttributes("CDbT.non-exist-course", "Non existing course", "UTC");
         
         try {
             coursesDb.updateCourse(nonExistentCourse);
@@ -147,12 +159,11 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("success: typical case");
         
         CourseAttributes c = createNewCourse();
-        c.isArchived = true;
+        CourseAttributes updatedCourse = new CourseAttributes(c.getId(), c.getName() + " updated", "UTC");
      
-        coursesDb.updateCourse(c);
-        
-        CourseAttributes courseRetrieved = coursesDb.getCourse(c.getId());
-        assertEquals(c.isArchived, courseRetrieved.isArchived);
+        coursesDb.updateCourse(updatedCourse);
+        CourseAttributes retrieved = coursesDb.getCourse(c.getId());
+        assertEquals(c.getName() + " updated", retrieved.getName());
     }
     
     @Test
@@ -183,7 +194,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
     private CourseAttributes createNewCourse() throws InvalidParametersException {
         
-        CourseAttributes c = new CourseAttributes("Computing101", "Basic Computing");
+        CourseAttributes c = new CourseAttributes("Computing101", "Basic Computing", "UTC");
         
         try {
             coursesDb.createEntity(c);

@@ -34,6 +34,21 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-3 control-label">Time Zone:</label>
+                <div class="col-sm-9">
+                    <select class="form-control"
+                        name="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
+                        id="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
+                        tabindex="3" placeholder="Select a time zone...">
+                        <option value="">Select a time zone...</option>
+                    </select>
+                    <div class="alert alert-info time-zone-info-box">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        Time zone is auto-detected based on your device settings.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     <input id="btnAddCourse" type="submit" class="btn btn-primary" value="Add Course" tabindex="3">
                 </div>

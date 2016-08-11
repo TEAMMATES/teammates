@@ -53,7 +53,6 @@ public class AdminAccountManagementPage extends AppPage {
     public AdminAccountManagementPage clickAndConfirmDeleteAccountLink(String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
         clickAndConfirm(deleteAccountLink);
-        waitForPageToLoad();
         return this;
     }
 

@@ -40,7 +40,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     
     private static String instructorId;
     
-    CourseAttributes validCourse = new CourseAttributes(" CCAddUiTest.course1 ", " Software Engineering $^&*() ");
+    CourseAttributes validCourse = new CourseAttributes(" CCAddUiTest.course1 ", " Software Engineering $^&*() ",
+                                                        "Asia/Singapore");
     
     @BeforeClass
     public void classSetup() {
@@ -293,10 +294,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         String courseId = "CCAddUiTest.course1";
         coursesPage.clickAndCancel(coursesPage.getDeleteLink(courseId));
         assertNotNull(BackDoor.getCourseAsJson(courseId));
-
-        coursesPage.clickAndConfirm(coursesPage.getDeleteLink(courseId))
-            .verifyHtmlMainContent("/instructorCoursesDeleteSuccessful.html");
         
+        coursesPage.clickAndConfirm(coursesPage.getDeleteLink(courseId))
+                   .verifyHtmlMainContent("/instructorCoursesDeleteSuccessful.html");
     }
     
     public void testArchiveAction() throws Exception {

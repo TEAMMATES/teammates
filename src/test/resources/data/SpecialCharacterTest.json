@@ -48,7 +48,7 @@
         "FQLogicPCT.CS2104":{
             "id":"FQLogicPCT.CS2104",
             "name":"Programming Language Concepts",
-            "isArchived": false
+            "timeZone":"UTC"
         }
     },
     "instructors":{

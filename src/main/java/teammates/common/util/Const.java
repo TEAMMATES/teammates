@@ -1,8 +1,14 @@
 package teammates.common.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.joda.time.DateTimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -44,7 +50,7 @@ public final class Const {
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String USER_NOT_IN_A_SECTION = "Not in a section";
+    public static final String NO_SPECIFIC_RECIEPIENT = "No specific recipient";
     
     public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT = "Anonymous";
@@ -63,6 +69,7 @@ public final class Const {
     
     public static final String DEFAULT_SECTION = "None";
     
+    public static final String DEFAULT_TIMEZONE = DateTimeZone.UTC.getID();
     
     /* 
      * These constants are used as variable values to mean that the variable
@@ -423,6 +430,36 @@ public final class Const {
     }
     
     public static class FeedbackQuestion {
+
+        public static final Map<FeedbackParticipantType, List<FeedbackParticipantType>>
+                COMMON_FEEDBACK_PATHS;
+
+        static {
+            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer =
+                    new LinkedHashMap<FeedbackParticipantType, List<FeedbackParticipantType>>();
+
+            initializer.put(FeedbackParticipantType.SELF,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS)));
+
+            initializer.put(FeedbackParticipantType.STUDENTS,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS,
+                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)));
+
+            initializer.put(FeedbackParticipantType.INSTRUCTORS,
+                            new ArrayList<FeedbackParticipantType>(
+                                    Arrays.asList(FeedbackParticipantType.NONE,
+                                                  FeedbackParticipantType.SELF,
+                                                  FeedbackParticipantType.INSTRUCTORS)));
+
+            COMMON_FEEDBACK_PATHS = Collections.unmodifiableMap(initializer);
+        }
     
         // Mcq
         public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
@@ -539,6 +576,7 @@ public final class Const {
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
         public static final String COURSE_INDEX = "courseidx";
+        public static final String COURSE_TIME_ZONE = "coursetimezone";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
         public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
         public static final String INSTRUCTOR_ID = "instructorid";
@@ -623,6 +661,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
         public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
+        public static final String FEEDBACK_QUESTION_TEXT_RECOMMENDEDLENGTH = "recommendedlength";
         public static final String FEEDBACK_QUESTION_DESCRIPTION = "questiondescription";
         public static final String FEEDBACK_QUESTION_TYPE = "questiontype";
         public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
@@ -637,8 +676,11 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
+        // TODO: rename FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION to a more accurate name
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = "constSumPointsForEachOption";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = "constSumPointsForEachRecipient";
         public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "constSumUnevenDistribution";
         public static final String FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED = "isNotSureAllowedCheck";
         public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
@@ -962,6 +1004,8 @@ public final class Const {
         public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_UNPUBLISHED_MAIL_ACTION =
+                                                                "feedbackSessionUnpublishedMailAction";
         public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
@@ -1247,7 +1291,10 @@ public final class Const {
                 + "It is recommended to view the results one question/section at a time. "
                 + "To view responses for a particular question, click on the question below. "
                 + "To view response for a particular section, choose the section from the drop-down box above.";
-        
+        public static final String FEEDBACK_RESULTS_QUESTIONVIEWWARNING =
+                "This session seems to have a large number of responses. "
+                + "It is recommended to view the results for one question at a time. "
+                + "To view responses for a particular question, click on the question below.";
         public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
         public static final String ENROLL_LINES_PROBLEM =
@@ -1378,6 +1425,14 @@ public final class Const {
         
         // POST parameter null message
         public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
+    }
+
+    public class PlaceholderText {
+        public static final String FEEDBACK_QUESTION = "A concise version of the question e.g. "
+                + "&quot;How well did the team member communicate?&quot;";
+        public static final String FEEDBACK_QUESTION_DESCRIPTION = "More details about the question e.g. &quot;In answering "
+                + "the question, do consider communications made informally within the team, and formal communications with "
+                + "the instructors and tutors.&quot;";
     }
 
 }

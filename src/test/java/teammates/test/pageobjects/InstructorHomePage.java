@@ -108,6 +108,10 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorCourseEditPage.class);
     }
     
+    public void clickCourseDeleteLink(String courseId) {
+        click(getDeleteCourseLink(courseId));
+    }
+    
     //TODO: rename course-add-eval-for-test
     public InstructorFeedbacksPage clickCourseAddEvaluationLink(String courseId) {
         click(getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)));
@@ -179,8 +183,6 @@ public class InstructorHomePage extends AppPage {
      */
     public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName) {
         clickAndConfirm(getPublishLink(courseId, fsName));
-        waitForPageToLoad();
-        switchToNewWindow();
         return changePageType(InstructorHomePage.class);
     }
     
