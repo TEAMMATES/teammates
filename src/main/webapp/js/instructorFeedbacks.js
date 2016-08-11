@@ -173,7 +173,13 @@ function bindCopyButton() {
 
     $('#button_copy_submit').on('click', function(e) {
         e.preventDefault();
-        $('#copyModalForm').submit();
+        var $newSessionName = $('#modalCopiedSessionName');
+        if ($newSessionName.val()) {
+            $('#copyModalForm').submit();
+        } else {
+            $newSessionName.addClass('text-box-error');
+            $('#copyModal').animate({ scrollTop: $newSessionName.offset().top }, 500);
+        }
         return false;
     });
 }

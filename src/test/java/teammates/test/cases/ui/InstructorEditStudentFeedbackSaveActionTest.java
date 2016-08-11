@@ -10,7 +10,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.storage.api.BothQuestionsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.InstructorEditStudentFeedbackSaveAction;
 import teammates.ui.controller.RedirectResult;
@@ -43,7 +43,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     private void testModifyResponses() {
         ______TS("edit existing answer");
         
-        BothQuestionsDb fqDb = new BothQuestionsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
         
@@ -162,7 +162,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     private void testIncorrectParameters() {
         ______TS("Unsuccessful case: test empty feedback session name parameter");
         
-        BothQuestionsDb fqDb = new BothQuestionsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
         
@@ -235,7 +235,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     private void testDifferentPrivileges() {
         ______TS("Unsuccessful case: insufficient privileges");
         
-        BothQuestionsDb fqDb = new BothQuestionsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
         
@@ -483,7 +483,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        BothQuestionsDb fqDb = new BothQuestionsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ3");
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 3);
@@ -586,7 +586,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        BothQuestionsDb fqDb = new BothQuestionsDb();
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("Closed feedback session", "IESFPTCourse", 1);
         
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1InClosedSession");
