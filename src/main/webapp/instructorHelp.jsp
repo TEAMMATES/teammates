@@ -2213,12 +2213,12 @@
               <div class="panel panel-info margin-0">
                 <div class="panel-body">
                   <div class="row">
-                    <div class="col-sm-5" data-toggle="tooltip" title="View results in different formats">
+                    <div class="col-md-12" data-toggle="tooltip" title="View results in different formats">
                       <div class="form-group">
-                        <label for="viewSelect" class="col-sm-2 control-label">
+                        <label for="viewSelect" class="col-md-2 control-label">
                           View:
                         </label>
-                        <div class="col-sm-10">
+                        <div class="col-md-12 margin-bottom-15px">
                           <select id="viewSelect" class="form-control" name="frsorttype">
                             <option value="question" selected="">
                               Group by - Question
@@ -2239,12 +2239,12 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-5" data-toggle="tooltip" title="Filter the results in the current view">
+                    <div class="col-md-12" data-toggle="tooltip" title="Filter the results in the current view">
                       <div class="form-group">
-                        <label for="viewSelect" class="col-sm-2 control-label">
+                        <label for="viewSelect" class="col-md-2 control-label">
                           Filter:
                         </label>
-                        <div class="col-sm-10">
+                        <div class="col-md-12">
                           <div class="input-group">
                             <input type="text" id="results-search-box" class="form-control" placeholder="Type question info to filter results">
                             <a class="input-group-addon btn btn-default">
@@ -2254,15 +2254,15 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-2 pull-right">
-                      <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
+                    <div class="col-md-12">
+                      <div class="col-md-12" data-toggle="tooltip" title="Group results in the current view by team">
                         <div class="margin-0 checkbox padding-top-0 min-height-0">
                           <label class="text-strike">
                             <input type="checkbox" name="frgroupbyteam" id="frgroupbyteam"> Group by Teams
                           </label>
                         </div>
                       </div>
-                      <div class="col-sm-12" data-toggle="tooltip" title="Show statistics">
+                      <div class="col-md-12 margin-bottom-15px" data-toggle="tooltip" title="Show statistics">
                         <div class="margin-0 checkbox padding-top-0 min-height-0">
                           <label>
                             <input type="checkbox" id="show-stats-checkbox" name="frshowstats"> Show Statistics
@@ -2274,10 +2274,10 @@
                   <div class="row">
                     <div class="col-sm-5" data-toggle="tooltip" title="View results in separated section">
                       <div class="form-group">
-                        <label for="sectionSelect" class="col-sm-2 control-label">
+                        <label for="sectionSelect" class="col-md-12 control-label">
                           Section:
                         </label>
-                        <div class="col-sm-10">
+                        <div class="col-md-12">
                           <select id="sectionSelect" class="form-control" name="frgroupbysection">
                             <option value="All" selected="">
                               All
@@ -2292,7 +2292,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-7 pull-right" style="padding-top:8px;">
+                    <div class="col-sm-12 pull-right" style="padding-top:8px;">
                       <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                         Collapse Questions
                       </a>
