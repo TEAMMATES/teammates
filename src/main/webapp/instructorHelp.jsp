@@ -6432,346 +6432,346 @@
 								</form>
 							</div>
             </div>
-              <div class="col-sm-12">
-                <a name="fbRankRecipients">
-                  <h4>Rank Recipients question</h4>
-                </a>
-                Rank recipients questions are questions where the students are to rank students, teams, or instructors. 
-                <br>
-                <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times. 
-                <br>
-                <br>
-                <div class="bs-example">
-                  <form class="form-horizontal form_question" role="form" method="post">
-                    <div class="panel panel-primary questionTable" id="questionTable4">
-                      <div class="panel-heading">
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <span>
-                              <strong>Question</strong>
-                              <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-4" disabled="">
-                                  <option value="1">
-                                    1
-                                  </option>
-                              </select>
-                              &nbsp;Rank (recipients) question
-                            </span>
-                            <span class="pull-right">
-                              <a class="btn btn-primary btn-xs" id="questionedittext-4" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(4,4)" data-original-title="Edit this question">
-                                Edit
-                              </a>
-                              <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-4">
-                                Save Changes
-                              </a>
-                              <a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(4)" id="questiondiscardchanges-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard your changes">
-                                Cancel
-                              </a>
-                              <a class="btn btn-primary btn-xs" onclick="deleteQuestion(4)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">
-                                Delete
-                              </a>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="panel-body">
-                        <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                          <div>
-                            <textarea class="form-control textvalue nonDestructive" rows="5" name="questiontext" id="questiontext-4" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rank the teams in your class, based on how much work you think the teams have put in. </textarea>
-                          </div>
-                          <div class="row">
-                    <br>
-                    <div class="col-sm-6">
-                      <div class="form-inline col-sm-12" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this will allow response givers to give the same rank to multiple recipients">
-                        <input type="checkbox" name="rankAreDuplicatesAllowed" id="rankAreDuplicatesAllowed-4" disabled="">
-                        <span style="margin-left: 5px; font-weight: bold;">Allow response giver to give the same rank to multiple options</span>
-                      </div>
-                    </div>
-                    <br>
-                  </div>
-                        </div>
-                        <br>
-                  <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-                    <div class="col-sm-12 padding-0">
-                      <b>Feedback Path</b> (Who is giving feedback about whom?)
-                    </div>
-                    <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
-                      <label class="col-sm-5 control-label">
-                        Who will give the feedback:
-                      </label>
-                      <div class="col-sm-7">
-                        <select class="form-control participantSelect" id="givertype-4" name="givertype" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                            <option value="SELF">
-                              Me (Session creator)
-                            </option>
-                            <option selected="" value="STUDENTS">
-                              Students in this course
-                            </option>
-                            <option value="INSTRUCTORS">
-                              Instructors in this course
-                            </option>
-                            <option value="TEAMS">
-                              Teams in this course
-                            </option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who the feedback is about">
-                      <label class="col-sm-5 control-label">
-                        Who the feedback is about:
-                      </label>
-                      <div class="col-sm-7">
-                        <select class="form-control participantSelect" id="recipienttype-4" name="recipienttype" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
-                            <option value="SELF">
-                              Giver (Self feedback)
-                            </option>
-                            <option value="STUDENTS">
-                              Other students in the course
-                            </option>
-                            <option value="INSTRUCTORS">
-                              Instructors in the course
-                            </option>
-                            <option selected="" value="TEAMS">
-                              Other teams in the course
-                            </option>
-                            <option value="OWN_TEAM">
-                              Giver's team
-                            </option>
-                            <option value="OWN_TEAM_MEMBERS">
-                              Giver's team members
-                            </option>
-                            <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                              Giver's team members and Giver
-                            </option>
-                            <option value="NONE">
-                              Nobody specific (For general class feedback)
-                            </option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-sm-6 col-md-12 numberOfEntitiesElements4">
-                      <label id="numofrecipients_text-4" class="control-label col-md-4 small">
-                        The maximum number of <span id="numofrecipients_text_inner-4">teams</span> each respondant should give feedback to:
-                      </label>
-                      <div class="col-md-8 form-control-static">
-                        <div class="col-md-6">
-                          <input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom" disabled="">
-                          <input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-4" value="1" min="1" max="250" disabled="">
-                        </div>
-                        <div class="col-md-6">
-                          <input class="nonDestructive" type="radio" name="numofrecipientstype" checked="" value="max" disabled="">
-                          <span class="">Unlimited</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <br>
-                  <div class="col-sm-12 padding-15px background-color-light-green">
-                    <div class="col-sm-12 padding-0">
-                      <b>Visibility</b> (Who can see the responses?)
-                    </div>
-                    <div class="col-sm-6 btn-group" data-toggle="buttons">
-                      <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-4" onchange="toggleVisibilityOptions(this)">
-                        <input type="radio" disabled="">
-                        <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-                      </label>
-                      <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-4" onchange="toggleVisibilityMessage(this)">
-                        <input type="radio" disabled="">
-                        <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 background-color-light-green">
-                    <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-4">
-                      This is the visibility as seen by the feedback giver.
-                      <ul class="background-color-warning">
-                        <li>The receiving team can see your response, and your name.</li>
-                        <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 margin-bottom-15px background-color-light-green">
-                    <div class="visibilityOptions" id="visibilityOptions-4" style="display: none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white">
-                        <tbody><tr>
-                          <th class="text-center">User/Group</th>
-                          <th class="text-center">Can see answer</th>
-                          <th class="text-center">Can see giver's name</th>
-                          <th class="text-center">Can see recipient's name</th>
-                        </tr>
-                        <tr>
-                          <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what feedback recipient(s) can view">
-                              Recipient(s)
-                            </div>
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox answerCheckbox4 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="RECEIVER" disabled="" checked="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox recipientCheckbox4" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback giver can view">
-                              Giver's Team Members
-                            </div>
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback recipients can view">
-                              Recipient's Team Members
-                            </div>
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
-                              Other students
-                            </div>
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="STUDENTS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="STUDENTS" disabled="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="STUDENTS" disabled="">
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
-                              Instructors
-                            </div>
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                          </td>
-                          <td>
-                            <input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
-                          </td>
-                        </tr>
-                      </tbody></table>
-                    </div>
-                  </div>
-                        <div>
-                          <span class="pull-right">
-                            <input id="button_question_submit-4" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <input type="hidden" name="fsname" value="rankk">
-                    <input type="hidden" name="courseid" value="instr.ema-demo">
-                    <input type="hidden" name="questionid" value="ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIKPCQw">
-                    <input type="hidden" name="questionnum" value="4">
-                    <input type="hidden" name="questiontype" value="RANK_RECIPIENTS">
-                    <input type="hidden" name="questionedittype" id="questionedittype-4" value="edit">
-                    <input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS">
-                    <input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS">
-                    <input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS">
-                    <input type="hidden" name="user" value="inst@email.com">
-                  </form>  
-                </div>
-                <br> The statistics for both rank questions show the average rank an option/recipient received. Ties are handled during the computation of statistics. If duplicate ranks are allowed to be given, ties are resolved by assigning the best rank to the occurences of tied values. For example, for the data {1, 3, 3, 4}, the ranks will be converted to {1, 2, 2, 4}. 
-                <br>
-                <br>
-                <div class="bs-example">
-                  <div class="panel-body">
-                    <div class="row">
-                      <div class="col-sm-4 text-color-gray">
-                        <strong>
-                          Response Summary
-                        </strong>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <table class="table table-bordered table-responsive margin-0">
-                          <thead>
-                          <tr>
-                            <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);" style="width: 35%;">Recipient
-                              <span class="icon-sort unsorted"></span></td>
-                            <td class="button-sort-none" onclick="toggleSort(this,2);">Team
-                              <span class="icon-sort unsorted"></span></td>
-                            <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,3);" style="width:15%;">Ranks Received
-                              <span class="icon-sort unsorted"></span></td>
-                            <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,4);" style="width:15%;">Average Rank
-                              <span class="icon-sort unsorted"></span></td>
-                          </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                    <td>
-                      Team 1
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                      1 , 1 , 2
-                    </td>
-                    <td>
-                      1.33
-                    </td>
-                  </tr><tr>
-                    <td>
-                      Team 2
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                      1 , 2
-                    </td>
-                    <td>
-                      1.5
-                    </td>
-                  </tr><tr>
-                    <td>
-                      Team 3
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                      1 , 2
-                    </td>
-                    <td>
-                      1.5
-                    </td>
-                  </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+						<div class="col-sm-12">
+							<a name="fbRankRecipients">
+								<h4>Rank Recipients question</h4>
+							</a>
+							Rank recipients questions are questions where the students are to rank students, teams, or instructors. 
+							<br>
+							<br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times. 
+							<br>
+							<br>
+							<div class="bs-example">
+								<form class="form-horizontal form_question" role="form" method="post">
+									<div class="panel panel-primary questionTable" id="questionTable4">
+										<div class="panel-heading">
+											<div class="row">
+												<div class="col-sm-12">
+													<span>
+														<strong>Question</strong>
+														<select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-4" disabled="">
+															<option value="1">
+															1
+															</option>
+														</select>
+														&nbsp;Rank (recipients) question
+													</span>
+													<span class="pull-right">
+														<a class="btn btn-primary btn-xs" id="questionedittext-4" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(4,4)" data-original-title="Edit this question">
+															Edit
+														</a>
+														<a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-4">
+															Save Changes
+														</a>
+														<a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(4)" id="questiondiscardchanges-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard your changes">
+															Cancel
+														</a>
+														<a class="btn btn-primary btn-xs" onclick="deleteQuestion(4)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">
+															Delete
+														</a>
+													</span>
+												</div>
+											</div>
+										</div>
+										<div class="panel-body">
+											<div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
+												<div>
+													<textarea class="form-control textvalue nonDestructive" rows="5" name="questiontext" id="questiontext-4" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rank the teams in your class, based on how much work you think the teams have put in. </textarea>
+												</div>
+												<div class="row">
+													<br>
+													<div class="col-sm-6">
+														<div class="form-inline col-sm-12" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this will allow response givers to give the same rank to multiple recipients">
+															<input type="checkbox" name="rankAreDuplicatesAllowed" id="rankAreDuplicatesAllowed-4" disabled="">
+															<span style="margin-left: 5px; font-weight: bold;">Allow response giver to give the same rank to multiple options</span>
+														</div>
+													</div>
+													<br>
+												</div>
+											</div>
+											<br>
+											<div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+												<div class="col-sm-12 padding-0">
+													<b>Feedback Path</b> (Who is giving feedback about whom?)
+												</div>
+												<div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
+													<label class="col-sm-5 control-label">
+														Who will give the feedback:
+													</label>
+													<div class="col-sm-7">
+														<select class="form-control participantSelect" id="givertype-4" name="givertype" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+															<option value="SELF">
+															Me (Session creator)
+															</option>
+															<option selected="" value="STUDENTS">
+															Students in this course
+															</option>
+															<option value="INSTRUCTORS">
+															Instructors in this course
+															</option>
+															<option value="TEAMS">
+															Teams in this course
+															</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who the feedback is about">
+													<label class="col-sm-5 control-label">
+														Who the feedback is about:
+													</label>
+													<div class="col-sm-7">
+														<select class="form-control participantSelect" id="recipienttype-4" name="recipienttype" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+															<option value="SELF">
+															Giver (Self feedback)
+															</option>
+															<option value="STUDENTS">
+															Other students in the course
+															</option>
+															<option value="INSTRUCTORS">
+															Instructors in the course
+															</option>
+															<option selected="" value="TEAMS">
+															Other teams in the course
+															</option>
+															<option value="OWN_TEAM">
+															Giver's team
+															</option>
+															<option value="OWN_TEAM_MEMBERS">
+															Giver's team members
+															</option>
+															<option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
+															Giver's team members and Giver
+															</option>
+															<option value="NONE">
+															Nobody specific (For general class feedback)
+															</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-sm-6 col-md-12 numberOfEntitiesElements4">
+													<label id="numofrecipients_text-4" class="control-label col-md-4 small">
+														The maximum number of <span id="numofrecipients_text_inner-4">teams</span> each respondant should give feedback to:
+													</label>
+													<div class="col-md-8 form-control-static">
+														<div class="col-md-6">
+															<input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom" disabled="">
+															<input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-4" value="1" min="1" max="250" disabled="">
+														</div>
+														<div class="col-md-6">
+															<input class="nonDestructive" type="radio" name="numofrecipientstype" checked="" value="max" disabled="">
+															<span class="">Unlimited</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<br>
+											<div class="col-sm-12 padding-15px background-color-light-green">
+												<div class="col-sm-12 padding-0">
+													<b>Visibility</b> (Who can see the responses?)
+												</div>
+												<div class="col-sm-6 btn-group" data-toggle="buttons">
+													<label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-4" onchange="toggleVisibilityOptions(this)">
+														<input type="radio" disabled="">
+														<span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+													</label>
+													<label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-4" onchange="toggleVisibilityMessage(this)">
+														<input type="radio" disabled="">
+														<span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+													</label>
+												</div>
+											</div>
+											<div class="col-sm-12 background-color-light-green">
+												<div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-4">
+													This is the visibility as seen by the feedback giver.
+													<ul class="background-color-warning">
+														<li>The receiving team can see your response, and your name.</li>
+														<li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
+													</ul>
+												</div>
+											</div>
+											<div class="col-sm-12 margin-bottom-15px background-color-light-green">
+												<div class="visibilityOptions" id="visibilityOptions-4" style="display: none;">
+													<table class="dataTable participantTable table table-striped text-center background-color-white">
+														<tbody><tr>
+																<th class="text-center">User/Group</th>
+																<th class="text-center">Can see answer</th>
+																<th class="text-center">Can see giver's name</th>
+																<th class="text-center">Can see recipient's name</th>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what feedback recipient(s) can view">
+																		Recipient(s)
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox4 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="RECEIVER" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox4" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback giver can view">
+																		Giver's Team Members
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback recipients can view">
+																		Recipient's Team Members
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
+																		Other students
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="STUDENTS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="STUDENTS" disabled="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="STUDENTS" disabled="">
+																</td>
+															</tr>
+															<tr>
+																<td class="text-left">
+																	<div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+																		Instructors
+																	</div>
+																</td>
+																<td>
+																	<input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+																</td>
+																<td>
+																	<input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
+																</td>
+															</tr>
+														</tbody></table>
+												</div>
+											</div>
+											<div>
+												<span class="pull-right">
+													<input id="button_question_submit-4" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
+												</span>
+											</div>
+										</div>
+									</div>
+									<input type="hidden" name="fsname" value="rankk">
+									<input type="hidden" name="courseid" value="instr.ema-demo">
+									<input type="hidden" name="questionid" value="ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIKPCQw">
+									<input type="hidden" name="questionnum" value="4">
+									<input type="hidden" name="questiontype" value="RANK_RECIPIENTS">
+									<input type="hidden" name="questionedittype" id="questionedittype-4" value="edit">
+									<input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS">
+									<input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS">
+									<input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS">
+									<input type="hidden" name="user" value="inst@email.com">
+								</form>  
+							</div>
+							<br> The statistics for both rank questions show the average rank an option/recipient received. Ties are handled during the computation of statistics. If duplicate ranks are allowed to be given, ties are resolved by assigning the best rank to the occurences of tied values. For example, for the data {1, 3, 3, 4}, the ranks will be converted to {1, 2, 2, 4}. 
+							<br>
+							<br>
+							<div class="bs-example">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-sm-4 text-color-gray">
+											<strong>
+												Response Summary
+											</strong>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<table class="table table-bordered table-responsive margin-0">
+												<thead>
+													<tr>
+														<td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);" style="width: 35%;">Recipient
+															<span class="icon-sort unsorted"></span></td>
+														<td class="button-sort-none" onclick="toggleSort(this,2);">Team
+															<span class="icon-sort unsorted"></span></td>
+														<td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,3);" style="width:15%;">Ranks Received
+															<span class="icon-sort unsorted"></span></td>
+														<td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,4);" style="width:15%;">Average Rank
+															<span class="icon-sort unsorted"></span></td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															Team 1
+														</td>
+														<td>
+														</td>
+														<td>
+															1 , 1 , 2
+														</td>
+														<td>
+															1.33
+														</td>
+													</tr><tr>
+														<td>
+															Team 2
+														</td>
+														<td>
+														</td>
+														<td>
+															1 , 2
+														</td>
+														<td>
+															1.5
+														</td>
+													</tr><tr>
+														<td>
+															Team 3
+														</td>
+														<td>
+														</td>
+														<td>
+															1 , 2
+														</td>
+														<td>
+															1.5
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
           </li>
         </ol>
       </div>
