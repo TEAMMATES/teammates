@@ -6554,18 +6554,16 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-sm-6">
-                    </div>
-                    <div class="col-sm-6 numberOfEntitiesElements4">
-                      <label id="numofrecipients_text-4" class="control-label col-sm-4 small">
+                    <div class="col-sm-6 col-md-12 numberOfEntitiesElements4">
+                      <label id="numofrecipients_text-4" class="control-label col-md-4 small">
                         The maximum number of <span id="numofrecipients_text_inner-4">teams</span> each respondant should give feedback to:
                       </label>
-                      <div class="col-sm-8 form-control-static">
-                        <div class="col-sm-6">
+                      <div class="col-md-8 form-control-static">
+                        <div class="col-md-6">
                           <input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom" disabled="">
                           <input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-4" value="1" min="1" max="250" disabled="">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-md-6">
                           <input class="nonDestructive" type="radio" name="numofrecipientstype" checked="" value="max" disabled="">
                           <span class="">Unlimited</span>
                         </div>
