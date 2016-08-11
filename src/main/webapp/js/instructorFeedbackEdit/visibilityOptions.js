@@ -51,7 +51,7 @@ function getVisibilityMessage(clickedButton) {
 }
 
 /**
- * bind events to the visibility dropdown menu to
+ * binds events to the visibility dropdown menu to
  *  - show/hide visibility checkboxes div
  *  - update dropdown button text to reflected selected option
  *  - update visibility message div
@@ -80,7 +80,7 @@ function attachVisibilityDropdownEvent() {
 }
 
 /**
- * bind click event of each visibility checkbox to update visibility message div
+ * binds click event of each visibility checkbox to update visibility message div
  */
 function attachVisibilityCheckboxEvent() {
     $('body').on('change', '.visibilityCheckbox', function() {
@@ -127,7 +127,7 @@ function uncheckAllVisibilityOptionCheckboxes($containingForm) {
 }
 
 /**
- * Check the visibility checkboxes according to the common visibility option as selected using the dropdown menu
+ * Checks the visibility checkboxes according to the common visibility option as selected using the dropdown menu
  */
 function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
     switch (selectedOption) {
@@ -397,7 +397,7 @@ function formatVisibilityMessageDivHtml(visibilityMessage) {
 }
 
 /**
- * Update visibility message div with error message and add onclick event for re-loading the visibility message
+ * Updates visibility message div with error message and add onclick event for re-loading the visibility message
  */
 function showAjaxErrorMessage($containingForm) {
     var $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
