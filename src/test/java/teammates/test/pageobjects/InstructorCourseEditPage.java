@@ -372,13 +372,6 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement deleteInstructorLink = getDeleteInstructorLink(instrNum);
         clickAndCancel(deleteInstructorLink);
     }
-
-    public boolean isCustomCheckboxChecked(String privilege, int instrNum) {
-        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instrNum
-                                     + " input[type='checkbox'][name='" + privilege + "']");
-        WebElement checkbox = browser.driver.findElement(selector);
-        return checkbox.isSelected();
-    }
     
     /**
      * Checks if the course edit form is enabled.
