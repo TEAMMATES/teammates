@@ -6405,7 +6405,7 @@
                                         <br>
                                         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Visibility</b> (Who can see the responses?)
+                                                <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                             </div>
                                             <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Visible to recipient and instructors</button>
@@ -7671,7 +7671,7 @@
                                         <br>
                                         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Visibility</b> (Who can see the responses?)
+                                                <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                             </div>
                                             <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -8191,7 +8191,7 @@
                                         <br>
                                         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Visibility</b> (Who can see the responses?)
+                                                <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                             </div>
                                             <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Visible to instructors only</button>
@@ -8572,7 +8572,7 @@
                                         <br>
                                         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Visibility</b> (Who can see the responses?)
+                                                <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                             </div>
                                             <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Visible to recipient and instructors</button>
