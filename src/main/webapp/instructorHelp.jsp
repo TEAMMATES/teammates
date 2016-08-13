@@ -4963,7 +4963,7 @@
                                                     </tbody></table>
                                             </div>
                                             <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                                            <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving instructor can see your response, and your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                                            <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Other students in the course can see your response, and your name, but not the name of the recipient.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                                         </div>
                                         <div>
                                             <span class="pull-right">
@@ -8310,7 +8310,7 @@
                                                 </table>
                                             </div>
                                             <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                                            <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                                            <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, and your name.</li></ul></div>
                                         </div>
                                         <div>
                                             <span class="pull-right">
@@ -8691,7 +8691,7 @@
                                                 </table>
                                             </div>
                                             <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                                            <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving team can see your response, and your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                                            <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, and your name.</li></ul></div>
                                       </div>
                                         <div>
                                             <span class="pull-right">
