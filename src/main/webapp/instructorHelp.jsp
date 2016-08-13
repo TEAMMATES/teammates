@@ -1856,7 +1856,7 @@
                         <span class="text-muted"> - the question</span>
                     </li>
                     <li>
-                        <b>Feedback Path</b>
+                        <b class="feedback-path-title">Feedback Path</b>
                         <span class="text-muted"> - you can select a common feedback path from the dropdown menu, or choose "Other predefined combinations..." to select the Feedback Giver and Recipient separately.</span>
                         <ul><li>
                                 <b>Feedback Giver</b>
@@ -1921,7 +1921,7 @@
                                 <br>
                                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                     <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                        <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                        <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                     </div>
                                     <div class="col-sm-12 feedback-path-dropdown btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -2062,7 +2062,7 @@
                                 <br>
                                 <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                     <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                        <b>Visibility</b> (Who can see the responses?)
+                                        <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                     </div>
                                     <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -2380,7 +2380,7 @@
                                 <br>
                                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                     <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                        <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                        <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                     </div>
                                     <div class="feedback-path-dropdown col-sm-12 btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Predefined combinations:</button>
@@ -2554,7 +2554,7 @@
                                 <br>
                                 <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                     <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                        <b>Visibility</b> (Who can see the responses?)
+                                        <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                     </div>
                                     <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -3348,7 +3348,7 @@
                                         <br>
                                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                                <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                             </div>
                                             <div class="feedback-path-dropdown col-sm-12 btn-group">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Predefined combinations:</button>
@@ -3522,7 +3522,7 @@
                                         <br>
                                         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Visibility</b> (Who can see the responses?)
+                                                <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                             </div>
                                             <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Visible to instructors only</button>
@@ -3764,7 +3764,7 @@
                                         <br>
                                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                                <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                             </div>
                                             <div class="feedback-path-dropdown col-sm-12 btn-group">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Giver (Self feedback)</button>
@@ -3938,7 +3938,7 @@
                                         <br>
                                         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Visibility</b> (Who can see the responses?)
+                                                <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                             </div>
                                             <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Visible to instructors only</button>
@@ -4142,7 +4142,7 @@
                                         <br>
                                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                                <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                             </div>
                                             <div class="feedback-path-dropdown col-sm-12 btn-group">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Nobody specific (For general class feedback)</button>
@@ -4316,7 +4316,7 @@
                                         <br>
                                         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Visibility</b> (Who can see the responses?)
+                                                <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                             </div>
                                             <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Visible to instructors only</button>
@@ -4669,7 +4669,7 @@
                                         <br>
                                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                                <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                             </div>
                                             <div class="feedback-path-dropdown col-sm-12 btn-group">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Instructors in the course</button>
@@ -4843,7 +4843,7 @@
                                         <br>
                                         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Visibility</b> (Who can see the responses?)
+                                                <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                             </div>
                                             <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -5267,7 +5267,7 @@
                                       <br>
                                       <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                           <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                              <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                              <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                           </div>
                                           <div class="feedback-path-dropdown col-sm-12 btn-group">
                                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Giver (Self feedback)</button>
@@ -5867,7 +5867,7 @@
                                       <br>
                                       <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                           <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                              <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                              <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                           </div>
                                           <div class="feedback-path-dropdown col-sm-12 btn-group">
                                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Giver's team members and Giver</button>
@@ -6231,7 +6231,7 @@
                                         <br>
                                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                                <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                             </div>
                                             <div class="feedback-path-dropdown col-sm-12 btn-group">
                                                 <button type="button" class="btn btn-default dropdown-toggle disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Giver's team members and Giver</button>
@@ -7497,7 +7497,7 @@
                                         <br>
                                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                                <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                             </div>
                                             <div class="feedback-path-dropdown col-sm-12 btn-group">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Giver's team members and Giver</button>
@@ -8017,7 +8017,7 @@
                                         <br>
                                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                                <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                             </div>
                                             <div class="feedback-path-dropdown col-sm-12 btn-group">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Predefined combinations:</button>
@@ -8398,7 +8398,7 @@
                                         <br>
                                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                             <div class="col-sm-12 padding-0 margin-bottom-7px">
-                                                <b>Feedback Path</b> (Who is giving feedback about whom?)
+                                                <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                             </div>
                                             <div class="feedback-path-dropdown col-sm-12 btn-group">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Predefined combinations:</button>
