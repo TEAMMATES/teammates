@@ -575,13 +575,13 @@ Apply to thead to make headers not bold.
     min-width: 130px;
 }
 
-.teamMembersDetailsCell{
+.teamMembersDetailsCell {
     vertical-align: middle; 
-    padding-left:30px;
+    padding-left: 30px;
 }
 
-.teamMembersPhotoCell{
-    padding-bottom:5px;
+.teamMembersPhotoCell {
+    padding-bottom: 5px;
 }
 
 @media ( min-width :768px) {
