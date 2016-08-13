@@ -1211,7 +1211,7 @@ public final class Const {
         
         public static final String STUDENT_EDITED = "The student has been edited successfully";
         public static final String STUDENT_EDITED_AND_EMAIL_SENT = "The student has been edited successfully. "
-                + "And summary of the course has been sent to the new email.";
+                + "A summary of the course has been sent to the new email.";
         public static final String STUDENT_NOT_FOUND_FOR_EDIT =
                 "The student you tried to edit does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
         public static final String STUDENT_DELETED = "The student has been removed from the course";
