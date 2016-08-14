@@ -431,6 +431,21 @@ public final class Const {
     
     public static class FeedbackQuestion {
 
+        public static final Map<String, String> COMMON_VISIBILITY_OPTIONS;
+
+        static {
+            Map<String, String> visibilityOptionInit = new LinkedHashMap<String, String>();
+
+            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS",
+                                     "Shown anonymously to recipient and instructors");
+            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS",
+                                     "Shown anonymously to recipient, visible to instructors");
+            visibilityOptionInit.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");
+            visibilityOptionInit.put("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS", "Visible to recipient and instructors");
+
+            COMMON_VISIBILITY_OPTIONS = Collections.unmodifiableMap(visibilityOptionInit);
+        }
+
         public static final Map<FeedbackParticipantType, List<FeedbackParticipantType>>
                 COMMON_FEEDBACK_PATHS;
 

@@ -21,7 +21,7 @@ public class AllJsTests extends BaseUiTestCase {
     
     private static Browser browser;
     private static QUnitPage page;
-    private static final float MIN_COVERAGE_REQUIREMENT = 30;
+    private static final float MIN_COVERAGE_REQUIREMENT = 25;
     
     @BeforeClass
     public static void setUp() throws IOException {
