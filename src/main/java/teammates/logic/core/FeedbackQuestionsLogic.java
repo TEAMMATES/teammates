@@ -852,7 +852,8 @@ public class FeedbackQuestionsLogic {
             StudentAttributes studentGiver, InstructorAttributes instructorGiver) {
         boolean isUserStudentAndFeedbackPathGiver =
                 isStudentGiver
-                && feedbackPath.isStudentFeedbackPathGiver(studentGiver);
+                && (feedbackPath.isStudentFeedbackPathGiver(studentGiver)
+                        || feedbackPath.isTeamFeedbackPathGiver(studentGiver.getTeam()));
         
         boolean isUserInstructorAndFeedbackPathGiver =
                 isInstructorGiver
