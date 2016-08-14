@@ -62,17 +62,17 @@
         "course.with.tmtpleted.sessions.": {
             "id": "FSDTest.idOfTypicalCourse1",
             "name": "Typical Course 1",
-            "isArchived": false
+            "timeZone": "UTC"
         },
         "course.with.incomplete.session": {
             "id": "FSDTest.idOfTypicalCourse2",
             "name": "Typical Course 2",
-            "isArchived": false
+            "timeZone": "UTC"
         },
         "course.with.no.student": {
             "id": "FSDTest.idOfTypicalCourse3",
             "name": "Typical Course 3",
-            "isArchived": false
+            "timeZone": "UTC"
         }
     },
     

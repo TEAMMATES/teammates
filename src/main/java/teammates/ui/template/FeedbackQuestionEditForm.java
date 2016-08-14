@@ -43,8 +43,7 @@ public class FeedbackQuestionEditForm {
     private String questionId;
     
     public static FeedbackQuestionEditForm getNewQnForm(String doneEditingLink, FeedbackSessionAttributes feedbackSession,
-                                                        String questionTypeChoiceOptions, List<ElementTag> giverOptions,
-                                                        List<ElementTag> recipientOptions, List<ElementTag> qnNumOptions,
+                                                        String questionTypeChoiceOptions, List<ElementTag> qnNumOptions,
                                                         String newQuestionEditForm) {
         
         FeedbackQuestionEditForm newQnForm = new FeedbackQuestionEditForm();
@@ -63,8 +62,6 @@ public class FeedbackQuestionEditForm {
         
         newQnForm.feedbackPathSettings = feedbackPathSettings;
         
-        feedbackPathSettings.setGiverParticipantOptions(giverOptions);
-        feedbackPathSettings.setRecipientParticipantOptions(recipientOptions);
         feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(1);
         
         newQnForm.questionSpecificEditFormHtml = newQuestionEditForm;
@@ -153,9 +150,6 @@ public class FeedbackQuestionEditForm {
         this.questionIndex = questionIndex;
     }
 
-    /**
-     * @see {@link #getQuestionIndexIfNonZero}
-     */
     public int getQuestionIndex() {
         return questionIndex;
     }

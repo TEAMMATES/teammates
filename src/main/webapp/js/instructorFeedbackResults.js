@@ -291,7 +291,7 @@ $(document).ready(function() {
         toggleCollapse(this, panels);
     });
 
-    $('a[id^="collapse-panels-button-team-"]').on('click', function() {
+    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', function() {
         var panels = $(this).closest('.panel-warning')
                             .children('.panel-collapse')
                             .find(participantPanelType)
@@ -330,6 +330,11 @@ $(document).ready(function() {
     
     bindPublishButtons();
     bindUnpublishButtons();
+    
+    $('#download-result-dropdown > li').click(function() {
+        $('input[id=downloadType]').val($(this).data('downloadtype'));
+        $('#download-form').submit();
+    });
     
     $('#button-print').on('click', function() {
         // Fix to hide the filter placeholder when it is empty.

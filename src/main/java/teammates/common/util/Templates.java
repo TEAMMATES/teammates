@@ -41,6 +41,8 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
         public static final String USER_FEEDBACK_SESSION_CLOSING =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosing.html");
+        public static final String USER_FEEDBACK_SESSION_CLOSED =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosed.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
@@ -301,6 +303,10 @@ public final class Templates {
             public static final String CONSTSUM_OPTION_POINT = "${constSumOptionPoint}";
             public static final String CONSTSUM_OPTION_VALUE = "${constSumOptionValue}";
             public static final String CONSTSUM_PARAM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
+            public static final String CONSTSUM_PARAM_POINTSFOREACHOPTION =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}";
+            public static final String CONSTSUM_PARAM_POINTSFOREACHRECIPIENT =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}";
             public static final String CONSTSUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
             public static final String CONSTSUM_TO_RECIPIENTS =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";

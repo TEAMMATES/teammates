@@ -10,6 +10,7 @@ public enum EmailType {
     FEEDBACK_SUBMISSION_CONFIRMATION(
             "TEAMMATES: Feedback responses successfully recorded [Course: %s][Feedback Session: %s]"),
     FEEDBACK_CLOSING("TEAMMATES: Feedback session closing soon [Course: %s][Feedback Session: %s]"),
+    FEEDBACK_CLOSED("TEAMMATES: Feedback session closed [Course: %s][Feedback Session: %s]"),
     FEEDBACK_PUBLISHED("TEAMMATES: Feedback session results published [Course: %s][Feedback Session: %s]"),
     FEEDBACK_UNPUBLISHED("TEAMMATES: Feedback session results unpublished [Course: %s][Feedback Session: %s]"),
     PENDING_COMMENT_CLEARED("TEAMMATES: You have new comments for course [%s][Course ID: %s]"),

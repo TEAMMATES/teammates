@@ -184,7 +184,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <servlet-mapping>
         <servlet-name>FeedbackSessionClosingReminders</servlet-name>
         <url-pattern>/feedbackSessionClosingReminders</url-pattern>
-    </servlet-mapping>    
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>FeedbackSessionClosedReminders</servlet-name>
+        <servlet-class>teammates.logic.automated.FeedbackSessionClosedRemindersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackSessionClosedReminders</servlet-name>
+        <url-pattern>/feedbackSessionClosedReminders</url-pattern>
+    </servlet-mapping>
     
     <servlet>
         <servlet-name>FeedbackSessionPublishedReminders</servlet-name>
@@ -252,6 +261,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>AutomatedEmails</web-resource-name>
             <url-pattern>/feedbackSessionOpeningReminders</url-pattern>
             <url-pattern>/feedbackSessionClosingReminders</url-pattern>
+            <url-pattern>/feedbackSessionClosedReminders</url-pattern>
             <url-pattern>/feedbackSessionPublishedReminders</url-pattern>
             <url-pattern>/emailWorker</url-pattern>
         </web-resource-collection>

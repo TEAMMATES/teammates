@@ -41,17 +41,17 @@
     "course": {
       "id": "CFeedbackUiT.CS2104",
       "name": "Programming Language Concepts",
-      "isArchived": false
+      "timeZone": "UTC"
     },
     "courseWithoutSessions": {
       "id": "CFeedbackUiT.coursewithoutsessions",
       "name": "Course Without Sessions",
-      "isArchived": false
+      "timeZone": "UTC"
     },
     "anotherCourse": {
       "id": "CFeedbackUiT.CS1101",
       "name": "Programming Methodology",
-      "isArchived": false
+      "timeZone": "UTC"
     }
   },
   

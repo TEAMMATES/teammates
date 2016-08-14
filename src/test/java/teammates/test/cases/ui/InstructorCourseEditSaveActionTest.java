@@ -28,6 +28,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         String instructorId = instructor.googleId;
         String courseId = instructor.courseId;
         String courseName = CoursesLogic.inst().getCourse(courseId).getName();
+        String courseTimeZone = "UTC";
         String statusMessage = "";
         String[] submissionParams;
         InstructorCourseEditSaveAction courseEditSaveAction;
@@ -41,7 +42,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         ______TS("Typical case: edit course name with same name");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_NAME, courseName,
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
         };
         
         // execute the action
@@ -59,7 +61,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         String courseNameWithValidCharacters = courseName + " valid";
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.COURSE_NAME, courseNameWithValidCharacters
+                Const.ParamsNames.COURSE_NAME, courseNameWithValidCharacters,
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
         };
 
         // execute the action
@@ -77,7 +80,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         courseName = "";
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_NAME, courseName,
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
         };
 
         // execute the action
@@ -97,7 +101,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         courseName = "@#$@#$";
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_NAME, courseName,
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
         };
 
         // execute the action
@@ -117,7 +122,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         courseName = "normal|name%";
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.COURSE_NAME, courseName
+                Const.ParamsNames.COURSE_NAME, courseName,
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
         };
 
         // execute the action
@@ -131,6 +137,26 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                      + "?error=true&user=" + instructorId + "&courseid=" + courseId,
+                     redirectResult.getDestinationWithParams());
+        
+        ______TS("Failure case: invalid time zone");
+        courseName = CoursesLogic.inst().getCourse(courseId).getName();
+        courseTimeZone = "InvalidTimeZone";
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName,
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
+        };
+
+        courseEditSaveAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(courseEditSaveAction);
+
+        statusMessage = getPopulatedErrorMessage(FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE,
+                            courseTimeZone, FieldValidator.COURSE_TIME_ZONE_FIELD_NAME,
+                            FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+        assertEquals(statusMessage, redirectResult.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
+                         + "?error=true&user=" + instructorId + "&courseid=" + courseId,
                      redirectResult.getDestinationWithParams());
     }
 

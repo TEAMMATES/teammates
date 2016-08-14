@@ -30,7 +30,8 @@ public class CourseAttributesTest extends BaseTestCase {
         
         String veryLongId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
-        CourseAttributes invalidCourse = new CourseAttributes(veryLongId, emptyName);
+        String invalidTimeZone = "InvalidTimeZone";
+        CourseAttributes invalidCourse = new CourseAttributes(veryLongId, emptyName, invalidTimeZone);
         
         assertFalse("invalid value", invalidCourse.isValid());
         String errorMessage =
@@ -41,7 +42,10 @@ public class CourseAttributesTest extends BaseTestCase {
                 + getPopulatedErrorMessage(
                       FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidCourse.getName(),
                       FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                      FieldValidator.COURSE_NAME_MAX_LENGTH);
+                      FieldValidator.COURSE_NAME_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidCourse.getTimeZone(),
+                      FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
         assertEquals("invalid value", errorMessage, StringHelper.toString(invalidCourse.getInvalidityInfo()));
     }
 
@@ -58,13 +62,11 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testToString() {
         CourseAttributes c = generateValidCourseAttributesObject();
-        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name isArchived: false", c.toString());
+        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC", c.toString());
     }
     
     public static CourseAttributes generateValidCourseAttributesObject() {
-        CourseAttributes c;
-        c = new CourseAttributes("valid-id-$_abc", "valid-name");
-        return c;
+        return new CourseAttributes("valid-id-$_abc", "valid-name", "UTC");
     }
 
     @AfterClass

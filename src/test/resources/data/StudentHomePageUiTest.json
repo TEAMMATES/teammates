@@ -20,21 +20,22 @@
     "SHomeUiT.CS2104": {
       "id": "SHomeUiT.CS2104",
       "name": "Programming Language Concepts",
-      "isArchived": false
+      "timeZone": "UTC"
     },
     "SHomeUiT.CS1101": {
       "id": "SHomeUiT.CS1101",
       "name": "Programming Methodology",
-      "isArchived": false
+      "timeZone": "UTC"
     },
     "SHomeUiT.CS4215": {
       "id": "SHomeUiT.CS4215",
       "name": "Programming Language Implementation",
-      "isArchived": false
+      "timeZone": "UTC"
     },
     "SHomeUiT.CS4221": {
       "id": "SHomeUiT.CS4221",
-      "name": "Database Design"
+      "name": "Database Design",
+      "timeZone": "UTC"
     }
   },
   
