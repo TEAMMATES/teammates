@@ -913,9 +913,24 @@
             "giverType":"CUSTOM",
             "recipientType":"CUSTOM",
             "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[],
-            "showGiverNameTo":[],
-            "showRecipientNameTo":[],
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
             "feedbackPaths":[
                 {"courseId":"idOfTypicalCourse1","giver":"student5InCourse1@gmail.tmt (Student)","recipient":"student5InCourse1@gmail.tmt (Student)"}
             ]
@@ -933,10 +948,22 @@
             "recipientType":"CUSTOM",
             "numberOfEntitiesToGiveFeedbackTo":-100,
             "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
             ],
             "showGiverNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
             ],
             "showRecipientNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
             ],
             "feedbackPaths":[
                 {"courseId":"idOfTypicalCourse1","giver":"instructor2@course1.tmt (Instructor)","recipient":"instructor2@course1.tmt (Instructor)"}
@@ -954,9 +981,24 @@
             "giverType":"CUSTOM",
             "recipientType":"CUSTOM",
             "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[],
-            "showGiverNameTo":[],
-            "showRecipientNameTo":[],
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
             "feedbackPaths":[
                 {"courseId":"idOfTypicalCourse1","giver":"Team 1.2 (Team)","recipient":"Team 1.2 (Team)"}
             ]
@@ -1298,6 +1340,48 @@
             },
             "giverSection":"None",
             "recipientSection":"None" 
+            
+        },
+        "response1ForQ6S1C1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "feedbackQuestionId":"6",
+            "feedbackQuestionType":"TEXT",
+            "giver":"student5InCourse1@gmail.tmt",
+            "recipient":"student5InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"Student response to self."
+            },
+            "giverSection":"Section 2",
+            "recipientSection":"Section 2" 
+            
+        },
+        "response1ForQ7S1C1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "feedbackQuestionId":"7",
+            "feedbackQuestionType":"TEXT",
+            "giver":"instructor2@course1.tmt",
+            "recipient":"instructor2@course1.tmt",
+            "responseMetaData":{
+                "value":"Instructor response to self."
+            },
+            "giverSection":"None",
+            "recipientSection":"None" 
+            
+        },
+        "response1ForQ8S1C1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "feedbackQuestionId":"8",
+            "feedbackQuestionType":"TEXT",
+            "giver":"student5InCourse1@gmail.tmt",
+            "recipient":"Team 1.2",
+            "responseMetaData":{
+                "value":"Team response to self."
+            },
+            "giverSection":"Section 2",
+            "recipientSection":"Section 2" 
             
         },
         "response1ForQ1S2C1":{

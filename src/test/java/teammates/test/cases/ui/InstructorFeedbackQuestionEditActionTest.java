@@ -1301,8 +1301,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        int numStudentRespondents = 3;
-        int numInstructorRespondents = 1;
+        int numStudentRespondents = 4;
+        int numInstructorRespondents = 2;
 
         int totalStudents = 5;
         int totalInstructors = 5;
@@ -1369,7 +1369,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         // Response rate should decrease by 1 because the response of the unique instructor respondent is deleted
         fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = fsLogic.getFeedbackSessionDetails(fs);
-        assertEquals(numStudentRespondents, details.stats.submittedTotal);
+        assertEquals(numStudentRespondents + numInstructorRespondents - 1, details.stats.submittedTotal);
         assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
 
         ______TS("Change the feedback path of a question so that some possible respondents are removed");
@@ -1399,7 +1399,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         // (except session creator) are no longer possible respondents
         fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = fsLogic.getFeedbackSessionDetails(fs);
-        assertEquals(numStudentRespondents, details.stats.submittedTotal);
+        assertEquals(numStudentRespondents + numInstructorRespondents - 1, details.stats.submittedTotal);
         assertEquals(totalStudents + 2, details.stats.expectedTotal);
     }
 
