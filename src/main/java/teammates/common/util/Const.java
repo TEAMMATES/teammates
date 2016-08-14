@@ -1002,6 +1002,7 @@ public final class Const {
         //real servlet names to be logged for automated actions, not for url pattern recognition
         public static final String AUTOMATED_LOG_COMPILATION = "logCompilation";
         public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_CLOSED_MAIL_ACTION = "feedbackSessionClosedMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_UNPUBLISHED_MAIL_ACTION =
@@ -1009,6 +1010,7 @@ public final class Const {
         public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "feedbackSessionClosedReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
     }
     
