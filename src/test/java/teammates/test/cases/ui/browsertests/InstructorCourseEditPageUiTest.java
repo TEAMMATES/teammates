@@ -339,17 +339,28 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         int customInstrNum = 5;
         courseEditPage.clickEditInstructorLink(customInstrNum);
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum, "canmodifycourse"));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum, "canmodifyinstructor"));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum, "canmodifysession"));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum, "canmodifystudent"));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum, "canviewstudentinsection"));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum, "cangivecommentinsection"));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum, "canviewcommentinsection"));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum, "canmodifycommentinsection"));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum, "cansubmitsessioninsection"));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum, "canviewsessioninsection"));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum, "canmodifysessioncommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum,
+                "canmodifycourse"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum,
+                "canmodifyinstructor"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum,
+                "canmodifysession"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum,
+                "canmodifystudent"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum,
+                "canviewstudentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum,
+                "cangivecommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum,
+                "canviewcommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum,
+                "canmodifycommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum,
+                "cansubmitsessioninsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum,
+                "canviewsessioninsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(customInstrNum,
+                "canmodifysessioncommentinsection"));
         courseEditPage.clickSaveInstructorButton(customInstrNum);
         
         ______TS("success: edit an instructor with privileges");
