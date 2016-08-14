@@ -1,20 +1,16 @@
 package teammates.ui.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 
-public class FileDownloadResult extends ActionResult {
+public abstract class FileDownloadResult extends ActionResult {
     
     String fileContent = "";
     String fileName = "";
+    String fileType = "";
 
     public FileDownloadResult(String destination, AccountAttributes account,
             List<StatusMessage> status) {
@@ -24,25 +20,11 @@ public class FileDownloadResult extends ActionResult {
     public FileDownloadResult(
             String destination, AccountAttributes account,
             List<StatusMessage> status,
-            String fileName, String fileContent) {
+            String fileName, String fileContent, String fileType) {
         super(destination, account, status);
         this.fileName = fileName;
         this.fileContent = fileContent;
-    }
-
-    @Override
-    public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        /*
-         * We have to call setContentType() instead of setHeader() in order
-         *     to make the servlet aware of the specified charset encoding
-         */
-        resp.setContentType("text/csv; charset=UTF-8");
-        // Content-Disposition is a header on the HTTP response to suggest a filename
-        // if the contents of the response is saved to a file.
-        resp.setHeader("Content-Disposition", getContentDispositionHeader());
-        PrintWriter writer = resp.getWriter();
-        writer.write("\uFEFF");
-        writer.append(fileContent);
+        this.fileType = fileType;
     }
     
     /**
@@ -50,16 +32,16 @@ public class FileDownloadResult extends ActionResult {
      * @return value of the HTTP Content-Disposition header
      */
     public String getContentDispositionHeader() {
-        return "attachment; filename=\"" + getAsciiOnlyCsvFileName() + "\";"
-               + "filename*= UTF-8''" + getUrlEscapedCsvFileName();
+        return "attachment; filename=\"" + getAsciiOnlyFileName() + "\";"
+               + "filename*= UTF-8''" + getUrlEscapedFileName();
     }
     
-    private String getAsciiOnlyCsvFileName() {
-        return Sanitizer.removeNonAscii(fileName) + ".csv";
+    private String getAsciiOnlyFileName() {
+        return Sanitizer.removeNonAscii(fileName) + "." + fileType;
     }
     
-    private String getUrlEscapedCsvFileName() {
-        return Sanitizer.sanitizeForUri(fileName) + ".csv";
+    private String getUrlEscapedFileName() {
+        return Sanitizer.sanitizeForUri(fileName) + "." + fileType;
     }
     
     public String getFileName() {
@@ -68,6 +50,10 @@ public class FileDownloadResult extends ActionResult {
     
     public String getFileContent() {
         return this.fileContent;
+    }
+    
+    public String getFileType() {
+        return this.fileType;
     }
 
 }

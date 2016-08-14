@@ -114,9 +114,9 @@ function readyFeedbackEditPage() {
 
 function prepareDescription(form) {
     var questionNum = getQuestionNum(form);
-    tinyMCE.get('questiondescription-' + questionNum).save();
-    var descr = form.find('input[name^="questiondescription"]');
-    descr.attr('name', 'questiondescription');
+    var content = tinyMCE.get('questiondescription-' + questionNum).getContent();
+    form.find('input[name=questiondescription]').val(content);
+    form.find('input[name=questiondescription-' + questionNum + ']').prop('disabled', true);
 }
 
 function bindFeedbackSessionEditFormSubmission() {

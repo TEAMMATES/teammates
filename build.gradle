@@ -56,7 +56,9 @@ dependencies {
                     "com.sun.jersey.contribs:jersey-multipart:1.19",
                     "joda-time:joda-time:2.9.4",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
-                    "org.jsoup:jsoup:1.9.2"
+                    "org.jsoup:jsoup:1.9.2",
+                    "org.apache.poi:poi:3.14",
+                    "org.apache.poi:poi-ooxml:3.14"
 
     exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
@@ -475,7 +477,7 @@ task generateFailedCmd(type: Exec) {
     }
 }
 
-task cleanTestOutputDir {
+task cleanTestOutputDir << {
     def testOutputDir = new File("test-output")
     testOutputDir.deleteDir()
 }
