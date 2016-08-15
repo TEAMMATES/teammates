@@ -84,22 +84,23 @@
         "typicalCourse1":{
             "id":"comments.idOfTypicalCourse1",
             "name":"Typical Course 1 with 2 Evals",
-            "createdAt": "2012-04-01 11:59 PM UTC",
-            "isArchived":false
+            "timeZone":"UTC",
+            "createdAt": "2012-04-01 11:59 PM UTC"
         },
         "sampleCourse":{
             "id":"comments.idOfSampleCourse-demo",
             "name":"Sample Course",
-            "isArchived":false
+            "timeZone":"UTC"
         },
         "uriCharsCourse":{
             "id":"comments.idOfUriCharsCourse",
             "name":"Course with # Session",
-            "isArchived":false
+            "timeZone":"UTC"
         },
         "archivedCourse":{
             "id":"comments.idOfArchivedCourse",
             "name":"Archived Course",
+            "timeZone":"UTC",
             "createdAt": "2012-04-01 11:58 PM UTC"
         }
     },

@@ -40,18 +40,22 @@
   "courses": {
     "course1": {
       "id": "course1",
+      "timeZone": "UTC",
       "name": "Name of Course 1"
     },
     "course2": {
       "id": "course2",
+      "timeZone": "UTC",
       "name": "Name of Course 2"
     },
     "course3": {
       "id": "course3",
+      "timeZone": "UTC",
       "name": "Name of Course 3"
     },
     "course4": {
       "id": "course4",
+      "timeZone": "UTC",
       "name": "Name of Course 4"
     }
   },

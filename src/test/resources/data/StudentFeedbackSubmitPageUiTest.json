@@ -54,7 +54,7 @@
         "SFSubmitUiT.CS2104":{
             "id":"SFSubmitUiT.CS2104",
             "name":"Programming Language Concepts",
-            "isArchived": false
+            "timeZone":"UTC"
         }
     },
     "instructors":{

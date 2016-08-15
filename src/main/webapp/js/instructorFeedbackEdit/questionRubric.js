@@ -175,19 +175,21 @@ function removeRubricRow(index, questionNum) {
     var numberOfRows = $thisRow.parent().children('tr').length;
     
     var delStr = numberOfRows <= 1 ? 'clear' : 'delete';
-    if (!confirm('Are you sure you want to ' + delStr + ' the row?')) {
-        return;
-    }
-    
-    if (numberOfRows <= 1) {
-        $thisRow.find('textarea').val('');
-    } else {
-        $thisRow.remove();
-    
-        if ($(questionId).attr('editStatus') === 'hasResponses') {
-            $(questionId).attr('editStatus', 'mustDeleteResponses');
+    var messageText = 'Are you sure you want to ' + delStr + ' the row?';
+    var okCallback = function() {
+        if (numberOfRows <= 1) {
+            $thisRow.find('textarea').val('');
+        } else {
+            $thisRow.remove();
+
+            if ($(questionId).attr('editStatus') === 'hasResponses') {
+                $(questionId).attr('editStatus', 'mustDeleteResponses');
+            }
         }
-    }
+    };
+    BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
+                                         BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                                         StatusType.WARNING);
 }
 
 function removeRubricCol(index, questionNum) {
@@ -199,20 +201,22 @@ function removeRubricCol(index, questionNum) {
     var numberOfCols = $thisCol.first().parent().children().length - 1;
     
     var delStr = numberOfCols <= 1 ? 'clear' : 'delete';
-    if (!confirm('Are you sure you want to ' + delStr + ' the column?')) {
-        return;
-    }
-    
-    if (numberOfCols <= 1) {
-        $thisCol.find('input[id^="rubricChoice"], textarea').val('');
-        $thisCol.find('input[id^="rubricWeight"]').val(0);
-    } else {
-        $thisCol.remove();
-    
-        if ($(questionId).attr('editStatus') === 'hasResponses') {
-            $(questionId).attr('editStatus', 'mustDeleteResponses');
+    var messageText = 'Are you sure you want to ' + delStr + ' the column?';
+    var okCallback = function() {
+        if (numberOfCols <= 1) {
+            $thisCol.find('input[id^="rubricChoice"], textarea').val('');
+            $thisCol.find('input[id^="rubricWeight"]').val(0);
+        } else {
+            $thisCol.remove();
+
+            if ($(questionId).attr('editStatus') === 'hasResponses') {
+                $(questionId).attr('editStatus', 'mustDeleteResponses');
+            }
         }
-    }
+    };
+    BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
+                                         BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                                         StatusType.WARNING);
 }
 
 function highlightRubricRow(index, questionNum, highlight) {

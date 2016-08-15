@@ -91,12 +91,12 @@
     "AAMgtUiT.CS2103": {
       "id": "AAMgtUiT.CS2103",
       "name": "Software Engineering",
-      "isArchived": false
+      "timeZone": "UTC"
     },
     "AAMgtUiT.CS1101": {
       "id": "AAMgtUiT.CS1101",
       "name": "Programming Methodology",
-      "isArchived": false
+      "timeZone": "UTC"
     }
   },
 

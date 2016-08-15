@@ -135,6 +135,28 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         assertTrue(hasStudent1ReceivedEmail);
         assertTrue(hasInstructor1ReceivedEmail);
         
+        ______TS("feedback session closed alerts");
+        
+        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
+        assertEquals(10, emails.size());
+        
+        subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
+                                course.getName(), session.getFeedbackSessionName());
+        
+        hasStudent1ReceivedEmail = false;
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionClosedEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionClosedEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
+        
         ______TS("feedback session published alerts");
         
         emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(session);
@@ -190,6 +212,9 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         emails = new EmailGenerator().generateFeedbackSessionClosingEmails(privateSession);
         assertTrue(emails.isEmpty());
         
+        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
         emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(privateSession);
         assertTrue(emails.isEmpty());
         
@@ -219,7 +244,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("instructor course join email");
         
-        CourseAttributes course = new CourseAttributes("course-id", "Course Name");
+        CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
         
         email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
@@ -233,7 +258,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("student course join email");
         
-        CourseAttributes course = new CourseAttributes("course-id", "Course Name");
+        CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
         
         StudentAttributes student = new StudentAttributes();
         student.name = "Student Name";

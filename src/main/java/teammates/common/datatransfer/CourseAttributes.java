@@ -31,37 +31,25 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     
     //Note: be careful when changing these variables as their names are used in *.json files.
     public Date createdAt;
-    public boolean isArchived;
     private String id;
     private String name;
+    private String timeZone;
     
     public CourseAttributes() {
         // attributes to be set after construction
     }
 
-    public CourseAttributes(String courseId, String name) {
+    public CourseAttributes(String courseId, String name, String timeZone) {
         this.id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
-        this.isArchived = false;
-    }
-    
-    public CourseAttributes(String courseId, String name, boolean archiveStatus) {
-        this.id = Sanitizer.sanitizeTitle(courseId);
-        this.name = Sanitizer.sanitizeTitle(name);
-        this.isArchived = archiveStatus;
+        this.timeZone = timeZone;
     }
 
     public CourseAttributes(Course course) {
         this.id = course.getUniqueId();
         this.name = course.getName();
+        this.timeZone = course.getTimeZone();
         this.createdAt = course.getCreatedAt();
-        
-        Boolean status = course.getArchiveStatus();
-        if (status == null) {
-            this.isArchived = false;
-        } else {
-            this.isArchived = status.booleanValue();
-        }
     }
 
     public String getId() {
@@ -72,6 +60,14 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         return name;
     }
     
+    public String getTimeZone() {
+        return timeZone;
+    }
+    
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         
@@ -89,18 +85,23 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
             errors.add(error);
         }
         
+        error = validator.getInvalidityInfoForCourseTimeZone(getTimeZone());
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
         return errors;
     }
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), Boolean.valueOf(isArchived), createdAt);
+        return new Course(getId(), getName(), getTimeZone(), createdAt);
     }
 
     @Override
     public String toString() {
         return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
-               + " isArchived: " + isArchived;
+               + " timeZone: " + getTimeZone();
     }
 
     @Override

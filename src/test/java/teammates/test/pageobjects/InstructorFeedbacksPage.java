@@ -218,6 +218,7 @@ public class InstructorFeedbacksPage extends AppPage {
         
         selectDropdownByActualValue(timezoneDropdown, timeZoneString);
         
+        waitForElementVisibility(courseIdDropdown);
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
         
         // fill in time values

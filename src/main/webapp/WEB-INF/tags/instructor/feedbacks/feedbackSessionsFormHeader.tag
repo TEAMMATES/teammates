@@ -50,7 +50,8 @@
                     Save Changes
                 </button>
                 <a href="${fsForm.fsDeleteLink}"
-                    onclick="return toggleDeleteFeedbackSessionConfirmation('${fsForm.courseId}','${fsForm.fsName}');"
+                    data-course-id="${fsForm.courseId}"
+                    data-feedback-session-name="${fsForm.fsName}"
                     title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
                     data-toggle="tooltip" data-placement="top"
                     class="btn btn-primary btn-sm" id="fsDeleteLink">

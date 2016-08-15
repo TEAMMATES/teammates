@@ -13,7 +13,7 @@
     "course": {
       "id": "AutSessRem.course",
       "name": "Test Course for Aut Sessions Reminder",
-      "isArchived": false
+      "timeZone": "UTC"
     }
   },
   

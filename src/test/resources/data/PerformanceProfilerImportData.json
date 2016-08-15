@@ -4,8 +4,8 @@
 },
 
 "courses":{
-    "Z2_Cou0_of_Coo0":{"instructor":"testingforteammates","id":"idOf_Z2_Cou0_of_Coo0","name":"nameOf_Z2_Cou0_of_Coo0","isArchived": false},
-    "Z2_Cou1_of_Coo0":{"instructor":"testingforteammates","id":"idOf_Z2_Cou1_of_Coo0","name":"nameOf_Z2_Cou1_of_Coo0","isArchived": false}
+    "Z2_Cou0_of_Coo0":{"instructor":"testingforteammates","id":"idOf_Z2_Cou0_of_Coo0","name":"nameOf_Z2_Cou0_of_Coo0","timeZone": "UTC"},
+    "Z2_Cou1_of_Coo0":{"instructor":"testingforteammates","id":"idOf_Z2_Cou1_of_Coo0","name":"nameOf_Z2_Cou1_of_Coo0","timeZone": "UTC"}
 },
 
 "students":{

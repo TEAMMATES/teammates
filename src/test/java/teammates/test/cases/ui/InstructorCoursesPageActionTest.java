@@ -73,7 +73,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
             CoursesLogic.inst().deleteCourseCascade("new-course");
         }
         
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course");
+        CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course", "UTC");
         gaeSimulation.loginAsInstructor(instructorId);
         InstructorCoursesPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);

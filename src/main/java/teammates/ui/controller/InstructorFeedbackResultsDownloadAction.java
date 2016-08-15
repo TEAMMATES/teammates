@@ -59,8 +59,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
             result.addResponseParam(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
             return result;
         }
-
-        return createFileDownloadResult(fileName, fileContent);
+        String downloadType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_DOWNLOAD_TYPE);
+        return createFileDownloadResult(fileName, fileContent, downloadType);
     }
 
 }

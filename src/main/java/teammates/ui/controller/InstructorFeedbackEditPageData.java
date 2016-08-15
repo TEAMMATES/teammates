@@ -109,19 +109,22 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         qnForm.setQuestionNumberOptions(getQuestionNumberOptions(questionsSize));
         
-        FeedbackQuestionFeedbackPathSettings feedbackPathSettings = new FeedbackQuestionFeedbackPathSettings();
-        feedbackPathSettings.setGiverParticipantOptions(getParticipantOptions(question, true));
-        feedbackPathSettings.setRecipientParticipantOptions(getParticipantOptions(question, false));
-        
-        boolean isNumberOfEntitiesToGiveFeedbackToChecked =
-                question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
-        feedbackPathSettings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
-        feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
-                                                                   ? question.numberOfEntitiesToGiveFeedbackTo
-                                                                   : 1);
+        FeedbackQuestionFeedbackPathSettings feedbackPathSettings =
+                configureFeedbackPathSettings(question);
         qnForm.setFeedbackPathSettings(feedbackPathSettings);
 
-        // maps for setting visibility
+        FeedbackQuestionVisibilitySettings visibilitySettings = configureVisibilitySettings(question);
+        qnForm.setVisibilitySettings(visibilitySettings);
+        
+        qnForm.setQuestionHasResponses(questionHasResponses.get(question.getId()));
+        
+        qnForm.setQuestionSpecificEditFormHtml(questionDetails.getQuestionSpecificEditFormHtml(questionIndex));
+        qnForm.setEditable(false);
+        
+        qnForms.add(qnForm);
+    }
+    
+    private FeedbackQuestionVisibilitySettings configureVisibilitySettings(FeedbackQuestionAttributes question) {
         Map<String, Boolean> isGiverNameVisibleFor = new HashMap<String, Boolean>();
         for (FeedbackParticipantType giverType : question.showGiverNameTo) {
             isGiverNameVisibleFor.put(giverType.name(), true);
@@ -136,19 +139,101 @@ public class InstructorFeedbackEditPageData extends PageData {
         for (FeedbackParticipantType participantType : question.showResponsesTo) {
             isResponsesVisibleFor.put(participantType.name(), true);
         }
-        FeedbackQuestionVisibilitySettings visibilitySettings = new FeedbackQuestionVisibilitySettings(
-                                                                        question.getVisibilityMessage(),
-                                                                        isResponsesVisibleFor,
-                                                                        isGiverNameVisibleFor,
-                                                                        isRecipientNameVisibleFor);
-        qnForm.setVisibilitySettings(visibilitySettings);
-        
-        qnForm.setQuestionHasResponses(questionHasResponses.get(question.getId()));
-        
-        qnForm.setQuestionSpecificEditFormHtml(questionDetails.getQuestionSpecificEditFormHtml(questionIndex));
-        qnForm.setEditable(false);
-        
-        qnForms.add(qnForm);
+
+        String dropdownMenuLabel = getDropdownMenuLabel(question);
+
+        return new FeedbackQuestionVisibilitySettings(question.getVisibilityMessage(), isResponsesVisibleFor,
+                                                      isGiverNameVisibleFor, isRecipientNameVisibleFor, dropdownMenuLabel);
+    }
+
+    private String getDropdownMenuLabel(FeedbackQuestionAttributes question) {
+        if (isVisibilitySetToAnonymousToRecipientAndInstructors(question)) {
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS");
+        }
+
+        if (isVisibilitySetToAnonymousToRecipientVisibleToInstructors(question)) {
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS");
+        }
+
+        if (isVisibilitySetToVisibleToInstructorsOnly(question)) {
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("VISIBLE_TO_INSTRUCTORS_ONLY");
+        }
+
+        if (isVisibilitySetToVisibleToRecipientAndInstructors(question)) {
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS");
+        }
+
+        return "Custom visibility option:";
+    }
+
+    private boolean isVisibilitySetToAnonymousToRecipientAndInstructors(FeedbackQuestionAttributes question) {
+        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+                && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
+        boolean giverNameVisibleToNoOne = question.showGiverNameTo.isEmpty();
+
+        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleToNoOne;
+    }
+
+    private boolean isVisibilitySetToAnonymousToRecipientVisibleToInstructors(FeedbackQuestionAttributes question) {
+        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+                && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
+        boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
+                && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+
+        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToInstructors;
+    }
+
+    private boolean isVisibilitySetToVisibleToInstructorsOnly(FeedbackQuestionAttributes question) {
+        boolean responsesVisibleOnlyToInstructors = question.showResponsesTo.size() == 1
+                && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
+                && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean recipientNameVisibleOnlyToInstructors = question.showRecipientNameTo.size() == 1
+                && question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+
+        return responsesVisibleOnlyToInstructors && giverNameVisibleOnlyToInstructors
+                && recipientNameVisibleOnlyToInstructors;
+    }
+
+    private boolean isVisibilitySetToVisibleToRecipientAndInstructors(FeedbackQuestionAttributes question) {
+        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+                && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
+        boolean giverNameVisibleOnlyToRecipientAndInstructors = question.showGiverNameTo.size() == 2
+                && question.showGiverNameTo.size() == 2
+                && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                && question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER);
+        boolean recipientNameVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+                && question.showRecipientNameTo.size() == 2
+                && question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                && question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER);
+
+        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToRecipientAndInstructors
+                && recipientNameVisibleOnlyToRecipientAndInstructors;
+    }
+
+    private FeedbackQuestionFeedbackPathSettings configureFeedbackPathSettings(
+            FeedbackQuestionAttributes question) {
+        FeedbackQuestionFeedbackPathSettings settings = new FeedbackQuestionFeedbackPathSettings();
+        settings.setSelectedGiver(question.giverType);
+        settings.setSelectedRecipient(question.recipientType);
+
+        boolean isNumberOfEntitiesToGiveFeedbackToChecked =
+                question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
+        settings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
+        settings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
+                                                       ? question.numberOfEntitiesToGiveFeedbackTo
+                                                       : 1);
+
+        boolean isCommonGiver = Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS.containsKey(question.giverType);
+        boolean isCommonPath =
+                    isCommonGiver && Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS.get(question.giverType)
+                                                           .contains(question.recipientType);
+        settings.setCommonPathSelected(isCommonPath);
+
+        return settings;
     }
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {
@@ -159,42 +244,9 @@ public class InstructorFeedbackEditPageData extends PageData {
                                 .withSessionName(feedbackSession.getFeedbackSessionName())
                                 .toString();
         newQnForm = FeedbackQuestionEditForm.getNewQnForm(doneEditingLink, feedbackSession,
-                                                          getQuestionTypeChoiceOptions(), getParticipantOptions(null, true),
-                                                          getParticipantOptions(null, false),
+                                                          getQuestionTypeChoiceOptions(),
                                                           getQuestionNumberOptions(nextQnNum),
                                                           getNewQuestionSpecificEditFormHtml());
-    }
-
-    /**
-     * Returns a list of HTML options for selecting participant type.
-     * Used in instructorFeedbackEdit.jsp for selecting the participant type for a new question.
-     * isGiver refers to the feedback path (!isGiver == feedback's recipient)
-     */
-    private List<ElementTag> getParticipantOptions(FeedbackQuestionAttributes question, boolean isGiver) {
-        List<ElementTag> result = new ArrayList<ElementTag>();
-        for (FeedbackParticipantType option : FeedbackParticipantType.values()) {
-            
-            boolean isValidGiver = isGiver && option.isValidGiver();
-            boolean isValidRecipient = !isGiver && option.isValidRecipient();
-            
-            if (isValidGiver || isValidRecipient) {
-                String participantName = isValidGiver ? option.toDisplayGiverName()
-                                                      : option.toDisplayRecipientName();
-                
-                boolean isSelected = false;
-                // for existing questions
-                if (question != null) {
-                    boolean isGiverType = isValidGiver && question.giverType == option;
-                    boolean isRecipientType = isValidRecipient && question.recipientType == option;
-                    
-                    isSelected = isGiverType || isRecipientType;
-                }
-                
-                ElementTag optionTag = createOption(participantName, option.toString(), isSelected);
-                result.add(optionTag);
-            }
-        }
-        return result;
     }
 
     private List<ElementTag> getQuestionNumberOptions(int numQuestions) {

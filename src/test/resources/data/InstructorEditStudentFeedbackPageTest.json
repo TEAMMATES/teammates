@@ -58,7 +58,7 @@
         "IESFPTCourse":{
             "id":"IESFPTCourse",
             "name":"IESFPTCourse",
-            "isArchived":false
+            "timeZone":"UTC"
         }
     },
     "instructors":{
