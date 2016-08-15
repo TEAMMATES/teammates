@@ -46,6 +46,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -92,6 +93,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 
         testSendReminderForFeedbackSession();
         testSendReminderForFeedbackSessionParticularUsers();
+        testSendFeedbackSessionSubmissionConfirmationEmail();
         testDeleteFeedbackSessionsForCourse();
     }
     
@@ -2182,6 +2184,71 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                          edne.getMessage());
         }
         
+    }
+    
+    private void testSendFeedbackSessionSubmissionConfirmationEmail() throws Exception {
+        // private method. no need to check for authentication.
+        
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        String courseName = CoursesLogic.inst().getCourse(fs.getCourseId()).getName();
+        
+        ______TS("success: registered student");
+        
+        StudentAttributes studentToSendConfirmation = dataBundle.students.get("student5InCourse1");
+        
+        EmailWrapper emailSent = fsLogic.sendConfirmationEmailForSubmission(fs.getCourseId(), fs.getFeedbackSessionName(),
+                                                                            studentToSendConfirmation.googleId, null, null);
+
+        String errorMessage = "No feedback submission confirmation email sent to selected student "
+                              + studentToSendConfirmation.email;
+        assertNotNull(errorMessage, emailSent);
+        assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
+                                   fs.getFeedbackSessionName()),
+                     emailSent.getSubject());
+        
+        ______TS("success: unregistered student");
+        
+        StudentAttributes unregStudent = new StudentAttributes("1", "Team0.1", "Unreg Student",
+                                                               "unreg@stud.ent", "asdf", "idOfTypicalCourse1");
+
+        StudentsDb stDb = new StudentsDb();
+        stDb.createStudentWithoutDocument(unregStudent);
+        unregStudent = stDb.getStudentForEmail("idOfTypicalCourse1", "unreg@stud.ent");
+        gaeSimulation.logoutUser();
+
+        emailSent = fsLogic.sendConfirmationEmailForSubmission(fs.getCourseId(), fs.getFeedbackSessionName(),
+                                                               null, unregStudent.email, unregStudent.key);
+
+        assertNotNull(errorMessage, emailSent);
+        assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
+                                   fs.getFeedbackSessionName()),
+                     emailSent.getSubject());
+        
+        ______TS("success: instructor");
+        
+        InstructorAttributes instructor = dataBundle.instructors.get("helperOfCourse1");
+        
+        emailSent = fsLogic.sendConfirmationEmailForSubmission(fs.getCourseId(), fs.getFeedbackSessionName(),
+                                                               instructor.googleId, null, null);
+
+        errorMessage = "No feedback submission confirmation email sent to selected instructor " + instructor.email;
+        assertNotNull(errorMessage, emailSent);
+        assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
+                                   fs.getFeedbackSessionName()),
+                     emailSent.getSubject());
+        
+        ______TS("failure: non-existent Feedback session");
+        
+        String nonExistentFsName = "non-ExIsTENT FsnaMe123";
+        
+        try {
+            fsLogic.sendConfirmationEmailForSubmission(fs.getCourseId(), nonExistentFsName,
+                                                       studentToSendConfirmation.googleId, null, null);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to confirm submission a non-existent feedback session: "
+                         + fs.getCourseId() + "/" + nonExistentFsName, edne.getMessage());
+        }
     }
     
     private FeedbackSessionAttributes getNewFeedbackSession() {
