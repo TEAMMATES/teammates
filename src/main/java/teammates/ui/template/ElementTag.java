@@ -1,7 +1,9 @@
 package teammates.ui.template;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,7 +15,8 @@ import java.util.Map;
 public class ElementTag {
     private String content;
     private Map<String, String> attributes;
-    
+    private List<ElementTag> nestedElements = new ArrayList<ElementTag>();
+
     /**
      * Constructs an element tag.
      * The first element is used as the content if there are an odd number of elements passed in.
@@ -60,6 +63,18 @@ public class ElementTag {
         return attributes.remove(attributeName);
     }
     
+    public List<ElementTag> getNestedElements() {
+        return nestedElements;
+    }
+
+    public void setNestedElements(List<ElementTag> nestedElements) {
+        this.nestedElements = nestedElements;
+    }
+
+    public void addNestedElement(ElementTag element) {
+        this.nestedElements.add(element);
+    }
+
     /**
      * @return all attributes joined into a string for HTML purposes with a space in front;
      *         attribute added if and only if it has a non-null value,
