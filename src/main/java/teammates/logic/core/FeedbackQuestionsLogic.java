@@ -356,7 +356,7 @@ public class FeedbackQuestionsLogic {
             if (question.giverType == FeedbackParticipantType.STUDENTS
                     || question.giverType == FeedbackParticipantType.TEAMS
                     || question.giverType == FeedbackParticipantType.CUSTOM
-                    && (question.hasStudentAsGiverInFeedbackPaths(student)
+                    && (question.hasStudentAsGiverInFeedbackPaths(student.getEmail())
                             || question.hasTeamAsGiverInFeedbackPaths(student.getTeam()))) {
                 questions.add(question);
             }
@@ -387,7 +387,7 @@ public class FeedbackQuestionsLogic {
                         feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
         
         for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
-            if (question.hasStudentAsGiverInFeedbackPaths(student)
+            if (question.hasStudentAsGiverInFeedbackPaths(student.getEmail())
                     || question.hasTeamAsGiverInFeedbackPaths(student.getTeam())) {
                 questions.add(question);
             }
@@ -852,7 +852,7 @@ public class FeedbackQuestionsLogic {
             StudentAttributes studentGiver, InstructorAttributes instructorGiver) {
         boolean isUserStudentAndFeedbackPathGiver =
                 isStudentGiver
-                && (feedbackPath.isStudentFeedbackPathGiver(studentGiver)
+                && (feedbackPath.isStudentFeedbackPathGiver(studentGiver.getEmail())
                         || feedbackPath.isTeamFeedbackPathGiver(studentGiver.getTeam()));
         
         boolean isUserInstructorAndFeedbackPathGiver =

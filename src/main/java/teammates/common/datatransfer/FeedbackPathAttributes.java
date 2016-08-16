@@ -90,62 +90,107 @@ public class FeedbackPathAttributes extends EntityAttributes {
         // Nothing to sanitize
     }
     
-    public boolean isStudentFeedbackPathGiver(StudentAttributes student) {
-        return isStudentFeedbackPathParticipant(student, giver);
+    /**
+     * Returns true if giver has type student and studentEmail is the giver identifier
+     */
+    public boolean isStudentFeedbackPathGiver(String studentEmail) {
+        return isStudentFeedbackPathParticipant(studentEmail, giver);
     }
     
-    public boolean isStudentFeedbackPathRecipient(StudentAttributes student) {
-        return isStudentFeedbackPathParticipant(student, recipient);
+    /**
+     * Returns true if recipient has type student and studentEmail is the recipient identifier
+     */
+    public boolean isStudentFeedbackPathRecipient(String studentEmail) {
+        return isStudentFeedbackPathParticipant(studentEmail, recipient);
     }
     
+    /**
+     * Returns true if giver has type instructor and instructorEmail is the giver identifier
+     */
     public boolean isInstructorFeedbackPathGiver(String instructorEmail) {
         return isInstructorFeedbackPathParticipant(instructorEmail, giver);
     }
     
+    /**
+     * Returns true if recipient has type instructor and instructorEmail is the recipient identifier
+     */
     public boolean isInstructorFeedbackPathRecipient(String instructorEmail) {
         return isInstructorFeedbackPathParticipant(instructorEmail, recipient);
     }
     
+    /**
+     * Returns true if giver has type team and teamName is the giver identifier
+     */
     public boolean isTeamFeedbackPathGiver(String teamName) {
         return isTeamFeedbackPathParticipant(teamName, giver);
     }
     
+    /**
+     * Returns true if recipient has type team and teamName is the recipient identifier
+     */
     public boolean isTeamFeedbackPathRecipient(String teamName) {
         return isTeamFeedbackPathParticipant(teamName, recipient);
     }
     
+    /**
+     * Returns the identifier of the giver
+     */
     public String getGiverId() {
         return getParticipantId(giver);
     }
     
+    /**
+     * Returns the identifier of the recipient
+     */
     public String getRecipientId() {
         return getParticipantId(recipient);
     }
     
+    /**
+     * Returns true if the giver has type student
+     */
     public boolean isFeedbackPathGiverAStudent() {
         return isFeedbackPathParticipantAStudent(giver);
     }
     
+    /**
+     * Returns true if the giver has type instructor
+     */
     public boolean isFeedbackPathGiverAnInstructor() {
         return isFeedbackPathParticipantAnInstructor(giver);
     }
     
+    /**
+     * Returns true if the giver has type team
+     */
     public boolean isFeedbackPathGiverATeam() {
         return isFeedbackPathParticipantATeam(giver);
     }
     
+    /**
+     * Returns true if the recipient has type student
+     */
     public boolean isFeedbackPathRecipientAStudent() {
         return isFeedbackPathParticipantAStudent(recipient);
     }
     
+    /**
+     * Returns true if the recipient has type instructor
+     */
     public boolean isFeedbackPathRecipientAnInstructor() {
         return isFeedbackPathParticipantAnInstructor(recipient);
     }
     
+    /**
+     * Returns true if the recipient has type team
+     */
     public boolean isFeedbackPathRecipientATeam() {
         return isFeedbackPathParticipantATeam(recipient);
     }
 
+    /**
+     * Returns true if the recipient is the class
+     */
     public boolean isFeedbackPathRecipientTheClass() {
         return isFeedbackPathParticipantTheClass(recipient);
     }
@@ -207,10 +252,10 @@ public class FeedbackPathAttributes extends EntityAttributes {
         return participant.length() - FEEDBACK_PARTICIPANT_TYPE_TEAM.length();
     }
     
-    private boolean isStudentFeedbackPathParticipant(StudentAttributes student, String participant) {
+    private boolean isStudentFeedbackPathParticipant(String studentEmail, String participant) {
         if (isFeedbackPathParticipantAStudent(participant)) {
             String studentFeedbackPathParticipant = getStudentEmail(participant);
-            return studentFeedbackPathParticipant.equals(student.getEmail());
+            return studentFeedbackPathParticipant.equals(studentEmail);
         }
         return false;
     }

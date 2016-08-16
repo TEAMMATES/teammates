@@ -1167,7 +1167,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             possibleGivers.add(fqa.creatorEmail);
             break;
         case CUSTOM:
-            possibleGivers = fqa.getGiversFromFeedbackPathsForStudentRecipient(studentRecipient);
+            possibleGivers = fqa.getGiversFromFeedbackPathsForStudentRecipient(studentRecipient.getEmail());
             break;
         default:
             log.severe("Invalid giver type specified");
@@ -1406,7 +1406,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             possibleRecipients.add(Const.GENERAL_QUESTION);
             break;
         case CUSTOM:
-            possibleRecipients = fqa.getRecipientsFromFeedbackPathsForStudentGiver(studentGiver);
+            possibleRecipients = fqa.getRecipientsFromFeedbackPathsForStudentGiver(studentGiver.getEmail());
             break;
         default:
             log.severe("Invalid recipient type specified");

@@ -706,9 +706,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     /** 
      * Returns true if the given student is a giver in the question's feedback paths
      */
-    public boolean hasStudentAsGiverInFeedbackPaths(StudentAttributes student) {
+    public boolean hasStudentAsGiverInFeedbackPaths(String studentEmail) {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
-            if (feedbackPath.isStudentFeedbackPathGiver(student)) {
+            if (feedbackPath.isStudentFeedbackPathGiver(studentEmail)) {
                 return true;
             }
         }
@@ -802,10 +802,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     /** 
      * Returns a list of the question's response givers for which the student is a response recipient
      */
-    public List<String> getGiversFromFeedbackPathsForStudentRecipient(StudentAttributes student) {
+    public List<String> getGiversFromFeedbackPathsForStudentRecipient(String studentEmail) {
         List<String> givers = new ArrayList<String>();
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
-            if (feedbackPath.isStudentFeedbackPathRecipient(student)) {
+            if (feedbackPath.isStudentFeedbackPathRecipient(studentEmail)) {
                 givers.add(feedbackPath.getGiverId());
             }
         }
@@ -852,10 +852,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     /** 
      * Returns a list of the question's response recipients for which the student is a response giver
      */
-    public List<String> getRecipientsFromFeedbackPathsForStudentGiver(StudentAttributes student) {
+    public List<String> getRecipientsFromFeedbackPathsForStudentGiver(String studentEmail) {
         List<String> recipients = new ArrayList<String>();
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
-            if (feedbackPath.isStudentFeedbackPathGiver(student)) {
+            if (feedbackPath.isStudentFeedbackPathGiver(studentEmail)) {
                 recipients.add(feedbackPath.getRecipientId());
             }
         }
