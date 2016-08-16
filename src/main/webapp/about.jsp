@@ -653,6 +653,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AHarshvardhan58"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Hiresh Trivedi
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ahiresh"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Hoo De Lin
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AHooDeLin"
                         target="_blank">bug reporting/fixing, enhancements</a>]

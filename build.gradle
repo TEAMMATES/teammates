@@ -7,6 +7,9 @@ apply plugin: "findbugs"
 apply plugin: "jacoco"
 
 def appengineVersion = "1.9.27"
+def checkstyleVersion = "6.19"
+def pmdVersion = "5.4.1"
+def findbugsVersion = "3.0.1"
 
 buildscript {
     repositories {
@@ -18,7 +21,7 @@ buildscript {
 }
 
 configurations {
-    macker
+    staticAnalysis
     enhancer
     exclude
     testExclude
@@ -35,7 +38,10 @@ repositories {
 }
 
 dependencies {
-    macker          "de.andrena.tools.macker:macker:1.0.1"
+    staticAnalysis  "com.puppycrawl.tools:checkstyle:${checkstyleVersion}",
+                    "net.sourceforge.pmd:pmd-java:${pmdVersion}",
+                    "com.google.code.findbugs:findbugs:${findbugsVersion}",
+                    "de.andrena.tools.macker:macker:1.0.1"
 
     appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
@@ -50,7 +56,9 @@ dependencies {
                     "com.sun.jersey.contribs:jersey-multipart:1.19",
                     "joda-time:joda-time:2.9.4",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
-                    "org.jsoup:jsoup:1.9.2"
+                    "org.jsoup:jsoup:1.9.2",
+                    "org.apache.poi:poi:3.14",
+                    "org.apache.poi:poi-ooxml:3.14"
 
     exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
@@ -90,12 +98,6 @@ dependencies {
 }
 
 sourceSets {
-    empty {
-        // Placeholder empty source for downloading all static analysis tools without running anything
-        java {
-            srcDir "static-analysis"
-        }
-    }
     main {
         java {
             srcDir "src/main/java"
@@ -184,6 +186,31 @@ task createConfigs << {
     }
 }
 
+task createLaunches << {
+    def templatesToCopy = [
+        ".launches/All tests.launch.xml",
+        ".launches/All tests (GodMode).launch.xml",
+        ".launches/Failed tests.launch.xml",
+        ".launches/Failed tests (GodMode).launch.xml",
+        ".launches/Local tests.launch.xml",
+        ".launches/Travis tests.launch.xml",
+        ".launches/Staging tests.launch.xml"
+    ]
+    templatesToCopy.findAll {
+        !(new File(it.replace(".xml", ""))).exists()
+    }.each {
+        filename -> copy {
+            from filename
+            into new File(filename).getParent()
+            rename '(.*).xml', '$1'
+        }
+        filename = filename.replace(".xml", "")
+        def fileContents = new File(filename).getText("UTF-8")
+        def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
+        new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
+    }
+}
+
 task copyDepsToWebInfLib(type: Copy) {
     from configurations.runtime
     into "src/main/webapp/WEB-INF/lib/"
@@ -210,7 +237,7 @@ task printUserHomeDir << {
 task setup {
     description "Sets up the project by obtaining necessary files and configurations points."
     group "Setup"
-    dependsOn eclipseProject, createConfigs
+    dependsOn eclipseProject, createConfigs, createLaunches
 }
 
 // RUN SERVER TASKS
@@ -277,12 +304,12 @@ task eslint(type: Exec) {
 }
 
 checkstyle {
-    toolVersion = "6.19"
+    toolVersion = checkstyleVersion
     configFile = file("static-analysis/teammates-checkstyle.xml")
 }
 
 pmd {
-    toolVersion = "5.4.1"
+    toolVersion = pmdVersion
     consoleOutput = true
     ruleSetFiles = files("static-analysis/teammates-pmd.xml", "static-analysis/teammates-pmdMain.xml")
     ruleSets = []
@@ -292,7 +319,7 @@ pmdMain.dependsOn compileJava
 pmdTest.dependsOn compileTestJava
 
 findbugs {
-    toolVersion = "3.0.1"
+    toolVersion = findbugsVersion
     visitors = [
         "FindDeadLocalStores"
     ]
@@ -305,16 +332,17 @@ tasks.withType(FindBugs) {
     }
 }
 
-// workaround to get Macker to be downloaded first
-task mackerEmpty(type: Copy) {
-    from configurations.macker
-    into "static-analysis/macker"
+task installEslint(type: Exec) {
+    commandLine "npm", "install", "eslint@3.0.0"
 }
 
 task downloadStaticAnalysisTools {
     description "Downloads all static analysis tools."
     group "Static analysis"
-    dependsOn checkstyleEmpty, pmdEmpty, findbugsEmpty, mackerEmpty
+    doFirst {
+        configurations.staticAnalysis.resolve()
+    }
+    finalizedBy installEslint
 }
 
 task staticAnalysisMain {
@@ -327,7 +355,7 @@ task staticAnalysisTest {
 
 task macker << {
     logging.setLevel(LogLevel.INFO)
-    ant.taskdef(name: "macker", classpath: configurations.macker.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
+    ant.taskdef(name: "macker", classpath: configurations.staticAnalysis.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
     ant.macker(failonerror: true, verbose: false) {
         rules(dir: "${projectDir}/static-analysis", includes: "teammates-macker.xml")
         classes(dir: "${buildDir}/classes") {
@@ -474,7 +502,7 @@ task generateFailedCmd(type: Exec) {
     }
 }
 
-task cleanTestOutputDir {
+task cleanTestOutputDir << {
     def testOutputDir = new File("test-output")
     testOutputDir.deleteDir()
 }

@@ -4,9 +4,19 @@
 TEAMMATES uses a number of static analysis tools in order to maintain code quality and measure code coverage.
 This document will cover an overview of these tools and how to run them in local environment.
 
+- [Version numbers](#version-numbers)
 - [Tool stack](#tool-stack)
 - [Running static analysis](#running-static-analysis)
 - [Running code coverage session](#running-code-coverage-session)
+
+## Version numbers
+
+The version number of all the tool stacks are declared in `build.gradle` or `package.json`.
+
+When downloading the plugin for Eclipse, find the plugin version that uses the correct version of the tool, e.g if CheckStyle 6.19 is used find an Eclipse plugin that uses CheckStyle 6.19 as well.
+If the exact version of the plugin cannot be found, using the latest version is allowed, however there is no guarantee that there will be no backward-incompatible changes.
+
+Conversely, when updating any tool, ensure that the tool version is supported by the Eclipse plugin, e.g when upgrading CheckStyle to 6.19 ensure that there is an Eclipse plugin which supports that version as well.
 
 ## Tool stack
 
@@ -79,14 +89,18 @@ The rules to be used are configured in a ruleset file; in TEAMMATES the file can
 Normally, the coverage will be run against all classes specified as the source code, but it can be configured to exclude classes matching certain name patterns.
 The plugin for Eclipse can be found [here](http://eclemma.org).
 
-### ESLint (version 3.0.0)
+### ESLint
 
 [ESLint](http://eslint.org) functions both to enforce coding standard and also to find potential bugs in JavaScript source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-eslint.yml).
 ESLint is a node.js package, currently not supported for Eclipse Java EE project.
 To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (version 4 or later required) and then install the ESLint package:
 ```
-npm install -g eslint@3.0.0
+./gradlew installEslint
+
+# Alternatively, if you want to install the ESLint module globally, use the install command manually
+# Remember to use the correct tool version
+npm install -g eslint@{version}
 ```
 
 ##### Suppressing ESLint warnings
@@ -125,7 +139,7 @@ The analysis results are immediately reported in Eclipse and you can traverse to
 
 To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
 
-To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`. Note that currently, the Eclipse plugin uses a different PMD version from what `build.gradle` is using. 
+To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`.
 
 Alternatively, run the tools via Gradle:
 ```
