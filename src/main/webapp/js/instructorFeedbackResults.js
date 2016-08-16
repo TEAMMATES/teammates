@@ -331,6 +331,11 @@ $(document).ready(function() {
     bindPublishButtons();
     bindUnpublishButtons();
     
+    $('#download-result-dropdown > li').click(function() {
+        $('input[id=downloadType]').val($(this).data('downloadtype'));
+        $('#download-form').submit();
+    });
+    
     $('#button-print').on('click', function() {
         // Fix to hide the filter placeholder when it is empty.
         if ($('#results-search-box').val()) {
