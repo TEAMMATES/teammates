@@ -151,8 +151,11 @@ var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
-    bindErrorImages('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell');
 	
+    $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function(){
+        bindDefaultImageIfMissing(this);
+    })
+    
     /**
      * Initializing then disabling is better than simply
      * not initializing for mobile due to some tooltips-specific
@@ -181,12 +184,11 @@ $(document).on('ajaxComplete ready', function() {
 });
 
 /**
- * @param elements:
- *     identifier that points to elements for which child 'img' tags are
- *     checked for error and assigning default value in case of error.
+ * Binds a default image if the image is missing.
+ * @param element Image element. 
  */
-function bindErrorImages(elements) {
-    $(elements).children('img').on('error', function() {
+function bindDefaultImageIfMissing(element) {
+    $(element).on('error', function() {
         if ($(this).attr('src') !== '') {
             $(this).attr('src', '/images/profile_picture_default.png');
         }
