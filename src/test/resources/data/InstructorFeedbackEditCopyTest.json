@@ -26,31 +26,38 @@
   "courses": {
     "course": {
       "id": "FeedbackEditCopy.CS2104",
-      "name": "Programming Language Concepts"
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
     },
     "course2": {
       "id": "FeedbackEditCopy.CS1101",
-      "name": "Programming Methodology"
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
     },
     "course3": {
       "id": "FeedbackEditCopy.CS2105",
-      "name": "Introduction to Computer Networks"
+      "name": "Introduction to Computer Networks",
+      "timeZone": "UTC"
     },
     "course4": {
       "id": "FeedbackEditCopy.CS2103",
-      "name": "Software Engineering"
+      "name": "Software Engineering",
+      "timeZone": "UTC"
     },
     "course5": {
       "id": "FeedbackEditCopy.CS2107",
-      "name": "Introduction to Information and System Security"
+      "name": "Introduction to Information and System Security",
+      "timeZone": "UTC"
     },
     "course6": {
       "id": "FeedbackEditCopy.CS2103R",
-      "name": "Software Engineering (R)"
+      "name": "Software Engineering (R)",
+      "timeZone": "UTC"
     },
     "course7": {
       "id": "FeedbackEditCopy.CS2102",
-      "name": "Introduction to Databases"
+      "name": "Introduction to Databases",
+      "timeZone": "UTC"
     }
   },
   

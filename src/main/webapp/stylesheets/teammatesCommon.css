@@ -404,6 +404,10 @@ Apply to thead to make headers not bold.
     text-decoration: none;
 }
 
+.text-box-error {
+	border:2px solid red;
+}
+
 /* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
 /* Prevents content overflow in navbar*/
 @media (min-width: 768px) and (max-width: 991px) {
@@ -579,6 +583,19 @@ Apply to thead to make headers not bold.
     min-width: 130px;
 }
 
+.visibilityMessage > ul {
+    margin-top: 5px;
+    padding: 5px 25px;
+}
+
+.visibilityMessage > ul > li {
+    cursor: default;
+}
+
+.visibilityMessage > ul > li > a {
+    cursor: pointer;
+}
+
 @media ( min-width :768px) {
     .bs-example {
         background-color: #fff;
@@ -654,6 +671,11 @@ Apply to thead to make headers not bold.
     vertical-align: middle;
 }
 
+.download-type-list {
+	margin: -60%;
+	cursor: pointer;
+}
+
 /* used on the div/td that contains the img */
 .profile-pic-icon-hover,
 .profile-pic-icon-click {
@@ -702,6 +724,11 @@ Apply to thead to make headers not bold.
     display: inline-block;
     width: 90%;
     margin-right: 5px;
+}
+
+.time-zone-info-box {
+    margin: 7px 0 0 0;
+    padding: 10px;
 }
 
 .unsorted {

@@ -552,9 +552,8 @@ public abstract class AppPage {
     public void selectDropdownByVisibleValue(WebElement element, String value) {
         Select select = new Select(element);
         select.selectByVisibleText(value);
-        String selectedVisibleValue = select.getFirstSelectedOption().getText();
+        String selectedVisibleValue = select.getFirstSelectedOption().getText().trim();
         assertEquals(value, selectedVisibleValue);
-        element.sendKeys(Keys.RETURN);
     }
     
     /** 
@@ -571,7 +570,6 @@ public abstract class AppPage {
         select.selectByValue(value);
         String selectedVisibleValue = select.getFirstSelectedOption().getAttribute("value");
         assertEquals(value, selectedVisibleValue);
-        element.sendKeys(Keys.RETURN);
     }
 
     /**
@@ -715,6 +713,20 @@ public abstract class AppPage {
         }
     }
     
+    /**
+     * @param elementId
+     *            Id of the element
+     * @param targetClass
+     *            className
+     * @return {@code true} if there exists an element with the given id and
+     *         class name.
+     */
+    public boolean isElementHasClass(String elementId, String targetClass) {
+        List<WebElement> elementsMatched =
+                browser.driver.findElements(By.cssSelector("#" + elementId + "." + targetClass));
+        return !elementsMatched.isEmpty();
+    }
+
     public boolean isNamedElementVisible(String elementName) {
         try {
             return browser.driver.findElement(By.name(elementName)).isDisplayed();
@@ -1029,5 +1041,4 @@ public abstract class AppPage {
         String script = "return isWithinView(document.getElementById('" + id + "'));";
         return (boolean) jsExecutor.executeScript(script);
     }
-
 }

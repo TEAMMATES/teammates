@@ -8,6 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTimeZone;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 
 
@@ -67,6 +69,7 @@ public final class Const {
     
     public static final String DEFAULT_SECTION = "None";
     
+    public static final String DEFAULT_TIMEZONE = DateTimeZone.UTC.getID();
     
     /* 
      * These constants are used as variable values to mean that the variable
@@ -428,6 +431,21 @@ public final class Const {
     
     public static class FeedbackQuestion {
 
+        public static final Map<String, String> COMMON_VISIBILITY_OPTIONS;
+
+        static {
+            Map<String, String> visibilityOptionInit = new LinkedHashMap<String, String>();
+
+            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS",
+                                     "Shown anonymously to recipient and instructors");
+            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS",
+                                     "Shown anonymously to recipient, visible to instructors");
+            visibilityOptionInit.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");
+            visibilityOptionInit.put("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS", "Visible to recipient and instructors");
+
+            COMMON_VISIBILITY_OPTIONS = Collections.unmodifiableMap(visibilityOptionInit);
+        }
+
         public static final Map<FeedbackParticipantType, List<FeedbackParticipantType>>
                 COMMON_FEEDBACK_PATHS;
 
@@ -544,6 +562,11 @@ public final class Const {
         public static final String RQG_SORT_TYPE = "recipient-question-giver";
     }
 
+    public class FeedbackSessionResultsDownloadTypes {
+        public static final String XLSX = "xlsx";
+        public static final String CSV = "csv";
+    }
+    
     public class InstructorPermissionRoleNames {
         public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
         public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
@@ -573,6 +596,7 @@ public final class Const {
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
         public static final String COURSE_INDEX = "courseidx";
+        public static final String COURSE_TIME_ZONE = "coursetimezone";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
         public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
         public static final String INSTRUCTOR_ID = "instructorid";
@@ -722,6 +746,7 @@ public final class Const {
         public static final String FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES = "frindicatemissingresponses";
         public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";
         public static final String FEEDBACK_RESULTS_MAIN_INDEX = "frmainindex";
+        public static final String FEEDBACK_RESULTS_DOWNLOAD_TYPE = "frdownloadtype";
 
         public static final String PREVIEWAS = "previewas";
         
@@ -998,6 +1023,7 @@ public final class Const {
         //real servlet names to be logged for automated actions, not for url pattern recognition
         public static final String AUTOMATED_LOG_COMPILATION = "logCompilation";
         public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_CLOSED_MAIL_ACTION = "feedbackSessionClosedMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_UNPUBLISHED_MAIL_ACTION =
@@ -1005,6 +1031,7 @@ public final class Const {
         public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "feedbackSessionClosedReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
     }
     
@@ -1289,7 +1316,10 @@ public final class Const {
                 + "It is recommended to view the results one question/section at a time. "
                 + "To view responses for a particular question, click on the question below. "
                 + "To view response for a particular section, choose the section from the drop-down box above.";
-        
+        public static final String FEEDBACK_RESULTS_QUESTIONVIEWWARNING =
+                "This session seems to have a large number of responses. "
+                + "It is recommended to view the results for one question at a time. "
+                + "To view responses for a particular question, click on the question below.";
         public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
         public static final String ENROLL_LINES_PROBLEM =

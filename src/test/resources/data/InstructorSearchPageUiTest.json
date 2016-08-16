@@ -62,7 +62,8 @@
     "courses":{
         "typicalCourse1":{
             "id":"searchUI.idOfTypicalCourse1",
-            "name":"Typical Course 1 with 2 Evals"
+            "name":"Typical Course 1 with 2 Evals",
+            "timeZone":"UTC"
         }
     },
     "instructors":{

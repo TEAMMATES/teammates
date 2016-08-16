@@ -26,7 +26,8 @@
   "courses": {
     "course": {
       "id": "FRubricQnUiT.CS2104",
-      "name": "Programming Language Concepts"      
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
     }
   },
   

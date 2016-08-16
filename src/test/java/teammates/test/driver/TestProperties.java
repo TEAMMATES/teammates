@@ -44,6 +44,7 @@ public final class TestProperties {
 
     public static final String BROWSER;
     public static final String FIREFOX_PATH;
+    public static final String CHROMEDRIVER_PATH;
     
     public static final int TEST_TIMEOUT;
 
@@ -79,8 +80,9 @@ public final class TestProperties {
             
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
             
-            BROWSER = prop.getProperty("test.selenium.browser");
+            BROWSER = prop.getProperty("test.selenium.browser").toLowerCase();
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
+            CHROMEDRIVER_PATH = prop.getProperty("test.chromedriver.path");
             
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
                     
