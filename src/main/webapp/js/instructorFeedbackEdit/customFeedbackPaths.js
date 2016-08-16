@@ -70,7 +70,6 @@ var CustomFeedbackPaths = {
         }
 
         CustomFeedbackPaths.allPossibleFeedbackRecipients = CustomFeedbackPaths.allPossibleFeedbackGivers.slice();
-        CustomFeedbackPaths.allPossibleFeedbackRecipients.push(CustomFeedbackPaths.TEAM_NAME_INSTRUCTORS);
         CustomFeedbackPaths.allPossibleFeedbackRecipients.push('Class');
     },
     
@@ -345,10 +344,7 @@ var CustomFeedbackPaths = {
     populateGiverToRecipientsMapForRecipientAsOwnTeam: function(giverToRecipientsMap, giverType) {
         for (var giver in giverToRecipientsMap) {
             if (giverToRecipientsMap.hasOwnProperty(giver)) {
-                if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
-                        || giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS) {
-                    giverToRecipientsMap[giver].push(CustomFeedbackPaths.TEAM_NAME_INSTRUCTORS);
-                } else if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS) {
+                if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS) {
                     giverToRecipientsMap[giver].push(CustomFeedbackPaths.studentEmailToTeamNameMap[giver]);
                 }
             }

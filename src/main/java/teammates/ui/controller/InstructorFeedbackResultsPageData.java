@@ -1382,9 +1382,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private InstructorFeedbackResultsModerationButton
             buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
                                                      FeedbackResponseAttributes response) {
-        boolean isGiverInstructor = question.giverType == FeedbackParticipantType.INSTRUCTORS;
+        boolean isGiverInstructor = question.giverType == FeedbackParticipantType.INSTRUCTORS
+                                    || question.giverType == FeedbackParticipantType.CUSTOM
+                                            && question.isFeedbackPathsGiverTypeInstructors();
         boolean isGiverStudentOrTeam = question.giverType == FeedbackParticipantType.STUDENTS
-                                       || question.giverType == FeedbackParticipantType.TEAMS;
+                                       || question.giverType == FeedbackParticipantType.TEAMS
+                                       || question.giverType == FeedbackParticipantType.CUSTOM
+                                       && (question.isFeedbackPathsGiverTypeStudents()
+                                               || question.isFeedbackPathsGiverTypeTeams());
         
         if (isGiverStudentOrTeam || isGiverInstructor) {
             return buildModerationButtonForGiver(question, response.giver, "btn btn-default btn-xs",

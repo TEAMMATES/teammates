@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -137,8 +136,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                     filterResponsesByRecipientEmail(recipient, responsesBundle);
             
             boolean isUserRecipient = student.email.equals(recipient);
-            boolean isUserTeamRecipient = question.recipientType == FeedbackParticipantType.TEAMS
-                                          && student.team.equals(recipient);
+            boolean isUserTeamRecipient = question.isRecipientATeam() && student.team.equals(recipient);
             String recipientName;
             if (isUserRecipient) {
                 recipientName = "You";
@@ -176,7 +174,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             /* Change display name to 'You' or 'Your team' if necessary */
             boolean isUserGiver = student.email.equals(response.giver);
             boolean isUserPartOfGiverTeam = student.team.equals(giverName);
-            if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
+            if (question.isGiverATeam() && isUserPartOfGiverTeam) {
                 displayedGiverName = "Your Team (" + giverName + ")";
             } else if (isUserGiver) {
                 displayedGiverName = "You";

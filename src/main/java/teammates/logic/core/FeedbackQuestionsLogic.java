@@ -301,14 +301,16 @@ public class FeedbackQuestionsLogic {
      * instructor can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
-            List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
+            List<FeedbackQuestionAttributes> allQuestions, boolean isCreator, String instructorEmail) {
         
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
         
         for (FeedbackQuestionAttributes question : allQuestions) {
             if (question.giverType == FeedbackParticipantType.INSTRUCTORS
-                    || question.giverType == FeedbackParticipantType.SELF && isCreator) {
+                    || question.giverType == FeedbackParticipantType.SELF && isCreator
+                    || question.giverType == FeedbackParticipantType.CUSTOM
+                            && question.hasInstructorAsGiverInFeedbackPaths(instructorEmail)) {
                 questions.add(question);
             }
         }
@@ -342,17 +344,20 @@ public class FeedbackQuestionsLogic {
     
     /**
      * Gets a {@code List} of all questions from the given list of questions
-     * that students can view/submit
+     * that the student can view/submit
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
-            List<FeedbackQuestionAttributes> allQuestions) {
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudent(
+            List<FeedbackQuestionAttributes> allQuestions, StudentAttributes student) {
         
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
         
         for (FeedbackQuestionAttributes question : allQuestions) {
             if (question.giverType == FeedbackParticipantType.STUDENTS
-                    || question.giverType == FeedbackParticipantType.TEAMS) {
+                    || question.giverType == FeedbackParticipantType.TEAMS
+                    || question.giverType == FeedbackParticipantType.CUSTOM
+                    && (question.hasStudentAsGiverInFeedbackPaths(student.getEmail())
+                            || question.hasTeamAsGiverInFeedbackPaths(student.getTeam()))) {
                 questions.add(question);
             }
         }
@@ -382,7 +387,8 @@ public class FeedbackQuestionsLogic {
                         feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
         
         for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
-            if (question.hasStudentAsGiverInFeedbackPaths(student)) {
+            if (question.hasStudentAsGiverInFeedbackPaths(student.getEmail())
+                    || question.hasTeamAsGiverInFeedbackPaths(student.getTeam())) {
                 questions.add(question);
             }
         }
@@ -490,18 +496,10 @@ public class FeedbackQuestionsLogic {
                     continue;
                 }
                 
-                String feedbackPathRecipientId;
-                String name;
-                
-                if (feedbackPath.isFeedbackPathRecipientTheClass()) {
-                    feedbackPathRecipientId = Const.GENERAL_QUESTION;
-                    name = Const.GENERAL_QUESTION;
-                } else {
-                    feedbackPathRecipientId = feedbackPath.getRecipientId();
-                    name = getRecipientName(studentEmailToStudentNameMap,
-                                            instructorEmailToInstructorNameMap,
-                                            feedbackPath, feedbackPathRecipientId);
-                }
+                String feedbackPathRecipientId = feedbackPath.getRecipientId();
+                String name = getRecipientName(studentEmailToStudentNameMap,
+                                               instructorEmailToInstructorNameMap,
+                                               feedbackPath, feedbackPathRecipientId);
                 
                 recipients.put(feedbackPathRecipientId, name);
             }
@@ -854,7 +852,8 @@ public class FeedbackQuestionsLogic {
             StudentAttributes studentGiver, InstructorAttributes instructorGiver) {
         boolean isUserStudentAndFeedbackPathGiver =
                 isStudentGiver
-                && feedbackPath.isStudentFeedbackPathGiver(studentGiver);
+                && (feedbackPath.isStudentFeedbackPathGiver(studentGiver.getEmail())
+                        || feedbackPath.isTeamFeedbackPathGiver(studentGiver.getTeam()));
         
         boolean isUserInstructorAndFeedbackPathGiver =
                 isInstructorGiver
