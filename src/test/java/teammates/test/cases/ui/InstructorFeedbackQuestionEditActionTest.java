@@ -1395,12 +1395,16 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(params4);
         a.executeAndPostProcess();
 
-        // Total possible respondents should decrease because instructors
-        // (except session creator) are no longer possible respondents
+        // Total possible respondents should decrease because all instructors
+        // are no longer possible respondents except for 2: Session Creator
+        // and Custom Feedback Path Instructor Giver
+        
+        int numRemainingInstructorRespondents = 2;
+        
         fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = fsLogic.getFeedbackSessionDetails(fs);
         assertEquals(numStudentRespondents + numInstructorRespondents - 1, details.stats.submittedTotal);
-        assertEquals(totalStudents + 2, details.stats.expectedTotal);
+        assertEquals(totalStudents + numRemainingInstructorRespondents, details.stats.expectedTotal);
     }
 
     private InstructorFeedbackQuestionEditAction getAction(String... submissionParams) {
