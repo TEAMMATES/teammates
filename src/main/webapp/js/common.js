@@ -182,8 +182,8 @@ $(document).on('ajaxComplete ready', function() {
 
 /**
  * @param elements:
- * identifier that points to elements with
- * class: profile-pic-icon-click or profile-pic-icon-hover
+ *     identifier that points to elements for which child 'img' tags are
+ *     checked for error and assigning default value in case of error.
  */
 function bindErrorImages(elements) {
     $(elements).children('img').on('error', function() {
