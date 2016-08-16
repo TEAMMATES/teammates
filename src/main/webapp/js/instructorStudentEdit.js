@@ -46,10 +46,9 @@ function readyInstructorStudentEditPage() {
             $('#isSendEmail').val(false);
             event.target.submit();
         };
-
         BootboxWrapper.showModalConfirmationWithCancel('Resend past links to the new email?', messageText,
                 yesCallback, noCallback, null, 'Yes, save changes and resend links',
-                'No, just save the changes', 'Canel', StatusType.INFO);
+                'No, just save the changes', 'Cancel', StatusType.PRIMARY);
     }
     
     $('#teamname').change(function() {

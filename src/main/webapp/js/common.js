@@ -91,8 +91,9 @@ var StatusType = {
     INFO: 'info',
     WARNING: 'warning',
     DANGER: 'danger',
+    PRIMARY: 'primary',
     isValidType: function(type) {
-        return type === StatusType.SUCCESS || type === StatusType.INFO
+        return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.PRIMARY
                || type === StatusType.WARNING || type === StatusType.DANGER;
     }
 };
