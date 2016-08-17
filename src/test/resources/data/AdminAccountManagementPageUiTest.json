@@ -7,6 +7,13 @@
       "email": "AAMgtUiT.instr1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "AAMgtUiT.instr2": {
+      "googleId": "AAMgtUiT.instr2",
+      "name": "Teammates Instr2",
+      "isInstructor": true,
+      "email": "AAMgtUiT.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "AAMgtUiT.instr3": {
       "googleId": "AAMgtUiT.instr3",
       "name": "Teammates Instr3",
@@ -20,8 +27,33 @@
     "AAMgtUiT.instr1": {
       "googleId": "AAMgtUiT.instr1",
       "courseId": "AAMgtUiT.CS2104",
-      "name": "Teammates Instr1</td></div>'\"",
+      "name": "Teammates Instr1",
       "email": "AAMgtUiT.instr1@gmail.tmt",
+      "role":"Co-owner",
+      "displayedName":"Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "AAMgtUiT.instr2": {
+      "googleId": "AAMgtUiT.instr2",
+      "courseId": "AAMgtUiT.CS2104",
+      "name": "Sanitized Instr2</td></div>'\"",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner</td></div>'\"",
       "privileges": {
@@ -45,10 +77,10 @@
     "AAMgtUiT.instr3": {
       "googleId": "AAMgtUiT.instr3",
       "courseId": "AAMgtUiT.CS2104",
-      "name": "Teammates Instr3</td></div>'\"",
+      "name": "Teammates Instr3",
       "email": "AAMgtUiT.instr2@gmail.tmt",
       "role":"Co-owner",
-      "displayedName":"Co-owner</td></div>'\"",
+      "displayedName":"Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
