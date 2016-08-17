@@ -3,7 +3,8 @@ package teammates.test.pageobjects;
 import java.util.Stack;
 
 import org.openqa.selenium.WebDriver;
-
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
@@ -85,6 +86,14 @@ public class Browser {
             profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
             return new FirefoxDriver(profile);
 
+        } else if ("chrome".equals(browser)) {
+            System.out.println("Using Chrome with driver path: " + TestProperties.CHROMEDRIVER_PATH);
+            
+            System.setProperty("webdriver.chrome.driver", TestProperties.CHROMEDRIVER_PATH);
+            
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--allow-file-access-from-files");
+            return new ChromeDriver(options);
         }
         System.out.println("Using " + browser + " is not supported!");
         return null;

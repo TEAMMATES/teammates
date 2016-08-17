@@ -24,7 +24,10 @@ $(document).ready(function() {
     CustomFeedbackPaths.initializeCustomFeedbackPathsData();
     CustomFeedbackPaths.initializeFeedbackPathsSpreadsheets();
     CustomFeedbackPaths.bindEventHandlers();
+    FeedbackPath.attachEvents();
     hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
+    attachVisibilityDropdownEvent();
+    attachVisibilityCheckboxEvent();
 });
 
 function addLoadingIndicator(button, loadingText) {
@@ -46,9 +49,6 @@ function readyFeedbackEditPage() {
     // Disable all questions
     disableAllQuestions();
 
-    // Hide option tables
-    $('.visibilityOptions').hide();
-    
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function() {
         var form = $(this).parents('form.form_question');
@@ -117,9 +117,9 @@ function readyFeedbackEditPage() {
 
 function prepareDescription(form) {
     var questionNum = getQuestionNum(form);
-    tinyMCE.get('questiondescription-' + questionNum).save();
-    var descr = form.find('input[name^="questiondescription"]');
-    descr.attr('name', 'questiondescription');
+    var content = tinyMCE.get('questiondescription-' + questionNum).getContent();
+    form.find('input[name=questiondescription]').val(content);
+    form.find('input[name=questiondescription-' + questionNum + ']').prop('disabled', true);
 }
 
 function bindFeedbackSessionEditFormSubmission() {
@@ -141,16 +141,12 @@ function bindFeedbackSessionEditFormSubmission() {
                 clearStatusMessages();
             },
             success: function(result) {
-                
                 if (result.hasError) {
                     setStatusMessage(result.statusForAjax, StatusType.DANGER);
                 } else {
                     setStatusMessage(result.statusForAjax, StatusType.SUCCESS);
                     disableEditFS();
                 }
-                
-                // focus on status message
-                scrollToElement($('#statusMessagesToUser'), { offset: ($('.navbar').height() + 30) * -1 });
             }
         });
     });
@@ -341,6 +337,8 @@ function enableQuestion(questionNum) {
     $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('edit');
     $('#button_question_submit-' + questionNum).show();
+
+    showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionTable);
 }
 
 function enableNewQuestion() {
@@ -501,8 +499,9 @@ function restoreOriginal(questionNum) {
         $('#button_question_submit-' + questionNum).hide();
     }
 
-    // re-attach onChange event to show/hide numEntitiesBox according to recipient type
+    // re-attach events for form elements
     $('#' + FEEDBACK_QUESTION_RECIPIENTTYPE + '-' + questionNum).change(updateVisibilityOfNumEntitiesBox);
+    FeedbackPath.attachEvents();
 }
 
 function hideNewQuestionAndShowNewQuestionForm() {
@@ -512,6 +511,8 @@ function hideNewQuestionAndShowNewQuestionForm() {
     // re-enables all feedback path options, which may have been hidden by team contribution question
     $('#givertype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
     $('#recipienttype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
+    $('#questionTable-' + NEW_QUESTION).find('.feedback-path-dropdown > button').removeClass('disabled');
+    FeedbackPath.attachEvents();
 }
 
 /**
@@ -601,9 +602,8 @@ function showNewQuestionFrame(type) {
 
     $('#questionTable-' + NEW_QUESTION + ' .custom-feedback-paths-display').hide();
     scrollToElement($('#questionTable-' + NEW_QUESTION)[0], { duration: 1000 });
-    $('#questionTable-' + NEW_QUESTION).find('.visibilityOptions').hide();
 
-    getVisibilityMessageIfPreviewIsActive($('#questionTable-' + NEW_QUESTION));
+    getVisibilityMessage($('#questionTable-' + NEW_QUESTION));
 }
 
 function hideAllNewQuestionForms() {
@@ -727,6 +727,20 @@ function copyOptions() {
     $currGiver.val($prevGiver.val());
     $currRecipient.val($prevRecipient.val());
     
+    // Hide other feedback path options and update common feedback path dropdown text if a common option is selected
+    var $prevQuestionForm = $('form[id^="form_editquestion-"]').eq(-2);
+    var $newQuestionForm = $('#form_editquestion-' + NEW_QUESTION);
+
+    var isPrevQuestionUsingCommonOption = FeedbackPath.isCommonOptionSelected($prevQuestionForm);
+    if (isPrevQuestionUsingCommonOption) {
+        FeedbackPath.hideOtherOption($newQuestionForm);
+        var prevQuestionSelectedOption = FeedbackPath.getDropdownText($prevQuestionForm);
+        FeedbackPath.setDropdownText(prevQuestionSelectedOption, $newQuestionForm);
+    } else {
+        FeedbackPath.showOtherOption($newQuestionForm);
+        FeedbackPath.setDropdownText('Predefined combinations:', $newQuestionForm);
+    }
+
     // Number of recipient setup
     formatNumberBox($currRecipient.val(), NEW_QUESTION);
     var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
@@ -748,6 +762,17 @@ function copyOptions() {
     $currTable.each(function(index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
+
+    // Hide visibility options and update common visibility options dropdown text if a common option is selected
+    var prevQuestionVisibilityOption = $prevQuestionForm.find('.visibility-options-dropdown > button').text();
+    $newQuestionForm.find('.visibility-options-dropdown > button').text(prevQuestionVisibilityOption);
+
+    var isCommonVisibilityOptionSelected = prevQuestionVisibilityOption.trim() !== 'Custom visibility option:';
+    if (isCommonVisibilityOptionSelected) {
+        $newQuestionForm.find('.visibilityOptions').hide();
+    } else {
+        $newQuestionForm.find('.visibilityOptions').show();
+    }
 
     matchVisibilityOptionToFeedbackPath($currGiver);
 }

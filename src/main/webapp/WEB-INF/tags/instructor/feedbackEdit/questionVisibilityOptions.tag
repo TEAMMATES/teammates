@@ -12,38 +12,27 @@
 <c:set var="FEEDBACK_STUDENTS"><%=FeedbackParticipantType.STUDENTS.name()%></c:set>
 <c:set var="FEEDBACK_INSTRUCTORS"><%=FeedbackParticipantType.INSTRUCTORS.name()%></c:set>
 
-<div class="col-sm-12 padding-15px background-color-light-green">
+<div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="visibility-title">Visibility</b> (Who can see the responses?)
     </div>
-    <div class="col-sm-6 btn-group" data-toggle="buttons">
-        <label class="btn btn-xs btn-info visibilityOptionsLabel"
-            id="visibilityOptionsLabel-${fqForm.questionIndex}"
-            onchange="toggleVisibilityEditTab(this)">
-            <input type="radio">
-            <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-        </label>
-        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-${fqForm.questionIndex}" onchange="toggleVisibilityPreviewTab(this)">
-            <input type="radio">
-            <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-        </label>
-    </div>
-</div>
-<div class="col-sm-12 background-color-light-green">
-    <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-    <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage-${fqForm.questionIndex}">
-        This is the visibility as seen by the feedback giver.
-        <ul class="background-color-warning">
-        <c:forEach items="${fqForm.visibilitySettings.visibilityMessages}" var="msg">
-            <li>${msg}</li>
-        </c:forEach>
+    <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            ${fqForm.visibilitySettings.dropdownMenuLabel}
+        </button>
+        <ul class="dropdown-menu">
+            <li class="dropdown-header">Common visibility options</li>
+            <c:forEach items="<%= Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS %>" var="visibilityOption">
+                <li>
+                    <a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="${visibilityOption.key}">${visibilityOption.value}</a>
+                </li>
+            </c:forEach>
+            <li role="separator" class="divider"></li>
+            <li><a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="OTHER">Custom visibility options...</a></li>
         </ul>
     </div>
-</div>
-<!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-<div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
-    <div class="visibilityOptions" id="visibilityOptions-${fqForm.questionIndex}">
-        <table class="dataTable participantTable table table-striped text-center background-color-white">
+    <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-${fqForm.questionIndex}" style="display:none;">
+        <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
             <tr>
                 <th class="text-center">User/Group</th>
                 <th class="text-center">Can see answer</th>
@@ -160,5 +149,14 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
+    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-${fqForm.questionIndex}">
+        This is the visibility hint as seen by the feedback giver:
+        <ul class="text-muted background-color-warning">
+        <c:forEach items="${fqForm.visibilitySettings.visibilityMessages}" var="msg">
+            <li>${msg}</li>
+        </c:forEach>
+        </ul>
     </div>
 </div>

@@ -630,14 +630,16 @@ public class Logic {
      * * All parameters are non-null. <br>
      * * {@code instructorGoogleId} already has instructor privileges.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName)
+    public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName,
+                                          String courseTimeZone)
             throws EntityAlreadyExistsException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorGoogleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseTimeZone);
 
-        coursesLogic.createCourseAndInstructor(instructorGoogleId, courseId, courseName);
+        coursesLogic.createCourseAndInstructor(instructorGoogleId, courseId, courseName, courseTimeZone);
     }
     
     /**
@@ -804,19 +806,6 @@ public class Logic {
                                                              EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
         coursesLogic.updateCourse(course);
-    }
-    
-    /**
-     * Change the archive status of a course.<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @param courseId The course of which the archive status is to be changed
-     * @param archiveStatus The archive status to be set
-     */
-    public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus) throws InvalidParametersException,
-                                                                                        EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        coursesLogic.setArchiveStatusOfCourse(courseId, archiveStatus);
     }
 
     /**
@@ -1230,6 +1219,24 @@ public class Logic {
         feedbackSessionsLogic.scheduleFeedbackRemindEmailsForParticularUsers(courseId,
                                                                              feedbackSessionName,
                                                                              usersToRemind);
+    }
+    
+    /**
+     * Sends confirmation email for submission to user. <br>
+     * Preconditions: <br>
+     * * All parameters are non-null. One parameter out of userId and unregisteredStudentEmail can be empty.<br>
+     */
+    public void sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName, String userId,
+                                                   String unregisteredStudentEmail, String unregisteredStudentRegKey)
+            throws EntityDoesNotExistException {
+ 
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertFalse(ERROR_NULL_PARAMETER,
+                userId == null && (unregisteredStudentEmail == null || unregisteredStudentRegKey == null));
+
+        feedbackSessionsLogic.sendConfirmationEmailForSubmission(courseId, feedbackSessionName, userId,
+                                                                 unregisteredStudentEmail, unregisteredStudentRegKey);
     }
 
     /**

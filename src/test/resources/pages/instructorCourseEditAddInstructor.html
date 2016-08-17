@@ -16,7 +16,7 @@
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=InsCrsEdit.test" id="courseDeleteLink" onclick="return toggleDeleteCourseConfirmation('InsCrsEdit.CS2104');" title="" type="button">
+        <a class="btn btn-primary btn-xs course-delete-link" data-course-id="InsCrsEdit.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=InsCrsEdit.test" id="courseDeleteLink" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -41,6 +41,17 @@
           </label>
           <div class="col-sm-9">
             <input class="form-control" data-original-title="The name of the course, e.g. Software Engineering." data-placement="top" data-toggle="tooltip" disabled="" id="coursename" maxlength="64" name="coursename" tabindex="2" title="" type="text" value="Programming Language Concepts">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">
+            Time Zone:
+          </label>
+          <div class="col-sm-6">
+            ${timezone.options}
+          </div>
+          <div class="col-sm-1">
+            <input class="btn btn-primary" disabled="" id="auto-detect-time-zone" type="button" value="Auto-Detect Time Zone">
           </div>
         </div>
         <div class="form-group">
@@ -90,7 +101,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.Helper%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink1" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.Helper@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates New Instructor" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.Helper%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink1" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -187,7 +198,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.coord%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink2" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.coord@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Coord" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.coord%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink2" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -271,7 +282,7 @@
       <div class="pull-right">
         <div class="display-icon" style="display:inline;">
         </div>
-        <a class="btn btn-primary btn-xs" data-original-title="Send invitation email to the instructor" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.tmt&user=InsCrsEdit.test" id="instrRemindLink3" onclick="return toggleSendRegistrationKey('InsCrsEdit.CS2104','InsCrsEdit.instructor@gmail.tmt);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Instructor" data-original-title="Send invitation email to the instructor" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.tmt&user=InsCrsEdit.test" id="instrRemindLink3" title="" type="button">
           <span class="glyphicon glyphicon-envelope">
           </span>
           Resend Invite
@@ -292,7 +303,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink3" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.instructor@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Instructor" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink3" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -304,6 +315,18 @@
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="user" type="hidden" value="InsCrsEdit.test">
         <div id="instructorTable3">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">
+              Google ID:
+            </label>
+            <div class="col-sm-9">
+              <p class="form-control-static">
+                <span class="text-warning">
+                  Not available. Instructor is yet to join this course.
+                </span>
+              </p>
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-sm-3 control-label">
               Name:
@@ -831,7 +854,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.manager%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink4" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.manager@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Manager" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.manager%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink4" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -915,7 +938,7 @@
       <div class="pull-right">
         <div class="display-icon" style="display:inline;">
         </div>
-        <a class="btn btn-primary btn-xs" data-original-title="Send invitation email to the instructor" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.test" id="instrRemindLink5" onclick="return toggleSendRegistrationKey('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.tmt);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates New Instructor" data-original-title="Send invitation email to the instructor" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.test" id="instrRemindLink5" title="" type="button">
           <span class="glyphicon glyphicon-envelope">
           </span>
           Resend Invite
@@ -936,7 +959,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink5" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates New Instructor" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink5" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -948,6 +971,18 @@
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="user" type="hidden" value="InsCrsEdit.test">
         <div id="instructorTable5">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">
+              Google ID:
+            </label>
+            <div class="col-sm-9">
+              <p class="form-control-static">
+                <span class="text-warning">
+                  Not available. Instructor is yet to join this course.
+                </span>
+              </p>
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-sm-3 control-label">
               Name:
@@ -1024,7 +1059,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.observer%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink6" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.observer@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Observer" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.observer%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink6" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -1124,7 +1159,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.test%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink7" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.test@gmail.tmt', true);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Test" data-is-delete-self="true" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.test%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink7" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -1224,7 +1259,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.tutor%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink8" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.tutor@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Tutor" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.tutor%40gmail.tmt&user=InsCrsEdit.test" id="instrDeleteLink8" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete

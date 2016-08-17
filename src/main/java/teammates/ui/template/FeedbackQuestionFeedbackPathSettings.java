@@ -1,11 +1,14 @@
 package teammates.ui.template;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackPathAttributes;
 import teammates.common.util.Sanitizer;
+
 
 /**
  * Data model for the settings common to all question types,
@@ -15,29 +18,16 @@ import teammates.common.util.Sanitizer;
  * Used on instructorFeedbackEdit.jsp
  */
 public class FeedbackQuestionFeedbackPathSettings {
-    private List<ElementTag> giverParticipantOptions;
-    private List<ElementTag> recipientParticipantOptions;
+
+    private FeedbackParticipantType selectedGiver;
+    private FeedbackParticipantType selectedRecipient;
+
+    private boolean isCommonPathSelected;
     
     private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
     private int numOfEntitiesToGiveFeedbackToValue;
-    
+
     private String customFeedbackPathsSpreadsheetData;
-
-    public List<ElementTag> getGiverParticipantOptions() {
-        return giverParticipantOptions;
-    }
-
-    public void setGiverParticipantOptions(List<ElementTag> giverParticipantOptions) {
-        this.giverParticipantOptions = giverParticipantOptions;
-    }
-
-    public List<ElementTag> getRecipientParticipantOptions() {
-        return recipientParticipantOptions;
-    }
-
-    public void setRecipientParticipantOptions(List<ElementTag> recipientParticipantOptions) {
-        this.recipientParticipantOptions = recipientParticipantOptions;
-    }
 
     public boolean isNumberOfEntitiesToGiveFeedbackToChecked() {
         return isNumberOfEntitiesToGiveFeedbackToChecked;
@@ -70,5 +60,29 @@ public class FeedbackQuestionFeedbackPathSettings {
             customFeedbackPathStrings.add(Sanitizer.sanitizeListForCsv(customFeedbackPath).toString());
         }
         customFeedbackPathsSpreadsheetData = Sanitizer.sanitizeForHtml(customFeedbackPathStrings).toString();
+    }
+
+    public boolean isCommonPathSelected() {
+        return isCommonPathSelected;
+    }
+
+    public void setCommonPathSelected(boolean isCommonPathSelected) {
+        this.isCommonPathSelected = isCommonPathSelected;
+    }
+
+    public FeedbackParticipantType getSelectedRecipient() {
+        return selectedRecipient;
+    }
+
+    public void setSelectedRecipient(FeedbackParticipantType selectedRecipient) {
+        this.selectedRecipient = selectedRecipient;
+    }
+
+    public FeedbackParticipantType getSelectedGiver() {
+        return selectedGiver;
+    }
+
+    public void setSelectedGiver(FeedbackParticipantType selectedGiver) {
+        this.selectedGiver = selectedGiver;
     }
 }

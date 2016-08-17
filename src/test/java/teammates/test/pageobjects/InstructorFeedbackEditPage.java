@@ -371,6 +371,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void clickQuestionEditForQuestion1() {
+        waitForElementToBeClickable(questionEditForQuestion1);
         click(questionEditForQuestion1);
     }
     
@@ -473,30 +474,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickVisibilityPreviewForQuestion1() {
-        click(browser.driver.findElement(By.className("visibilityMessageButton")));
+    public void enableVisibilityOptions(int qnNumber) {
+        click(browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber + " .visibility-options-dropdown "
+                                                        + "a[data-option-name=\"OTHER\"]")));
     }
-    
-    public void clickVisibilityPreviewForQuestion(int qnNumber) {
-        click(browser.driver.findElement(By.id("visibilityMessageButton-" + qnNumber)));
-    }
-    
-    public void clickVisibilityOptionsForQuestion1() {
-        click(browser.driver.findElement(By.className("visibilityOptionsLabel")));
-    }
-    
-    public void clickVisibilityOptionsForQuestion(int qnNumber) {
-        click(browser.driver.findElement(By.id("visibilityOptionsLabel-" + qnNumber)));
-    }
-    
-    public void clickVisibilityPreviewForNewQuestion() {
-        click(browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityMessageButton")));
-    }
-    
-    public void clickVisibilityOptionsForNewQuestion() {
-        click(browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityOptionsLabel")));
-    }
-    
+
     public void clickAddQuestionButton() {
         click(addNewQuestionButton);
         waitForPageToLoad();
@@ -750,14 +732,6 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(By.id("constSumPoints" + pointsOption + "-" + questionNumber)));
     }
     
-    public void selectGiverTypeForQuestion1(String giverType) {
-        selectDropdownByVisibleValue(giverDropdownForQuestion1, giverType);
-    }
-    
-    public void selectRecipientTypeForQuestion1(String recipientType) {
-        selectDropdownByVisibleValue(recipientDropdownForQuestion1, recipientType);
-    }
-    
     public String getGiverTypeForQuestion1() {
         return giverDropdownForQuestion1.getAttribute("value");
     }
@@ -842,6 +816,24 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void selectRecipientsToBeStudents(int qnNumber) {
         WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
         selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
+    }
+    
+    public void enableOtherFeedbackPathOptions(int qnNumber) {
+        WebElement questionTable = browser.driver.findElement(By.id("questionTable-" + qnNumber));
+        WebElement dropdownButton = questionTable.findElement(By.cssSelector(".feedback-path-dropdown > button"));
+        WebElement otherOption = questionTable.findElement(
+                                     By.className("feedback-path-dropdown-option-other"));
+        click(dropdownButton);
+        click(otherOption);
+    }
+
+    public void enableOtherFeedbackPathOptionsForNewQuestion() {
+        WebElement questionTable = browser.driver.findElement(By.id("questionTable--1"));
+        WebElement dropdownButton = questionTable.findElement(By.cssSelector(".feedback-path-dropdown > button"));
+        WebElement otherOption = questionTable.findElement(
+                                     By.className("feedback-path-dropdown-option-other"));
+        click(dropdownButton);
+        click(otherOption);
     }
 
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
@@ -1083,30 +1075,14 @@ public class InstructorFeedbackEditPage extends AppPage {
                 By.cssSelector("#question-copy-modal-status.alert-danger")).getText();
     }
     
-    public void clickEditLabel(int questionNumber) {
-        click(getEditLabel(questionNumber));
-    }
-    
-    public boolean verifyPreviewLabelIsActive(int questionNumber) {
-        return getPreviewLabel(questionNumber).getAttribute("class").contains("active");
-    }
-    
-    public boolean verifyEditLabelIsActive(int questionNumber) {
-        return getEditLabel(questionNumber).getAttribute("class").contains("active");
-    }
-    
-    public boolean verifyVisibilityPreviewIsDisplayed(int questionNumber) {
-        WebElement visibilityPreviewDiv = getVisibilityMessage(questionNumber);
-        List<WebElement> visibilityMessages = visibilityPreviewDiv.findElements(By.cssSelector("ul > li"));
-        return visibilityPreviewDiv.isDisplayed() && !visibilityMessages.isEmpty();
+    public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
+        WebElement visibilityMessageDiv = getVisibilityMessageDiv(questionNumber);
+        List<WebElement> visibilityMessages = visibilityMessageDiv.findElements(By.cssSelector("ul > li"));
+        boolean isLoadVisibilityMessageAjaxError =
+                visibilityMessages.get(0).getText().equals("Error loading visibility hint. Click here to retry.");
+        return !visibilityMessages.isEmpty() && !isLoadVisibilityMessageAjaxError;
     }
 
-    public boolean isVisibilityPreviewDisplayedForNewQuestion() {
-        WebElement visibilityPreviewDiv = browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityMessage"));
-        List<WebElement> visibilityMessages = visibilityPreviewDiv.findElements(By.cssSelector("ul > li"));
-        return visibilityPreviewDiv.isDisplayed() && !visibilityMessages.isEmpty();
-    }
-    
     public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
         return getVisibilityOptions(questionNumber).isDisplayed();
     }
@@ -1116,18 +1092,15 @@ public class InstructorFeedbackEditPage extends AppPage {
                 By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
     }
 
-    public WebElement getPreviewLabel(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityMessageButton-" + questionNumber));
-    }
-    
-    public WebElement getEditLabel(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityOptionsLabel-" + questionNumber));
-    }
-    
-    public WebElement getVisibilityMessage(int questionNumber) {
+    public WebElement getVisibilityMessageDiv(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityMessage-" + questionNumber));
     }
     
+    public String getVisibilityMessage(int questionNumber) {
+        WebElement visibilityMessageDiv = getVisibilityMessageDiv(questionNumber);
+        return visibilityMessageDiv.getText();
+    }
+
     public WebElement getVisibilityOptions(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityOptions-" + questionNumber));
     }
@@ -1148,15 +1121,23 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void waitForAjaxErrorOnVisibilityMessageButton(int questionNumber) {
-        String errorMessage = "Visibility preview failed to load.";
-        By buttonSelector = By.cssSelector("#visibilityMessageButton-" + questionNumber);
+        String errorMessage = "Error loading visibility hint. Click here to retry.";
+        By buttonSelector = By.cssSelector("#visibilityMessage-" + questionNumber + " > ul > li");
         waitForTextContainedInElementPresence(buttonSelector, errorMessage);
     }
 
-    public void clickResponseVisiblityCheckBoxForNewQuestion(String checkBoxValue) {
-        By responseVisibilitycheckBox = By.cssSelector("#questionTable--1 input[value='" + checkBoxValue
+    public void clickResponseVisibilityCheckBox(String checkBoxValue, int questionNumber) {
+        By responseVisibilitycheckBox = By.cssSelector("#questionTable-" + questionNumber + " input[value='" + checkBoxValue
                                                        + "'].answerCheckbox");
         WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
+        waitForElementVisibility(checkbox);
+        click(checkbox);
+    }
+
+    public void clickGiverNameVisibilityCheckBox(String checkBoxValue, int questionNumber) {
+        By giverNameVisibilitycheckBox = By.cssSelector("#questionTable-" + questionNumber + " input[value='" + checkBoxValue
+                                                       + "'].giverCheckbox");
+        WebElement checkbox = browser.driver.findElement(giverNameVisibilitycheckBox);
         waitForElementVisibility(checkbox);
         click(checkbox);
     }

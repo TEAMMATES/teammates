@@ -23,7 +23,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.HttpParams;
 import org.apache.http.ssl.SSLContexts;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -537,9 +536,8 @@ public abstract class AppPage {
     public void selectDropdownByVisibleValue(WebElement element, String value) {
         Select select = new Select(element);
         select.selectByVisibleText(value);
-        String selectedVisibleValue = select.getFirstSelectedOption().getText();
+        String selectedVisibleValue = select.getFirstSelectedOption().getText().trim();
         assertEquals(value, selectedVisibleValue);
-        element.sendKeys(Keys.RETURN);
     }
     
     /** 
@@ -556,7 +554,6 @@ public abstract class AppPage {
         select.selectByValue(value);
         String selectedVisibleValue = select.getFirstSelectedOption().getAttribute("value");
         assertEquals(value, selectedVisibleValue);
-        element.sendKeys(Keys.RETURN);
     }
 
     /**
@@ -631,7 +628,8 @@ public abstract class AppPage {
      * @return the resulting page.
      */
     public AppPage clickAndConfirm(WebElement elementToClick) {
-        respondToAlertWithRetry(elementToClick, true);
+        click(elementToClick);
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return this;
     }
@@ -642,10 +640,11 @@ public abstract class AppPage {
      * @return the resulting page.
      */
     public void clickAndCancel(WebElement elementToClick) {
-        respondToAlertWithRetry(elementToClick, false);
+        click(elementToClick);
+        waitForConfirmationModalAndClickCancel();
         waitForPageToLoad();
     }
-    
+
     /** @return True if the page contains some basic elements expected in a page of the
      * specific type. e.g., the top heading.
      */
@@ -686,6 +685,20 @@ public abstract class AppPage {
         }
     }
     
+    /**
+     * @param elementId
+     *            Id of the element
+     * @param targetClass
+     *            className
+     * @return {@code true} if there exists an element with the given id and
+     *         class name.
+     */
+    public boolean isElementHasClass(String elementId, String targetClass) {
+        List<WebElement> elementsMatched =
+                browser.driver.findElements(By.cssSelector("#" + elementId + "." + targetClass));
+        return !elementsMatched.isEmpty();
+    }
+
     public boolean isNamedElementVisible(String elementName) {
         try {
             return browser.driver.findElement(By.name(elementName)).isDisplayed();
@@ -975,17 +988,6 @@ public abstract class AppPage {
         return this;
     }
     
-    private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
-        click(elementToClick);
-        waitForAlertPresence();
-        Alert alert = browser.driver.switchTo().alert();
-        if (isConfirm) {
-            alert.accept();
-        } else {
-            alert.dismiss();
-        }
-    }
-    
     public void waitForAjaxLoaderGifToDisappear() {
         try {
             waitForElementToDisappear(By.xpath("//img[@src='/images/ajax-loader.gif' or @src='/images/ajax-preload.gif']"));
@@ -1003,4 +1005,12 @@ public abstract class AppPage {
         browser.driver.manage().window().maximize();
     }
 
+    /**
+     * @return true if the element is in the user's visible area of a web page.
+     */
+    public boolean isElementInViewport(String id) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        String script = "return isWithinView(document.getElementById('" + id + "'));";
+        return (boolean) jsExecutor.executeScript(script);
+    }
 }

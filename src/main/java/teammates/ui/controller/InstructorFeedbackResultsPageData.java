@@ -998,20 +998,21 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                        Map<String, Boolean> isSortable) {
         ElementTag giverTeamElement =
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+                               "toggleSort(this)", "style", "width: 10%; min-width: 67px;");
         ElementTag giverElement =
                 new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 65px;");
+                               "toggleSort(this)", "style", "width: 10%; min-width: 65px;");
         ElementTag recipientTeamElement =
                 new ElementTag("Team", "id", "button_sortToTeam", "class", "button-sort-ascending", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+                               "toggleSort(this)", "style", "width: 10%; min-width: 67px;");
         ElementTag recipientElement =
                 new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 90px;");
+                               "toggleSort(this)", "style", "width: 10%; min-width: 90px;");
         ElementTag responseElement =
                 new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "min-width: 95px;");
-        ElementTag actionElement = new ElementTag("Actions", "class", "action-header");
+                               "toggleSort(this)", "style", "width: 45%; min-width: 95px;");
+        ElementTag actionElement = new ElementTag("Actions", "class", "action-header",
+                                                  "style", "width: 15%; min-width: 75px;");
 
         columnTags.add(giverTeamElement);
         columnTags.add(giverElement);

@@ -63,15 +63,32 @@
           <div class="col-sm-4 col-lg-2">
             <div class="form-group">
               <div class="col-md-12">
-                <form action="/page/instructorFeedbackResultsDownload" method="post">
+                <form action="/page/instructorFeedbackResultsDownload" id="download-form" method="post">
                   <div id="feedbackDataButtons">
-                    <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results">
+                    <button class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" id="button_download" name="fruploaddownloadbtn" type="submit">
+                      Download Results
+                      <span class="caret">
+                      </span>
+                    </button>
+                    <ul class="dropdown-menu download-type-list" id="download-result-dropdown">
+                      <li data-downloadtype="csv">
+                        <a>
+                          As spreadsheet without formatting (.csv file)
+                        </a>
+                      </li>
+                      <li data-downloadtype="xlsx">
+                        <a>
+                          As normal spreadsheet (.xlsx file)
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                   <input name="user" type="hidden" value="CFResultsUiT.instr">
                   <input name="fsname" type="hidden" value="Second Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
                   <input id="filterTextForDownload" name="filtertext" type="hidden">
+                  <input id="downloadType" name="frdownloadtype" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
@@ -403,7 +420,7 @@
                       </div>
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -446,7 +463,7 @@
                             <td class="middlealign">
                               Anonymous student ${participant.hash}
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               -0.5
                             </td>
                             <td>
@@ -550,7 +567,7 @@
                       </div>
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -592,7 +609,7 @@
                             <td class="middlealign">
                               Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               0
                             </td>
                             <td>
@@ -618,7 +635,7 @@
                             <td class="middlealign color_neutral">
                               Team 2
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -646,7 +663,7 @@
                             <td class="middlealign color_neutral">
                               Team 3
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -792,7 +809,7 @@
                       </div>
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -836,7 +853,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               <ul class="selectedOptionsList">
                                 <li>
                                   Danny
@@ -934,7 +951,7 @@
                       </div>
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -978,7 +995,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               <ul class="selectedOptionsList">
                                 <li>
                                   Team 1
@@ -1096,7 +1113,7 @@
                       </div>
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -1140,7 +1157,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               3.5
                             </td>
                             <td>
@@ -1247,7 +1264,7 @@
                       </div>
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -1291,7 +1308,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               <ul>
                                 <li>
                                   Grades: 45
@@ -1395,7 +1412,7 @@
                       </div>
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -1439,7 +1456,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               110
                             </td>
                             <td>
@@ -1467,7 +1484,7 @@
                             <td class="middlealign color_neutral">
                               Benny Charles
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -1497,7 +1514,7 @@
                             <td class="middlealign color_neutral">
                               Fred Gabriel
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -1539,7 +1556,7 @@
                     <div class="resultStatistics">
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -1583,7 +1600,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               <span class="color-positive">
                                 Equal Share +11%
                               </span>
@@ -1620,7 +1637,7 @@
                             <td class="middlealign color_neutral">
                               Benny Charles
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -1650,7 +1667,7 @@
                             <td class="middlealign color_neutral">
                               Fred Gabriel
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -1774,7 +1791,7 @@
                       </div>
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -1818,7 +1835,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               90
                             </td>
                             <td>
@@ -1846,7 +1863,7 @@
                             <td class="middlealign color_neutral">
                               Benny Charles
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -1876,7 +1893,7 @@
                             <td class="middlealign color_neutral">
                               Fred Gabriel
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -1918,7 +1935,7 @@
                     <div class="resultStatistics">
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -1962,7 +1979,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               <span class="color_neutral">
                                 Equal Share
                               </span>
@@ -1992,7 +2009,7 @@
                             <td class="middlealign color_neutral">
                               Benny Charles
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -2029,7 +2046,7 @@
                             <td class="middlealign color_neutral">
                               Fred Gabriel
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -2083,7 +2100,7 @@
                     <div class="resultStatistics">
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -2125,7 +2142,7 @@
                             <td class="middlealign">
                               Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               Response from benny to Team 1 (own team)
                             </td>
                             <td>
@@ -2247,7 +2264,7 @@
                       </div>
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -2291,7 +2308,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               50
                             </td>
                             <td>
@@ -2319,7 +2336,7 @@
                             <td class="middlealign color_neutral">
                               Charlie Dávis
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -2349,7 +2366,7 @@
                             <td class="middlealign color_neutral">
                               Danny Engrid
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -2379,7 +2396,7 @@
                             <td class="middlealign color_neutral">
                               Drop out
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -2409,7 +2426,7 @@
                             <td class="middlealign color_neutral">
                               Extra guy
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -2533,7 +2550,7 @@
                       </div>
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -2577,7 +2594,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               150
                             </td>
                             <td>
@@ -2605,7 +2622,7 @@
                             <td class="middlealign color_neutral">
                               Charlie Dávis
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -2635,7 +2652,7 @@
                             <td class="middlealign color_neutral">
                               Danny Engrid
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -2665,7 +2682,7 @@
                             <td class="middlealign color_neutral">
                               Drop out
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -2695,7 +2712,7 @@
                             <td class="middlealign color_neutral">
                               Extra guy
                             </td>
-                            <td class="text-preserve-space color_neutral">
+                            <td class="word-wrap-break text-preserve-space color_neutral">
                               <i>
                                 No Response
                               </i>
@@ -2760,7 +2777,7 @@
                     <div class="resultStatistics">
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -2804,7 +2821,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               3
                             </td>
                             <td>
@@ -2844,7 +2861,7 @@
                     <div class="resultStatistics">
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -2888,7 +2905,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               <span class="color_neutral">
                                 N/A
                               </span>
@@ -2953,7 +2970,7 @@
                     <div class="resultStatistics">
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -2997,7 +3014,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               4
                             </td>
                             <td>
@@ -3037,7 +3054,7 @@
                     <div class="resultStatistics">
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th>
@@ -3081,7 +3098,7 @@
                             <td class="middlealign">
                               Alice Betsy&lt;/td&gt;'"
                             </td>
-                            <td class="text-preserve-space">
+                            <td class="word-wrap-break text-preserve-space">
                               <span class="color_neutral">
                                 Equal Share
                               </span>
