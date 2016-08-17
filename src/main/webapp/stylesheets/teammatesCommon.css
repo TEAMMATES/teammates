@@ -312,6 +312,10 @@ Apply to thead to make headers not bold.
     white-space: pre-wrap;
 }
 
+.word-wrap-break {
+	word-wrap: break-word;
+}
+
 .text-strike {
     text-decoration: line-through;
 }
@@ -398,6 +402,10 @@ Apply to thead to make headers not bold.
 .tool-tip-decorate {
     border-bottom: 1px dotted #808080;
     text-decoration: none;
+}
+
+.text-box-error {
+	border:2px solid red;
 }
 
 /* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
@@ -584,6 +592,19 @@ Apply to thead to make headers not bold.
     padding-bottom: 5px;
 }
 
+.visibilityMessage > ul {
+    margin-top: 5px;
+    padding: 5px 25px;
+}
+
+.visibilityMessage > ul > li {
+    cursor: default;
+}
+
+.visibilityMessage > ul > li > a {
+    cursor: pointer;
+}
+
 @media ( min-width :768px) {
     .bs-example {
         background-color: #fff;
@@ -659,6 +680,11 @@ Apply to thead to make headers not bold.
     vertical-align: middle;
 }
 
+.download-type-list {
+	margin: -60%;
+	cursor: pointer;
+}
+
 /* used on the div/td that contains the img */
 .profile-pic-icon-hover,
 .profile-pic-icon-click {
@@ -709,6 +735,11 @@ Apply to thead to make headers not bold.
     margin-right: 5px;
 }
 
+.time-zone-info-box {
+    margin: 7px 0 0 0;
+    padding: 10px;
+}
+
 .unsorted {
     background: url(../images/sortSideButton.png);
 }
@@ -746,6 +777,28 @@ Apply to thead to make headers not bold.
 
 .table-column-no-float {
     float: none !important;
+}
+
+.fixed-table-layout {
+	table-layout: fixed;
+}
+
+.question-description {
+    min-height: 120px;
+}
+
+.content-editor {
+    padding: 5px 10px;
+}
+
+.content-editor:before {
+    display: none;
+}
+
+.content-editor.empty:before {
+    display: block;
+    color: gray;
+    content: attr(data-placeholder);
 }
 
 /*////////////////////////////////////////////////////////////

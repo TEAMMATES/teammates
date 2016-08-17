@@ -48,17 +48,17 @@
     "CCDetailsUiT.CS2104": {
       "id": "CCDetailsUiT.CS2104",
       "name": "Programming Language Concepts",
-      "isArchived": false
+      "timeZone": "UTC"
     },
     "CCDetailsUiT.CS2103": {
       "id": "CCDetailsUiT.CS2103",
       "name": "Software Engineering",
-      "isArchived": false
+      "timeZone": "UTC"
     },
     "CCDetailsUiT.CourseWithoutStudents": {
       "id": "CCDetailsUiT.CourseWithoutStudents",
       "name": "A course with no students",
-      "isArchived": false
+      "timeZone": "UTC"
     }
   },
   

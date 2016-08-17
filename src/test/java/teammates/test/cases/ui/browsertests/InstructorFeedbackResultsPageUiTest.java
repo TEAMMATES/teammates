@@ -15,12 +15,13 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
-import teammates.test.util.Priority;
 import teammates.test.util.FileHelper;
+import teammates.test.util.Priority;
 
 /**
  * Tests 'Feedback Results' view of instructors.
@@ -69,6 +70,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     public void testContent() throws Exception {
 
+        ______TS("Typical case: large session with no sections");
+
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
+                "Session with no sections", true, "question");
+        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING);
+        
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -344,6 +351,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @Test
     public void testViewPhotoAndAjaxForLargeScaledSession() throws Exception {
 
+        // Mouseover actions do not work on Selenium-Chrome
+        if ("chrome".equals(TestProperties.BROWSER)) {
+            return;
+        }
+        
         uploadPhotoForStudent(testData.students.get("Alice").googleId);
 
         ______TS("Typical case: ajax for view by questions");
@@ -658,7 +670,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
                                                   .withUserId("CFResultsUiT.instr")
                                                   .withCourseId("CFResultsUiT.CS2104")
-                                                  .withSessionName("First Session");
+                                                  .withSessionName("First Session")
+                                                  .withDownloadType("csv");
 
         resultsPage.verifyDownloadLink(reportUrl);
 

@@ -12,6 +12,12 @@
       <timezone>Australia/Perth</timezone>
     </cron>
     <cron>
+      <url>/feedbackSessionClosedReminders</url>
+      <description>Checks for feedback sessions that are closed and send email to all the instructors of that course.</description>
+      <schedule>every 60 minutes from 00:08 to 23:59</schedule>
+      <timezone>Australia/Perth</timezone>
+    </cron>
+    <cron>
       <url>/feedbackSessionPublishedReminders</url>
       <description>Checks and sends out emails for feedback sessions which have just been published in the past hour.</description>
       <schedule>every 60 minutes from 00:04 to 23:59</schedule>

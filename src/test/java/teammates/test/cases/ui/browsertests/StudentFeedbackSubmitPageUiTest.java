@@ -20,6 +20,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -515,7 +516,17 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                   "SFSubmitUiT.alice.b@gmail.tmt",
                                                   "SFSubmitUiT.alice.b@gmail.tmt");
 
-        assertEquals("5", frNumscale.getResponseDetails().getAnswerString());
+        if ("firefox".equals(TestProperties.BROWSER)) {
+            assertEquals("5", frNumscale.getResponseDetails().getAnswerString());
+        } else {
+            assertEquals("1", frNumscale.getResponseDetails().getAnswerString());
+            
+            // We need the final response value for this particular question to be "5"
+            submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+            submitPage.fillResponseTextBox(14, 0, "5");
+            submitPage.clickSubmitButton();
+            submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        }
 
         ______TS("write response without specifying recipient");
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");

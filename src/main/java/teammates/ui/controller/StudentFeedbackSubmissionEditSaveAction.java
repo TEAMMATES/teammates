@@ -105,7 +105,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void setAdditionalParameters() {
-        // no additional parameters to set for the standard student submit page
+        isSendEmail = true;
     }
 
     @Override

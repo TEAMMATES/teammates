@@ -330,6 +330,33 @@ public final class TimeHelper {
     }
     
     /**
+     * Returns true if the {@code time} falls within the last hour.
+     * That is exactly one hour or less from the current time but earlier than current time.
+     * Precision is at millisecond level.
+     */
+    public static boolean isWithinPastHourFromNow(Date time) {
+        return isWithinPastHour(time, new Date());
+    }
+    
+    /**
+     * Returns true if the {@code time1} falls within past 1 hour of {@code time2}.
+     * That is exactly one hour or less from time2 but earlier than time2.
+     * Precision is at millisecond level.
+     */
+    public static boolean isWithinPastHour(Date time1, Date time2) {
+        Calendar calendarTime1 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendarTime1.setTime(time1);
+
+        Calendar calendarTime2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendarTime2.setTime(time2);
+
+        long time1Millis = calendarTime1.getTimeInMillis();
+        long time2Millis = calendarTime2.getTimeInMillis();
+        long differenceBetweenNowAndCal = (time2Millis - time1Millis) / (60 * 60 * 1000);
+        return differenceBetweenNowAndCal == 0 && calendarTime2.after(calendarTime1);
+    }
+    
+    /**
      * Checks if the time falls between the period specified. Possible scenarios:
      * <ul>
      *  <li>{@code startTime <= time <= endTime}</li>

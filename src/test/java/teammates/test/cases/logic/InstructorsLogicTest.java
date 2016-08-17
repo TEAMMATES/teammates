@@ -240,7 +240,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         ______TS("failure: no instructors for a given course");
         
         courseId = "new-course";
-        coursesLogic.createCourse(courseId, "New course");
+        coursesLogic.createCourse(courseId, "New course", "UTC");
         
         instructors = instructorsLogic.getInstructorsForCourse(courseId);
         assertEquals(0, instructors.size());

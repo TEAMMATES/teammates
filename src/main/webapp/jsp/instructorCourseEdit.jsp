@@ -5,7 +5,13 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 
 <c:set var="jsIncludes">
+    <script type="text/javascript" src="/js/lib/moment.min.js"></script>
+    <script type="text/javascript" src="/js/lib/moment-timezone-with-data-2010-2020.min.js"></script>
+    <script type="text/javascript" src="/js/timezone.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
+    <script>
+        var courseTimeZone = "${data.course.timeZone}";
+    </script>
     <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEditAjax.js"></script>
 </c:set>
