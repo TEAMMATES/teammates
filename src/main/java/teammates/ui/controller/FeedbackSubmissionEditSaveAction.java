@@ -32,6 +32,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected String feedbackSessionName;
     protected FeedbackSubmissionEditPageData data;
     protected boolean hasValidResponse;
+    protected boolean isSendEmail;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -171,7 +172,15 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         } else {
             removeRespondant();
         }
-        
+               
+        if (isSendEmail) {
+            String user = account == null ? null : account.googleId;
+            String unregisteredStudentEmail = student == null ? null : student.email;
+            String unregisteredStudentRegisterationKey = student == null ? null : student.key;
+     
+            logic.sendConfirmationEmailForSubmission(courseId, feedbackSessionName, user,
+                    unregisteredStudentEmail, unregisteredStudentRegisterationKey);
+        }
         return createSpecificRedirectResult();
     }
     

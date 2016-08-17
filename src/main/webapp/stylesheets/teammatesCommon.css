@@ -583,6 +583,19 @@ Apply to thead to make headers not bold.
     min-width: 130px;
 }
 
+.visibilityMessage > ul {
+    margin-top: 5px;
+    padding: 5px 25px;
+}
+
+.visibilityMessage > ul > li {
+    cursor: default;
+}
+
+.visibilityMessage > ul > li > a {
+    cursor: pointer;
+}
+
 @media ( min-width :768px) {
     .bs-example {
         background-color: #fff;
@@ -656,6 +669,11 @@ Apply to thead to make headers not bold.
     display: table-cell;
     float: none;
     vertical-align: middle;
+}
+
+.download-type-list {
+	margin: -60%;
+	cursor: pointer;
 }
 
 /* used on the div/td that contains the img */

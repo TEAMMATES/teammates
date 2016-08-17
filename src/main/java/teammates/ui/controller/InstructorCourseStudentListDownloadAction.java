@@ -21,7 +21,7 @@ public class InstructorCourseStudentListDownloadAction extends Action {
         
         statusToAdmin = "Students data for Course " + courseId + " was downloaded";
         
-        return createFileDownloadResult(fileName, fileContent);
+        return createFileDownloadResult(fileName, fileContent, Const.FeedbackSessionResultsDownloadTypes.CSV);
     }
 
 }
