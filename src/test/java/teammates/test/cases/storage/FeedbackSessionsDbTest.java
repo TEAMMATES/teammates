@@ -100,7 +100,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         testGetFeedbackSessions();
         testGetFeedbackSessionsForCourse();
-        testGetNonPrivateFeedbackSessions();
         testGetFeedbackSessionsWithUnsentOpenEmail();
         testGetFeedbackSessionsWithUnsentPublishedEmail();
     }
@@ -175,19 +174,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("no sessions in course");
         
         assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());
-    }
-    
-    private void testGetNonPrivateFeedbackSessions() {
-        
-        ______TS("standard success case");
-        
-        List<FeedbackSessionAttributes> fsaList = fsDb.getNonPrivateFeedbackSessions();
-        
-        assertEquals(8, fsaList.size());
-        for (FeedbackSessionAttributes fsa : fsaList) {
-            assertFalse(fsa.isPrivateSession());
-        }
-        
     }
     
     private void testGetFeedbackSessionsWithUnsentOpenEmail() {

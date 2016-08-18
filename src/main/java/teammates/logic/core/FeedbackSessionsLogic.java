@@ -1622,12 +1622,11 @@ public class FeedbackSessionsLogic {
         ArrayList<FeedbackSessionAttributes> requiredSessions = new
                 ArrayList<FeedbackSessionAttributes>();
 
-        List<FeedbackSessionAttributes> nonPrivateSessions = fsDb
-                .getNonPrivateFeedbackSessions();
+        List<FeedbackSessionAttributes> nonPrivateSessions =
+                fsDb.getFeedbackSessionsNeedingClosingEmail();
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
-            if (session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
-                    && session.isClosingEmailEnabled()) {
+            if (session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)) {
                 requiredSessions.add(session);
             }
         }
@@ -1640,11 +1639,12 @@ public class FeedbackSessionsLogic {
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
         List<FeedbackSessionAttributes> requiredSessions = new ArrayList<FeedbackSessionAttributes>();
-        List<FeedbackSessionAttributes> nonPrivateSessions = fsDb.getNonPrivateFeedbackSessions();
+        List<FeedbackSessionAttributes> nonPrivateSessions =
+                fsDb.getFeedbackSessionsNeedingClosedEmail();
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
-            if (session.isClosedWithinPastHour() // is session closed in the past 1 hour
-                    && session.isClosingEmailEnabled()) {
+            // is session closed in the past 1 hour
+            if (session.isClosedWithinPastHour()) {
                 requiredSessions.add(session);
             }
         }
