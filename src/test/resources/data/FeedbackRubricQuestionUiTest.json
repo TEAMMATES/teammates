@@ -35,10 +35,10 @@
     "teammates.test.instructor": {
       "googleId": "FRubricQnUiT.instructor",
       "courseId": "FRubricQnUiT.CS2104",
-      "name": "Teammates Test</td></div>'\"",
+      "name": "Sanitized Instructor </td></div>'\"",
       "email": "tmms.test@gmail.tmt",
       "role":"Co-owner",
-      "displayedName":"Co-owner</td></div>'\"",
+      "displayedName":"Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -64,9 +64,9 @@
       "googleId": "CFeedbackEditUiT.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "FRubricQnUiT.CS2104",
-      "name": "Alice Betsy</option></td></div>'\"",
-      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
-      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
+      "name": "Alice Betsy Sanitized </option></td></div>'\"",
+      "comments": "Sanitized comment </option></td></div>'\"",
+      "team": "Sanitized Team 1</option><option value=\"dump\"></td><td>'\""
     },
     "benny.tmms@FRubricQnUiT.CS2104": {
       "googleId": "CFeedbackEditUiT.benny.tmms",
@@ -74,7 +74,7 @@
       "course": "FRubricQnUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
+      "team": "Sanitized Team 1</option><option value=\"dump\"></td><td>'\""
     }
   },
   
