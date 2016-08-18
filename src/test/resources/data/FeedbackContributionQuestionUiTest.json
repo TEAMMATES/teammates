@@ -28,10 +28,10 @@
     "teammates.test.instructor": {
       "googleId": "FContribQnUiT.instructor",
       "courseId": "FContribQnUiT.CS2104",
-      "name": "Teammates Test</td></div>'\"",
+      "name": "Sanitized Instructor </td></div>'\"",
       "email": "tmms.test@gmail.tmt",
       "role":"Co-owner",
-      "displayedName":"Co-owner</td></div>'\"",
+      "displayedName":"Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -57,9 +57,9 @@
       "googleId": "CFeedbackEditUiT.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "FContribQnUiT.CS2104",
-      "name": "Alice Betsy</td></div>'\"",
-      "comments": "This student's name is Alice Betsy</td></div>'\"",
-      "team": "Team </option><option value=\"dump\">1'"
+      "name": "Sanitized Alice Betsy </td></div>'\"",
+      "comments": "Sanitized comment </td></div>'\"",
+      "team": "Sanitized Team </option><option value=\"dump\">1'"
     }
   },
   
