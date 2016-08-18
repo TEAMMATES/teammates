@@ -54,6 +54,9 @@
                        <c:if test="${data.preview or (not data.submittable)}">
                            disabled style="background: #66727A;"
                        </c:if>>
+                <input style="display: inline" type="checkbox" name="isSendSubmissionEmail" value="true" checked>
+                    Notify me via email when the responses are submitted to the system
+                </input>
             </c:otherwise>
         </c:choose>
     </div>
