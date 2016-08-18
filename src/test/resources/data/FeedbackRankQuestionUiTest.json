@@ -42,10 +42,10 @@
     "instructor1": {
       "googleId": "FRankUiT.instructor",
       "courseId": "FRankUiT.CS4221",
-      "name": "Teammates Test</td></div>'\"",
+      "name": "Sanitized Instructor </td></div>'\"",
       "email": "tmms.test@gmail.tmt",
       "role":"Co-owner",
-      "displayedName":"Co-owner</td></div>'\"",
+      "displayedName":"Co-owner",
       "isDisplayedToStudents":true,
       "privileges": {
         "courseLevel": {
@@ -68,10 +68,10 @@
     "instructorhelper": {
       "googleId": "FRankUiT.helper",
       "courseId": "FRankUiT.CS4221",
-      "name": "Teammates Helper who can only see section 1</td></div>'\"",
+      "name": "Teammates Helper who can only see section 1",
       "email": "tmms.helper1@gmail.tmt",
       "role":"Custom",
-      "displayedName":"Helper</td></div>'\"",
+      "displayedName":"Helper",
       "isDisplayedToStudents":true,
       "privileges":{  
         "courseLevel": {
@@ -118,9 +118,9 @@
       "googleId": "FRankUiT.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "FRankUiT.CS4221",
-      "name": "Alice Betsy</option></td></div>'\"",
-      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
-      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "name": "Sanitized Alice Betsy </option></td></div>'\"",
+      "comments": "Sanitized comment </option></td></div>'\"",
+      "team": "Sanitized Team 1</option><option value=\"dump\"></td><td>'\"",
       "section": "Section 1"
     },
     "benny.tmms@FRubricQnUiT.CS2104": {
@@ -129,7 +129,7 @@
       "course": "FRankUiT.CS4221",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "team": "Sanitized Team 1</option><option value=\"dump\"></td><td>'\"",
       "section": "Section 1"
     },
     "charlie.tmms@FRubricQnUiT.CS2104": {
