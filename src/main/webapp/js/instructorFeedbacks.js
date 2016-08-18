@@ -175,6 +175,7 @@ function bindCopyButton() {
         e.preventDefault();
         var $newSessionName = $('#modalCopiedSessionName');
         if ($newSessionName.val()) {
+            addLoadingIndicator($('#button_copy_submit'), 'Copying ');
             $('#copyModalForm').submit();
         } else {
             $newSessionName.addClass('text-box-error');
