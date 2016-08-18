@@ -68,11 +68,11 @@
         "IFSubmitUiT.instr":{
             "googleId":"IFSubmitUiT.instr",
             "courseId":"IFSubmitUiT.CS2104",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"IFSubmitUiT.instr@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -94,11 +94,11 @@
         "IFSubmitUiT.instr2":{
             "googleId":"IFSubmitUiT.instr2",
             "courseId":"IFSubmitUiT.CS2104",
-            "name":"Teammates Test2",
+            "name":"Teammates Test2</td></div>'\"",
             "email":"IFSubmitUiT.instr2@gmail.tmt",
             "role":"Custom",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": false,
@@ -124,11 +124,11 @@
         "IFSubmitUiT.instr3":{
             "googleId":"IFSubmitUiT.instr3",
             "courseId":"IFSubmitUiT.CS2104",
-            "name":"Teammates Test3",
+            "name":"Teammates Test3</td></div>'\"",
             "email":"IFSubmitUiT.instr3@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -150,11 +150,11 @@
         "IFSubmitUiT.instr4":{
             "googleId":"IFSubmitUiT.instr4",
             "courseId":"IFSubmitUiT.CS2104",
-            "name":"Teammates Test4",
+            "name":"Teammates Test4</td></div>'\"",
             "email":"IFSubmitUiT.instr4@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -176,11 +176,11 @@
         "IFSubmitUiT.instr5":{
             "googleId":"IFSubmitUiT.instr5",
             "courseId":"IFSubmitUiT.CS2104",
-            "name":"Teammates Test5",
+            "name":"Teammates Test5</td></div>'\"",
             "email":"IFSubmitUiT.instr5@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,

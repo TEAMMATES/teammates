@@ -316,9 +316,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(15, 0, "1.5");
         submitPage.fillResponseTextBox(15, 1, "2.5");
 
-        submitPage.chooseMcqOption(16, 0, "Teammates Test2");
-        submitPage.toggleMsqOption(17, 0, "Teammates Test");
-        submitPage.toggleMsqOption(17, 0, "Teammates Test3");
+        submitPage.chooseMcqOption(16, 0, "Teammates Test2</td></div>'\"");
+        submitPage.toggleMsqOption(17, 0, "Teammates Test</td></div>'\"");
+        submitPage.toggleMsqOption(17, 0, "Teammates Test3</td></div>'\"");
 
         submitPage.fillResponseTextBox(18, 0, 0, "70");
         submitPage.fillResponseTextBox(18, 0, 1, "30");

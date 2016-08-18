@@ -108,11 +108,11 @@
         "instructor1OfCourse1":{
             "googleId":"comments.idOfInstructor1OfCourse1",
             "courseId":"comments.idOfTypicalCourse1",
-            "name":"Instructor1 Course1",
+            "name":"Instructor1 Course1</td></div>'\"",
             "email":"comments.instructor1@course1.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -134,11 +134,11 @@
         "instructor2OfCourse1":{
             "googleId":"comments.idOfInstructor2OfCourse1",
             "courseId":"comments.idOfTypicalCourse1",
-            "name":"Instructor2 Course1",
+            "name":"Instructor2 Course1</td></div>'\"",
             "email":"comments.instructor2@course1.tmt",
             "role":"Manager",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -160,11 +160,11 @@
         "helperOfCourse1":{
             "googleId":"comments.idOfHelperOfCourse1",
             "courseId":"comments.idOfTypicalCourse1",
-            "name":"Instructor2 Course1",
+            "name":"Instructor2 Course1</td></div>'\"",
             "email":"comments.Helper@course1.tmt",
             "role":"Custom",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": false,
@@ -186,11 +186,11 @@
         "instructorWithOnlyOneSampleCourse":{
             "googleId":"comments.idOfInstructorWithSampleCourse",
             "courseId":"comments.idOfSampleCourse-demo",
-            "name":"Instructor With Only One Sample Course",
+            "name":"Instructor With Only One Sample Course</td></div>'\"",
             "email":"comments.iwosc@yahoo.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -212,11 +212,11 @@
         "instructorOfCourseWithUriChars":{
             "googleId":"comments.idOfInstructorOfCourseWithUriChars",
             "courseId":"comments.idOfUriCharsCourse",
-            "name":"Instructor Of Course With # In Name",
+            "name":"Instructor Of Course With # In Name</td></div>'\"",
             "email":"comments.instructor@courseuri.tmt",
             "role":"Manager",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -238,12 +238,12 @@
         "instructorOfArchivedCourse":{
             "googleId":"comments.idOfInstructor1OfCourse1",
             "courseId":"comments.idOfArchivedCourse",
-            "name":"InstructorOfArchiveCourse name",
+            "name":"InstructorOfArchiveCourse name</td></div>'\"",
             "email":"comments.instructor1@course1.tmt",
             "role":"Co-owner",
             "isArchived":true,
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,

@@ -52,11 +52,11 @@
         "CHomeUiT.instr.CS2104":{
             "googleId":"CHomeUiT.instructor.tmms",
             "courseId":"CHomeUiT.CS2104",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"CHomeUiT.instructor.tmms@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -78,11 +78,11 @@
         "CHomeUiT.helper.CS1101":{
             "googleId":"CHomeUiT.instructor.tmms.helper",
             "courseId":"CHomeUiT.CS1101",
-            "name":"Teammates Test Helper",
+            "name":"Teammates Test Helper</td></div>'\"",
             "email":"CHomeUiT.instructor.tmms.helper@gmail.tmt",
             "role":"Custom",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -104,11 +104,11 @@
         "CHomeUiT.instr.CS1101":{
             "googleId":"CHomeUiT.instructor.tmms",
             "courseId":"CHomeUiT.CS1101",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"CHomeUiT.instructor.tmms@gmail.tmt",
             "role":"Custom",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": false,
@@ -130,11 +130,11 @@
         "CHomeUiT.instr.Sample":{
             "googleId":"newIns.withSample",
             "courseId":"newIns.wit-demo",
-            "name":"Teammates Test New Instructor With Sample",
+            "name":"Teammates Test New Instructor With Sample</td></div>'\"",
             "email":"newIns.withSample@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,

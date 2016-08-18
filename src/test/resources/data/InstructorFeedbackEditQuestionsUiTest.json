@@ -40,10 +40,10 @@
     "teammates.test.instructor": {
       "googleId": "CFeedbackEditUiT.instructor",
       "courseId": "CFeedbackEditUiT.CS2104",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "tmms.test@gmail.tmt",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "displayedName":"Co-owner</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -65,10 +65,10 @@
     "teammates.test.instructor2": {
       "googleId": "CFeedbackEditUiT.instructor2",
       "courseId": "CFeedbackEditUiT.CS2104",
-      "name": "Instructor 2",
+      "name": "Instructor 2</td></div>'\"",
       "email": "tmms.instr@course.tmt",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "displayedName":"Co-owner</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,

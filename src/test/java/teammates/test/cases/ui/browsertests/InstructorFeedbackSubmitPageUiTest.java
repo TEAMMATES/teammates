@@ -108,9 +108,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // Test partial response for question
         submitPage.fillResponseTextBox(4, 1, "Feedback to Instructor 3");
-        submitPage.selectRecipient(6, 0, "Teammates Test2");
+        submitPage.selectRecipient(6, 0, "Teammates Test2</td></div>'\"");
         submitPage.chooseMcqOption(6, 0, "Algo");
-        submitPage.selectRecipient(8, 0, "Teammates Test2");
+        submitPage.selectRecipient(8, 0, "Teammates Test2</td></div>'\"");
         submitPage.toggleMsqOption(8, 0, "UI");
         submitPage.toggleMsqOption(8, 0, "Design");
 
@@ -178,9 +178,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.chooseMcqOption(5, 0, "UI");
         submitPage.chooseMcqOption(6, 0, "UI"); // Changed from "Algo" to "UI"
-        submitPage.selectRecipient(6, 1, "Teammates Test3");
+        submitPage.selectRecipient(6, 1, "Teammates Test3</td></div>'\"");
         submitPage.chooseMcqOption(6, 1, "UI");
-        submitPage.selectRecipient(6, 2, "Teammates Test4");
+        submitPage.selectRecipient(6, 2, "Teammates Test4</td></div>'\"");
         submitPage.chooseMcqOption(6, 2, "UI");
 
         // Click on "None of the above", the option will be deselected when another option is clicked
@@ -191,9 +191,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(8, 0, "UI");
         submitPage.toggleMsqOption(8, 0, "Algo");
         submitPage.toggleMsqOption(8, 0, "Design");
-        submitPage.selectRecipient(8, 1, "Teammates Test3");
+        submitPage.selectRecipient(8, 1, "Teammates Test3</td></div>'\"");
         submitPage.toggleMsqOption(8, 1, "Design");
-        submitPage.selectRecipient(8, 2, "Teammates Test4");
+        submitPage.selectRecipient(8, 2, "Teammates Test4</td></div>'\"");
         submitPage.toggleMsqOption(8, 2, "UI");
 
         submitPage.chooseMcqOption(9, 0, "Drop out (Team 2)");
@@ -207,16 +207,16 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(12, 0, "Team 3");
 
         submitPage.fillResponseTextBox(13, 0, "5");
-        submitPage.selectRecipient(14, 0, "Teammates Test2");
+        submitPage.selectRecipient(14, 0, "Teammates Test2</td></div>'\"");
         submitPage.fillResponseTextBox(14, 0, "1.5");
-        submitPage.selectRecipient(14, 1, "Teammates Test3");
+        submitPage.selectRecipient(14, 1, "Teammates Test3</td></div>'\"");
         submitPage.fillResponseTextBox(14, 1, "2");
-        submitPage.selectRecipient(14, 2, "Teammates Test4");
+        submitPage.selectRecipient(14, 2, "Teammates Test4</td></div>'\"");
         submitPage.fillResponseTextBox(14, 2, "3.5");
 
-        submitPage.chooseMcqOption(15, 0, "Teammates Test2");
-        submitPage.toggleMsqOption(16, 0, "Teammates Test");
-        submitPage.toggleMsqOption(16, 0, "Teammates Test3");
+        submitPage.chooseMcqOption(15, 0, "Teammates Test2</td></div>'\"");
+        submitPage.toggleMsqOption(16, 0, "Teammates Test</td></div>'\"");
+        submitPage.toggleMsqOption(16, 0, "Teammates Test3</td></div>'\"");
 
         submitPage.fillResponseTextBox(17, 0, 0, "70");
         submitPage.fillResponseTextBox(17, 0, 1, "30");

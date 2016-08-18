@@ -1,7 +1,6 @@
 <%@ tag description="instructorFeedbackResults - side of the secondary participant panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
 <%@ tag import="teammates.common.util.Const" %>
 
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>

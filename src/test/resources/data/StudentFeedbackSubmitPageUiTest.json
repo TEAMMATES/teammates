@@ -61,11 +61,11 @@
         "SFSubmitUiT.instr":{
             "googleId":"SFSubmitUiT.instr",
             "courseId":"SFSubmitUiT.CS2104",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"SFSubmitUiT.instr@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -87,11 +87,11 @@
         "SFSubmitUiT.instr2":{
             "googleId":"SFSubmitUiT.instr2",
             "courseId":"SFSubmitUiT.CS2104",
-            "name":"Teammates Test2",
+            "name":"Teammates Test2</td></div>'\"",
             "email":"SFSubmitUiT.instr2@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -113,11 +113,11 @@
         "SFSubmitUiT.instr3":{
             "googleId":"SFSubmitUiT.instr3",
             "courseId":"SFSubmitUiT.CS2104",
-            "name":"Teammates Test3",
+            "name":"Teammates Test3</td></div>'\"",
             "email":"SFSubmitUiT.instr3@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":false,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,

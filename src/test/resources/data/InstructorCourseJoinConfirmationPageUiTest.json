@@ -26,10 +26,10 @@
     "ICJConfirmationUiT.instr.CS2104": {
       "googleId": "${value.injected.in.testfile}",
       "courseId": "ICJConfirmationUiT.CS2104",
-      "name": "Teammates Test 2",
+      "name": "Teammates Test 2</td></div>'\"",
       "email": "${value.injected.in.testfile}",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "displayedName":"Co-owner</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -51,10 +51,10 @@
     "ICJConfirmationUiT.instr.CS1101": {
       "googleId": null,
       "courseId": "ICJConfirmationUiT.CS1101",
-      "name": "Teammates Test 2",
+      "name": "Teammates Test 2</td></div>'\"",
       "email": "${value.injected.in.testfile}",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "displayedName":"Co-owner</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -76,10 +76,10 @@
     "ICJConfirmationUiT.instr2.CS1101": {
       "googleId": "ICJConfirmationUiT.instr",
       "courseId": "ICJConfirmationUiT.CS1101",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "ICJConfirmationUiT.instr@gmail.tmt",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "displayedName":"Co-owner</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,

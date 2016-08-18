@@ -56,10 +56,10 @@
         "SFResultsUiT.instr":{
             "googleId":"SFResultsUiT.instr",
             "courseId":"SFResultsUiT.CS2104",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"SFResultsUiT.instr@gmail.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -1847,8 +1847,8 @@
             "giverEmail":"SFResultsUiT.instr@gmail.tmt",
             "feedbackResponseId":"1%SFResultsUiT.alice.b@gmail.tmt%SFResultsUiT.alice.b@gmail.tmt",
             "createdAt":"2026-03-01 11:59 PM UTC",
-            "showCommentTo":[STUDENTS];
-            "showGiverNameTo":[STUDENTS];
+            "showCommentTo":[STUDENTS],
+            "showGiverNameTo":[STUDENTS],
             "lastEditorEmail":"SFResultsUiT.instr@gmail.tmt",
             "lastEditedAt":"2026-03-02 11:59 PM UTC",
             "commentText":{
@@ -1862,8 +1862,8 @@
             "giverEmail":"SFResultsUiT.instr@gmail.tmt",
             "feedbackResponseId":"1%SFResultsUiT.alice.b@gmail.tmt%SFResultsUiT.alice.b@gmail.tmt",
             "createdAt":"2026-03-02 11:59 PM UTC",
-            "showCommentTo":[STUDENTS];
-            "showGiverNameTo":[STUDENTS];
+            "showCommentTo":[STUDENTS],
+            "showGiverNameTo":[STUDENTS],
             "commentText":{
                 "value":"Instructor second comment to Alice"	
             }

@@ -66,11 +66,11 @@
     "CCDetailsUiT.instr": {
       "googleId": "CCDetailsUiT.instr",
       "courseId": "CCDetailsUiT.CS2104",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "CCDetailsUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -92,11 +92,11 @@
     "CCDetailsUiT.coord": {
       "googleId": "CCDetailsUiT.coord",
       "courseId": "CCDetailsUiT.CS2104",
-      "name": "Teammates Coord",
+      "name": "Teammates Coord</td></div>'\"",
       "email": "CCDetailsUiT.coord@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -118,11 +118,11 @@
     "CCDetailsUiT.instr2": {
       "googleId": "CCDetailsUiT.instr2",
       "courseId": "CCDetailsUiT.CS2103",
-      "name": "Teammates Test 2",
+      "name": "Teammates Test 2</td></div>'\"",
       "email": "CCDetailsUiT.instr2@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -144,11 +144,11 @@
     "CCDetailsUiT.instr2Helper": {
       "googleId": "CCDetailsUiT.instr2Helper",
       "courseId": "CCDetailsUiT.CS2103",
-      "name": "Teammates Test 2",
+      "name": "Teammates Test 2</td></div>'\"",
       "email": "CCDetailsUiT.instr2Helper@gmail.tmt",
       "role":"Custom",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
@@ -170,11 +170,11 @@
     "CCDetailsUiT.instrForEmptyCourse": {
       "googleId": "CCDetailsUiT.instr",
       "courseId": "CCDetailsUiT.CourseWithoutStudents",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "CCDetailsUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,

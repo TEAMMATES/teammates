@@ -27,11 +27,11 @@
         "SFQSubmitUiT.instr":{
             "googleId":"SFQSubmitUiT.instr",
             "courseId":"SFQSubmitUiT.CS2104",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"SFQSubmitUiT.instr@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,

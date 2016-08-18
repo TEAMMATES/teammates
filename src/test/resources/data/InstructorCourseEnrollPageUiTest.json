@@ -21,10 +21,10 @@
     "CCEnrollUiT.teammates.test": {
       "googleId": "CCEnrollUiT.teammates.test",
       "courseId": "CCEnrollUiT.CS2104",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "teammates.test@gmail.tmt",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "displayedName":"Co-owner</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,

@@ -85,11 +85,11 @@
         "CFResultsUiT.instr":{
             "googleId":"CFResultsUiT.instr",
             "courseId":"CFResultsUiT.CS2104",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"CFResultsUiT.instr@gmail.tmt",
             "role":"Co-owner",
             "isInstructor":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -111,11 +111,11 @@
         "CFResultsUiT.helper1":{
             "googleId":"CFResultsUiT.helper1",
             "courseId":"CFResultsUiT.CS2104",
-            "name":"Teammates Helper1",
+            "name":"Teammates Helper1</td></div>'\"",
             "email":"CFResultsUiT.helper1@gmail.tmt",
             "role":"Custom",
             "isInstructor":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": false,
@@ -147,11 +147,11 @@
         "CFResultsUiT.helper2":{
             "googleId":"CFResultsUiT.helper2",
             "courseId":"CFResultsUiT.CS2104",
-            "name":"Teammates Helper2",
+            "name":"Teammates Helper2</td></div>'\"",
             "email":"CFResultsUiT.helper2@gmail.tmt",
             "role":"Custom",
             "isInstructor":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": false,
@@ -183,11 +183,11 @@
         "CFResultsUiT.SanitizedTeam.instr":{
             "googleId":"CFResultsUiT.instr",
             "courseId":"CFResultsUiT.SanitizedTeam",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"CFResultsUiT.instr@gmail.tmt",
             "role":"Co-owner",
             "isInstructor":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,

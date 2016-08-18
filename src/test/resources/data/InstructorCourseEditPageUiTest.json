@@ -42,11 +42,11 @@
     "InsCrsEdit.test": {
       "googleId": "InsCrsEdit.test",
       "courseId": "InsCrsEdit.CS2104",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "InsCrsEdit.test@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -68,11 +68,11 @@
     "InsCrsEdit.manager": {
       "googleId": "InsCrsEdit.manager",
       "courseId": "InsCrsEdit.CS2104",
-      "name": "Teammates Manager",
+      "name": "Teammates Manager</td></div>'\"",
       "email": "InsCrsEdit.manager@gmail.tmt",
       "role":"Manager",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -94,11 +94,11 @@
     "InsCrsEdit.observer": {
       "googleId": "InsCrsEdit.observer",
       "courseId": "InsCrsEdit.CS2104",
-      "name": "Teammates Observer",
+      "name": "Teammates Observer</td></div>'\"",
       "email": "InsCrsEdit.observer@gmail.tmt",
       "role":"Observer",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -120,11 +120,11 @@
     "InsCrsEdit.tutor": {
       "googleId": "InsCrsEdit.tutor",
       "courseId": "InsCrsEdit.CS2104",
-      "name": "Teammates Tutor",
+      "name": "Teammates Tutor</td></div>'\"",
       "email": "InsCrsEdit.tutor@gmail.tmt",
       "role":"Tutor",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -146,11 +146,11 @@
     "InsCrsEdit.coord": {
       "googleId": "InsCrsEdit.coord",
       "courseId": "InsCrsEdit.CS2104",
-      "name": "Teammates Coord",
+      "name": "Teammates Coord</td></div>'\"",
       "email": "InsCrsEdit.coord@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -172,12 +172,12 @@
     "InsCrsEdit.newInstructor": {
       "googleId": null,
       "courseId": "InsCrsEdit.CS2104",
-      "name": "Teammates New Instructor",
+      "name": "Teammates New Instructor</td></div>'\"",
       "email": "InsCrsEdit.newInstr@gmail.tmt",
       "key": "InsCrsEdit.newInstr@gmail.tmt%InsCrsEdit.CS2104",
       "role":"Custom",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
@@ -199,12 +199,12 @@
     "InsCrsEdit.Helper": {
       "googleId": "InsCrsEdit.Helper",
       "courseId": "InsCrsEdit.CS2104",
-      "name": "Teammates New Instructor",
+      "name": "Teammates New Instructor</td></div>'\"",
       "email": "InsCrsEdit.Helper@gmail.tmt",
       "key": "InsCrsEdit.Helper@gmail.tmt%InsCrsEdit.CS2104",
       "role":"Custom",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,

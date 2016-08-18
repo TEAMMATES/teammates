@@ -84,6 +84,31 @@
         "sectionLevel": {},
         "sessionLevel": {}
       }
+    },
+    "AAMgtUiT.instr2-AAMgtUiT.Sanitization": {
+      "googleId": "AAMgtUiT.instr2",
+      "courseId": "AAMgtUiT.Sanitization",
+      "name": "Sanitized Instr2</td></div>'\"",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
+      "role":"Co-owner",
+      "displayedName":"Sanitized Co-owner</td></div>'\"",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
 
@@ -97,6 +122,11 @@
       "id": "AAMgtUiT.CS1101",
       "name": "Programming Methodology",
       "timeZone": "UTC"
+    },
+    "AAMgtUiT.Sanitization": {
+      "id": "AAMgtUiT.Sanitization",
+      "name": "Sanitized Course </td></div>'\"",
+      "timeZone": "UTC"
     }
   },
 
@@ -105,7 +135,15 @@
       "googleId": "AAMgtUiT.instr2",
       "email": "AAMgtUiT.instr2@gmail.tmt",
       "course": "AAMgtUiT.CS1101",
-      "name": "Teammates Instr2</option></td></div>'\"",
+      "name": "Teammates Instr2",
+      "comments": "This is an instructor",
+      "team": "Team 1"
+    },
+    "AAMgtUiT.instr2-student.Sanitization": {
+      "googleId": "AAMgtUiT.instr2",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
+      "course": "AAMgtUiT.Sanitization",
+      "name": "Sanitized Instr2</option></td></div>'\"",
       "comments": "This is an instructor</option></td></div>'\"",
       "team": "Team 1</td></div>'\""
     }

@@ -35,4 +35,19 @@ public final class Utils {
                 .create();
     }
 
+    /**
+     * Creates a Gson object that can handle the Date format we use in the
+     * Json file and also reformat the Json string in pretty-print format
+     * without escaping HTML characters.
+     * 
+     * TODO: modify getTeammatesGson() to replace this function.
+     */
+    public static Gson getTeammatesGsonWithDisableHtmlEscaping() {
+        return new GsonBuilder()
+                .setDateFormat(DateFormat.FULL)
+                .setDateFormat(SystemParams.DEFAULT_DATE_TIME_FORMAT)
+                .setPrettyPrinting()
+                .disableHtmlEscaping()
+                .create();
+    }
 }

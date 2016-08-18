@@ -19,10 +19,10 @@
         "CHomeUiT.instr.Sample":{
             "googleId":"CHomeUiT.instructor.tmms",
             "courseId":"newIns.wit-demo",
-            "name":"Teammates Test New Instructor With Sample",
+            "name":"Teammates Test New Instructor With Sample</td></div>'\"",
             "email":"CHomeUiT.instructor.tmms@gmail.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,

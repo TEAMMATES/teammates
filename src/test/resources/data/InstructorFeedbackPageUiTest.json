@@ -59,11 +59,11 @@
     "teammates.test.instructor": {
       "googleId": "CFeedbackUiT.instructor",
       "courseId": "CFeedbackUiT.CS2104",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "teammates.test1@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -85,11 +85,11 @@
     "teammates.test.helper": {
       "googleId": "CFeedbackUiT.helper",
       "courseId": "CFeedbackUiT.CS2104",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "teammates.helper@gmail.tmt",
       "role":"Custom",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
@@ -111,11 +111,11 @@
     "Ins.for.course.without.sessions": {
       "googleId": "CFeedbackUiT.nosessions",
       "courseId": "CFeedbackUiT.coursewithoutsessions",
-      "name": "Instructor Without Sessions",
+      "name": "Instructor Without Sessions</td></div>'\"",
       "email": "teammates.test3@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -137,11 +137,11 @@
     "teammates.test.instructor.for.different.course": {
       "googleId": "CFeedbackUiT.instructor",
       "courseId": "CFeedbackUiT.CS1101",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "teammates.test1@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -163,11 +163,11 @@
     "teammates.test.helper.for.different.course": {
       "googleId": "CFeedbackUiT.helper",
       "courseId": "CFeedbackUiT.CS1101",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "teammates.helper@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -189,11 +189,11 @@
     "teammates.test.instructor2": {
       "googleId": "CFeedbackUiT.instructor2",
       "courseId": "CFeedbackUiT.CS2104",
-      "name": "Teammates Test2",
+      "name": "Teammates Test2</td></div>'\"",
       "email": "teammates.test2@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -215,11 +215,11 @@
     "teammates.test.instructor2.for.different.course": {
       "googleId": "CFeedbackUiT.instructor2",
       "courseId": "CFeedbackUiT.CS1101",
-      "name": "Teammates Test2",
+      "name": "Teammates Test2</td></div>'\"",
       "email": "teammates.test2@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,

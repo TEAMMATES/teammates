@@ -28,7 +28,7 @@
     "teammates.test.instructor": {
       "googleId": "FMcqQnUiT.instructor",
       "courseId": "FMcqQnUiT.CS2104",
-      "name": "Teammates Test",
+      "name": "Sanitized Instructor </td></div>'\"",
       "email": "tmms.test@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner",
@@ -57,9 +57,9 @@
       "googleId": "FMcqQnUiT.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "CFeedbackEditUiT.CS2104",
-      "name": "Alice Betsy</td></div>'\"",
-      "comments": "This student's name is Alice Betsy</td></div>'\"",
-      "team": "Team </option><option value=\"dump\">1'"
+      "name": "Sanitized Alice Betsy </td></div>'\"",
+      "comments": "Sanitized comment </td></div>'\"",
+      "team": "Sanitized Team </option><option value=\"dump\">1'"
     }
   },
   

@@ -41,11 +41,11 @@
   	"instructor1CS1101": { 
       "googleId": "CCAddUiTest.instructor", 
       "courseId":"CCAddUiTest.CS1101",
-      "name": "Teammates Demo Instr",
+      "name": "Teammates Demo Instr</td></div>'\"",
       "email": "CCAddUiTest.instructor@gmail.tmt",
       "role":"Custom",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -68,11 +68,11 @@
       "googleId": "CCAddUiTest.instr3", 
       "courseId":"CCAddUiTest.CS1101",
       "isArchived":"false",
-      "name": "Teammates Demo Instr 3",
+      "name": "Teammates Demo Instr 3</td></div>'\"",
       "email": "CCAddUiTest.instr3@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -94,11 +94,11 @@
     "instructor1CS2104": { 
       "googleId": "CCAddUiTest.instructor", 
       "courseId":"CCAddUiTest.CS2104",
-      "name": "Teammates Demo Instr",
+      "name": "Teammates Demo Instr</td></div>'\"",
       "email": "CCAddUiTest.instructor@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,

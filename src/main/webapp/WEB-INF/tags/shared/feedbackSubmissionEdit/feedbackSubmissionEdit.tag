@@ -1,5 +1,6 @@
 <%@ tag description="Student/Instructor feedback submission edit page" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="tsfse" %>
@@ -17,10 +18,10 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <c:choose>
                 <c:when test="${data.preview}">
-                    <h3 class="text-center">Previewing Session as ${isInstructor ? "Instructor" : "Student"} ${moderatedPersonName} (${moderatedPersonEmail})</h3>
+                    <h3 class="text-center">Previewing Session as ${isInstructor ? "Instructor" : "Student"} ${fn:escapeXml(moderatedPersonName)} (${fn:escapeXml(moderatedPersonEmail)})</h3>
                 </c:when>
                 <c:when test="${data.moderation}">
-                    <h3 class="text-center">Moderating Responses for ${isInstructor ? "Instructor" : "Student"} ${moderatedPersonName} (${moderatedPersonEmail})</h3>
+                    <h3 class="text-center">Moderating Responses for ${isInstructor ? "Instructor" : "Student"} ${fn:escapeXml(moderatedPersonName)} (${fn:escapeXml(moderatedPersonEmail)})</h3>
                 </c:when>
             </c:choose>
         </nav>

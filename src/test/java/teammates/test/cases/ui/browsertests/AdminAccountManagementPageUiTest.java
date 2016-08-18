@@ -43,6 +43,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         testViewRecentActionsLink();
         testDeleteInstructorStatusAction();
         testDeleteInstructorAccountAction();
+        testSanitization();
     }
     
     public void testContent() {
@@ -102,6 +103,25 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         accountsPage.clickAndConfirmDeleteAccountLink(instructor3GoogleId);
         assertNull(BackDoor.getAccount(instructor3GoogleId));
         
+    }
+    
+    public void testSanitization() {
+        String instructor2GoogleId = "AAMgtUiT.instr2";
+        loginToAdminAccountsManagementPage(instructor2GoogleId);
+        accountsPage.verifyIsCorrectPage();
+        assertTrue(accountsPage.isTableVisible());
+        
+        ______TS("link: view account details");
+        AdminAccountDetailsPage detailsPage = accountsPage.clickViewInstructorDetails(instructor2GoogleId);
+        detailsPage.verifyIsCorrectPage(instructor2GoogleId);
+        detailsPage.closeCurrentWindowAndSwitchToParentWindow();
+        
+        ______TS("action: delete account");
+        accountsPage.clickAndCancelDeleteAccountLink(instructor2GoogleId);
+        assertNotNull(BackDoor.getAccount(instructor2GoogleId));
+        
+        accountsPage.clickAndConfirmDeleteAccountLink(instructor2GoogleId);
+        assertNull(BackDoor.getAccount(instructor2GoogleId));
     }
     
     private void loginToAdminAccountsManagementPage(String instructorIdToShow) {

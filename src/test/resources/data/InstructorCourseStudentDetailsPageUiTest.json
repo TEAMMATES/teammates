@@ -45,11 +45,11 @@
     "CCSDetailsUiT.instr": {
       "googleId": "CCSDetailsUiT.instr.veryLongGoogleId",
       "courseId": "CCSDetailsUiT.CS2104",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "CCSDetailsUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -71,11 +71,11 @@
     "CCSDetailsUiT.Helper": {
       "googleId": "CCSDetailsUiT.Helper",
       "courseId": "CCSDetailsUiT.CS2104",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "CCSDetailsUiT.Helper@gmail.tmt",
       "role":"Custom",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,

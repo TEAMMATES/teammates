@@ -50,9 +50,9 @@
       "googleId": "alice.b.tmms",
       "email": "${value.injected.in.testfile}",
       "course": "AutSessRem.course",
-      "name": "Alice Betsy</option></td></div>'\"",
-      "comments" : "dummy comment</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "name": "Alice Betsy",
+      "comments" : "dummy comment",
+      "team": "Team 1"
     }
   },
   

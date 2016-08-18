@@ -83,10 +83,10 @@
         "teammates.test.CS2104":{
             "googleId":"teammates.test",
             "courseId":"CS2104",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"teammates.test@gmail.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -108,10 +108,10 @@
         "teammates.test.CS1101":{
             "googleId":"teammates.test",
             "courseId":"CS1101",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"teammates.test@gmail.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -133,10 +133,10 @@
         "teammates.instr.CS2104":{
             "googleId":"teammates.instr",
             "courseId":"CS2104",
-            "name":"Teammates Coord",
+            "name":"Teammates Coord</td></div>'\"",
             "email":"teammates.instr@gmail.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -158,10 +158,10 @@
         "teammates.instr.CS1101":{
             "googleId":"teammates.instr",
             "courseId":"CS1101",
-            "name":"Teammates Coord",
+            "name":"Teammates Coord</td></div>'\"",
             "email":"teammates.instr@gmail.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -183,10 +183,10 @@
         "teammates.test.CS4215":{
             "googleId":"teammates.test",
             "courseId":"CS4215",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"teammates.test@gmail.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,

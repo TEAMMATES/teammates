@@ -64,12 +64,12 @@
     "instructorOfCourse1": {
       "googleId": "instructorOfCourse1",
       "courseId": "course1",
-      "name": "Instructor1 Course1",
+      "name": "Instructor1 Course1</td></div>'\"",
       "email": "instr@course1.tmt",
       "role":"Co-owner",
       "isArchived":false,
       "isDisplayedToStudents":true,
-      "displayedName": "Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -91,12 +91,12 @@
     "instructor2OfCourse1": {
       "googleId": "instructorOfCourse4",
       "courseId": "course1",
-      "name": "Instructor1 Course4",
+      "name": "Instructor1 Course4</td></div>'\"",
       "email": "instr@course4.tmt",
       "role":"Co-owner",
       "isArchived":false,
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -118,12 +118,12 @@
     "instructorOfCourse2": {
       "googleId": "instructorWith2Courses",
       "courseId": "course2",
-      "name": "Instructor1 Course2",
+      "name": "Instructor1 Course2</td></div>'\"",
       "email": "iwithtwoc@yahoo.tmt",
       "role":"Custom",
       "isArchived":false,
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
@@ -145,12 +145,12 @@
     "instructorOfCourse3": {
       "googleId": "instructorWith2Courses",
       "courseId": "course3",
-      "name": "Instructor1 Course3",
+      "name": "Instructor1 Course3</td></div>'\"",
       "email": "iwithtwoc@yahoo.tmt",
       "role":"Co-owner",
       "isArchived":false,
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -172,12 +172,12 @@
     "instructor2OfCourse3": {
       "googleId": "instructorOfCourse4",
       "courseId": "course3",
-      "name": "Instructor1 Course4",
+      "name": "Instructor1 Course4</td></div>'\"",
       "email": "instr@course4.tmt",
       "role":"Co-owner",
       "isArchived":false,
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -199,12 +199,12 @@
     "instructorOfCourse4": {
       "googleId": "instructorOfCourse4",
       "courseId": "course4",
-      "name": "Instructor1 Course4",
+      "name": "Instructor1 Course4</td></div>'\"",
       "email": "instr@course4.tmt",
       "role":"Co-owner",
       "isArchived":true,
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,

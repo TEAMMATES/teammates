@@ -47,11 +47,11 @@
     "SCDetailsUiT.instr": {
       "googleId": "SCDetailsUiT.instr",
       "courseId": "SCDetailsUiT.CS2104",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "SCDetailsUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -73,11 +73,11 @@
     "SCDetailsUiT.coord": {
       "googleId": "SCDetailsUiT.coord",
       "courseId": "SCDetailsUiT.CS2104",
-      "name": "Teammates Coord",
+      "name": "Teammates Coord</td></div>'\"",
       "email": "SCDetailsUiT.coord@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":false,
-      "displayedName":"Instructor",
+      "displayedName":"Instructor</td></div>'\"",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,

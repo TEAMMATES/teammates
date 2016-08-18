@@ -110,10 +110,10 @@
         "instructor1OfCourse1":{
             "googleId":"idOfInstructor1OfCourse1",
             "courseId":"idOfTypicalCourse1",
-            "name":"Instructor1 Course1",
+            "name":"Instructor1 Course1</td></div>'\"",
             "email":"instructor1@course1.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -135,10 +135,10 @@
         "instructor2OfCourse1":{
             "googleId":"idOfInstructor2OfCourse1",
             "courseId":"idOfTypicalCourse1",
-            "name":"Instructor2 Course1",
+            "name":"Instructor2 Course1</td></div>'\"",
             "email":"instructor2@course1.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -160,10 +160,10 @@
         "instructor1OfCourse2":{
             "googleId":"idOfInstructor1OfCourse2",
             "courseId":"idOfTypicalCourse2",
-            "name":"Instructor1 Course2",
+            "name":"Instructor1 Course2</td></div>'\"",
             "email":"instructor1@course2.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -185,10 +185,10 @@
         "instructor2OfCourse2":{
             "googleId":"idOfInstructor2OfCourse2",
             "courseId":"idOfTypicalCourse2",
-            "name":"Instructor2 Course2",
+            "name":"Instructor2 Course2</td></div>'\"",
             "email":"instructor2@course2.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -210,10 +210,10 @@
         "instructor3OfCourse1":{
             "googleId":"idOfInstructor3",
             "courseId":"idOfTypicalCourse1",
-            "name":"Instructor3 Course1",
+            "name":"Instructor3 Course1</td></div>'\"",
             "email":"instructor3@course1.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -235,10 +235,10 @@
         "instructor3OfCourse2":{
             "googleId":"idOfInstructor3",
             "courseId":"idOfTypicalCourse2",
-            "name":"Instructor3 Course2",
+            "name":"Instructor3 Course2</td></div>'\"",
             "email":"instructor3@course2.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -260,10 +260,10 @@
         "instructor4":{
             "googleId":"idOfInstructor4",
             "courseId":"idOfCourseNoEvals",
-            "name":"Instructor4 name",
+            "name":"Instructor4 name</td></div>'\"",
             "email":"instructor4@courseNoEvals.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -285,10 +285,10 @@
         "instructorWithOnlyOneSampleCourse":{
             "googleId":"idOfInstructorWithOnlyOneSampleCourse",
             "courseId":"idOfSampleCourse-demo",
-            "name":"Instructor With Only One Sample Course",
+            "name":"Instructor With Only One Sample Course</td></div>'\"",
             "email":"iwosc@yahoo.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -310,7 +310,7 @@
         "instructorOfArchivedCourse":{
             "googleId":"idOfInstructorOfArchivedCourse",
             "courseId":"idOfArchivedCourse",
-            "name":"InstructorOfArchiveCourse name",
+            "name":"InstructorOfArchiveCourse name</td></div>'\"",
             "email":"instructorOfArchiveCourse@archiveCourse.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",

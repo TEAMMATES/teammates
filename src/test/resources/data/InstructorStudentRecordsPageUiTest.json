@@ -73,11 +73,11 @@
         "teammates.test.CS2104":{
             "googleId":"ISR.teammates.test",
             "courseId":"ISR.CS2104",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"teammates.test@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -99,11 +99,11 @@
         "teammates.test.CS2104.Helper":{
             "googleId":"ISR.teammates.test.Helper",
             "courseId":"ISR.CS2104",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"teammates.test.Helper@gmail.tmt",
             "role":"Custom",
             "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
+            "displayedName":"Instructor</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": false,
@@ -125,10 +125,10 @@
         "teammates.test.CS1101":{
             "googleId":"ISR.teammates.test",
             "courseId":"ISR.CS1101",
-            "name":"Teammates Test",
+            "name":"Teammates Test</td></div>'\"",
             "email":"teammates.test@gmail.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -150,10 +150,10 @@
         "teammates.instr.CS1101":{
             "googleId":"ISR.teammates.instr",
             "courseId":"ISR.CS1101",
-            "name":"Teammates Coord",
+            "name":"Teammates Coord</td></div>'\"",
             "email":"teammates.instr@gmail.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,
@@ -175,10 +175,10 @@
         "teammates.noeval":{
             "googleId":"ISR.no.eval",
             "courseId":"ISR.NoEval",
-            "name":"No Eval Instructor",
+            "name":"No Eval Instructor</td></div>'\"",
             "email":"teammates.norecord@gmail.tmt",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "displayedName":"Co-owner</td></div>'\"",
             "privileges": {
                 "courseLevel": {
                     "canviewstudentinsection": true,

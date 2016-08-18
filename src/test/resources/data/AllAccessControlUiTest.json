@@ -402,7 +402,6 @@
             "email":"instructorOfArchiveCourse@archiveCourse.tmt",
             "role":"Co-owner",
             "displayedName":"Instructor",
-            "role":"Co-owner",
             "isDisplayedToStudents":true,
             "isArchived":true,
             "displayedName":"Instructor",
@@ -455,18 +454,18 @@
     "students":{
         "student1InCourse1.access":{
             "email":"student1InCourse1.access@gmail.tmt",
-            "name":"student1 In Course1</option></td></div>'\"",
-            "team":"Team 1.1</td></div>'\"",
+            "name":"student1 In Course1",
+            "team":"Team 1.1",
             "section":"Section 1",
             "googleId":"student1InCourse1.access",
-            "comments":"comment for student1InCourse1.access</option></td></div>'\"",
+            "comments":"comment for student1InCourse1.access",
             "course":"idOfTypicalCourse1.access"
         },
         "student2InCourse1.access":{
             "email":"student2InCourse1.access@gmail.tmt",
             "name":"student2 In Course1",
             "googleId":"student2InCourse1.access",
-            "team":"Team 1.1</td></div>'\"",
+            "team":"Team 1.1",
             "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1.access"
@@ -475,7 +474,7 @@
             "email":"student3InCourse1@gmail.tmt",
             "name":"student3 In Course1",
             "googleId":"student3InCourse1",
-            "team":"Team 1.1</td></div>'\"",
+            "team":"Team 1.1",
             "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1.access"
@@ -484,7 +483,7 @@
             "email":"student4InCourse1@gmail.tmt",
             "name":"student4 In Course1",
             "googleId":"student4InCourse1",
-            "team":"Team 1.1</td></div>'\"",
+            "team":"Team 1.1",
             "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1.access"

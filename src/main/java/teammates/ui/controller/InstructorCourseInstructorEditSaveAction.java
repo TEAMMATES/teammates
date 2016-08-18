@@ -40,12 +40,13 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             } else {
                 logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
             }
-            
-            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName),
+            String sanitizedInstructorName = Sanitizer.sanitizeForHtml(instructorName);
+            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED,
+                                                             sanitizedInstructorName),
                                                StatusMessageColor.SUCCESS));
-            statusToAdmin = "Instructor <span class=\"bold\"> " + instructorName + "</span>"
+            statusToAdmin = "Instructor <span class=\"bold\"> " + sanitizedInstructorName + "</span>"
                     + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
-                    + "New Name: " + instructorName + "<br>New Email: " + instructorEmail;
+                    + "New Name: " + sanitizedInstructorName + "<br>New Email: " + instructorEmail;
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
