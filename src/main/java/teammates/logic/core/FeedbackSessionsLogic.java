@@ -2639,22 +2639,27 @@ public class FeedbackSessionsLogic {
     private void makeEmailStateConsistent(FeedbackSessionAttributes oldSession,
             FeedbackSessionAttributes newSession) {
 
-        // reset sentOpenEmail if the session has opened but is being closed
-        // now.
-        if (oldSession.isSentOpenEmail() && !newSession.isOpened()) {
-            newSession.setSentOpenEmail(false);
-        } else if (oldSession.isSentOpenEmail()) {
-            // or else leave it as sent if so.
-            newSession.setSentOpenEmail(true);
+        // reset sentOpenEmail if the session has opened but is being un-opened
+        // now, or else leave it as sent if so.
+        if (oldSession.isSentOpenEmail()) {
+            newSession.setSentOpenEmail(newSession.isOpened());
+        }
+
+        // reset sentClosedEmail if the session has closed but is being un-closed
+        // now, or else leave it as sent if so.
+        if (oldSession.isSentClosedEmail()) {
+            newSession.setSentClosedEmail(newSession.isClosed());
+            
+            // also reset sentClosingEmail
+            newSession.setSentClosingEmail(
+                    newSession.isClosed()
+                    || !newSession.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
         }
 
         // reset sentPublishedEmail if the session has been published but is
-        // going to be unpublished now.
-        if (oldSession.isSentPublishedEmail() && !newSession.isPublished()) {
-            newSession.setSentPublishedEmail(false);
-        } else if (oldSession.isSentPublishedEmail()) {
-            // or else leave it as sent if so.
-            newSession.setSentPublishedEmail(true);
+        // going to be unpublished now, or else leave it as sent if so.
+        if (oldSession.isSentPublishedEmail()) {
+            newSession.setSentPublishedEmail(newSession.isPublished());
         }
     }
 
