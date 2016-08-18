@@ -39,7 +39,7 @@ public class DataMigrationForSentClosingEmailFieldInSessions extends RemoteApiCl
         session.setSentClosedEmail(session.isClosed());
         session.setSentClosingEmail(
                 session.isClosed()
-                || !session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
+                || !session.isClosedAfter(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
         
         if (isPreview) {
             System.out.println("sentClosingEmail and sentClosedEmail for " + session.getSessionName()

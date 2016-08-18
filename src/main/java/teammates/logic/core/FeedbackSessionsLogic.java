@@ -2653,7 +2653,7 @@ public class FeedbackSessionsLogic {
             // also reset sentClosingEmail
             newSession.setSentClosingEmail(
                     newSession.isClosed()
-                    || !newSession.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
+                    || !newSession.isClosedAfter(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
         }
 
         // reset sentPublishedEmail if the session has been published but is

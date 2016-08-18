@@ -302,6 +302,24 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         return getInvalidityInfo().isEmpty();
     }
 
+    public boolean isClosedAfter(int hours) {
+        Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        // Fix the time zone accordingly
+        now.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
+
+        Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        start.setTime(startTime);
+
+        Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        deadline.setTime(endTime);
+
+        long nowMillis = now.getTimeInMillis();
+        long deadlineMillis = deadline.getTimeInMillis();
+        long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
+
+        return now.after(start) && differenceBetweenDeadlineAndNow < hours;
+    }
+    
     public boolean isClosingWithinTimeLimit(int hours) {
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         // Fix the time zone accordingly
