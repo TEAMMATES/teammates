@@ -564,10 +564,10 @@ public class FeedbackSessionsDb extends EntitiesDb {
     private List<FeedbackSession> getFeedbackSessionEntitiesNeedingClosedEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("boolean sentParam, boolean enableParam, Enum notTypeParam");
-        q.setFilter("sentClosedEmail == sentParam && isClosedEmailEnabled == enableParam "
+        q.setFilter("sentClosedEmail == sentParam && isClosingEmailEnabled == enableParam "
                     + "&& feedbackSessionType != notTypeParam");
         
-        return (List<FeedbackSession>) q.execute(false, false, FeedbackSessionType.PRIVATE);
+        return (List<FeedbackSession>) q.execute(false, true, FeedbackSessionType.PRIVATE);
     }
     
     @SuppressWarnings("unchecked")
