@@ -47,16 +47,16 @@
                     There are no questions for you to answer here!
             </c:when>
             <c:otherwise>
-                <input type="submit" class="btn btn-primary center-block"
+                <input type="checkbox" name="isSendSubmissionEmail" value="true" checked>
+                    Send me a confirmation email
+                </input>
+                <input type="submit" class="btn btn-primary center-block margin-top-7px"
                        id="response_submit_button" data-toggle="tooltip"
                        data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
                        value="Submit Feedback"
                        <c:if test="${data.preview or (not data.submittable)}">
                            disabled style="background: #66727A;"
                        </c:if>>
-                <input style="display: inline" type="checkbox" name="isSendSubmissionEmail" value="true" checked>
-                    Notify me via email when the responses are submitted to the system
-                </input>
             </c:otherwise>
         </c:choose>
     </div>
