@@ -11,6 +11,10 @@ $(document).ready(function() {
 function readyInstructorStudentEditPage() {
     
     $(INSTRUCTOR_STUDENT_EDIT_FORM).on('submit', function(event) {
+        
+        var isEmailFieldChanged = $('#newstudentemail').val() !== $('#studentemail').val();
+        var isAnyEmailSentInThisCourse = $('#isAnyEmailSentForTheCourse').val();
+        
         if ($(INSTRUCTOR_STUDENT_EDIT_FORM).attr('editStatus') === 'mustDeleteResponses') {
             isSubmitFormForEditingTeamName = false;
             event.preventDefault();
@@ -19,7 +23,8 @@ function readyInstructorStudentEditPage() {
                               + 'to be deleted. You may download the data before you make the changes. Are '
                               + 'you sure you want to continue?';
             var okCallback = function() {
-                if ($('#newstudentemail').val() !== $('#studentemail').val() && $('#isAnyEmailSentForTheCourse').val()) {
+                
+                if (isEmailFieldChanged && isAnyEmailSentInThisCourse) {
                     sendEmailToNewEmailOption(event);
                 } else {
                     event.target.submit();
@@ -28,7 +33,7 @@ function readyInstructorStudentEditPage() {
 
             BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
                     BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
-        } else if ($('#newstudentemail').val() !== $('#studentemail').val() && $('#isAnyEmailSentForTheCourse').val()) {
+        } else if (isEmailFieldChanged && isAnyEmailSentInThisCourse) {
             sendEmailToNewEmailOption(event);
         }
     });

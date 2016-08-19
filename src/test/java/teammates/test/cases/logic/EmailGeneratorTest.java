@@ -211,7 +211,6 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName());
         
         hasStudent1ReceivedEmail = false;
-        hasInstructor1ReceivedEmail = false;
         
         if (email.getRecipient().equals(student1.email)) {
             verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForStudent.html");

@@ -67,7 +67,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             
             logic.updateStudent(studentEmail, student);
             
-            boolean isSendEmail = Boolean.parseBoolean(getRequestParamValue("isSendEmail"));
+            boolean isSendEmail = Boolean.parseBoolean(getRequestParamValue(Const.ParamsNames.EMAIL_SEND_CHECK));
             if (isEmailChanged && isSendEmail) {
                 FeedbackSessionsLogic.inst().sendAllLinksToNewStudentEmail(courseId, student);
             }

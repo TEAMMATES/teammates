@@ -89,7 +89,7 @@ public class EmailGenerator {
     }
     
     /**
-     * Generates the summary of the feedback sessions (in which atleast one
+     * Generates the summary of the feedback sessions (in which at least one
      * email has been sent to students) email for the given {@code courseId} for {@code student}
      */
     public EmailWrapper generateFeedbackSessionResendAllLinksEmail(String courseId,
@@ -147,7 +147,7 @@ public class EmailGenerator {
                     EmailTemplates.USER_FEEDBACK_SESSION_FRAGMENT_RESEND_ALL_LINKS,
                     "${feedbackSessionName}", fsa.getFeedbackSessionName(),
                     "${deadline}", fsa.isClosed() ? TimeHelper.formatTime12H(fsa.getEndTime())
-                                                  + " {Passed}"
+                                                            + " {Passed}"
                                                   : TimeHelper.formatTime12H(fsa.getEndTime()),
                     "${submitUrl}", submitUrl,
                     "${reportUrl}", reportUrl));
