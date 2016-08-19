@@ -153,10 +153,10 @@ var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
-	
-    $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function(){
+    
+    $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function() {
         bindDefaultImageIfMissing(this);
-    })
+    });
     
     /**
      * Initializing then disabling is better than simply
@@ -187,7 +187,7 @@ $(document).on('ajaxComplete ready', function() {
 
 /**
  * Binds a default image if the image is missing.
- * @param element Image element. 
+ * @param element Image element.
  */
 function bindDefaultImageIfMissing(element) {
     $(element).on('error', function() {
