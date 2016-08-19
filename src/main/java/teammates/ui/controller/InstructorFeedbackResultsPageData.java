@@ -9,9 +9,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -962,8 +962,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 break;
             }
             
+            // If question specific sorting is not needed, responses are sorted
+            // by default order (first by team name, then by display name)
             if (questionDetails.isQuestionSpecificSortingRequired()) {
                 Collections.sort(responseRows, questionDetails.getResponseRowsSortOrder());
+            } else {
+                responseRows = InstructorFeedbackResultsResponseRow.sortListWithDefaultOrder(responseRows);
             }
             
         }
