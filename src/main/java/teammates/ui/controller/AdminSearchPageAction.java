@@ -78,7 +78,6 @@ public class AdminSearchPageAction extends Action {
         }
               
         data.init();
-        System.out.println("daataa" + data.searchKey);
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
     }
     
