@@ -71,7 +71,7 @@ $(document).ready(function() {
 
     var $questionPanelHeadings = $('.ajax_submit,.ajax_auto');
     $questionPanelHeadings.click(seeMoreRequest);
-    if ($('#is-showing-responses').val() === "true") {
+    if ($('#is-showing-responses').val() === 'true') {
         $('.ajax_auto').click();
     }
 });
