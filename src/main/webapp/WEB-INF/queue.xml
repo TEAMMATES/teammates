@@ -43,7 +43,7 @@
        when the bucket is not full
   -->
   <rate>5/s</rate>
-  <bucket-size>200</bucket-size> 
+  <bucket-size>20</bucket-size> 
   <retry-parameters>
       <task-retry-limit>2</task-retry-limit>
   </retry-parameters>
