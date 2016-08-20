@@ -39,7 +39,7 @@
 
 <queue>
   <name>course-join-remind-email-queue</name>
-   <!-- Configuration allows for 5 feedback reminder emails to be queued
+   <!-- Configuration allows for 5 course join reminder emails to be queued
        when the bucket is not full
   -->
   <rate>5/s</rate>
