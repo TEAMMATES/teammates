@@ -13,7 +13,6 @@ public class CourseJoinRemindEmailWorkerServlet extends WorkerServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        // TODO Auto-generated method stub
         String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.STUDENT_EMAIL);
