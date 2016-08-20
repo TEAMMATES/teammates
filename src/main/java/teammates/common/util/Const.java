@@ -1010,8 +1010,7 @@ public final class Const {
         public static final String BACKDOOR = "/backdoor";
         
         //Task Queue Worker Servlets URI
-        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER =
-                "/courseJoinRemindEmailWorker";
+        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER = "/courseJoinRemindEmailWorker";
         public static final String EMAIL_WORKER = "/emailWorker";
         public static final String ADMIN_EMAIL_WORKER = "/adminEmailWorker";
         public static final String ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER = "/adminEmailPrepareTaskQueueWorker";
