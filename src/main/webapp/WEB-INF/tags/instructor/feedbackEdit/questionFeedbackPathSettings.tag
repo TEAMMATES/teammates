@@ -61,10 +61,12 @@
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
                     <c:if test="${!fqForm.editable}">disabled</c:if>
                     onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
-                    <c:forEach items="<%= FeedbackParticipantType.GIVERS %>" var="giverType">
-                        <option <c:if test="${fqForm.feedbackPathSettings.selectedGiver eq giverType}">selected </c:if>value="${giverType}">
-                            ${giverType.displayNameGiver}
-                        </option>
+                    <c:forEach items="<%= FeedbackParticipantType.GIVERS %>" var="giverType">                        
+                        <c:if test="${not giverType.custom || fqForm.feedbackPathSettings.selectedGiver.custom}">
+                            <option <c:if test="${fqForm.feedbackPathSettings.selectedGiver eq giverType}">selected </c:if>value="${giverType}">
+                                ${giverType.displayNameGiver}
+                            </option>
+                        </c:if>
                     </c:forEach>
                 </select>
             </div>
@@ -80,9 +82,11 @@
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
                     <c:if test="${!fqForm.editable}">disabled</c:if> onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                     <c:forEach items="<%= FeedbackParticipantType.RECIPIENTS %>" var="recipientType">
-                        <option <c:if test="${fqForm.feedbackPathSettings.selectedRecipient eq recipientType}">selected </c:if>value="${recipientType}">
-                            ${recipientType.displayNameRecipient}
-                        </option>
+                        <c:if test="${!recipientType.custom || fqForm.feedbackPathSettings.selectedRecipient.custom}">
+                            <option <c:if test="${fqForm.feedbackPathSettings.selectedRecipient eq recipientType}">selected </c:if>value="${recipientType}">
+                                ${recipientType.displayNameRecipient}
+                            </option>
+                        </c:if>
                     </c:forEach>
                 </select>
         </div>

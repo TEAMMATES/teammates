@@ -76,6 +76,10 @@ public enum FeedbackParticipantType {
     public boolean isTeam() {
         return this == TEAMS || this == OWN_TEAM;
     }
+    
+    public boolean isCustom() {
+        return this == CUSTOM;
+    }
 
     /**
      * Formats the participant type as a giver for display to user.
