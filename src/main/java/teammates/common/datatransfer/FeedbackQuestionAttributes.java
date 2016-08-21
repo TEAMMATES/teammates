@@ -183,6 +183,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
 
         errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
+        
+        if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
+            errors.addAll(validator.getValidityInfoForFeedbackPaths(feedbackPaths));
+        }
 
         errors.addAll(validator.getValidityInfoForFeedbackResponseVisibility(showResponsesTo,
                                                                              showGiverNameTo,

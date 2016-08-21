@@ -4,15 +4,19 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import com.google.appengine.api.datastore.Text;
+import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackPathAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
@@ -21,7 +25,10 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackQuestionEditAction extends Action {
 
@@ -91,8 +98,16 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         for (String error : questionDetailsErrors) {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
+        
+        List<StudentAttributes> studentsInCourse = logic.getStudentsForCourse(updatedQuestion.getCourseId());
+        List<InstructorAttributes> instructorsInCourse = logic.getInstructorsForCourse(updatedQuestion.getCourseId());
+        String feedbackPathsParticipantsError =
+                validateQuestionFeedbackPathsParticipants(
+                        updatedQuestion, studentsInCourse, instructorsInCourse);
+        StatusMessage feedbackPathsParticipantsErrorMessage =
+                new StatusMessage(feedbackPathsParticipantsError, StatusMessageColor.DANGER);
 
-        if (questionDetailsErrors.isEmpty()) {
+        if (questionDetailsErrors.isEmpty() && feedbackPathsParticipantsError.isEmpty()) {
             logic.updateFeedbackQuestionNumber(updatedQuestion);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
@@ -105,6 +120,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                           + updatedQuestionDetails.getQuestionText();
         } else {
             statusToUser.addAll(questionDetailsErrorsMessages);
+            statusToUser.add(feedbackPathsParticipantsErrorMessage);
             isError = true;
         }
     }
@@ -140,6 +156,126 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
         
         return errorMsg;
+    }
+    
+    public static String validateQuestionFeedbackPathsParticipants(
+            FeedbackQuestionAttributes question, List<StudentAttributes> students,
+            List<InstructorAttributes> instructors) {
+        StringBuilder errorMsg = new StringBuilder(200);
+        
+        Set<String> studentEmails = new HashSet<String>();
+        Set<String> instructorEmails = new HashSet<String>();
+        Set<String> teamNames = new HashSet<String>();
+        Map<String, String> studentEmailToTeamNameMap = new HashMap<String, String>();
+        Map<String, Set<String>> teamNameToStudentEmailsMap = new HashMap<String, Set<String>>();
+        
+        for (StudentAttributes student : students) {
+            studentEmails.add(student.getEmail());
+            teamNames.add(student.getTeam());
+            studentEmailToTeamNameMap.put(student.getEmail(), student.getTeam());
+            Set<String> teamMembers = teamNameToStudentEmailsMap.get(student.getTeam());
+            if (teamMembers == null) {
+                teamMembers = new HashSet<String>();
+            }
+            teamMembers.add(student.getEmail());
+            teamNameToStudentEmailsMap.put(student.getTeam(), teamMembers);
+            
+        }
+        
+        for (InstructorAttributes instructor : instructors) {
+            instructorEmails.add(instructor.getEmail());
+        }
+        
+        // Check for non-existent participants
+        Set<String> nonExistentParticipants = new HashSet<String>();
+        
+        for (FeedbackPathAttributes feedbackPath : question.feedbackPaths) {
+            boolean isFeedbackPathGiverTypeNonExistent =
+                    feedbackPath.getFeedbackPathGiverType().isEmpty();
+            boolean isFeedbackPathGiverStudentNonExistent =
+                    feedbackPath.isFeedbackPathGiverAStudent()
+                    && !studentEmails.contains(feedbackPath.getGiverId());
+            boolean isFeedbackPathGiverInstructorNonExistent =
+                    feedbackPath.isFeedbackPathGiverAnInstructor()
+                    && !instructorEmails.contains(feedbackPath.getGiverId());
+            boolean isFeedbackPathGiverTeamNonExistent =
+                    feedbackPath.isFeedbackPathGiverATeam()
+                    && !teamNames.contains(feedbackPath.getGiverId());
+            
+            boolean isFeedbackPathRecipientTypeNonExistent =
+                    feedbackPath.getFeedbackPathRecipientType().isEmpty();
+            boolean isFeedbackPathRecipientStudentNonExistent =
+                    feedbackPath.isFeedbackPathRecipientAStudent()
+                    && !studentEmails.contains(feedbackPath.getRecipientId());
+            boolean isFeedbackPathRecipientInstructorNonExistent =
+                    feedbackPath.isFeedbackPathRecipientAnInstructor()
+                    && !instructorEmails.contains(feedbackPath.getRecipientId());
+            boolean isFeedbackPathRecipientTeamNonExistent =
+                    feedbackPath.isFeedbackPathRecipientATeam()
+                    && !teamNames.contains(feedbackPath.getRecipientId());
+            
+            if (isFeedbackPathGiverTypeNonExistent
+                    || isFeedbackPathGiverStudentNonExistent
+                    || isFeedbackPathGiverInstructorNonExistent
+                    || isFeedbackPathGiverTeamNonExistent) {
+                nonExistentParticipants.add(feedbackPath.getGiver());
+            }
+            
+            if (isFeedbackPathRecipientTypeNonExistent
+                    || isFeedbackPathRecipientStudentNonExistent
+                    || isFeedbackPathRecipientInstructorNonExistent
+                    || isFeedbackPathRecipientTeamNonExistent) {
+                nonExistentParticipants.add(feedbackPath.getRecipient());
+            }
+        }
+        
+        if (!nonExistentParticipants.isEmpty()) {
+            errorMsg.append("Unable to save question as the following feedback path participants do not exist: "
+                            + StringHelper.removeEnclosingSquareBrackets(nonExistentParticipants.toString()) + ". ");
+        }
+        
+        // Check validity of feedback paths for contrib questions
+        // If a student is a giver, all the student's team members must also be givers
+        // Each giver should have all the members in his/her team as a recipient
+        if (question.getQuestionType() == FeedbackQuestionType.CONTRIB) {
+            Map<String, Set<String>> teamNameToGiverIdsMap = new HashMap<String, Set<String>>();
+            Map<String, Set<String>> giverIdToRecipientIdsMap = new HashMap<String, Set<String>>();
+            for (FeedbackPathAttributes feedbackPath : question.feedbackPaths) {
+                String giverId = feedbackPath.getGiverId();
+                String giverTeam = studentEmailToTeamNameMap.get(giverId);
+                Set<String> giverIds = teamNameToGiverIdsMap.get(giverTeam);
+                if (giverIds == null) {
+                    giverIds = new HashSet<String>();
+                }
+                giverIds.add(giverId);
+                teamNameToGiverIdsMap.put(giverTeam, giverIds);
+                
+                Set<String> recipientsOfGiver = giverIdToRecipientIdsMap.get(giverId);
+                if (recipientsOfGiver == null) {
+                    recipientsOfGiver = new HashSet<String>();
+                }
+                recipientsOfGiver.add(feedbackPath.getRecipientId());
+                giverIdToRecipientIdsMap.put(giverId, recipientsOfGiver);
+            }
+            
+            for (String teamName : teamNameToGiverIdsMap.keySet()) {
+                if (!teamNameToStudentEmailsMap.get(teamName).equals(teamNameToGiverIdsMap.get(teamName))) {
+                    errorMsg.append("All the students in a team must be a giver. ");
+                    break;
+                }
+            }
+            
+            for (String giverId : giverIdToRecipientIdsMap.keySet()) {
+                String giverTeam = studentEmailToTeamNameMap.get(giverId);
+                if (!teamNameToStudentEmailsMap.get(giverTeam).equals(giverIdToRecipientIdsMap.get(giverId))) {
+                    errorMsg.append("The student must give feedback to all his/her team members"
+                                    + " including himself/herself. ");
+                    break;
+                }
+            }
+        }
+        
+        return errorMsg.toString().trim();
     }
 
     private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters) {

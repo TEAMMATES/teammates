@@ -327,7 +327,7 @@ function disableRowsAccordingToGiver($containingForm) {
         disableRow($containingForm, ROW_GIVER_TEAM);
         break;
     case 'CUSTOM':
-        // all options enabled when recipientType is CUSTOM
+        // all options enabled when giverType is CUSTOM
         break;
     default:
         throw 'Unexpected giverType';

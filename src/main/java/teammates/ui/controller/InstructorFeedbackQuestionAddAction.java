@@ -11,6 +11,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -41,11 +42,20 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
         
+        List<StudentAttributes> studentsInCourse = logic.getStudentsForCourse(feedbackQuestion.getCourseId());
+        List<InstructorAttributes> instructorsInCourse = logic.getInstructorsForCourse(feedbackQuestion.getCourseId());
+        String feedbackPathsParticipantsError =
+                validateQuestionFeedbackPathsParticipants(
+                        feedbackQuestion, studentsInCourse, instructorsInCourse);
+        StatusMessage feedbackPathsParticipantsErrorMessage =
+                new StatusMessage(feedbackPathsParticipantsError, StatusMessageColor.DANGER);
+        
         RedirectResult redirectResult =
                 createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
         
-        if (!questionDetailsErrors.isEmpty()) {
+        if (!questionDetailsErrors.isEmpty() || !feedbackPathsParticipantsError.isEmpty()) {
             statusToUser.addAll(questionDetailsErrorsMessages);
+            statusToUser.add(feedbackPathsParticipantsErrorMessage);
             isError = true;
             
             return redirectResult;
@@ -77,6 +87,13 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 
     private String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestion) {
         return InstructorFeedbackQuestionEditAction.validateQuestionGiverRecipientVisibility(feedbackQuestion);
+    }
+    
+    private String validateQuestionFeedbackPathsParticipants(
+            FeedbackQuestionAttributes question, List<StudentAttributes> students,
+            List<InstructorAttributes> instructors) {
+        return InstructorFeedbackQuestionEditAction.validateQuestionFeedbackPathsParticipants(
+                question, students, instructors);
     }
 
     private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters,
