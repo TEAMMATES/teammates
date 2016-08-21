@@ -3,7 +3,10 @@ package teammates.test.cases.common;
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -11,6 +14,7 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.FeedbackPathAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -270,6 +274,76 @@ public class FieldValidatorTest extends BaseTestCase {
                      "The provided name field is not acceptable to TEAMMATES as it contains only whitespace "
                          + "or contains extra spaces at the beginning or at the end of the text.",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength, untrimmedValue));
+    }
+    
+    @Test
+    public void testGetValidityInfoForFeedbackPaths() {
+        List<FeedbackPathAttributes> feedbackPaths;
+        List<String> expected;
+        List<String> actual;
+        
+        ______TS("null value");
+        feedbackPaths = null;
+        try {
+            validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+            signalFailureToDetectException("not expected to be null");
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+        
+        ______TS("typical success case");
+        feedbackPaths = new ArrayList<FeedbackPathAttributes>();
+        feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "stud2@email.com (Student)"));
+        
+        expected = new ArrayList<String>();
+        actual = validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+
+        assertEquals(expected, actual);
+        
+        ______TS("failure: varying giver types");
+        feedbackPaths = new ArrayList<FeedbackPathAttributes>();
+        feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "stud2@email.com (Student)"));
+        feedbackPaths.add(new FeedbackPathAttributes("Course1", "Team 1 (Team)", "stud2@email.com (Student)"));
+        
+        expected = new ArrayList<String>(Arrays.asList("Feedback path givers are not all of the same type."));
+        actual = validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+
+        assertEquals(expected, actual);
+        
+        ______TS("failure: varying recipient types");
+        feedbackPaths = new ArrayList<FeedbackPathAttributes>();
+        feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "stud2@email.com (Student)"));
+        feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "Team 1 (Team)"));
+        
+        expected = new ArrayList<String>(Arrays.asList("Feedback path recipients are not all of the same type."));
+        actual = validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+
+        assertEquals(expected, actual);
+        
+        ______TS("failure: duplicate feedback paths");
+        feedbackPaths = new ArrayList<FeedbackPathAttributes>();
+        feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "stud2@email.com (Student)"));
+        feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "stud2@email.com (Student)"));
+        
+        expected = new ArrayList<String>(Arrays.asList("Duplicate feedback paths exist."));
+        actual = validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+
+        assertEquals(expected, actual);
+        
+        ______TS("failure: all errors");
+        feedbackPaths = new ArrayList<FeedbackPathAttributes>();
+        feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "stud2@email.com (Student)"));
+        feedbackPaths.add(new FeedbackPathAttributes("Course1", "Team 1 (Team)", "stud2@email.com (Student)"));
+        feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "Team 1 (Team)"));
+        feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "stud2@email.com (Student)"));
+        
+        expected = new ArrayList<String>(Arrays.asList("Duplicate feedback paths exist.",
+                                                       "Feedback path givers are not all of the same type.",
+                                                       "Feedback path recipients are not all of the same type."));
+        actual = validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+
+        assertEquals(expected, actual);
+        
     }
 
     @Test
