@@ -67,7 +67,7 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
     
     private static final Logic logic = new Logic();
     
-    private boolean isPreview = true;
+    private boolean isPreview = false;
     
     public static void map(String doubleTimezone, String timezoneId) {
         timeZoneDoubleToIdMapping.put(doubleTimezone, timezoneId);
@@ -83,7 +83,10 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
         Datastore.initialize();
         
         List<CourseAttributes> allCourses = getAllCoursesWithoutTimeZone();
+        int total = allCourses.size();
+        int count = 0;    
         for (CourseAttributes course : allCourses) {
+            System.out.print("[" + count++ + "/" + total + "] ");
             updateTimezoneForCourse(course);
         }
     }

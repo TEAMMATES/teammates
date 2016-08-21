@@ -1,5 +1,7 @@
 package teammates.storage.api;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -544,10 +546,19 @@ public class FeedbackSessionsDb extends EntitiesDb {
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentOpenEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("boolean sentParam, Enum notTypeParam");
-        q.setFilter("sentOpenEmail == sentParam && feedbackSessionType != notTypeParam");
+        q.declareParameters("java.util.Date yesterday, boolean sentParam");
+        q.setFilter("endTime > yesterday && sentOpenEmail == sentParam");
         
-        return (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date d = null;
+        try {
+            d = sdf.parse("01/08/2016");
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        return (List<FeedbackSession>) q.execute(d, false);
     }
     
     @SuppressWarnings("unchecked")

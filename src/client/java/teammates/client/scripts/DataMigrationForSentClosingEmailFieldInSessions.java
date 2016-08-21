@@ -30,20 +30,33 @@ public class DataMigrationForSentClosingEmailFieldInSessions extends RemoteApiCl
         Datastore.initialize();
         
         List<FeedbackSessionAttributes> sessions = getNonPrivateFeedbackSessions();
+        int total = sessions.size();
+        int count = 0;
         for (FeedbackSessionAttributes session : sessions) {
+            System.out.println("[" + count++ + "/" + total + "] ");
             populateClosingEmailField(session);
         }
     }
     
     private void populateClosingEmailField(FeedbackSessionAttributes session) {
+        if(session.isSentClosingEmail() || session.isSentClosedEmail()){
+            System.out.print("x");
+            return;
+        }
+        
         session.setSentClosedEmail(session.isClosed());
         session.setSentClosingEmail(
                 session.isClosed()
                 || !session.isClosedAfter(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
-        
+       
+        if(!session.isClosed()){
+            System.out.println("\n" + session.getCourseId() + "/" + session.getSessionName());
+        } else {
+            System.out.print(".");
+        }
+
+             
         if (isPreview) {
-            System.out.println("sentClosingEmail and sentClosedEmail for " + session.getSessionName()
-                               + " in course " + session.getCourseId() + " to be set to " + session.isClosed());
             return;
         }
         

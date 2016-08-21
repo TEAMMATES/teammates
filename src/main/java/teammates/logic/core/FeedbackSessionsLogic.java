@@ -1115,14 +1115,18 @@ public class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
                 fsDb.getFeedbackSessionsWithUnsentOpenEmail();
+        
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
                 new ArrayList<FeedbackSessionAttributes>();
 
         for (FeedbackSessionAttributes session : sessions) {
-            if (session.isOpened()) {
+            if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE && session.isOpened()) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
+        
+        log.info("Number of sessions to send opening emails " + sessionsToSendEmailsFor.size());
+        
         return sessionsToSendEmailsFor;
     }
 
