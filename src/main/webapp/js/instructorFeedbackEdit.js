@@ -512,6 +512,13 @@ function hideNewQuestionAndShowNewQuestionForm() {
     $('#givertype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
     $('#recipienttype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
     $('#questionTable-' + NEW_QUESTION).find('.feedback-path-dropdown > button').removeClass('disabled');
+    
+    // removes custom participant type option
+    $('#givertype-' + NEW_QUESTION).find(
+            'option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
+    $('#recipienttype-' + NEW_QUESTION).find(
+            'option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
+    
     FeedbackPath.attachEvents();
 }
 
@@ -942,7 +949,7 @@ function regenerateCustomFeedbackPathsSpreadsheet(questionNum) {
 function bindParticipantSelectChangeEvents() {
     $('body').on('change', 'select[name="givertype"]', function() {
         var $recipientSelect = $(this).closest('.form_question').find('select[name="recipienttype"]');
-        $recipientSelect.find('option').show();
+        $recipientSelect.find('option').not(':disabled').show();
         hideInvalidRecipientTypeOptions($(this));
     });
 }
@@ -963,6 +970,7 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
     var recipientType = $recipientSelect.val();
     switch (giverType) {
     case 'STUDENTS':
+    case 'CUSTOM':
         // all recipientType options enabled
         break;
     case 'SELF':

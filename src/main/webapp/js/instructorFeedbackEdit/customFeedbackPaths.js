@@ -403,6 +403,7 @@ var CustomFeedbackPaths = {
         $('.form_question').on('click', '.customize-button', function() {
             var $questionForm = $(this).closest('.form_question');
             $questionForm.find('div[class*="numberOfEntitiesElements"]').hide();
+            $questionForm.find('.feedback-path-dropdown-option-other').click();
             CustomFeedbackPaths.appendCustomOptionsIfNecessary($questionForm);
             enableAllRows($questionForm);
             CustomFeedbackPaths.updateColumnsForFeedbackPathsSpreadsheet($questionForm);
@@ -421,6 +422,7 @@ var CustomFeedbackPaths = {
         if (isChangingParticipantTypeFromCustomToPredefined) {
             $giverSelect.find('option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
             $recipientSelect.find('option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
+            hideInvalidRecipientTypeOptions($giverSelect);
         }
     },
     
