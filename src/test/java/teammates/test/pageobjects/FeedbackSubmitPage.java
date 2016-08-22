@@ -158,6 +158,13 @@ public class FeedbackSubmitPage extends AppPage {
                 By.id("rankMessage-" + qnNumber + "-" + responseNumber));
         return element.getText();
     }
+
+    public void uncheckSendConfirmationEmailCheckbox() {
+        WebElement sendEmailChecbox = browser.driver.findElement(By.name(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
+        if (sendEmailChecbox.isSelected()) {
+            click(sendEmailChecbox);
+        }
+    }
     
     public void clickSubmitButton() {
         WebElement submitButton = browser.driver.findElement(By.id("response_submit_button"));

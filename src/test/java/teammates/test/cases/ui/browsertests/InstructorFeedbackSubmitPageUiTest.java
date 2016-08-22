@@ -146,6 +146,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(
                                fqConstSum.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
 
+        submitPage.uncheckSendConfirmationEmailCheckbox();
         submitPage.clickSubmitButton();
 
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -249,6 +250,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(21, 0, "Team 3");
         submitPage.toggleMsqOption(21, 0, "");
 
+        submitPage.uncheckSendConfirmationEmailCheckbox();
         submitPage.clickSubmitButton();
 
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -488,6 +490,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "10");
         assertEquals("90 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
 
+        submitPage.uncheckSendConfirmationEmailCheckbox();
         submitPage.clickSubmitButton();
         submitPage.verifyStatus("Please fix the error(s) for distribution question(s) 17, 18, 19."
                                 + " To skip a distribution question, leave the boxes blank.");
@@ -516,6 +519,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("The same amount of points should not be given multiple times.",
                      submitPage.getConstSumMessage(qnNumber, 3));
 
+        submitPage.uncheckSendConfirmationEmailCheckbox();
         submitPage.clickSubmitButton();
         submitPage.verifyStatus("Please fix the error(s) for distribution question(s) 17, 18, 19."
                                 + " To skip a distribution question, leave the boxes blank.");
