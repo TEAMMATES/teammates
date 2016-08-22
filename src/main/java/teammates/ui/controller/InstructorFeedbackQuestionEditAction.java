@@ -121,6 +121,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         } else {
             statusToUser.addAll(questionDetailsErrorsMessages);
             statusToUser.add(feedbackPathsParticipantsErrorMessage);
+            statusToAdmin = feedbackPathsParticipantsError;
             isError = true;
         }
     }
@@ -161,8 +162,6 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     public static String validateQuestionFeedbackPathsParticipants(
             FeedbackQuestionAttributes question, List<StudentAttributes> students,
             List<InstructorAttributes> instructors) {
-        StringBuilder errorMsg = new StringBuilder(200);
-        
         Set<String> studentEmails = new HashSet<String>();
         Set<String> instructorEmails = new HashSet<String>();
         Set<String> teamNames = new HashSet<String>();
@@ -177,28 +176,36 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                 getNonExistentParticipantsFromFeedbackPaths(question, studentEmails, instructorEmails, teamNames);
         
         if (!nonExistentParticipants.isEmpty()) {
-            errorMsg.append("Unable to save question as the following feedback path participants do not exist: "
-                            + StringHelper.removeEnclosingSquareBrackets(nonExistentParticipants.toString()) + ". ");
+            return "Unable to save question as the following feedback path participants do not exist: "
+                    + StringHelper.removeEnclosingSquareBrackets(nonExistentParticipants.toString()) + ".";
         }
         
         // Check validity of feedback paths for contrib questions
+        // Both the giver and recipient must be a student
         // If a student is a giver, all the student's team members must also be givers
         // Each giver should have all the members in his/her team as a recipient
+        StringBuilder errorMsg = new StringBuilder(200);
+        
         if (question.getQuestionType() == FeedbackQuestionType.CONTRIB) {
             Map<String, Set<String>> teamNameToGiverIdsMap = new HashMap<String, Set<String>>();
             Map<String, Set<String>> giverIdToRecipientIdsMap = new HashMap<String, Set<String>>();
             
-            populateFeedbackPathsMappings(
-                    question, studentEmailToTeamNameMap, teamNameToGiverIdsMap, giverIdToRecipientIdsMap);
-
-            if (!isAllStudentsInTeamGivers(teamNameToStudentEmailsMap, teamNameToGiverIdsMap)) {
-                errorMsg.append("All the students in a team must be a giver. ");
-            }
-            
-            if (!isAllGiversTeamMembersRecipients(
-                    studentEmailToTeamNameMap, teamNameToStudentEmailsMap, giverIdToRecipientIdsMap)) {
-                errorMsg.append("The student must give feedback to all his/her team members"
-                                + " including himself/herself. ");
+            if (question.isFeedbackPathsGiverTypeStudents()
+                    && question.isFeedbackPathsRecipientTypeStudents()) {
+                populateFeedbackPathsMappings(
+                        question, studentEmailToTeamNameMap, teamNameToGiverIdsMap, giverIdToRecipientIdsMap);
+    
+                if (!isAllStudentsInTeamGivers(teamNameToStudentEmailsMap, teamNameToGiverIdsMap)) {
+                    errorMsg.append("All the students in a team must be a giver. ");
+                }
+                
+                if (!isAllGiversTeamMembersRecipients(
+                        studentEmailToTeamNameMap, teamNameToStudentEmailsMap, giverIdToRecipientIdsMap)) {
+                    errorMsg.append("The student must give feedback to all his/her team members"
+                                    + " including himself/herself. ");
+                }
+            } else {
+                errorMsg.append("Both the giver and recipient must be a student. ");
             }
         }
         

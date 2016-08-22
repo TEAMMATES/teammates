@@ -792,6 +792,18 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
     
     /** 
+     * Returns true if the question's feedback paths recipient type is Students
+     */
+    public boolean isFeedbackPathsRecipientTypeStudents() {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isFeedbackPathRecipientAStudent()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /** 
      * Returns true if the question's feedback paths recipient type is Teams
      */
     public boolean isFeedbackPathsRecipientTypeTeams() {

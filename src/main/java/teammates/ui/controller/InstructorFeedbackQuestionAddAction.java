@@ -56,6 +56,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         if (!questionDetailsErrors.isEmpty() || !feedbackPathsParticipantsError.isEmpty()) {
             statusToUser.addAll(questionDetailsErrorsMessages);
             statusToUser.add(feedbackPathsParticipantsErrorMessage);
+            statusToAdmin = feedbackPathsParticipantsError;
             isError = true;
             
             return redirectResult;
