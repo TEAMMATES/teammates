@@ -47,9 +47,8 @@
                     There are no questions for you to answer here!
             </c:when>
             <c:otherwise>
-                <input type="checkbox" name="isSendSubmissionEmail" value="true" checked>
-                    Send me a confirmation email
-                </input>
+                <input type="checkbox" name="sendsubmissionemail"checked>
+                Send me a confirmation email
                 <input type="submit" class="btn btn-primary center-block margin-top-7px"
                        id="response_submit_button" data-toggle="tooltip"
                        data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
