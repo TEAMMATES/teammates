@@ -42,7 +42,7 @@ function readyInstructorStudentEditPage() {
         isSubmitFormForEditingEmail = false;
         event.preventDefault();
         var messageText = 'Do you want to resend past session links of this course to the new email '
-            + $('#newstudentemail').val() + '?';
+                + $('#newstudentemail').val() + '?';
         var yesCallback = function() {
             $('#isSendEmail').val(true);
             event.target.submit();
