@@ -145,7 +145,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                 && newQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
             String customFeedbackPathsSpreadsheetData =
                     HttpRequestHelper.getValueFromParamMap(
-                            requestParameters, "custom-feedback-paths-spreadsheet-data");
+                            requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_SPREADSHEETDATA);
             
             newQuestion.feedbackPaths =
                     FeedbackQuestionAttributes.getFeedbackPathsFromSpreadsheetData(
