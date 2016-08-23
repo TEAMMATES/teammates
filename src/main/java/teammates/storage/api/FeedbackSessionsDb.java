@@ -174,9 +174,9 @@ public class FeedbackSessionsDb extends EntitiesDb {
      * * All parameters are non-null.
      * @return An empty list if no sessions are found that have unsent open emails.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWithUnsentOpenEmail() {
+    public List<FeedbackSessionAttributes> getFeedbackSessionsNeedingOpenEmail() {
                 
-        List<FeedbackSession> fsList = getFeedbackSessionEntitiesWithUnsentOpenEmail();
+        List<FeedbackSession> fsList = getFeedbackSessionEntitiesNeedingOpenEmail();
         List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
         
         for (FeedbackSession fs : fsList) {
@@ -224,10 +224,9 @@ public class FeedbackSessionsDb extends EntitiesDb {
      * * All parameters are non-null.
      * @return An empty list if no sessions are found that have unsent published emails.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWithUnsentPublishedEmail() {
+    public List<FeedbackSessionAttributes> getFeedbackSessionsNeedingPublishedEmail() {
         
-        
-        List<FeedbackSession> fsList = getFeedbackSessionEntitiesWithUnsentPublishedEmail();
+        List<FeedbackSession> fsList = getFeedbackSessionEntitiesNeedingPublishedEmail();
         List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
         
         for (FeedbackSession fs : fsList) {
@@ -542,41 +541,46 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentOpenEmail() {
+    private List<FeedbackSession> getFeedbackSessionEntitiesNeedingOpenEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("boolean sentParam, Enum notTypeParam");
-        q.setFilter("sentOpenEmail == sentParam && feedbackSessionType != notTypeParam");
+        q.declareParameters("java.util.Date yesterday, boolean sentParam");
+        q.setFilter("startTime > yesterday && sentOpenEmail == sentParam");
         
-        return (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
+        Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
+        
+        return (List<FeedbackSession>) q.execute(d, false);
     }
     
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesNeedingClosingEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("boolean sentParam, boolean enableParam, Enum notTypeParam");
-        q.setFilter("sentClosingEmail == sentParam && isClosingEmailEnabled == enableParam "
-                    + "&& feedbackSessionType != notTypeParam");
+        q.declareParameters("java.util.Date yesterday, boolean sentParam, boolean enableParam");
+        q.setFilter("endTime > yesterday && sentClosingEmail == sentParam && isClosingEmailEnabled == enableParam");
         
-        return (List<FeedbackSession>) q.execute(false, true, FeedbackSessionType.PRIVATE);
+        Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
+        
+        return (List<FeedbackSession>) q.execute(d, false, true);
     }
     
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesNeedingClosedEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("boolean sentParam, boolean enableParam, Enum notTypeParam");
-        q.setFilter("sentClosedEmail == sentParam && isClosingEmailEnabled == enableParam "
-                    + "&& feedbackSessionType != notTypeParam");
+        q.declareParameters("java.util.Date yesterday, boolean sentParam, boolean enableParam");
+        q.setFilter("endTime > yesterday && sentClosedEmail == sentParam && isClosingEmailEnabled == enableParam");
         
-        return (List<FeedbackSession>) q.execute(false, true, FeedbackSessionType.PRIVATE);
+        Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
+        
+        return (List<FeedbackSession>) q.execute(d, false, true);
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentPublishedEmail() {
+    private List<FeedbackSession> getFeedbackSessionEntitiesNeedingPublishedEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("boolean sentParam, Enum notTypeParam");
-        q.setFilter("sentPublishedEmail == sentParam && feedbackSessionType != notTypeParam");
+        q.declareParameters("boolean sentParam, boolean enableParam, Enum notTypeParam");
+        q.setFilter("sentPublishedEmail == sentParam && isPublishedEmailEnabled == enableParam "
+                    + "&& feedbackSessionType != notTypeParam");
         
-        return (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
+        return (List<FeedbackSession>) q.execute(false, true, FeedbackSessionType.PRIVATE);
     }
     
     private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {

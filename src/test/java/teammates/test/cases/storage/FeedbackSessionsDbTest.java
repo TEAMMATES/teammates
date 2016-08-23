@@ -180,7 +180,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");
         
-        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentOpenEmail();
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsNeedingOpenEmail();
         
         assertEquals(2, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
@@ -193,7 +193,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");
         
-        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsNeedingPublishedEmail();
         
         assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {

@@ -1098,14 +1098,13 @@ public class FeedbackSessionsLogic {
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
+                fsDb.getFeedbackSessionsNeedingPublishedEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
                 new ArrayList<FeedbackSessionAttributes>();
 
         for (FeedbackSessionAttributes session : sessions) {
             // automated emails are required only for custom publish times
-            if (session.isPublished() && session.isPublishedEmailEnabled()
-                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
+            if (session.isPublished() && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1114,12 +1113,12 @@ public class FeedbackSessionsLogic {
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsWithUnsentOpenEmail();
+                fsDb.getFeedbackSessionsNeedingOpenEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
                 new ArrayList<FeedbackSessionAttributes>();
 
         for (FeedbackSessionAttributes session : sessions) {
-            if (session.isOpened()) {
+            if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE && session.isOpened()) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1626,7 +1625,8 @@ public class FeedbackSessionsLogic {
                 fsDb.getFeedbackSessionsNeedingClosingEmail();
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
-            if (session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)) {
+            if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE
+                    && session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)) {
                 requiredSessions.add(session);
             }
         }
@@ -1644,7 +1644,8 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
             // is session closed in the past 1 hour
-            if (session.isClosedWithinPastHour()) {
+            if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE
+                    && session.isClosedWithinPastHour()) {
                 requiredSessions.add(session);
             }
         }
