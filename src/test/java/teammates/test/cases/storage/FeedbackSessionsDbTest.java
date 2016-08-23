@@ -100,8 +100,10 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         testGetFeedbackSessions();
         testGetFeedbackSessionsForCourse();
-        testGetFeedbackSessionsWithUnsentOpenEmail();
-        testGetFeedbackSessionsWithUnsentPublishedEmail();
+        testGetFeedbackSessionsNeedingOpenEmail();
+        testGetFeedbackSessionsNeedingClosingEmail();
+        testGetFeedbackSessionsNeedingClosedEmail();
+        testGetFeedbackSessionsNeedingPublishedEmail();
     }
     
     private void testGetFeedbackSessions() {
@@ -176,20 +178,48 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());
     }
     
-    private void testGetFeedbackSessionsWithUnsentOpenEmail() {
+    private void testGetFeedbackSessionsNeedingOpenEmail() {
         
         ______TS("standard success case");
         
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsNeedingOpenEmail();
         
-        assertEquals(2, fsaList.size());
+        assertEquals(1, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentOpenEmail());
         }
         
     }
     
-    private void testGetFeedbackSessionsWithUnsentPublishedEmail() {
+    private void testGetFeedbackSessionsNeedingClosingEmail() {
+        
+        ______TS("standard success case");
+        
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsNeedingClosingEmail();
+        
+        assertEquals(6, fsaList.size());
+        for (FeedbackSessionAttributes fsa : fsaList) {
+            assertFalse(fsa.isSentClosingEmail());
+            assertTrue(fsa.isClosingEmailEnabled());
+        }
+        
+    }
+    
+    private void testGetFeedbackSessionsNeedingClosedEmail() {
+        
+        ______TS("standard success case");
+        
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsNeedingClosedEmail();
+        
+        assertEquals(6, fsaList.size());
+        for (FeedbackSessionAttributes fsa : fsaList) {
+            assertFalse(fsa.isSentClosedEmail());
+            assertTrue(fsa.isClosingEmailEnabled());
+        }
+        
+    }
+    
+    private void testGetFeedbackSessionsNeedingPublishedEmail() {
         
         ______TS("standard success case");
         
@@ -198,6 +228,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentPublishedEmail());
+            assertTrue(fsa.isPublishedEmailEnabled());
         }
         
     }
