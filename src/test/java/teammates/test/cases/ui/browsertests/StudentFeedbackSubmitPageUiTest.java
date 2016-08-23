@@ -224,8 +224,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
                                                 "SFSubmitUiT.alice.b@gmail.tmt",
                                                 "SFSubmitUiT.benny.c@gmail.tmt"));
-        submitPage.uncheckSendConfirmationEmailCheckbox();
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
 
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
@@ -263,8 +262,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(7, 1, "Algo");
         submitPage.chooseMcqOption(7, 1, "Algo"); // toggle 'Algo' radio option
 
-        submitPage.uncheckSendConfirmationEmailCheckbox();
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
 
         assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(), aliceTeam, "Team 3"));
 
@@ -340,8 +338,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                 aliceTeam,
                                                 "Team 3"));
 
-        submitPage.uncheckSendConfirmationEmailCheckbox();
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
 
         //check new response
         fqPartial = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 4);
@@ -450,8 +447,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqConstSum.getId(), "drop.out@gmail.tmt", "drop.out@gmail.tmt"));
         assertNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.charlie.d@gmail.tmt"));
 
-        submitPage.uncheckSendConfirmationEmailCheckbox();
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPagePartiallyFilled.html");
 
@@ -474,8 +470,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "");
         submitPage.fillResponseTextBox(14, 0, "0");
-        submitPage.uncheckSendConfirmationEmailCheckbox();
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         FeedbackQuestionAttributes fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
@@ -492,8 +487,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // adjusted value should be 5
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "50000");
-        submitPage.uncheckSendConfirmationEmailCheckbox();
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
@@ -512,8 +506,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
          */
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "-99999");
-        submitPage.uncheckSendConfirmationEmailCheckbox();
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
@@ -530,8 +523,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
             // We need the final response value for this particular question to be "5"
             submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
             submitPage.fillResponseTextBox(14, 0, "5");
-            submitPage.uncheckSendConfirmationEmailCheckbox();
-            submitPage.clickSubmitButton();
+            submitPage.submitWithoutConfirmationEmail();
             submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
 
@@ -540,8 +532,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.selectRecipient(2, 2, "");
         submitPage.fillResponseTextBox(2, 2, "Response to no recipient");
-        submitPage.uncheckSendConfirmationEmailCheckbox();
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus("You did not specify a recipient for your response in question(s) 2.");
     }
 
@@ -599,8 +590,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqRubric.getId(),
                                         "drop.out@gmail.tmt",
                                         "SFSubmitUiT.charlie.d@gmail.tmt"));
-        submitPage.uncheckSendConfirmationEmailCheckbox();
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
         assertEquals("[-1, 1]", BackDoor.getFeedbackResponse(fqRubric.getId(),
                                         "drop.out@gmail.tmt",
                                         "SFSubmitUiT.danny.e@gmail.tmt").getResponseDetails().getAnswerString());
