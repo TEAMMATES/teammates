@@ -543,8 +543,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesNeedingOpenEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("java.util.Date yesterday, boolean sentParam");
-        q.setFilter("startTime > yesterday && sentOpenEmail == sentParam");
+        q.declareParameters("java.util.Date startTimeParam, boolean sentParam");
+        q.setFilter("startTime > startTimeParam && sentOpenEmail == sentParam");
         
         Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
         
@@ -554,8 +554,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesNeedingClosingEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("java.util.Date yesterday, boolean sentParam, boolean enableParam");
-        q.setFilter("endTime > yesterday && sentClosingEmail == sentParam && isClosingEmailEnabled == enableParam");
+        q.declareParameters("java.util.Date startTimeParam, boolean sentParam, boolean enableParam");
+        q.setFilter("endTime > startTimeParam && sentClosingEmail == sentParam && isClosingEmailEnabled == enableParam");
         
         Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
         
@@ -565,8 +565,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesNeedingClosedEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("java.util.Date yesterday, boolean sentParam, boolean enableParam");
-        q.setFilter("endTime > yesterday && sentClosedEmail == sentParam && isClosingEmailEnabled == enableParam");
+        q.declareParameters("java.util.Date startTimeParam, boolean sentParam, boolean enableParam");
+        q.setFilter("endTime > startTimeParam && sentClosedEmail == sentParam && isClosingEmailEnabled == enableParam");
         
         Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
         
