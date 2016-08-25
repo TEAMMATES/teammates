@@ -37,9 +37,5 @@ public class AppUrl extends Url {
     public AppUrl withInstructorId(String instructorId) {
         return withParam(Const.ParamsNames.INSTRUCTOR_ID, instructorId);
     }
-    
-    public AppUrl withDownloadType(String downloadType) {
-        return withParam(Const.ParamsNames.FEEDBACK_RESULTS_DOWNLOAD_TYPE, downloadType);
-    }
 
 }

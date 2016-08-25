@@ -562,11 +562,6 @@ public final class Const {
         public static final String RQG_SORT_TYPE = "recipient-question-giver";
     }
 
-    public class FeedbackSessionResultsDownloadTypes {
-        public static final String XLSX = "xlsx";
-        public static final String CSV = "csv";
-    }
-    
     public class InstructorPermissionRoleNames {
         public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
         public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
@@ -746,7 +741,6 @@ public final class Const {
         public static final String FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES = "frindicatemissingresponses";
         public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";
         public static final String FEEDBACK_RESULTS_MAIN_INDEX = "frmainindex";
-        public static final String FEEDBACK_RESULTS_DOWNLOAD_TYPE = "frdownloadtype";
 
         public static final String PREVIEWAS = "previewas";
         
