@@ -746,6 +746,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.enableVisibilityOptions(1);
         feedbackEditPage.clickGiverNameVisibilityCheckBox("STUDENTS", 1);
+        WebElement visibilityMessage1 = browser.driver.findElement(By.id("visibilityMessage-1"));
+        feedbackEditPage.waitForElementVisibility(visibilityMessage1);
         assertTrue("Visibility message does not correspond to visibility options",
                    feedbackEditPage.getVisibilityMessage(1).contains("Other students in the course can see your response, "
                                                                      + "and your name, but not the name of the recipient"));
@@ -907,20 +909,20 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectRecipientsToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
 
+        ______TS("preview as instructor");
+
+        feedbackEditPage.waitForElementPresence(By.id("button_preview_instructor"));
+        FeedbackSubmitPage previewPage = feedbackEditPage.clickPreviewAsInstructorButton();
+        previewPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePreview.html");
+        previewPage.closeCurrentWindowAndSwitchToParentWindow();
+
         ______TS("preview as student");
 
-        FeedbackSubmitPage previewPage;
+        feedbackEditPage.waitForElementPresence(By.id("button_preview_student"));
         previewPage = feedbackEditPage.clickPreviewAsStudentButton();
         previewPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePreview.html");
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
-        
-        ______TS("preview as instructor");
-
-        previewPage.waitForElementPresence(By.id("button_preview_instructor"));
-        previewPage = feedbackEditPage.clickPreviewAsInstructorButton();
-        previewPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePreview.html");
-        previewPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
     private void testDoneEditingLink() {
