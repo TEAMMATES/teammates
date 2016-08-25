@@ -173,7 +173,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             removeRespondant();
         }
                
-        if (isSendEmail) {
+        boolean isSendSubmissionEmail = getRequestParamAsBoolean(Const.ParamsNames.SEND_SUBMISSION_EMAIL);
+        if (isSendEmail && isSendSubmissionEmail) {
             String user = account == null ? null : account.googleId;
             String unregisteredStudentEmail = student == null ? null : student.email;
             String unregisteredStudentRegisterationKey = student == null ? null : student.key;

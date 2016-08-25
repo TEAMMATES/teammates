@@ -805,6 +805,8 @@ public final class Const {
         public static final String COMMENT_ID = "commentid";
         public static final String COMMENT_TEXT = "commenttext";
         
+        public static final String SEND_SUBMISSION_EMAIL = "sendsubmissionemail";
+        
         //Submission parameters for Task Queue
         public static final String SUBMISSION_COURSE = "course";
         public static final String SUBMISSION_FEEDBACK = "feedback";
