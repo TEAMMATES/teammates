@@ -100,7 +100,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.clickStudentCheckBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchCommentsAsHelper.html");
+        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchCommentsAsHelper.html");
         
         searchPage = getInstructorSearchPage(instructorId);
         
@@ -110,13 +110,13 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchContent = "Course1 In student1";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentsForStudent1.html");
+        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent1.html");
         searchPage.clearSearchBox();
         searchContent = "In student2";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.clickAndHoverPicture("studentphoto-c0.1");
-        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentsForStudent2.html");
+        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent2.html");
     }
 
     private InstructorSearchPage getInstructorSearchPage(String instructorId) {
