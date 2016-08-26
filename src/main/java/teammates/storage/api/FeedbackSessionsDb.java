@@ -554,8 +554,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesNeedingClosingEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("java.util.Date startTimeParam, boolean sentParam, boolean enableParam");
-        q.setFilter("endTime > startTimeParam && sentClosingEmail == sentParam && isClosingEmailEnabled == enableParam");
+        q.declareParameters("java.util.Date endTimeParam, boolean sentParam, boolean enableParam");
+        q.setFilter("endTime > endTimeParam && sentClosingEmail == sentParam && isClosingEmailEnabled == enableParam");
         
         Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
         
@@ -565,8 +565,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesNeedingClosedEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("java.util.Date startTimeParam, boolean sentParam, boolean enableParam");
-        q.setFilter("endTime > startTimeParam && sentClosedEmail == sentParam && isClosingEmailEnabled == enableParam");
+        q.declareParameters("java.util.Date endTimeParam, boolean sentParam, boolean enableParam");
+        q.setFilter("endTime > endTimeParam && sentClosedEmail == sentParam && isClosingEmailEnabled == enableParam");
         
         Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
         
