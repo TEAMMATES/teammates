@@ -658,6 +658,18 @@ function clearStatusMessages() {
     $statusMessagesToUser.hide();
 }
 
+function addLoadingIndicator(button, loadingText) {
+    button.html(loadingText);
+    button.prop('disabled', true);
+    button.append('<img src="/images/ajax-loader.gif">');
+}
+
+function removeLoadingIndicator(button, displayText) {
+    button.empty();
+    button.html(displayText);
+    button.prop('disabled', false);
+}
+
 /**
  * Sanitize GoogleID by trimming space and '@gmail.com'
  * Used in instructorCourse, instructorCourseEdit, adminHome
