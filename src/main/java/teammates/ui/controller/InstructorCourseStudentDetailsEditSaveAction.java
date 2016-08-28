@@ -90,10 +90,10 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             setStatusForException(e);
             String newEmail = student.email;
             student.email = studentEmail;
-            boolean isAnyEmailSentForTheCourse = logic.isAnyEmailSentForTheCourse(courseId);
+            boolean isOpenOrPublishedEmailSentForTheCourse = logic.isOpenOrPublishedEmailSentForTheCourse(courseId);
             InstructorCourseStudentDetailsEditPageData data =
                     new InstructorCourseStudentDetailsEditPageData(account, student, newEmail, hasSection,
-                            isAnyEmailSentForTheCourse);
+                            isOpenOrPublishedEmailSentForTheCourse);
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
         }
         

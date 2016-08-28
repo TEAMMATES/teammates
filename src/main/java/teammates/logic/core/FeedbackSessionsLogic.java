@@ -212,7 +212,7 @@ public class FeedbackSessionsLogic {
      * @param userEmail
      * @return true if there is any email sent from the course.
      */
-    public boolean isAnyEmailSentForTheCourse(String courseId) {
+    public boolean isOpenOrPublishedEmailSentForTheCourse(String courseId) {
         List<FeedbackSessionAttributes> sessions = getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes session : sessions) {
@@ -1609,8 +1609,7 @@ public class FeedbackSessionsLogic {
             StudentAttributes student) throws EntityDoesNotExistException {
 
         try {
-            EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendAllLinksEmail(
-                    courseId, student);
+            EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendSummaryOfCourse(courseId, student);
             new EmailSender().sendEmail(email);
             return email;
         } catch (Exception e) {

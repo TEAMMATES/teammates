@@ -13,7 +13,7 @@ function readyInstructorStudentEditPage() {
     $(INSTRUCTOR_STUDENT_EDIT_FORM).on('submit', function(event) {
         
         var isEmailFieldChanged = $('#newstudentemail').val() !== $('#studentemail').val();
-        var isAnyEmailSentInThisCourse = $('#isAnyEmailSentForTheCourse').val();
+        var isAnyEmailSentInThisCourse = $('#isOpenOrPublishedEmailSentForTheCourse').val();
         
         if ($(INSTRUCTOR_STUDENT_EDIT_FORM).attr('editStatus') === 'mustDeleteResponses') {
             isSubmitFormForEditingTeamName = false;

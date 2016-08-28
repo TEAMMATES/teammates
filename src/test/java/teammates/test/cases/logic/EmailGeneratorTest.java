@@ -205,10 +205,10 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("send summary of all feedback sessions of course email");
         
-        EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendAllLinksEmail(
+        EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendSummaryOfCourse(
                 session.getCourseId(), student1);
 
-        subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName());
+        subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
         
         hasStudent1ReceivedEmail = false;
         

@@ -24,7 +24,6 @@ import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.Utils;
-import teammates.storage.api.FeedbackSessionsDb;
 
 /**
  * Handles operations related to generating emails to be sent from provided templates.
@@ -40,7 +39,6 @@ public class EmailGenerator {
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     
     /**
      * Generates the feedback session opening emails for the given {@code session}.
@@ -92,13 +90,12 @@ public class EmailGenerator {
      * Generates the summary of the feedback sessions (in which at least one
      * email has been sent to students) email for the given {@code courseId} for {@code student}
      */
-    public EmailWrapper generateFeedbackSessionResendAllLinksEmail(String courseId,
-            StudentAttributes student) {
+    public EmailWrapper generateFeedbackSessionResendSummaryOfCourse(String courseId, StudentAttributes student) {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
         
         List<FeedbackSessionAttributes> sessions = new ArrayList<FeedbackSessionAttributes>();
-        List<FeedbackSessionAttributes> fsInCourse = fsDb.getFeedbackSessionsForCourse(courseId);
+        List<FeedbackSessionAttributes> fsInCourse = fsLogic.getFeedbackSessionsForCourse(courseId);
         
         for (FeedbackSessionAttributes fsa : fsInCourse) {
             if (!fsa.isPrivateSession() && (fsa.isSentOpenEmail() || fsa.isSentPublishedEmail())) {
@@ -106,48 +103,39 @@ public class EmailGenerator {
             }
         }
         
-        String submitUrl = null;
-        String reportUrl = null;
-        
         StringBuffer linksFragmentValue = new StringBuffer(1000);
         String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
         
-        String joinFragmentValue = "";
-        
-        if (isYetToJoinCourse(student)) {
-            joinFragmentValue = Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
-                    "${joinUrl}", joinUrl,
-                    "${courseName}", course.getName());
-        }
+        String joinFragmentValue = isYetToJoinCourse(student)
+                                   ? Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
+                                           "${joinUrl}", joinUrl,
+                                           "${courseName}", course.getName())
+                                   : "";
         
         for (FeedbackSessionAttributes fsa : sessions) {
-            if (fsa.isOpened()) {
-                submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                        .withCourseId(course.getId())
-                        .withSessionName(fsa.getFeedbackSessionName())
-                        .withRegistrationKey(StringHelper.encrypt(student.key))
-                        .withStudentEmail(student.email)
-                        .toAbsoluteString();
-            } else {
-                submitUrl = "{Feedback session is closed}";
-            }
+            
+            String submitUrl = fsa.isOpened()
+                        ? Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                            .withCourseId(course.getId())
+                            .withSessionName(fsa.getFeedbackSessionName())
+                            .withRegistrationKey(StringHelper.encrypt(student.key))
+                            .withStudentEmail(student.email)
+                            .toAbsoluteString()
+                        : "(Feedback session is " + (fsa.isClosed() ? "closed" : "not yet opened") + ")";
 
-            if (fsa.isPublished()) {
-                reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-                        .withCourseId(course.getId())
-                        .withSessionName(fsa.getFeedbackSessionName())
-                        .withRegistrationKey(StringHelper.encrypt(student.key))
-                        .withStudentEmail(student.email)
-                        .toAbsoluteString();
-            } else {
-                reportUrl = "{Feedback session is unpublished}";
-            }
+            String reportUrl = fsa.isPublished()
+                        ? Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                                .withCourseId(course.getId())
+                                .withSessionName(fsa.getFeedbackSessionName())
+                                .withRegistrationKey(StringHelper.encrypt(student.key))
+                                .withStudentEmail(student.email)
+                                .toAbsoluteString()
+                        : "(Feedback session is not yet published)";
             
             linksFragmentValue.append(Templates.populateTemplate(
-                    EmailTemplates.USER_FEEDBACK_SESSION_FRAGMENT_RESEND_ALL_LINKS,
+                    EmailTemplates.FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS,
                     "${feedbackSessionName}", fsa.getFeedbackSessionName(),
-                    "${deadline}", fsa.isClosed() ? TimeHelper.formatTime12H(fsa.getEndTime())
-                                                            + " {Passed}"
+                    "${deadline}", fsa.isClosed() ? TimeHelper.formatTime12H(fsa.getEndTime()) + " (Passed)"
                                                   : TimeHelper.formatTime12H(fsa.getEndTime()),
                     "${submitUrl}", submitUrl,
                     "${reportUrl}", reportUrl));
@@ -163,7 +151,7 @@ public class EmailGenerator {
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
-        email.setSubject(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName()));
+        email.setSubject(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId()));
         email.setContent(emailBody);
 
         return email;

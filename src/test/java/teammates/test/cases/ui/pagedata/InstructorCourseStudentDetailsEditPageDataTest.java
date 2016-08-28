@@ -13,7 +13,7 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
 
     private StudentAttributes inputStudent;
     private boolean hasSection = true;
-    private boolean isAnyEmailSentForTheCourse;
+    private boolean isOpenOrPublishedEmailSentForTheCourse;
 
     @BeforeClass
     public static void classSetUp() {
@@ -46,7 +46,7 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
         createStudent(name, email);
         
         return new InstructorCourseStudentDetailsEditPageData(new AccountAttributes(), inputStudent, email,
-                hasSection, isAnyEmailSentForTheCourse);
+                hasSection, isOpenOrPublishedEmailSentForTheCourse);
     }
     
     protected void createStudent(String name, String email) {

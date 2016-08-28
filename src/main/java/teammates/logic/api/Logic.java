@@ -2118,9 +2118,9 @@ public class Logic {
         return feedbackResponsesLogic.isCourseHasResponses(courseId);
     }
     
-    public boolean isAnyEmailSentForTheCourse(String courseId) {
+    public boolean isOpenOrPublishedEmailSentForTheCourse(String courseId) {
         Assumption.assertNotNull(courseId);
-        return feedbackSessionsLogic.isAnyEmailSentForTheCourse(courseId);
+        return feedbackSessionsLogic.isOpenOrPublishedEmailSentForTheCourse(courseId);
     }
     
     /**

@@ -11,7 +11,7 @@
         <form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE%>" method="post" id="instructor-student-edit-form" class="form form-horizontal">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${studentInfoTable.course}">
             <input type="hidden" id="<%=Const.ParamsNames.EMAIL_SEND_CHECK%>" name="<%=Const.ParamsNames.EMAIL_SEND_CHECK%>" value="false">
-            <input type="hidden" id="isAnyEmailSentForTheCourse" name="isAnyEmailSentForTheCourse" value="${anyEmailSentForTheCourse}">
+            <input type="hidden" id="isOpenOrPublishedEmailSentForTheCourse" name="isOpenOrPublishedEmailSentForTheCourse" value="${openOrPublishedEmailSentForTheCourse}">
             <div class="form-group">
                 <label class="col-sm-1 control-label">Student Name:</label>
                 <div class="col-sm-11">
