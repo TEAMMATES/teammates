@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
@@ -44,11 +46,11 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
     }
     
     @Override
-    protected void doPostProcessingForSuccesfulSend() {
-        /* 
-         * Empty because no action is required on successful
-         * sending of feedback session closing mails
-         */
+    protected void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
+                .getFeedbackSession(feedbackSessionName, courseId);
+        feedbackObject.setSentClosingEmail(true);
+        FeedbackSessionsLogic.inst().updateFeedbackSession(feedbackObject);
     }
 
     @Override

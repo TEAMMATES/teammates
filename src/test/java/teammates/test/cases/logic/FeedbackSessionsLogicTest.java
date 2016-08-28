@@ -194,7 +194,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         session.setTimeZone(0);
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
+        session.setStartTime(TimeHelper.getHoursOffsetToCurrentTime(-47));
         session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
         session.setSentOpenEmail(false);
         fsLogic.createFeedbackSession(session);

@@ -37,6 +37,17 @@
   </retry-parameters>
 </queue>
 
+<queue>
+  <name>course-join-remind-email-queue</name>
+   <!-- Configuration allows for 5 course join reminder emails to be queued
+       when the bucket is not full
+  -->
+  <rate>5/s</rate>
+  <bucket-size>20</bucket-size> 
+  <retry-parameters>
+      <task-retry-limit>2</task-retry-limit>
+  </retry-parameters>
+</queue>
 
 <queue>  
   <name>feedback-submission-adjust-queue</name>  
