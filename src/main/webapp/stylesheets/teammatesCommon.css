@@ -671,11 +671,6 @@ Apply to thead to make headers not bold.
     vertical-align: middle;
 }
 
-.download-type-list {
-	margin: -60%;
-	cursor: pointer;
-}
-
 /* used on the div/td that contains the img */
 .profile-pic-icon-hover,
 .profile-pic-icon-click {
