@@ -84,7 +84,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(2));
         session1.setEndTime(TimeHelper.getDateOffsetToCurrentTime(3));
         fsLogic.updateFeedbackSession(session1);
-        session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
+        session1.setStartTime(TimeHelper.getHoursOffsetToCurrentTime(-47));
         fsLogic.updateFeedbackSession(session1);
         verifyPresentInDatastore(session1);
         
@@ -98,7 +98,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         session2.setEndTime(TimeHelper.getDateOffsetToCurrentTime(3));
         session2.setOpeningEmailEnabled(false);
         fsLogic.updateFeedbackSession(session2);
-        session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
+        session2.setStartTime(TimeHelper.getHoursOffsetToCurrentTime(-47));
         fsLogic.updateFeedbackSession(session2);
         verifyPresentInDatastore(session2);
         
@@ -140,7 +140,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         session2.setEndTime(TimeHelper.getDateOffsetToCurrentTime(3));
         session2.setOpeningEmailEnabled(false);
         fsLogic.updateFeedbackSession(session2);
-        session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
+        session2.setStartTime(TimeHelper.getHoursOffsetToCurrentTime(-47));
         fsLogic.updateFeedbackSession(session2);
         
         int course1StudentCount = 5;
