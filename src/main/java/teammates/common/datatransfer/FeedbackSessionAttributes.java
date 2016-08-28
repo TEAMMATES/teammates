@@ -33,6 +33,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     private int gracePeriod;
     private FeedbackSessionType feedbackSessionType;
     private boolean sentOpenEmail;
+    private boolean sentClosingEmail;
+    private boolean sentClosedEmail;
     private boolean sentPublishedEmail;
     private boolean isOpeningEmailEnabled;
     private boolean isClosingEmailEnabled;
@@ -62,6 +64,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.gracePeriod = fs.getGracePeriod();
         this.feedbackSessionType = fs.getFeedbackSessionType();
         this.sentOpenEmail = fs.isSentOpenEmail();
+        this.sentClosingEmail = fs.isSentClosingEmail();
+        this.sentClosedEmail = fs.isSentClosedEmail();
         this.sentPublishedEmail = fs.isSentPublishedEmail();
         this.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
         this.isClosingEmailEnabled = fs.isClosingEmailEnabled();
@@ -76,20 +80,22 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                      Text instructions, Date createdTime, Date startTime, Date endTime,
                                      Date sessionVisibleFromTime, Date resultsVisibleFromTime,
                                      double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
-                                     boolean sentOpenEmail, boolean sentPublishedEmail,
+                                     boolean sentOpenEmail, boolean sentClosingEmail,
+                                     boolean sentClosedEmail, boolean sentPublishedEmail,
                                      boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
                                      boolean isPublishedEmailEnabled) {
         this(feedbackSessionName, courseId, creatorId, instructions, createdTime, startTime, endTime,
              sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
-             sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
-             new HashSet<String>(), new HashSet<String>());
+             sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
+             isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId,
                                      Text instructions, Date createdTime, Date startTime, Date endTime,
                                      Date sessionVisibleFromTime, Date resultsVisibleFromTime,
                                      double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
-                                     boolean sentOpenEmail, boolean sentPublishedEmail,
+                                     boolean sentOpenEmail, boolean sentClosingEmail,
+                                     boolean sentClosedEmail, boolean sentPublishedEmail,
                                      boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
                                      boolean isPublishedEmailEnabled, Set<String> instructorList,
                                      Set<String> studentList) {
@@ -107,6 +113,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.gracePeriod = gracePeriod;
         this.feedbackSessionType = feedbackSessionType;
         this.sentOpenEmail = sentOpenEmail;
+        this.sentClosingEmail = sentClosingEmail;
+        this.sentClosedEmail = sentClosedEmail;
         this.sentPublishedEmail = sentPublishedEmail;
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
@@ -120,7 +128,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             other.instructions, other.createdTime, other.startTime, other.endTime,
             other.sessionVisibleFromTime, other.resultsVisibleFromTime, other.timeZone,
             other.gracePeriod, other.feedbackSessionType,
-            other.sentOpenEmail, other.sentPublishedEmail,
+            other.sentOpenEmail, other.sentClosingEmail, other.sentClosedEmail, other.sentPublishedEmail,
             other.isOpeningEmailEnabled, other.isClosingEmailEnabled,
             other.isPublishedEmailEnabled, other.respondingInstructorList,
             other.respondingStudentList);
@@ -154,7 +162,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     public FeedbackSession toEntity() {
         return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions, createdTime,
                                    startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                                   timeZone, gracePeriod, feedbackSessionType, sentOpenEmail, sentPublishedEmail,
+                                   timeZone, gracePeriod, feedbackSessionType, sentOpenEmail,
+                                   sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                                    isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
                                    respondingInstructorList, respondingStudentList);
     }
@@ -293,6 +302,24 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         return getInvalidityInfo().isEmpty();
     }
 
+    public boolean isClosedAfter(int hours) {
+        Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        // Fix the time zone accordingly
+        now.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
+
+        Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        start.setTime(startTime);
+
+        Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        deadline.setTime(endTime);
+
+        long nowMillis = now.getTimeInMillis();
+        long deadlineMillis = deadline.getTimeInMillis();
+        long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
+
+        return now.after(start) && differenceBetweenDeadlineAndNow < hours;
+    }
+    
     public boolean isClosingWithinTimeLimit(int hours) {
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         // Fix the time zone accordingly
@@ -639,6 +666,22 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     public void setSentOpenEmail(boolean sentOpenEmail) {
         this.sentOpenEmail = sentOpenEmail;
+    }
+
+    public boolean isSentClosingEmail() {
+        return sentClosingEmail;
+    }
+
+    public void setSentClosingEmail(boolean sentClosingEmail) {
+        this.sentClosingEmail = sentClosingEmail;
+    }
+
+    public boolean isSentClosedEmail() {
+        return sentClosedEmail;
+    }
+
+    public void setSentClosedEmail(boolean sentClosedEmail) {
+        this.sentClosedEmail = sentClosedEmail;
     }
 
     public boolean isSentPublishedEmail() {

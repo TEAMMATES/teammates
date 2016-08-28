@@ -853,7 +853,7 @@ public class FeedbackSessionsLogic {
             String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
-        long indicatedRange = (section == null) ? 10000 : -1;
+        long indicatedRange = (section == null) ? 2000 : -1;
         FeedbackSessionResultsBundle results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,
                 indicatedRange, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
@@ -1100,14 +1100,13 @@ public class FeedbackSessionsLogic {
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
+                fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
                 new ArrayList<FeedbackSessionAttributes>();
 
         for (FeedbackSessionAttributes session : sessions) {
             // automated emails are required only for custom publish times
-            if (session.isPublished() && session.isPublishedEmailEnabled()
-                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
+            if (session.isPublished() && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1116,12 +1115,12 @@ public class FeedbackSessionsLogic {
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsWithUnsentOpenEmail();
+                fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
                 new ArrayList<FeedbackSessionAttributes>();
 
         for (FeedbackSessionAttributes session : sessions) {
-            if (session.isOpened()) {
+            if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE && session.isOpened()) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1664,12 +1663,12 @@ public class FeedbackSessionsLogic {
         ArrayList<FeedbackSessionAttributes> requiredSessions = new
                 ArrayList<FeedbackSessionAttributes>();
 
-        List<FeedbackSessionAttributes> nonPrivateSessions = fsDb
-                .getNonPrivateFeedbackSessions();
+        List<FeedbackSessionAttributes> nonPrivateSessions =
+                fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
-            if (session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
-                    && session.isClosingEmailEnabled()) {
+            if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE
+                    && session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)) {
                 requiredSessions.add(session);
             }
         }
@@ -1682,11 +1681,13 @@ public class FeedbackSessionsLogic {
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
         List<FeedbackSessionAttributes> requiredSessions = new ArrayList<FeedbackSessionAttributes>();
-        List<FeedbackSessionAttributes> nonPrivateSessions = fsDb.getNonPrivateFeedbackSessions();
+        List<FeedbackSessionAttributes> nonPrivateSessions =
+                fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
-            if (session.isClosedWithinPastHour() // is session closed in the past 1 hour
-                    && session.isClosingEmailEnabled()) {
+            // is session closed in the past 1 hour
+            if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE
+                    && session.isClosedWithinPastHour()) {
                 requiredSessions.add(session);
             }
         }
@@ -2681,22 +2682,27 @@ public class FeedbackSessionsLogic {
     private void makeEmailStateConsistent(FeedbackSessionAttributes oldSession,
             FeedbackSessionAttributes newSession) {
 
-        // reset sentOpenEmail if the session has opened but is being closed
-        // now.
-        if (oldSession.isSentOpenEmail() && !newSession.isOpened()) {
-            newSession.setSentOpenEmail(false);
-        } else if (oldSession.isSentOpenEmail()) {
-            // or else leave it as sent if so.
-            newSession.setSentOpenEmail(true);
+        // reset sentOpenEmail if the session has opened but is being un-opened
+        // now, or else leave it as sent if so.
+        if (oldSession.isSentOpenEmail()) {
+            newSession.setSentOpenEmail(newSession.isOpened());
+        }
+
+        // reset sentClosedEmail if the session has closed but is being un-closed
+        // now, or else leave it as sent if so.
+        if (oldSession.isSentClosedEmail()) {
+            newSession.setSentClosedEmail(newSession.isClosed());
+            
+            // also reset sentClosingEmail
+            newSession.setSentClosingEmail(
+                    newSession.isClosed()
+                    || !newSession.isClosedAfter(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
         }
 
         // reset sentPublishedEmail if the session has been published but is
-        // going to be unpublished now.
-        if (oldSession.isSentPublishedEmail() && !newSession.isPublished()) {
-            newSession.setSentPublishedEmail(false);
-        } else if (oldSession.isSentPublishedEmail()) {
-            // or else leave it as sent if so.
-            newSession.setSentPublishedEmail(true);
+        // going to be unpublished now, or else leave it as sent if so.
+        if (oldSession.isSentPublishedEmail()) {
+            newSession.setSentPublishedEmail(newSession.isPublished());
         }
     }
 

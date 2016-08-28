@@ -680,8 +680,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
                                                   .withUserId("CFResultsUiT.instr")
                                                   .withCourseId("CFResultsUiT.CS2104")
-                                                  .withSessionName("First Session")
-                                                  .withDownloadType("csv");
+                                                  .withSessionName("First Session");
 
         resultsPage.verifyDownloadLink(reportUrl);
 
