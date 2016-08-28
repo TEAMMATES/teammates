@@ -173,7 +173,8 @@ public final class HtmlHelper {
                 Node attribute = attributes.item(i);
                 if (isTinymceStyleAttribute(attribute)) {
                     // the style definition differs across browsers; replace with placeholder
-                    return generateTinymceStylePlaceholder(indentation);
+                    // return generateTinymceStylePlaceholder(indentation);
+                    return ignoreNode();
                 }
             }
         }
@@ -193,9 +194,9 @@ public final class HtmlHelper {
         return indentation + "${timezone.options}\n";
     }
     
-    private static String generateTinymceStylePlaceholder(String indentation) {
-        return indentation + "${tinymce.style}\n";
-    }
+    // private static String generateTinymceStylePlaceholder(String indentation) {
+    //     return indentation + "${tinymce.style}\n";
+    // }
     
     private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
         StringBuilder currentHtmlText = new StringBuilder();
