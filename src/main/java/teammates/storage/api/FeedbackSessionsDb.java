@@ -170,13 +170,11 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
         
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
      * @return An empty list if no sessions are found that have unsent open emails.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsNeedingOpenEmail() {
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpenEmail() {
                 
-        List<FeedbackSession> fsList = getFeedbackSessionEntitiesNeedingOpenEmail();
+        List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingOpenEmail();
         List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
         
         for (FeedbackSession fs : fsList) {
@@ -190,9 +188,9 @@ public class FeedbackSessionsDb extends EntitiesDb {
     /**
      * @return An empty list if no sessions are found that have unsent closing emails.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsNeedingClosingEmail() {
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosingEmail() {
                 
-        List<FeedbackSession> fsList = getFeedbackSessionEntitiesNeedingClosingEmail();
+        List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingClosingEmail();
         List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
         
         for (FeedbackSession fs : fsList) {
@@ -206,9 +204,9 @@ public class FeedbackSessionsDb extends EntitiesDb {
     /**
      * @return An empty list if no sessions are found that have unsent closed emails.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsNeedingClosedEmail() {
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosedEmail() {
                 
-        List<FeedbackSession> fsList = getFeedbackSessionEntitiesNeedingClosedEmail();
+        List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingClosedEmail();
         List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
         
         for (FeedbackSession fs : fsList) {
@@ -220,13 +218,11 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
     
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
      * @return An empty list if no sessions are found that have unsent published emails.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsNeedingPublishedEmail() {
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingPublishedEmail() {
         
-        List<FeedbackSession> fsList = getFeedbackSessionEntitiesNeedingPublishedEmail();
+        List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail();
         List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
         
         for (FeedbackSession fs : fsList) {
@@ -541,40 +537,43 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesNeedingOpenEmail() {
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("java.util.Date startTimeParam, boolean sentParam");
         q.setFilter("startTime > startTimeParam && sentOpenEmail == sentParam");
         
+        // only get sessions with startTime within the past two days to reduce the number of sessions returned
         Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
         
         return (List<FeedbackSession>) q.execute(d, false);
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesNeedingClosingEmail() {
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("java.util.Date endTimeParam, boolean sentParam, boolean enableParam");
         q.setFilter("endTime > endTimeParam && sentClosingEmail == sentParam && isClosingEmailEnabled == enableParam");
         
+        // only get sessions with endTime within the past two days to reduce the number of sessions returned
         Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
         
         return (List<FeedbackSession>) q.execute(d, false, true);
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesNeedingClosedEmail() {
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("java.util.Date endTimeParam, boolean sentParam, boolean enableParam");
         q.setFilter("endTime > endTimeParam && sentClosedEmail == sentParam && isClosingEmailEnabled == enableParam");
         
+        // only get sessions with endTime within the past two days to reduce the number of sessions returned
         Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
         
         return (List<FeedbackSession>) q.execute(d, false, true);
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesNeedingPublishedEmail() {
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("boolean sentParam, boolean enableParam, Enum notTypeParam");
         q.setFilter("sentPublishedEmail == sentParam && isPublishedEmailEnabled == enableParam "

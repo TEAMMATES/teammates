@@ -1098,7 +1098,7 @@ public class FeedbackSessionsLogic {
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsNeedingPublishedEmail();
+                fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
                 new ArrayList<FeedbackSessionAttributes>();
 
@@ -1113,7 +1113,7 @@ public class FeedbackSessionsLogic {
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsNeedingOpenEmail();
+                fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
                 new ArrayList<FeedbackSessionAttributes>();
 
@@ -1622,7 +1622,7 @@ public class FeedbackSessionsLogic {
                 ArrayList<FeedbackSessionAttributes>();
 
         List<FeedbackSessionAttributes> nonPrivateSessions =
-                fsDb.getFeedbackSessionsNeedingClosingEmail();
+                fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
             if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE
@@ -1640,7 +1640,7 @@ public class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
         List<FeedbackSessionAttributes> requiredSessions = new ArrayList<FeedbackSessionAttributes>();
         List<FeedbackSessionAttributes> nonPrivateSessions =
-                fsDb.getFeedbackSessionsNeedingClosedEmail();
+                fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
             // is session closed in the past 1 hour
