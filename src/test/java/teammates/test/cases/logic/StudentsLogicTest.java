@@ -648,7 +648,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                 TimeHelper.getHoursOffsetToCurrentTime(0), TimeHelper.getHoursOffsetToCurrentTime(2),
                 TimeHelper.getHoursOffsetToCurrentTime(5), TimeHelper.getHoursOffsetToCurrentTime(1),
                 TimeHelper.getHoursOffsetToCurrentTime(6),
-                8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false);
+                8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false, false, false);
         fsLogic.createFeedbackSession(fsAttr);
         
         

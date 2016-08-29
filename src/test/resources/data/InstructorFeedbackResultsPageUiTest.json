@@ -1133,6 +1133,33 @@
                 "STUDENTS",
                 "RECEIVER"
             ]
+        },
+        "qn11InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"This is a dummy question to test default sort"
+            },
+            "questionNumber":"11",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":3,
+            "showResponsesTo":[
+                "INSTRUCTORS",
+                "RECEIVER",
+                "STUDENTS",
+                "OWN_TEAM_MEMBERS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS",
+                "OWN_TEAM_MEMBERS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ]
         }
     },
     "feedbackResponses":{
@@ -1602,6 +1629,45 @@
             "recipient":"CFResultsUiT.benny.c@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 120}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "response21":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"11",
+            "feedbackQuestionType":"TEXT",
+            "giver":"CFResultsUiT.alice.b@gmail.tmt",
+            "giverSection":"Section A",
+            "recipient":"CFResultsUiT.fred.g@gmail.tmt",
+            "recipientSection":"Section A",
+            "responseMetaData":{
+                "value":"Alice to Danny."
+            }
+        },
+        "response22":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"11",
+            "feedbackQuestionType":"TEXT",
+            "giver":"CFResultsUiT.danny.e@gmail.tmt",
+            "recipient":"CFResultsUiT.fred.g@gmail.tmt",
+            "responseMetaData":{
+                "value":"Benny to Danny."
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "response23":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"11",
+            "feedbackQuestionType":"TEXT",
+            "giver":"CFResultsUiT.fred.g@gmail.tmt",
+            "recipient":"CFResultsUiT.alice.b@gmail.tmt",
+            "responseMetaData":{
+                "value":"Danny to Alice."
             },
             "giverSection":"Section A",
             "recipientSection":"Section A"

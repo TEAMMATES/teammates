@@ -63,32 +63,15 @@
           <div class="col-sm-4 col-lg-2">
             <div class="form-group">
               <div class="col-md-12">
-                <form action="/page/instructorFeedbackResultsDownload" id="download-form" method="post">
+                <form action="/page/instructorFeedbackResultsDownload" method="post">
                   <div id="feedbackDataButtons">
-                    <button class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" id="button_download" name="fruploaddownloadbtn" type="submit">
-                      Download Results
-                      <span class="caret">
-                      </span>
-                    </button>
-                    <ul class="dropdown-menu download-type-list" id="download-result-dropdown">
-                      <li data-downloadtype="csv">
-                        <a>
-                          As spreadsheet without formatting (.csv file)
-                        </a>
-                      </li>
-                      <li data-downloadtype="xlsx">
-                        <a>
-                          As normal spreadsheet (.xlsx file)
-                        </a>
-                      </li>
-                    </ul>
+                    <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results">
                   </div>
                   <input name="user" type="hidden" value="CFResultsUiT.instr">
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
                   <input id="filterTextForDownload" name="filtertext" type="hidden">
-                  <input id="downloadType" name="frdownloadtype" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
@@ -396,10 +379,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Instructors
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Teammates Test
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -931,10 +914,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 2
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Drop out
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1006,10 +989,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1178,10 +1161,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1350,10 +1333,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1484,10 +1467,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1611,10 +1594,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1627,6 +1610,81 @@
                                       <input name="fsname" type="hidden" value="First Session">
                                       <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                                    </form>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        Question 11:
+                        <span class="text-preserve-space">
+                          This is a dummy question to test default sort
+                        </span>
+                      </div>
+                      <div>
+                        <div class="panel-body padding-0">
+                          <div class="resultStatistics">
+                          </div>
+                          <div class="table-responsive">
+                            <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                              <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                  <th>
+                                    Photo
+                                  </th>
+                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                    Team
+                                    <span class="icon-sort unsorted">
+                                    </span>
+                                  </th>
+                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                    Giver
+                                    <span class="icon-sort unsorted">
+                                    </span>
+                                  </th>
+                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                    Feedback
+                                    <span class="icon-sort unsorted">
+                                    </span>
+                                  </th>
+                                  <th class="action-header">
+                                    Actions
+                                  </th>
+                                </tr>
+                              </thead>
+                              <thead>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="middlealign">
+                                    <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                      <a class="student-profile-pic-view-link btn-link">
+                                        View Photo
+                                      </a>
+                                      <img alt="No Image Given" class="hidden" src="">
+                                    </div>
+                                  </td>
+                                  <td class="word-wrap-break middlealign">
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                                  </td>
+                                  <td class="word-wrap-break middlealign">
+                                    Fred Gabriel
+                                  </td>
+                                  <td class="word-wrap-break text-preserve-space">
+                                    Danny to Alice.
+                                  </td>
+                                  <td>
+                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                      <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                      <input name="fsname" type="hidden" value="First Session">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                      <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
                                     </form>
                                   </td>
                                 </tr>
@@ -1711,10 +1769,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1739,10 +1797,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 2
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Drop out
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1837,10 +1895,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Benny Charles
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1864,7 +1922,7 @@
                   </div>
                 </div>
               </div>
-              <div class="panel panel-default">
+              <div class="panel panel-primary">
                 <div class="panel-heading" data-target="#panelBodyCollapse-1-4" id="panelHeading-1-4" style="cursor: pointer;">
                   To:
                   <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -1872,7 +1930,7 @@
                       Fred Gabriel
                     </strong>
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    <a href="mailto:CFResultsUiT.fred.g@gmail.tmt">
+                    <a class="link-in-dark-bg" href="mailto:CFResultsUiT.fred.g@gmail.tmt">
                       [CFResultsUiT.fred.g@gmail.tmt]
                     </a>
                   </div>
@@ -1886,9 +1944,109 @@
                 </div>
                 <div class="panel-collapse collapse in" id="panelBodyCollapse-1-4">
                   <div class="panel-body">
-                    <i>
-                      There are no responses received by this user or you may not have the permission to see the response
-                    </i>
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        Question 11:
+                        <span class="text-preserve-space">
+                          This is a dummy question to test default sort
+                        </span>
+                      </div>
+                      <div>
+                        <div class="panel-body padding-0">
+                          <div class="resultStatistics">
+                          </div>
+                          <div class="table-responsive">
+                            <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                              <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                  <th>
+                                    Photo
+                                  </th>
+                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                    Team
+                                    <span class="icon-sort unsorted">
+                                    </span>
+                                  </th>
+                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                    Giver
+                                    <span class="icon-sort unsorted">
+                                    </span>
+                                  </th>
+                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                    Feedback
+                                    <span class="icon-sort unsorted">
+                                    </span>
+                                  </th>
+                                  <th class="action-header">
+                                    Actions
+                                  </th>
+                                </tr>
+                              </thead>
+                              <thead>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="middlealign">
+                                    <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                      <a class="student-profile-pic-view-link btn-link">
+                                        View Photo
+                                      </a>
+                                      <img alt="No Image Given" class="hidden" src="">
+                                    </div>
+                                  </td>
+                                  <td class="word-wrap-break middlealign">
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                                  </td>
+                                  <td class="word-wrap-break middlealign">
+                                    Alice Betsy&lt;/td&gt;'"
+                                  </td>
+                                  <td class="word-wrap-break text-preserve-space">
+                                    Alice to Danny.
+                                  </td>
+                                  <td>
+                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                      <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                      <input name="fsname" type="hidden" value="First Session">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                      <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                                    </form>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="middlealign">
+                                    <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                      <a class="student-profile-pic-view-link btn-link">
+                                        View Photo
+                                      </a>
+                                      <img alt="No Image Given" class="hidden" src="">
+                                    </div>
+                                  </td>
+                                  <td class="word-wrap-break middlealign">
+                                    Team 2
+                                  </td>
+                                  <td class="word-wrap-break middlealign">
+                                    Danny Engrid
+                                  </td>
+                                  <td class="word-wrap-break text-preserve-space">
+                                    Benny to Danny.
+                                  </td>
+                                  <td>
+                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                      <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                      <input name="fsname" type="hidden" value="First Session">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                      <input name="moderatedperson" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
+                                    </form>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2185,10 +2343,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Benny Charles
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2213,10 +2371,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Fred Gabriel
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2313,10 +2471,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Benny Charles
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2341,10 +2499,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 2
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Drop out
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2441,10 +2599,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2472,11 +2630,11 @@
                         <span class="text-preserve-space">
                           What is your extra feature? 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-7-section-1-recipient-4-question-2" onclick="toggleAdditionalQuestionInfo('7-section-1-recipient-4-question-2')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-7-section-1-recipient-5-question-2" onclick="toggleAdditionalQuestionInfo('7-section-1-recipient-5-question-2')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-7-section-1-recipient-4-question-2" style="display:none;">
+                            <span id="questionAdditionalInfo-7-section-1-recipient-5-question-2" style="display:none;">
                               Multiple-choice (single answer) question options:
                               <ul style="list-style-type: disc;margin-left: 20px;">
                                 <li>
@@ -2613,10 +2771,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 2
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Drop out
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2644,11 +2802,11 @@
                         <span class="text-preserve-space">
                           Which team do you think has the best feature? 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-10-section-1-recipient-4-question-3" onclick="toggleAdditionalQuestionInfo('10-section-1-recipient-4-question-3')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-10-section-1-recipient-5-question-3" onclick="toggleAdditionalQuestionInfo('10-section-1-recipient-5-question-3')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-10-section-1-recipient-4-question-3" style="display:none;">
+                            <span id="questionAdditionalInfo-10-section-1-recipient-5-question-3" style="display:none;">
                               Multiple-choice (single answer) question options:
                               <br>
                               The options for this question is automatically generated from the list of all teams in this course.
@@ -2740,10 +2898,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 2
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Drop out
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2835,9 +2993,9 @@
                                       </a>
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -3039,10 +3197,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 2
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Charlie Dávis
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -3130,22 +3288,6 @@
                 Teammates Helper2
               </td>
               <td class="action-button-item">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Team 2
-              </td>
-              <td>
-                Danny Engrid
-              </td>
-              <td class="action-button-item">
-                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
-                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                  <input name="fsname" type="hidden" value="First Session">
-                  <input name="moderatedperson" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
-                </form>
               </td>
             </tr>
             <tr>

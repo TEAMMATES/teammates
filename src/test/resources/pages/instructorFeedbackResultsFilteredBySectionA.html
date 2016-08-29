@@ -63,32 +63,15 @@
           <div class="col-sm-4 col-lg-2">
             <div class="form-group">
               <div class="col-md-12">
-                <form action="/page/instructorFeedbackResultsDownload" id="download-form" method="post">
+                <form action="/page/instructorFeedbackResultsDownload" method="post">
                   <div id="feedbackDataButtons">
-                    <button class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" id="button_download" name="fruploaddownloadbtn" type="submit">
-                      Download Results
-                      <span class="caret">
-                      </span>
-                    </button>
-                    <ul class="dropdown-menu download-type-list" id="download-result-dropdown">
-                      <li data-downloadtype="csv">
-                        <a>
-                          As spreadsheet without formatting (.csv file)
-                        </a>
-                      </li>
-                      <li data-downloadtype="xlsx">
-                        <a>
-                          As normal spreadsheet (.xlsx file)
-                        </a>
-                      </li>
-                    </ul>
+                    <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results">
                   </div>
                   <input name="user" type="hidden" value="CFResultsUiT.instr">
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="Section A">
                   <input id="filterTextForDownload" name="filtertext" type="hidden">
-                  <input id="downloadType" name="frdownloadtype" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
@@ -345,19 +328,19 @@
             </thead>
             <tbody>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -377,19 +360,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -409,19 +392,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -441,19 +424,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -473,19 +456,51 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Charlie Dávis
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  Fred's Response to Charlie.
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="First Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <td class="word-wrap-break middlealign">
+                  Team 2
+                </td>
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -505,19 +520,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -537,19 +552,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -565,38 +580,6 @@
                     <input name="fsname" type="hidden" value="First Session">
                     <input name="moderatedquestionid" type="hidden" value="${question.id}">
                     <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
-                  </form>
-                </td>
-              </tr>
-              <tr>
-                <td class="middlealign">
-                  Team 1&lt;/td&gt;&lt;/div&gt;'"
-                </td>
-                <td class="middlealign">
-                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Fred Gabriel
-                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                  </div>
-                </td>
-                <td class="middlealign">
-                  Team 2
-                </td>
-                <td class="middlealign">
-                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Charlie Dávis
-                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                  </div>
-                </td>
-                <td class="word-wrap-break text-preserve-space">
-                  Fred's Response to Charlie.
-                </td>
-                <td>
-                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
-                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                    <input name="fsname" type="hidden" value="First Session">
-                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
-                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
                   </form>
                 </td>
               </tr>
@@ -674,19 +657,19 @@
             </thead>
             <tbody>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -706,19 +689,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -740,19 +723,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Fred Gabriel
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Fred Gabriel
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -774,19 +757,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -808,19 +791,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -842,19 +825,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -876,19 +859,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Extra guy
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Extra guy
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1019,14 +1002,14 @@
             </thead>
             <tbody>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
                 <td class="word-wrap-break text-preserve-space">
@@ -1285,19 +1268,19 @@
             </thead>
             <tbody>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1316,52 +1299,20 @@
                   </form>
                 </td>
               </tr>
-              <tr>
-                <td class="middlealign">
-                  Team 2
-                </td>
-                <td class="middlealign">
-                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Drop out
-                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                  </div>
-                </td>
-                <td class="middlealign">
-                  Team 2
-                </td>
-                <td class="middlealign">
-                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Drop out
-                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                  </div>
-                </td>
-                <td class="word-wrap-break text-preserve-space">
-                  PowerSearch
-                </td>
-                <td>
-                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
-                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                    <input name="fsname" type="hidden" value="First Session">
-                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
-                    <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
-                  </form>
-                </td>
-              </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1383,19 +1334,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Fred Gabriel
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Fred Gabriel
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1417,19 +1368,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1451,19 +1402,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1484,20 +1435,52 @@
                   </form>
                 </td>
               </tr>
-              <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+              <tr>
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Drop out
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
+                  Team 2
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Drop out
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  PowerSearch
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="First Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="word-wrap-break middlealign color_neutral">
+                  Team 2
+                </td>
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Extra guy
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Extra guy
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1689,19 +1672,19 @@
             </thead>
             <tbody>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1728,19 +1711,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1759,19 +1742,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Fred Gabriel
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Fred Gabriel
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1793,19 +1776,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1827,19 +1810,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1861,19 +1844,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1895,19 +1878,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Extra guy
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Extra guy
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2054,19 +2037,19 @@
             </thead>
             <tbody>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2086,19 +2069,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2120,19 +2103,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Fred Gabriel
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Fred Gabriel
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2154,19 +2137,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2188,19 +2171,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2222,19 +2205,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2256,19 +2239,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Extra guy
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Extra guy
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2426,19 +2409,19 @@
             </thead>
             <tbody>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2457,52 +2440,20 @@
                   </form>
                 </td>
               </tr>
-              <tr>
-                <td class="middlealign">
-                  Team 2
-                </td>
-                <td class="middlealign">
-                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Drop out
-                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                  </div>
-                </td>
-                <td class="middlealign">
-                  Team 2
-                </td>
-                <td class="middlealign">
-                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Drop out
-                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                  </div>
-                </td>
-                <td class="word-wrap-break text-preserve-space">
-                  Team 2
-                </td>
-                <td>
-                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
-                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                    <input name="fsname" type="hidden" value="First Session">
-                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
-                    <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
-                  </form>
-                </td>
-              </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2524,19 +2475,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Fred Gabriel
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Fred Gabriel
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2558,19 +2509,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2592,19 +2543,19 @@
                 </td>
               </tr>
               <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2625,20 +2576,52 @@
                   </form>
                 </td>
               </tr>
-              <tr class="pending_response_row">
-                <td class="middlealign color_neutral">
+              <tr>
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Drop out
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
+                  Team 2
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Drop out
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  Team 2
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="First Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr class="pending_response_row">
+                <td class="word-wrap-break middlealign color_neutral">
+                  Team 2
+                </td>
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Extra guy
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   Team 2
                 </td>
-                <td class="middlealign color_neutral">
+                <td class="word-wrap-break middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Extra guy
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2656,6 +2639,175 @@
                     <input name="fsname" type="hidden" value="First Session">
                     <input name="moderatedquestionid" type="hidden" value="${question.id}">
                     <input name="moderatedperson" type="hidden" value="extra.guy@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading" data-target="#panelBodyCollapse-11" id="panelHeading-11" style="cursor: pointer;">
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-11" id="seeMore-11" style="display:none;">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="frgroupbyteam" type="hidden" value="null">
+        <input name="frsorttype" type="hidden" value="question">
+        <input id="showStats-11" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="frgroupbysection" type="hidden" value="Section A">
+      </form>
+      <div class="display-icon pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
+        </span>
+      </div>
+      <strong>
+        Question 11:
+      </strong>
+      <div class="inline panel-heading-text">
+        <span class="text-preserve-space">
+          This is a dummy question to test default sort
+        </span>
+      </div>
+    </div>
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-11" style="height: auto;">
+      <div class="panel-body padding-0" id="questionBody-10">
+        <div class="resultStatistics">
+        </div>
+        <div class="table-responsive">
+          <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+              <tr>
+                <th class="button-sort-none" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 10%; min-width: 67px;">
+                  Team
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 10%; min-width: 65px;">
+                  Giver
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this)" style="width: 10%; min-width: 67px;">
+                  Team
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none" id="button_sortToName" onclick="toggleSort(this)" style="width: 10%; min-width: 90px;">
+                  Recipient
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="width: 45%; min-width: 95px;">
+                  Feedback
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="action-header" style="width: 15%; min-width: 75px;">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <thead>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Alice Betsy&lt;/td&gt;'"
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  Alice to Danny.
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="First Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Alice Betsy&lt;/td&gt;'"
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  Danny to Alice.
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="First Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <td class="word-wrap-break middlealign">
+                  Team 2
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Danny Engrid
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  Benny to Danny.
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="First Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
                   </form>
                 </td>
               </tr>
