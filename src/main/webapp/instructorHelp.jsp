@@ -223,7 +223,15 @@
                 <span class="text-bold">Enroll students
                 </span>
                 <div class="helpSectionContent">
-                    Enroll students by clicking the ‘Enroll’ link for the relevant course. That link is available in the ‘Courses’ page and the ‘Home’ page.
+                    Enroll students by doing one of the following options:
+                    <ul>
+                        <li>
+                            Go to the ‘Home’ page, click on the ‘Students‘ button on the corresponding course, and choose ‘Enroll’
+                        </li>
+                        <li>
+                            Go the the ‘Courses’ page and click the ‘Enroll‘ button of the corresponding course
+                        </li>
+                    </ul>
                     <br>
                     <br>
                 </div>
