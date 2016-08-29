@@ -534,7 +534,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.selectRecipient(2, 2, "");
         submitPage.fillResponseTextBox(2, 2, "Response to no recipient");
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyStatus("You did not specify a recipient for your response in question(s) 2.");
+        submitPage.verifyStatus("You did not specify a recipient for your response in question 2.");
     }
 
     private void testResponsiveSubmission() {
