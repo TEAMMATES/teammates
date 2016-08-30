@@ -18,7 +18,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.Student;
+import teammates.storage.entity.CourseStudent;
 
 public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
 
@@ -95,11 +95,11 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     private List<StudentAttributes> getStudentsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<Student> studentList = getStudentEntitiesForCourse(courseId);
+        List<CourseStudent> studentList = getStudentEntitiesForCourse(courseId);
 
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 
-        for (Student s : studentList) {
+        for (CourseStudent s : studentList) {
             if (!JDOHelper.isDeleted(s)) {
                 studentDataList.add(new StudentAttributes(s));
             }
@@ -109,11 +109,11 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     }
 
     @SuppressWarnings("unchecked")
-    private List<Student> getStudentEntitiesForCourse(String courseId) {
-        Query q = pm.newQuery(Student.class);
+    private List<CourseStudent> getStudentEntitiesForCourse(String courseId) {
+        Query q = pm.newQuery(CourseStudent.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
 
-        return (List<Student>) q.execute(courseId);
+        return (List<CourseStudent>) q.execute(courseId);
     }
 }

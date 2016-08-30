@@ -16,7 +16,6 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.CourseStudent;
-import teammates.storage.entity.Student;
 
 public class StudentAttributes extends EntityAttributes {
     public enum UpdateStatus {
@@ -98,25 +97,6 @@ public class StudentAttributes extends EntityAttributes {
         this.course = courseId;
     }
 
-    public StudentAttributes(Student student) {
-        this();
-        this.email = student.getEmail();
-        this.course = student.getCourseId();
-        this.name = student.getName();
-        this.lastName = student.getLastName();
-        this.comments = Sanitizer.sanitizeTextField(student.getComments());
-        this.team = student.getTeamName();
-        this.section = (student.getSectionName() == null) ? Const.DEFAULT_SECTION
-                                                          : student.getSectionName();
-        this.googleId = (student.getGoogleId() == null) ? ""
-                                                        : student.getGoogleId();
-        this.key = student.getRegistrationKey();
-        
-        this.createdAt = student.getCreatedAt();
-        this.updatedAt = student.getUpdatedAt();
-        
-    }
-    
     public StudentAttributes(CourseStudent student) {
         this();
         this.email = student.getEmail();

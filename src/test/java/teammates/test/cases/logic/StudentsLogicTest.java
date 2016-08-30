@@ -41,7 +41,7 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.entity.Student;
+import teammates.storage.entity.CourseStudent;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -370,7 +370,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         ______TS("key generation");
         
         long key = 5;
-        String longKey = KeyFactory.createKeyString(Student.class.getSimpleName(), key);
+        String longKey = KeyFactory.createKeyString(CourseStudent.class.getSimpleName(), key);
         long reverseKey = KeyFactory.stringToKey(longKey).getId();
         assertEquals(key, reverseKey);
         assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
