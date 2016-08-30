@@ -373,7 +373,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         String longKey = KeyFactory.createKeyString(CourseStudent.class.getSimpleName(), key);
         long reverseKey = KeyFactory.stringToKey(longKey).getId();
         assertEquals(key, reverseKey);
-        assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
+        assertEquals("CourseStudent", KeyFactory.stringToKey(longKey).getKind());
     }
     
     public void testAdjustFeedbackResponseForEnrollments() throws Exception {
@@ -839,7 +839,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         ______TS("non-exist student");
         
-        String nonExistStudentKey = "nonExistKey";
+        String nonExistStudentKey = StringHelper.encrypt("nonExistKey");
         assertEquals(null, studentsLogic.getStudentForRegistrationKey(nonExistStudentKey));
         
         
