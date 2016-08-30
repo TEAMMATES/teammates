@@ -715,6 +715,10 @@
                 <li>Paramsothy Sanshayan 
                     [bug reporting/fixing, enhancements]
                 </li>
+                <li>Pratyoush Srivastava
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Apratyoushs"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Prithviraj Billa 
                     [bug reporting/fixing, enhancements]
                 </li>
