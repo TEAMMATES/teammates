@@ -102,7 +102,7 @@ public class CourseEditSectionRow {
     }
     
     /**
-     * Creates checkboxes for Instructor's permissions/priviliges related to sessions 
+     * Creates checkboxes for Instructor's permissions/priviliges related to sessions
      *   and automatically checks a single checkbox if special privileges have been assigned to
      *   the section it corresponds to.
      * 
