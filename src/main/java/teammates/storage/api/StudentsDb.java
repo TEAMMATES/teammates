@@ -193,9 +193,9 @@ public class StudentsDb extends EntitiesDb {
             }
             return new StudentAttributes(courseStudent);
         } catch (Exception e) {
-            // even if the student does not exist, it's not supposed to throw an exception
-            Assumption.fail("Exception thrown trying to retrieve CourseStudent \n"
-                       + TeammatesException.toStringWithStackTrace(e));
+            // TODO change this to an Assumption.fail
+            log.severe("Exception thrown trying to retrieve CourseStudent \n"
+                    + TeammatesException.toStringWithStackTrace(e));
             return null;
         }
         
