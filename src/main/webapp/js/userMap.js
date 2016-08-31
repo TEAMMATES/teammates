@@ -14,35 +14,24 @@ function handleData(err, countryCoordinates, userData) {
         handleError();
         return;
     }
-    var countriesObj = {};
+    var userCountries = Object.keys(userData);
     var countriesArr = [];
-    userData.forEach(function(entry) {
-        var countryName = entry[entry.length - 1];
-        var countryCode = getCountryCode(countryName);
-        if (countryCode !== undefined) {
-            countriesObj[countryCode] = countriesObj[countryCode] ? countriesObj[countryCode] + 1 : 1;
-        }
+    var total = 0;
+    userCountries.forEach(function(countryName) {
+        var countryTotal = userData[countryName].length;
+
+        countriesArr.push([countryName, countryTotal]);
+        total += countryTotal;
     });
 
-    for (var countryCode in countriesObj) {
-        if (countriesObj.hasOwnProperty(countryCode)) {
-            countriesArr.push([countryCode, countriesObj[countryCode]]);
-        }
-    }
-
     // set the institution count in the page
-    document.getElementById('totalUserCount').innerHTML = userData.length;
+    document.getElementById('totalUserCount').innerHTML = total;
     // set the country count in the page
-    document.getElementById('totalCountryCount').innerHTML = countriesArr.length;
+    document.getElementById('totalCountryCount').innerHTML = userCountries.length;
     
     // Data format example
     // var series = [
-    //     ['BLR', 1], ['BLZ', 1], ['RUS', 1], ['RWA', 1], ['SRB', 1], ['TLS', 1],
-    //     ['REU', 1], ['TKM', 1], ['TJK', 1], ['ROU', 1], ['TKL', 1], ['GNB', 1],
-    //     ['GUM', 1], ['GTM', 1], ['SGS', 1], ['GRC', 1], ['GNQ', 1], ['GLP', 1],
-    //     ['JPN', 1], ['GUY', 1], ['GGY', 1], ['GUF', 1], ['GEO', 1], ['GRD', 1],
-    //     ['GBR', 1], ['GAB', 1], ['SLV', 1], ['GIN', 1], ['GMB', 1], ['SGP', 1],
-    //     ['IND', 1], ['CHN', 1], ['USA', 1], ['CAN', 1]];
+    //     ['United States', 1], ['Bulgaria', 1], ['Russia', 1], ['France', 1], ['Singapore', 1]
 
     var dataset = {};
     var pins = [];
@@ -55,7 +44,8 @@ function handleData(err, countryCoordinates, userData) {
             .domain([minValue, maxValue])
             .range(['#428bca', '#428bca']); // Choropleth effect: .range(['#C1F0F6","#4895AE"]);
     countriesArr.forEach(function(item) {
-        var iso = item[0];
+        var countryName = item[0];
+        var iso = getCountryCode(countryName);
         var value = item[1];
         var coordinates = countryCoordinates[iso];
         dataset[iso] = {
@@ -63,7 +53,7 @@ function handleData(err, countryCoordinates, userData) {
             fillColor: paletteScale(value)
         };
         pins.push({
-            name: getCountryNameByCode(iso),
+            name: countryName,
             numOfInstitutions: value,
             latitude: coordinates.lat,
             longitude: coordinates.lon
