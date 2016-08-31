@@ -8,8 +8,8 @@ import java.util.HashMap;
  */
 public class DataBundle {
     public HashMap<String, AccountAttributes> accounts = new HashMap<String, AccountAttributes>();
-    public HashMap<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
     public HashMap<String, CourseAttributes> courses = new HashMap<String, CourseAttributes>();
+    public HashMap<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
     public HashMap<String, StudentAttributes> students = new HashMap<String, StudentAttributes>();
     public HashMap<String, FeedbackSessionAttributes> feedbackSessions = new HashMap<String, FeedbackSessionAttributes>();
     public HashMap<String, FeedbackQuestionAttributes> feedbackQuestions = new HashMap<String, FeedbackQuestionAttributes>();
