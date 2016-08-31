@@ -109,9 +109,17 @@ public final class DataBundleRegenerator {
         System.out.println(file.getCanonicalPath() + " regenerated!");
     }
     
+    private static void regenerateMapsJson() throws Exception {
+        File file = new File("./src/main/webapp/js/countryCoordinates.json");
+        regenerateGenericJson(file);
+        file = new File("./src/main/webapp/js/userMapData.json");
+        regenerateGenericJson(file);
+    }
+    
     public static void main(String[] args) throws Exception {
         regenerateAllDataBundleJson();
         regenerateSessionTemplateJson();
+        regenerateMapsJson();
     }
     
 }
