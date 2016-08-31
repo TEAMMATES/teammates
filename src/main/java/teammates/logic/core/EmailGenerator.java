@@ -353,7 +353,8 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}",
                         "The email below has been sent to students of course: " + course.getId()
-                        + ".<p/><br>\n<br>\n=== Email message as seen by the students ===<br>\n",
+                        + ".<p/><br>" + Const.EOL + "<br>" + Const.EOL
+                        + "=== Email message as seen by the students ===<br>" + Const.EOL,
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${supportEmail}", Config.SUPPORT_EMAIL);
