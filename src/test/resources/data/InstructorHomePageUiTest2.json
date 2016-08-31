@@ -1,45 +1,53 @@
 {
-    "accounts":{
-        "newInstructorWithSampleCourse":{
-            "googleId":"CHomeUiT.instructor.tmms",
-            "name":"Teammates Test New Instructor With Sample",
-            "isInstructor":true,
-            "email":"CHomeUiT.instructor.tmms@gmail.tmt",
-            "institute":"TEAMMATES Test Institute 1"
-        }
-    },
-    "courses":{
-        "CHomeUiT.Sample":{
-            "id":"newIns.wit-demo",
-            "name":"Sample Course 101",
-            "timeZone":"UTC"
-        }
-    },
-    "instructors":{
-        "CHomeUiT.instr.Sample":{
-            "googleId":"CHomeUiT.instructor.tmms",
-            "courseId":"newIns.wit-demo",
-            "name":"Teammates Test New Instructor With Sample",
-            "email":"CHomeUiT.instructor.tmms@gmail.tmt",
-            "role":"Co-owner",
-            "displayedName":"Co-owner",
-            "privileges": {
-                "courseLevel": {
-                    "canviewstudentinsection": true,
-                    "cangivecommentinsection": true,
-                    "cansubmitsessioninsection": true,
-                    "canmodifysessioncommentinsection": true,
-                    "canmodifycommentinsection": true,
-                    "canmodifycourse": true,
-                    "canviewsessioninsection": true,
-                    "canmodifysession": true,
-                    "canviewcommentinsection": true,
-                    "canmodifystudent": true,
-                    "canmodifyinstructor": true
-                },
-                "sectionLevel": {},
-                "sessionLevel": {}
-            }
-        }
+  "accounts": {
+    "newInstructorWithSampleCourse": {
+      "googleId": "CHomeUiT.instructor.tmms",
+      "name": "Teammates Test New Instructor With Sample",
+      "isInstructor": true,
+      "email": "CHomeUiT.instructor.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
+  },
+  "courses": {
+    "CHomeUiT.Sample": {
+      "id": "newIns.wit-demo",
+      "name": "Sample Course 101",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "CHomeUiT.instr.Sample": {
+      "googleId": "CHomeUiT.instructor.tmms",
+      "courseId": "newIns.wit-demo",
+      "name": "Teammates Test New Instructor With Sample",
+      "email": "CHomeUiT.instructor.tmms@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {},
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

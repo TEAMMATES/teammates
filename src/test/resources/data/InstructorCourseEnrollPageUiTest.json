@@ -8,7 +8,6 @@
       "institute": "TEAMMATES Test Institute 1"
     }
   },
-
   "courses": {
     "CCEnrollUiT.CS2104": {
       "id": "CCEnrollUiT.CS2104",
@@ -16,15 +15,15 @@
       "timeZone": "UTC"
     }
   },
-  
   "instructors": {
     "CCEnrollUiT.teammates.test": {
       "googleId": "CCEnrollUiT.teammates.test",
       "courseId": "CCEnrollUiT.CS2104",
       "name": "Teammates Test",
       "email": "teammates.test@gmail.tmt",
-      "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -44,7 +43,6 @@
       }
     }
   },
-  
   "students": {
     "alice.b.tmms@CCEnrollUiT.CS2104": {
       "googleId": "CCEnrollUiT.alice.b.tmms",
@@ -82,5 +80,11 @@
       "team": "Team 2",
       "section": "Section 2"
     }
-  }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }
