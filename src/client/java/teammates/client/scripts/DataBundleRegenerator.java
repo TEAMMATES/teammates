@@ -1,13 +1,21 @@
 package teammates.client.scripts;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.util.Utils;
 import teammates.test.util.FileHelper;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
@@ -25,11 +33,50 @@ public final class DataBundleRegenerator {
                 String jsonString = FileHelper.readFile(file.getCanonicalPath());
                 Gson gson = Utils.getTeammatesGson();
                 DataBundle db = gson.fromJson(jsonString, DataBundle.class);
+                for (Map.Entry<String, FeedbackResponseAttributes> responseMap : db.feedbackResponses.entrySet()) {
+                    fixResponse(responseMap.getValue());
+                }
+                for (Map.Entry<String, FeedbackQuestionAttributes> questionMap : db.feedbackQuestions.entrySet()) {
+                    fixQuestion(questionMap.getValue());
+                }
                 String regeneratedJsonString = gson.toJson(db).replace("+0000", "UTC");
                 FileHelper.saveFile(file.getCanonicalPath(), regeneratedJsonString);
                 System.out.println(file.getCanonicalPath() + " regenerated!");
             }
         }
+    }
+    
+    private static void fixResponse(FeedbackResponseAttributes response) {
+        String responseValue = response.responseMetaData.getValue();
+        try {
+            JSONObject responseJson = maintainKeyOrder(new JSONObject(responseValue));
+            response.responseMetaData = new Text(responseJson.toString());
+        } catch (JSONException e) {
+            response.responseMetaData = new Text(responseValue);
+        }
+    }
+    
+    private static void fixQuestion(FeedbackQuestionAttributes question) {
+        String questionValue = question.questionMetaData.getValue();
+        try {
+            JSONObject questionJson = maintainKeyOrder(new JSONObject(questionValue));
+            question.questionMetaData = new Text(questionJson.toString());
+        } catch (JSONException e) {
+            question.questionMetaData = new Text(questionValue);
+        }
+    }
+    
+    private static JSONObject maintainKeyOrder(JSONObject json) {
+        JSONObject reprintedJson = new JSONObject();
+        List<String> keys = new ArrayList<String>();
+        for (Object key : json.keySet()) {
+            keys.add((String) key);
+        }
+        Collections.sort(keys);
+        for (String key : keys) {
+            reprintedJson.put(key, json.get(key));
+        }
+        return reprintedJson;
     }
     
     private static void regenerateAllDataBundleJson() throws Exception {
@@ -46,6 +93,9 @@ public final class DataBundleRegenerator {
         Gson gson = Utils.getTeammatesGson();
         List<FeedbackQuestionAttributes> template =
                 gson.fromJson(jsonString, new TypeToken<List<FeedbackQuestionAttributes>>(){}.getType());
+        for (FeedbackQuestionAttributes question : template) {
+            fixQuestion(question);
+        }
         String regeneratedJsonString = gson.toJson(template).replace("+0000", "UTC");
         FileHelper.saveFile(file.getCanonicalPath(), regeneratedJsonString);
         System.out.println(file.getCanonicalPath() + " regenerated!");
