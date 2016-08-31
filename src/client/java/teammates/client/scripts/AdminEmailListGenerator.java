@@ -24,8 +24,8 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -216,14 +216,14 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
     
     private HashSet<String> addStudentEmailIntoSet(HashSet<String> studentEmailSet) {
-        String q = "SELECT FROM " + Student.class.getName();
+        String q = "SELECT FROM " + CourseStudent.class.getName();
         List<?> allStudents = (List<?>) pm.newQuery(q).execute();
 
         for (Object object : allStudents) {
-            Student student = (Student) object;
+            CourseStudent student = (CourseStudent) object;
             // intended casting from ? due to unchecked casting
-            if ((student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG
-                        || !student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG
+            if ((isRegistered(student) && emailListConfig.studentStatus == StudentStatus.REG
+                        || !isRegistered(student) && emailListConfig.studentStatus == StudentStatus.UNREG
                         || emailListConfig.studentStatus == StudentStatus.ALL)
                     && isStudentCreatedInRange(student)) {
                 studentEmailSet.add(student.getEmail());
@@ -233,6 +233,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         return studentEmailSet;
     }
     
+    private boolean isRegistered(CourseStudent student) {
+        return student.getGoogleId() != null && !student.getGoogleId().isEmpty();
+    }
+
     private void writeEmailsIntoTextFile(HashSet<String> studentEmailSet,
                                          HashSet<String> instructorEmailSet) {
         
@@ -330,7 +334,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
     }
 
-    private boolean isStudentCreatedInRange(Student student) {
+    private boolean isStudentCreatedInRange(CourseStudent student) {
         
         Date studentCreatedAt = getStudentCreatedDate(student);
 
@@ -362,7 +366,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
     }
     
-    private Date getStudentCreatedDate(Student student) {
+    private Date getStudentCreatedDate(CourseStudent student) {
         if (student.getGoogleId() != null && !student.getGoogleId().isEmpty()) {
             Account account = getAccountEntity(student.getGoogleId());
             if (account != null) {
