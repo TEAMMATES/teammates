@@ -102,9 +102,9 @@ public class CourseEditSectionRow {
     }
     
     /**
-     * Creates checkboxes for Instructor's permissions/priviliges related to students' details,
-     *   comments for students (given by instructor or others) and automatically checks a single
-     *   checkbox if special privileges have been assigned to the section it corresponds to.
+     * Creates checkboxes for Instructor's permissions/priviliges related to sessions 
+     *   and automatically checks a single checkbox if special privileges have been assigned to
+     *   the section it corresponds to.
      * 
      * @param panelIndex   the index of the panel currently being created
      * @return             a list of checkboxes
@@ -133,14 +133,12 @@ public class CourseEditSectionRow {
     }
 
     /**
-     * Creates a row of selections elements (checkboxes), each representing a single section
-     *   and automatically checks a single checkbox if special privileges have been assigned to
-     *   the section it corresponds to.
+     * Creates checkboxes for Instructor's permissions/priviliges related to students' details,
+     *   comments for students (given by instructor or others) and automatically checks a single
+     *   checkbox if special privileges have been assigned to the section it corresponds to.
      * 
-     * @param sectionNames the list of sections in the course
      * @param panelIndex   the index of the panel currently being created
-     * @param sectionIndex the index of the section which will be checked for special privileges
-     * @return             a list of list of checkboxes, separated into rows and columns
+     * @return             a list of checkboxes
      */
     private List<ElementTag> createCheckboxesForStudentPermissionsOfInstructors(int panelIndex) {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
