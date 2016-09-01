@@ -1261,6 +1261,8 @@ public final class Const {
         public static final String FEEDBACK_SESSION_COPY_ALREADYEXISTS =
                 "A feedback session with the name \"%s\" already exists in the following course(s): %s.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
+        public static final String FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME =
+                "The end time for this feedback session cannot be earlier than the start time.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS =
                 "The feedback session has been deleted and is no longer accessible.";

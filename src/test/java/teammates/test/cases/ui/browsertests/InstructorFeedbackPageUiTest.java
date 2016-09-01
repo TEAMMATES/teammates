@@ -184,9 +184,17 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
+                newSession.getEndTime(), newSession.getStartTime(), null, null,
+                instructions, newSession.getGracePeriod());
+        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME);
+        assertEquals("<p>" + instructions.getValue() + "</p>", feedbackPage.getInstructions());
+
+        feedbackPage.addFeedbackSession(
+                newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 instructions, newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+
         FeedbackSessionAttributes savedSession =
                 BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
 
