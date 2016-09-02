@@ -45,7 +45,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
         ______TS("invalid key");
 
-        String invalidKey = "invalid key";
+        String invalidKey = StringHelper.encrypt("invalid key");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, invalidKey,
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_HOME_PAGE
