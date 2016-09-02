@@ -158,6 +158,8 @@ public final class Const {
         public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
                                 "feedback-submission-adjust-queue";
         
+        public static final String COURSE_JOIN_REMIND_EMAIL_TASK_QUEUE = "course-join-remind-email-queue";
+        
         public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
         public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE =
                 "feedback-remind-email-particular-users-queue";
@@ -430,6 +432,21 @@ public final class Const {
     }
     
     public static class FeedbackQuestion {
+
+        public static final Map<String, String> COMMON_VISIBILITY_OPTIONS;
+
+        static {
+            Map<String, String> visibilityOptionInit = new LinkedHashMap<String, String>();
+
+            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS",
+                                     "Shown anonymously to recipient and instructors");
+            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS",
+                                     "Shown anonymously to recipient, visible to instructors");
+            visibilityOptionInit.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");
+            visibilityOptionInit.put("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS", "Visible to recipient and instructors");
+
+            COMMON_VISIBILITY_OPTIONS = Collections.unmodifiableMap(visibilityOptionInit);
+        }
 
         public static final Map<FeedbackParticipantType, List<FeedbackParticipantType>>
                 COMMON_FEEDBACK_PATHS;
@@ -790,6 +807,8 @@ public final class Const {
         public static final String COMMENT_ID = "commentid";
         public static final String COMMENT_TEXT = "commenttext";
         
+        public static final String SEND_SUBMISSION_EMAIL = "sendsubmissionemail";
+        
         //Submission parameters for Task Queue
         public static final String SUBMISSION_COURSE = "course";
         public static final String SUBMISSION_FEEDBACK = "feedback";
@@ -987,6 +1006,7 @@ public final class Const {
         public static final String BACKDOOR = "/backdoor";
         
         //Task Queue Worker Servlets URI
+        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER = "/courseJoinRemindEmailWorker";
         public static final String EMAIL_WORKER = "/emailWorker";
         public static final String ADMIN_EMAIL_WORKER = "/adminEmailWorker";
         public static final String ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER = "/adminEmailPrepareTaskQueueWorker";
@@ -1002,6 +1022,7 @@ public final class Const {
         //real servlet names to be logged for automated actions, not for url pattern recognition
         public static final String AUTOMATED_LOG_COMPILATION = "logCompilation";
         public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_CLOSED_MAIL_ACTION = "feedbackSessionClosedMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_UNPUBLISHED_MAIL_ACTION =
@@ -1009,6 +1030,7 @@ public final class Const {
         public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "feedbackSessionClosedReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
     }
     
@@ -1239,6 +1261,8 @@ public final class Const {
         public static final String FEEDBACK_SESSION_COPY_ALREADYEXISTS =
                 "A feedback session with the name \"%s\" already exists in the following course(s): %s.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
+        public static final String FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME =
+                "The end time for this feedback session cannot be earlier than the start time.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS =
                 "The feedback session has been deleted and is no longer accessible.";

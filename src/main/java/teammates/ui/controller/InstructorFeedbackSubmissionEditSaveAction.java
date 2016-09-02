@@ -90,7 +90,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
 
     @Override
     protected void setAdditionalParameters() {
-        // no additional parameters to set for the standard instructor submit page
+        isSendEmail = true;
     }
 
     @Override

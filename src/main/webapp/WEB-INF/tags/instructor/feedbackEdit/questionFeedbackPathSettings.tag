@@ -11,7 +11,7 @@
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
     </div>
-    <div class="feedback-path-dropdown btn-group">
+    <div class="feedback-path-dropdown col-sm-12 btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <c:choose>
                 <c:when test="${isNewQuestion}">
@@ -60,7 +60,7 @@
                     id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>-${fqForm.questionIndex}"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
                     <c:if test="${!fqForm.editable}">disabled</c:if>
-                    onchange="matchVisibilityOptionToFeedbackPath(this)">
+                    onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                     <c:forEach items="<%= FeedbackParticipantType.GIVERS %>" var="giverType">
                         <option <c:if test="${fqForm.feedbackPathSettings.selectedGiver eq giverType}">selected </c:if>value="${giverType}">
                             ${giverType.displayNameGiver}
@@ -78,7 +78,7 @@
                 <select class="form-control participantSelect"
                     id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>-${fqForm.questionIndex}"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
-                    <c:if test="${!fqForm.editable}">disabled</c:if> onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
+                    <c:if test="${!fqForm.editable}">disabled</c:if> onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                     <c:forEach items="<%= FeedbackParticipantType.RECIPIENTS %>" var="recipientType">
                         <option <c:if test="${fqForm.feedbackPathSettings.selectedRecipient eq recipientType}">selected </c:if>value="${recipientType}">
                             ${recipientType.displayNameRecipient}

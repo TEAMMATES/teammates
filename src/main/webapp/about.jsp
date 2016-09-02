@@ -653,6 +653,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AHarshvardhan58"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Hiresh Trivedi
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ahiresh"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Hoo De Lin
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AHooDeLin"
                         target="_blank">bug reporting/fixing, enhancements</a>]
@@ -710,6 +714,10 @@
                 </li>
                 <li>Paramsothy Sanshayan 
                     [bug reporting/fixing, enhancements]
+                </li>
+                <li>Pratyoush Srivastava
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Apratyoushs"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Prithviraj Billa 
                     [bug reporting/fixing, enhancements]

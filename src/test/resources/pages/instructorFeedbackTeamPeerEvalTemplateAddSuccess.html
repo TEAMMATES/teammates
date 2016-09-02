@@ -861,6 +861,7 @@
                 </p>
               </div>
               <input name="questiondescription-1" type="hidden">
+              <input disabled="" name="questiondescription" type="hidden">
             </div>
             <div class="row">
               <br>
@@ -882,7 +883,7 @@
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown btn-group">
+          <div class="feedback-path-dropdown col-sm-12 btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Students in this course will give feedback on
               <span class="glyphicon glyphicon-arrow-right">
@@ -968,7 +969,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="givertype-1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
+                <select class="form-control participantSelect" disabled="" id="givertype-1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -989,7 +990,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="recipienttype-1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
+                <select class="form-control participantSelect" disabled="" id="recipienttype-1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -1040,50 +1041,52 @@
           </div>
         </div>
         <br>
-        <div class="col-sm-12 padding-15px background-color-light-green">
+        <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
           <div class="col-sm-12 padding-0 margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityEditTab(this)">
-              <input disabled="" type="radio">
-              <span class="glyphicon glyphicon-pencil">
-              </span>
-              Edit Visibility
-            </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityPreviewTab(this)">
-              <input disabled="" type="radio">
-              <span class="glyphicon glyphicon-eye-open">
-              </span>
-              Preview Visibility
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-12 background-color-light-green">
-          <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage-1">
-            This is the visibility as seen by the feedback giver.
-            <ul class="background-color-warning">
-              <li>
-                The receiving student can see your response, but not your name.
+          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+              Custom visibility option:
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">
+                Common visibility options
               </li>
               <li>
-                Your team members can see your response, but not the name of the recipient, or your name.
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient and instructors
+                </a>
               </li>
               <li>
-                The recipient's team members can see your response, but not the name of the recipient, or your name.
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient, visible to instructors
+                </a>
               </li>
               <li>
-                Instructors in this course can see your response, the name of the recipient, and your name.
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY" href="javascript:;">
+                  Visible to instructors only
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Visible to recipient and instructors
+                </a>
+              </li>
+              <li class="divider" role="separator">
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="OTHER" href="javascript:;">
+                  Custom visibility options...
+                </a>
               </li>
             </ul>
           </div>
-        </div>
-        <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
-          <div class="visibilityOptions" id="visibilityOptions-1" style="display: none;">
-            <table class="dataTable participantTable table table-striped text-center background-color-white">
+          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-1" style="display:none;">
+            <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
                   <th class="text-center">
@@ -1181,6 +1184,23 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-1">
+            This is the visibility hint as seen by the feedback giver:
+            <ul class="text-muted background-color-warning">
+              <li>
+                The receiving student can see your response, but not your name.
+              </li>
+              <li>
+                Your team members can see your response, but not the name of the recipient, or your name.
+              </li>
+              <li>
+                The recipient's team members can see your response, but not the name of the recipient, or your name.
+              </li>
+              <li>
+                Instructors in this course can see your response, the name of the recipient, and your name.
+              </li>
+            </ul>
           </div>
         </div>
         <div>
@@ -1281,6 +1301,7 @@
                 </p>
               </div>
               <input name="questiondescription-2" type="hidden">
+              <input disabled="" name="questiondescription" type="hidden">
             </div>
             <div>
               <br>
@@ -1305,7 +1326,7 @@
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown btn-group">
+          <div class="feedback-path-dropdown col-sm-12 btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Students in this course will give feedback on
               <span class="glyphicon glyphicon-arrow-right">
@@ -1391,7 +1412,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
+                <select class="form-control participantSelect" disabled="" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -1412,7 +1433,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
+                <select class="form-control participantSelect" disabled="" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option selected="" value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -1463,50 +1484,52 @@
           </div>
         </div>
         <br>
-        <div class="col-sm-12 padding-15px background-color-light-green">
+        <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
           <div class="col-sm-12 padding-0 margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-2" onchange="toggleVisibilityEditTab(this)">
-              <input disabled="" type="radio">
-              <span class="glyphicon glyphicon-pencil">
-              </span>
-              Edit Visibility
-            </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-2" onchange="toggleVisibilityPreviewTab(this)">
-              <input disabled="" type="radio">
-              <span class="glyphicon glyphicon-eye-open">
-              </span>
-              Preview Visibility
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-12 background-color-light-green">
-          <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage-2">
-            This is the visibility as seen by the feedback giver.
-            <ul class="background-color-warning">
-              <li>
-                You can see your own feedback in the results page later on.
+          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+              Custom visibility option:
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">
+                Common visibility options
               </li>
               <li>
-                Your team members can see your response, the name of the recipient, and your name.
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient and instructors
+                </a>
               </li>
               <li>
-                The recipient's team members can see your response, the name of the recipient, and your name.
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient, visible to instructors
+                </a>
               </li>
               <li>
-                Instructors in this course can see your response, the name of the recipient, and your name.
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY" href="javascript:;">
+                  Visible to instructors only
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Visible to recipient and instructors
+                </a>
+              </li>
+              <li class="divider" role="separator">
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="OTHER" href="javascript:;">
+                  Custom visibility options...
+                </a>
               </li>
             </ul>
           </div>
-        </div>
-        <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
-          <div class="visibilityOptions" id="visibilityOptions-2" style="display: none;">
-            <table class="dataTable participantTable table table-striped text-center background-color-white">
+          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display:none;">
+            <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
                   <th class="text-center">
@@ -1604,6 +1627,23 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">
+            This is the visibility hint as seen by the feedback giver:
+            <ul class="text-muted background-color-warning">
+              <li>
+                You can see your own feedback in the results page later on.
+              </li>
+              <li>
+                Your team members can see your response, the name of the recipient, and your name.
+              </li>
+              <li>
+                The recipient's team members can see your response, the name of the recipient, and your name.
+              </li>
+              <li>
+                Instructors in this course can see your response, the name of the recipient, and your name.
+              </li>
+            </ul>
           </div>
         </div>
         <div>
@@ -1704,6 +1744,7 @@
                 </p>
               </div>
               <input name="questiondescription-3" type="hidden">
+              <input disabled="" name="questiondescription" type="hidden">
             </div>
             <div>
               <br>
@@ -1728,7 +1769,7 @@
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown btn-group">
+          <div class="feedback-path-dropdown col-sm-12 btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Students in this course will give feedback on
               <span class="glyphicon glyphicon-arrow-right">
@@ -1814,7 +1855,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="givertype-3" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
+                <select class="form-control participantSelect" disabled="" id="givertype-3" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -1835,7 +1876,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="recipienttype-3" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
+                <select class="form-control participantSelect" disabled="" id="recipienttype-3" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -1886,41 +1927,52 @@
           </div>
         </div>
         <br>
-        <div class="col-sm-12 padding-15px background-color-light-green">
+        <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
           <div class="col-sm-12 padding-0 margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-3" onchange="toggleVisibilityEditTab(this)">
-              <input disabled="" type="radio">
-              <span class="glyphicon glyphicon-pencil">
-              </span>
-              Edit Visibility
-            </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-3" onchange="toggleVisibilityPreviewTab(this)">
-              <input disabled="" type="radio">
-              <span class="glyphicon glyphicon-eye-open">
-              </span>
-              Preview Visibility
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-12 background-color-light-green">
-          <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage-3">
-            This is the visibility as seen by the feedback giver.
-            <ul class="background-color-warning">
+          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+              Visible to instructors only
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">
+                Common visibility options
+              </li>
               <li>
-                Instructors in this course can see your response, the name of the recipient, and your name.
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient and instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient, visible to instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY" href="javascript:;">
+                  Visible to instructors only
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Visible to recipient and instructors
+                </a>
+              </li>
+              <li class="divider" role="separator">
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="OTHER" href="javascript:;">
+                  Custom visibility options...
+                </a>
               </li>
             </ul>
           </div>
-        </div>
-        <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
-          <div class="visibilityOptions" id="visibilityOptions-3" style="display: none;">
-            <table class="dataTable participantTable table table-striped text-center background-color-white">
+          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-3" style="display:none;">
+            <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
                   <th class="text-center">
@@ -2018,6 +2070,14 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-3">
+            This is the visibility hint as seen by the feedback giver:
+            <ul class="text-muted background-color-warning">
+              <li>
+                Instructors in this course can see your response, the name of the recipient, and your name.
+              </li>
+            </ul>
           </div>
         </div>
         <div>
@@ -2118,6 +2178,7 @@
                 </p>
               </div>
               <input name="questiondescription-4" type="hidden">
+              <input disabled="" name="questiondescription" type="hidden">
             </div>
             <div>
               <br>
@@ -2142,7 +2203,7 @@
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown btn-group">
+          <div class="feedback-path-dropdown col-sm-12 btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Predefined combinations:
             </button>
@@ -2225,7 +2286,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="givertype-4" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
+                <select class="form-control participantSelect" disabled="" id="givertype-4" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -2246,7 +2307,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="recipienttype-4" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
+                <select class="form-control participantSelect" disabled="" id="recipienttype-4" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -2297,41 +2358,52 @@
           </div>
         </div>
         <br>
-        <div class="col-sm-12 padding-15px background-color-light-green">
+        <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
           <div class="col-sm-12 padding-0 margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-4" onchange="toggleVisibilityEditTab(this)">
-              <input disabled="" type="radio">
-              <span class="glyphicon glyphicon-pencil">
-              </span>
-              Edit Visibility
-            </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-4" onchange="toggleVisibilityPreviewTab(this)">
-              <input disabled="" type="radio">
-              <span class="glyphicon glyphicon-eye-open">
-              </span>
-              Preview Visibility
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-12 background-color-light-green">
-          <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage-4">
-            This is the visibility as seen by the feedback giver.
-            <ul class="background-color-warning">
+          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+              Visible to instructors only
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">
+                Common visibility options
+              </li>
               <li>
-                Instructors in this course can see your response, the name of the recipient, and your name.
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient and instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient, visible to instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY" href="javascript:;">
+                  Visible to instructors only
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Visible to recipient and instructors
+                </a>
+              </li>
+              <li class="divider" role="separator">
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="OTHER" href="javascript:;">
+                  Custom visibility options...
+                </a>
               </li>
             </ul>
           </div>
-        </div>
-        <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
-          <div class="visibilityOptions" id="visibilityOptions-4" style="display: none;">
-            <table class="dataTable participantTable table table-striped text-center background-color-white">
+          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-4" style="display:none;">
+            <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
                   <th class="text-center">
@@ -2429,6 +2501,14 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-4">
+            This is the visibility hint as seen by the feedback giver:
+            <ul class="text-muted background-color-warning">
+              <li>
+                Instructors in this course can see your response, the name of the recipient, and your name.
+              </li>
+            </ul>
           </div>
         </div>
         <div>
@@ -2529,6 +2609,7 @@
                 </p>
               </div>
               <input name="questiondescription-5" type="hidden">
+              <input disabled="" name="questiondescription" type="hidden">
             </div>
             <div>
               <br>
@@ -2553,7 +2634,7 @@
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown btn-group">
+          <div class="feedback-path-dropdown col-sm-12 btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Students in this course will give feedback on
               <span class="glyphicon glyphicon-arrow-right">
@@ -2639,7 +2720,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="givertype-5" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
+                <select class="form-control participantSelect" disabled="" id="givertype-5" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -2660,7 +2741,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="recipienttype-5" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
+                <select class="form-control participantSelect" disabled="" id="recipienttype-5" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -2711,44 +2792,52 @@
           </div>
         </div>
         <br>
-        <div class="col-sm-12 padding-15px background-color-light-green">
+        <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
           <div class="col-sm-12 padding-0 margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-5" onchange="toggleVisibilityEditTab(this)">
-              <input disabled="" type="radio">
-              <span class="glyphicon glyphicon-pencil">
-              </span>
-              Edit Visibility
-            </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-5" onchange="toggleVisibilityPreviewTab(this)">
-              <input disabled="" type="radio">
-              <span class="glyphicon glyphicon-eye-open">
-              </span>
-              Preview Visibility
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-12 background-color-light-green">
-          <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage-5">
-            This is the visibility as seen by the feedback giver.
-            <ul class="background-color-warning">
-              <li>
-                The receiving student can see your response, but not your name.
+          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
+              Shown anonymously to recipient, visible to instructors
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">
+                Common visibility options
               </li>
               <li>
-                Instructors in this course can see your response, the name of the recipient, and your name.
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient and instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient, visible to instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY" href="javascript:;">
+                  Visible to instructors only
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Visible to recipient and instructors
+                </a>
+              </li>
+              <li class="divider" role="separator">
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="OTHER" href="javascript:;">
+                  Custom visibility options...
+                </a>
               </li>
             </ul>
           </div>
-        </div>
-        <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
-          <div class="visibilityOptions" id="visibilityOptions-5" style="display: none;">
-            <table class="dataTable participantTable table table-striped text-center background-color-white">
+          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-5" style="display:none;">
+            <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
                   <th class="text-center">
@@ -2846,6 +2935,17 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-5">
+            This is the visibility hint as seen by the feedback giver:
+            <ul class="text-muted background-color-warning">
+              <li>
+                The receiving student can see your response, but not your name.
+              </li>
+              <li>
+                Instructors in this course can see your response, the name of the recipient, and your name.
+              </li>
+            </ul>
           </div>
         </div>
         <div>
@@ -3012,6 +3112,7 @@
               </div>
               <div class="panel panel-default panel-body question-description" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription--1" tabindex="9" title="">
               </div>
+              <input name="questiondescription" type="hidden">
             </div>
             <div id="textForm">
               <div>
@@ -3583,7 +3684,7 @@
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown btn-group">
+          <div class="feedback-path-dropdown col-sm-12 btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
               Please select a feedback path
               <span class="caret">
@@ -3668,7 +3769,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
+                <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -3689,7 +3790,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
+                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -3740,38 +3841,54 @@
           </div>
         </div>
         <br>
-        <div class="col-sm-12 padding-15px background-color-light-green">
+        <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
           <div class="col-sm-12 padding-0 margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel--1" onchange="toggleVisibilityEditTab(this)">
-              <input type="radio">
-              <span class="glyphicon glyphicon-pencil">
+          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
+              Please select a visibility option
+              <span class="caret">
               </span>
-              Edit Visibility
-            </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton--1" onchange="toggleVisibilityPreviewTab(this)">
-              <input type="radio">
-              <span class="glyphicon glyphicon-eye-open">
-              </span>
-              Preview Visibility
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-12 background-color-light-green">
-          <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage--1">
-            This is the visibility as seen by the feedback giver.
-            <ul class="background-color-warning">
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">
+                Common visibility options
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient and instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS" href="javascript:;">
+                  Shown anonymously to recipient, visible to instructors
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY" href="javascript:;">
+                  Visible to instructors only
+                </a>
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS" href="javascript:;">
+                  Visible to recipient and instructors
+                </a>
+              </li>
+              <li class="divider" role="separator">
+              </li>
+              <li>
+                <a class="visibility-options-dropdown-option" data-option-name="OTHER" href="javascript:;">
+                  Custom visibility options...
+                </a>
+              </li>
             </ul>
           </div>
-        </div>
-        <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
-          <div class="visibilityOptions" id="visibilityOptions--1" style="display: none;">
-            <table class="dataTable participantTable table table-striped text-center background-color-white">
+          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions--1" style="display:none;">
+            <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
                   <th class="text-center">
@@ -3869,6 +3986,11 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage--1">
+            This is the visibility hint as seen by the feedback giver:
+            <ul class="text-muted background-color-warning">
+            </ul>
           </div>
         </div>
         <div>

@@ -30,8 +30,8 @@
              </c:choose>
                 </td>
         </c:if>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.giverTeam)}</td>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
+        <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.giverTeam)}</td>
+        <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
             <c:when test="${not empty responseRow.giverProfilePictureLink && !responseRow.giverProfilePictureAColumn}">
                 <div class="profile-pic-icon-hover" data-link="${responseRow.giverProfilePictureLink}">
@@ -67,8 +67,8 @@
                 </c:choose>
             </td>
         </c:if>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.recipientTeam)}</td>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
+        <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.recipientTeam)}</td>
+        <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
             <c:when test="${not empty responseRow.recipientProfilePictureLink && !responseRow.recipientProfilePictureAColumn}">
                 <div class="profile-pic-icon-hover" data-link="${responseRow.recipientProfilePictureLink}">
