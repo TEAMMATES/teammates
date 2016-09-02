@@ -12,6 +12,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
@@ -45,7 +46,7 @@ public class AdminSearchPageAction extends Action {
             return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
         }
         
-        data.searchKey = searchKey;
+        data.searchKey = Sanitizer.sanitizeForHtml(searchKey);
        
         data.studentResultBundle = logic.searchStudentsInWholeSystem(searchKey, "");
         
@@ -77,7 +78,6 @@ public class AdminSearchPageAction extends Action {
         }
               
         data.init();
-        
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
     }
     
