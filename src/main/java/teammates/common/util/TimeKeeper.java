@@ -8,7 +8,7 @@ import com.google.apphosting.api.DeadlineExceededException;
 public class TimeKeeper {
     private static final long REMAINING_TIME_THRESHOLD = 5000;
     private static final long TIME_BETWEEN_CHECKS = 5000;
-    private Date lastCalledDateForEnoughTimeMethod = null;
+    private Date lastCalledDateForEnoughTimeMethod;
     
     public void hasEnoughTimeThrowException() throws DeadlineExceededException {
         Date now = new Date();
@@ -24,6 +24,6 @@ public class TimeKeeper {
     }
     
     public boolean hasEnoughTime() {
-        return !(ApiProxy.getCurrentEnvironment().getRemainingMillis() <= REMAINING_TIME_THRESHOLD);
+        return ApiProxy.getCurrentEnvironment().getRemainingMillis() > REMAINING_TIME_THRESHOLD;
     }
 }
