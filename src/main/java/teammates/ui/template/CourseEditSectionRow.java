@@ -175,8 +175,8 @@ public class CourseEditSectionRow {
      * @param sectionIndex the index of the section which will be checked for special privileges
      * @return             a list of checkboxes, separated into rows and columns
      */
-    private List<List<ElementTag>> createCheckboxesForSectionLevelPermissionsOfInstructors(List<String> sectionNames,
-                                                                      int panelIndex, int sectionIndex) {
+    private List<List<ElementTag>> createCheckboxesForSectionLevelPermissionsOfInstructors(
+                                   List<String> sectionNames, int panelIndex, int sectionIndex) {
         List<List<ElementTag>> specialSections = new ArrayList<List<ElementTag>>();
         // i represents the row (vertical alignment) of the checkbox
         for (int i = 0; i < sectionNames.size(); i += 3) {
