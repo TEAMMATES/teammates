@@ -153,6 +153,11 @@ var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
+    
+    $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function() {
+        bindDefaultImageIfMissing(this);
+    });
+    
     /**
      * Initializing then disabling is better than simply
      * not initializing for mobile due to some tooltips-specific
@@ -179,6 +184,18 @@ $(document).on('ajaxComplete ready', function() {
         }
     });
 });
+
+/**
+ * Binds a default image if the image is missing.
+ * @param element Image element.
+ */
+function bindDefaultImageIfMissing(element) {
+    $(element).on('error', function() {
+        if ($(this).attr('src') !== '') {
+            $(this).attr('src', '/images/profile_picture_default.png');
+        }
+    });
+}
 
 /**
  * Checks if the current device is touch based device
@@ -644,6 +661,18 @@ function clearStatusMessages() {
     $statusMessagesToUser.hide();
 }
 
+function addLoadingIndicator(button, loadingText) {
+    button.html(loadingText);
+    button.prop('disabled', true);
+    button.append('<img src="/images/ajax-loader.gif">');
+}
+
+function removeLoadingIndicator(button, displayText) {
+    button.empty();
+    button.html(displayText);
+    button.prop('disabled', false);
+}
+
 /**
  * Sanitize GoogleID by trimming space and '@gmail.com'
  * Used in instructorCourse, instructorCourseEdit, adminHome
@@ -808,12 +837,16 @@ function sanitizeForJs(rawString) {
  *                             Example- '.panel-body, #panel-data, .sub-container'
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
-    var searchKey = $(searchKeyId).val();
+    var searchKey = $(searchKeyId).val().trim();
     // split search key string on symbols and spaces and add to searchKeyList
     var searchKeyList = [];
-    $.each(searchKey.split(/[ "'.-]/), function() {
-        searchKeyList.push($.trim(this));
-    });
+    if (searchKey.charAt(0) === '"' && searchKey.charAt(searchKey.length - 1) === '"') {
+        searchKeyList.push(searchKey.replace(/"/g, '').trim());
+    } else {
+        $.each(searchKey.split(/[ "'.-]/), function() {
+            searchKeyList.push($.trim(this));
+        });
+    }
     // remove empty elements from searchKeyList
     searchKeyList = searchKeyList.filter(function(n) {
         return n !== '';

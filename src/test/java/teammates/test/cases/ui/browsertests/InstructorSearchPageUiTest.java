@@ -103,6 +103,14 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchCommentsAsHelper.html");
         
         searchPage = getInstructorSearchPage(instructorId);
+
+        ______TS("search exact string for students");
+        
+        searchPage.clearSearchBox();
+        searchContent = "\"student2 2 In Course1\"";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentsForStudent2WithExactString.html");
         
         ______TS("search for students");
         

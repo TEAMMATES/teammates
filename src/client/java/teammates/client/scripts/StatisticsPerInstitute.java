@@ -15,8 +15,8 @@ import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -48,8 +48,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     @SuppressWarnings("unchecked")
     protected void doOperation() {
         
-        String q = "SELECT FROM " + Student.class.getName();
-        List<Student> allStudents = (List<Student>) pm.newQuery(q).execute();
+        String q = "SELECT FROM " + CourseStudent.class.getName();
+        List<CourseStudent> allStudents = (List<CourseStudent>) pm.newQuery(q).execute();
         
         q = "SELECT FROM " + Instructor.class.getName();
         List<Instructor> allInstructors = (List<Instructor>) pm.newQuery(q).execute();
@@ -105,7 +105,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         return result;
     }
     
-    private boolean isTestingStudentData(Student student) {
+    private boolean isTestingStudentData(CourseStudent student) {
         boolean isTestingData = false;
         
         if (student.getEmail().toLowerCase().endsWith(".tmt")) {
@@ -119,7 +119,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         return isTestingData;
     }
 
-    private StatsBundle generateStatsPerInstitute(List<Student> allStudents, List<Instructor> allInstructors) {
+    private StatsBundle generateStatsPerInstitute(
+            List<CourseStudent> allStudents, List<Instructor> allInstructors) {
         HashMap<String, HashMap<Integer, HashSet<String>>> institutes =
                 new HashMap<String, HashMap<Integer, HashSet<String>>>();
         
@@ -147,7 +148,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             updateProgressIndicator();
         }
 
-        for (Student student : allStudents) {
+        for (CourseStudent student : allStudents) {
             
             if (isTestingStudentData(student) || student.getEmail() == null) {
                 continue;
@@ -182,7 +183,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     @SuppressWarnings("unchecked")
-    private String getInstituteForStudent(Student student) {
+    private String getInstituteForStudent(CourseStudent student) {
         
         if (courseIdToInstituteMap.containsKey(student.getCourseId())) {
             return courseIdToInstituteMap.get(student.getCourseId());

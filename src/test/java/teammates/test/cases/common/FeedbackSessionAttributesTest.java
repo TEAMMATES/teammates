@@ -30,6 +30,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     private static int gracePeriod;
     private static FeedbackSessionType feedbackSessionType;
     private static boolean sentOpenEmail;
+    private static boolean sentClosingEmail;
+    private static boolean sentClosedEmail;
     private static boolean sentPublishedEmail;
     private static boolean isOpeningEmailEnabled;
     private static boolean isClosingEmailEnabled;
@@ -54,6 +56,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         gracePeriod = 15;
         feedbackSessionType = FeedbackSessionType.STANDARD;
         sentOpenEmail = false;
+        sentClosingEmail = false;
+        sentClosedEmail = false;
         sentPublishedEmail = false;
         isOpeningEmailEnabled = false;
         isClosingEmailEnabled = false;
@@ -63,8 +67,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 courseId, creatorId, instructions,
                 createdTime, startTime, endTime,
                 sessionVisibleFromTime, resultsVisibleFromTime,
-                timeZone, gracePeriod,
-                feedbackSessionType, sentOpenEmail, sentPublishedEmail,
+                timeZone, gracePeriod, feedbackSessionType,
+                sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                 isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled
                 );
     }

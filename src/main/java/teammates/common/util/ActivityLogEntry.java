@@ -21,12 +21,14 @@ public class ActivityLogEntry {
     public static String[] automatedActions = {
             Const.AutomatedActionNames.AUTOMATED_LOG_COMPILATION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSED_MAIL_ACTION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION,
             Const.AutomatedActionNames.AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACK_OPENING_REMINDERS,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACK_CLOSING_REMINDERS,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_CLOSED_REMINDERS
 
     };
     

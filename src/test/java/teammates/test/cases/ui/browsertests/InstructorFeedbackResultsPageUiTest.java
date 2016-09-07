@@ -55,6 +55,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     @Test
     public void testFrontEndActions() throws Exception {
+        testDefaultSort();
         testSortAction();
         testFilterAction();
         testPanelsCollapseExpand();
@@ -161,9 +162,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
-                                      "CFResultsUiT.fred.g@gmail.tmt",
-                                      "CFResultsUiT.charlie.d@gmail.tmt", "CFResultsUiT.danny.e@gmail.tmt",
-                                      "drop.out@gmail.tmt", "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
+                "CFResultsUiT.fred.g@gmail.tmt", "CFResultsUiT.charlie.d@gmail.tmt",
+                "CFResultsUiT.danny.e@gmail.tmt", "drop.out@gmail.tmt",
+                "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
 
         ______TS("Typical case: test moderate responses button for team response");
 
@@ -596,6 +597,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
     }
 
+    public void testDefaultSort() throws Exception {
+
+        ______TS("Typical case: test default sort Team Name-->Giver display name");
+
+        resultsPage.fillSearchBox("default sort");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultDefaultSort.html");
+    }
+
+    
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
     public void testFeedbackResponseCommentActions() throws Exception {
 

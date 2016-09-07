@@ -117,30 +117,6 @@ public class CourseStudent implements StoreCallback {
         this.id = makeId();
         registrationKey = generateRegistrationKey();
     }
-
-    /**
-     * Constructor used for copying an existing Student entity to CourseStudent.
-     * The createdAt date of the student is unchanged, but updatedAt is updated.
-     * The registration key of the Student is copied.
-     */
-    public CourseStudent(Student student) {
-        googleId = student.getGoogleId();
-        name = student.getName();
-        lastName = student.getLastName();
-        email = student.getEmail();
-        courseId = student.getCourseId();
-        comments = student.getComments();
-        teamName = student.getTeamName();
-        sectionName = student.getSectionName();
-        registrationKey = student.getRegistrationKey();
-        
-        // copies the createdAt of the existing Student
-        // updatedAt is set to the time when CourseStudent is written to the database
-        // see jdoPreStore
-        createdAt = student.getCreatedAt();
-        
-        this.id = makeId();
-    }
     
     private String makeId() {
         return getEmail() + '%' + getCourseId();
