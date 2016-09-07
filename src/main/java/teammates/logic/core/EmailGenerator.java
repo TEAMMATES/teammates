@@ -86,6 +86,37 @@ public class EmailGenerator {
         return emails;
     }
     
+    /**
+     * Generates the feedback submission confirmation email for the given {@code session} for {@code student}
+     */
+    public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
+            FeedbackSessionAttributes session, StudentAttributes student, String timestamp) {
+        
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getFeedbackSessionName())
+                .withRegistrationKey(StringHelper.encrypt(student.key))
+                .withStudentEmail(student.email)
+                .toAbsoluteString();
+        return generateSubmissionConfirmationEmail(course, session, submitUrl, student.name, student.email, timestamp);
+    }
+
+    /**
+     * Generates the feedback submission confirmation email for the given {@code session} for {@code instructor}.
+     */
+    public EmailWrapper generateFeedbackSubmissionConfirmationEmailForInstructor(
+            FeedbackSessionAttributes session, InstructorAttributes instructor, String timestamp) {
+        
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getFeedbackSessionName())
+                .toAbsoluteString();
+
+        return generateSubmissionConfirmationEmail(course, session, submitUrl, instructor.name, instructor.email, timestamp);
+    }
+    
     private List<EmailWrapper> generateFeedbackSessionEmailBasesForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, List<InstructorAttributes> instructors,
             String template, String subject) {
@@ -96,6 +127,29 @@ public class EmailGenerator {
                                                                               template, subject));
         }
         return emails;
+    }
+    
+    private EmailWrapper generateSubmissionConfirmationEmail(
+            CourseAttributes course, FeedbackSessionAttributes session, String submitUrl,
+            String userName, String userEmail, String timeStamp) {
+        String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
+        String subject = EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject();
+        
+        String emailBody = Templates.populateTemplate(template,
+                "${userName}", userName,
+                "${courseName}", course.getName(),
+                "${courseId}", course.getId(),
+                "${feedbackSessionName}", session.getFeedbackSessionName(),
+                "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
+                "${submitUrl}", submitUrl,
+                "${timeStamp}", timeStamp,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+        
+        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
+        email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
+        email.setContent(emailBody);
+        return email;
+        
     }
     
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructorReminders(
@@ -299,7 +353,8 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}",
                         "The email below has been sent to students of course: " + course.getId()
-                        + ".<p/><br>\n<br>\n=== Email message as seen by the students ===<br>\n",
+                        + ".<p/><br>" + Const.EOL + "<br>" + Const.EOL
+                        + "=== Email message as seen by the students ===<br>" + Const.EOL,
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${supportEmail}", Config.SUPPORT_EMAIL);

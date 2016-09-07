@@ -88,6 +88,8 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
     private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "check");
     private static final String ERROR_NON_EXISTENT_FS_REMIND = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "remind");
+    private static final String ERROR_NON_EXISTENT_FS_CONFIRM =
+            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "confirm submission");
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
     private static final String ERROR_NON_EXISTENT_FS_PUBLISH =
             String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
@@ -1099,14 +1101,13 @@ public class FeedbackSessionsLogic {
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
+                fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
                 new ArrayList<FeedbackSessionAttributes>();
 
         for (FeedbackSessionAttributes session : sessions) {
             // automated emails are required only for custom publish times
-            if (session.isPublished() && session.isPublishedEmailEnabled()
-                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
+            if (session.isPublished() && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1115,12 +1116,12 @@ public class FeedbackSessionsLogic {
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
-                fsDb.getFeedbackSessionsWithUnsentOpenEmail();
+                fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
                 new ArrayList<FeedbackSessionAttributes>();
 
         for (FeedbackSessionAttributes session : sessions) {
-            if (session.isOpened()) {
+            if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE && session.isOpened()) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1586,6 +1587,46 @@ public class FeedbackSessionsLogic {
             throw new RuntimeException(ERROR_SENDING_EMAILS, e);
         }
     }
+    
+    public EmailWrapper sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName,
+                                                           String userId, String unregisteredStudentEmail,
+                                                           String regKey)
+                    throws EntityDoesNotExistException {
+        
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CONFIRM + courseId + "/" + feedbackSessionName);
+        }
+        FeedbackSessionAttributes session = getFeedbackSession(feedbackSessionName, courseId);
+        StudentAttributes student = null;
+        InstructorAttributes instructor = null;
+        
+        if (userId != null) {
+            student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, userId);
+            instructor = instructorsLogic.getInstructorForGoogleId(courseId, userId);
+        }
+        
+        if (student == null && unregisteredStudentEmail != null) {
+            student = new StudentAttributes();
+            student.email = unregisteredStudentEmail;
+            student.name = unregisteredStudentEmail;
+            student.key = regKey;
+        }
+        
+        Assumption.assertFalse(student == null && instructor == null);
+        
+        try {
+            String timestamp = TimeHelper.formatTime12H(Calendar.getInstance().getTime());
+            EmailWrapper email = instructor == null
+                    ? new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session,
+                            student, timestamp)
+                    : new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
+                            instructor, timestamp);
+            new EmailSender().sendEmail(email);
+            return email;
+        } catch (Exception e) {
+            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
+        }
+    }
 
     public void scheduleFeedbackRemindEmails(String courseId, String feedbackSessionName) {
         
@@ -1624,10 +1665,11 @@ public class FeedbackSessionsLogic {
                 ArrayList<FeedbackSessionAttributes>();
 
         List<FeedbackSessionAttributes> nonPrivateSessions =
-                fsDb.getFeedbackSessionsNeedingClosingEmail();
+                fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
-            if (session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)) {
+            if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE
+                    && session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)) {
                 requiredSessions.add(session);
             }
         }
@@ -1641,11 +1683,12 @@ public class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
         List<FeedbackSessionAttributes> requiredSessions = new ArrayList<FeedbackSessionAttributes>();
         List<FeedbackSessionAttributes> nonPrivateSessions =
-                fsDb.getFeedbackSessionsNeedingClosedEmail();
+                fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
             // is session closed in the past 1 hour
-            if (session.isClosedWithinPastHour()) {
+            if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE
+                    && session.isClosedWithinPastHour()) {
                 requiredSessions.add(session);
             }
         }

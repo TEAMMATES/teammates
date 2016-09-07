@@ -478,6 +478,15 @@ public abstract class AppPage {
                                  + "}");
     }
 
+    protected String getRichTextEditorContent(String id) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        String content = (String) jsExecutor.executeScript(
+                "  if (typeof tinyMCE !== 'undefined') {"
+                + "    return tinyMCE.get('" + id + "').getContent();"
+                + "}");
+        return content;
+    }
+
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) {
         if (fileName.isEmpty()) {
             fileBoxElement.clear();

@@ -564,11 +564,6 @@ public final class Const {
         public static final String RQG_SORT_TYPE = "recipient-question-giver";
     }
 
-    public class FeedbackSessionResultsDownloadTypes {
-        public static final String XLSX = "xlsx";
-        public static final String CSV = "csv";
-    }
-    
     public class InstructorPermissionRoleNames {
         public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
         public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
@@ -748,7 +743,6 @@ public final class Const {
         public static final String FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES = "frindicatemissingresponses";
         public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";
         public static final String FEEDBACK_RESULTS_MAIN_INDEX = "frmainindex";
-        public static final String FEEDBACK_RESULTS_DOWNLOAD_TYPE = "frdownloadtype";
 
         public static final String PREVIEWAS = "previewas";
         
@@ -812,6 +806,8 @@ public final class Const {
         public static final String COMMENT_EDITTYPE = "commentedittype";
         public static final String COMMENT_ID = "commentid";
         public static final String COMMENT_TEXT = "commenttext";
+        
+        public static final String SEND_SUBMISSION_EMAIL = "sendsubmissionemail";
         
         //Submission parameters for Task Queue
         public static final String SUBMISSION_COURSE = "course";
@@ -1265,6 +1261,8 @@ public final class Const {
         public static final String FEEDBACK_SESSION_COPY_ALREADYEXISTS =
                 "A feedback session with the name \"%s\" already exists in the following course(s): %s.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
+        public static final String FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME =
+                "The end time for this feedback session cannot be earlier than the start time.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS =
                 "The feedback session has been deleted and is no longer accessible.";

@@ -2,6 +2,7 @@ package teammates.test.cases.logic;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -19,6 +20,7 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -201,6 +203,25 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         assertTrue(hasStudent1ReceivedEmail);
         assertTrue(hasInstructor1ReceivedEmail);
         
+        ______TS("feedback session submission email");
+
+        Calendar time = Calendar.getInstance();
+        time.set(Calendar.DATE, 4);
+        time.set(Calendar.MONTH, 8);
+        time.set(Calendar.HOUR_OF_DAY, 5);
+        time.set(Calendar.MINUTE, 30);
+        EmailWrapper email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(
+                session, student1, TimeHelper.formatTime12H(time.getTime()));
+        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
+                                session.getFeedbackSessionName());
+        verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailForStudent.html");
+
+        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
+                instructor1, TimeHelper.formatTime12H(time.getTime()));
+        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
+                                session.getFeedbackSessionName());
+        verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailForInstructor.html");
+
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
         
         FeedbackSessionAttributes privateSession =

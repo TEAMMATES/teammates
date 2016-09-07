@@ -31,13 +31,6 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
-        
-        String[] paramsNormalXlsDownload = {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_DOWNLOAD_TYPE, Const.FeedbackSessionResultsDownloadTypes.XLSX
-        };
-        
         String[] paramsNormalWithinSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
@@ -82,21 +75,6 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForSession1InCourse1(result.getFileContent(), session);
-        
-        ______TS("Typical case: results downloadable in XLS format");
-
-        action = getAction(paramsNormalXlsDownload);
-        result = (FileDownloadResult) action.executeAndPostProcess();
-        
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
-        assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertFalse(result.isError);
-        assertEquals("", result.getStatusMessage());
-
-        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
-        assertEquals(expectedFileName, result.getFileName());
-        assertEquals(Const.FeedbackSessionResultsDownloadTypes.XLSX, result.getFileType());
         verifyFileContentForSession1InCourse1(result.getFileContent(), session);
 
         ______TS("Typical successful case: student last name displayed properly after being specified with braces");
