@@ -359,6 +359,10 @@ public class InstructorFeedbacksPage extends AppPage {
         return timezoneDropdown.getAttribute("value");
     }
     
+    public String getInstructions() {
+        return getRichTextEditorContent("instructions");
+    }
+
     public boolean isRowSelected(int rowIndex) {
         WebElement row = browser.driver.findElement(By.id("copyTableModal"))
                                         .findElements(By.tagName("tr"))
