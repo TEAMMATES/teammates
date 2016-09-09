@@ -176,6 +176,12 @@ public class FeedbackQuestionsLogic {
                 copiableQuestions.addAll(questions);
             }
         }
+        sortCopiableQuestions(copiableQuestions);
+        
+        return copiableQuestions;
+    }
+
+    private void sortCopiableQuestions(List<FeedbackQuestionAttributes> copiableQuestions) {
         Collections.sort(copiableQuestions, new Comparator<FeedbackQuestionAttributes>() {
             @Override
             public int compare(FeedbackQuestionAttributes q1, FeedbackQuestionAttributes q2) {
@@ -203,8 +209,6 @@ public class FeedbackQuestionsLogic {
                 return q1Details.getQuestionText().compareTo(q2Details.getQuestionText());
             }
         });
-        
-        return copiableQuestions;
     }
     
     /**
@@ -221,7 +225,7 @@ public class FeedbackQuestionsLogic {
         }
         
         if (fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
-            return getFeedbackQuestionsForCreatorInstructor(feedbackSessionName, courseId);
+            return getFeedbackQuestionsForSessionCreatorInstructor(feedbackSessionName, courseId);
         }
         
         List<FeedbackQuestionAttributes> questions =
@@ -239,12 +243,11 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
-     * Gets a {@code List} of all questions for the list of questions that an
+     * Gets a {@code List} of all questions that an
      * instructor who is the creator of the course can view/submit
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
-                                    String feedbackSessionName, String courseId)
-                    throws EntityDoesNotExistException {
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSessionCreatorInstructor(
+            String feedbackSessionName, String courseId) throws EntityDoesNotExistException {
 
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
         if (fsa == null) {
@@ -252,11 +255,14 @@ public class FeedbackQuestionsLogic {
                     "Trying to get questions for a feedback session that does not exist.");
         }
         
-        return getFeedbackQuestionsForCreatorInstructor(fsa);
+        return getFeedbackQuestionsForSessionCreatorInstructor(fsa);
     }
     
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
-                                    FeedbackSessionAttributes fsa) {
+    /**
+     * Gets a {@code List} of all questions that an
+     * instructor who is the creator of the course can view/submit
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSessionCreatorInstructor(FeedbackSessionAttributes fsa) {
 
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
@@ -276,10 +282,10 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
-     * Gets a {@code List} of all questions for the list of questions that an
+     * Filters out a {@code List} of all questions for the list of questions that an
      * instructor can view/submit
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
+    public List<FeedbackQuestionAttributes> filterFeedbackQuestionsForInstructor(
             List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
         
         List<FeedbackQuestionAttributes> questions =
@@ -320,10 +326,10 @@ public class FeedbackQuestionsLogic {
     
     
     /**
-     * Gets a {@code List} of all questions from the given list of questions
+     * Filters out a {@code List} of all questions from the given list of questions
      * that students can view/submit
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
+    public List<FeedbackQuestionAttributes> filterFeedbackQuestionsForStudents(
             List<FeedbackQuestionAttributes> allQuestions) {
         
         List<FeedbackQuestionAttributes> questions =
@@ -339,6 +345,10 @@ public class FeedbackQuestionsLogic {
         return questions;
     }
     
+    /**
+     * Gets recipients for a given question.
+     * @return a mapping of recipients' emails (where applicable) to their names
+     */
     public Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
             throws EntityDoesNotExistException {
         
@@ -347,28 +357,48 @@ public class FeedbackQuestionsLogic {
         
         return getRecipientsForQuestion(question, giver, instructorGiver, studentGiver);
     }
-
+    
+    /**
+     * Gets recipients for a given question.
+     * @return a mapping of recipients' emails (where applicable) to their names
+     */
     public Map<String, String> getRecipientsForQuestion(
             FeedbackQuestionAttributes question, String giver,
             InstructorAttributes instructorGiver, StudentAttributes studentGiver)
                     throws EntityDoesNotExistException {
-
-        Map<String, String> recipients = new HashMap<String, String>();
         
         FeedbackParticipantType recipientType = question.recipientType;
         
-        String giverTeam = null;
+        String giverTeam = getTeamNameForUser(giver, instructorGiver, studentGiver);
         
+        return getRecipientsBasedOnRecipientType(question, giver, studentGiver, recipientType, giverTeam);
+    }
+
+    private String getTeamNameForUser(String giver, InstructorAttributes instructorGiver,
+            StudentAttributes studentGiver) {
         boolean isStudentGiver = studentGiver != null;
         boolean isInstructorGiver = instructorGiver != null;
         if (isStudentGiver) {
-            giverTeam = studentGiver.team;
+            return studentGiver.team;
         } else if (isInstructorGiver) {
-            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-        } else {
-            giverTeam = giver;
+            return Const.USER_TEAM_FOR_INSTRUCTOR;
         }
-        
+        return giver;
+    }
+
+    /**
+     * Gets a mapping of recipients' emails to their names.
+     * @param question
+     * @param giver         Email of the giver.
+     * @param studentGiver  StudentAttributes pertaining to the giver (if applicable).
+     * @param recipientType FeedbackParticipantType of the receiver of the question.
+     * @param giverTeam
+     * @throws EntityDoesNotExistException
+     */
+    private Map<String, String> getRecipientsBasedOnRecipientType(
+            FeedbackQuestionAttributes question, String giver, StudentAttributes studentGiver,
+            FeedbackParticipantType recipientType, String giverTeam) throws EntityDoesNotExistException {
+        Map<String, String> recipients = new HashMap<String, String>();
         switch (recipientType) {
         case SELF:
             if (question.giverType == FeedbackParticipantType.TEAMS) {
@@ -437,6 +467,14 @@ public class FeedbackQuestionsLogic {
                        .isEmpty();
     }
   
+    /**
+     * Checks if a question has been fully answered by a user.
+     * 
+     * @param question
+     * @param email
+     * @return true if there are no more recipients to give feedback to for the given {@code teamName}, false otherwise.
+     * @throws EntityDoesNotExistException
+     */
     public boolean isQuestionFullyAnsweredByUser(FeedbackQuestionAttributes question, String email)
             throws EntityDoesNotExistException {
         
@@ -492,8 +530,7 @@ public class FeedbackQuestionsLogic {
     public void updateFeedbackQuestionNumber(FeedbackQuestionAttributes newQuestion)
         throws InvalidParametersException, EntityDoesNotExistException {
         
-        FeedbackQuestionAttributes oldQuestion =
-                fqDb.getFeedbackQuestion(newQuestion.getId());
+        FeedbackQuestionAttributes oldQuestion = fqDb.getFeedbackQuestion(newQuestion.getId());
 
         if (oldQuestion == null) {
             throw new EntityDoesNotExistException("Trying to update a feedback question that does not exist.");
@@ -610,7 +647,10 @@ public class FeedbackQuestionsLogic {
         fqDb.updateFeedbackQuestion(newAttributes);
     }
 
-    public void deleteFeedbackQuestionsForSession(String feedbackSessionName, String courseId)
+    /**
+     * Performs a cascading delete on all questions for the given session.
+     */
+    public void deleteFeedbackQuestionsForSessionAndCascade(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
         List<FeedbackQuestionAttributes> questions =
                 getFeedbackQuestionsForSession(feedbackSessionName, courseId);
@@ -678,7 +718,7 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
-     * Deletes a question.<br> Question is identified by it's question number, and
+     * Deletes a question.<br> Question is identified by its question number, and
      * the feedback session name and course ID of the question.<br>
      * Can be used when the question ID is unknown. <br>
      * Cascade the deletion of all existing responses for the question and then
@@ -710,7 +750,9 @@ public class FeedbackQuestionsLogic {
         }
     }
     
-    // Shifts all question numbers after questionNumberToShiftFrom down by one.
+    /**
+     * Shifts all question numbers after questionNumberToShiftFrom down by one.
+     */
     private void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
             List<FeedbackQuestionAttributes> questionsToShift) {
         for (FeedbackQuestionAttributes question : questionsToShift) {
@@ -727,8 +769,8 @@ public class FeedbackQuestionsLogic {
         }
     }
     
-    /*
-     * Removes questions with no recipients.
+    /**
+     * Gets a list of questions which the giver has recipients to give responses to.
      */
     public List<FeedbackQuestionAttributes> getQuestionsWithRecipients(
             List<FeedbackQuestionAttributes> questions, String giver)

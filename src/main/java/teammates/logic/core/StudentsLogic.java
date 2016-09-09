@@ -228,7 +228,7 @@ public class StudentsLogic {
         
         // adjust submissions if moving to a different team
         if (isTeamChanged(originalStudent.team, student.team)) {
-            frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
+            frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team);
         }
 
         if (isSectionChanged(originalStudent.section, student.section)) {

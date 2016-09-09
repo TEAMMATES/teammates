@@ -1,10 +1,8 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -30,8 +28,7 @@ public class FeedbackResponsesLogic {
     private static FeedbackResponsesLogic instance;
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic
-            .inst();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
@@ -100,8 +97,7 @@ public class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSectionWithinRange(
-            String feedbackSessionName, String courseId, String section,
-            long range) {
+            String feedbackSessionName, String courseId, String section, long range) {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
@@ -109,8 +105,7 @@ public class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String section,
-            long range) {
+            String feedbackSessionName, String courseId, String section, long range) {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
@@ -118,8 +113,7 @@ public class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionToSectionWithinRange(
-            String feedbackSessionName, String courseId, String section,
-            long range) {
+            String feedbackSessionName, String courseId, String section, long range) {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
@@ -206,26 +200,24 @@ public class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
     }
 
+    /**
+     * Gets all viewable responses for the feedback question.
+     * Does not take instructor privileges into account.
+     */
     public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestionInSection(
-            FeedbackQuestionAttributes question, String userEmail,
-            UserType.Role role, String section) {
+            FeedbackQuestionAttributes question, String userEmail, UserType.Role role, String section) {
 
         List<FeedbackResponseAttributes> viewableResponses =
                 new ArrayList<FeedbackResponseAttributes>();
 
         // Add responses that the user submitted himself
-        addNewResponses(
-                viewableResponses,
-                getFeedbackResponsesFromGiverForQuestionInSection(
-                        question.getId(), userEmail, section));
+        addNewResponses(viewableResponses,
+                        getFeedbackResponsesFromGiverForQuestionInSection(question.getId(), userEmail, section));
 
-        // Add responses that user is a receiver of when question is visible to
-        // receiver.
+        // Add responses that user is a receiver of when question is visible to receiver.
         if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
-            addNewResponses(
-                    viewableResponses,
-                    getFeedbackResponsesForReceiverForQuestionInSection(
-                            question.getId(), userEmail, section));
+            addNewResponses(viewableResponses,
+                            getFeedbackResponsesForReceiverForQuestionInSection(question.getId(), userEmail, section));
         }
 
         switch (role) {
@@ -247,32 +239,36 @@ public class FeedbackResponsesLogic {
 
         return viewableResponses;
     }
-
-    public boolean isNameVisibleTo(
-            FeedbackQuestionAttributes question,
-            FeedbackResponseAttributes response,
-            String userEmail,
-            UserType.Role role, boolean isGiverName, CourseRoster roster) {
+    
+    /**
+     * Checks if the name is visible to the given user.
+     * If {@code isGiverName} is false, it checks for recipient name instead.
+     */
+    public boolean isNameVisibleTo(FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
+                                   String userEmail, UserType.Role role, boolean isGiverName, CourseRoster roster) {
 
         if (question == null) {
             return false;
         }
         
-        // Early return if user is giver
-        if (question.giverType == FeedbackParticipantType.TEAMS) {
-            // if response is given by team, then anyone in the team can see the response
-            if (roster.isStudentsInSameTeam(response.giver, userEmail)) {
-                return true;
-            }
-        } else {
-            if (response.giver.equals(userEmail)) {
-                return true;
-            }
+        // Early return if user is giver or if user is part of giver team
+        if (isUserGiverOfResponse(question, response, userEmail, roster)) {
+            return true;
         }
         
         List<FeedbackParticipantType> showNameTo = isGiverName
-                                                 ? question.showGiverNameTo
-                                                 : question.showRecipientNameTo;
+                                                   ? question.showGiverNameTo
+                                                   : question.showRecipientNameTo;
+        return doesVisibilityRecipientTypeMatchUserDetails(question, response, userEmail, role, roster,
+                                                           showNameTo);
+    }
+
+    /**
+     * Checks if the user matches any of the feedback participant types for the given response
+     */
+    private boolean doesVisibilityRecipientTypeMatchUserDetails(FeedbackQuestionAttributes question,
+            FeedbackResponseAttributes response, String userEmail, UserType.Role role, CourseRoster roster,
+            List<FeedbackParticipantType> showNameTo) {
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:
@@ -288,24 +284,21 @@ public class FeedbackResponsesLogic {
                 }
                 break;
             case RECEIVER:
-                // Response to team
+                // Response to team; recipient is a team name
                 if (question.recipientType.isTeam()) {
                     if (roster.isStudentInTeam(userEmail, response.recipient)) {
-                        // this is a team name
                         return true;
                     }
                     break;
                     // Response to individual
                 } else if (response.recipient.equals(userEmail)) {
                     return true;
-                } else {
-                    break;
                 }
+                break;
             case RECEIVER_TEAM_MEMBERS:
-                // Response to team; recipient = teamName
+                // Response to team; recipient is a team name
                 if (question.recipientType.isTeam()) {
                     if (roster.isStudentInTeam(userEmail, response.recipient)) {
-                        // this is a team name
                         return true;
                     }
                     break;
@@ -326,6 +319,15 @@ public class FeedbackResponsesLogic {
             }
         }
         return false;
+    }
+
+    /**
+     * Checks if the user gave the response, or is part of the team that gave the response.
+     */
+    private boolean isUserGiverOfResponse(FeedbackQuestionAttributes question,
+            FeedbackResponseAttributes response, String userEmail, CourseRoster roster) {
+        return question.giverType == FeedbackParticipantType.TEAMS && roster.isStudentsInSameTeam(response.giver, userEmail)
+                || question.giverType != FeedbackParticipantType.TEAMS && response.giver.equals(userEmail);
     }
     
     /**
@@ -366,14 +368,12 @@ public class FeedbackResponsesLogic {
      * updated by recreating the response<br>
      * in order to prevent an id clash if the previous email is reused later on.
      */
-    public void updateFeedbackResponse(
-            FeedbackResponseAttributes responseToUpdate)
+    public void updateFeedbackResponse(FeedbackResponseAttributes responseToUpdate)
             throws InvalidParametersException, EntityDoesNotExistException,
             EntityAlreadyExistsException {
 
         // Create a copy.
-        FeedbackResponseAttributes newResponse = new FeedbackResponseAttributes(
-                responseToUpdate);
+        FeedbackResponseAttributes newResponse = new FeedbackResponseAttributes(responseToUpdate);
         FeedbackResponse oldResponseEntity = null;
         if (newResponse.getId() == null) {
             oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.feedbackQuestionId,
@@ -402,8 +402,8 @@ public class FeedbackResponsesLogic {
      * in order to prevent an id clash if the previous email is reused later on.
      * @param updatedResponse
      * @param oldResponseEntity  a FeedbackResponse retrieved from the database
-     * @throws EntityAlreadyExistsException  if trying to prevent an id clash by recreating a response,
-     *                                       a response with the same id already exist.
+     * @throws EntityAlreadyExistsException  if when recreating a response to avoid an id clash,
+     *                                       a response with the same id as the recreated response already exists.
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
@@ -417,6 +417,26 @@ public class FeedbackResponsesLogic {
         
         FeedbackResponseAttributes oldResponse = new FeedbackResponseAttributes(oldResponseEntity);
 
+        copyResponseFields(newResponse, oldResponse);
+    
+        if (newResponse.recipient.equals(oldResponse.recipient)
+                && newResponse.giver.equals(oldResponse.giver)) {
+            try {
+                frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
+            } catch (EntityDoesNotExistException e) {
+                Assumption.fail();
+            }
+        } else {
+            // Recreate response to prevent possible future id conflict.
+            recreateResponse(newResponse, oldResponse);
+        }
+    }
+
+    /**
+     * Copies information from {@code oldResponse} to {@code newResponse}
+     */
+    private void copyResponseFields(FeedbackResponseAttributes newResponse,
+            FeedbackResponseAttributes oldResponse) {
         // Copy values that cannot be changed to defensively avoid invalid
         // parameters.
         newResponse.courseId = oldResponse.courseId;
@@ -438,18 +458,6 @@ public class FeedbackResponsesLogic {
         }
         if (newResponse.recipientSection == null) {
             newResponse.recipientSection = oldResponse.recipientSection;
-        }
-    
-        if (newResponse.recipient.equals(oldResponse.recipient)
-                && newResponse.giver.equals(oldResponse.giver)) {
-            try {
-                frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
-            } catch (EntityDoesNotExistException e) {
-                Assumption.fail();
-            }
-        } else {
-            // Recreate response to prevent possible future id conflict.
-            recreateResponse(newResponse, oldResponse);
         }
     }
 
@@ -475,64 +483,100 @@ public class FeedbackResponsesLogic {
      * deleting responses that are no longer relevant to him in his new team.
      */
     public void updateFeedbackResponsesForChangingTeam(
-            String courseId, String userEmail, String oldTeam, String newTeam) {
+            String courseId, String userEmail, String oldTeam) {
+        deleteIrrelevantGivenResponses(courseId, userEmail);
+        deleteIrrelevantReceivedResponses(courseId, userEmail);
+        deleteResponsesForTeamIfTeamIsEmpty(courseId, oldTeam);
+    }
 
-        FeedbackQuestionAttributes question;
-
+    /**
+     * Deletes any given responses that are no longer relevant when the user changes team.
+     */
+    private void deleteIrrelevantGivenResponses(String courseId, String userEmail) {
         List<FeedbackResponseAttributes> responsesFromUser =
                 getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
 
         for (FeedbackResponseAttributes response : responsesFromUser) {
-            question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+            FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
             if (question.giverType == FeedbackParticipantType.TEAMS
                     || isRecipientTypeTeamMembers(question)) {
                 frDb.deleteEntity(response);
             }
         }
+    }
 
+    /**
+     * Deletes any received responses that are no longer relevant when the user changes team.
+     */
+    private void deleteIrrelevantReceivedResponses(String courseId, String userEmail) {
         List<FeedbackResponseAttributes> responsesToUser =
                 getFeedbackResponsesForReceiverForCourse(courseId, userEmail);
 
         for (FeedbackResponseAttributes response : responsesToUser) {
-            question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+            FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
             if (isRecipientTypeTeamMembers(question)) {
-                frDb.deleteEntity(response);
-            }
-        }
-
-        if (studentsLogic.getStudentsForTeam(oldTeam, courseId).isEmpty()) {
-            List<FeedbackResponseAttributes> responsesToTeam =
-                    getFeedbackResponsesForReceiverForCourse(courseId, oldTeam);
-            for (FeedbackResponseAttributes response : responsesToTeam) {
                 frDb.deleteEntity(response);
             }
         }
     }
 
+    /**
+     * If the team is empty, delete the responses to the team
+     */
+    private void deleteResponsesForTeamIfTeamIsEmpty(String courseId, String team) {
+        if (studentsLogic.getStudentsForTeam(team, courseId).isEmpty()) {
+            List<FeedbackResponseAttributes> responsesToTeam =
+                    getFeedbackResponsesForReceiverForCourse(courseId, team);
+            for (FeedbackResponseAttributes response : responsesToTeam) {
+                frDb.deleteEntity(response);
+            }
+        }
+    }
+    
+    /**
+     * Updates responses for a student when his section changes.
+     */
     public void updateFeedbackResponsesForChangingSection(
             String courseId, String userEmail, String oldSection, String newSection)
             throws EntityDoesNotExistException, InvalidParametersException {
+        updateSectionForGivenResponses(courseId, userEmail, newSection);
+        updateSectionForReceivedResponses(courseId, userEmail, newSection);
+    }
 
+    /**
+     * Updates responses that the student has given to the new section he/she is in.
+     */
+    private void updateSectionForGivenResponses(String courseId, String userEmail, String newSection)
+            throws InvalidParametersException, EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responsesFromUser =
                 getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
 
         for (FeedbackResponseAttributes response : responsesFromUser) {
             response.giverSection = newSection;
             frDb.updateFeedbackResponse(response);
-            frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+            frcLogic.updateSectionsForFeedbackResponseCommentsForResponse(response.getId());
         }
+    }
 
+    /**
+     * Updates responses that the student has received to the new section he/she is in.
+     */
+    private void updateSectionForReceivedResponses(String courseId, String userEmail, String newSection)
+            throws InvalidParametersException, EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responsesToUser =
                 getFeedbackResponsesForReceiverForCourse(courseId, userEmail);
 
         for (FeedbackResponseAttributes response : responsesToUser) {
             response.recipientSection = newSection;
             frDb.updateFeedbackResponse(response);
-            frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+            frcLogic.updateSectionsForFeedbackResponseCommentsForResponse(response.getId());
         }
-
     }
 
+    /**
+     * Updates a single feedback response by deleting it if the response is no longer relevant to the student
+     * in his/her new team.
+     */
     public boolean updateFeedbackResponseForChangingTeam(StudentEnrollDetails enrollment,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
 
@@ -555,18 +599,11 @@ public class FeedbackResponsesLogic {
 
         if (shouldDeleteResponse) {
             frDb.deleteEntity(response);
-            updateSessionResponseRateForDeletingStudentResponse(enrollment.email,
-                    response.feedbackSessionName, enrollment.course);
+            updateSessionResponseRateForIndividualUser(enrollment.email,
+                    response.feedbackSessionName, enrollment.course, false);
         }
         
         return shouldDeleteResponse;
-    }
-
-    private void updateSessionResponseRateForDeletingStudentResponse(String studentEmail, String sessionName,
-            String courseId) throws InvalidParametersException, EntityDoesNotExistException {
-        if (!hasGiverRespondedForSession(studentEmail, sessionName, courseId)) {
-            fsLogic.deleteStudentFromRespondentList(studentEmail, sessionName, courseId);
-        }
     }
 
     private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
@@ -574,6 +611,10 @@ public class FeedbackResponsesLogic {
                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
     
+    /**
+     * Updates responses for a student if his/her section changes.
+     * Currently does not support the case where a student's team and section changes at the same time.
+     */
     public void updateFeedbackResponseForChangingSection(
             StudentEnrollDetails enrollment,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
@@ -595,7 +636,7 @@ public class FeedbackResponsesLogic {
         frDb.commitOutstandingChanges();
         
         if (isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment) {
-            frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+            frcLogic.updateSectionsForFeedbackResponseCommentsForResponse(response.getId());
         }
     }
 
@@ -615,9 +656,8 @@ public class FeedbackResponsesLogic {
             try {
                 updateFeedbackResponse(response);
             } catch (EntityAlreadyExistsException e) {
-                Assumption
-                        .fail("Feedback response failed to update successfully"
-                            + "as email was already in use.");
+                Assumption.fail("Feedback response failed to update successfully "
+                                + "as email was already in use.");
             }
         }
 
@@ -629,18 +669,24 @@ public class FeedbackResponsesLogic {
             try {
                 updateFeedbackResponse(response);
             } catch (EntityAlreadyExistsException e) {
-                Assumption
-                        .fail("Feedback response failed to update successfully"
-                            + "as email was already in use.");
+                Assumption.fail("Feedback response failed to update successfully "
+                                + "as email was already in use.");
             }
         }
     }
 
+    /**
+     * Deletes a response and cascades the deletion to feedback response comments.
+     */
     public void deleteFeedbackResponseAndCascade(FeedbackResponseAttributes responseToDelete) {
         frcLogic.deleteFeedbackResponseCommentsForResponse(responseToDelete.getId());
         frDb.deleteEntity(responseToDelete);
     }
 
+    /**
+     * Deletes responses for the given question and cascades the deletion to feedback response comments.
+     * Updates the response rate as well if {@code hasResponseRateUpdate} is set to true.
+     */
     public void deleteFeedbackResponsesForQuestionAndCascade(
             String feedbackQuestionId, boolean hasResponseRateUpdate) {
         List<FeedbackResponseAttributes> responsesForQuestion =
@@ -649,35 +695,43 @@ public class FeedbackResponsesLogic {
         Set<String> emails = new HashSet<String>();
 
         for (FeedbackResponseAttributes response : responsesForQuestion) {
-            this.deleteFeedbackResponseAndCascade(response);
+            deleteFeedbackResponseAndCascade(response);
             emails.add(response.giver);
         }
 
-        if (!hasResponseRateUpdate) {
-            return;
+        if (hasResponseRateUpdate) {
+            updateResponseRate(feedbackQuestionId, emails);
         }
+    }
 
+    private void updateResponseRate(String feedbackQuestionId, Set<String> emails) {
         try {
             FeedbackQuestionAttributes question = fqLogic
                     .getFeedbackQuestion(feedbackQuestionId);
             boolean isInstructor = question.giverType == FeedbackParticipantType.SELF
                                    || question.giverType == FeedbackParticipantType.INSTRUCTORS;
             for (String email : emails) {
-                boolean hasResponses = hasGiverRespondedForSession(email, question.feedbackSessionName, question.courseId);
-                if (!hasResponses) {
-                    if (isInstructor) {
-                        fsLogic.deleteInstructorRespondant(email,
-                                question.feedbackSessionName,
-                                question.courseId);
-                    } else {
-                        fsLogic.deleteStudentFromRespondentList(email,
-                                question.feedbackSessionName,
-                                question.courseId);
-                    }
-                }
+                updateSessionResponseRateForIndividualUser(
+                        email, question.feedbackSessionName, question.courseId, isInstructor);
             }
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             Assumption.fail("Fail to delete respondant");
+        }
+    }
+
+    /**
+     * If the user no longer has any responses for the session, delete him/her from the respondent list.
+     */
+    private void updateSessionResponseRateForIndividualUser(
+            String userEmail, String sessionName, String courseId, boolean isInstructor)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        boolean hasResponses = hasGiverRespondedForSession(userEmail, sessionName, courseId);
+        if (!hasResponses) {
+            if (isInstructor) {
+                fsLogic.deleteInstructorRespondant(userEmail, sessionName, courseId);
+            } else {
+                fsLogic.deleteStudentFromRespondentList(userEmail, sessionName, courseId);
+            }
         }
     }
 
@@ -693,8 +747,7 @@ public class FeedbackResponsesLogic {
 
         List<FeedbackResponseAttributes> responses =
                 getFeedbackResponsesFromGiverForCourse(courseId, studentEmail);
-        responses
-                .addAll(
+        responses.addAll(
                 getFeedbackResponsesForReceiverForCourse(courseId, studentEmail));
         // Delete responses to team as well if student is last person in team.
         if (studentsLogic.getStudentsForTeam(studentTeam, courseId).size() <= 1) {
@@ -717,26 +770,29 @@ public class FeedbackResponsesLogic {
 
     /**
      * Adds {@link FeedbackResponseAttributes} in {@code newResponses} that are
-     * not already in to {@code existingResponses} to {@code existingResponses}.
+     * not already in {@code existingResponses} to {@code existingResponses}.
+     * Assumes all responses already have a unique id.
      */
     private void addNewResponses(
             List<FeedbackResponseAttributes> existingResponses,
             List<FeedbackResponseAttributes> newResponses) {
 
-        Map<String, FeedbackResponseAttributes> responses =
-                new HashMap<String, FeedbackResponseAttributes>();
+        Set<String> responses = new HashSet<String>();
 
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
-            responses.put(existingResponse.getId(), existingResponse);
+            responses.add(existingResponse.getId());
         }
         for (FeedbackResponseAttributes newResponse : newResponses) {
-            if (!responses.containsKey(newResponse.getId())) {
-                responses.put(newResponse.getId(), newResponse);
+            if (!responses.contains(newResponse.getId())) {
+                responses.add(newResponse.getId());
                 existingResponses.add(newResponse);
             }
         }
     }
 
+    /**
+     * Gets a list of responses given by all team members and the team itself.
+     */
     private List<FeedbackResponseAttributes> getFeedbackResponsesFromTeamForQuestion(
             String feedbackQuestionId, String courseId, String teamName) {
 
@@ -756,6 +812,9 @@ public class FeedbackResponsesLogic {
         return responses;
     }
 
+    /**
+     * Gets a list of responses given by the student's team members, excluding himself/herself.
+     */
     private List<FeedbackResponseAttributes> getFeedbackResponsesForTeamMembersOfStudent(
             String feedbackQuestionId, StudentAttributes student) {
         
@@ -776,6 +835,10 @@ public class FeedbackResponsesLogic {
         return teamResponses;
     }
 
+    /**
+     * Gets all other responses that the student can see which does not involve him/her as a
+     * giver or receiver directly.
+     */
     private List<FeedbackResponseAttributes> getViewableFeedbackResponsesForStudentForQuestion(
             FeedbackQuestionAttributes question, String studentEmail) {
 
@@ -805,8 +868,7 @@ public class FeedbackResponsesLogic {
                     getFeedbackResponsesFromTeamForQuestion(
                             question.getId(), question.courseId, student.team));
         }
-        if (question
-                .isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
+        if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
             addNewResponses(
                     viewableResponses,
                     getFeedbackResponsesForTeamMembersOfStudent(
