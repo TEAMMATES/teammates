@@ -302,6 +302,7 @@ public final class Templates {
             public static final String CONSTSUM_OPTION_VISIBILITY = "${constSumOptionVisibility}";
             public static final String CONSTSUM_OPTION_POINT = "${constSumOptionPoint}";
             public static final String CONSTSUM_OPTION_VALUE = "${constSumOptionValue}";
+            public static final String MARGIN_LEFT = "${marginLeft}";
             public static final String CONSTSUM_PARAM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
             public static final String CONSTSUM_PARAM_POINTSFOREACHOPTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}";

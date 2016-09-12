@@ -837,12 +837,16 @@ function sanitizeForJs(rawString) {
  *                             Example- '.panel-body, #panel-data, .sub-container'
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
-    var searchKey = $(searchKeyId).val();
+    var searchKey = $(searchKeyId).val().trim();
     // split search key string on symbols and spaces and add to searchKeyList
     var searchKeyList = [];
-    $.each(searchKey.split(/[ "'.-]/), function() {
-        searchKeyList.push($.trim(this));
-    });
+    if (searchKey.charAt(0) === '"' && searchKey.charAt(searchKey.length - 1) === '"') {
+        searchKeyList.push(searchKey.replace(/"/g, '').trim());
+    } else {
+        $.each(searchKey.split(/[ "'.-]/), function() {
+            searchKeyList.push($.trim(this));
+        });
+    }
     // remove empty elements from searchKeyList
     searchKeyList = searchKeyList.filter(function(n) {
         return n !== '';
