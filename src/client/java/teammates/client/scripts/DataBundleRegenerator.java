@@ -1,7 +1,9 @@
 package teammates.client.scripts;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -22,14 +24,18 @@ import com.google.gson.reflect.TypeToken;
 
 public final class DataBundleRegenerator {
     
+    private static final List<String> NON_DATA_BUNDLE_JSON = Arrays.asList(
+            "feedbackSessionTeamEvaluationTemplate.json"
+    );
+    
     private DataBundleRegenerator() {
         // script-like, not meant to be instantiated
     }
     
-    private static void regenerateDataBundleJson(File folder) throws Exception {
+    private static void regenerateDataBundleJson(File folder) throws IOException {
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
-            if (file.getName().endsWith(".json") && !file.getName().startsWith("feedbackSessionTeamEvaluationTemplate")) {
+            if (file.getName().endsWith(".json") && !NON_DATA_BUNDLE_JSON.contains(file.getName())) {
                 String jsonString = FileHelper.readFile(file.getCanonicalPath());
                 Gson gson = Utils.getTeammatesGson();
                 DataBundle db = gson.fromJson(jsonString, DataBundle.class);
@@ -40,8 +46,7 @@ public final class DataBundleRegenerator {
                     fixQuestion(questionMap.getValue());
                 }
                 String regeneratedJsonString = gson.toJson(db).replace("+0000", "UTC");
-                FileHelper.saveFile(file.getCanonicalPath(), regeneratedJsonString);
-                System.out.println(file.getCanonicalPath() + " regenerated!");
+                saveFile(file.getCanonicalPath(), regeneratedJsonString);
             }
         }
     }
@@ -79,14 +84,14 @@ public final class DataBundleRegenerator {
         return reprintedJson;
     }
     
-    private static void regenerateAllDataBundleJson() throws Exception {
+    private static void regenerateAllDataBundleJson() throws IOException {
         File folder = new File("./src/main/resources");
         regenerateDataBundleJson(folder);
         folder = new File("./src/test/resources/data");
         regenerateDataBundleJson(folder);
     }
     
-    private static void regenerateSessionTemplateJson() throws Exception {
+    private static void regenerateSessionTemplateJson() throws IOException {
         File file = new File("./src/main/resources/feedbackSessionTeamEvaluationTemplate.json");
         regenerateGenericJson(file);
         String jsonString = FileHelper.readFile(file.getCanonicalPath());
@@ -97,26 +102,29 @@ public final class DataBundleRegenerator {
             fixQuestion(question);
         }
         String regeneratedJsonString = gson.toJson(template).replace("+0000", "UTC");
-        FileHelper.saveFile(file.getCanonicalPath(), regeneratedJsonString);
-        System.out.println(file.getCanonicalPath() + " regenerated!");
+        saveFile(file.getCanonicalPath(), regeneratedJsonString);
     }
     
-    private static void regenerateGenericJson(File file) throws Exception {
+    private static void regenerateGenericJson(File file) throws IOException {
         String jsonString = FileHelper.readFile(file.getCanonicalPath());
         JsonParser parser = new JsonParser();
         String regeneratedJsonString = Utils.getTeammatesGson().toJson(parser.parse(jsonString));
-        FileHelper.saveFile(file.getCanonicalPath(), regeneratedJsonString);
-        System.out.println(file.getCanonicalPath() + " regenerated!");
+        saveFile(file.getCanonicalPath(), regeneratedJsonString);
     }
     
-    private static void regenerateMapsJson() throws Exception {
+    private static void saveFile(String filePath, String content) throws IOException {
+        FileHelper.saveFile(filePath, content);
+        System.out.println(filePath + " regenerated!");
+    }
+    
+    private static void regenerateMapsJson() throws IOException {
         File file = new File("./src/main/webapp/js/countryCoordinates.json");
         regenerateGenericJson(file);
         file = new File("./src/main/webapp/js/userMapData.json");
         regenerateGenericJson(file);
     }
     
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         regenerateAllDataBundleJson();
         regenerateSessionTemplateJson();
         regenerateMapsJson();
