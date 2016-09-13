@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.CommentsLogic;
@@ -84,12 +85,14 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_NAME, invalidName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+
+        String expectedError = 
+                getPopulatedErrorMessage(
+                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidName,
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR);
         
         AjaxResult rInvalidParam = (AjaxResult) a.executeAndPostProcess();
-        assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
-                         + "it contains invalid characters. All person name must start with an alphanumeric character, "
-                         + "and cannot contain any vertical bar (|) or percent sign (%).",
-                     rInvalidParam.getStatusMessage());
+        assertEquals(expectedError, rInvalidParam.getStatusMessage());
         
         AdminHomePageData pageData = (AdminHomePageData) rInvalidParam.data;
         assertEquals(email, pageData.instructorEmail);

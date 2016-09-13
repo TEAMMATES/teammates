@@ -1,5 +1,7 @@
 package teammates.test.cases.logic;
 
+import static teammates.common.util.Const.EOL;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +23,7 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -1064,13 +1067,21 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         CourseAttributes invalidCourse = new CourseAttributes("invalid id", "Fresh course for tccai", "InvalidTimeZone");
         
+        String expectedError = 
+                getPopulatedErrorMessage(
+                    FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(),
+                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                    FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidCourse.getTimeZone(),
+                      FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+        
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, invalidCourse.getId(), invalidCourse.getName(),
                                                    invalidCourse.getTimeZone());
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course ID", e.getMessage());
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone", e.getMessage());
+            assertEquals(expectedError, e.getMessage());
         }
         verifyAbsentInDatastore(invalidCourse);
         verifyAbsentInDatastore(i);

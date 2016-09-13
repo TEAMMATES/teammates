@@ -13,12 +13,11 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.FieldValidator;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.driver.AssertHelper;
-
 import com.google.appengine.api.datastore.Text;
 
 public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
@@ -194,7 +193,11 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         ______TS("fail: invalid params");
         
         frComment.courseId = "invalid course name";
-        verifyExceptionThrownWhenUpdateFrComment(frComment, "not acceptable to TEAMMATES as a/an course ID");
+        String expectedError = getPopulatedErrorMessage(
+                FieldValidator.COURSE_ID_ERROR_MESSAGE, frComment.courseId,
+                FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                FieldValidator.COURSE_ID_MAX_LENGTH);
+        verifyExceptionThrownWhenUpdateFrComment(frComment, expectedError);
         restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
         
         ______TS("typical success case");
@@ -333,7 +336,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
             frcLogic.updateFeedbackResponseComment(frComment);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(expectedString, e.getMessage());
+            assertEquals(expectedString, e.getMessage());
         }
     }
     
