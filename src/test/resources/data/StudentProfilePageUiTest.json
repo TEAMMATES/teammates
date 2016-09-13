@@ -20,23 +20,24 @@
       "isInstructor": false,
       "email": "${value.injected.in.testfile}",
       "institute": "TEAMMATES Test Institute 7",
-      "studentProfile":{
-          "googleId":"${value.injected.in.testfile}",
-          "shortName":"Ben",
-          "email":"i.m.benny@gmail.tmt",
-          "institute":"TEAMMATES Test Institute 4",
-          "nationality":"Singapore",
-          "gender":"male",
-          "moreInfo":"I am just another student :P"
+      "studentProfile": {
+        "googleId": "${value.injected.in.testfile}",
+        "shortName": "Ben",
+        "email": "i.m.benny@gmail.tmt",
+        "institute": "TEAMMATES Test Institute 4",
+        "nationality": "Singapore",
+        "gender": "male",
+        "moreInfo": "I am just another student :P",
+        "pictureKey": ""
       }
     },
     "studentWithEmptyProfile": {
-     "googleId": "SHomeUiT.benny.c",
-     "name": "Benny Charles",
-     "isIntructor":false,
-     "email": "SHomeUiT.benny.c@gmail.tmt",
-     "institute": "TEAMMATES Test Institute 1"          
-    }  
+      "googleId": "SHomeUiT.benny.c",
+      "name": "Benny Charles",
+      "isInstructor": false,
+      "email": "SHomeUiT.benny.c@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
   },
   "courses": {
     "SHomeUiT.CS2104": {
@@ -50,13 +51,15 @@
       "googleId": "SHomeUiT.instr",
       "courseId": "SHomeUiT.CS2104",
       "name": "Teammates Test",
-      "email": "SHomeUiT.instr@gmail.tmt"
+      "email": "SHomeUiT.instr@gmail.tmt",
+      "isDisplayedToStudents": false
     },
     "SHomeUiT.helper.CS2104": {
       "googleId": "SHomeUiT.helper",
       "courseId": "SHomeUiT.CS2104",
       "name": "Teammates Test Helper",
       "email": "SHomeUiT.helper@gmail.tmt",
+      "isDisplayedToStudents": false,
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
@@ -93,5 +96,11 @@
       "comments": "This student's name is Benny Charles",
       "team": "Team 1</td></div>'\""
     }
-  } 
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

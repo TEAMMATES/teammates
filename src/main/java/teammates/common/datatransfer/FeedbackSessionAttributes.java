@@ -39,8 +39,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     private boolean isOpeningEmailEnabled;
     private boolean isClosingEmailEnabled;
     private boolean isPublishedEmailEnabled;
-    private Set<String> respondingInstructorList;
-    private Set<String> respondingStudentList;
+    private transient Set<String> respondingInstructorList;
+    private transient Set<String> respondingStudentList;
 
     public FeedbackSessionAttributes() {
         this.isOpeningEmailEnabled = true;

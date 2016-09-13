@@ -372,9 +372,9 @@ public class StudentAttributesTest extends BaseTestCase {
     public void testGetJsonString() {
         StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
                                         "comment 1", "course1");
-        assertEquals("{\n  \"name\": \"name 1\",\n  \"lastName\": \"1\",\n  \"email\": \"email@email.com\","
-                     + "\n  \"course\": \"course1\",\n  \"comments\": \"comment 1\",\n  \"team\": \"team 1\","
-                     + "\n  \"section\": \"sect 1\",\n  \"updateStatus\": \"UNKNOWN\"\n}",
+        assertEquals("{\n  \"email\": \"email@email.com\",\n  \"course\": \"course1\",\n  \"name\": \"name 1\","
+                     + "\n  \"lastName\": \"1\",\n  \"comments\": \"comment 1\",\n  \"team\": \"team 1\","
+                     + "\n  \"section\": \"sect 1\"\n}",
                      sd.getJsonString());
     }
 

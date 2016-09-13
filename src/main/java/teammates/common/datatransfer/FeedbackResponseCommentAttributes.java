@@ -29,7 +29,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     /* Response receiver section */
     public String receiverSection;
     public String feedbackResponseId;
-    public CommentSendingState sendingState = CommentSendingState.SENT;
+    public transient CommentSendingState sendingState = CommentSendingState.SENT;
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public boolean isVisibilityFollowingFeedbackQuestion;

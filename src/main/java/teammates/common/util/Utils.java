@@ -32,6 +32,7 @@ public final class Utils {
                 .setDateFormat(DateFormat.FULL)
                 .setDateFormat(SystemParams.DEFAULT_DATE_TIME_FORMAT)
                 .setPrettyPrinting()
+                .disableHtmlEscaping()
                 .create();
     }
 
