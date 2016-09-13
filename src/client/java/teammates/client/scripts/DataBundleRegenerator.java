@@ -35,19 +35,20 @@ public final class DataBundleRegenerator {
     private static void regenerateDataBundleJson(File folder) throws IOException {
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
-            if (file.getName().endsWith(".json") && !NON_DATA_BUNDLE_JSON.contains(file.getName())) {
-                String jsonString = FileHelper.readFile(file.getCanonicalPath());
-                Gson gson = Utils.getTeammatesGson();
-                DataBundle db = gson.fromJson(jsonString, DataBundle.class);
-                for (Map.Entry<String, FeedbackResponseAttributes> responseMap : db.feedbackResponses.entrySet()) {
-                    fixResponse(responseMap.getValue());
-                }
-                for (Map.Entry<String, FeedbackQuestionAttributes> questionMap : db.feedbackQuestions.entrySet()) {
-                    fixQuestion(questionMap.getValue());
-                }
-                String regeneratedJsonString = gson.toJson(db).replace("+0000", "UTC");
-                saveFile(file.getCanonicalPath(), regeneratedJsonString);
+            if (!file.getName().endsWith(".json") || NON_DATA_BUNDLE_JSON.contains(file.getName())) {
+                continue;
             }
+            String jsonString = FileHelper.readFile(file.getCanonicalPath());
+            Gson gson = Utils.getTeammatesGson();
+            DataBundle db = gson.fromJson(jsonString, DataBundle.class);
+            for (Map.Entry<String, FeedbackResponseAttributes> responseMap : db.feedbackResponses.entrySet()) {
+                fixResponse(responseMap.getValue());
+            }
+            for (Map.Entry<String, FeedbackQuestionAttributes> questionMap : db.feedbackQuestions.entrySet()) {
+                fixQuestion(questionMap.getValue());
+            }
+            String regeneratedJsonString = gson.toJson(db).replace("+0000", "UTC");
+            saveFile(file.getCanonicalPath(), regeneratedJsonString);
         }
     }
     
