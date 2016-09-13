@@ -86,7 +86,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
 
-        String expectedError = 
+        String expectedError =
                 getPopulatedErrorMessage(
                     FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidName,
                     FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR);

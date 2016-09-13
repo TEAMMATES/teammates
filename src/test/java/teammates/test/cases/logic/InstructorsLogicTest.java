@@ -94,7 +94,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         ______TS("failure: invalid parameter");
         
         instr.email = "invalidEmail.tmt";
-        String expectedError = 
+        String expectedError =
                 getPopulatedErrorMessage(
                     FieldValidator.EMAIL_ERROR_MESSAGE, instr.email,
                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,

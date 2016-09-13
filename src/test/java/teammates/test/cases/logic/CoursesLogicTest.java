@@ -22,7 +22,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -879,7 +878,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, Const.EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
 
         ______TS("Typical case: course without sections");
 
@@ -902,7 +901,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, Const.EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
 
         ______TS("Typical case: course with unregistered student");
 
@@ -925,7 +924,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, Const.EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
 
         ______TS("Failure case: non existent instructor");
         
@@ -1067,7 +1066,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         CourseAttributes invalidCourse = new CourseAttributes("invalid id", "Fresh course for tccai", "InvalidTimeZone");
         
-        String expectedError = 
+        String expectedError =
                 getPopulatedErrorMessage(
                     FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(),
                     FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
