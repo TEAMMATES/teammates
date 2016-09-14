@@ -605,11 +605,13 @@ public class StudentsLogic {
         return emailsSent;
     }
 
-    public void deleteStudentCascade(String courseId, String studentEmail) {
+    public void deleteStudentCascade(String courseId, String studentEmail)
+            throws InvalidParametersException {
         deleteStudentCascade(courseId, studentEmail, true);
     }
 
-    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail) {
+    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail)
+            throws InvalidParametersException {
         deleteStudentCascade(courseId, studentEmail, false);
     }
 
@@ -639,7 +641,7 @@ public class StudentsLogic {
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }
     
-    public void deleteStudentsForGoogleIdAndCascade(String googleId) {
+    public void deleteStudentsForGoogleIdAndCascade(String googleId) throws InvalidParametersException {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
         
         // Cascade delete students

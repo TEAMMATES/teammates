@@ -1153,7 +1153,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testDeleteStudent() {
+    public void testDeleteStudent() throws Exception {
 
         ______TS("typical delete");
 
@@ -1201,7 +1201,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     }
         
     @AfterClass()
-    public static void classTearDown() {
+    public static void classTearDown() throws Exception {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
         printTestClassFooter();
     }

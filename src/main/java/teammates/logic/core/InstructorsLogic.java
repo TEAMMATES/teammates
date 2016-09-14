@@ -353,7 +353,8 @@ public class InstructorsLogic {
         instructorsDb.deleteInstructor(courseId, email);
     }
 
-    public void deleteInstructorsForGoogleIdAndCascade(String googleId) {
+    public void deleteInstructorsForGoogleIdAndCascade(String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException {
         List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId, false);
         
         //Cascade delete instructors

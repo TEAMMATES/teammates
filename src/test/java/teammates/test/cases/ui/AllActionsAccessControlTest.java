@@ -19,6 +19,8 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -57,7 +59,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @AfterClass
-    public static void classTearDown() {
+    public static void classTearDown() throws Exception {
         StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
     }
     
@@ -257,7 +259,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void testInstructorCourseInstructorAdd() {
+    public void testInstructorCourseInstructorAdd() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",

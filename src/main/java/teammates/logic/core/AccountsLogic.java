@@ -303,7 +303,8 @@ public class AccountsLogic {
         }
     }
 
-    public void downgradeInstructorToStudentCascade(String googleId) {
+    public void downgradeInstructorToStudentCascade(String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException {
         InstructorsLogic.inst().deleteInstructorsForGoogleIdAndCascade(googleId);
         makeAccountNonInstructor(googleId);
     }
@@ -340,7 +341,8 @@ public class AccountsLogic {
         }
     }
 
-    public void deleteAccountCascade(String googleId) {
+    public void deleteAccountCascade(String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException {
         InstructorsLogic.inst().deleteInstructorsForGoogleIdAndCascade(googleId);
         StudentsLogic.inst().deleteStudentsForGoogleIdAndCascade(googleId);
         accountsDb.deleteAccount(googleId);

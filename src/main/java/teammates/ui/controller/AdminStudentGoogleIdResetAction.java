@@ -48,21 +48,26 @@ public class AdminStudentGoogleIdResetAction extends Action {
             StudentAttributes updatedStudent = logic.getStudentForEmail(studentCourseId, studentEmail);
      
             if (updatedStudent.googleId == null || updatedStudent.googleId.isEmpty()) {
-                
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET, StatusMessageColor.SUCCESS));
-                statusToUser.add(new StatusMessage("Email : " + studentEmail, StatusMessageColor.SUCCESS));
-                statusToUser.add(new StatusMessage("CourseId : " + studentCourseId, StatusMessageColor.SUCCESS));
-                
-                statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET + "<br>"
-                              + "Email: " + studentEmail + "<br>"
-                              + "CourseId: " + studentCourseId;
-                
-                data.statusForAjax = Const.StatusMessages.STUDENT_GOOGLEID_RESET + "<br>"
-                                   + "Email : " + studentEmail + "<br>"
-                                   + "CourseId : " + studentCourseId;
-                
-                data.isGoogleIdReset = true;
-                deleteAccountIfNeeded(wrongGoogleId);
+                try {
+                    deleteAccountIfNeeded(wrongGoogleId);
+                    
+                    statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET,
+                                                       StatusMessageColor.SUCCESS));
+                    statusToUser.add(new StatusMessage("Email : " + studentEmail, StatusMessageColor.SUCCESS));
+                    statusToUser.add(new StatusMessage("CourseId : " + studentCourseId, StatusMessageColor.SUCCESS));
+                    
+                    statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET + "<br>"
+                                  + "Email: " + studentEmail + "<br>"
+                                  + "CourseId: " + studentCourseId;
+                    
+                    data.statusForAjax = Const.StatusMessages.STUDENT_GOOGLEID_RESET + "<br>"
+                                       + "Email : " + studentEmail + "<br>"
+                                       + "CourseId : " + studentCourseId;
+                    
+                    data.isGoogleIdReset = true;
+                } catch (InvalidParametersException e) {
+                    setStatusForException(e);
+                }
             } else {
                 data.isGoogleIdReset = false;
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL,
@@ -83,7 +88,8 @@ public class AdminStudentGoogleIdResetAction extends Action {
         return createAjaxResult(data);
     }
 
-    private void deleteAccountIfNeeded(String wrongGoogleId) {
+    private void deleteAccountIfNeeded(String wrongGoogleId)
+            throws InvalidParametersException, EntityDoesNotExistException {
         Logic logic = new Logic();
         
         if (logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
