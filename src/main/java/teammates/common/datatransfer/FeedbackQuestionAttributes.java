@@ -931,6 +931,34 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
     
     /** 
+     * Deletes feedback paths containing the student email
+     */
+    public void deleteFeedbackPathsContainingStudentEmail(String studentEmail) {
+        Iterator<FeedbackPathAttributes> feedbackPathsIterator = feedbackPaths.iterator();
+        while (feedbackPathsIterator.hasNext()) {
+            FeedbackPathAttributes feedbackPath = feedbackPathsIterator.next();
+            if (feedbackPath.isStudentFeedbackPathGiver(studentEmail)
+                    || feedbackPath.isStudentFeedbackPathRecipient(studentEmail)) {
+                feedbackPathsIterator.remove();
+            }
+        }
+    }
+    
+    /** 
+     * Deletes feedback paths containing the instructor email
+     */
+    public void deleteFeedbackPathsContainingInstructorEmail(String instructorEmail) {
+        Iterator<FeedbackPathAttributes> feedbackPathsIterator = feedbackPaths.iterator();
+        while (feedbackPathsIterator.hasNext()) {
+            FeedbackPathAttributes feedbackPath = feedbackPathsIterator.next();
+            if (feedbackPath.isInstructorFeedbackPathGiver(instructorEmail)
+                    || feedbackPath.isInstructorFeedbackPathRecipient(instructorEmail)) {
+                feedbackPathsIterator.remove();
+            }
+        }
+    }
+    
+    /** 
      * Deletes feedback paths containing the team name
      */
     public void deleteFeedbackPathsContainingTeamName(String teamName) {

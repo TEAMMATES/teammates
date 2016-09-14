@@ -613,12 +613,14 @@ public class StudentsLogic {
         deleteStudentCascade(courseId, studentEmail, false);
     }
 
-    public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument) {
+    public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument)
+            throws InvalidParametersException {
         // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
         fsLogic.deleteStudentFromRespondantsList(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
+        fqLogic.updateFeedbackQuestionsForDeletedStudent(courseId, studentEmail);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {

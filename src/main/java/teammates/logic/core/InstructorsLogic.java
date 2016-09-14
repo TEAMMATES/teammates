@@ -344,9 +344,12 @@ public class InstructorsLogic {
         return errors;
     }
     
-    public void deleteInstructorCascade(String courseId, String email) {
+    public void deleteInstructorCascade(String courseId, String email)
+            throws InvalidParametersException, EntityDoesNotExistException {
         commentsLogic.deleteCommentsForInstructor(courseId, email);
-        fsLogic.deleteInstructorFromRespondantsList(getInstructorForEmail(courseId, email));
+        InstructorAttributes instructor = getInstructorForEmail(courseId, email);
+        fqLogic.updateFeedbackQuestionsForDeletedInstructor(instructor);
+        fsLogic.deleteInstructorFromRespondantsList(instructor);
         instructorsDb.deleteInstructor(courseId, email);
     }
 

@@ -646,6 +646,57 @@ public class FeedbackQuestionsLogic {
         }
     }
     
+    /**
+     * Deletes feedback paths containing the deleted student     * 
+     * @throws InvalidParametersException
+     */
+    public void updateFeedbackQuestionsForDeletedStudent(String courseId, String studentEmail)
+            throws InvalidParametersException {
+        
+        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        
+        List<FeedbackQuestionAttributes> feedbackQuestions = new ArrayList<FeedbackQuestionAttributes>();
+                
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+            feedbackQuestions.addAll(
+                    fqDb.getFeedbackQuestionsForGiverType(
+                            feedbackSession.getFeedbackSessionName(), courseId, FeedbackParticipantType.CUSTOM));
+        }
+
+        for (FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
+            feedbackQuestion.deleteFeedbackPathsContainingStudentEmail(studentEmail);
+            try {
+                updateFeedbackQuestion(feedbackQuestion);
+            } catch (EntityDoesNotExistException e) {
+                // Question might not exist due to eventual consistency
+            }
+        }
+    }
+    
+    /**
+     * Deletes feedback paths containing the deleted instructor
+     * @throws EntityDoesNotExistException
+     * @throws InvalidParametersException
+     */
+    public void updateFeedbackQuestionsForDeletedInstructor(InstructorAttributes instructor)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        
+        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(instructor.getCourseId());
+        
+        List<FeedbackQuestionAttributes> feedbackQuestions = new ArrayList<FeedbackQuestionAttributes>();
+                
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+            feedbackQuestions.addAll(
+                    fqDb.getFeedbackQuestionsForGiverType(feedbackSession.getFeedbackSessionName(),
+                                                          instructor.getCourseId(),
+                                                          FeedbackParticipantType.CUSTOM));
+        }
+
+        for (FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
+            feedbackQuestion.deleteFeedbackPathsContainingInstructorEmail(instructor.getEmail());
+            updateFeedbackQuestion(feedbackQuestion);
+        }
+    }
     
     /**
      * Deletes feedback paths containing the deleted team
