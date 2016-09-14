@@ -1,9 +1,11 @@
 package teammates.common.util;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,11 +49,11 @@ public class ActivityLogEntry {
     public static final int POSITION_OF_ID = 10;
     public static final int POSITION_OF_TIMETAKEN = 11;
     
-    private static final int POSITION_OF_TIMETAKEN_IN_OLD_LOGS = 10;
-
     private static final int TIME_TAKEN_WARNING_LOWER_RANGE = 10000;
     private static final int TIME_TAKEN_WARNING_UPPER_RANGE = 20000;
     private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
+    
+    private static final Logger log = Utils.getLogger();
     
     private long time;
     private String servletName;
@@ -221,6 +223,8 @@ public class ActivityLogEntry {
     }
     
     private void initUsingAppLogMessage(String[] tokens) {
+        // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||
+        // MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
         servletName = tokens[POSITION_OF_SERVLETNAME];
         action = tokens[POSITION_OF_ACTION];
         toShow = Boolean.parseBoolean(tokens[POSITION_OF_TOSHOW]);
@@ -233,20 +237,13 @@ public class ActivityLogEntry {
         
         boolean isLogWithTimeTakenAndId = tokens.length >= (POSITION_OF_ID + 1);
         if (isLogWithTimeTakenAndId) {
-            boolean isOldLog = !(tokens[POSITION_OF_ID].contains(googleId)
-                                 || tokens[POSITION_OF_ID].contains("%"));
-            //TODO the branch for old logs can be removed after V5.64
-            // this branch is needed to support older style logs when we did not have the log id
-            if (isOldLog) {
-                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||
-                // MESSAGE(IN HTML)|||URL|||TIME_TAKEN
-                timeTaken = Long.parseLong(tokens[POSITION_OF_TIMETAKEN_IN_OLD_LOGS].trim());
-            } else {
-                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||
-                // MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
-                id = tokens[POSITION_OF_ID];
+            id = tokens[POSITION_OF_ID];
+            try {
                 timeTaken = tokens.length == 12 ? Long.parseLong(tokens[POSITION_OF_TIMETAKEN].trim())
                                                 : null;
+            } catch (NumberFormatException e) {
+                timeTaken = null;
+                log.severe("Log message format not as expected: " + Arrays.toString(tokens));
             }
         }
     }
