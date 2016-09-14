@@ -57,16 +57,16 @@ public class StudentAttributes extends EntityAttributes {
     // Note: be careful when changing these variables as their names are used in *.json files.
     // @formatter:on
     public String googleId;
-    public String name;
-    public String lastName;
     public String email;
     public String course;
+    public String name;
+    public String lastName;
     public String comments;
     public String team;
     public String section;
     public String key;
 
-    public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
+    public transient UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
     /*
      * Creation and update time stamps.
