@@ -219,6 +219,28 @@ public class FeedbackPathAttributes extends EntityAttributes {
         return isFeedbackPathParticipantTheClass(recipient);
     }
     
+    public String getFeedbackPathGiverType() {
+        return getFeedbackPathParticipantType(giver);
+    }
+
+    public String getFeedbackPathRecipientType() {
+        return getFeedbackPathParticipantType(recipient);
+    }
+
+    private String getFeedbackPathParticipantType(String participant) {
+        if (isFeedbackPathParticipantAStudent(participant)) {
+            return FEEDBACK_PARTICIPANT_TYPE_STUDENT;
+        } else if (isFeedbackPathParticipantAnInstructor(participant)) {
+            return FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR;
+        } else if (isFeedbackPathParticipantATeam(participant)) {
+            return FEEDBACK_PARTICIPANT_TYPE_TEAM;
+        } else if (isFeedbackPathParticipantTheClass(participant)) {
+            return FEEDBACK_PARTICIPANT_CLASS;
+        } else {
+            return "";
+        }
+    }
+
     private String getParticipantId(String participant) {
         if (isFeedbackPathParticipantAStudent(participant)) {
             return getStudentEmail(participant);

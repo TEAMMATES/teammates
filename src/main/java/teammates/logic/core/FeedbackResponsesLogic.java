@@ -640,6 +640,55 @@ public class FeedbackResponsesLogic {
         frcLogic.deleteFeedbackResponseCommentsForResponse(responseToDelete.getId());
         frDb.deleteEntity(responseToDelete);
     }
+    
+    public void deleteFeedbackResponsesForQuestionAndCascade(
+            FeedbackQuestionAttributes oldQuestion, FeedbackQuestionAttributes newQuestion,
+            boolean hasResponseRateUpdate) {
+        String feedbackQuestionId = oldQuestion.getId();
+        
+        List<FeedbackResponseAttributes> responsesForQuestion =
+                getFeedbackResponsesForQuestion(feedbackQuestionId);
+
+        Set<String> emails = new HashSet<String>();
+
+        for (FeedbackResponseAttributes response : responsesForQuestion) {
+            if (!newQuestion.giverType.isCustom()
+                    || !newQuestion.getFeedbackPathsGiverType().equals(oldQuestion.getFeedbackPathsGiverType())
+                    || !newQuestion.getFeedbackPathsRecipientType().equals(oldQuestion.getFeedbackPathsRecipientType())
+                    || !newQuestion.containsGiverAndRecipientIdsInFeedbackPath(response.giver, response.recipient)) {
+                deleteFeedbackResponseAndCascade(response);
+                emails.add(response.giver);
+            }
+        }
+
+        if (!hasResponseRateUpdate) {
+            return;
+        }
+
+        try {
+            FeedbackQuestionAttributes question = fqLogic
+                    .getFeedbackQuestion(feedbackQuestionId);
+            boolean isInstructor = question.giverType == FeedbackParticipantType.SELF
+                                   || question.giverType == FeedbackParticipantType.INSTRUCTORS
+                                   || question.giverType.isCustom() && question.isFeedbackPathsGiverTypeInstructors();
+            for (String email : emails) {
+                boolean hasResponses = hasGiverRespondedForSession(email, question.feedbackSessionName, question.courseId);
+                if (!hasResponses) {
+                    if (isInstructor) {
+                        fsLogic.deleteInstructorRespondant(email,
+                                question.feedbackSessionName,
+                                question.courseId);
+                    } else {
+                        fsLogic.deleteStudentFromRespondentList(email,
+                                question.feedbackSessionName,
+                                question.courseId);
+                    }
+                }
+            }
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            Assumption.fail("Fail to delete respondant");
+        }
+    }
 
     public void deleteFeedbackResponsesForQuestionAndCascade(
             String feedbackQuestionId, boolean hasResponseRateUpdate) {

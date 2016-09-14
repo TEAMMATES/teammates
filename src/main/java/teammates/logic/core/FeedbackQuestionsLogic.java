@@ -809,7 +809,8 @@ public class FeedbackQuestionsLogic {
         }
         
         if (oldQuestion.isChangesRequiresResponseDeletion(newAttributes)) {
-            frLogic.deleteFeedbackResponsesForQuestionAndCascade(oldQuestion.getId(), hasResponseRateUpdate);
+            frLogic.deleteFeedbackResponsesForQuestionAndCascade(
+                    oldQuestion, newAttributes, hasResponseRateUpdate);
         }
         
         oldQuestion.updateValues(newAttributes);

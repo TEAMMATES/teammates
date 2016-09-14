@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONException;
@@ -316,6 +317,17 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         if (!newAttributes.giverType.equals(this.giverType)
                 || !newAttributes.recipientType.equals(this.recipientType)) {
             return true;
+        }
+        
+        // if custom feedback paths giver type or recipient type has changed
+        // or if feedback paths have been deleted
+        // then we need to cascade delete the responses
+        if (newAttributes.giverType.isCustom()) {
+            for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+                if (!newAttributes.containsFeedbackPath(feedbackPath.getGiver(), feedbackPath.getRecipient())) {
+                    return true;
+                }
+            }
         }
 
         if (!this.showResponsesTo.containsAll(newAttributes.showResponsesTo)
@@ -800,6 +812,26 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
     
     /** 
+     * Returns question's feedback paths giver type
+     */
+    public String getFeedbackPathsGiverType() {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            return feedbackPath.getFeedbackPathGiverType();
+        }
+        return "";
+    }
+    
+    /** 
+     * Returns question's feedback paths recipient type
+     */
+    public String getFeedbackPathsRecipientType() {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            return feedbackPath.getFeedbackPathRecipientType();
+        }
+        return "";
+    }
+    
+    /** 
      * Returns a list of the question's response givers for which the student is a response recipient
      */
     public List<String> getGiversFromFeedbackPathsForStudentRecipient(String studentEmail) {
@@ -899,6 +931,23 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return recipients;
     }
     
+    public boolean containsFeedbackPath(String giver, String recipient) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.getGiver().equals(giver) && feedbackPath.getRecipient().equals(recipient)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean containsGiverAndRecipientIdsInFeedbackPath(String giverId, String recipientId) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.getGiverId().equals(giverId) && feedbackPath.getRecipientId().equals(recipientId)) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     /** 
      * Updates feedback paths containing the old student email to the new student email
