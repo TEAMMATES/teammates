@@ -47,6 +47,30 @@ public class FeedbackPathAttributes extends EntityAttributes {
         return recipient;
     }
     
+    public void setGiver(String giver) {
+        this.giver = giver;
+    }
+    
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+    
+    public void setStudentGiver(String giver) {
+        setGiver(giver + " " + FEEDBACK_PARTICIPANT_TYPE_STUDENT);
+    }
+    
+    public void setStudentRecipient(String recipient) {
+        setRecipient(recipient + " " + FEEDBACK_PARTICIPANT_TYPE_STUDENT);
+    }
+    
+    public void setInstructorGiver(String giver) {
+        setGiver(giver + " " + FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR);
+    }
+    
+    public void setInstructorRecipient(String recipient) {
+        setRecipient(recipient + " " + FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR);
+    }
+    
     @Override
     public List<String> getInvalidityInfo() {
         return new ArrayList<String>();

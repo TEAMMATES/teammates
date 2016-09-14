@@ -31,6 +31,7 @@ public class InstructorsLogic {
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     
     private static final Logger log = Utils.getLogger();
     
@@ -207,18 +208,19 @@ public class InstructorsLogic {
         }
     }
 
-    private void verifyInstructorInDbAndCascadeEmailChange(String googleId,
-            InstructorAttributes instructor) throws EntityDoesNotExistException {
+    private void verifyInstructorInDbAndCascadeEmailChange(String googleId, InstructorAttributes instructor)
+            throws EntityDoesNotExistException, InvalidParametersException {
         InstructorAttributes instructorInDb = instructorsDb.getInstructorForGoogleId(instructor.courseId, googleId);
         if (instructorInDb == null) {
             throw new EntityDoesNotExistException("Instructor " + googleId
                     + " does not belong to course " + instructor.courseId);
         }
-        // cascade comments
+        // cascade comments and custom feedback path email
         if (!instructorInDb.email.equals(instructor.email)) {
             commentsLogic.updateInstructorEmail(instructor.courseId, instructorInDb.email, instructor.email);
             FeedbackResponseCommentsLogic.inst().updateFeedbackResponseCommentsEmails(
                     instructor.courseId, instructorInDb.email, instructor.email);
+            fqLogic.updateFeedbackQuestionsForChangingInstructorEmail(instructorInDb.getEmail(), instructor);
         }
     }
     

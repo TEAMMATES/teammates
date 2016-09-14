@@ -899,6 +899,51 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return recipients;
     }
     
+    
+    /** 
+     * Updates feedback paths containing the old student email to the new student email
+     */
+    public void updateStudentEmailInFeedbackPaths(String oldEmail, String newEmail) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isStudentFeedbackPathGiver(oldEmail)) {
+                feedbackPath.setStudentGiver(newEmail);
+            }
+            
+            if (feedbackPath.isStudentFeedbackPathRecipient(oldEmail)) {
+                feedbackPath.setStudentRecipient(newEmail);
+            }
+        }
+    }
+    
+    /** 
+     * Updates feedback paths containing the old instructor email to the new instructor email
+     */
+    public void updateInstructorEmailInFeedbackPaths(String oldEmail, String newEmail) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isInstructorFeedbackPathGiver(oldEmail)) {
+                feedbackPath.setInstructorGiver(newEmail);
+            }
+            
+            if (feedbackPath.isInstructorFeedbackPathRecipient(oldEmail)) {
+                feedbackPath.setInstructorRecipient(newEmail);
+            }
+        }
+    }
+    
+    /** 
+     * Deletes feedback paths containing the team name
+     */
+    public void deleteFeedbackPathsContainingTeamName(String teamName) {
+        Iterator<FeedbackPathAttributes> feedbackPathsIterator = feedbackPaths.iterator();
+        while (feedbackPathsIterator.hasNext()) {
+            FeedbackPathAttributes feedbackPath = feedbackPathsIterator.next();
+            if (feedbackPath.isTeamFeedbackPathGiver(teamName)
+                    || feedbackPath.isTeamFeedbackPathRecipient(teamName)) {
+                feedbackPathsIterator.remove();
+            }
+        }
+    }
+    
     /** 
      * Returns a list of feedback paths converted from the spreadsheet data
      */

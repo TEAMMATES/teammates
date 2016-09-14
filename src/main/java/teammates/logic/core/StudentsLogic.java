@@ -49,6 +49,7 @@ public class StudentsLogic {
     private StudentsDb studentsDb = new StudentsDb();
     
     private CoursesLogic coursesLogic = CoursesLogic.inst();
+    private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private AccountsLogic accLogic = AccountsLogic.inst();
@@ -227,9 +228,10 @@ public class StudentsLogic {
             commentsLogic.updateStudentEmail(student.course, originalStudent.email, finalEmail);
         }
         
-        // adjust submissions if moving to a different team
+        // adjust submissions and custom feedback paths if moving to a different team
         if (isTeamChanged(originalStudent.team, student.team)) {
             frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
+            fqLogic.updateFeedbackQuestionsForDeletedTeam(student.course, originalStudent.getTeam());
         }
 
         if (isSectionChanged(originalStudent.section, student.section)) {
@@ -265,6 +267,7 @@ public class StudentsLogic {
         
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
+            fqLogic.updateFeedbackQuestionsForChangingStudentEmail(originalEmail, student);
             frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
             fsLogic.updateRespondantsForStudent(originalEmail, student.email, student.course);
         }
