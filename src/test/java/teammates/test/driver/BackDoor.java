@@ -157,7 +157,7 @@ public final class BackDoor {
     }
 
     private static void deleteInstructors(DataBundle data) {
-        HashMap<String, InstructorAttributes> instructors = data.instructors;
+        Map<String, InstructorAttributes> instructors = data.instructors;
         for (InstructorAttributes instructor : instructors.values()) {
             deleteInstructor(instructor.email, instructor.courseId);
         }
@@ -173,7 +173,7 @@ public final class BackDoor {
     public static void deleteCourses(String jsonString) {
         Gson gson = Utils.getTeammatesGson();
         DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-        HashMap<String, CourseAttributes> courses = data.courses;
+        Map<String, CourseAttributes> courses = data.courses;
         for (CourseAttributes course : courses.values()) {
             deleteCourse(course.getId());
         }
@@ -187,7 +187,7 @@ public final class BackDoor {
      * @param jsonString
      */
     public static void deleteFeedbackSessions(DataBundle data) {
-        HashMap<String, FeedbackSessionAttributes> feedbackSessions = data.feedbackSessions;
+        Map<String, FeedbackSessionAttributes> feedbackSessions = data.feedbackSessions;
         for (FeedbackSessionAttributes feedbackSession : feedbackSessions.values()) {
             deleteFeedbackSession(
                     feedbackSession.getFeedbackSessionName(),
