@@ -47,6 +47,9 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String expectedString = "";
+        String teammatesLogMessage = 
+                "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
+                + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||";
         
         ______TS("Not enough parameters");
         
@@ -143,11 +146,9 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                      pageResult.getStatusMessage());
         
         expectedString =
-                "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
-                + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Servlet Action Failure : "
-                + new FieldValidator().getInvalidityInfoForFeedbackSessionName("")
-                + "|||/page/instructorFeedbackCopy";
+                teammatesLogMessage + "Servlet Action Failure : "
+                + new FieldValidator().getInvalidityInfoForFeedbackSessionName(params[1])
+                + "|||" + Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY;
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         ______TS("Masquerade mode");

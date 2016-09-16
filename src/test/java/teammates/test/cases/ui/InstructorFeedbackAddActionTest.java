@@ -30,7 +30,9 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         InstructorAttributes instructor1ofCourse1 =
                 dataBundle.instructors.get("instructor1OfCourse1");
         String expectedString = "";
-        
+        String teammatesLog = "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
+                + "instr1@course1.tmt|||";
         
         ______TS("Not enough parameters");
         
@@ -87,8 +89,9 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         
         ______TS("Error: Invalid parameter (invalid sesssion name, > 38 characters)");
         
+        String longFsName = "123456789012345678901234567890123456789";
         params = createParamsCombinationForFeedbackSession(
-                         instructor1ofCourse1.courseId, "123456789012345678901234567890123456789", 0);
+                         instructor1ofCourse1.courseId, longFsName, 0);
         a = getAction(params);
         pr = (ShowPageResult) a.executeAndPostProcess();
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACKS
@@ -98,12 +101,9 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertTrue(pr.isError);
         
         expectedString =
-                "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||"
-                + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||Servlet Action Failure : "
-                + new FieldValidator().getInvalidityInfoForFeedbackSessionName(
-                        "123456789012345678901234567890123456789")
-                + "|||/page/instructorFeedbackAdd";
+                teammatesLog + "Servlet Action Failure : " + longFsName
+                + new FieldValidator().getInvalidityInfoForFeedbackSessionName(longFsName)
+                + "|||" + Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         

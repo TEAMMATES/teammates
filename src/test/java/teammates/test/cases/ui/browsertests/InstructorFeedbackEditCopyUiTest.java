@@ -73,16 +73,17 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.getFsCopyToModal().clickCloseButton();
         
         ______TS("Copying fails due to fs with invalid name");
+        String invalidNameforFs = "Invalid name | for feedback session";
         feedbackEditPage.clickFsCopyButton();
         feedbackEditPage.getFsCopyToModal().waitForModalToLoad();
-        feedbackEditPage.getFsCopyToModal().fillFormWithAllCoursesSelected("Invalid name | for feedback session");
+        feedbackEditPage.getFsCopyToModal().fillFormWithAllCoursesSelected(invalidNameforFs);
         
         feedbackEditPage.getFsCopyToModal().clickSubmitButton();
         
         feedbackEditPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackEditPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
         feedbackEditPage.getFsCopyToModal().verifyStatusMessage(
-                new FieldValidator().getInvalidityInfoForFeedbackSessionName("Invalid name | for feedback session"));
+                new FieldValidator().getInvalidityInfoForFeedbackSessionName(invalidNameforFs));
         
         
         feedbackEditPage.getFsCopyToModal().clickCloseButton();
