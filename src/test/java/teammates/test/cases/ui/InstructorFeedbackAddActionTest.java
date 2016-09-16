@@ -101,7 +101,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertTrue(pr.isError);
         
         expectedString =
-                teammatesLog + "Servlet Action Failure : " + longFsName
+                teammatesLog + "Servlet Action Failure : "
                 + new FieldValidator().getInvalidityInfoForFeedbackSessionName(longFsName)
                 + "|||" + Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());

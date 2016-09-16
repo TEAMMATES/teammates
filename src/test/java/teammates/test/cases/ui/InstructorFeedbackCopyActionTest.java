@@ -47,7 +47,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String expectedString = "";
-        String teammatesLogMessage = 
+        String teammatesLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
                 + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||";
         
