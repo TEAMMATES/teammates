@@ -221,7 +221,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/compileLogs</url-pattern>
     </servlet-mapping>
     
-	<servlet>
+    <servlet>
         <servlet-name>EntityModifiedLogs</servlet-name>
         <servlet-class>teammates.logic.automated.EntityModifiedLogsServlet</servlet-class>
     </servlet>
@@ -229,7 +229,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>EntityModifiedLogs</servlet-name>
         <url-pattern>/entityModifiedLogs</url-pattern>
     </servlet-mapping>
-	
+    
     <servlet>
         <description>Servlet that handles all incoming requests</description>
         <servlet-name>ControllerServlet</servlet-name>
