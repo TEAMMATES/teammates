@@ -330,7 +330,8 @@ public class StudentAttributes extends EntityAttributes {
         }
     }
     
-    public CourseStudent toEntity() {
+    @Override
+    public Object toEntity() {
         return new CourseStudent(email, name, googleId, comments, course, team, section);
     }
     
