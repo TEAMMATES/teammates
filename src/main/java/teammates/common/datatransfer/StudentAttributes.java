@@ -19,14 +19,12 @@ import teammates.storage.entity.CourseStudent;
 
 public class StudentAttributes extends EntityAttributes {
     public enum UpdateStatus {
-        // @formatter:off
         ERROR(0),
         NEW(1),
         MODIFIED(2),
         UNMODIFIED(3),
         NOT_IN_ENROLL_LIST(4),
         UNKNOWN(5);
-        // @formatter:on
 
         public static final int STATUS_COUNT = 6;
         public final int numericRepresentation;
@@ -53,9 +51,7 @@ public class StudentAttributes extends EntityAttributes {
         }
     }
 
-    // @formatter:off
     // Note: be careful when changing these variables as their names are used in *.json files.
-    // @formatter:on
     public String googleId;
     public String email;
     public String course;
