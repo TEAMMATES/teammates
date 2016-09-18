@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseRoster;
@@ -22,15 +21,12 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
  * Handles the logic related to {@link FeedbackResponseCommentAttributes}.
  */
 public class FeedbackResponseCommentsLogic {
-    @SuppressWarnings("unused") //used by test
-    private static final Logger log = Utils.getLogger();
     
     private static FeedbackResponseCommentsLogic instance;
 
