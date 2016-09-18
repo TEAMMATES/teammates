@@ -45,8 +45,8 @@ public class TaskQueuesLogic {
             String name = entry.getKey();
             String[] value = entry.getValue();
             
-            for (int i = 0; i < value.length; i++) {
-                taskToBeAdded = taskToBeAdded.param(name, value[i]);
+            for (String element : value) {
+                taskToBeAdded = taskToBeAdded.param(name, element);
             }
         }
         

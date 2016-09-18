@@ -101,10 +101,8 @@ public class StudentAttributes extends EntityAttributes {
         this.lastName = student.getLastName();
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
         this.team = student.getTeamName();
-        this.section = student.getSectionName() == null ? Const.DEFAULT_SECTION
-                                                        : student.getSectionName();
-        this.googleId = student.getGoogleId() == null ? ""
-                                                      : student.getGoogleId();
+        this.section = student.getSectionName() == null ? Const.DEFAULT_SECTION : student.getSectionName();
+        this.googleId = student.getGoogleId() == null ? "" : student.getGoogleId();
         this.key = student.getRegistrationKey();
         
         this.createdAt = student.getCreatedAt();
@@ -379,11 +377,11 @@ public class StudentAttributes extends EntityAttributes {
     }
     
     public Date getCreatedAt() {
-        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
+        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
 
     public Date getUpdatedAt() {
-        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
+        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
     /**

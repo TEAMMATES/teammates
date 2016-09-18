@@ -170,7 +170,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     }
     
     private StudentCourseDetailsPageAction getAction(String... params) {
-        return (StudentCourseDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (StudentCourseDetailsPageAction) gaeSimulation.getActionObject(uri, params);
     }
     
     private StudentProfileEditSaveAction getStudentProfileEditSaveAction(String[] submissionParams) {

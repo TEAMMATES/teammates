@@ -91,7 +91,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     }
 
     private StudentProfilePageAction getAction(String... params) {
-        return (StudentProfilePageAction) (gaeSimulation.getActionObject(uri, params));
+        return (StudentProfilePageAction) gaeSimulation.getActionObject(uri, params);
     }
 
 }

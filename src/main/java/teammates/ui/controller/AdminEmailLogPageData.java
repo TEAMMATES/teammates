@@ -112,8 +112,8 @@ public class AdminEmailLogPageData extends PageData {
                                .replaceAll(": ", ":")
                                .split("\\|", -1);
        
-        for (int i = 0; i < tokens.length; i++) {
-            String[] pair = tokens[i].split(":", -1);
+        for (String token : tokens) {
+            String[] pair = token.split(":", -1);
             
             if (pair.length != 2) {
                 throw new InvalidParametersException("Invalid format");
@@ -126,8 +126,8 @@ public class AdminEmailLogPageData extends PageData {
                 //version is specified in com.google.appengine.api.log.LogQuery,
                 //it does not belong to the internal class "QueryParameters"
                 //so need to store here for future use
-                for (int j = 0; j < values.length; j++) {
-                    getVersions().add(values[j].replace(".", "-"));
+                for (String value : values) {
+                    getVersions().add(value.replace(".", "-"));
                 }
                 
             } else {

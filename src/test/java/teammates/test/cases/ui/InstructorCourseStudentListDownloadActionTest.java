@@ -138,6 +138,6 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     }
     
     private InstructorCourseStudentListDownloadAction getAction(String... params) {
-        return (InstructorCourseStudentListDownloadAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorCourseStudentListDownloadAction) gaeSimulation.getActionObject(uri, params);
     }
 }
