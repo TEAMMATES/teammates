@@ -126,8 +126,8 @@ public class AdminActivityLogPageData extends PageData {
      * Checks in an array contains a specific value
      * value is converted to lower case before comparing
      */
-    private boolean arrayContains(String[] arr, String value) {
-        for (String element : arr) {
+    private boolean arrayContains(String[] array, String value) {
+        for (String element : array) {
             if (element.equals(value.toLowerCase().trim())) {
                 return true;
             }

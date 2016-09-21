@@ -158,8 +158,8 @@ public class TableSortTest extends BaseUiTestCase {
         };
 
         StringBuilder searchString = new StringBuilder();
-        for (String element : idList) {
-            searchString.append(element).append("{*}");
+        for (String id : idList) {
+            searchString.append(id).append("{*}");
         }
         page.verifyContains(searchString.toString());
 
@@ -183,8 +183,8 @@ public class TableSortTest extends BaseUiTestCase {
         };
 
         searchString = new StringBuilder();
-        for (String element : reversedIdList) {
-            searchString.append(element).append("{*}");
+        for (String id : reversedIdList) {
+            searchString.append(id).append("{*}");
         }
         page.verifyContains(searchString.toString());
     }

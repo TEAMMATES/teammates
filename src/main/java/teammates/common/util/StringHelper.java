@@ -307,10 +307,10 @@ public final class StringHelper {
         return result;
     }
     
-    private static String byteArrayToHexString(byte[] b) {
-        StringBuilder sb = new StringBuilder(b.length * 2);
-        for (byte element : b) {
-            int v = element & 0xff;
+    private static String byteArrayToHexString(byte[] bytes) {
+        StringBuilder sb = new StringBuilder(bytes.length * 2);
+        for (byte b : bytes) {
+            int v = b & 0xff;
             if (v < 16) {
                 sb.append('0');
             }

@@ -342,12 +342,12 @@ public class TeamEvalResult {
         return output;
     }
 
-    private static double averageColumn(double[][] array, int columnIndex) {
+    private static double averageColumn(double[][] arrayOfArrays, int columnIndex) {
         double sum = 0;
         int count = 0;
         StringBuilder values = new StringBuilder();
-        for (double[] element : array) {
-            double value = element[columnIndex];
+        for (double[] array : arrayOfArrays) {
+            double value = array[columnIndex];
 
             values.append(value).append(' ');
             if (value == NA) {

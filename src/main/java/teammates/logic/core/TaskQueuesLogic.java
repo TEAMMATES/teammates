@@ -43,10 +43,10 @@ public class TaskQueuesLogic {
         
         for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
             String name = entry.getKey();
-            String[] value = entry.getValue();
+            String[] values = entry.getValue();
             
-            for (String element : value) {
-                taskToBeAdded = taskToBeAdded.param(name, element);
+            for (String value : values) {
+                taskToBeAdded = taskToBeAdded.param(name, value);
             }
         }
         
