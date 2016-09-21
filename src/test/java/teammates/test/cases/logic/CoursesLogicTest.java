@@ -22,7 +22,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -1067,14 +1066,12 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseAttributes invalidCourse = new CourseAttributes("invalid id", "Fresh course for tccai", "InvalidTimeZone");
         
         String expectedError =
-                getPopulatedErrorMessage(
-                    FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(),
-                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                    FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
-                + getPopulatedErrorMessage(
-                      FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidCourse.getTimeZone(),
-                      FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
-        
+                "\"invalid id\" is not acceptable to TEAMMATES as a/an course ID because it is not in the correct format. "
+                + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
+                + "It cannot be longer than 40 characters, cannot be empty and cannot contain spaces."
+                + EOL + "\"InvalidTimeZone\" is not acceptable to TEAMMATES as a/an course time zone because it not available "
+                + "as a choice. The value must be one of the values from the time zone dropdown selector.";
+
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, invalidCourse.getId(), invalidCourse.getName(),
                                                    invalidCourse.getTimeZone());

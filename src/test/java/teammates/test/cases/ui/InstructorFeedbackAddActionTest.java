@@ -7,7 +7,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackAddAction;
@@ -89,7 +89,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         
         ______TS("Error: Invalid parameter (invalid sesssion name, > 38 characters)");
         
-        String longFsName = "123456789012345678901234567890123456789";
+        String longFsName = StringHelper.generateStringOfLength(39);
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, longFsName, 0);
         a = getAction(params);
@@ -101,9 +101,11 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertTrue(pr.isError);
         
         expectedString =
-                teammatesLog + "Servlet Action Failure : "
-                + new FieldValidator().getInvalidityInfoForFeedbackSessionName(longFsName)
-                + "|||" + Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
+                teammatesLog + "Servlet Action Failure : " + "\"" + longFsName + "\" "
+                + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
+                + "The value of a/an feedback session name should be no longer than 38 characters. "
+                + "It should not be empty.|||"
+                + Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         
