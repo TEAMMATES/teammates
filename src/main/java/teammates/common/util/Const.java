@@ -1139,11 +1139,12 @@ public final class Const {
         public static final String INSTRUCTOR_DETAILS_LENGTH_INVALID = "Instructor Details must have %d columns";
         
         public static final String STUDENT_FIRST_TIME = "<div class='align-left'>"
-                + "<div class='align-center text-color-red text-bold '>Ooops! Your Google account is not known to TEAMMATES</div>"
+                + "<div class='align-center text-color-red text-bold '>"
+                + "Ooops! Your Google account is not known to TEAMMATES</div>"
                 + "<br>"
                 + "To access a course on TEAMMATES, you need to wait till an instructor adds you to "
-                + "that course. As a confirmation, TEAMMATES will send you instructions on how to access that particular course."
-                + "<br><br>"
+                + "that course. As a confirmation, TEAMMATES will send you instructions on how to access "
+                + "that particular course.<br><br>"
                 + "If you 'joined' the course in TEAMMATES using a Google account before, but cannot login "
                 + "anymore, these are the possible reasons:"
                 
