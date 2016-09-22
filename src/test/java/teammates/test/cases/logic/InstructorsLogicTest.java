@@ -15,7 +15,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -95,10 +94,11 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         instr.email = "invalidEmail.tmt";
         String expectedError =
-                getPopulatedErrorMessage(
-                    FieldValidator.EMAIL_ERROR_MESSAGE, instr.email,
-                    FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                    FieldValidator.EMAIL_MAX_LENGTH);
+                "\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email "
+                + "because it is not in the correct format. An email address contains "
+                + "some text followed by one '@' sign followed by some more text. "
+                + "It cannot be longer than 254 characters, cannot be empty and "
+                + "cannot contain spaces.";
         try {
             instructorsLogic.createInstructor(instr);
             signalFailureToDetectException();

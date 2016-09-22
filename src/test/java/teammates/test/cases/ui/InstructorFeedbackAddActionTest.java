@@ -104,8 +104,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 teammatesLog + "Servlet Action Failure : " + "\"" + longFsName + "\" "
                 + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
                 + "The value of a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||"
-                + Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
+                + "It should not be empty.|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         

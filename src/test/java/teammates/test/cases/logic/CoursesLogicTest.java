@@ -1066,7 +1066,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseAttributes invalidCourse = new CourseAttributes("invalid id", "Fresh course for tccai", "InvalidTimeZone");
         
         String expectedError =
-                "\"invalid id\" is not acceptable to TEAMMATES as a/an course ID because it is not in the correct format. "
+                "\"" + invalidCourse.getId() + "\" is not acceptable to TEAMMATES as a/an course ID because it is not in the correct format. "
                 + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
                 + "It cannot be longer than 40 characters, cannot be empty and cannot contain spaces."
                 + EOL
