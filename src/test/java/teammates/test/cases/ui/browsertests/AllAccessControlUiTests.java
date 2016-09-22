@@ -220,7 +220,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         currentPage.navigateTo(url);
         // A simple regex check is enough because we do full HTML tests
         // elsewhere
-        AssertHelper.assertContainsRegex("{*}" + unregUsername + "{*}Welcome stranger{*}",
+        AssertHelper.assertContainsRegex("{*}" + unregUsername 
+                + "{*}Ooops! Your Google account is not known to TEAMMATES{*}",
                 currentPage.getPageSource());
     }
 
