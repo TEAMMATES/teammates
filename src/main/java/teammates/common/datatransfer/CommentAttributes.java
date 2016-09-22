@@ -28,14 +28,14 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
     public CommentParticipantType recipientType = CommentParticipantType.PERSON;
     public Set<String> recipients;
     public CommentStatus status = CommentStatus.FINAL;
-    public CommentSendingState sendingState = CommentSendingState.SENT;
+    public transient CommentSendingState sendingState = CommentSendingState.SENT;
     public List<CommentParticipantType> showCommentTo;
     public List<CommentParticipantType> showGiverNameTo;
     public List<CommentParticipantType> showRecipientNameTo;
-    public Text commentText;
     public Date createdAt;
     public String lastEditorEmail;
     public Date lastEditedAt;
+    public Text commentText;
     private Long commentId;
 
     public CommentAttributes() {

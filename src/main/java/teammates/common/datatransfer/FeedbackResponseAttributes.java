@@ -24,13 +24,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     * "anonymous", etc.
     */
     public String giver;
-    public String giverSection;
     /**
      * Depending on the question recipient type, {@code recipient} may contain the recipient's email, the team
      * name, "%GENERAL%", etc.
      */
     public String recipient;
-    public String recipientSection;
     
     /** Contains the JSON formatted string that holds the information of the response details <br>
      * Don't use directly unless for storing/loading from data store <br>
@@ -39,6 +37,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * This is set to null to represent a missing response.
      */
     public Text responseMetaData;
+    public String giverSection;
+    public String recipientSection;
     protected transient Date createdAt;
     protected transient Date updatedAt;
     private String feedbackResponseId;

@@ -1,7 +1,7 @@
 package teammates.client.scripts;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -89,17 +89,15 @@ public final class ImportData {
      * @param map - HashMap which has data to persist
      * @return status of the Backdoor operation
      */
-    private static String persist(@SuppressWarnings("rawtypes") HashMap map) {
+    private static String persist(Map<String, ?> map) {
         DataBundle bundle = new DataBundle();
         int count = 0;
-        @SuppressWarnings("unchecked")
         Set<String> set = map.keySet();
-        @SuppressWarnings("rawtypes")
-        Iterator itr = set.iterator();
+        Iterator<String> itr = set.iterator();
         
         String type = "";
         while (itr.hasNext()) {
-            String key = (String) itr.next();
+            String key = itr.next();
             Object obj = map.get(key);
             
             if (obj instanceof AccountAttributes) {
