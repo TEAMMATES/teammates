@@ -24,9 +24,9 @@ public class CourseEditSectionRow {
         this.instructor = instructor;
         feedbackSessions = new ArrayList<CourseEditFeedbackSessionRow>();
         
-        specialSections = createSpecialSectionsForSectionRow(sectionNames, panelIndex, sectionIndex);
-        permissionInputGroup2 = createPermissionInputGroup2ForSectionRow(panelIndex);
-        permissionInputGroup3 = createPermissionInputGroup3ForSectionRow(panelIndex);
+        specialSections = createCheckboxesForSectionLevelPermissionsOfInstructors(sectionNames, panelIndex, sectionIndex);
+        permissionInputGroup2 = createCheckboxesForStudentPermissionsOfInstructors(panelIndex);
+        permissionInputGroup3 = createCheckboxesForSessionPermissionsOfInstructors(panelIndex);
         
         String content = "";
         String onClick = "";
@@ -101,7 +101,15 @@ public class CourseEditSectionRow {
         return toggleSessionLevelInSectionButton;
     }
     
-    private List<ElementTag> createPermissionInputGroup3ForSectionRow(int panelIndex) {
+    /**
+     * Creates checkboxes for Instructor's permissions/priviliges related to sessions
+     *   and automatically checks a single checkbox if special privileges have been assigned to
+     *   the section it corresponds to.
+     * 
+     * @param panelIndex   the index of the panel currently being created
+     * @return             a list of checkboxes
+     */
+    private List<ElementTag> createCheckboxesForSessionPermissionsOfInstructors(int panelIndex) {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
         
         String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
@@ -124,7 +132,15 @@ public class CourseEditSectionRow {
         return permissionInputGroup;
     }
 
-    private List<ElementTag> createPermissionInputGroup2ForSectionRow(int panelIndex) {
+    /**
+     * Creates checkboxes for Instructor's permissions/priviliges related to students' details,
+     *   comments for students (given by instructor or others) and automatically checks a single
+     *   checkbox if special privileges have been assigned to the section it corresponds to.
+     * 
+     * @param panelIndex   the index of the panel currently being created
+     * @return             a list of checkboxes
+     */
+    private List<ElementTag> createCheckboxesForStudentPermissionsOfInstructors(int panelIndex) {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
         
         String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
@@ -159,8 +175,8 @@ public class CourseEditSectionRow {
      * @param sectionIndex the index of the section which will be checked for special privileges
      * @return             a list of checkboxes, separated into rows and columns
      */
-    private List<List<ElementTag>> createSpecialSectionsForSectionRow(List<String> sectionNames,
-                                                                      int panelIndex, int sectionIndex) {
+    private List<List<ElementTag>> createCheckboxesForSectionLevelPermissionsOfInstructors(
+                                   List<String> sectionNames, int panelIndex, int sectionIndex) {
         List<List<ElementTag>> specialSections = new ArrayList<List<ElementTag>>();
         // i represents the row (vertical alignment) of the checkbox
         for (int i = 0; i < sectionNames.size(); i += 3) {

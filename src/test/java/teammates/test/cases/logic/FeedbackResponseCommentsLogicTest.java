@@ -268,7 +268,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
 
         FeedbackResponseCommentAttributes actualFrComment =
                 frcLogic.getFeedbackResponseCommentForSession(
-                                 frComment.courseId, frComment.feedbackSessionName).get(0);
+                                 frComment.courseId, frComment.feedbackSessionName).get(1);
         verifyPresentInDatastore(actualFrComment);
         
         ______TS("typical success case");

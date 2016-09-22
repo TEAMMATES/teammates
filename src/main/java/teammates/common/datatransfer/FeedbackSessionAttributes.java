@@ -39,8 +39,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     private boolean isOpeningEmailEnabled;
     private boolean isClosingEmailEnabled;
     private boolean isPublishedEmailEnabled;
-    private Set<String> respondingInstructorList;
-    private Set<String> respondingStudentList;
+    private transient Set<String> respondingInstructorList;
+    private transient Set<String> respondingStudentList;
 
     public FeedbackSessionAttributes() {
         this.isOpeningEmailEnabled = true;
@@ -348,7 +348,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * returns true if the session is closed within the past hour of calling this function
      */
     public boolean isClosedWithinPastHour() {
-        return TimeHelper.isWithinPastHourFromNow(new Date(endTime.getTime() + gracePeriod * 60000));
+        long timeZoneOffset = (long) timeZone * 60 * 60 * 1000;
+        Date date = new Date(endTime.getTime() + gracePeriod * 60000 - timeZoneOffset);
+        return TimeHelper.isWithinPastHourFromNow(date);
     }
 
     /**
