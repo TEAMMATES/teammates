@@ -284,7 +284,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipient);
         } else if (recipientType == FeedbackParticipantType.STUDENTS) {
             StudentAttributes student = logic.getStudentForEmail(courseId, response.recipient);
-            response.recipientSection = (student == null) ? Const.DEFAULT_SECTION : student.section;
+            response.recipientSection = student == null ? Const.DEFAULT_SECTION : student.section;
         } else {
             response.recipientSection = getUserSectionForCourse();
         }

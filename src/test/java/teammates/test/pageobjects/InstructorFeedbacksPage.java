@@ -398,14 +398,14 @@ public class InstructorFeedbacksPage extends AppPage {
     public WebElement getViewResponseLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return browser.driver.findElement(
-                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]/td[contains(@class,'session-response-for-test')]/a"));
     }
     
     public String getResponseValue(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return browser.driver.findElement(
-                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]/td[contains(@class,'session-response-for-test')]")).getText();
     }
     
@@ -490,7 +490,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-view-for-test";
         return goToLinkInRow(
-                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]//a[contains(@class,'" + className + "')]"),
                 InstructorFeedbackResultsPage.class);
     }
@@ -499,7 +499,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-submit-for-test";
         return goToLinkInRow(
-                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]//a[contains(@class,'" + className + "')]"),
                 FeedbackSubmitPage.class);
     }
@@ -508,7 +508,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-edit-for-test";
         return goToLinkInRow(
-                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]//a[contains(@class,'" + className + "')]"),
                 InstructorFeedbackEditPage.class);
     }
@@ -520,7 +520,7 @@ public class InstructorFeedbacksPage extends AppPage {
     private WebElement getLinkAtTableRow(String className, int rowIndex) {
         return browser.driver.findElement(
                 By.xpath("//table[contains(@id,'table-sessions')]//tbody/tr["
-                + (int) (rowIndex + 1) + "]//a[contains(@class,'" + className + "')]"));
+                + (rowIndex + 1) + "]//a[contains(@class,'" + className + "')]"));
     }
 
     private int getFeedbackSessionRowId(String courseId, String sessionName) {

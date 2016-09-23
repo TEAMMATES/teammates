@@ -74,6 +74,6 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
     }
     
     private StudentCommentsPageAction getAction(String... params) {
-        return (StudentCommentsPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (StudentCommentsPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

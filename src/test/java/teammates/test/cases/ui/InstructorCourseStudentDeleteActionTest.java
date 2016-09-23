@@ -36,7 +36,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
         
-        InstructorCourseStudentDeleteAction action = (InstructorCourseStudentDeleteAction) getAction(submissionParams);
+        InstructorCourseStudentDeleteAction action = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) action.executeAndPostProcess();
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
@@ -52,7 +52,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
     }
     
     private InstructorCourseStudentDeleteAction getAction(String... params) {
-        return (InstructorCourseStudentDeleteAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorCourseStudentDeleteAction) gaeSimulation.getActionObject(uri, params);
     }
     
 }

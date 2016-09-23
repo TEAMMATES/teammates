@@ -235,7 +235,7 @@ public class ActivityLogEntry {
         message = tokens[POSITION_OF_MESSAGE];
         url = tokens[POSITION_OF_URL];
         
-        boolean isLogWithTimeTakenAndId = tokens.length >= (POSITION_OF_ID + 1);
+        boolean isLogWithTimeTakenAndId = tokens.length >= POSITION_OF_ID + 1;
         if (isLogWithTimeTakenAndId) {
             id = tokens[POSITION_OF_ID];
             try {

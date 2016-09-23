@@ -959,7 +959,7 @@ function getWarningMessage() {
  * @param charCountId - Id of Label to display length of text area
  */
 function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLength) {
-	
+
     var response = $('#' + textAreaId).val();
     var $wordsCountElement = $('#' + wordsCountId);
 

@@ -73,6 +73,6 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     }
     
     private FeedbackSessionStatsPageAction getAction(String... params) {
-        return (FeedbackSessionStatsPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (FeedbackSessionStatsPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

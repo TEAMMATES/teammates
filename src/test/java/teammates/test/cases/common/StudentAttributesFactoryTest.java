@@ -18,15 +18,13 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         printTestClassHeader();
     }
 
-    @SuppressWarnings("unused")
     @Test
     public void testConstructor() throws Exception {
         String headerRow = null;
-        StudentAttributesFactory saf = null;
 
         ______TS("Failure case: null parameter");
         try {
-            saf = new StudentAttributesFactory(headerRow);
+            new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             ignoreExpectedException();
@@ -35,7 +33,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         ______TS("Failure case: not satisfy the minimum requirement of fields");
         headerRow = "name \t email";
         try {
-            saf = new StudentAttributesFactory(headerRow);
+            new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Team</mark>",
@@ -45,7 +43,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         ______TS("Failure case: missing 'Name' field");
         headerRow = "section \t team \t email";
         try {
-            saf = new StudentAttributesFactory(headerRow);
+            new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Name</mark>",
@@ -55,7 +53,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         ______TS("Failure case: missing 'Team' field");
         headerRow = "section \t name \t email";
         try {
-            saf = new StudentAttributesFactory(headerRow);
+            new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Team</mark>",
@@ -65,7 +63,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         ______TS("Failure case: missing 'Email' field");
         headerRow = "section \t team \t name";
         try {
-            saf = new StudentAttributesFactory(headerRow);
+            new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Email</mark>",
@@ -75,7 +73,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         ______TS("Failure case: repeated required columns");
         headerRow = "name \t email \t team \t comments \t name";
         try {
-            saf = new StudentAttributesFactory(headerRow);
+            new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_REPEATED, e.getMessage());
@@ -85,7 +83,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         ______TS("Failure case: repeated required columns");
         headerRow = "name \t email \t team \t comments \t section \t email \t team \t comments \t section ";
         try {
-            saf = new StudentAttributesFactory(headerRow);
+            new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_REPEATED, e.getMessage());

@@ -154,7 +154,7 @@ public class AccountsDb extends EntitiesDb {
             
             // if the student profile has changed then update the store
             // this is to maintain integrity of the modified date.
-            if (!(existingProfile.toString().equals(a.studentProfile.toString()))) {
+            if (!existingProfile.toString().equals(a.studentProfile.toString())) {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }
         }

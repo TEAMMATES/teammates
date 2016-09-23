@@ -72,8 +72,8 @@ public class SearchQuery {
         List<String> keywords = new ArrayList<String>();
         StringBuilder key = new StringBuilder();
         boolean isStartQuote = false;
-        for (int i = 0; i < splitStrings.length; i++) {
-            if (splitStrings[i].equals("\"")) {
+        for (String splitString : splitStrings) {
+            if ("\"".equals(splitString)) {
                 if (isStartQuote) {
                     String trimmedKey = key.toString().trim();
                     isStartQuote = false;
@@ -86,9 +86,9 @@ public class SearchQuery {
                 }
             } else {
                 if (isStartQuote) {
-                    key.append(' ').append(splitStrings[i]);
+                    key.append(' ').append(splitString);
                 } else {
-                    keywords.add(splitStrings[i]);
+                    keywords.add(splitString);
                 }
             }
         }
