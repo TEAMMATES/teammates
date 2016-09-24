@@ -115,10 +115,16 @@ function showVisibilityCheckboxesIfCustomOptionSelected($containingForm) {
 }
 
 var checkCheckboxCallback = function(index, checkbox) {
+    if (checkbox.checked === false) {
+        $(checkbox).trigger('change');
+    }
     checkbox.checked = true;
 };
 
 var uncheckCheckboxCallback = function(index, checkbox) {
+    if (checkbox.checked === true) {
+        $(checkbox).trigger('change');
+    }
     checkbox.checked = false;
 };
 
