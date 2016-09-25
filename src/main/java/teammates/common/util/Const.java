@@ -120,7 +120,7 @@ public final class Const {
     }
     
     public enum StatusMessageColor {
-        INFO, SUCCESS, WARNING, DANGER
+        INFO, SUCCESS, WARNING, DANGER, PRIMARY
     }
 
     private Const() {

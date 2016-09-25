@@ -69,11 +69,11 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             
             boolean isSendEmail = Boolean.parseBoolean(getRequestParamValue(Const.ParamsNames.EMAIL_SEND_CHECK));
             if (isEmailChanged && isSendEmail) {
-                FeedbackSessionsLogic.inst().sendAllLinksToNewStudentEmail(courseId, student);
+                logic.sendAllLinksToNewStudentEmail(courseId, student);
             }
             if (isSendEmail) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT,
-                        StatusMessageColor.SUCCESS));
+                                                   StatusMessageColor.SUCCESS));
             } else {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
             }

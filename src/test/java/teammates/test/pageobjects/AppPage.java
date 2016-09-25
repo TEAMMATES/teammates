@@ -272,14 +272,9 @@ public abstract class AppPage {
     }
     
     /**
-     * Waits for a first confirmation modal to appear and click the confirm button and
-     * then wait for second confirmation modal to appear and click confirm button
+     * Waits for a first confirmation modal to appear and click no
      */
-    public void waitForTwoConfirmationModalAndClickOnOkAndNo() {
-        waitForModalPresence();
-        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
-        waitForElementToBeClickable(okayButton);
-        click(okayButton);
+    public void waitForTwoConfirmationModalAndClickOnNo() {
         waitForModalPresence();
         WebElement noButton = browser.driver.findElement(By.cssSelector("[data-bb-handler='no']"));
         waitForElementToBeClickable(noButton);
@@ -655,9 +650,8 @@ public abstract class AppPage {
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
-    public AppPage clickAndConfirmTwoTimes(WebElement elementToClick) {
-        click(elementToClick);
-        waitForTwoConfirmationModalAndClickOnOkAndNo();
+    public AppPage clickNoOnModal() {
+        waitForTwoConfirmationModalAndClickOnNo();
         waitForPageToLoad();
         return this;
     }

@@ -2492,6 +2492,15 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         commentsLogic.sendCommentNotification(courseId);
     }
+    
+    /**
+     * This method sends all links (sent previously in the course) to
+     * the new email address.
+     */
+    public EmailWrapper sendAllLinksToNewStudentEmail(String courseId,
+            StudentAttributes student) throws EntityDoesNotExistException {
+        return feedbackSessionsLogic.sendAllLinksToNewStudentEmail(courseId, student);
+    }
 
     /**
      * This method is not scalable. Not to be used unless for admin features.

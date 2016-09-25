@@ -927,10 +927,10 @@ function hideSingleCollapse(e) {
  *  Bootstrap modals"
  */
 var BootboxWrapper = {
-    DEFAULT_OK_TEXT: 'OK',
+    DEFAULT_OK_TEXT: 'Ok',
     DEFAULT_CANCEL_TEXT: 'Cancel',
-    DEFAULT_YES_TEXT: 'YES',
-    DEFAULT_NO_TEXT: 'NO',
+    DEFAULT_YES_TEXT: 'Yes',
+    DEFAULT_NO_TEXT: 'No',
     
     /**
      * Custom alert dialog to replace default alert() function
@@ -957,7 +957,7 @@ var BootboxWrapper = {
      * Custom confirmation dialog to replace default confirm() function
      * Required params: titleText, messageText and okCallback
      * Optional params: cancelCallBack (defaults to null)
-     *                  okButtonText (defaults to "OK")
+     *                  okButtonText (defaults to "Ok")
      *                  cancelButtonText (defaults to "Cancel")
      *                  color (defaults to StatusType.INFO)
      */
@@ -987,8 +987,8 @@ var BootboxWrapper = {
      * Custom confirmation dialog to replace default confirm() function
      * Required params: titleText, messageText, yesButtonCallback and noButtonCallback
      * Optional params: cancelButtonCallBack (defaults to null)
-     *                  yesButtonText (defaults to "YES")
-     *                  noButtonText (defaults to "NO")
+     *                  yesButtonText (defaults to "Yes")
+     *                  noButtonText (defaults to "No")
      *                  canelButtonText (defaults to "Cancel")
      *                  color (defaults to StatusType.INFO)
      */

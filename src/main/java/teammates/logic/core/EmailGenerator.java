@@ -113,23 +113,22 @@ public class EmailGenerator {
                                    : "";
         
         for (FeedbackSessionAttributes fsa : sessions) {
-            
             String submitUrl = fsa.isOpened()
-                        ? Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                        ? "<a href = \"" + Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                             .withCourseId(course.getId())
                             .withSessionName(fsa.getFeedbackSessionName())
                             .withRegistrationKey(StringHelper.encrypt(student.key))
                             .withStudentEmail(student.email)
-                            .toAbsoluteString()
+                            .toAbsoluteString() + "\">link<//a>"
                         : "(Feedback session is " + (fsa.isClosed() ? "closed" : "not yet opened") + ")";
 
             String reportUrl = fsa.isPublished()
-                        ? Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                        ? "<a href = \"" + Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                 .withCourseId(course.getId())
                                 .withSessionName(fsa.getFeedbackSessionName())
                                 .withRegistrationKey(StringHelper.encrypt(student.key))
                                 .withStudentEmail(student.email)
-                                .toAbsoluteString()
+                                .toAbsoluteString() + "\">link<//a>"
                         : "(Feedback session is not yet published)";
             
             linksFragmentValue.append(Templates.populateTemplate(
