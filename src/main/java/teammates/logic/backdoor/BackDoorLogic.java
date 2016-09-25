@@ -3,11 +3,10 @@ package teammates.logic.backdoor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -43,7 +42,6 @@ import teammates.storage.api.StudentsDb;
 import com.google.appengine.api.blobstore.BlobKey;
 
 public class BackDoorLogic extends Logic {
-    private static final Logger log = Utils.getLogger();
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final CommentsDb commentsDb = new CommentsDb();
@@ -53,9 +51,6 @@ public class BackDoorLogic extends Logic {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
-    
-    private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 5;
-    private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
     
     public String putDocumentsForStudents(DataBundle dataBundle) {
         for (StudentAttributes student : dataBundle.students.values()) {
@@ -87,7 +82,7 @@ public class BackDoorLogic extends Logic {
         
         //deleteExistingData(dataBundle);
         
-        HashMap<String, AccountAttributes> accounts = dataBundle.accounts;
+        Map<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
             if (account.studentProfile == null) {
                 account.studentProfile = new StudentProfileAttributes();
@@ -96,10 +91,10 @@ public class BackDoorLogic extends Logic {
         }
         accountsDb.createAccounts(accounts.values(), true);
         
-        HashMap<String, CourseAttributes> courses = dataBundle.courses;
+        Map<String, CourseAttributes> courses = dataBundle.courses;
         coursesDb.createCourses(courses.values());
 
-        HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
+        Map<String, InstructorAttributes> instructors = dataBundle.instructors;
         List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
         for (InstructorAttributes instructor : instructors.values()) {
 
@@ -118,10 +113,10 @@ public class BackDoorLogic extends Logic {
         accountsDb.createAccounts(instructorAccounts, false);
         instructorsDb.createInstructorsWithoutSearchability(instructors.values());
 
-        HashMap<String, StudentAttributes> students = dataBundle.students;
+        Map<String, StudentAttributes> students = dataBundle.students;
         List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
         for (StudentAttributes student : students.values()) {
-            student.section = (student.section == null) ? "None" : student.section;
+            student.section = student.section == null ? "None" : student.section;
             if (student.googleId != null && !student.googleId.isEmpty()) {
                 AccountAttributes account = new AccountAttributes(student.googleId, student.name, false,
                                                                   student.email, "TEAMMATES Test Institute 1");
@@ -136,13 +131,13 @@ public class BackDoorLogic extends Logic {
         studentsDb.createStudentsWithoutSearchability(students.values());
         
 
-        HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
+        Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
         for (FeedbackSessionAttributes session : sessions.values()) {
             cleanSessionData(session);
         }
         fbDb.createFeedbackSessions(sessions.values());
         
-        HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
+        Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
         
         for (FeedbackQuestionAttributes question : questionList) {
@@ -150,7 +145,7 @@ public class BackDoorLogic extends Logic {
         }
         fqDb.createFeedbackQuestions(questionList);
         
-        HashMap<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
+        Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
         for (FeedbackResponseAttributes response : responses.values()) {
             response = injectRealIds(response);
         }
@@ -168,13 +163,13 @@ public class BackDoorLogic extends Logic {
             }
         }
         
-        HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
+        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
             responseComment = injectRealIds(responseComment);
         }
         fcDb.createFeedbackResponseComments(responseComments.values());
         
-        HashMap<String, CommentAttributes> comments = dataBundle.comments;
+        Map<String, CommentAttributes> comments = dataBundle.comments;
         commentsDb.createComments(comments.values());
         
         // any Db can be used to commit the changes.
@@ -247,21 +242,21 @@ public class BackDoorLogic extends Logic {
     public String putDocuments(DataBundle dataBundle) {
         // query the entity in db first to get the actual data and create document for actual entity
         
-        HashMap<String, StudentAttributes> students = dataBundle.students;
+        Map<String, StudentAttributes> students = dataBundle.students;
         for (StudentAttributes student : students.values()) {
             StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.course, student.email);
             studentsDb.putDocument(studentInDb);
             ThreadHelper.waitFor(50);
         }
         
-        HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
+        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
             FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
                     responseComment.courseId, responseComment.createdAt, responseComment.giverEmail);
             fcDb.putDocument(fcInDb);
         }
         
-        HashMap<String, CommentAttributes> comments = dataBundle.comments;
+        Map<String, CommentAttributes> comments = dataBundle.comments;
         for (CommentAttributes comment : comments.values()) {
             CommentAttributes commentInDb = commentsDb.getComment(comment);
             commentsDb.putDocument(commentInDb);
@@ -352,7 +347,7 @@ public class BackDoorLogic extends Logic {
             throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
                 StudentAttributes.class);
-        student.section = (student.section == null) ? "None" : student.section;
+        student.section = student.section == null ? "None" : student.section;
         updateStudentWithoutDocument(originalEmail, student);
     }
     
@@ -476,99 +471,6 @@ public class BackDoorLogic extends Logic {
             fqDb.deleteFeedbackQuestionsForCourses(courseIds);
             frDb.deleteFeedbackResponsesForCourses(courseIds);
             fcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
-        }
-    }
-
-    //TODO: remove this when we confirm it is not needed
-    @SuppressWarnings("unused")
-    private void waitUntilDeletePersists(DataBundle dataBundle) {
-        
-        //TODO: this method has too much duplication.
-        for (AccountAttributes a : dataBundle.accounts.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getAccount(a.googleId);
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + a.toString());
-            }
-        }
-        
-        for (CourseAttributes c : dataBundle.courses.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getCourse(c.getId());
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + c.toString());
-            }
-        }
-        
-        
-        for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getFeedbackSession(f.getCourseId(), f.getFeedbackSessionName());
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                if (retryCount % 10 == 0) {
-                    log.info("Waiting for delete to persist");
-                }
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + f.toString());
-            }
-        }
-        
-        //TODO: add missing entity types here
-        
-        
-        for (StudentAttributes s : dataBundle.students.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getStudentForEmail(s.course, s.email);
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + s.toString());
-            }
-        }
-        
-        for (InstructorAttributes i : dataBundle.instructors.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getInstructorForEmail(i.courseId, i.email);
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + i.toString());
-            }
         }
     }
 

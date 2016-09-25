@@ -16,18 +16,15 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.CourseStudent;
-import teammates.storage.entity.Student;
 
 public class StudentAttributes extends EntityAttributes {
     public enum UpdateStatus {
-        // @formatter:off
         ERROR(0),
         NEW(1),
         MODIFIED(2),
         UNMODIFIED(3),
         NOT_IN_ENROLL_LIST(4),
         UNKNOWN(5);
-        // @formatter:on
 
         public static final int STATUS_COUNT = 6;
         public final int numericRepresentation;
@@ -54,20 +51,18 @@ public class StudentAttributes extends EntityAttributes {
         }
     }
 
-    // @formatter:off
     // Note: be careful when changing these variables as their names are used in *.json files.
-    // @formatter:on
     public String googleId;
-    public String name;
-    public String lastName;
     public String email;
     public String course;
+    public String name;
+    public String lastName;
     public String comments;
     public String team;
     public String section;
     public String key;
 
-    public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
+    public transient UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
     /*
      * Creation and update time stamps.
@@ -98,25 +93,6 @@ public class StudentAttributes extends EntityAttributes {
         this.course = courseId;
     }
 
-    public StudentAttributes(Student student) {
-        this();
-        this.email = student.getEmail();
-        this.course = student.getCourseId();
-        this.name = student.getName();
-        this.lastName = student.getLastName();
-        this.comments = Sanitizer.sanitizeTextField(student.getComments());
-        this.team = student.getTeamName();
-        this.section = (student.getSectionName() == null) ? Const.DEFAULT_SECTION
-                                                          : student.getSectionName();
-        this.googleId = (student.getGoogleId() == null) ? ""
-                                                        : student.getGoogleId();
-        this.key = student.getRegistrationKey();
-        
-        this.createdAt = student.getCreatedAt();
-        this.updatedAt = student.getUpdatedAt();
-        
-    }
-    
     public StudentAttributes(CourseStudent student) {
         this();
         this.email = student.getEmail();
@@ -125,10 +101,8 @@ public class StudentAttributes extends EntityAttributes {
         this.lastName = student.getLastName();
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
         this.team = student.getTeamName();
-        this.section = student.getSectionName() == null ? Const.DEFAULT_SECTION
-                                                        : student.getSectionName();
-        this.googleId = student.getGoogleId() == null ? ""
-                                                      : student.getGoogleId();
+        this.section = student.getSectionName() == null ? Const.DEFAULT_SECTION : student.getSectionName();
+        this.googleId = student.getGoogleId() == null ? "" : student.getGoogleId();
         this.key = student.getRegistrationKey();
         
         this.createdAt = student.getCreatedAt();
@@ -350,6 +324,7 @@ public class StudentAttributes extends EntityAttributes {
         }
     }
     
+    @Override
     public Object toEntity() {
         return new CourseStudent(email, name, googleId, comments, course, team, section);
     }
@@ -402,11 +377,11 @@ public class StudentAttributes extends EntityAttributes {
     }
     
     public Date getCreatedAt() {
-        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
+        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
 
     public Date getUpdatedAt() {
-        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
+        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
     /**

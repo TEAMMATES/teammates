@@ -15,7 +15,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
-import teammates.storage.entity.Student;
 import teammates.test.cases.BaseTestCase;
 
 public class StudentAttributesTest extends BaseTestCase {
@@ -72,7 +71,7 @@ public class StudentAttributesTest extends BaseTestCase {
         String courseId = "anyCoursId";
         StudentAttributes invalidStudent;
 
-        Student expected;
+        CourseStudent expected;
         StudentAttributes studentUnderTest;
 
         ______TS("Typical case: contains white space");
@@ -373,18 +372,18 @@ public class StudentAttributesTest extends BaseTestCase {
     public void testGetJsonString() {
         StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
                                         "comment 1", "course1");
-        assertEquals("{\n  \"name\": \"name 1\",\n  \"lastName\": \"1\",\n  \"email\": \"email@email.com\","
-                     + "\n  \"course\": \"course1\",\n  \"comments\": \"comment 1\",\n  \"team\": \"team 1\","
-                     + "\n  \"section\": \"sect 1\",\n  \"updateStatus\": \"UNKNOWN\"\n}",
+        assertEquals("{\n  \"email\": \"email@email.com\",\n  \"course\": \"course1\",\n  \"name\": \"name 1\","
+                     + "\n  \"lastName\": \"1\",\n  \"comments\": \"comment 1\",\n  \"team\": \"team 1\","
+                     + "\n  \"section\": \"sect 1\"\n}",
                      sd.getJsonString());
     }
 
-    private Student generateTypicalStudentObject() {
-        return new Student("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", "sect 1");
+    private CourseStudent generateTypicalStudentObject() {
+        return new CourseStudent("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", "sect 1");
     }
 
-    private Student generateStudentWithoutSectionObject() {
-        return new Student("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", null);
+    private CourseStudent generateStudentWithoutSectionObject() {
+        return new CourseStudent("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", null);
     }
 
     private List<StudentAttributes> generateTypicalStudentAttributesList() {
@@ -396,30 +395,18 @@ public class StudentAttributesTest extends BaseTestCase {
         return list;
     }
 
-    private void verifyStudentContent(Student expected, Student actual) {
+    private void verifyStudentContent(CourseStudent expected, CourseStudent actual) {
         assertEquals(expected.getTeamName(), actual.getTeamName());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getEmail(), actual.getEmail());
         assertEquals(expected.getComments(), actual.getComments());
     }
     
-    private void verifyStudentContent(Student expected, CourseStudent actual) {
-        assertEquals(expected.getTeamName(), actual.getTeamName());
-        assertEquals(expected.getName(), actual.getName());
-        assertEquals(expected.getEmail(), actual.getEmail());
-        assertEquals(expected.getComments(), actual.getComments());
-    }
-
-    private void verifyStudentContentIncludingId(Student expected, Student actual) {
+    private void verifyStudentContentIncludingId(CourseStudent expected, CourseStudent actual) {
         verifyStudentContent(expected, actual);
         assertEquals(expected.getGoogleId(), actual.getGoogleId());
     }
     
-    private void verifyStudentContentIncludingId(Student expected, CourseStudent actual) {
-        verifyStudentContent(expected, actual);
-        assertEquals(expected.getGoogleId(), actual.getGoogleId());
-    }
-
     private StudentAttributes generateValidStudentAttributesObject() {
         StudentAttributes s;
         s = new StudentAttributes();

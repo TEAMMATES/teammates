@@ -694,7 +694,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
     private String getPossibleValuesString() {
         double cur = minScale + step;
         int possibleValuesCount = 1;
-        while ((maxScale - cur) >= -1e-9) {
+        while (maxScale - cur >= -1e-9) {
             cur += step;
             possibleValuesCount++;
         }
@@ -711,7 +711,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         } else {
             possibleValuesString.append(Integer.toString(minScale));
             cur = minScale + step;
-            while ((maxScale - cur) >= -1e-9) {
+            while (maxScale - cur >= -1e-9) {
                 possibleValuesString.append(", ").append(StringHelper.toDecimalFormatString(cur));
                 cur += step;
             }

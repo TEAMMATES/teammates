@@ -74,8 +74,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentFeedbackResultsPageAction pageAction = getAction(submissionParams);
 
         try {
-            @SuppressWarnings("unused")
-            ShowPageResult pageResult = getShowPageResult(pageAction);
+            getShowPageResult(pageAction);
         } catch (UnauthorizedAccessException exception) {
             assertEquals("This feedback session is not yet visible.", exception.getMessage());
         }
@@ -91,8 +90,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
 
         try {
-            @SuppressWarnings("unused")
-            ShowPageResult pageResult = getShowPageResult(pageAction);
+            getShowPageResult(pageAction);
         } catch (UnauthorizedAccessException exception) {
             assertEquals("Feedback session [First feedback session] is not accessible to student "
                          + "[" + student1InCourse1.email + "]", exception.getMessage());
@@ -214,6 +212,6 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     }
 
     private StudentFeedbackResultsPageAction getAction(String... params) {
-        return (StudentFeedbackResultsPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (StudentFeedbackResultsPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

@@ -100,9 +100,10 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         testGetFeedbackSessions();
         testGetFeedbackSessionsForCourse();
-        testGetNonPrivateFeedbackSessions();
-        testGetFeedbackSessionsWithUnsentOpenEmail();
-        testGetFeedbackSessionsWithUnsentPublishedEmail();
+        testGetFeedbackSessionsPossiblyNeedingOpenEmail();
+        testGetFeedbackSessionsPossiblyNeedingClosingEmail();
+        testGetFeedbackSessionsPossiblyNeedingClosedEmail();
+        testGetFeedbackSessionsPossiblyNeedingPublishedEmail();
     }
     
     private void testGetFeedbackSessions() {
@@ -177,41 +178,57 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());
     }
     
-    private void testGetNonPrivateFeedbackSessions() {
+    private void testGetFeedbackSessionsPossiblyNeedingOpenEmail() {
         
         ______TS("standard success case");
         
-        List<FeedbackSessionAttributes> fsaList = fsDb.getNonPrivateFeedbackSessions();
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
         
-        assertEquals(8, fsaList.size());
-        for (FeedbackSessionAttributes fsa : fsaList) {
-            assertFalse(fsa.isPrivateSession());
-        }
-        
-    }
-    
-    private void testGetFeedbackSessionsWithUnsentOpenEmail() {
-        
-        ______TS("standard success case");
-        
-        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentOpenEmail();
-        
-        assertEquals(2, fsaList.size());
+        assertEquals(1, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentOpenEmail());
         }
         
     }
     
-    private void testGetFeedbackSessionsWithUnsentPublishedEmail() {
+    private void testGetFeedbackSessionsPossiblyNeedingClosingEmail() {
         
         ______TS("standard success case");
         
-        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
+        
+        assertEquals(6, fsaList.size());
+        for (FeedbackSessionAttributes fsa : fsaList) {
+            assertFalse(fsa.isSentClosingEmail());
+            assertTrue(fsa.isClosingEmailEnabled());
+        }
+        
+    }
+    
+    private void testGetFeedbackSessionsPossiblyNeedingClosedEmail() {
+        
+        ______TS("standard success case");
+        
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
+        
+        assertEquals(6, fsaList.size());
+        for (FeedbackSessionAttributes fsa : fsaList) {
+            assertFalse(fsa.isSentClosedEmail());
+            assertTrue(fsa.isClosingEmailEnabled());
+        }
+        
+    }
+    
+    private void testGetFeedbackSessionsPossiblyNeedingPublishedEmail() {
+        
+        ______TS("standard success case");
+        
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
         
         assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentPublishedEmail());
+            assertTrue(fsa.isPublishedEmailEnabled());
         }
         
     }

@@ -1,6 +1,6 @@
 package teammates.test.cases.logic;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -71,22 +71,22 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     }
     
     private void verifyPresentInDatastore(DataBundle data) {
-        HashMap<String, AccountAttributes> accounts = data.accounts;
+        Map<String, AccountAttributes> accounts = data.accounts;
         for (AccountAttributes expectedAccount : accounts.values()) {
             verifyPresentInDatastore(expectedAccount);
         }
         
-        HashMap<String, InstructorAttributes> instructors = data.instructors;
+        Map<String, InstructorAttributes> instructors = data.instructors;
         for (InstructorAttributes expectedInstructor : instructors.values()) {
             verifyPresentInDatastore(expectedInstructor);
         }
     
-        HashMap<String, CourseAttributes> courses = data.courses;
+        Map<String, CourseAttributes> courses = data.courses;
         for (CourseAttributes expectedCourse : courses.values()) {
             verifyPresentInDatastore(expectedCourse);
         }
     
-        HashMap<String, StudentAttributes> students = data.students;
+        Map<String, StudentAttributes> students = data.students;
         for (StudentAttributes expectedStudent : students.values()) {
             verifyPresentInDatastore(expectedStudent);
         }

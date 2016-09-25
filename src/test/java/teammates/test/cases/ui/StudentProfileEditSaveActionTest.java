@@ -100,7 +100,8 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         String[] submissionParams = createValidParamsForProfile();
         StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         expectedProfile.googleId = student.googleId;
-                StudentProfileEditSaveAction action = getAction(addUserIdToParams(student.googleId, submissionParams));
+        
+        StudentProfileEditSaveAction action = getAction(addUserIdToParams(student.googleId, submissionParams));
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
         
         assertFalse(result.isError);

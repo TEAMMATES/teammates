@@ -523,6 +523,6 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
     }
     
     private InstructorStudentCommentEditAction getAction(String... params) {
-        return (InstructorStudentCommentEditAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorStudentCommentEditAction) gaeSimulation.getActionObject(uri, params);
     }
 }

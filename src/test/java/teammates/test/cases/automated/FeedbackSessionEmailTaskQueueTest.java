@@ -256,7 +256,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     }
     
     @Test
-    public void testSendFeedbackSessionUnpublishedEmail() throws Exception {
+    public void testSendFeedbackSessionUnpublishedEmail() {
         // this method tests a function from FeedbackSessionLogic.java
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();

@@ -26,18 +26,6 @@ $(document).ready(function() {
     attachVisibilityCheckboxEvent();
 });
 
-function addLoadingIndicator(button, loadingText) {
-    button.html(loadingText);
-    button.prop('disabled', true);
-    button.append('<img src="/images/ajax-loader.gif">');
-}
-
-function removeLoadingIndicator(button, displayText) {
-    button.empty();
-    button.html(displayText);
-    button.prop('disabled', false);
-}
-
 /**
  * This function is called on edit page load.
  */
@@ -575,7 +563,7 @@ function tallyCheckboxes(questionNum) {
  */
 function showNewQuestionFrame(type) {
     $('#questiontype').val(type);
-	
+
     copyOptions();
     prepareQuestionForm(type);
     $('#questionTable-' + NEW_QUESTION).show();

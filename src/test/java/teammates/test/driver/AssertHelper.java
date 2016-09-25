@@ -158,8 +158,7 @@ public final class AssertHelper {
         assertLogMessageEquals(expected, actual, studentEmail + "%" + courseId);
     }
     
-    @SuppressWarnings("rawtypes")
-    public static void assertSameContentIgnoreOrder(List a, List b) {
+    public static void assertSameContentIgnoreOrder(List<?> a, List<?> b) {
 
         String expectedListAsString = Joiner.on("\t").join(a);
         String actualListAsString = Joiner.on("\t").join(b);

@@ -533,7 +533,3 @@ function getCountryCode(countryName) {
     }
     return null;
 }
-
-function getCountryNameByCode(code) {
-    return codeToCountryName[code];
-}

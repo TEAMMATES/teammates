@@ -16,8 +16,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.Student;
 
 /**
  * Adds sections to large courses without sections. For use after migrating evaluations
@@ -174,7 +174,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         
         PersistenceManager pm = Datastore.getPersistenceManager();
         
-        Student studentEntity = getStudent(student.email, student.course, pm);
+        CourseStudent studentEntity = getStudent(student.email, student.course, pm);
         updateStudentToBeInSection(studentEntity, currentSection);
         
         List<FeedbackResponse> responsesForStudent = getResponsesForStudent(student, pm);
@@ -184,18 +184,18 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             
     }
     
-    private Student getStudent(String email, String courseId, PersistenceManager pm) {
+    private CourseStudent getStudent(String email, String courseId, PersistenceManager pm) {
         
-        String q = "SELECT FROM " + Student.class.getName() + " "
+        String q = "SELECT FROM " + CourseStudent.class.getName() + " "
                 + "WHERE email == emailParam && courseID == courseIdParam" + " "
                 + "PARAMETERS String emailParam, String courseIdParam";
         @SuppressWarnings("unchecked")
-        List<Student> studentList = (List<Student>) pm.newQuery(q).execute(email, courseId);
+        List<CourseStudent> studentList = (List<CourseStudent>) pm.newQuery(q).execute(email, courseId);
         
         return studentList.get(0);
     }
     
-    private void updateStudentToBeInSection(Student student, String sectionToChangeTo) {
+    private void updateStudentToBeInSection(CourseStudent student, String sectionToChangeTo) {
         if (isPreview) {
             return;
         }
