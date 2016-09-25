@@ -679,7 +679,7 @@ public class FieldValidator {
         return errors;
     }
     
-    public List<String> getValidityInfoForFeedbackPaths(List<FeedbackPathAttributes> feedbackPaths) {
+    public List<String> getInvalidityInfoForFeedbackPaths(List<FeedbackPathAttributes> feedbackPaths) {
         
         Assumption.assertNotNull("Non-null value expected", feedbackPaths);
         

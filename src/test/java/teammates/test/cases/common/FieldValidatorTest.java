@@ -285,7 +285,7 @@ public class FieldValidatorTest extends BaseTestCase {
         ______TS("null value");
         feedbackPaths = null;
         try {
-            validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+            validator.getInvalidityInfoForFeedbackPaths(feedbackPaths);
             signalFailureToDetectException("not expected to be null");
         } catch (AssertionError e) {
             ignoreExpectedException();
@@ -296,7 +296,7 @@ public class FieldValidatorTest extends BaseTestCase {
         feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "stud2@email.com (Student)"));
         
         expected = new ArrayList<String>();
-        actual = validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+        actual = validator.getInvalidityInfoForFeedbackPaths(feedbackPaths);
 
         assertEquals(expected, actual);
         
@@ -306,7 +306,7 @@ public class FieldValidatorTest extends BaseTestCase {
         feedbackPaths.add(new FeedbackPathAttributes("Course1", "Team 1 (Team)", "stud2@email.com (Student)"));
         
         expected = new ArrayList<String>(Arrays.asList("Feedback path givers are not all of the same type."));
-        actual = validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+        actual = validator.getInvalidityInfoForFeedbackPaths(feedbackPaths);
 
         assertEquals(expected, actual);
         
@@ -316,7 +316,7 @@ public class FieldValidatorTest extends BaseTestCase {
         feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "Team 1 (Team)"));
         
         expected = new ArrayList<String>(Arrays.asList("Feedback path recipients are not all of the same type."));
-        actual = validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+        actual = validator.getInvalidityInfoForFeedbackPaths(feedbackPaths);
 
         assertEquals(expected, actual);
         
@@ -326,7 +326,7 @@ public class FieldValidatorTest extends BaseTestCase {
         feedbackPaths.add(new FeedbackPathAttributes("Course1", "stud1@email.com (Student)", "stud2@email.com (Student)"));
         
         expected = new ArrayList<String>(Arrays.asList("Duplicate feedback paths exist."));
-        actual = validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+        actual = validator.getInvalidityInfoForFeedbackPaths(feedbackPaths);
 
         assertEquals(expected, actual);
         
@@ -340,7 +340,7 @@ public class FieldValidatorTest extends BaseTestCase {
         expected = new ArrayList<String>(Arrays.asList("Duplicate feedback paths exist.",
                                                        "Feedback path givers are not all of the same type.",
                                                        "Feedback path recipients are not all of the same type."));
-        actual = validator.getValidityInfoForFeedbackPaths(feedbackPaths);
+        actual = validator.getInvalidityInfoForFeedbackPaths(feedbackPaths);
 
         assertEquals(expected, actual);
         
