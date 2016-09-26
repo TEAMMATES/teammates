@@ -1138,7 +1138,7 @@ public final class Const {
         
         public static final String INSTRUCTOR_DETAILS_LENGTH_INVALID = "Instructor Details must have %d columns";
         
-        public static final String STUDENT_FIRST_TIME = 
+        public static final String STUDENT_FIRST_TIME =
                 "<div class=\"align-left\">"
                     + "<div class=\"align-center text-color-red text-bold\">"
                         + "Ooops! Your Google account is not known to TEAMMATES"
