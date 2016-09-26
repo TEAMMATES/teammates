@@ -1200,7 +1200,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                                            StudentsLogic.inst(), new Object[] { lines, courseId });
     }
         
-    @AfterClass()
+    @AfterClass
     public static void classTearDown() {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
         printTestClassFooter();

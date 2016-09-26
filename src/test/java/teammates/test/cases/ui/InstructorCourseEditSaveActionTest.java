@@ -161,6 +161,6 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
     }
 
     private InstructorCourseEditSaveAction getAction(String... params) {
-        return (InstructorCourseEditSaveAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorCourseEditSaveAction) gaeSimulation.getActionObject(uri, params);
     }
 }

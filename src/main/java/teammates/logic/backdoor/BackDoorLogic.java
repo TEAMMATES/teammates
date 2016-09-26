@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -43,7 +42,6 @@ import teammates.storage.api.StudentsDb;
 import com.google.appengine.api.blobstore.BlobKey;
 
 public class BackDoorLogic extends Logic {
-    private static final Logger log = Utils.getLogger();
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final CommentsDb commentsDb = new CommentsDb();
@@ -53,9 +51,6 @@ public class BackDoorLogic extends Logic {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
-    
-    private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 5;
-    private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
     
     public String putDocumentsForStudents(DataBundle dataBundle) {
         for (StudentAttributes student : dataBundle.students.values()) {
@@ -121,7 +116,7 @@ public class BackDoorLogic extends Logic {
         Map<String, StudentAttributes> students = dataBundle.students;
         List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
         for (StudentAttributes student : students.values()) {
-            student.section = (student.section == null) ? "None" : student.section;
+            student.section = student.section == null ? "None" : student.section;
             if (student.googleId != null && !student.googleId.isEmpty()) {
                 AccountAttributes account = new AccountAttributes(student.googleId, student.name, false,
                                                                   student.email, "TEAMMATES Test Institute 1");
@@ -352,7 +347,7 @@ public class BackDoorLogic extends Logic {
             throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
                 StudentAttributes.class);
-        student.section = (student.section == null) ? "None" : student.section;
+        student.section = student.section == null ? "None" : student.section;
         updateStudentWithoutDocument(originalEmail, student);
     }
     
@@ -476,99 +471,6 @@ public class BackDoorLogic extends Logic {
             fqDb.deleteFeedbackQuestionsForCourses(courseIds);
             frDb.deleteFeedbackResponsesForCourses(courseIds);
             fcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
-        }
-    }
-
-    //TODO: remove this when we confirm it is not needed
-    @SuppressWarnings("unused")
-    private void waitUntilDeletePersists(DataBundle dataBundle) {
-        
-        //TODO: this method has too much duplication.
-        for (AccountAttributes a : dataBundle.accounts.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getAccount(a.googleId);
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + a.toString());
-            }
-        }
-        
-        for (CourseAttributes c : dataBundle.courses.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getCourse(c.getId());
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + c.toString());
-            }
-        }
-        
-        
-        for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getFeedbackSession(f.getCourseId(), f.getFeedbackSessionName());
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                if (retryCount % 10 == 0) {
-                    log.info("Waiting for delete to persist");
-                }
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + f.toString());
-            }
-        }
-        
-        //TODO: add missing entity types here
-        
-        
-        for (StudentAttributes s : dataBundle.students.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getStudentForEmail(s.course, s.email);
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + s.toString());
-            }
-        }
-        
-        for (InstructorAttributes i : dataBundle.instructors.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getInstructorForEmail(i.courseId, i.email);
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + i.toString());
-            }
         }
     }
 

@@ -12,11 +12,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.mailjet.client.MailjetRequest;
-import com.mailjet.client.resource.Email;
-import com.sendgrid.SendGrid;
-import com.sun.jersey.multipart.FormDataMultiPart;
-
 import teammates.common.util.EmailWrapper;
 import teammates.logic.core.EmailSender;
 import teammates.logic.core.JavamailService;
@@ -24,6 +19,11 @@ import teammates.logic.core.MailgunService;
 import teammates.logic.core.MailjetService;
 import teammates.logic.core.SendgridService;
 import teammates.test.cases.BaseComponentTestCase;
+
+import com.mailjet.client.MailjetRequest;
+import com.mailjet.client.resource.Email;
+import com.sendgrid.SendGrid;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 /**
  * SUT: {@link EmailSender}

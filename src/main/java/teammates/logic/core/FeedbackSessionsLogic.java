@@ -853,7 +853,7 @@ public class FeedbackSessionsLogic {
             String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
-        long indicatedRange = (section == null) ? 2000 : -1;
+        long indicatedRange = section == null ? 2000 : -1;
         FeedbackSessionResultsBundle results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,
                 indicatedRange, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);

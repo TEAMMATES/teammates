@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -293,7 +292,7 @@ public final class TimeHelper {
      * Example: If now is 1055, this will return 1100
      */
     public static Date getNextHour() {
-        Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.add(Calendar.HOUR_OF_DAY, 1);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);

@@ -63,15 +63,14 @@ public final class HtmlHelper {
     
     private static boolean assertSameHtml(String expected, String actual, boolean isPart,
                                           boolean isDifferenceToBeShown) {
-        String processedExpected = standardizeLineBreaks(expected);
         String processedActual = convertToStandardHtml(actual, isPart);
 
-        if (areSameHtmls(processedExpected, processedActual)) {
+        if (areSameHtmls(expected, processedActual)) {
             return true;
         }
         
         // the first failure might be caused by non-standardized conversion
-        processedExpected = convertToStandardHtml(expected, isPart);
+        String processedExpected = convertToStandardHtml(expected, isPart);
 
         if (areSameHtmls(processedExpected, processedActual)) {
             return true;
@@ -79,8 +78,8 @@ public final class HtmlHelper {
         
         // if it still fails, then it is a failure after all
         if (isDifferenceToBeShown) {
-            assertEquals("<expected>\n" + processedExpected + "</expected>",
-                         "<actual>\n" + processedActual + "</actual>");
+            assertEquals("<expected>" + Const.EOL + processedExpected + "</expected>",
+                         "<actual>" + Const.EOL + processedActual + "</actual>");
         }
         return false;
     }
@@ -89,15 +88,6 @@ public final class HtmlHelper {
         return AssertHelper.isContainsRegex(expected, actual);
     }
     
-    /**
-     * {@link FileHelper#readFile} uses the system's line separator as line break,
-     * while {@link #convertToStandardHtml} uses LF <code>\n</code> character.
-     * Standardize by replacing each line separator with LF character.
-     */
-    private static String standardizeLineBreaks(String expected) {
-        return expected.replace(Const.EOL, "\n");
-    }
-
     /**
      * Transform the HTML text to follow a standard format.
      * Element attributes are reordered in alphabetical order.
@@ -141,7 +131,7 @@ public final class HtmlHelper {
         text = Sanitizer.sanitizeForHtmlTag(text);
         // line breaks in text are removed as they are ignored in HTML
         // the lines separated by line break will be joined with a single whitespace character
-        return text.isEmpty() ? "" : indentation + text + "\n";
+        return text.isEmpty() ? "" : indentation + text + Const.EOL;
     }
 
     private static String convertElementNode(Node currentNode, String indentation, boolean isPart) {
@@ -187,15 +177,15 @@ public final class HtmlHelper {
     }
     
     private static String generateStudentMotdPlaceholder(String indentation) {
-        return indentation + "${studentmotd.container}\n";
+        return indentation + "${studentmotd.container}" + Const.EOL;
     }
     
     private static String generateTimeZoneSelectorPlaceholder(String indentation) {
-        return indentation + "${timezone.options}\n";
+        return indentation + "${timezone.options}" + Const.EOL;
     }
     
     // private static String generateTinymceStylePlaceholder(String indentation) {
-    //     return indentation + "${tinymce.style}\n";
+    //     return indentation + "${tinymce.style}" + Const.EOL;
     // }
     
     private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
@@ -310,7 +300,7 @@ public final class HtmlHelper {
         }
         
         // close the tag
-        openingTag.append(">\n");
+        openingTag.append('>').append(Const.EOL);
         return openingTag.toString();
     }
     
@@ -326,7 +316,7 @@ public final class HtmlHelper {
     }
     
     private static String getNodeClosingTag(String currentNodeName) {
-        return "</" + currentNodeName + ">\n";
+        return "</" + currentNodeName + ">" + Const.EOL;
     }
 
     private static boolean isVoidElement(String elementName) {

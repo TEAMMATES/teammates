@@ -321,7 +321,7 @@ Apply to thead to make headers not bold.
 }
 
 .word-wrap-break {
-	word-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .text-strike {
@@ -421,7 +421,7 @@ Apply to thead to make headers not bold.
 }
 
 .text-box-error {
-	border:2px solid red;
+    border:2px solid red;
 }
 
 /* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
@@ -791,7 +791,7 @@ Apply to thead to make headers not bold.
 }
 
 .fixed-table-layout {
-	table-layout: fixed;
+    table-layout: fixed;
 }
 
 .question-description {

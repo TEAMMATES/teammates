@@ -5,8 +5,6 @@ import java.util.Date;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
@@ -25,7 +23,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     }
     
     @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testDefaultTimestamp() {
         FeedbackResponseAttributesWithModifiableTimestamp fra =
                 new FeedbackResponseAttributesWithModifiableTimestamp();
         

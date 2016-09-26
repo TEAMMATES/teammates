@@ -356,20 +356,6 @@ public class CommentsDb extends EntitiesDb {
         getPm().close();
     }
     
-    // for now, this method is not being used as instructor cannot be receiver
-    @SuppressWarnings("unused")
-    private void updateInstructorEmailAsRecipient(String courseId, String oldInstrEmail, String updatedInstrEmail) {
-        List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId,
-                                                       CommentParticipantType.INSTRUCTOR, oldInstrEmail);
-        
-        for (Comment recipientComment : recipientComments) {
-            recipientComment.setGiverEmail(updatedInstrEmail);
-        }
-        
-        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
-        getPm().close();
-    }
-    
     /*
      * Update student email used in the comment with the new one
      */

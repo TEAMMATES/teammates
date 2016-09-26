@@ -5,10 +5,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.joda.time.DateTimeZone;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 
 import com.google.appengine.api.datastore.Text;
-import org.joda.time.DateTimeZone;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -724,7 +725,7 @@ public class FieldValidator {
     }
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
-        return (value == null) ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
+        return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
 
     private boolean isUntrimmed(String value) {
