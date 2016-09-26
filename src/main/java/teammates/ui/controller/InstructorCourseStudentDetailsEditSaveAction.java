@@ -13,7 +13,6 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.core.FeedbackSessionsLogic;
 
 public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 
