@@ -1163,8 +1163,8 @@ public final class Const {
                             + "In that case, <a href=\"/contact.jsp\">email us</a> "
                             + "so that we can reconfigure your account to use the new Gmail address."
                         + "</li>"
-                
-                        + "<li>You joined this course just a few seconds ago and your data "
+                        + "<li>"
+                            + "You joined this course just a few seconds ago and your data "
                             + "may be still in the process of propagating through our servers. "
                             + "In that case, please click on the "
                             + "<a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
