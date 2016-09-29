@@ -196,6 +196,28 @@ function updateVisibilityCheckboxesDiv($containingForm) {
     disableRowsAccordingToGiver($containingForm);
     disableRowsAccordingToRecipient($containingForm);
     disableRowsForSpecificGiverRecipientCombinations($containingForm);
+
+    // handles edge case for Team Contribution Question:
+    // normal behavior is that all hidden checkboxes are unchecked, but Team Contribution Question expect even the hidden
+    // Recipient's Team Members can see answer checkbox to be checked
+    fixCheckboxValuesForTeamContribQuestion($containingForm);
+}
+
+/**
+ * Ensure the hidden checkbox for Recipient's Team Members can see answer is consistent with Recipient can see answer
+ */
+function fixCheckboxValuesForTeamContribQuestion($containingForm) {
+    if ($containingForm.find('input[name="questiontype"]').val() !== 'CONTRIB') {
+        return;
+    }
+    var recipientCanSeeAnswerCheckbox =
+        $containingForm.find('input.visibilityCheckbox').filter('[name=receiverLeaderCheckbox]');
+    var recipientTeamCanSeeAnswerCheckbox =
+        $containingForm.find('input.answerCheckbox').filter('[value=RECEIVER_TEAM_MEMBERS]');
+
+    if (recipientCanSeeAnswerCheckbox.prop('checked')) {
+        recipientTeamCanSeeAnswerCheckbox.prop('checked', true);
+    }
 }
 
 /**
