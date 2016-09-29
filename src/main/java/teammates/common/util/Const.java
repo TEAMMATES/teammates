@@ -1144,7 +1144,7 @@ public final class Const {
                         + "Ooops! Your Google account is not known to TEAMMATES"
                     + "</div>"
                     + "<br>"
-                    + "To access a course on TEAMMATES, you need to wait till an instructor adds you to "
+                    + "To access a course on TEAMMATES, you need to wait until an instructor adds you to "
                     + "that course. As a confirmation, TEAMMATES will send you instructions on how to access "
                     + "that particular course."
                     + "<br><br>"
