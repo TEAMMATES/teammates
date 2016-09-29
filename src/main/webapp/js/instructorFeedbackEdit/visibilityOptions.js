@@ -264,7 +264,11 @@ function enableRow($containingForm, row) {
 
 function disableRow($containingForm, row) {
     var $table = $containingForm.find('.visibilityOptions').find('table');
-    $($table.children().children()[row]).hide();
+    var $row = $($table.children().children()[row]);
+    $row.find('input[type="checkbox"]').each(function(index, checkbox) {
+        checkbox.checked = false;
+    });
+    $row.hide();
 }
 
 function disableRowsAccordingToRecipient($containingForm) {
