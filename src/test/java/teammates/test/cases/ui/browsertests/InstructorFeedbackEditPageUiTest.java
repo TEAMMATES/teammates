@@ -105,6 +105,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testChangeFeedbackGiver();
         testChangeFeedbackRecipient();
         testVisibilityOptionsCorrespondToFeedbackPath();
+        testVisibilityOptionsUncheckedWhenHidden();
 
         testEditQuestionNumberAction();
         
@@ -736,6 +737,26 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         }
 
         assertEquals(expectedEnabledOptions, actualEnableOptions);
+    }
+
+    private void testVisibilityOptionsUncheckedWhenHidden() {
+        ______TS("Test visibility checkbox gets unchecked when hidden according to feedback path");
+        feedbackEditPage = getFeedbackEditPage();
+
+        feedbackEditPage.clickQuestionEditForQuestion1();
+        feedbackEditPage.enableVisibilityOptions(1);
+
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
+
+        feedbackEditPage.clickResponseVisibilityCheckBox("RECEIVER_TEAM_MEMBERS", 1);
+
+        assertTrue("Expected checkbox to be checked",
+                feedbackEditPage.isCheckboxChecked("answerCheckbox", "RECEIVER_TEAM_MEMBERS", 1));
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM, 1);
+
+        assertFalse("Expected checkbox to not be checked",
+                feedbackEditPage.isCheckboxChecked("answerCheckbox", "RECEIVER_TEAM_MEMBERS", 1));
     }
 
     private void testAjaxOnVisibilityMessageButton() {
