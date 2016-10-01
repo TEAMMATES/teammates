@@ -705,21 +705,19 @@ public class FeedbackQuestionsLogic {
      */
     public void updateFeedbackQuestionsForDeletedTeam(String courseId, String teamName)
             throws InvalidParametersException, EntityDoesNotExistException {
-        if (studentsLogic.getStudentsForTeam(teamName, courseId).isEmpty()) {
-            List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
-            
-            List<FeedbackQuestionAttributes> feedbackQuestions = new ArrayList<FeedbackQuestionAttributes>();
-                    
-            for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
-                feedbackQuestions.addAll(
-                        fqDb.getFeedbackQuestionsForGiverType(
-                                feedbackSession.getFeedbackSessionName(), courseId, FeedbackParticipantType.CUSTOM));
-            }
-            
-            for (FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
-                feedbackQuestion.deleteFeedbackPathsContainingTeamName(teamName);
-                updateFeedbackQuestion(feedbackQuestion);
-            }
+        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        
+        List<FeedbackQuestionAttributes> feedbackQuestions = new ArrayList<FeedbackQuestionAttributes>();
+                
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+            feedbackQuestions.addAll(
+                    fqDb.getFeedbackQuestionsForGiverType(
+                            feedbackSession.getFeedbackSessionName(), courseId, FeedbackParticipantType.CUSTOM));
+        }
+        
+        for (FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
+            feedbackQuestion.deleteFeedbackPathsContainingTeamName(teamName);
+            updateFeedbackQuestion(feedbackQuestion);
         }
     }
     

@@ -815,8 +815,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * Returns question's feedback paths giver type
      */
     public String getFeedbackPathsGiverType() {
-        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
-            return feedbackPath.getFeedbackPathGiverType();
+        if (!feedbackPaths.isEmpty()) {
+            return feedbackPaths.get(0).getFeedbackPathGiverType();
         }
         return "";
     }
@@ -825,8 +825,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * Returns question's feedback paths recipient type
      */
     public String getFeedbackPathsRecipientType() {
-        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
-            return feedbackPath.getFeedbackPathRecipientType();
+        if (!feedbackPaths.isEmpty()) {
+            return feedbackPaths.get(0).getFeedbackPathRecipientType();
         }
         return "";
     }

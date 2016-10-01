@@ -231,7 +231,9 @@ public class StudentsLogic {
         // adjust submissions and custom feedback paths if moving to a different team
         if (isTeamChanged(originalStudent.team, student.team)) {
             frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
-            fqLogic.updateFeedbackQuestionsForDeletedTeam(student.course, originalStudent.getTeam());
+            if (getStudentsForTeam(originalStudent.getTeam(), student.course).isEmpty()) {
+                fqLogic.updateFeedbackQuestionsForDeletedTeam(student.course, originalStudent.getTeam());
+            }
         }
 
         if (isSectionChanged(originalStudent.section, student.section)) {
