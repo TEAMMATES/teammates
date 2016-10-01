@@ -652,10 +652,20 @@ public class FeedbackResponsesLogic {
         Set<String> emails = new HashSet<String>();
 
         for (FeedbackResponseAttributes response : responsesForQuestion) {
+            String giver;
+            if (newQuestion.isFeedbackPathsGiverTypeTeams()) {
+                StudentAttributes studentGiver = studentsLogic.getStudentForEmail(response.courseId, response.giver);
+                giver = studentGiver.getTeam();
+            } else {
+                giver = response.giver;
+            }
+            
+            String recipient = response.recipient;
+            
             if (!newQuestion.giverType.isCustom()
                     || !newQuestion.getFeedbackPathsGiverType().equals(oldQuestion.getFeedbackPathsGiverType())
                     || !newQuestion.getFeedbackPathsRecipientType().equals(oldQuestion.getFeedbackPathsRecipientType())
-                    || !newQuestion.containsGiverAndRecipientIdsInFeedbackPath(response.giver, response.recipient)) {
+                    || !newQuestion.containsGiverAndRecipientIdsInFeedbackPath(giver, recipient)) {
                 deleteFeedbackResponseAndCascade(response);
                 emails.add(response.giver);
             }

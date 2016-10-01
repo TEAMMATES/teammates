@@ -616,7 +616,7 @@ public class FeedbackQuestionsLogic {
 
         for (FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
             feedbackQuestion.updateStudentEmailInFeedbackPaths(originalEmail, student.getEmail());
-            updateFeedbackQuestion(feedbackQuestion);
+            fqDb.updateFeedbackQuestion(feedbackQuestion);
         }
     }
     
@@ -642,7 +642,7 @@ public class FeedbackQuestionsLogic {
 
         for (FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
             feedbackQuestion.updateInstructorEmailInFeedbackPaths(originalEmail, instructor.getEmail());
-            updateFeedbackQuestion(feedbackQuestion);
+            fqDb.updateFeedbackQuestion(feedbackQuestion);
         }
     }
     
