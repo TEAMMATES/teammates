@@ -215,7 +215,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         // A simple regex check is enough because we do full HTML tests
         // elsewhere
         AssertHelper.assertContainsRegex(
-                "{*}" + unregUsername + "{*}Ooops! Your Google account is not known to TEAMMATES{*}",
+                unregUsername + "{*}Ooops! Your Google account is not known to TEAMMATE",
                 currentPage.getPageSource());
     }
 
