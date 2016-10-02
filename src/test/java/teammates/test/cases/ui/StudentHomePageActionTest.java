@@ -47,7 +47,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                                         r.getDestinationWithParams());
         assertFalse(r.isError);
         AssertHelper.assertContainsRegex(
-                "Ooops! Your Google account is not known to TEAMMATES" + "{*}use the new Gmail address.",
+                "Ooops! Your Google account is not known to TEAMMATES{*}use the new Gmail address.",
                 r.getStatusMessage());
         
         StudentHomePageData data = (StudentHomePageData) r.data;
@@ -86,7 +86,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                                           r.getDestinationWithParams());
         assertFalse(r.isError);
         AssertHelper.assertContainsRegex(
-                "Ooops! Your Google account is not known to TEAMMATES" + "{*}use the new Gmail address.",
+                "Ooops! Your Google account is not known to TEAMMATES{*}use the new Gmail address.",
                 r.getStatusMessage());
         
         data = (StudentHomePageData) r.data;
