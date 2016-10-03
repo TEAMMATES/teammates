@@ -92,8 +92,6 @@ public class PageData {
         return Url.addParamToUrl(link, Const.ParamsNames.USER_ID, account.googleId);
     }
     
-    
-  
     /**
      * Returns the timezone options as HTML code.
      * None is selected, since the selection should only be done in client side.
@@ -151,8 +149,6 @@ public class PageData {
         return new ElementTag(text, "value", value);
     }
     
-    
-    
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for (int i = 0; i <= 30; i += 5) {
@@ -162,8 +158,6 @@ public class PageData {
         }
         return result;
     }
-    
-    
     
     public static ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
@@ -822,8 +816,6 @@ public class PageData {
                                                        FeedbackParticipantType viewerType) {
         return true;
     }
-    
- 
     
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
         String visibilityString = StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
