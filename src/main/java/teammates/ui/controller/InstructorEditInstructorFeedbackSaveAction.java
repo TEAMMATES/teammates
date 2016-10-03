@@ -116,21 +116,21 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
     }
 
     @Override
-    protected void appendRespondant() {
+    protected void appendRespondent() {
         try {
-            logic.addInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.addInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Failed to append instructor respondant. "
+            log.severe("Failed to append instructor respondent. "
                        + "Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]");
         }
     }
     
     @Override
-    protected void removeRespondant() {
+    protected void removeRespondent() {
         try {
-            logic.deleteInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.deleteInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Failed to append instructor respondant. "
+            log.severe("Failed to append instructor respondent. "
                        + "Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]");
         }
     }

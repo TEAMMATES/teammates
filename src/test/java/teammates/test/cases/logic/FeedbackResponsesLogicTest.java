@@ -364,7 +364,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     private void restoreStudentFeedbackResponseToDatastore(FeedbackResponseAttributes response)
             throws InvalidParametersException, EntityDoesNotExistException {
         frLogic.createFeedbackResponse(response);
-        fsLogic.addStudentRespondant(response.giver, response.feedbackSessionName, response.courseId);
+        fsLogic.addStudentRespondent(response.giver, response.feedbackSessionName, response.courseId);
     }
     
     public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {

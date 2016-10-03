@@ -281,15 +281,15 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void addInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession)
+    public void addInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         
         List<String> emails = new ArrayList<String>();
         emails.add(email);
-        addInstructorRespondants(emails, feedbackSession);
+        addInstructorRespondents(emails, feedbackSession);
     }
 
-    public void addInstructorRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession)
+    public void addInstructorRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
@@ -313,7 +313,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void updateInstructorRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
+    public void updateInstructorRespondent(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
@@ -341,7 +341,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void clearInstructorRespondants(FeedbackSessionAttributes feedbackSession)
+    public void clearInstructorRespondents(FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
@@ -364,15 +364,15 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void addStudentRespondant(String email, FeedbackSessionAttributes feedbackSession)
+    public void addStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws EntityDoesNotExistException, InvalidParametersException {
 
         List<String> emails = new ArrayList<String>();
         emails.add(email);
-        addStudentRespondants(emails, feedbackSession);
+        addStudentRespondents(emails, feedbackSession);
     }
 
-    public void deleteInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession)
+    public void deleteInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -396,7 +396,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void addStudentRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession)
+    public void addStudentRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
@@ -420,7 +420,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void updateStudentRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
+    public void updateStudentRespondent(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
@@ -448,7 +448,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void clearStudentRespondants(FeedbackSessionAttributes feedbackSession)
+    public void clearStudentRespondents(FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
