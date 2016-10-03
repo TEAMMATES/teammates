@@ -34,7 +34,7 @@ import teammates.storage.entity.FeedbackSession;
  * </ul>
  * and verifies that the non-respondents do not have a response in the feedback session. <br>
  * 
- * If isPreview is false, whenever an inconsistency is found, {@code logic.updateRespondants} will
+ * If isPreview is false, whenever an inconsistency is found, {@code logic.updateRespondents} will
  * be used to recompute the respondents' set.
  * 
  */
@@ -84,8 +84,8 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
             for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
                 System.out.println(feedbackSession.getIdentificationString());
                 
-                Set<String> nonRespondants = getNonRespondentsForFeedbackSession(feedbackSession);
-                findAndFixInconsistentNonRespondentList(feedbackSession, nonRespondants);
+                Set<String> nonRespondents = getNonRespondentsForFeedbackSession(feedbackSession);
+                findAndFixInconsistentNonRespondentList(feedbackSession, nonRespondents);
             }
         } catch (EntityDoesNotExistException | InvalidParametersException e) {
             e.printStackTrace();
@@ -93,10 +93,10 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     }
 
     private void findAndFixInconsistentNonRespondentList(FeedbackSessionAttributes feedbackSession,
-                                    Set<String> nonRespondants) throws EntityDoesNotExistException,
+                                    Set<String> nonRespondents) throws EntityDoesNotExistException,
                                     InvalidParametersException {
         boolean isRepairRequired = false;
-        for (String nonRespondentEmail : nonRespondants) {
+        for (String nonRespondentEmail : nonRespondents) {
             boolean isRespondentWithResponses = logic.hasGiverRespondedForSession(
                                                         nonRespondentEmail,
                                                         feedbackSession.getFeedbackSessionName(),
@@ -110,7 +110,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         
         if (!isPreview && isRepairRequired) {
             System.out.println("fixing " + feedbackSession.getIdentificationString());
-            logic.updateRespondants(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
+            logic.updateRespondents(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
         }
     }
 
