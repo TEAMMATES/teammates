@@ -1300,7 +1300,7 @@ public final class Const {
                 "You have not created any questions for this feedback session yet. "
                 + "Click the button below to add a feedback question.";
         public static final String FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
-                "Please enter the maximum number of recipients each respondants should give feedback to.";
+                "Please enter the maximum number of recipients each respondents should give feedback to.";
         public static final String FEEDBACK_QUESTION_TEXTINVALID =
                 "Please enter a valid question. The question text cannot be empty.";
         
