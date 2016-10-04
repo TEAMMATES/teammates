@@ -1,8 +1,8 @@
 package teammates.test.cases.storage;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.testng.annotations.AfterClass;
@@ -753,7 +753,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 "Empty feedback session", "idOfTypicalCourse1", "Section 1").isEmpty());
     }
     
-    @SuppressWarnings("static-access")
     @Test
     public void testUpdateFeedbackResponse() throws Exception {
 
@@ -808,7 +807,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         requestParameters.put("responsetext-1-0", new String[] { "New answer text!" });
         
         String[] answer = {"New answer text!"};
-        frd = frd.createResponseDetails(
+        frd = FeedbackResponseDetails.createResponseDetails(
                     answer, FeedbackQuestionType.TEXT,
                     null, requestParameters, 1, 0);
         modifiedResponse.setResponseDetails(frd);

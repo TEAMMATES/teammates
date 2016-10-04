@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
@@ -859,7 +858,7 @@ public class PageData {
     private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
         boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
-            Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
             cal.setTime(timeToShowAsSelected);
             if (cal.get(Calendar.MINUTE) == 0) {
                 if (cal.get(Calendar.HOUR_OF_DAY) == hourOfTheOption) {

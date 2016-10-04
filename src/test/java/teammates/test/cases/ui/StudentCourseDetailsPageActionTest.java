@@ -10,7 +10,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.InstructorsLogic;
@@ -118,7 +117,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testTeamMemberDetailsOnViewTeamPage() throws EntityDoesNotExistException {
+    public void testTeamMemberDetailsOnViewTeamPage() {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
         
         String[] submissionParams = createValidParamsForProfile();
@@ -171,7 +170,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     }
     
     private StudentCourseDetailsPageAction getAction(String... params) {
-        return (StudentCourseDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (StudentCourseDetailsPageAction) gaeSimulation.getActionObject(uri, params);
     }
     
     private StudentProfileEditSaveAction getStudentProfileEditSaveAction(String[] submissionParams) {

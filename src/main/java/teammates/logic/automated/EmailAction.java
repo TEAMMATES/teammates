@@ -147,8 +147,8 @@ public abstract class EmailAction {
         
         for (EmailWrapper email : emails) {
             String recipient = email.getRecipient();
-            String userName = extractUserName((String) email.getContent());
-            String regKey = extractRegistrationKey((String) email.getContent());
+            String userName = extractUserName(email.getContent());
+            String regKey = extractRegistrationKey(email.getContent());
             logData.put(recipient, new EmailData(userName, regKey));
         }
         

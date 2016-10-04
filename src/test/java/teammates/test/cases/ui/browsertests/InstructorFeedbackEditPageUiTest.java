@@ -213,7 +213,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
         
-        ______TS("empty number of max respondants field");
+        ______TS("empty number of max respondents field");
 
         feedbackEditPage.fillNewQuestionBox("filled qn");
         feedbackEditPage.fillNewQuestionDescription("more details");
