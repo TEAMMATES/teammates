@@ -274,6 +274,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
     }
     
     private InstructorFeedbackResponseCommentAddAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentAddAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorFeedbackResponseCommentAddAction) gaeSimulation.getActionObject(uri, params);
     }
 }

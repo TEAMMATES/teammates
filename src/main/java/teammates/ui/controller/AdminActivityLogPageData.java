@@ -126,9 +126,9 @@ public class AdminActivityLogPageData extends PageData {
      * Checks in an array contains a specific value
      * value is converted to lower case before comparing
      */
-    private boolean arrayContains(String[] arr, String value) {
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i].equals(value.toLowerCase().trim())) {
+    private boolean arrayContains(String[] array, String value) {
+        for (String element : array) {
+            if (element.equals(value.toLowerCase().trim())) {
                 return true;
             }
         }
@@ -261,8 +261,8 @@ public class AdminActivityLogPageData extends PageData {
                                .replaceAll(": ", ":")
                                .split("\\|", -1);
          
-        for (int i = 0; i < tokens.length; i++) {
-            String[] pair = tokens[i].split(":", -1);
+        for (String token : tokens) {
+            String[] pair = token.split(":", -1);
             
             if (pair.length != 2) {
                 throw new InvalidParametersException("Invalid format");
@@ -276,8 +276,8 @@ public class AdminActivityLogPageData extends PageData {
                 //version is specified in com.google.appengine.api.log.LogQuery,
                 //it does not belong to the internal class "QueryParameters"
                 //so need to store here for future use
-                for (int j = 0; j < values.length; j++) {
-                    versions.add(values[j].replace(".", "-"));
+                for (String value : values) {
+                    versions.add(value.replace(".", "-"));
                 }
                 
             } else if ("from".equals(label)) {

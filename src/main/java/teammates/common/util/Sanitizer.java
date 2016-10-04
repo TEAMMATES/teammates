@@ -287,7 +287,7 @@ public final class Sanitizer {
      * @return the trimmed string or null (if the parameter was null).
      */
     private static String trimIfNotNull(String string) {
-        return (string == null) ? null : string.trim();
+        return string == null ? null : string.trim();
     }
     
     /**

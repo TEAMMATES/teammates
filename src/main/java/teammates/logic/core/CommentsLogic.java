@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
@@ -28,7 +27,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -39,9 +37,6 @@ import teammates.storage.api.StudentsDb;
 public class CommentsLogic {
     
     private static CommentsLogic instance;
-
-    @SuppressWarnings("unused") //used by test
-    private static final Logger log = Utils.getLogger();
 
     private static final CommentsDb commentsDb = new CommentsDb();
 

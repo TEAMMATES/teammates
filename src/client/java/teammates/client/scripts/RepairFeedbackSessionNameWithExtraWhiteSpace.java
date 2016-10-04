@@ -13,7 +13,6 @@ import javax.jdo.Query;
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -86,7 +85,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
             if (!coursesAffected.isEmpty()) {
                 showAffectedCourses(coursesAffected);
             }
-        } catch (InvalidParametersException | EntityDoesNotExistException | EntityAlreadyExistsException e) {
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             e.printStackTrace();
         }
     }
@@ -115,7 +114,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
      * related questions, responses and feedback response comments.
      */
     private void fixFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         if (feedbackSessionsDb.getFeedbackSession(session.getCourseId(),
                 StringHelper.removeExtraSpace(session.getFeedbackSessionName())) != null) {
             throw new EntityAlreadyExistsException(
@@ -136,8 +135,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     /**
      * Removes extra space in feedbackSessionName in FeedbackResponseComments
      */
-    private void fixFeedbackResponseCommentsOfFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    private void fixFeedbackResponseCommentsOfFeedbackSession(FeedbackSession session) {
         Query q = getPm().newQuery(FeedbackResponseComment.class);
         
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
@@ -158,8 +156,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     /**
      * Removes extra space in feedbackSessionName in FeedbackResponses
      */
-    private void fixFeedbackResponsesOfFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    private void fixFeedbackResponsesOfFeedbackSession(FeedbackSession session) {
         Query q = getPm().newQuery(FeedbackResponse.class);
         
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
@@ -179,8 +176,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     /**
      * Removes extra space in feedbackSessionName in FeedbackQuestions
      */
-    private void fixFeedbackQuestionsOfFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    private void fixFeedbackQuestionsOfFeedbackSession(FeedbackSession session) {
         Query q = getPm().newQuery(FeedbackQuestion.class);
         
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");

@@ -2052,7 +2052,7 @@
                                         </div>
                                         <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements1">
                                             <label id="numofrecipients_text-1" class="control-label col-sm-4 small">
-                                                The maximum number of <span id="numofrecipients_text_inner-1"></span> each respondant should give feedback to:
+                                                The maximum number of <span id="numofrecipients_text_inner-1"></span> each respondent should give feedback to:
                                             </label>
                                             <div class="col-sm-8 form-control-static">
                                                 <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -2544,7 +2544,7 @@
                                         </div>
                                         <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                             <label class="control-label col-sm-4 small">
-                                                The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                             </label>
                                             <div class="col-sm-8 form-control-static">
                                                 <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -3512,7 +3512,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text">students</span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text">students</span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -3928,7 +3928,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text">students</span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text">students</span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -4306,7 +4306,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -4833,7 +4833,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -5431,7 +5431,7 @@
                                               </div>
                                               <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                   <label class="control-label col-sm-4 small">
-                                                      The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                      The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                   </label>
                                                   <div class="col-sm-8 form-control-static">
                                                       <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -6031,7 +6031,7 @@
                                               </div>
                                               <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                   <label class="control-label col-sm-4 small">
-                                                      The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                      The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                   </label>
                                                   <div class="col-sm-8 form-control-static">
                                                       <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -6395,7 +6395,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -7661,7 +7661,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -8181,7 +8181,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -8562,7 +8562,7 @@
                                                 </div>
                                                 <div style="display: block;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text">teams</span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text">teams</span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">

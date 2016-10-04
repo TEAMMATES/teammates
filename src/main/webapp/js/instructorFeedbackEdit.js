@@ -563,7 +563,7 @@ function tallyCheckboxes(questionNum) {
  */
 function showNewQuestionFrame(type) {
     $('#questiontype').val(type);
-	
+
     copyOptions();
     prepareQuestionForm(type);
     $('#questionTable-' + NEW_QUESTION).show();

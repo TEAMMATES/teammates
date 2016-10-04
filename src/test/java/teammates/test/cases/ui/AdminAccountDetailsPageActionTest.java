@@ -49,7 +49,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
     }
 
     private AdminAccountDetailsPageAction getAction(String... params) {
-        return (AdminAccountDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (AdminAccountDetailsPageAction) gaeSimulation.getActionObject(uri, params);
     }
 
 }

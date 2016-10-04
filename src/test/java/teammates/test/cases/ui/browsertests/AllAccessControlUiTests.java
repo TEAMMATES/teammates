@@ -4,7 +4,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.AppUrl;
@@ -44,10 +43,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     private static InstructorAttributes otherInstructor;
 
-    // both TEST_INSTRUCTOR and TEST_STUDENT are from this course
-    @SuppressWarnings("unused")
-    private static CourseAttributes ownCourse;
-    
     @BeforeClass
     public static void classSetup() {
 
@@ -56,7 +51,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         testData = loadDataBundle("/AllAccessControlUiTest.json");
         
         otherInstructor = testData.instructors.get("instructor1OfCourse2");
-        ownCourse = testData.courses.get("typicalCourse1");
 
         browser = BrowserPool.getBrowser();
         

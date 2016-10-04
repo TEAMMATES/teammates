@@ -126,8 +126,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
     }
 
     private StudentCourseJoinAction getAction(String... params) {
-        return (StudentCourseJoinAction) (gaeSimulation.getActionObject(uri,
-                params));
+        return (StudentCourseJoinAction) gaeSimulation.getActionObject(uri, params);
     }
 
 }

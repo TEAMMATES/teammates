@@ -287,7 +287,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     }
     
     private InstructorCourseEnrollSaveAction getAction(String... params) {
-        return (InstructorCourseEnrollSaveAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorCourseEnrollSaveAction) gaeSimulation.getActionObject(uri, params);
     }
 
 }

@@ -166,7 +166,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
     }
 
     private StudentHomePageAction getAction(String... params) {
-        return (StudentHomePageAction) (gaeSimulation.getActionObject(uri, params));
+        return (StudentHomePageAction) gaeSimulation.getActionObject(uri, params);
     }
     
 }

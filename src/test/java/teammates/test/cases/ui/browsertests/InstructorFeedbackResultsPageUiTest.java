@@ -767,8 +767,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         // check if the rows match the given order of values
         resultsPage.click(sortIcon);
         StringBuilder searchString = new StringBuilder();
-        for (int i = 0; i < values.length; i++) {
-            searchString.append(values[i]).append("{*}");
+        for (String value : values) {
+            searchString.append(value).append("{*}");
         }
         resultsPage.verifyContains(searchString.toString());
 

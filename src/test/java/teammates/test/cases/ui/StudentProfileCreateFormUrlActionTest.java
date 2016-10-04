@@ -72,7 +72,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
     }
 
     private StudentProfileCreateFormUrlAction getAction(String... params) {
-        return (StudentProfileCreateFormUrlAction) (gaeSimulation.getActionObject(uri, params));
+        return (StudentProfileCreateFormUrlAction) gaeSimulation.getActionObject(uri, params);
     }
 
 }
