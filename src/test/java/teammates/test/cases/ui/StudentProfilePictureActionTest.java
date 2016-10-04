@@ -204,7 +204,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
             action.executeAndPostProcess();
             signalFailureToDetectException("Unauthorised Access");
         } catch (UnauthorizedAccessException uae) {
-            assertEquals("User is not instructor of the course that student belongs to", uae.getMessage());
+            assertEquals("User is not in the course that student belongs to", uae.getMessage());
         }
     }
 
