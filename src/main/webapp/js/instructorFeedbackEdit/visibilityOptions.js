@@ -204,7 +204,7 @@ function updateVisibilityCheckboxesDiv($containingForm) {
 }
 
 /**
- * Ensure the hidden checkbox for Recipient's Team Members can see answer is consistent with Recipient can see answer
+ * Ensures the hidden checkbox for Recipient's Team Members can see answer is consistent with Recipient can see answer
  */
 function fixCheckboxValuesForTeamContribQuestion($containingForm) {
     if ($containingForm.find('input[name="questiontype"]').val() !== 'CONTRIB') {
