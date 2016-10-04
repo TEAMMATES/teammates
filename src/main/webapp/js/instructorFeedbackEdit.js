@@ -319,7 +319,7 @@ function enableQuestion(questionNum) {
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('edit');
     $('#button_question_submit-' + questionNum).show();
 
-    $currentQuestionForm = $currentQuestionTable.closest('form');
+    var $currentQuestionForm = $currentQuestionTable.closest('form');
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
 }
 
