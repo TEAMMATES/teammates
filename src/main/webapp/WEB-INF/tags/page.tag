@@ -1,5 +1,6 @@
 <%@ tag description="Generic TEAMMATES Page" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="pageTitle" required="true" %>
 <%@ attribute name="jsIncludes" fragment="true" %>
 <%@ attribute name="navBar" required="true" fragment="true" %>
@@ -30,7 +31,7 @@
     <script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/lib/bootbox.min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
-    <t:enableJS />
+    <jsp:include page="<%= Const.ViewURIs.ENABLE_JS %>" />
 
     <jsp:invoke fragment="jsIncludes" />
 </head>
