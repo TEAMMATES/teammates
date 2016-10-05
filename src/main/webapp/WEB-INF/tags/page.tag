@@ -31,11 +31,11 @@
     <script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/lib/bootbox.min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
-    <jsp:include page="<%= Const.ViewURIs.ENABLE_JS %>" />
 
     <jsp:invoke fragment="jsIncludes" />
 </head>
 <body>
+    <jsp:include page="<%= Const.ViewURIs.ENABLE_JS %>" />
     <jsp:invoke fragment="navBar" />
     <div class="container" id="mainContent">
         <t:bodyHeader title="${bodyTitle}" />
