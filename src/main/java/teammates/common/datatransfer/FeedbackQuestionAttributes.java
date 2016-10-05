@@ -2,8 +2,10 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -874,11 +876,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * Returns a list of all the question's response givers
      */
     public List<String> getAllGiversFromFeedbackPaths() {
-        List<String> givers = new ArrayList<String>();
+        Set<String> givers = new HashSet<String>();
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
             givers.add(feedbackPath.getGiverId());
         }
-        return givers;
+        return new ArrayList<String>(givers);
     }
     
     /** 
