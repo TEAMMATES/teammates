@@ -1117,4 +1117,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForElementVisibility(checkbox);
         click(checkbox);
     }
+
+    public boolean isCheckboxChecked(String checkboxClass, String checkboxValue, int questionNumber) {
+        By checkboxSelector = By.cssSelector("#questionTable-" + questionNumber + " input[value='" + checkboxValue
+                                                       + "']." + checkboxClass);
+        WebElement checkbox = browser.driver.findElement(checkboxSelector);
+        return checkbox.isSelected();
+    }
 }
