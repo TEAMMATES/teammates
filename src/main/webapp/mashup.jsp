@@ -332,7 +332,7 @@
         </div>
     </body>
     
-    <script type="text/javascript">
+    <script>
         (function() {
             $(document).ready(function() {
                 $('#instructorHomePage').load('<%=Const.ActionURIs.INSTRUCTOR_HOME_PAGE%>?user=teammates.test #mainContent');
