@@ -1,5 +1,5 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<t:staticPage jsIncludes="${jsIncludes}" currentPage="about">
+<t:staticPage currentPage="about">
     <h1 id="caption">About Us</h1>
     <div id="contentHolder">
         <p class="bold">Acknowledgements:</p>

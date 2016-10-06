@@ -11,12 +11,12 @@
 <html>
 <head>
     <title>${pageTitle}</title>
-    <link rel="shortcut icon" href="/favicon.png" />
+    <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
+    <link type="text/css" href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet">
+    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
     <jsp:invoke fragment="cssIncludes" />
     <!--[if lt IE 9]>
         <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
