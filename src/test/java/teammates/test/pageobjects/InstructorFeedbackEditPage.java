@@ -475,8 +475,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void enableVisibilityOptions(int qnNumber) {
+        clickVisibilityDropdown("OTHER", qnNumber);
+    }
+
+    public void clickVisibilityDropdown(String optionValue, int qnNumber) {
         click(browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber + " .visibility-options-dropdown "
-                                                        + "a[data-option-name=\"OTHER\"]")));
+                                                        + "a[data-option-name=\"" + optionValue + "\"]")));
     }
 
     public void clickAddQuestionButton() {

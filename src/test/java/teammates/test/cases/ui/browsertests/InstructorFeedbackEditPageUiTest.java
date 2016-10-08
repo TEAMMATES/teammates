@@ -773,6 +773,19 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                    feedbackEditPage.getVisibilityMessage(1).contains("Other students in the course can see your response, "
                                                                      + "and your name, but not the name of the recipient"));
 
+        ______TS("Test visibility message corresponds to visibility options: going from Others to a predefined option");
+        feedbackEditPage.enableOtherFeedbackPathOptions(1);
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, 1);
+        feedbackEditPage.clickGiverNameVisibilityCheckBox("RECEIVER", 1);
+        feedbackEditPage.clickGiverNameVisibilityCheckBox("OWN_TEAM_MEMBERS", 1);
+        feedbackEditPage.clickGiverNameVisibilityCheckBox("STUDENTS", 1);
+        feedbackEditPage.clickVisibilityDropdown("VISIBLE_TO_INSTRUCTORS_ONLY", 1);
+        WebElement visibilityMessage2 = browser.driver.findElement(By.id("visibilityMessage-1"));
+        feedbackEditPage.waitForElementVisibility(visibilityMessage2);
+        assertFalse("Visibility message does not correspond to visibility options",
+                   feedbackEditPage.getVisibilityMessage(1).contains("The receiving student"));
+
         ______TS("Failure case: ajax on clicking visibility message button");
         
         feedbackEditPage.changeQuestionTypeInForm(1, "InvalidQuestionType");
