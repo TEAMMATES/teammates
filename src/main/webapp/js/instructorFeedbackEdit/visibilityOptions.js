@@ -124,7 +124,7 @@ var checkCheckboxCallback = function(index, checkbox) {
 };
 
 var uncheckCheckboxCallback = function(index, checkbox) {
-    var isChanged = checkbox.checked === false;
+    var isChanged = checkbox.checked === true;
     checkbox.checked = false;
 
     if (isChanged) {
