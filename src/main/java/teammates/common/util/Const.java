@@ -1111,7 +1111,7 @@ public final class Const {
         public static final String ADMIN_EMAIL_LOG = "/jsp/adminEmailLog.jsp";
         
         public static final String GOOGLE_ACCOUNT_HINT = "/googleAccountHint.jsp";
-        
+        public static final String ENABLE_JS = "/enableJs.jsp";
         public static final String UNAUTHORIZED = "/unauthorized.jsp";
         public static final String ERROR_PAGE = "/errorPage.jsp";
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp";
