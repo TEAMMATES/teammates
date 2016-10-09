@@ -62,6 +62,7 @@ function attachVisibilityDropdownEvent() {
         var selectedOption = $clickedElem.data('optionName');
         var $containingForm = $clickedElem.closest('form');
 
+        checkAndMarkDestructiveChange($clickedElem.text(), $containingForm);
         setVisibilityDropdownMenuText($clickedElem.text(), $containingForm);
 
         var $editTab = $containingForm.find('.visibilityOptions');
@@ -77,6 +78,20 @@ function attachVisibilityDropdownEvent() {
 
         updateVisibilityMessageDiv($containingForm);
     });
+}
+
+function checkAndMarkDestructiveChange(selectedOption, $containingForm) {
+    if (selectedOption === 'Custom visibility options...') {
+        return;
+    }
+
+    var currentOption = $containingForm.find('.visibility-options-dropdown button').text();
+    var isSelectionChanged = selectedOption !== currentOption;
+    var hasResponses = $containingForm.attr('editStatus') === 'hasResponses';
+
+    if (isSelectionChanged && hasResponses) {
+        $containingForm.attr('editStatus', 'mustDeleteResponses');
+    }
 }
 
 /**
