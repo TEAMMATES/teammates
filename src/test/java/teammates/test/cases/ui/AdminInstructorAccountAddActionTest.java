@@ -83,12 +83,14 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_NAME, invalidName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+
+        String expectedError =
+                "\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
+                + "it contains invalid characters. All person name must start with an "
+                + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
         
         AjaxResult rInvalidParam = (AjaxResult) a.executeAndPostProcess();
-        assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
-                         + "it contains invalid characters. All person name must start with an alphanumeric character, "
-                         + "and cannot contain any vertical bar (|) or percent sign (%).",
-                     rInvalidParam.getStatusMessage());
+        assertEquals(expectedError, rInvalidParam.getStatusMessage());
         
         AdminHomePageData pageData = (AdminHomePageData) rInvalidParam.data;
         assertEquals(email, pageData.instructorEmail);
