@@ -4,7 +4,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.AppUrl;
@@ -44,10 +43,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     private static InstructorAttributes otherInstructor;
 
-    // both TEST_INSTRUCTOR and TEST_STUDENT are from this course
-    @SuppressWarnings("unused")
-    private static CourseAttributes ownCourse;
-    
     @BeforeClass
     public static void classSetup() {
 
@@ -56,7 +51,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         testData = loadDataBundle("/AllAccessControlUiTest.json");
         
         otherInstructor = testData.instructors.get("instructor1OfCourse2");
-        ownCourse = testData.courses.get("typicalCourse1");
 
         browser = BrowserPool.getBrowser();
         
@@ -169,7 +163,11 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         url = createUrl(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/pageNotFound.html");
- 
+        
+        ______TS("enable javascript page");
+        url = createUrl(Const.ViewURIs.ENABLE_JS);
+        currentPage.navigateTo(url);
+        currentPage.verifyHtml("/enableJs.html");
     }
 
     private void loginStudent(String userName, String password) {
@@ -220,7 +218,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         currentPage.navigateTo(url);
         // A simple regex check is enough because we do full HTML tests
         // elsewhere
-        AssertHelper.assertContainsRegex("{*}" + unregUsername + "{*}Welcome stranger{*}",
+        AssertHelper.assertContainsRegex(
+                unregUsername + "{*}Ooops! Your Google account is not known to TEAMMATES",
                 currentPage.getPageSource());
     }
 

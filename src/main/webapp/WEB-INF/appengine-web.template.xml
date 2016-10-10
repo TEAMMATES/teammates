@@ -20,4 +20,14 @@
     <!-- Enable session to maintain one-time status message -->
     <sessions-enabled>true</sessions-enabled>
     
+    <!-- Prevent the files from mockups/node_modules folder from being deployed/hosted -->
+    <resource-files>
+        <exclude path="/mockups/**" />
+        <exclude path="/node_modules/**" />
+    </resource-files>
+    <static-files>
+        <exclude path="/mockups/**" />
+        <exclude path="/node_modules/**" />
+    </static-files>
+
 </appengine-web-app>

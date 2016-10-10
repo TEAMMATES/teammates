@@ -61,8 +61,8 @@ public class InstructorStudentCommentClearPendingAction extends Action {
             statusToAdmin = "Successful: " + account.googleId + " cleared pending comments for course " + courseId;
         }
         
-        return createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&"
-                                     + Const.ParamsNames.COURSE_ID + "=" + courseId);
+        return createRedirectResult(new PageData(account).getInstructorCommentsLink() + "&"
+                                    + Const.ParamsNames.COURSE_ID + "=" + courseId);
     }
     
     private int getPendingCommentsSize(String courseId) throws EntityDoesNotExistException {

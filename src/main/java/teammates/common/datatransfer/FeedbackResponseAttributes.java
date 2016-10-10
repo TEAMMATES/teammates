@@ -69,9 +69,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.feedbackQuestionId = fr.getFeedbackQuestionId();
         this.feedbackQuestionType = fr.getFeedbackQuestionType();
         this.giver = fr.getGiverEmail();
-        this.giverSection = (fr.getGiverSection() == null) ? Const.DEFAULT_SECTION : fr.getGiverSection();
+        this.giverSection = fr.getGiverSection() == null ? Const.DEFAULT_SECTION : fr.getGiverSection();
         this.recipient = fr.getRecipientEmail();
-        this.recipientSection = (fr.getRecipientSection() == null) ? Const.DEFAULT_SECTION : fr.getRecipientSection();
+        this.recipientSection = fr.getRecipientSection() == null ? Const.DEFAULT_SECTION : fr.getRecipientSection();
         this.responseMetaData = fr.getResponseMetaData();
         this.createdAt = fr.getCreatedAt();
         this.updatedAt = fr.getUpdatedAt();
@@ -101,11 +101,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     }
     
     public Date getCreatedAt() {
-        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
+        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
 
     public Date getUpdatedAt() {
-        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
+        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
     @Override

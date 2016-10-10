@@ -2,11 +2,11 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FeedbackSubmissionEditQuestion {
     private String courseId;

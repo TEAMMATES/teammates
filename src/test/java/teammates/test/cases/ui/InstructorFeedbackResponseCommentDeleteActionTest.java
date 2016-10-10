@@ -144,6 +144,6 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
     }
     
     private InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentDeleteAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(uri, params);
     }
 }

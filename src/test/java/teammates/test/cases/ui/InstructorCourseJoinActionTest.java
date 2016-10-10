@@ -113,6 +113,6 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     }
     
     private InstructorCourseJoinAction getAction(String... params) {
-        return (InstructorCourseJoinAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorCourseJoinAction) gaeSimulation.getActionObject(uri, params);
     }
 }
