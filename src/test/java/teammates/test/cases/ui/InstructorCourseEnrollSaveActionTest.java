@@ -156,6 +156,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         String studentWithoutEnoughParam = "Team 1\tStudentWithNoEmailInput";
         String studentWithInvalidEmail = "Team 2\tBenjamin Tan\tinvalid.email.tmt";
+        String invalidEmail = "invalid.email.tmt";
         enrollString = "Team | Name | Email" + Const.EOL
                      + studentWithoutEnoughParam + Const.EOL
                      + studentWithInvalidEmail;
@@ -192,7 +193,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                                                 + Sanitizer.sanitizeForHtml(
                                                         getPopulatedErrorMessage(
                                                             FieldValidator.EMAIL_ERROR_MESSAGE,
-                                                            "invalid.email.tmt",
+                                                            invalidEmail,
                                                             FieldValidator.EMAIL_FIELD_NAME,
                                                             FieldValidator.REASON_INCORRECT_FORMAT,
                                                             FieldValidator.EMAIL_MAX_LENGTH))

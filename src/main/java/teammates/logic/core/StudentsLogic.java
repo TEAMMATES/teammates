@@ -265,7 +265,7 @@ public class StudentsLogic {
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
             frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
-            fsLogic.updateRespondantsForStudent(originalEmail, student.email, student.course);
+            fsLogic.updateRespondentsForStudent(originalEmail, student.email, student.course);
         }
     }
     
@@ -619,14 +619,14 @@ public class StudentsLogic {
         // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
-        fsLogic.deleteStudentFromRespondantsList(getStudentForEmail(courseId, studentEmail));
+        fsLogic.deleteStudentFromRespondentsList(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
         for (StudentAttributes student : students) {
-            fsLogic.deleteStudentFromRespondantsList(student);
+            fsLogic.deleteStudentFromRespondentsList(student);
         }
         studentsDb.deleteStudentsForGoogleId(googleId);
     }
@@ -634,7 +634,7 @@ public class StudentsLogic {
     public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
         for (StudentAttributes student : students) {
-            fsLogic.deleteStudentFromRespondantsList(student);
+            fsLogic.deleteStudentFromRespondentsList(student);
         }
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }

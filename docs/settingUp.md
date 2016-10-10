@@ -161,7 +161,7 @@ Refer to [this document](staticAnalysis.md) for details on the tools used, how t
    Running `Travis tests` and getting everything passing is also recommended.
 
    Additionally, configurations that run the tests with `GodMode` turned on are also provided.
-   More info on this can be found [here](/devdocs/godmode.md). Sometimes, Eclipse does not show
+   More info on this can be found [here](godmode.md). Sometimes, Eclipse does not show
    these options immediately after you set up the project. 'Refreshing' the project should fix that. 
 
    When running the test cases, if a few cases fail (this can happen due to timing issues),

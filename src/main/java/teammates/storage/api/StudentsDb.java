@@ -402,13 +402,15 @@ public class StudentsDb extends EntitiesDb {
         
         // Update CourseStudent if it exists.
         CourseStudent courseStudent = getCourseStudentEntityForEmail(courseId, email);
-        CourseStudent courseStudentWithNewEmail = getCourseStudentEntityForEmail(courseId, newEmail);
         if (courseStudent != null) {
-            
-            if (courseStudentWithNewEmail != null && !courseStudentWithNewEmail.equals(courseStudent)) {
-                String error = ERROR_UPDATE_EMAIL_ALREADY_USED
-                        + courseStudentWithNewEmail.getName() + "/" + courseStudentWithNewEmail.getEmail();
-                throw new InvalidParametersException(error);
+            boolean isEmailChanged = !email.equals(newEmail);
+            if (isEmailChanged) {
+                CourseStudent courseStudentWithNewEmail = getCourseStudentEntityForEmail(courseId, newEmail);
+                if (courseStudentWithNewEmail != null) {
+                    String error = ERROR_UPDATE_EMAIL_ALREADY_USED
+                            + courseStudentWithNewEmail.getName() + "/" + courseStudentWithNewEmail.getEmail();
+                    throw new InvalidParametersException(error);
+                }
             }
     
             courseStudent.setEmail(newEmail);
