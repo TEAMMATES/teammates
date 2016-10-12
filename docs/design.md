@@ -70,7 +70,7 @@ It is accessible via a thin [facade class](http://en.wikipedia.org/wiki/Facade_p
 + Managing relationships between entities. e.g., cascade logic for create/update/delete.
 + Managing transactions. e.g., to ensure atomicity of a transaction.
 + Sanitizing input values recevied from the UI component.
-+ Providing a mechanims for checking access control rights.
++ Providing a mechanim for checking access control rights.
 
 ![Logic Component](images/LogicComponent.png)
 
