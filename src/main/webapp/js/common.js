@@ -260,9 +260,9 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
         // jQuery(...).text() works like .innerText, but works in Firefox (.innerText does not)
         // $RowList[i].cells[colIdx - 1] is where we get the table cell from
         // If shouldConsiderToolTipYear is true, we consider the tooltip value instead of innerText
-        textToCompare = shouldConsiderToolTipYear ? 
-                $.trim($($RowList[i].cells[colIdx - 1]).find('span').attr('data-original-title')) : 
-                $.trim($($RowList[i].cells[colIdx - 1]).text());
+        textToCompare = shouldConsiderToolTipYear
+                ? $.trim($($RowList[i].cells[colIdx - 1]).find('span').attr('data-original-title'))
+                : $.trim($($RowList[i].cells[colIdx - 1]).text());
         
         // Store rows together with the innerText to compare
         store.push([textToCompare, $RowList[i], i]);
