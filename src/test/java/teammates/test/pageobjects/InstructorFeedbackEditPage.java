@@ -474,7 +474,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void enableVisibilityOptions(int qnNumber) {
+    public void enableOtherVisibilityOptions(int qnNumber) {
         clickVisibilityDropdown("OTHER", qnNumber);
     }
 

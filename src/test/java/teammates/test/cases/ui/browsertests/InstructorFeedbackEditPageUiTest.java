@@ -252,7 +252,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("edit question 1 to Team-to-Team");
 
-        feedbackEditPage.enableVisibilityOptions(1);
+        feedbackEditPage.enableOtherVisibilityOptions(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.TEAMS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
@@ -270,14 +270,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         
         ______TS("test visibility preview of question 1");
-        feedbackEditPage.enableVisibilityOptions(1);
+        feedbackEditPage.enableOtherVisibilityOptions(1);
         WebElement visibilityMessage = browser.driver.findElement(By.id("visibilityMessage-1"));
         feedbackEditPage.waitForElementVisibility(visibilityMessage);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
         
         //change back
-        feedbackEditPage.enableVisibilityOptions(1);
+        feedbackEditPage.enableOtherVisibilityOptions(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
@@ -287,7 +287,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.waitForElementVisibility(browser.driver.findElement(By.id("questionTable--1")));
-        feedbackEditPage.enableVisibilityOptions(-1);
+        feedbackEditPage.enableOtherVisibilityOptions(-1);
         feedbackEditPage.clickResponseVisibilityCheckBox("RECEIVER_TEAM_MEMBERS", -1);
         
         feedbackEditPage.waitForTextContainedInElementPresence(
@@ -316,7 +316,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("test Recipient's Team Members row is hidden");
         feedbackEditPage.clickEditQuestionButton(2);
-        feedbackEditPage.enableVisibilityOptions(2);
+        feedbackEditPage.enableOtherVisibilityOptions(2);
         
         // use getAttribute("textContent") instead of getText
         // because of the row of Recipient's Team Members is not displayed
@@ -625,7 +625,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertFalse(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));
 
         feedbackEditPage.clickQuestionEditForQuestion1();
-        feedbackEditPage.enableVisibilityOptions(1);
+        feedbackEditPage.enableOtherVisibilityOptions(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
 
@@ -639,7 +639,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
 
         feedbackEditPage.clickQuestionEditForQuestion1();
-        feedbackEditPage.enableVisibilityOptions(1);
+        feedbackEditPage.enableOtherVisibilityOptions(1);
 
         ______TS("Default case: all options enabled");
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
@@ -744,7 +744,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
 
         feedbackEditPage.clickQuestionEditForQuestion1();
-        feedbackEditPage.enableVisibilityOptions(1);
+        feedbackEditPage.enableOtherVisibilityOptions(1);
 
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
@@ -765,7 +765,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
-        feedbackEditPage.enableVisibilityOptions(1);
+        feedbackEditPage.enableOtherVisibilityOptions(1);
         feedbackEditPage.clickGiverNameVisibilityCheckBox("STUDENTS", 1);
         WebElement visibilityMessage1 = browser.driver.findElement(By.id("visibilityMessage-1"));
         feedbackEditPage.waitForElementVisibility(visibilityMessage1);
@@ -790,7 +790,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         feedbackEditPage.changeQuestionTypeInForm(1, "InvalidQuestionType");
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.enableVisibilityOptions(1);
+        feedbackEditPage.enableOtherVisibilityOptions(1);
         feedbackEditPage.waitForAjaxErrorOnVisibilityMessageButton(1);
     }
 
