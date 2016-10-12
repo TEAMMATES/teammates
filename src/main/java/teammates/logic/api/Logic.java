@@ -1587,45 +1587,45 @@ public class Logic {
         feedbackSessionsLogic.updateFeedbackSession(updatedSession);
     }
     
-    public void updateRespondants(String feedbackSessionName, String courseId) throws InvalidParametersException,
+    public void updateRespondents(String feedbackSessionName, String courseId) throws InvalidParametersException,
                                                                                       EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         
-        feedbackSessionsLogic.updateRespondantsForSession(feedbackSessionName, courseId);
+        feedbackSessionsLogic.updateRespondentsForSession(feedbackSessionName, courseId);
     }
 
-    public void addInstructorRespondant(String email, String feedbackSessionName, String courseId)
+    public void addInstructorRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackSessionsLogic.addInstructorRespondant(email, feedbackSessionName, courseId);
+        feedbackSessionsLogic.addInstructorRespondent(email, feedbackSessionName, courseId);
     }
 
-    public void addStudentRespondant(String email, String feedbackSessionName, String courseId)
+    public void addStudentRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackSessionsLogic.addStudentRespondant(email, feedbackSessionName, courseId);
+        feedbackSessionsLogic.addStudentRespondent(email, feedbackSessionName, courseId);
     }
 
-    public void deleteInstructorRespondant(String email, String feedbackSessionName, String courseId)
+    public void deleteInstructorRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackSessionsLogic.deleteInstructorRespondant(email, feedbackSessionName, courseId);
+        feedbackSessionsLogic.deleteInstructorRespondent(email, feedbackSessionName, courseId);
     }
 
-    public void deleteStudentRespondant(String email, String feedbackSessionName, String courseId)
+    public void deleteStudentRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);

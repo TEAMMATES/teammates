@@ -26,7 +26,7 @@ This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.
 ##Interested to join TEAMMATES developer team?
 
 We welcome contributions from developers, especially students. Here are some resources: 
-  * [**Contributor Orientation Guide**](/devdocs/orientation-guide.md) : This document describes what you need to know/do to become a contributor. This is **a MUST READ for new contributors**.
+  * [**Contributor Orientation Guide**](/docs/orientation-guide.md) : This document describes what you need to know/do to become a contributor. This is **a MUST READ for new contributors**.
   * [**Project ideas page**] (https://docs.google.com/document/d/1fAvYvQr0E93OsZgyneaXGX0jaMA-zptTIxqLn83xwN0/pub?embedded=true) : These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g., summer internships).
   * [**Instructions for Google Summer of Code applicants**] (https://docs.google.com/document/d/1Iu63WRIw8uz8liEW089IQHDQTRbh-QoOLMyfTPXNOa0/pub?embedded=true) : Read this before you apply to work for TEAMMATES under GSoC.
 
@@ -37,10 +37,10 @@ Here are some documents important for TEAMMATES developers:
   * [**Specification**](https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/pub?embedded=true) 
     (short name: **Spec**) : Product specification, written from the developers 
     point of view. The user's point of view is [here](http://teammatesv4.appspot.com/features.jsp).
-  * The project [**vision, challenges, and principles**](/devdocs/overview.md) from a developer's perspective.
-  * Software [**Design**](/devdocs/design.md) - Architecture, APIs, etc.
-  * How to [**set up the developer environment**](/devdocs/settingUp.md)- e.g., tools and libraries used.
-  * The development [**process**](/devdocs/process.md).
+  * The project [**vision, challenges, and principles**](/docs/overview.md) from a developer's perspective.
+  * Software [**Design**](/docs/design.md) - Architecture, APIs, etc.
+  * How to [**set up the developer environment**](/docs/settingUp.md)- e.g., tools and libraries used.
+  * The development [**process**](/docs/process.md).
   
   
 ### Supplementary documents 
@@ -48,14 +48,14 @@ Here are some documents important for TEAMMATES developers:
     : Learning resources for the use of developers (tutorials, cheat sheets etc).
   * [**Decision analysis**](https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true)
     : Analysis of problems encountered, solutions considered, rationale for selection etc.
-  * The [**glossary**](/devdocs/glossary.md) of terms used in the project.
+  * The [**glossary**](/docs/glossary.md) of terms used in the project.
   * **Coding standards** for :
     [Java](https://docs.google.com/document/pub?id=1iAESIXM0zSxEa5OY7dFURam_SgLiSMhPQtU0drQagrs&embedded=true), 
     [JSP](https://docs.google.com/document/d/14bXfdveXvoIaPBYpL19m4PK6oPabSnnoawj6OGjOzD4/pub?embedded=true), 
     [JavaScript](https://docs.google.com/document/d/1gZ6WG6HBTJYHAtVkz9kzi_SUuzfXqzO-SvFnLuag2xM/pub?embedded=true),
     [CSS](https://docs.google.com/document/d/1wA9paRA9cS7ByStGbhRRUZLEzEzimrNQjIDPVqy1ScI/pub), 
     [HTML](https://github.com/nus-cs2103/website/blob/master/contents/coding-standards-html.md)
-  * [**Developer Troubleshooting Guide**](/devdocs/troubleshooting-guide.md)
+  * [**Developer Troubleshooting Guide**](/docs/troubleshooting-guide.md)
   * **Best practices** for : 
     [UI design](https://docs.google.com/document/d/1Vj59--sCYUfxgg-iLI53hMfc6YY1gguATTN_KXTQVUo/pub?embedded=true), 
     [Coding](https://docs.google.com/document/d/14EFJzdhp10qQ9iZ-FwsS1FAf42voe4exrlbefo_zYaU/pub?embedded=true), 

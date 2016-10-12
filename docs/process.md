@@ -115,7 +115,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      
      Local tests can be run using the "Local Tests" run configuration in Eclipse.
 
-    >If any of the browsertests fail, use [*GodMode*](/devdocs/godmode.md) to fix them. 
+    >If any of the browsertests fail, use [*GodMode*](godmode.md) to fix them. 
     Ensure that dev green is reached without GodMode before submitting for review
      
     >If your new code might behave differently on a remote server than how it 

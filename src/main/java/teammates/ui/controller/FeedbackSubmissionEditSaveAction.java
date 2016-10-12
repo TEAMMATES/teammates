@@ -168,9 +168,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
 
         if (isUserRespondentOfSession()) {
-            appendRespondant();
+            appendRespondent();
         } else {
-            removeRespondant();
+            removeRespondent();
         }
                
         boolean isSendSubmissionEmail = "on".equals(getRequestParamValue(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
@@ -337,9 +337,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             || logic.hasGiverRespondedForSession(getUserEmailForCourse(), feedbackSessionName, courseId);
     }
     
-    protected abstract void appendRespondant();
+    protected abstract void appendRespondent();
 
-    protected abstract void removeRespondant();
+    protected abstract void removeRespondent();
     
     protected abstract void verifyAccesibleForSpecificUser();
 

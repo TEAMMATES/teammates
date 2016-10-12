@@ -138,7 +138,7 @@ var DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
         'This feedback session name already existed in this course. Please use another name.';
 var DISPLAY_FEEDBACK_SESSION_NAME_EMPTY = 'Feedback session name must not be empty.';
 var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
-        'Please enter the maximum number of recipients each respondants should give feedback to.';
+        'Please enter the maximum number of recipients each respondents should give feedback to.';
 
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. The question text cannot be empty.';
 var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
