@@ -129,24 +129,6 @@ function showVisibilityCheckboxesIfCustomOptionSelected($containingForm) {
     }
 }
 
-var checkCheckboxCallback = function(index, checkbox) {
-    var isChanged = checkbox.checked === false;
-    checkbox.checked = true;
-
-    if (isChanged) {
-        $(checkbox).trigger('change');
-    }
-};
-
-var uncheckCheckboxCallback = function(index, checkbox) {
-    var isChanged = checkbox.checked === true;
-    checkbox.checked = false;
-
-    if (isChanged) {
-        $(checkbox).trigger('change');
-    }
-};
-
 function uncheckAllVisibilityOptionCheckboxes($containingForm) {
     $containingForm.find('input[type="checkbox"]').each(function(index, checkbox) {
         checkbox.checked = false;
