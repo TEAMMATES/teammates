@@ -19,7 +19,6 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
@@ -266,7 +265,7 @@ public class StudentsLogic {
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
             frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
-            fsLogic.updateRespondantsForStudent(originalEmail, student.email, student.course);
+            fsLogic.updateRespondentsForStudent(originalEmail, student.email, student.course);
         }
     }
     
@@ -529,6 +528,19 @@ public class StudentsLogic {
                 Const.ActionURIs.FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER, paramMap);
         
     }
+    
+    private EmailWrapper scheduleRegistrationInviteToStudent(CourseAttributes course, StudentAttributes student) {
+        HashMap<String, String> paramMap = new HashMap<String, String>();
+        
+        paramMap.put(ParamsNames.COURSE_ID, course.getId());
+        paramMap.put(ParamsNames.STUDENT_EMAIL, student.getEmail());
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTask(SystemParams.COURSE_JOIN_REMIND_EMAIL_TASK_QUEUE,
+                Const.ActionURIs.COURSE_JOIN_REMIND_EMAIL_WORKER, paramMap);
+        
+        return new EmailGenerator().generateStudentCourseJoinEmail(course, student);
+    }
 
     public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
             throws EntityDoesNotExistException {
@@ -587,17 +599,10 @@ public class StudentsLogic {
         List<StudentAttributes> studentDataList = getUnregisteredStudentsForCourse(courseId);
         
         List<EmailWrapper> emailsSent = new ArrayList<EmailWrapper>();
-    
-        //TODO: sending mail should be moved to somewhere else.
+        CourseAttributes course = coursesLogic.getCourse(courseId);
         for (StudentAttributes s : studentDataList) {
-            try {
-                EmailWrapper email = sendRegistrationInviteToStudent(courseId, s.email);
-                emailsSent.add(email);
-            } catch (EntityDoesNotExistException e) {
-                Assumption
-                        .fail("Unexpected EntitiyDoesNotExistException thrown when sending registration email"
-                                + TeammatesException.toStringWithStackTrace(e));
-            }
+            EmailWrapper email = scheduleRegistrationInviteToStudent(course, s);
+            emailsSent.add(email);
         }
         return emailsSent;
     }
@@ -614,14 +619,14 @@ public class StudentsLogic {
         // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
-        fsLogic.deleteStudentFromRespondantsList(getStudentForEmail(courseId, studentEmail));
+        fsLogic.deleteStudentFromRespondentsList(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
         for (StudentAttributes student : students) {
-            fsLogic.deleteStudentFromRespondantsList(student);
+            fsLogic.deleteStudentFromRespondentsList(student);
         }
         studentsDb.deleteStudentsForGoogleId(googleId);
     }
@@ -629,7 +634,7 @@ public class StudentsLogic {
     public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
         for (StudentAttributes student : students) {
-            fsLogic.deleteStudentFromRespondantsList(student);
+            fsLogic.deleteStudentFromRespondentsList(student);
         }
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }

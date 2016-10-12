@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import com.google.appengine.api.log.AppLogLine;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -21,9 +19,11 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Templates.EmailTemplates;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
+
+import com.google.appengine.api.log.AppLogLine;
 
 /**
  * Handles operations related to generating emails to be sent from provided templates.
@@ -353,7 +353,8 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}",
                         "The email below has been sent to students of course: " + course.getId()
-                        + ".<p/><br>\n<br>\n=== Email message as seen by the students ===<br>\n",
+                        + ".<p/><br>" + Const.EOL + "<br>" + Const.EOL
+                        + "=== Email message as seen by the students ===<br>" + Const.EOL,
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${supportEmail}", Config.SUPPORT_EMAIL);

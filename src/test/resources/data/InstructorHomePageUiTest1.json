@@ -1,11 +1,20 @@
 {
-    "accounts":{
-        "newInstructorWithoutSampleCourse":{
-            "googleId":"CHomeUiT.instructor.tmms",
-            "name":"Teammates Test New Instructor Without Sample",
-            "isInstructor":true,
-            "email":"CHomeUiT.instructor.tmms@gmail.tmt",
-            "institute":"TEAMMATES Test Institute 1"
-        }
-    }    
+  "accounts": {
+    "newInstructorWithoutSampleCourse": {
+      "googleId": "CHomeUiT.instructor.tmms",
+      "name": "Teammates Test New Instructor Without Sample",
+      "isInstructor": true,
+      "email": "CHomeUiT.instructor.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {},
+  "instructors": {},
+  "students": {},
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

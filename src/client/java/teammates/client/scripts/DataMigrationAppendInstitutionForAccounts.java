@@ -9,8 +9,8 @@ import javax.jdo.PersistenceManager;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 
 public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
     
@@ -67,15 +67,15 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
         
         //======================================================================
         // Given Course-Institute Pair create Student-Institute Pair
-        query = "select from " + Student.class.getName()
+        query = "select from " + CourseStudent.class.getName()
                 + " where ID != null";
         
         @SuppressWarnings("unchecked")
-        List<Student> students = (List<Student>) pm.newQuery(query).execute();
+        List<CourseStudent> students = (List<CourseStudent>) pm.newQuery(query).execute();
         
         HashMap<String, String> studentInstitutions = new HashMap<String, String>();
         
-        for (Student s : students) {
+        for (CourseStudent s : students) {
             studentInstitutions.put(s.getGoogleId(), courseInstitutions.get(s.getCourseId()));
         }
         

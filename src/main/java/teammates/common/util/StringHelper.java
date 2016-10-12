@@ -307,10 +307,10 @@ public final class StringHelper {
         return result;
     }
     
-    private static String byteArrayToHexString(byte[] b) {
-        StringBuilder sb = new StringBuilder(b.length * 2);
-        for (int i = 0; i < b.length; i++) {
-            int v = b[i] & 0xff;
+    private static String byteArrayToHexString(byte[] bytes) {
+        StringBuilder sb = new StringBuilder(bytes.length * 2);
+        for (byte b : bytes) {
+            int v = b & 0xff;
             if (v < 16) {
                 sb.append('0');
             }
@@ -376,9 +376,9 @@ public final class StringHelper {
 
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < lines.length; i++) {
+        for (String line : lines) {
             
-            List<String> rowData = getTableData(lines[i]);
+            List<String> rowData = getTableData(line);
             
             if (checkIfEmptyRow(rowData)) {
                 continue;
@@ -402,15 +402,15 @@ public final class StringHelper {
 
         boolean inquote = false;
 
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == '"') {
+        for (char c : chars) {
+            if (c == '"') {
                 inquote = !inquote;
             }
 
-            if (chars[i] == '\n' && inquote) {
+            if (c == '\n' && inquote) {
                 buffer.append("<br>");
             } else {
-                buffer.append(chars[i]);
+                buffer.append(c);
             }
         }
 
@@ -524,7 +524,7 @@ public final class StringHelper {
      * @return empty string if null, the string itself otherwise
      */
     public static String convertToEmptyStringIfNull(String str) {
-        return (str == null) ? "" : str;
+        return str == null ? "" : str;
     }
     
     /**

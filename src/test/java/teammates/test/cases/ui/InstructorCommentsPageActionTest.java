@@ -111,6 +111,6 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
     }
     
     private InstructorCommentsPageAction getAction(String... params) {
-        return (InstructorCommentsPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorCommentsPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

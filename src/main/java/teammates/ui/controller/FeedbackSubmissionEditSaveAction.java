@@ -168,12 +168,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
 
         if (isUserRespondentOfSession()) {
-            appendRespondant();
+            appendRespondent();
         } else {
-            removeRespondant();
+            removeRespondent();
         }
                
-        boolean isSendSubmissionEmail = getRequestParamAsBoolean(Const.ParamsNames.SEND_SUBMISSION_EMAIL);
+        boolean isSendSubmissionEmail = "on".equals(getRequestParamValue(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
         if (isSendEmail && isSendSubmissionEmail) {
             String user = account == null ? null : account.googleId;
             String unregisteredStudentEmail = student == null ? null : student.email;
@@ -284,7 +284,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipient);
         } else if (recipientType == FeedbackParticipantType.STUDENTS) {
             StudentAttributes student = logic.getStudentForEmail(courseId, response.recipient);
-            response.recipientSection = (student == null) ? Const.DEFAULT_SECTION : student.section;
+            response.recipientSection = student == null ? Const.DEFAULT_SECTION : student.section;
         } else {
             response.recipientSection = getUserSectionForCourse();
         }
@@ -337,9 +337,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             || logic.hasGiverRespondedForSession(getUserEmailForCourse(), feedbackSessionName, courseId);
     }
     
-    protected abstract void appendRespondant();
+    protected abstract void appendRespondent();
 
-    protected abstract void removeRespondant();
+    protected abstract void removeRespondent();
     
     protected abstract void verifyAccesibleForSpecificUser();
 

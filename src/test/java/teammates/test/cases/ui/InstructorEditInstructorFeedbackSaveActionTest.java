@@ -419,6 +419,6 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     }
     
     private InstructorEditInstructorFeedbackSaveAction getAction(String... params) {
-        return (InstructorEditInstructorFeedbackSaveAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorEditInstructorFeedbackSaveAction) gaeSimulation.getActionObject(uri, params);
     }
 }

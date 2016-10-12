@@ -275,13 +275,13 @@ h2.subcaption {
 }
 
 .coreTeamDetailsCell{
-	vertical-align: middle; 
-	padding-left:10px;
+    vertical-align: middle; 
+    padding-left:10px;
 }
 
 .coreTeamPhotoCell{
-	padding-left:35px;
-	padding-bottom:5px;
+    padding-left:35px;
+    padding-bottom:5px;
 }
 
 #footer {

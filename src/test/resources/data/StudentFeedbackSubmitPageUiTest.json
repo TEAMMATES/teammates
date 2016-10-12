@@ -1,1028 +1,1047 @@
 {
-    "accounts":{
-        "SFSubmitUiT.instr":{
-            "googleId":"SFSubmitUiT.instr",
-            "name":"Teammates Test",
-            "isInstructor":true,
-            "email":"SFSubmitUiT.instr@gmail.tmt",
-            "institute":"TEAMMATES Test Institute 1"
-        },
-        "SFSubmitUiT.instr2":{
-            "googleId":"SFSubmitUiT.instr2",
-            "name":"Teammates Test2",
-            "isInstructor":true,
-            "email":"SFSubmitUiT.instr2@gmail.tmt",
-            "institute":"TEAMMATES Test Institute 1"
-        },
-        "SFSubmitUiT.instr3":{
-            "googleId":"SFSubmitUiT.instr3",
-            "name":"Teammates Test3",
-            "isInstructor":true,
-            "email":"SFSubmitUiT.instr3@gmail.tmt",
-            "institute":"TEAMMATES Test Institute 1"
-        },
-        "SFResultsUiT.alice.b":{
-            "googleId":"SFSubmitUiT.alice.b",
-            "name":"Alice B.",
-            "isInstructor":false,
-            "email":"SFSubmitUiT.alice.b@gmail.tmt",
-            "institute":"TEAMMATES Test Institute 1"
-        },
-        "SFSubmitUiT.charlie.d":{
-            "googleId":"SFSubmitUiT.charlie.d",
-            "name":"Charlie D.",
-            "isInstructor":false,
-            "email":"SFSubmitUiT.charlie.d@gmail.tmt",
-            "institute":"TEAMMATES Test Institute 1"
-        },
-        "SFSubmitUiT.danny.e":{
-            "googleId":"SFSubmitUiT.danny.e",
-            "name":"Danny E.",
-            "isInstructor":false,
-            "email":"SFSubmitUiT.danny.e@gmail.tmt",
-            "institute":"TEAMMATES Test Institute 1"
-        },
-        "SFSubmitUiT.emily.f":{
-            "googleId":"SFSubmitUiT.emily.f",
-            "name":"Emily F.",
-            "isInstructor":false,
-            "email":"SFSubmitUiT.emily.f@gmail.tmt",
-            "institute":"TEAMMATES Test Institute 1"
-        }
+  "accounts": {
+    "SFSubmitUiT.instr": {
+      "googleId": "SFSubmitUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "SFSubmitUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
-    "courses":{
-        "SFSubmitUiT.CS2104":{
-            "id":"SFSubmitUiT.CS2104",
-            "name":"Programming Language Concepts",
-            "timeZone":"UTC"
-        }
+    "SFSubmitUiT.instr2": {
+      "googleId": "SFSubmitUiT.instr2",
+      "name": "Teammates Test2",
+      "isInstructor": true,
+      "email": "SFSubmitUiT.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
-    "instructors":{
-        "SFSubmitUiT.instr":{
-            "googleId":"SFSubmitUiT.instr",
-            "courseId":"SFSubmitUiT.CS2104",
-            "name":"Teammates Test",
-            "email":"SFSubmitUiT.instr@gmail.tmt",
-            "role":"Co-owner",
-            "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
-            "privileges": {
-                "courseLevel": {
-                    "canviewstudentinsection": true,
-                    "cangivecommentinsection": true,
-                    "cansubmitsessioninsection": true,
-                    "canmodifysessioncommentinsection": true,
-                    "canmodifycommentinsection": true,
-                    "canmodifycourse": true,
-                    "canviewsessioninsection": true,
-                    "canmodifysession": true,
-                    "canviewcommentinsection": true,
-                    "canmodifystudent": true,
-                    "canmodifyinstructor": true
-                },
-                "sectionLevel": {},
-                "sessionLevel": {}
-            }
-        },
-        "SFSubmitUiT.instr2":{
-            "googleId":"SFSubmitUiT.instr2",
-            "courseId":"SFSubmitUiT.CS2104",
-            "name":"Teammates Test2",
-            "email":"SFSubmitUiT.instr2@gmail.tmt",
-            "role":"Co-owner",
-            "isDisplayedToStudents":true,
-            "displayedName":"Instructor",
-            "privileges": {
-                "courseLevel": {
-                    "canviewstudentinsection": true,
-                    "cangivecommentinsection": true,
-                    "cansubmitsessioninsection": true,
-                    "canmodifysessioncommentinsection": true,
-                    "canmodifycommentinsection": true,
-                    "canmodifycourse": true,
-                    "canviewsessioninsection": true,
-                    "canmodifysession": true,
-                    "canviewcommentinsection": true,
-                    "canmodifystudent": true,
-                    "canmodifyinstructor": true
-                },
-                "sectionLevel": {},
-                "sessionLevel": {}
-            }
-        },
-        "SFSubmitUiT.instr3":{
-            "googleId":"SFSubmitUiT.instr3",
-            "courseId":"SFSubmitUiT.CS2104",
-            "name":"Teammates Test3",
-            "email":"SFSubmitUiT.instr3@gmail.tmt",
-            "role":"Co-owner",
-            "isDisplayedToStudents":false,
-            "displayedName":"Instructor",
-            "privileges": {
-                "courseLevel": {
-                    "canviewstudentinsection": true,
-                    "cangivecommentinsection": true,
-                    "cansubmitsessioninsection": true,
-                    "canmodifysessioncommentinsection": true,
-                    "canmodifycommentinsection": true,
-                    "canmodifycourse": true,
-                    "canviewsessioninsection": true,
-                    "canmodifysession": true,
-                    "canviewcommentinsection": true,
-                    "canmodifystudent": true,
-                    "canmodifyinstructor": true
-                },
-                "sectionLevel": {},
-                "sessionLevel": {}
-            }
-        }
+    "SFSubmitUiT.instr3": {
+      "googleId": "SFSubmitUiT.instr3",
+      "name": "Teammates Test3",
+      "isInstructor": true,
+      "email": "SFSubmitUiT.instr3@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
-    "students":{
-        "Alice":{
-            "googleId":"SFSubmitUiT.alice.b",
-            "email":"SFSubmitUiT.alice.b@gmail.tmt",
-            "course":"SFSubmitUiT.CS2104",
-            "name":"Alice Betsy</option></td></div>'\"",
-            "comments":"This student's name is Alice Betsy</option></td></div>'\"",
-            "team":"Team >'\"< 1</td></div>'\""
-        },
-        "Benny":{
-            "googleId":"SFSubmitUiT.benny.c",
-            "email":"SFSubmitUiT.benny.c@gmail.tmt",
-            "course":"SFSubmitUiT.CS2104",
-            "name":"Benny Charles",
-            "comments":"This student's name is Benny Charles",
-            "team":"Team >'\"< 1</td></div>'\""
-        },
-        "ExtraGuy":{
-            "googleId":"extra.guy",
-            "email":"extra.guy@gmail.tmt",
-            "course":"SFSubmitUiT.CS2104",
-            "name":"Extra guy",
-            "comments":"This student will move to a new team after evaluation created",
-            "team":"Team 2"
-        },
-        "DropOut":{
-            "googleId":"",
-            "email":"drop.out@gmail.tmt",
-            "course":"SFSubmitUiT.CS2104",
-            "name":"Drop out",
-            "comments":"This student will drop out after evaluation created",
-            "team":"Team 2"
-        },
-        "Charlie":{
-            "googleId":"SFSubmitUiT.charlie.d",
-            "email":"SFSubmitUiT.charlie.d@gmail.tmt",
-            "course":"SFSubmitUiT.CS2104",
-            "name":"Charlie Davis",
-            "comments":"This student's name is Charlie Davis",
-            "team":"Team 2"
-        },
-        "Danny":{
-            "googleId":"SFSubmitUiT.danny.e",
-            "email":"SFSubmitUiT.danny.e@gmail.tmt",
-            "course":"SFSubmitUiT.CS2104",
-            "name":"Danny Engrid",
-            "comments":"This student's name is Danny Engrid",
-            "team":"Team 2"
-        },
-        "Emily":{
-            "googleId":"SFSubmitUiT.emily.f",
-            "email":"SFSubmitUiT.emily.f@gmail.tmt",
-            "course":"SFSubmitUiT.CS2104",
-            "name":"Emily",
-            "comments":"This student's name is Emily",
-            "team":"Team 3"
-        }
+    "SFResultsUiT.alice.b": {
+      "googleId": "SFSubmitUiT.alice.b",
+      "name": "Alice B.",
+      "isInstructor": false,
+      "email": "SFSubmitUiT.alice.b@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
-    "feedbackSessions":{
-        "Open Session":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "instructions":{
-                "value":"Instructions for first session"
-            },
-            "createdTime":"2012-04-01 11:59 PM UTC",
-            "startTime":"2012-04-01 11:59 PM UTC",
-            "endTime":"2026-04-30 11:59 PM UTC",
-            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-            "resultsVisibleFromTime":"2026-05-01 11:59 PM UTC",
-            "timeZone":8.0,
-            "gracePeriod":10,
-            "feedbackSessionType":"STANDARD",
-            "sentOpenEmail":true,
-            "sentPublishedEmail":false
-        },       
-        "Grace Period Session":{
-            "feedbackSessionName":"Grace Period Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "instructions":{
-                "value":"This going to be a grace period session"
-            },
-            "createdTime":"2012-04-01 11:59 PM UTC",
-            "startTime":"2012-04-01 11:59 PM UTC",
-            "endTime":"2026-04-30 11:59 PM UTC",
-            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-            "resultsVisibleFromTime":"2026-05-01 11:59 PM UTC",
-            "timeZone":8.0,
-            "gracePeriod":10,
-            "feedbackSessionType":"STANDARD",
-            "sentOpenEmail":true,
-            "sentPublishedEmail":false
-        },
-        "Closed Session":{
-            "feedbackSessionName":"Second Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "instructions":{
-                "value":"Please please fill in the second feedback session"
-            },
-            "createdTime":"2012-04-01 11:59 PM UTC",
-            "startTime":"2012-04-02 11:59 PM UTC",
-            "endTime":"2012-04-30 11:59 PM UTC",
-            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-            "resultsVisibleFromTime":"2026-05-01 11:59 PM UTC",
-            "timeZone":8.0,
-            "gracePeriod":20,
-            "feedbackSessionType":"STANDARD",
-            "sentOpenEmail":false,
-            "sentPublishedEmail":false
-        },
-        "Empty Session":{
-            "feedbackSessionName":"Third Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "instructions":{
-                "value":"Please please fill in the last feedback session"
-            },
-            "createdTime":"2012-04-01 11:59 PM UTC",
-            "startTime":"2012-04-02 11:59 PM UTC",
-            "endTime":"2026-04-30 11:59 PM UTC",
-            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
-            "timeZone":8.0,
-            "gracePeriod":20,
-            "feedbackSessionType":"STANDARD",
-            "sentOpenEmail":true,
-            "sentPublishedEmail":true
-        },
-        "Awaiting Session":{
-            "feedbackSessionName":"Fourth Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "instructions":{
-                "value":"Please please fill in the second feedback session"
-            },
-            "createdTime":"2012-04-01 11:59 PM UTC",
-            "startTime":"2035-04-02 11:59 PM UTC",
-            "endTime":"2035-04-30 11:59 PM UTC",
-            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-            "resultsVisibleFromTime":"2026-05-01 11:59 PM UTC",
-            "timeZone":8.0,
-            "gracePeriod":20,
-            "feedbackSessionType":"STANDARD",
-            "sentOpenEmail":false,
-            "sentPublishedEmail":false
-        },
-        "Not Yet Visible Session":{
-            "feedbackSessionName":"Fifth Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "instructions":{
-                "value":"Please please fill in the fifth feedback session"
-            },
-            "createdTime":"2012-04-01 11:59 PM UTC",
-            "startTime":"2035-04-02 11:59 PM UTC",
-            "endTime":"2035-04-30 11:59 PM UTC",
-            "sessionVisibleFromTime":"2035-04-01 11:59 PM UTC",
-            "resultsVisibleFromTime":"2035-05-01 11:59 PM UTC",
-            "timeZone":8.0,
-            "gracePeriod":20,
-            "feedbackSessionType":"STANDARD",
-            "sentOpenEmail":false,
-            "sentPublishedEmail":false
-        }
+    "SFSubmitUiT.charlie.d": {
+      "googleId": "SFSubmitUiT.charlie.d",
+      "name": "Charlie D.",
+      "isInstructor": false,
+      "email": "SFSubmitUiT.charlie.d@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
-    "feedbackQuestions":{
-        "qn1InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"What is the best selling point of your product?"
-            },
-            "questionNumber":"1",
-            "questionType":"TEXT",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn2InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"Rate 3 other students' products"
-            },
-            "questionNumber":"2",
-            "questionType":"TEXT",
-            "giverType":"STUDENTS",
-            "recipientType":"STUDENTS",
-            "numberOfEntitiesToGiveFeedbackTo":3,
-            "showResponsesTo":[
-                "INSTRUCTORS",
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS",
-                "OWN_TEAM_MEMBERS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS",
-                "RECEIVER"
-            ]
-        },
-        "qn3InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"Comments about the class"
-            },
-            "questionNumber":"3",
-            "questionType":"TEXT",
-            "giverType":"STUDENTS",
-            "recipientType":"NONE",
-            "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[
-                "INSTRUCTORS",
-                "OWN_TEAM_MEMBERS"
-            ],
-            "showGiverNameTo":[
-                
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn4InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"Give feedback to 3 other teams."
-            },
-            "questionNumber":"4",
-            "questionType":"TEXT",
-            "giverType":"TEAMS",
-            "recipientType":"TEAMS",
-            "numberOfEntitiesToGiveFeedbackTo":3,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn5InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"Give feedback to your team mates"
-            },
-            "questionNumber":"5",
-            "questionType":"TEXT",
-            "giverType":"STUDENTS",
-            "recipientType":"OWN_TEAM_MEMBERS",
-            "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn6InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"This question should be hidden."
-            },
-            "questionNumber":"6",
-            "questionType":"TEXT",
-            "giverType":"INSTRUCTORS",
-            "recipientType":"STUDENTS",
-            "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn7InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":true}"
-            },
-            "questionNumber":"7",
-            "questionType":"MCQ",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn8InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"What do you think is the other teams' best feature?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
-            },
-            "questionNumber":"8",
-            "questionType":"MCQ",
-            "giverType":"TEAMS",
-            "recipientType":"TEAMS",
-            "numberOfEntitiesToGiveFeedbackTo":3,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn9InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":true}"
-            },
-            "questionNumber":"9",
-            "questionType":"MSQ",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn10InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"What do you think is the other teams' best feature?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":false}"
-            },
-            "questionNumber":"10",
-            "questionType":"MSQ",
-            "giverType":"TEAMS",
-            "recipientType":"TEAMS",
-            "numberOfEntitiesToGiveFeedbackTo":3,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn11InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who is the best class mate?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"STUDENTS\"}"
-            },
-            "questionNumber":"11",
-            "questionType":"MCQ",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn12InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who do you recommend as tutor?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"STUDENTS\"}"
-            },
-            "questionNumber":"12",
-            "questionType":"MSQ",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn13InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Which is the best team?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"TEAMS\"}"
-            },
-            "questionNumber":"13",
-            "questionType":"MCQ",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn14InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who do you recommend as tutor?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"TEAMS\"}"
-            },
-            "questionNumber":"14",
-            "questionType":"MSQ",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn15InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
-            },
-            "questionNumber":"15",
-            "questionType":"NUMSCALE",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn16InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate others' product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
-            },
-            "questionNumber":"16",
-            "questionType":"NUMSCALE",
-            "giverType":"TEAMS",
-            "recipientType":"TEAMS",
-            "numberOfEntitiesToGiveFeedbackTo":3,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn17InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who is the best instructor?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
-            },
-            "questionNumber":"17",
-            "questionType":"MCQ",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn18InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who do you recommend as tutors?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
-            },
-            "questionNumber":"18",
-            "questionType":"MSQ",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn19InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionText\":\"How important are the following factors to you? Give points accordingly.\",
-                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 2,
-                          \"constSumOptions\" : [\"Grades\", \"Fun\"],\"distributeToRecipients\" : false,
-                           \"pointsPerOption\" : false, \"points\" : 100}"
-            },
-            "questionNumber":"19",
-            "questionType":"CONSTSUM",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn20InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionText\":\"Split points among the teams\",
-                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
-                          \"constSumOptions\" : [],\"distributeToRecipients\" : true,
-                           \"pointsPerOption\" : true, \"points\" : 100}"
-            },
-            "questionNumber":"20",
-            "questionType":"CONSTSUM",
-            "giverType":"TEAMS",
-            "recipientType":"TEAMS",
-            "numberOfEntitiesToGiveFeedbackTo":3,
-            "showResponsesTo":[
-                "RECEIVER",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn21InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"CONTRIB\", \"questionText\":\"Rate the contribution of your team members and yourself.\", \"isNotSureAllowed\": true}"
-            },
-            "questionNumber":"21",
-            "questionType":"CONTRIB",
-            "giverType":"STUDENTS",
-            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
-            "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn22InSession1":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{
-                    \"questionText\":\"Please choose the best choice for the following sub-questions.\",
-                    \"questionType\":\"RUBRIC\",
-                    \"numOfRubricChoices\" : 2, \"numOfRubricSubQuestions\" : 2,
-                    \"rubricChoices\" : [\"Yes\", \"No\"],
-                    \"rubricSubQuestions\" : [\"This student has done a good job.\",\"This student has tried his/her best.\"],
-                    \"rubricDescriptions\" : [[\"Most of the time\",\"Less than half the time\"],[\"Most of the time\",\"Less than half the time\"]]
-                }"
-              },
-              "questionNumber":"22",
-              "questionType":"RUBRIC",
-              "giverType":"STUDENTS",
-              "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
-              "numberOfEntitiesToGiveFeedbackTo":-100,
-              "showResponsesTo":[
-                  "INSTRUCTORS",
-                  "STUDENTS"
-              ],
-              "showGiverNameTo":[
-                  "INSTRUCTORS",
-                  "STUDENTS"
-              ],
-              "showRecipientNameTo":[
-                  "INSTRUCTORS",
-                  "STUDENTS"
-              ]
-        },
-        "qn1InSession2":{
-            "feedbackSessionName":"Second Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"Give feedback to your instructors"
-            },
-            "questionNumber":"1",
-            "questionType":"TEXT",
-            "giverType":"STUDENTS",
-            "recipientType":"INSTRUCTORS",
-            "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn2InSession2":{
-            "feedbackSessionName":"Second Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MCQ\", \"numOfMcqChoices\" : 2, \"mcqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
-            },
-            "questionNumber":"2",
-            "questionType":"MCQ",
-            "giverType":"STUDENTS",
-            "recipientType":"INSTRUCTORS",
-            "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn3InSession2":{
-            "feedbackSessionName":"Second Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MSQ\", \"numOfMsqChoices\" : 2, \"msqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
-            },
-            "questionNumber":"3",
-            "questionType":"MSQ",
-            "giverType":"STUDENTS",
-            "recipientType":"INSTRUCTORS",
-            "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn4InSession2":{
-            "feedbackSessionName":"Second Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionText\":\"Rate our product.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
-            },
-            "questionNumber":"4",
-            "questionType":"NUMSCALE",
-            "giverType":"STUDENTS",
-            "recipientType":"INSTRUCTORS",
-            "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn1InSession4":{
-            "feedbackSessionName":"Fourth Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"Give feedback to your instructors"
-            },
-            "questionNumber":"1",
-            "questionType":"TEXT",
-            "giverType":"STUDENTS",
-            "recipientType":"INSTRUCTORS",
-            "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn1InGracePeriodSession":{
-            "feedbackSessionName":"Grace Period Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
-            },
-            "questionNumber":"15",
-            "questionType":"NUMSCALE",
-            "giverType":"STUDENTS",
-            "recipientType":"SELF",
-            "numberOfEntitiesToGiveFeedbackTo":1,
-            "showResponsesTo":[
-                "RECEIVER",
-                "OWN_TEAM_MEMBERS",
-                "STUDENTS",
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        },
-        "qn2InGracePeriodSession":{
-            "feedbackSessionName":"Grace Period Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate others' product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
-            },
-            "questionNumber":"16",
-            "questionType":"NUMSCALE",
-            "giverType":"TEAMS",
-            "recipientType":"TEAMS",
-            "numberOfEntitiesToGiveFeedbackTo":3,
-            "showResponsesTo":[
-                "RECEIVER"
-            ],
-            "showGiverNameTo":[
-                "RECEIVER"
-            ],
-            "showRecipientNameTo":[
-                "RECEIVER"
-            ]
-        },
-        "qn3InGracePeriodSession":{
-            "feedbackSessionName":"Grace Period Session",
-            "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
-            "questionMetaData":{
-                "value":"{\"questionType\":\"CONTRIB\", \"questionText\":\"You cannot answer 'Not Sure' here.\", \"isNotSureAllowed\": false}"
-            },
-            "questionNumber":"17",
-            "questionType":"CONTRIB",
-            "giverType":"STUDENTS",
-            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
-            "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[
-                "INSTRUCTORS"
-            ],
-            "showGiverNameTo":[
-                "INSTRUCTORS"
-            ],
-            "showRecipientNameTo":[
-                "INSTRUCTORS"
-            ]
-        }
+    "SFSubmitUiT.danny.e": {
+      "googleId": "SFSubmitUiT.danny.e",
+      "name": "Danny E.",
+      "isInstructor": false,
+      "email": "SFSubmitUiT.danny.e@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SFSubmitUiT.emily.f": {
+      "googleId": "SFSubmitUiT.emily.f",
+      "name": "Emily F.",
+      "isInstructor": false,
+      "email": "SFSubmitUiT.emily.f@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
+  },
+  "courses": {
+    "SFSubmitUiT.CS2104": {
+      "id": "SFSubmitUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "SFSubmitUiT.instr": {
+      "googleId": "SFSubmitUiT.instr",
+      "courseId": "SFSubmitUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "SFSubmitUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SFSubmitUiT.instr2": {
+      "googleId": "SFSubmitUiT.instr2",
+      "courseId": "SFSubmitUiT.CS2104",
+      "name": "Teammates Test2",
+      "email": "SFSubmitUiT.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SFSubmitUiT.instr3": {
+      "googleId": "SFSubmitUiT.instr3",
+      "courseId": "SFSubmitUiT.CS2104",
+      "name": "Teammates Test3",
+      "email": "SFSubmitUiT.instr3@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "Alice": {
+      "googleId": "SFSubmitUiT.alice.b",
+      "email": "SFSubmitUiT.alice.b@gmail.tmt",
+      "course": "SFSubmitUiT.CS2104",
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
+      "team": "Team >'\"< 1</td></div>'\""
+    },
+    "Benny": {
+      "googleId": "SFSubmitUiT.benny.c",
+      "email": "SFSubmitUiT.benny.c@gmail.tmt",
+      "course": "SFSubmitUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team >'\"< 1</td></div>'\""
+    },
+    "ExtraGuy": {
+      "googleId": "extra.guy",
+      "email": "extra.guy@gmail.tmt",
+      "course": "SFSubmitUiT.CS2104",
+      "name": "Extra guy",
+      "comments": "This student will move to a new team after evaluation created",
+      "team": "Team 2"
+    },
+    "DropOut": {
+      "googleId": "",
+      "email": "drop.out@gmail.tmt",
+      "course": "SFSubmitUiT.CS2104",
+      "name": "Drop out",
+      "comments": "This student will drop out after evaluation created",
+      "team": "Team 2"
+    },
+    "Charlie": {
+      "googleId": "SFSubmitUiT.charlie.d",
+      "email": "SFSubmitUiT.charlie.d@gmail.tmt",
+      "course": "SFSubmitUiT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2"
+    },
+    "Danny": {
+      "googleId": "SFSubmitUiT.danny.e",
+      "email": "SFSubmitUiT.danny.e@gmail.tmt",
+      "course": "SFSubmitUiT.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2"
+    },
+    "Emily": {
+      "googleId": "SFSubmitUiT.emily.f",
+      "email": "SFSubmitUiT.emily.f@gmail.tmt",
+      "course": "SFSubmitUiT.CS2104",
+      "name": "Emily",
+      "comments": "This student's name is Emily",
+      "team": "Team 3"
+    }
+  },
+  "feedbackSessions": {
+    "Open Session": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for first session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2026-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Grace Period Session": {
+      "feedbackSessionName": "Grace Period Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "This going to be a grace period session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2026-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Closed Session": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the second feedback session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-02 11:59 PM UTC",
+      "endTime": "2012-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 20,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": false,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Empty Session": {
+      "feedbackSessionName": "Third Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the last feedback session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-02 11:59 PM UTC",
+      "endTime": "2026-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 20,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Awaiting Session": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the second feedback session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2035-04-02 11:59 PM UTC",
+      "endTime": "2035-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 20,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": false,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Not Yet Visible Session": {
+      "feedbackSessionName": "Fifth Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the fifth feedback session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2035-04-02 11:59 PM UTC",
+      "endTime": "2035-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2035-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2035-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 20,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": false,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "qn1InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "What is the best selling point of your product?"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn2InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Rate 3 other students' products"
+      },
+      "questionNumber": 2,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn3InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Comments about the class"
+      },
+      "questionNumber": 3,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn4InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Give feedback to 3 other teams."
+      },
+      "questionNumber": 4,
+      "questionType": "TEXT",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn5InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Give feedback to your team mates"
+      },
+      "questionNumber": 5,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn6InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "This question should be hidden."
+      },
+      "questionNumber": 6,
+      "questionType": "TEXT",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn7InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"questionText\":\"What is the best selling point of your product?\",\"questionType\":\"MCQ\",\"otherEnabled\":true}"
+      },
+      "questionNumber": 7,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn8InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"questionText\":\"What do you think is the other teams' best feature?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 8,
+      "questionType": "MCQ",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn9InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"questionText\":\"What is the best selling point of your product?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":3,\"otherEnabled\":true}"
+      },
+      "questionNumber": 9,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn10InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"questionText\":\"What do you think is the other teams' best feature?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":3,\"otherEnabled\":false}"
+      },
+      "questionNumber": 10,
+      "questionType": "MSQ",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn11InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":0,\"mcqChoices\":[],\"questionText\":\"Who is the best class mate?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 11,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn12InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you recommend as tutor?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+      },
+      "questionNumber": 12,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn13InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":0,\"mcqChoices\":[],\"questionText\":\"Which is the best team?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 13,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn14InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you recommend as tutor?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+      },
+      "questionNumber": 14,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn15InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"minScale\":1,\"questionText\":\"Rate your product\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}"
+      },
+      "questionNumber": 15,
+      "questionType": "NUMSCALE",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn16InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"minScale\":1,\"questionText\":\"Rate others' product\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}"
+      },
+      "questionNumber": 16,
+      "questionType": "NUMSCALE",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn17InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":0,\"mcqChoices\":[],\"questionText\":\"Who is the best instructor?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"INSTRUCTORS\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 17,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn18InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you recommend as tutors?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"INSTRUCTORS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+      },
+      "questionNumber": 18,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn19InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
+      },
+      "questionNumber": 19,
+      "questionType": "CONSTSUM",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn20InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the teams\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
+      },
+      "questionNumber": 20,
+      "questionType": "CONSTSUM",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn21InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"questionText\":\"Rate the contribution of your team members and yourself.\",\"questionType\":\"CONTRIB\",\"isNotSureAllowed\":true}"
+      },
+      "questionNumber": 21,
+      "questionType": "CONTRIB",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn22InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"Most of the time\",\"Less than half the time\"],[\"Most of the time\",\"Less than half the time\"]]}"
+      },
+      "questionNumber": 22,
+      "questionType": "RUBRIC",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ]
+    },
+    "qn1InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Give feedback to your instructors"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn2InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 2,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn3InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":2,\"otherEnabled\":false}"
+      },
+      "questionNumber": 3,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn4InSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}"
+      },
+      "questionNumber": 4,
+      "questionType": "NUMSCALE",
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn1InSession4": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Give feedback to your instructors"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn1InGracePeriodSession": {
+      "feedbackSessionName": "Grace Period Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"minScale\":1,\"questionText\":\"Rate your product\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}"
+      },
+      "questionNumber": 15,
+      "questionType": "NUMSCALE",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn2InGracePeriodSession": {
+      "feedbackSessionName": "Grace Period Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"minScale\":1,\"questionText\":\"Rate others' product\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}"
+      },
+      "questionNumber": 16,
+      "questionType": "NUMSCALE",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn3InGracePeriodSession": {
+      "feedbackSessionName": "Grace Period Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"questionText\":\"You cannot answer 'Not Sure' here.\",\"questionType\":\"CONTRIB\",\"isNotSureAllowed\":false}"
+      },
+      "questionNumber": 17,
+      "questionType": "CONTRIB",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    }
+  },
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

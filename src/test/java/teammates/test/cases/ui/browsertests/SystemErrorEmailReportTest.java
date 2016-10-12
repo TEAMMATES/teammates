@@ -107,7 +107,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         print("This exception is handled by system, make sure you don't receive any emails. ");
     }
 
-    @AfterClass()
+    @AfterClass
     public static void classTearDown() {
         printTestClassFooter();
         BrowserPool.release(browser);

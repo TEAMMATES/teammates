@@ -1,5 +1,7 @@
 package teammates.test.cases.logic;
 
+import static teammates.common.util.Const.EOL;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +22,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -876,7 +877,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, Const.EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
 
         ______TS("Typical case: course without sections");
 
@@ -899,7 +900,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, Const.EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
 
         ______TS("Typical case: course with unregistered student");
 
@@ -922,7 +923,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, Const.EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
 
         ______TS("Failure case: non existent instructor");
         
@@ -1064,13 +1065,21 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         CourseAttributes invalidCourse = new CourseAttributes("invalid id", "Fresh course for tccai", "InvalidTimeZone");
         
+        String expectedError =
+                "\"" + invalidCourse.getId() + "\" is not acceptable to TEAMMATES as a/an course ID because"
+                + " it is not in the correct format. "
+                + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
+                + "It cannot be longer than 40 characters, cannot be empty and cannot contain spaces."
+                + EOL
+                + "\"InvalidTimeZone\" is not acceptable to TEAMMATES as a/an course time zone because it not available "
+                + "as a choice. The value must be one of the values from the time zone dropdown selector.";
+
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, invalidCourse.getId(), invalidCourse.getName(),
                                                    invalidCourse.getTimeZone());
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course ID", e.getMessage());
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone", e.getMessage());
+            assertEquals(expectedError, e.getMessage());
         }
         verifyAbsentInDatastore(invalidCourse);
         verifyAbsentInDatastore(i);

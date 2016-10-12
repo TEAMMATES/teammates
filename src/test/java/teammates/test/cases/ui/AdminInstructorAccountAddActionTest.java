@@ -9,7 +9,6 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.CommentsLogic;
-import teammates.ui.controller.Action;
 import teammates.ui.controller.AdminHomePageData;
 import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.AjaxResult;
@@ -66,7 +65,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         final String emailWithSpaces = "   " + email + "   ";
         final String instituteWithSpaces = "   " + institute + "   ";
 
-        Action a = getAction(
+        AdminInstructorAccountAddAction a = getAction(
                 Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortNameWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_NAME, nameWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
@@ -84,12 +83,14 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_NAME, invalidName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+
+        String expectedError =
+                "\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
+                + "it contains invalid characters. All person name must start with an "
+                + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
         
         AjaxResult rInvalidParam = (AjaxResult) a.executeAndPostProcess();
-        assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
-                         + "it contains invalid characters. All person name must start with an alphanumeric character, "
-                         + "and cannot contain any vertical bar (|) or percent sign (%).",
-                     rInvalidParam.getStatusMessage());
+        assertEquals(expectedError, rInvalidParam.getStatusMessage());
         
         AdminHomePageData pageData = (AdminHomePageData) rInvalidParam.data;
         assertEquals(email, pageData.instructorEmail);
@@ -159,8 +160,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                                      a, new Object[] { instructorEmailOrProposedCourseId, maximumIdLength });
     }
 
-    private Action getAction(String... parameters) {
-        return (Action) gaeSimulation.getActionObject(uri, parameters);
+    private AdminInstructorAccountAddAction getAction(String... parameters) {
+        return (AdminInstructorAccountAddAction) gaeSimulation.getActionObject(uri, parameters);
     }
 
     private String getDemoCourseIdRoot(String instructorEmail) {

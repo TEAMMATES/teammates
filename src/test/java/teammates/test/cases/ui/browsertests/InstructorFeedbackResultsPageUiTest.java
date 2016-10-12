@@ -680,8 +680,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
                                                   .withUserId("CFResultsUiT.instr")
                                                   .withCourseId("CFResultsUiT.CS2104")
-                                                  .withSessionName("First Session")
-                                                  .withDownloadType("csv");
+                                                  .withSessionName("First Session");
 
         resultsPage.verifyDownloadLink(reportUrl);
 
@@ -768,8 +767,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         // check if the rows match the given order of values
         resultsPage.click(sortIcon);
         StringBuilder searchString = new StringBuilder();
-        for (int i = 0; i < values.length; i++) {
-            searchString.append(values[i]).append("{*}");
+        for (String value : values) {
+            searchString.append(value).append("{*}");
         }
         resultsPage.verifyContains(searchString.toString());
 

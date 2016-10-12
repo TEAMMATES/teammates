@@ -2,13 +2,13 @@ package teammates.logic.core;
 
 import org.jsoup.Jsoup;
 
+import teammates.common.util.Config;
+import teammates.common.util.EmailWrapper;
+
 import com.sendgrid.SendGrid;
 import com.sendgrid.SendGrid.Email;
 import com.sendgrid.SendGrid.Response;
 import com.sendgrid.SendGridException;
-
-import teammates.common.util.Config;
-import teammates.common.util.EmailWrapper;
 
 /**
  * Email sender service provided by SendGrid.

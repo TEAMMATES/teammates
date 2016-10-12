@@ -224,7 +224,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     }
 
     private StudentProfilePictureEditAction getAction(String... params) {
-        return (StudentProfilePictureEditAction) (gaeSimulation.getActionObject(uri, params));
+        return (StudentProfilePictureEditAction) gaeSimulation.getActionObject(uri, params);
     }
 
 }

@@ -17,8 +17,6 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.driver.AssertHelper;
-
 import com.google.appengine.api.datastore.Text;
 
 public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
@@ -194,7 +192,12 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         ______TS("fail: invalid params");
         
         frComment.courseId = "invalid course name";
-        verifyExceptionThrownWhenUpdateFrComment(frComment, "not acceptable to TEAMMATES as a/an course ID");
+        String expectedError =
+                "\"" + frComment.courseId + "\" is not acceptable to TEAMMATES as a/an course ID "
+                + "because it is not in the correct format. A course ID can contain letters, "
+                + "numbers, fullstops, hyphens, underscores, and dollar signs. It cannot be longer "
+                + "than 40 characters, cannot be empty and cannot contain spaces.";
+        verifyExceptionThrownWhenUpdateFrComment(frComment, expectedError);
         restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
         
         ______TS("typical success case");
@@ -268,7 +271,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
 
         FeedbackResponseCommentAttributes actualFrComment =
                 frcLogic.getFeedbackResponseCommentForSession(
-                                 frComment.courseId, frComment.feedbackSessionName).get(0);
+                                 frComment.courseId, frComment.feedbackSessionName).get(1);
         verifyPresentInDatastore(actualFrComment);
         
         ______TS("typical success case");
@@ -333,7 +336,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
             frcLogic.updateFeedbackResponseComment(frComment);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(expectedString, e.getMessage());
+            assertEquals(expectedString, e.getMessage());
         }
     }
     

@@ -41,7 +41,7 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.entity.Student;
+import teammates.storage.entity.CourseStudent;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -370,10 +370,10 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         ______TS("key generation");
         
         long key = 5;
-        String longKey = KeyFactory.createKeyString(Student.class.getSimpleName(), key);
+        String longKey = KeyFactory.createKeyString(CourseStudent.class.getSimpleName(), key);
         long reverseKey = KeyFactory.stringToKey(longKey).getId();
         assertEquals(key, reverseKey);
-        assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
+        assertEquals("CourseStudent", KeyFactory.stringToKey(longKey).getKind());
     }
     
     public void testAdjustFeedbackResponseForEnrollments() throws Exception {
@@ -648,7 +648,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                 TimeHelper.getHoursOffsetToCurrentTime(0), TimeHelper.getHoursOffsetToCurrentTime(2),
                 TimeHelper.getHoursOffsetToCurrentTime(5), TimeHelper.getHoursOffsetToCurrentTime(1),
                 TimeHelper.getHoursOffsetToCurrentTime(6),
-                8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false);
+                8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false, false, false);
         fsLogic.createFeedbackSession(fsAttr);
         
         
@@ -839,7 +839,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         ______TS("non-exist student");
         
-        String nonExistStudentKey = "nonExistKey";
+        String nonExistStudentKey = StringHelper.encrypt("nonExistKey");
         assertEquals(null, studentsLogic.getStudentForRegistrationKey(nonExistStudentKey));
         
         
@@ -1200,7 +1200,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                                            StudentsLogic.inst(), new Object[] { lines, courseId });
     }
         
-    @AfterClass()
+    @AfterClass
     public static void classTearDown() {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
         printTestClassFooter();

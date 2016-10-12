@@ -93,13 +93,17 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         ______TS("failure: invalid parameter");
         
         instr.email = "invalidEmail.tmt";
-        
+        String expectedError =
+                "\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email "
+                + "because it is not in the correct format. An email address contains "
+                + "some text followed by one '@' sign followed by some more text. "
+                + "It cannot be longer than 254 characters, cannot be empty and "
+                + "cannot contain spaces.";
         try {
             instructorsLogic.createInstructor(instr);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email",
-                                e.getMessage());
+            assertEquals(expectedError, e.getMessage());
         }
         
         ______TS("failure: null parameters");

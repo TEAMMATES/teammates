@@ -18,9 +18,9 @@ public class FeedbackConstantSumResponseDetails extends
     public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
         List<Integer> constSumAnswer = new ArrayList<Integer>();
-        for (int i = 0; i < answer.length; i++) {
+        for (String answerPart : answer) {
             try {
-                constSumAnswer.add(Integer.parseInt(answer[i]));
+                constSumAnswer.add(Integer.parseInt(answerPart));
             } catch (NumberFormatException e) {
                 constSumAnswer.add(0);
             }

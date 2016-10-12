@@ -9,12 +9,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FieldValidatorTest extends BaseTestCase {
 
