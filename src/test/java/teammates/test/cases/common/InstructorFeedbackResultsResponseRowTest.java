@@ -1,11 +1,10 @@
 package teammates.test.cases.common;
 
-import org.testng.annotations.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;

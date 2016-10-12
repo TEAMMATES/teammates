@@ -84,7 +84,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
     }
     
     private InstructorCourseStudentDetailsEditPageAction getAction(String... params) {
-        return (InstructorCourseStudentDetailsEditPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorCourseStudentDetailsEditPageAction) gaeSimulation.getActionObject(uri, params);
     }
 
 }

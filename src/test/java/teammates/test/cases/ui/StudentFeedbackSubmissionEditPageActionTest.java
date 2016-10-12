@@ -217,6 +217,6 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
     }
 
     private StudentFeedbackSubmissionEditPageAction getAction(String... params) {
-        return (StudentFeedbackSubmissionEditPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (StudentFeedbackSubmissionEditPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

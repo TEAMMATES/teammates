@@ -7,7 +7,6 @@
 // -----------------------------------------------------------------------------
 
 $(document).ready(function() {
-    bindErrorImages('.profile-pic-icon-hover, .profile-pic-icon-click');
     
     // bind the show picture onclick events
     bindStudentPhotoLink('.profile-pic-icon-click > .student-profile-pic-view-link');
@@ -132,19 +131,6 @@ function setupFsCopyModal() {
 
 // Student Profile Picture
 // --------------------------------------------------------------------------
-
-/**
- * @param elements:
- * identifier that points to elements with
- * class: profile-pic-icon-click or profile-pic-icon-hover
- */
-function bindErrorImages(elements) {
-    $(elements).children('img').on('error', function() {
-        if ($(this).attr('src') !== '') {
-            $(this).attr('src', '/images/profile_picture_default.png');
-        }
-    });
-}
 
 /**
  * @param elements:

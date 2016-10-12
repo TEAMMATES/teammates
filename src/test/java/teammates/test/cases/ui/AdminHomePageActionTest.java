@@ -4,7 +4,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.ui.controller.Action;
+import teammates.ui.controller.AdminHomePageAction;
 import teammates.ui.controller.AdminHomePageData;
 import teammates.ui.controller.ShowPageResult;
 
@@ -25,7 +25,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
         ______TS("Normal case: starting with a blank adminHome page");
         final String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
-        final Action a = getAction();
+        final AdminHomePageAction a = getAction();
         
         final ShowPageResult result = (ShowPageResult) a.executeAndPostProcess();
         assertEquals(Const.ViewURIs.ADMIN_HOME, result.destination);
@@ -39,8 +39,8 @@ public class AdminHomePageActionTest extends BaseActionTest {
         
     }
     
-    private Action getAction(String... parameters) {
-        return (Action) gaeSimulation.getActionObject(uri, parameters);
+    private AdminHomePageAction getAction(String... parameters) {
+        return (AdminHomePageAction) gaeSimulation.getActionObject(uri, parameters);
     }
 
 }

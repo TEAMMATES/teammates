@@ -666,7 +666,7 @@ public class FeedbackResponsesLogic {
                 boolean hasResponses = hasGiverRespondedForSession(email, question.feedbackSessionName, question.courseId);
                 if (!hasResponses) {
                     if (isInstructor) {
-                        fsLogic.deleteInstructorRespondant(email,
+                        fsLogic.deleteInstructorRespondent(email,
                                 question.feedbackSessionName,
                                 question.courseId);
                     } else {
@@ -677,7 +677,7 @@ public class FeedbackResponsesLogic {
                 }
             }
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Fail to delete respondant");
+            Assumption.fail("Fail to delete respondent");
         }
     }
 

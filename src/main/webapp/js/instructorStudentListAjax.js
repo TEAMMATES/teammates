@@ -26,7 +26,10 @@ function transportEmailChoices() {
 
 function bindPhotos(courseIdx) {
     $('td[id^="studentphoto-c' + courseIdx + '"]').each(function() {
-        bindErrorImages($(this).children('.profile-pic-icon-click'));
+        
+        $(this).children('.profile-pic-icon-click > img').each(function() {
+            bindDefaultImageIfMissing(this);
+        });
         bindStudentPhotoLink($(this).children('.profile-pic-icon-click').children('.student-profile-pic-view-link'));
     });
 }

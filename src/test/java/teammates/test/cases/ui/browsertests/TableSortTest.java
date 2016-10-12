@@ -158,8 +158,8 @@ public class TableSortTest extends BaseUiTestCase {
         };
 
         StringBuilder searchString = new StringBuilder();
-        for (int i = 0; i < idList.length; i++) {
-            searchString.append(idList[i]).append("{*}");
+        for (String id : idList) {
+            searchString.append(id).append("{*}");
         }
         page.verifyContains(searchString.toString());
 
@@ -183,8 +183,8 @@ public class TableSortTest extends BaseUiTestCase {
         };
 
         searchString = new StringBuilder();
-        for (int i = 0; i < reversedIdList.length; i++) {
-            searchString.append(reversedIdList[i]).append("{*}");
+        for (String id : reversedIdList) {
+            searchString.append(id).append("{*}");
         }
         page.verifyContains(searchString.toString());
     }
@@ -193,8 +193,8 @@ public class TableSortTest extends BaseUiTestCase {
         //check if the rows match the given order of values
         page.click(sortIcon);
         StringBuilder searchString = new StringBuilder();
-        for (int i = 0; i < values.length; i++) {
-            searchString.append(values[i]).append("{*}");
+        for (String value : values) {
+            searchString.append(value).append("{*}");
         }
         page.verifyContains(searchString.toString());
         

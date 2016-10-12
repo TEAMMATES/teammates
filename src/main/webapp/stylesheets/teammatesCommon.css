@@ -101,6 +101,11 @@ a#editUncommonSettingsButton:hover{
     cursor: hand;
 }
 
+.constSumOptionsLabel {
+    padding-right: 15px;
+    max-width: 75%;
+}
+
 /*
 Allow only mouse hover events for the element.
 !important is required to override Bootstrap .disabled class matches
@@ -244,12 +249,11 @@ Apply to thead to make headers not bold.
     padding-left: 7px;
 }
 
-.padding-top-0 {
-    padding-top: 0;
-}
-
 .margin-0 {
     margin: 0;
+}
+.margin-left-auto {
+    margin-left: auto;
 }
 
 .narrow-slight {
@@ -268,7 +272,7 @@ Apply to thead to make headers not bold.
     overflow: auto;
 }
 
-.padding-top-0.checkbox,.padding-top-0 {
+.padding-top-0, .padding-top-0.checkbox {
     padding-top: 0;
 }
 
@@ -313,11 +317,15 @@ Apply to thead to make headers not bold.
 }
 
 .word-wrap-break {
-	word-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .text-strike {
     text-decoration: line-through;
+}
+
+.flex {
+    display: flex;
 }
 
 .form-control.width-100-pc,.width-100-pc {
@@ -326,6 +334,10 @@ Apply to thead to make headers not bold.
 
 .width-75-pc {
     width: 75%;
+}
+
+.width-auto {
+    width: auto;
 }
 
 @media print {
@@ -405,7 +417,7 @@ Apply to thead to make headers not bold.
 }
 
 .text-box-error {
-	border:2px solid red;
+    border:2px solid red;
 }
 
 /* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
@@ -583,6 +595,15 @@ Apply to thead to make headers not bold.
     min-width: 130px;
 }
 
+.teamMembersDetailsCell {
+    vertical-align: middle; 
+    padding-left: 30px;
+}
+
+.teamMembersPhotoCell {
+    padding-bottom: 5px;
+}
+
 .visibilityMessage > ul {
     margin-top: 5px;
     padding: 5px 25px;
@@ -669,11 +690,6 @@ Apply to thead to make headers not bold.
     display: table-cell;
     float: none;
     vertical-align: middle;
-}
-
-.download-type-list {
-	margin: -60%;
-	cursor: pointer;
 }
 
 /* used on the div/td that contains the img */
@@ -771,7 +787,7 @@ Apply to thead to make headers not bold.
 }
 
 .fixed-table-layout {
-	table-layout: fixed;
+    table-layout: fixed;
 }
 
 .question-description {
@@ -999,4 +1015,9 @@ Prevent Long URL From Breaking Out of Container
     .text-nowrap {
         white-space: nowrap;
     }
+}
+
+.courses-table-dropdown {
+    float: left;
+    margin-right: 5px;
 }

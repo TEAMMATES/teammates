@@ -23,9 +23,9 @@ public class InstructorAttributes extends EntityAttributes {
     
     // Note: be careful when changing these variables as their names are used in *.json files.
     public String googleId;
+    public String courseId;
     public String name;
     public String email;
-    public String courseId;
     public Boolean isArchived;
     public String key;
     public String role;

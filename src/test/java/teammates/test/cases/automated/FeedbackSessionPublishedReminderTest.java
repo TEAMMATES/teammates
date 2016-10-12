@@ -38,7 +38,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
             HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
             
             assertTrue(paramMap.containsKey(ParamsNames.EMAIL_TYPE));
-            EmailType typeOfMail = EmailType.valueOf((String) paramMap.get(ParamsNames.EMAIL_TYPE));
+            EmailType typeOfMail = EmailType.valueOf(paramMap.get(ParamsNames.EMAIL_TYPE));
             assertEquals(EmailType.FEEDBACK_PUBLISHED, typeOfMail);
             
             assertTrue(paramMap.containsKey(ParamsNames.EMAIL_FEEDBACK));

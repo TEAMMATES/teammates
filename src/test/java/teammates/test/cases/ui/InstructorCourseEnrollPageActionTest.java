@@ -124,6 +124,6 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     }
 
     private InstructorCourseEnrollPageAction getAction(String... params) {
-        return (InstructorCourseEnrollPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorCourseEnrollPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

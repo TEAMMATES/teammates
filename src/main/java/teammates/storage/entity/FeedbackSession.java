@@ -94,6 +94,12 @@ public class FeedbackSession {
     private boolean sentOpenEmail;
     
     @Persistent
+    private Boolean sentClosingEmail;
+    
+    @Persistent
+    private Boolean sentClosedEmail;
+    
+    @Persistent
     private boolean sentPublishedEmail;
 
     //TODO change to primitive types and update getter
@@ -109,18 +115,20 @@ public class FeedbackSession {
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
-            FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
+            FeedbackSessionType feedbackSessionType, boolean sentOpenEmail,
+            boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
-             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
-             feedbackSessionType, sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled,
+             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
+             sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
              isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
-            FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
+            FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentClosingEmail,
+            boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
             Set<String> instructorList, Set<String> studentList) {
         this.feedbackSessionName = feedbackSessionName;
@@ -137,6 +145,8 @@ public class FeedbackSession {
         this.gracePeriod = gracePeriod;
         this.feedbackSessionType = feedbackSessionType;
         this.sentOpenEmail = sentOpenEmail;
+        this.sentClosingEmail = sentClosingEmail;
+        this.sentClosedEmail = sentClosedEmail;
         this.sentPublishedEmail = sentPublishedEmail;
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
@@ -257,8 +267,32 @@ public class FeedbackSession {
         return sentOpenEmail;
     }
 
-    public void setSentOpenEmail(boolean activated) {
-        this.sentOpenEmail = activated;
+    public void setSentOpenEmail(boolean sentOpenEmail) {
+        this.sentOpenEmail = sentOpenEmail;
+    }
+
+    public boolean isSentClosingEmail() {
+        // Legacy data might not have this field
+        if (sentClosingEmail == null) {
+            return false;
+        }
+        return sentClosedEmail;
+    }
+
+    public void setSentClosingEmail(boolean sentClosingEmail) {
+        this.sentClosingEmail = sentClosingEmail;
+    }
+
+    public boolean isSentClosedEmail() {
+        // Legacy data might not have this field
+        if (sentClosedEmail == null) {
+            return false;
+        }
+        return sentClosedEmail;
+    }
+
+    public void setSentClosedEmail(boolean sentClosedEmail) {
+        this.sentClosedEmail = sentClosedEmail;
     }
 
     public boolean isSentPublishedEmail() {

@@ -137,7 +137,7 @@ var DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
         'This feedback session name already existed in this course. Please use another name.';
 var DISPLAY_FEEDBACK_SESSION_NAME_EMPTY = 'Feedback session name must not be empty.';
 var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
-        'Please enter the maximum number of recipients each respondants should give feedback to.';
+        'Please enter the maximum number of recipients each respondents should give feedback to.';
 
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. The question text cannot be empty.';
 var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
@@ -153,6 +153,11 @@ var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
+    
+    $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function() {
+        bindDefaultImageIfMissing(this);
+    });
+    
     /**
      * Initializing then disabling is better than simply
      * not initializing for mobile due to some tooltips-specific
@@ -179,6 +184,18 @@ $(document).on('ajaxComplete ready', function() {
         }
     });
 });
+
+/**
+ * Binds a default image if the image is missing.
+ * @param element Image element.
+ */
+function bindDefaultImageIfMissing(element) {
+    $(element).on('error', function() {
+        if ($(this).attr('src') !== '') {
+            $(this).attr('src', '/images/profile_picture_default.png');
+        }
+    });
+}
 
 /**
  * Checks if the current device is touch based device
@@ -827,12 +844,16 @@ function sanitizeForJs(rawString) {
  *                             Example- '.panel-body, #panel-data, .sub-container'
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
-    var searchKey = $(searchKeyId).val();
+    var searchKey = $(searchKeyId).val().trim();
     // split search key string on symbols and spaces and add to searchKeyList
     var searchKeyList = [];
-    $.each(searchKey.split(/[ "'.-]/), function() {
-        searchKeyList.push($.trim(this));
-    });
+    if (searchKey.charAt(0) === '"' && searchKey.charAt(searchKey.length - 1) === '"') {
+        searchKeyList.push(searchKey.replace(/"/g, '').trim());
+    } else {
+        $.each(searchKey.split(/[ "'.-]/), function() {
+            searchKeyList.push($.trim(this));
+        });
+    }
     // remove empty elements from searchKeyList
     searchKeyList = searchKeyList.filter(function(n) {
         return n !== '';

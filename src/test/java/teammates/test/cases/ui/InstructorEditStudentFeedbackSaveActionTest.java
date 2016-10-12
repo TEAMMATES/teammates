@@ -177,14 +177,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
-        InstructorEditStudentFeedbackSaveAction a;
-        @SuppressWarnings("unused")
-        // unused but still needed to allow detection of exception
-        RedirectResult r;
-        
         try {
-            a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            getAction(submissionParams).executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -200,8 +194,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         };
         
         try {
-            a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            getAction(submissionParams).executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -222,8 +215,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         };
         
         try {
-            a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            getAction(submissionParams).executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -261,12 +253,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
-        InstructorEditStudentFeedbackSaveAction a;
-        RedirectResult r;
-        
         try {
-            a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            getAction(submissionParams).executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                                  + instructorHelper.email + "] for privilege "
@@ -293,8 +281,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         };
         
         try {
-            a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            getAction(submissionParams).executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                                  + instructorHelper.email + "] for privilege "
@@ -326,8 +313,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
-        a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        InstructorEditStudentFeedbackSaveAction a = getAction(submissionParams);
+        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -362,8 +349,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         };
         
         try {
-            a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            getAction(submissionParams).executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                              + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] "
@@ -465,8 +451,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         };
         
         try {
-            a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            getAction(submissionParams).executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [Another feedback session] is not accessible to instructor ["
                              + instructorHelper3.email + "] for privilege ["
@@ -505,13 +490,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         };
         
         InstructorEditStudentFeedbackSaveAction a;
-        @SuppressWarnings("unused")
-        // unused but still needed to allow detection of exception
-        RedirectResult r;
-        
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] "
@@ -540,7 +521,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] "
@@ -569,7 +550,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] "
@@ -619,6 +600,6 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     }
     
     private InstructorEditStudentFeedbackSaveAction getAction(String... params) {
-        return (InstructorEditStudentFeedbackSaveAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorEditStudentFeedbackSaveAction) gaeSimulation.getActionObject(uri, params);
     }
 }

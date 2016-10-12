@@ -93,11 +93,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     public Date getCreatedAt() {
-        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
+        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
     
     public Date getUpdatedAt() {
-        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
+        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
     public String getId() {
@@ -329,31 +329,31 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((courseId == null) ? 0 : courseId.hashCode());
+        result = prime * result + (courseId == null ? 0 : courseId.hashCode());
 
-        result = prime * result + ((creatorEmail == null) ? 0 : creatorEmail.hashCode());
+        result = prime * result + (creatorEmail == null ? 0 : creatorEmail.hashCode());
 
-        result = prime * result + ((feedbackSessionName == null) ? 0 : feedbackSessionName.hashCode());
+        result = prime * result + (feedbackSessionName == null ? 0 : feedbackSessionName.hashCode());
 
-        result = prime * result + ((giverType == null) ? 0 : giverType.hashCode());
+        result = prime * result + (giverType == null ? 0 : giverType.hashCode());
 
         result = prime * result + numberOfEntitiesToGiveFeedbackTo;
 
         result = prime * result + questionNumber;
 
-        result = prime * result + ((questionMetaData == null) ? 0 : questionMetaData.hashCode());
+        result = prime * result + (questionMetaData == null ? 0 : questionMetaData.hashCode());
 
-        result = prime * result + ((questionDescription == null) ? 0 : questionDescription.hashCode());
+        result = prime * result + (questionDescription == null ? 0 : questionDescription.hashCode());
 
-        result = prime * result + ((questionType == null) ? 0 : questionType.hashCode());
+        result = prime * result + (questionType == null ? 0 : questionType.hashCode());
 
-        result = prime * result + ((recipientType == null) ? 0 : recipientType.hashCode());
+        result = prime * result + (recipientType == null ? 0 : recipientType.hashCode());
 
-        result = prime * result + ((showGiverNameTo == null) ? 0 : showGiverNameTo.hashCode());
+        result = prime * result + (showGiverNameTo == null ? 0 : showGiverNameTo.hashCode());
 
-        result = prime * result + ((showRecipientNameTo == null) ? 0 : showRecipientNameTo.hashCode());
+        result = prime * result + (showRecipientNameTo == null ? 0 : showRecipientNameTo.hashCode());
 
-        result = prime * result + ((showResponsesTo == null) ? 0 : showResponsesTo.hashCode());
+        result = prime * result + (showResponsesTo == null ? 0 : showResponsesTo.hashCode());
 
         return result;
     }
