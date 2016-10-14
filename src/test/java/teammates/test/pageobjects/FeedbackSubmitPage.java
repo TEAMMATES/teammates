@@ -39,6 +39,16 @@ public class FeedbackSubmitPage extends AppPage {
         selectElement.selectByVisibleText(recipientName);
     }
     
+    public void fillResponseRichTextEditor(int qnNumber, int responseNumber, String text) {
+        String id = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
+                + "-" + qnNumber + "-" + responseNumber;
+        fillRichTextEditor(id, text);
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("  if (typeof tinyMCE !== 'undefined') {"
+                                 + "    tinyMCE.get('" + id + "').fire('change');"
+                                 + "}");
+    }
+
     public void fillResponseTextBox(int qnNumber, int responseNumber, String text) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));

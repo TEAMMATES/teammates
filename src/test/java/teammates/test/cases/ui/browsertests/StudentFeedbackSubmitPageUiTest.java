@@ -138,9 +138,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
 
         String responseText = "Test Self Feedback";
-        submitPage.fillResponseTextBox(1, 0, responseText);
+        submitPage.fillResponseRichTextEditor(1, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(1, 0));
-        
+
         responseText = "Response to Benny.";
         submitPage.selectRecipient(2, 0, "Benny Charles");
         submitPage.fillResponseTextBox(2, 0, responseText);

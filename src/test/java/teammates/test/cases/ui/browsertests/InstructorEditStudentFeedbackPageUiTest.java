@@ -56,7 +56,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageOpen.html");
         
-        submitPage.fillResponseTextBox(1, 0, "Good design");
+        submitPage.fillResponseRichTextEditor(1, 0, "Good design");
+
         submitPage.clickSubmitButton();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         
