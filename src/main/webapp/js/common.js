@@ -264,7 +264,7 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
     var $RowList = $('tr', $table);
     // For date comparisons in instructor home page we should use
     // the tool-tip value instead of display text since display text does not contain the year.
-    var shouldConsiderToolTipYear = comp && comp.toString.includes('instructorHomeDateComparator');
+    var shouldConsiderToolTipYear = comp && comp.toString().includes('instructorHomeDateComparator');
 
     // Iterate through column's contents to decide which comparator to use
     var textToCompare;
