@@ -142,7 +142,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeNewInstructorWithoutSampleCourse.html");
         
-        testData = loadDataBundle("/instructorHomePageUiTest2.json");
+        testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         removeAndRestoreTestDataOnServer(testData);
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeNewInstructorWithSampleCourse.html");

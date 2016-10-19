@@ -35,7 +35,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetup() {
         printTestClassHeader();
-        testData = loadDataBundle("/instructorCourseDetailsPageUiTest.json");
+        testData = loadDataBundle("/InstructorCourseDetailsPageUiTest.json");
         
         // use both the student accounts injected for this test
         
