@@ -4,6 +4,12 @@ $(document).ready(function() {
             $('#commentArea').hide();
         } else {
             $('#commentArea').show();
+            $('form[name="form_commentadd"]')[0].reset();
+            commentRecipientSelectChangeHandler();
+            $('#visibility-options').hide();
+            $('#visibility-options-trigger').html('<span class="glyphicon glyphicon-eye-close"></span> '
+                                                  + 'Show Visibility Options');
+            contextualResetVisibilityHiddenFields();
             $('#commentText').focus();
         }
     });
@@ -67,10 +73,9 @@ $(document).ready(function() {
         }
     }
     
-    $('input[type=checkbox]').on('click', visibilityOptionsHandler);
+    $('body').on('click', 'input[type=checkbox]', visibilityOptionsHandler);
     
     function visibilityOptionsHandler(e) {
-        var visibilityOptions = [];
         var target = $(e.target);
         var visibilityOptionsRow = target.closest('tr');
         
@@ -83,6 +88,22 @@ $(document).ready(function() {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
+        contextualResetVisibilityHiddenFields();
+    }
+    
+    if (isShowCommentBox) {
+        $('#button_add_comment').click();
+        if (commentRecipient === 'team') {
+            $('#comment_recipient_select').val('TEAM');
+            commentRecipientSelectChangeHandler();
+        } else if (commentRecipient === 'section') {
+            $('#comment_recipient_select').val('SECTION');
+            commentRecipientSelectChangeHandler();
+        }
+    }
+    
+    function contextualResetVisibilityHiddenFields() {
+        var visibilityOptions = [];
         $('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
@@ -99,16 +120,5 @@ $(document).ready(function() {
             visibilityOptions.push($(this).val());
         });
         $("input[name='showrecipientto']").val(visibilityOptions.join(', '));
-    }
-    
-    if (isShowCommentBox) {
-        $('#button_add_comment').click();
-        if (commentRecipient === 'team') {
-            $('#comment_recipient_select').val('TEAM');
-            commentRecipientSelectChangeHandler();
-        } else if (commentRecipient === 'section') {
-            $('#comment_recipient_select').val('SECTION');
-            commentRecipientSelectChangeHandler();
-        }
     }
 });

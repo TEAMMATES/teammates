@@ -333,10 +333,9 @@ $(document).ready(function() {
         }
     });
     
-    $('input[type=checkbox]').click(function(e) {
+    $('body').on('click', 'div[class*="student-record-comments"] input[type=checkbox]', function(e) {
         var table = $(this).closest('table');
         var form = table.closest('form');
-        var visibilityOptions = [];
         var target = $(e.target);
         var visibilityOptionsRow = target.closest('tr');
         
@@ -349,22 +348,7 @@ $(document).ready(function() {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
-        table.find('.answerCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showcommentsto']").val(visibilityOptions.join(', '));
-        
-        visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showgiverto']").val(visibilityOptions.join(', '));
-        
-        visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
+        omniResetVisibilityHiddenFields(form, table);
     });
 });
 
@@ -405,7 +389,13 @@ function enableComment(commentIdx) {
     $('#commentBar-' + commentIdx).hide();
     $('#plainCommentText' + commentIdx).hide();
     $("div[id='commentTextEdit" + commentIdx + "']").show();
-    $("textarea[id='commentText" + commentIdx + "']").val($('#plainCommentText' + commentIdx).text());
+    document.getElementById('form_commentedit-' + commentIdx).reset();
+    var form = $('#form_commentedit-' + commentIdx);
+    var table = form.find('table').eq(0);
+    omniResetVisibilityHiddenFields(form, table)
+    $('#visibility-options' + commentIdx).hide();
+    var visibilityOptions = '#visibility-options-trigger' + commentIdx;
+    $(visibilityOptions).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
     $("textarea[id='commentText" + commentIdx + "']").focus();
 }
 
@@ -413,6 +403,26 @@ function disableComment(commentIdx) {
     $('#commentBar-' + commentIdx).show();
     $('#plainCommentText' + commentIdx).show();
     $("div[id='commentTextEdit" + commentIdx + "']").hide();
+}
+
+function omniResetVisibilityHiddenFields(form, table) {
+    visibilityOptions = [];
+    table.find('.answerCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find("input[name='showcommentsto']").val(visibilityOptions.join(', '));
+    
+    visibilityOptions = [];
+    table.find('.giverCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find("input[name='showgiverto']").val(visibilityOptions.join(', '));
+    
+    visibilityOptions = [];
+    table.find('.recipientCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
 }
 
 function checkComment(form) {

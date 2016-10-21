@@ -190,7 +190,6 @@ function registerResponseCommentCheckboxEvent() {
     $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', function(e) {
         var table = $(this).closest('table');
         var form = table.closest('form');
-        var visibilityOptions = [];
         var target = $(e.target);
         var visibilityOptionsRow = target.closest('tr');
         
@@ -203,16 +202,7 @@ function registerResponseCommentCheckboxEvent() {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
-        table.find('.answerCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showresponsecommentsto']").val(visibilityOptions.join(', '));
-        
-        visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showresponsegiverto']").val(visibilityOptions.join(', '));
+        feedbackResetVisibilityHiddenFields(form, table);
     });
 }
 
@@ -317,6 +307,7 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, opts) {
         $('#responseCommentTable' + id).css('margin-top', '15px');
     }
     $('#showResponseCommentAddForm' + id).show();
+    resetResponseAddCommentForm(id);
     $('#responseCommentAddForm' + id).focus();
 }
 
@@ -357,7 +348,7 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     var commentBar = $('#plainCommentText' + id).parent().find('#commentBar' + id);
     commentBar.hide();
     $('#plainCommentText' + id).hide();
-    $('#responseCommentEditForm' + id + ' > div > textarea').val($('#plainCommentText' + id).text());
+    resetResponseEditCommentForm(id);
     $('#responseCommentEditForm' + id).show();
     $('#responseCommentEditForm' + id + ' > div > textarea').focus();
 }
@@ -447,6 +438,44 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $('#plainCommentText' + id).show();
     $('#responseCommentEditForm' + id).hide();
     removeFormErrorMessage($('#button_save_comment_for_edit' + id));
+}
+
+function resetResponseAddCommentForm(id) {
+    var form = $('#showResponseCommentAddForm' + id).find('form[class="responseCommentAddForm"]');
+    form[0].reset();
+    $('#frComment-visibility-options-trigger' + id)
+        .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+    
+    var table = form.find('table').eq(0);
+    feedbackResetVisibilityHiddenFields(form, table);
+    
+    $('#visibility-options' + id).hide();
+}
+
+function resetResponseEditCommentForm(id) {
+    document.getElementById('responseCommentEditForm' + id).reset();
+    $('#frComment-visibility-options-trigger' + id)
+        .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+    
+    var form = $('#responseCommentEditForm' + id);
+    var table = form.find('table').eq(0);
+    feedbackResetVisibilityHiddenFields(form, table);
+    
+    $('#visibility-options' + id).hide();
+}
+
+function feedbackResetVisibilityHiddenFields(form, table) {
+    visibilityOptions = [];
+    table.find('.answerCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find("input[name='showresponsecommentsto']").val(visibilityOptions.join(', '));
+    
+    visibilityOptions = [];
+    table.find('.giverCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find("input[name='showresponsegiverto']").val(visibilityOptions.join(', '));
 }
 
 function showNewlyAddedResponseCommentEditForm(addedIndex) {

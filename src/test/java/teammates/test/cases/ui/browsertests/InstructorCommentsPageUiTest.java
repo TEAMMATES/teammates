@@ -183,6 +183,25 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     }
 
     private void testActions() throws Exception {
+        ______TS("action: edit student comment and cancel");
+        commentsPage.clickStudentCommentEditForRow(1);
+        commentsPage.fillTextareaToEditStudentCommentForRow(1, "edited comment");
+        commentsPage.clickStudentCommentVisibilityEdit(1);
+        commentsPage.clickAllGiverCheckboxes(1);
+        commentsPage.cancelStudentCommentForRow(1);
+        
+        // verification
+        commentsPage.clickStudentCommentEditForRow(1);
+        assertEquals(commentsPage.getTextareaTextForStudentCommentForRow(1),
+                     "Students in this course can see this comment");
+        commentsPage.clickStudentCommentVisibilityEdit(1);
+        assertTrue(commentsPage.isCheckboxSelectedForStudentCommentForRow(1, 0, 0));
+        assertTrue(commentsPage.isCheckboxSelectedForStudentCommentForRow(1, 0, 1));
+        assertFalse(commentsPage.isCheckboxSelectedForStudentCommentForRow(1, 1, 0));
+        assertFalse(commentsPage.isCheckboxSelectedForStudentCommentForRow(1, 1, 1));
+        assertFalse(commentsPage.isCheckboxSelectedForStudentCommentForRow(1, 1, 2));
+        commentsPage.cancelStudentCommentForRow(1);
+        
         ______TS("action: edit student comment");
         commentsPage.clickStudentCommentEditForRow(1);
         commentsPage.clickStudentCommentVisibilityEdit(1);
@@ -208,16 +227,53 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_DELETED);
         
         commentsPage.loadResponseComments();
+        
+        ______TS("action: add feedback response comment and cancel");
+        commentsPage.clickResponseCommentAdd(1, 1, 1);
+        commentsPage.fillTextareaToAddResponseComment(1, 1, 1, "new comment");
+        commentsPage.clickResponseCommentVisibilityEdit("1-1-1");
+        commentsPage.clickAllGiverCheckboxes("1-1-1");
+        commentsPage.cancelAddResponseComment("1-1-1");
+        
+        // verification
+        commentsPage.clickResponseCommentAdd(1, 1, 1);
+        assertEquals(commentsPage.getTextareaTextForAddResponseCommentForRow("1-1-1"),
+                     "");
+        commentsPage.clickResponseCommentVisibilityEdit("1-1-1");
+        assertTrue(commentsPage.isCheckboxSelectedForResponseCommentForRow("1-1-1", 0, 0));
+        assertTrue(commentsPage.isCheckboxSelectedForResponseCommentForRow("1-1-1", 0, 1));
+        assertTrue(commentsPage.isCheckboxSelectedForResponseCommentForRow("1-1-1", 1, 0));
+        assertTrue(commentsPage.isCheckboxSelectedForResponseCommentForRow("1-1-1", 1, 1));
+        commentsPage.cancelAddResponseComment("1-1-1");
+        
         ______TS("action: add feedback response comment");
         commentsPage.clickResponseCommentAdd(1, 1, 1);
-        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "");
+        commentsPage.fillTextareaToAddResponseComment(1, 1, 1, "");
         commentsPage.addResponseComment(1, 1, 1);
         commentsPage.verifyCommentFormErrorMessage("1-1-1", "Comment cannot be empty");
-        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "added response comment");
+        commentsPage.fillTextareaToAddResponseComment(1, 1, 1, "added response comment");
         commentsPage.addResponseComment(1, 1, 1);
         commentsPage.reloadPage();
         commentsPage.loadResponseComments();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageAddFrc.html");
+        
+        ______TS("action: edit feedback response comment and cancel");
+        commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
+        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited comment");
+        commentsPage.clickResponseCommentVisibilityEdit("1-1-1-1");
+        commentsPage.clickAllGiverCheckboxes("1-1-1-1");
+        commentsPage.cancelEditResponseComment("1-1-1-1");
+        
+        // verification
+        commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
+        assertEquals(commentsPage.getTextareaTextForEditResponseCommentForRow("1-1-1-1"),
+                     "added response comment");
+        commentsPage.clickResponseCommentVisibilityEdit("1-1-1-1");
+        assertTrue(commentsPage.isCheckboxSelectedForResponseCommentForRow("1-1-1-1", 0, 0));
+        assertTrue(commentsPage.isCheckboxSelectedForResponseCommentForRow("1-1-1-1", 0, 1));
+        assertTrue(commentsPage.isCheckboxSelectedForResponseCommentForRow("1-1-1-1", 1, 0));
+        assertTrue(commentsPage.isCheckboxSelectedForResponseCommentForRow("1-1-1-1", 1, 1));
+        commentsPage.cancelEditResponseComment("1-1-1-1");
         
         ______TS("action: edit feedback response comment");
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);

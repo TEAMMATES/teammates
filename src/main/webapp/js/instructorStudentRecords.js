@@ -22,10 +22,9 @@ $(document).ready(function() {
 
     $('.panel-heading.student_feedback').click(toggleSingleCollapse);
 
-    $('input[type=checkbox]').click(function(e) {
+    $('body').on('click', 'input[type=checkbox]', function(e) {
         var table = $(this).closest('table');
         var form = table.closest('form');
-        var visibilityOptions = [];
         var target = $(e.target);
         var visibilityOptionsRow = target.closest('tr');
         
@@ -38,22 +37,7 @@ $(document).ready(function() {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
-        table.find('.answerCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find('input[name="showcommentsto"]').val(visibilityOptions.join(', '));
-
-        visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find('input[name="showgiverto"]').val(visibilityOptions.join(', '));
-
-        visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find('input[name="showrecipientto"]').val(visibilityOptions.join(', '));
+        recordsResetVisibilityHiddenFields(form, table);
     });
 
     readyStudentRecordsPage();
@@ -106,10 +90,17 @@ function checkComment(form) {
 }
 
 /**
- * Show the comment box, focus comment text area and hide "Add Comment link"
+ * Show the comment box, focus comment text area, hide "Add Comment link" and visibility options
  */
 function showAddCommentBox() {
-    $('#comment_box').show();
+    console.log('clicked');
+    var $commentBox = $('#comment_box');
+    $commentBox.show();
+    var commentForm = $commentBox.find('form[class="form_comment"]')[0];
+    commentForm.reset();
+    $commentBox.find('div[id^="visibility-options"]').hide();
+    var $visibilityOptionsTrigger = $commentBox.find('a[id^="visibility-options-trigger"]');
+    $visibilityOptionsTrigger.html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
     $('#commentText').focus();
 }
 
@@ -138,7 +129,13 @@ function enableComment(commentIdx) {
     $('#commentBar-' + commentIdx).hide();
     $('#plainCommentText' + commentIdx).hide();
     $('div[id="commentTextEdit' + commentIdx + '"]').show();
-    $('textarea[id="commentText' + commentIdx + '"]').val($('#plainCommentText' + commentIdx).text());
+    document.getElementById("form_commentedit-" + commentIdx).reset();
+    var form = $('#form_commentedit-' + commentIdx);
+    var table = form.find('table').eq(0);
+    recordsResetVisibilityHiddenFields(form, table);
+    $('#visibility-options' + commentIdx).hide();
+    var visibilityOptions = '#visibility-options-trigger' + commentIdx;
+    $(visibilityOptions).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
     $('textarea[id="commentText' + commentIdx + '"]').focus();
 }
 
@@ -146,6 +143,26 @@ function disableComment(commentIdx) {
     $('#commentBar-' + commentIdx).show();
     $('#plainCommentText' + commentIdx).show();
     $('div[id="commentTextEdit' + commentIdx + '"]').hide();
+}
+
+function recordsResetVisibilityHiddenFields(form, table) {
+    visibilityOptions = [];
+    table.find('.answerCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find('input[name="showcommentsto"]').val(visibilityOptions.join(', '));
+
+    visibilityOptions = [];
+    table.find('.giverCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find('input[name="showgiverto"]').val(visibilityOptions.join(', '));
+
+    visibilityOptions = [];
+    table.find('.recipientCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find('input[name="showrecipientto"]').val(visibilityOptions.join(', '));
 }
 
 function textAreaAdjust(o) {
