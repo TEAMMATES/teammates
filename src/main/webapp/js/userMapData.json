@@ -9,11 +9,14 @@
     "All Saints' College",
     "Australian National University",
     "Bond University",
+    "Charles Sturt University",
     "Curtin University",
     "Deakin University",
     "Edith Cowan University",
+    "Henley High School",
     "James Cook University",
     "King's Baptist Grammar School",
+    "Koonung Secondary",
     "La Trobe University",
     "Lavalla Catholic College",
     "Monash University",
@@ -67,6 +70,9 @@
   "Bahrain": [
     "Bahrain Polytechnic"
   ],
+  "Botswana": [
+    "Alpha"
+  ],
   "Brazil": [
     "AEDB",
     "Associação Educacional Dom Bosco",
@@ -78,6 +84,7 @@
     "PUC-PR",
     "Toledo Prudente Centro Universitário",
     "UFRN",
+    "Unificados AEDB 2016",
     "UniFOA",
     "Universidade Católica de Brasília",
     "Universidade de São Paulo"
@@ -97,6 +104,7 @@
     "Collège Regina Assumpta",
     "Concordia University",
     "Conestoga College",
+    "Cooksville Creek P.S.",
     "Ecole Cardinal Leger School",
     "Edgemont School",
     "EDUCSA",
@@ -120,7 +128,9 @@
     "Sheridan College",
     "Simon Fraser University",
     "Southern Alberta Institute of Technology",
+    "St. Andrew's College",
     "St. David Catholic Elementary",
+    "St. George's School",
     "St. Lawrence College",
     "St. Mary's High School",
     "The King's University",
@@ -172,6 +182,7 @@
     "Al-Hoda International School",
     "El-Alyaa Private School",
     "Modern Education Schools",
+    "Summits International School",
     "The International School of Elite Education"
   ],
   "Faroe Islands": [
@@ -252,6 +263,7 @@
     "ITB School of Business and Management",
     "Petra Christian University",
     "Saint John's Catholic School",
+    "Swiss German University",
     "Tarumanagara University",
     "Universitas Pelita Harapan"
   ],
@@ -291,11 +303,13 @@
     "Institute for Tourism Studies"
   ],
   "Macedonia": [
-    "eLearning Centre Seeu"
+    "eLearning Centre Seeu",
+    "University Ss. Cyril and Methodius"
   ],
   "Malaysia": [
     "Kolej PolyTech Mara",
     "Sekolah Menengah Kebangsaan Bukit Jalor",
+    "Taylors University",
     "Tunku Abdul Rahman University",
     "UCSI University",
     "Universiti Kebangsaan Malaysia",
@@ -303,6 +317,7 @@
     "Universiti Putra Malaysia",
     "Universiti Sains Malaysia",
     "Universiti Teknologi Malaysia",
+    "Universiti Teknologi Mara Johor",
     "Universiti Tunku Abdul Rahman",
     "University College of Technology Sarawak",
     "University Kuala Lumpur",
@@ -312,6 +327,7 @@
     "Escuela Bancaria y Comercial",
     "ITESM",
     "ITESO",
+    "Instituto Tecnologico de Estudios Superiores",
     "Peterson Schools",
     "Universidad Autónoma de Baja California",
     "UNID"
@@ -344,6 +360,7 @@
     "Summa College",
     "Teylingen College Leeuwenhorst",
     "The Hague University of Applied Sciences",
+    "The School of Life",
     "TIAS Business School",
     "TU Delft",
     "University of Inholland",
@@ -353,6 +370,7 @@
     "Windesheim Honours College"
   ],
   "New Zealand": [
+    "Manukau Institute of Technology",
     "Unitec Institute of Technology",
     "University of Auckland",
     "University of Otago",
@@ -383,6 +401,7 @@
     "Holy Cross of Davao College",
     "La Salle University",
     "Miriam College High School",
+    "New Era University",
     "Saint Louis University",
     "University of Manila",
     "University of the Cordilleras",
@@ -407,6 +426,9 @@
     "Higher School of Economics",
     "National Research University"
   ],
+  "Serbia": [
+    "University of Belgrade"
+  ],
   "Singapore": [
     "Bedok Green Secondary",
     "Changkat Changi Secondary School",
@@ -426,6 +448,7 @@
     "Punggol Green Primary School",
     "Raffles College of Higher Education",
     "Raffles Junior College",
+    "Republic Polytechnic",
     "Sengkang Secondary School",
     "SHATEC Pte Ltd",
     "Silicon Straits",
@@ -473,6 +496,9 @@
   "Sri Lanka": [
     "University of Moratuwa"
   ],
+  "Sweden": [
+    "Stockholm University"
+  ],
   "Switzerland": [
     "Business School Lausanne",
     "EPFL",
@@ -501,13 +527,14 @@
     "Hacettepe University",
     "International Training Institute",
     "Koç University",
+    "Meliksah University",
     "Yasar University"
   ],
   "UAE": [
     "Abu Dhabi University",
     "Adnoc School",
     "ALHOSN University",
-    "Hult Business School",
+    "Hult International Business School",
     "IMT Dubai",
     "The Petroleum Institute"
   ],
@@ -524,11 +551,13 @@
     "Kingston University London",
     "Leeds Trinity University",
     "London School of Economics and Political Science",
+    "Manchester Metropolitan University",
     "Middlesex University",
     "Mill Chase Academy",
     "Newcastle University",
     "Robert Gordon University",
     "SECAmb TtP",
+    "Southampton Solent University",
     "Teesside University",
     "The Glasgow School of Art",
     "The Market Weighton School",
@@ -579,12 +608,14 @@
     "Bluffton High School",
     "BMZA Portland Community College",
     "Boise State University",
+    "Boston University",
     "Boston University School of Public Health",
     "Bowie Junior High",
     "Bowling Green State University",
     "Bradley University",
     "Brigham Young University",
     "Bristol-Myers Squibb",
+    "Bryant University",
     "Brooklyn College of CUNY",
     "Broward College",
     "Bullock Creek High School",
@@ -595,6 +626,7 @@
     "Caledonia Middle School",
     "California Baptist University",
     "California College San Diego",
+    "California State Polytechnic University, Pomona",
     "California State University",
     "California State University Chico",
     "California State University Long Beach",
@@ -614,6 +646,7 @@
     "Chester County High School",
     "Chicago State University",
     "Christ the King School",
+    "Clark State Community College",
     "Clark University",
     "Clarkson University",
     "Clemson University",
@@ -646,6 +679,7 @@
     "Duke University",
     "Earlham College",
     "East Carolina University",
+    "East Grand Rapids Middle School",
     "East Middle School",
     "East Sac County Community School",
     "Eastern High School",
@@ -682,6 +716,7 @@
     "Georgia College",
     "Georgia Institute of Technology",
     "Georgia State University",
+    "Glenda Dawson High School",
     "Glendale Community College",
     "Goldenwest College",
     "Goreville High School",
@@ -722,6 +757,7 @@
     "John F Kennedy Middle School.",
     "Johnson & Wales University",
     "Juan Seguin High School",
+    "Judson University",
     "Kansas State University",
     "Kansas University Medical Center",
     "Kaplan University",
@@ -737,6 +773,7 @@
     "Lamar State College-Orange",
     "Language Learning Center",
     "Las Positas College",
+    "Lebanon High School",
     "Lee University",
     "Lehigh University",
     "Lehman College",
@@ -774,6 +811,7 @@
     "Montclair State University",
     "Monterey Peninsula College",
     "Morningside College",
+    "Moreno Valley High School",
     "Morgan State University",
     "Morton Ranch High School",
     "Mount St. Mary's College",
@@ -806,11 +844,14 @@
     "Northwestern Michigan College",
     "Northwestern University",
     "Northwood University",
+    "Norwich Technical High School",
     "Oakton Community College",
+    "Occidental College",
     "Ogeechee Technical College",
     "Ohio State University",
     "Ohio University",
     "Oklahoma State University",
+    "Omada Health",
     "On-Ramps",
     "Oregon Institute of Technology",
     "Otterbein University",
@@ -1042,7 +1083,8 @@
     "Zane State College"
   ],
   "Venezuela": [
-    "Universidad Católica Andrés Bello"
+    "Universidad Católica Andrés Bello",
+    "Centro de Desarrollo Araguaney"
   ],
   "Vietnam": [
     "Dong Nai University",
