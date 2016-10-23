@@ -54,7 +54,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                                               "session1InIESFPTCourse");
 
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
-        submitPage.verifyHtmlMainContent("/InstructorEditStudentFeedbackPageOpen.html");
+        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageOpen.html");
         
         submitPage.fillResponseTextBox(1, 0, "Good design");
         submitPage.clickSubmitButton();
@@ -84,7 +84,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("4", fr.getResponseDetails().getAnswerString());
 
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
-        submitPage.verifyHtmlMainContent("/InstructorEditStudentFeedbackPageModified.html");
+        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModified.html");
     }
     
     private void testDeleteResponse() {
