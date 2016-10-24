@@ -52,7 +52,7 @@ Things to note:
   - As instructed, the Browser requests for the 'courses' page.
   - Server processes the request separately (creates a `ShowPageResult` object but no `PageData` object) and returns the 'courses' page.
 + The result of some actions is downloading of a file (e.g. a feedback session report). In such cases, the result type will be `FileDownloadResult` and no `PageData` object will be generated.
-+ Since the high-level workflow of processing a request is same for any request, we use the , the [Template Method pattern](http://en.wikipedia.org/wiki/Template_method_pattern) to abstract the process folow into the `Action` class.
++ Since the high-level workflow of processing a request is same for any request, we use the [Template Method pattern](http://en.wikipedia.org/wiki/Template_method_pattern) to abstract the process folow into the `Action` class.
 + The list of actions and corresponding URIs are listed in the `ActionURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
 + The list of pages and corresponding URIs are listed in the `ViewURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
 
@@ -70,7 +70,7 @@ It is accessible via a thin [facade class](http://en.wikipedia.org/wiki/Facade_p
 + Managing relationships between entities. e.g., cascade logic for create/update/delete.
 + Managing transactions. e.g., to ensure atomicity of a transaction.
 + Sanitizing input values recevied from the UI component.
-+ Providing a mechanims for checking access control rights.
++ Providing a mechanism for checking access control rights.
 
 ![Logic Component](images/LogicComponent.png)
 

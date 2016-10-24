@@ -77,7 +77,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.verifyIsCorrectPage(courseId);
 
         // This is the full HTML verification for Instructor Course Details Page, the rest can all be verifyMainHtml
-        detailsPage.verifyHtml("/InstructorCourseDetailsEmptyCourse.html");
+        detailsPage.verifyHtml("/instructorCourseDetailsEmptyCourse.html");
         
         ______TS("content: multiple students with sections");
         
@@ -85,14 +85,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         courseId = testData.courses.get("CCDetailsUiT.CS2103").getId();
 
         detailsPage = getCourseDetailsPage();
-        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsWithSections.html");
+        detailsPage.verifyHtmlMainContent("/instructorCourseDetailsWithSections.html");
         
         ______TS("content: multiple students with sections with helper view");
         
         instructorId = testData.instructors.get("CCDetailsUiT.instr2Helper").googleId;
 
         detailsPage = getCourseDetailsPage();
-        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsWithSectionsWithHelperView.html");
+        detailsPage.verifyHtmlMainContent("/instructorCourseDetailsWithSectionsWithHelperView.html");
         
         ______TS("content: multiple students without sections");
         
@@ -100,7 +100,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();
         
         detailsPage = getCourseDetailsPage();
-        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsWithoutSections.html");
+        detailsPage.verifyHtmlMainContent("/instructorCourseDetailsWithoutSections.html");
     }
     
     private void testCommentToWholeCourse() {
