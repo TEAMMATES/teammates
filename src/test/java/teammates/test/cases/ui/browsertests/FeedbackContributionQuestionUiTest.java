@@ -78,7 +78,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("CONTRIB: set visibility options");
         
-        feedbackEditPage.enableVisibilityOptions(-1);
+        feedbackEditPage.enableOtherVisibilityOptions(-1);
         //TODO: click and ensure can see answer for recipients,
         //giver team members, recipient team members
         //are always the same. (under visibility options)
