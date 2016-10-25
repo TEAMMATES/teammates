@@ -519,6 +519,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASumei1009"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Steve Simpson
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Astevesimpson4375"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Subhodip Kumar 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asubhodip7"
                         target="_blank">bug reporting/fixing, enhancements</a>]
@@ -645,12 +649,24 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asongchoa"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Connor Kendrick
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aconnorkendrick"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Dhiren Patil
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Adp80"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Dustin Lapierre
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Adustinlapierre"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Gable Heng
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Agableh"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Gonçalo Garcia
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AGGfpc"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Harshvardhan Singh
@@ -677,6 +693,10 @@
                 </li>
                 <li>Justin Ouyang 
                     [bug reporting/fixing, enhancements]
+                </li>
+                <li>Kevin Thich
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ak-thich"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Khac Tung 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Atungnk1993"
@@ -728,6 +748,10 @@
                 </li>
                 <li>Pulasthi Harasgama 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3APulasthih"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Raghav Sai
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Apetgoldfish"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Rajat Saxena 
