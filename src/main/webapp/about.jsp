@@ -20,7 +20,7 @@
                     <span class="bold">Learning Innovation Fund-Technology (LIF-T)</span> initiative of NUS, for funding us for the 2015-2018 period.
                 </li>
                 <li style="margin: 0 0 10px 0;">
-                    <span class="bold">Google Summer of Code</span> Program, for including TEAMMATES as a mentor organization in GSoC2014 and GSoC2015 editions.
+                    <span class="bold">Google Summer of Code</span> Program, for including TEAMMATES as a mentor organization in GSoC2014, GSoC2015 and GSoC2016 editions.
                 </li>
                 <li style="margin: 0 0 10px 0;">
                     <span class="bold">Facebook Open Academy</span> Program, for including TEAMMATES as a mentor organization in FBOA 2016.
