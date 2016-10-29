@@ -3,15 +3,18 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
 <%@ attribute name="pageTitle" required="true" %>
+<%@ attribute name="cssIncludes" %>
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="bodyTitle" required="true" %>
-
 <%@ attribute name="altNavBar" %>
 <%@ attribute name="altFooter" %>
 <c:set var="defaultNavBar"><ts:navBar /></c:set>
 <c:set var="defaultFooter"><t:bodyFooter /></c:set>
 
 <t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
+    <jsp:attribute name="cssIncludes">
+        ${cssIncludes}
+    </jsp:attribute>
     <jsp:attribute name="jsIncludes">
         ${jsIncludes}
     </jsp:attribute>
