@@ -61,7 +61,7 @@
                     <img src="images/teammembers/thyagesh.png" width="180px">
                 </td>
                 <td class="coreTeamDetailsCell">
-                    Thyagesh M.<br><br>
+                    Thyagesh Manikandan<br><br>
                     Project Mentor (June 2016 - )<br>
                     Project Lead (Jan 2016 - May 2016)<br>
                     Area Lead - Profiles (Aug 2014 - Dec 2015)<br>
@@ -122,7 +122,7 @@
                     Snr Developer (Aug 2016 - )<br>
                     Committer (May 2016 - Jul 2016)
                     <br><br>
-              </td>
+                </td>
             </tr>
             <tr>
                 <td class="coreTeamPhotoCell">
@@ -134,7 +134,7 @@
                     Snr Developer (Aug 2016 - )<br>
                     Committer (May 2016 - Jul 2016)
                     <br><br>
-              </td>
+                </td>
             </tr>
             <tr>
                 <td class="coreTeamPhotoCell">
@@ -145,7 +145,7 @@
                     Lakmal Padmakumara<br><br>
                     Major contributor (May 2016 - )
                     <br><br>
-              </td>
+                </td>
             </tr>
             <tr>
                 <td class="coreTeamPhotoCell">
@@ -156,7 +156,7 @@
                     Serhii Beliablia<br><br>
                     Major contributor (May 2016 - )
                     <br><br>
-              </td>
+                </td>
             </tr>
             <tr>
                 <td class="coreTeamPhotoCell">
@@ -167,16 +167,6 @@
                     Tarun Kumar Yadav<br><br>
                     Major contributor (May 2016 - )
                     <br><br>
-              </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/nimantha.png" width="100px">
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Nimantha Baranasuriya<br><br>
-                    Project Admin (2013 - )
-                    <br>
                 </td>
             </tr>
         </table>
@@ -203,7 +193,7 @@
                 </li>
                 <li>
                     <img src="images/teammembers/khanh.png" width="80px"><br> 
-                    Truong Khanh<br>
+                    Truong Ngoc Khanh<br>
                     Area Lead - Admin, Scalability (Jan 2016 - May 2016)<br>
                     Snr Developer (Aug 2015 - Dec 2015)<br>
                     Committer (Jan 2015 - May 2015)<br><br>
@@ -307,6 +297,17 @@
                 <li>Huy Nguyen (Area Lead, Snr Developer)</li>
                 <li>Gerald Goh (Project Lead, Snr Developer)</li>
                 <li>Xiaoni Lai (Project Lead, Snr Developer)</li>
+            </ol>
+        </div>
+
+        <p class="bold">Past Committers:</p>
+        <br>
+        <div style="margin: 0 auto; padding: 0 52px 15px;">
+            <ol>
+                <li>John Kevin Tjahjadi (Jan 2016 - May 2016)</li>
+                <li>Kenneth Ho Chee Chong (Jan 2016 - May 2016)</li>
+                <li>Su Sumei (Jan 2016 - May 2016)</li>
+                <li>Wong Yu Xuan (Jan 2016 - May 2016)</li>
             </ol>
         </div>
                 
@@ -422,10 +423,6 @@
                 <li>Jiang Yaoxuan 
                     [bug reporting/fixing, enhancements]
                 </li>
-                <li>John Kevin Tjahjadi 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajkt001"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
                 <li>Karan Kamath 
                     [bug reporting/fixing, enhancements]
                 </li>
@@ -433,16 +430,8 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akaran173"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
-                <li>Kenneth Ho Chee Chong 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akennho"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
                 <li>Kseniia Solodovnik 
                     [bug reporting/fixing, enhancements]
-                </li>
-                <li>Lakmal Padmakumara
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Arclakmal"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Le Minh Khue 
                     [bug reporting/fixing, enhancements]
@@ -527,10 +516,6 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asamatdav"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
-                <li>Serhii Beliablia 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Abelyabl9"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
                 <li>Shawn Teo Chee Yong 
                     [bug reporting/fixing, enhancements]
                 </li>
@@ -556,10 +541,6 @@
                 </li>
                 <li>Staniloiu Eduard 
                     [bug reporting/fixing, enhancements]
-                </li>
-                <li>Su Sumei 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASumei1009"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Steve Simpson
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Astevesimpson4375"
@@ -604,10 +585,6 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Atangzijian"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
-                <li>Tarun Kumar Yadav 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Atarun14110"
-                        target="_blank">bug fixing, enhancements</a>]
-                </li>
                 <li>Teo Yock Swee Terence 
                     [bug reporting/fixing, enhancements]
                 </li>
@@ -617,10 +594,6 @@
                 </li>
                 <li>Truong Hoang Phuoc 
                     [bug reporting/fixing, enhancements]
-                </li>
-                <li>Wong Yu Xuan 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aunyoungwax"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Wang Chao 
                     [bug reporting/fixing, enhancements]
@@ -647,14 +620,6 @@
                 </li>
                 <li>Yogen Aggarwal 
                     [bug reporting/fixing, enhancements]
-                </li>
-                <li>Yong Jie 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AYongJieYongJie"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Yuan Bin 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Achowyb"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Zhang Haoqiang 
                     [bug reporting/fixing, enhancements]
