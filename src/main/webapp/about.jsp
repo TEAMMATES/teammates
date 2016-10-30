@@ -46,23 +46,12 @@
             </tr>
             <tr>
                 <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/weilin.png" width="180px">
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Low WeiLin<br><br>
-                    Project Lead (Aug 2015 - )<br>
-                    Area Lead - Sessions (Aug 2014 - Jul 2015)<br>
-                    Snr Developer (June 2014 - Jul 2014)<br>
-                    Committer (Jan 2014 - Jul 2014)
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
                     <img src="images/teammembers/hongjin.png" width="180px">
                 </td>
                 <td class="coreTeamDetailsCell">
                     Kang Hong Jin<br><br>
-                    Project Lead (Aug 2015 - )<br>
+                    Project Mentor (June 2016 - )<br>
+                    Project Lead (Aug 2015 - May 2016)<br>
                     Snr Developer (May 2015 - Jul 2015)<br>
                     Committer (Aug 2014 - Apr 2015)
                 </td>
@@ -73,15 +62,28 @@
                 </td>
                 <td class="coreTeamDetailsCell">
                     Thyagesh M.<br><br>
-                    Project Lead (Jan 2016 - )<br>
+                    Project Mentor (June 2016 - )<br>
+                    Project Lead (Jan 2016 - May 2016)<br>
                     Area Lead - Profiles (Aug 2014 - Dec 2015)<br>
                     Snr Developer (June 2014 - Jul 2014)<br>
                     Committer (Apr 2014 - May 2014)
                 </td>
             </tr>
+            <tr>
+                <td class="coreTeamPhotoCell">
+                    <img src="images/teammembers/wilson.png" width="180px">
+                </td>
+                <td class="coreTeamDetailsCell">
+                    Wilson Kurniawan<br>
+                    Project Lead (June 2016 - )<br>
+                    Area Lead - DevOps, Results (Jan 2016 - May 2016)<br>
+                    Snr Developer (Aug 2015 - Dec 2015)<br>
+                    Committer (Apr 2015 - May 2015)
+                </td>
+            </tr>
         </table>
         
-        <br><br><br><br><br>
+        <br><br><br>
 
         <table>
             <tr>
@@ -93,50 +95,6 @@
                     Area Lead - UI/UX, Comments, Profiles, Courses (Jan 2016 - )<br>
                     Snr Developer (Aug 2015 - Dec 2015)<br>
                     Committer (Feb 2015 - May 2015)
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/tania.png" width="120px">
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Tania Chattopadhyay<br>
-                    Area Lead - Access control, Search, Email (Jan 2016 - )<br>
-                    Snr Developer (Aug 2015 - Dec 2015)<br>
-                    Committer (Feb 2015 - May 2015)
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/khanh.png" width="120px">
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Truong Khanh<br>
-                    Area Lead - Admin, Scalability (Jan 2016 - )<br>
-                    Snr Developer (Aug 2015 - Dec 2015)<br>
-                    Committer (Jan 2015 - May 2015)
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/youjun.png" width="120px">
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Soh You Jun<br>
-                    Area Lead - UI/UX, Submissions, Courses (Jan 2016 - )<br>
-                    Snr Developer (Aug 2015 - Dec 2015)<br>
-                    Committer (Apr 2015 - May 2015)
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/wilson.png" width="120px">
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Wilson Kurniawan<br>
-                    Area Lead - DevOps, Results (Jan 2016 - )<br>
-                    Snr Developer (Aug 2015 - Dec 2015)<br>
-                    Committer (Apr 2015 - May 2015)
                 </td>
             </tr>
             <tr>
@@ -153,17 +111,61 @@
         </table>
       
         <br><br>
-
         <table>
-            <tr>
+           <tr>
                 <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/ashray.png" width="100px">
+                    <img src="images/teammembers/yuanbin.png" width="100px">
                     <br><br>
                 </td>
                 <td class="coreTeamDetailsCell">
-                    Ashray Jain<br><br>
-                    Snr Developer (Oct 2015 - )<br>
-                    Committer (Aug 2015 - Sep 2015)
+                    Chow Yuan Bin<br><br>
+                    Snr Developer (Aug 2016 - )<br>
+                    Committer (May 2016 - Jul 2016)
+                    <br><br>
+              </td>
+            </tr>
+            <tr>
+                <td class="coreTeamPhotoCell">
+                    <img src="images/teammembers/yongjie.png" width="100px">
+                    <br><br>
+                </td>
+                <td class="coreTeamDetailsCell">
+                    Khoo Yong Jie<br><br>
+                    Snr Developer (Aug 2016 - )<br>
+                    Committer (May 2016 - Jul 2016)
+                    <br><br>
+              </td>
+            </tr>
+            <tr>
+                <td class="coreTeamPhotoCell">
+                    <img src="images/teammembers/lakmal.png" width="100px">
+                    <br><br>
+                </td>
+                <td class="coreTeamDetailsCell">
+                    Lakmal Padmakumara<br><br>
+                    Major contributor (May 2016 - )
+                    <br><br>
+              </td>
+            </tr>
+            <tr>
+                <td class="coreTeamPhotoCell">
+                    <img src="images/teammembers/serhii.png" width="100px">
+                    <br><br>
+                </td>
+                <td class="coreTeamDetailsCell">
+                    Serhii Beliablia<br><br>
+                    Major contributor (May 2016 - )
+                    <br><br>
+              </td>
+            </tr>
+            <tr>
+                <td class="coreTeamPhotoCell">
+                    <img src="images/teammembers/tarun.png" width="100px">
+                    <br><br>
+                </td>
+                <td class="coreTeamDetailsCell">
+                    Tarun Kumar Yadav<br><br>
+                    Major contributor (May 2016 - )
                     <br><br>
               </td>
             </tr>
@@ -184,6 +186,46 @@
         <p class="bold">Past Team Members:</p>
         <div style="margin: 0 auto; padding: 0 52px 15px;">
             <ol>
+                <li>
+                    <img src="images/teammembers/weilin.png" width="80px"><br> 
+                    Low WeiLin<br>
+                    Project Lead (Aug 2015 - May 2016)<br>
+                    Area Lead - Sessions (Aug 2014 - Jul 2015)<br>
+                    Snr Developer (June 2014 - Jul 2014)<br>
+                    Committer (Jan 2014 - Jul 2014)<br><br>
+                </li>
+                <li>
+                    <img src="images/teammembers/tania.png" width="80px"><br> 
+                    Tania Chattopadhyay<br>
+                    Area Lead - Access control, Search, Email (Jan 2016 - May 2016)<br>
+                    Snr Developer (Aug 2015 - Dec 2015)<br>
+                    Committer (Feb 2015 - May 2015)<br><br>
+                </li>
+                <li>
+                    <img src="images/teammembers/khanh.png" width="80px"><br> 
+                    Truong Khanh<br>
+                    Area Lead - Admin, Scalability (Jan 2016 - May 2016)<br>
+                    Snr Developer (Aug 2015 - Dec 2015)<br>
+                    Committer (Jan 2015 - May 2015)<br><br>
+                </li>
+                <li>
+                    <img src="images/teammembers/youjun.png" width="80px"><br> 
+                    Soh You Jun<br>
+                    Area Lead - UI/UX, Submissions, Courses (Jan 2016 - May 2016)<br>
+                    Snr Developer (Aug 2015 - Dec 2015)<br>
+                    Committer (Apr 2015 - May 2015)<br><br>
+                </li>
+                <li>
+                    <img src="images/teammembers/ashray.png" width="80px"><br> 
+                    Ashray Jain<br>
+                    Snr Developer (Oct 2015 - May 2016)<br>
+                    Committer (Aug 2015 - Sep 2015)<br><br>
+                </li>
+                <li>
+                    <img src="images/teammembers/nimantha.png" width="80px"><br> 
+                    Nimantha Baranasuriya<br>
+                    Project Admin (2013 - 2016)<br><br>
+                </li>
                 <li>
                     <img src="images/teammembers/bui.png" width="80px"><br> 
                     Bui Trong Nhan<br>
