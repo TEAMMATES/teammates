@@ -97,11 +97,8 @@
             <div class="overviewByteData">
                 <h2 class="overviewByteHeading">Growing Global Community:</h2>
                 <p>
-<<<<<<< HEAD
                     TEAMMATES community is growing fast, spanning over 1000 universities from many countries across the globe:
-=======
-                    TEAMMATES community is growing fast, spanning over 900 universities from many countries across the globe:
->>>>>>> master
+
                     Singapore, Canada, USA, UK, Turkey, Australia, Malaysia, Belgium, Taiwan, Macau, Sri Lanka, India, China, Vietnam, and more ...
                 </p>
                 <p><a href="usermap.jsp">See who is using TEAMMATES.</a></p>

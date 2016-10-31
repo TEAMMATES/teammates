@@ -1,11 +1,7 @@
 #TEAMMATES Developer Web Site
 
-<img src="https://img.shields.io/badge/users-80K%2B-brightgreen.svg"> 
-<<<<<<< HEAD
 <img src="https://img.shields.io/badge/universities-1000%2B-green.svg"> 
-=======
-<img src="https://img.shields.io/badge/universities-900%2B-green.svg"> 
->>>>>>> master
+
 [![Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
 
 <img src="https://img.shields.io/badge/java-119%20KLoC-blue.svg">
