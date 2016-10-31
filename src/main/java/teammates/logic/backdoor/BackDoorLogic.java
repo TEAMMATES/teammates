@@ -52,26 +52,15 @@ public class BackDoorLogic extends Logic {
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
     
-    public String putDocumentsForStudents(DataBundle dataBundle) {
-        for (StudentAttributes student : dataBundle.students.values()) {
-            student = getStudentForEmail(student.course, student.email);
-            putDocument(student);
-            ThreadHelper.waitFor(50);
-        }
-        
-        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
-    }
-    
     /**
      * Persists given data in the datastore Works ONLY if the data is correct.
      *  //Any existing copies of the data in the datastore will be overwritten.
-     *      - edit: use removeDataBundle/deleteExistingData to remove.
+     *      - edit: use removeDataBundle to remove.
      *              made this change for speed when deletion is not necessary.
      * @return status of the request in the form 'status meassage'+'additional
      *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
      *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
      */
-
     public String persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityDoesNotExistException {
         
@@ -79,8 +68,6 @@ public class BackDoorLogic extends Logic {
             throw new InvalidParametersException(
                     Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
-        
-        //deleteExistingData(dataBundle);
         
         Map<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
@@ -223,15 +210,6 @@ public class BackDoorLogic extends Logic {
         }
     }
 
-    /**
-     * Removes any and all occurrences of the entities in the given databundle
-     * from the database
-     * @param dataBundle
-     */
-    public void removeDataBundle(DataBundle dataBundle) {
-        deleteExistingData(dataBundle);
-    }
-    
     /**
      * create document for entities that have document--searchable
      * @param dataBundle
@@ -441,7 +419,7 @@ public class BackDoorLogic extends Logic {
         return responseComment;
     }
 
-    public void deleteExistingData(DataBundle dataBundle) {
+    public void removeDataBundle(DataBundle dataBundle) {
                 
         //TODO: questions and responses will be deleted automatically.
         //  We don't attempt to delete them again, to save time.
@@ -454,7 +432,6 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.deleteAccounts(dataBundle.accounts.values());
-        //waitUntilDeletePersists(dataBundle);
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {

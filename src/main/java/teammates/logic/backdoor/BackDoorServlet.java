@@ -23,26 +23,17 @@ public class BackDoorServlet extends HttpServlet {
      * This class is tested by the BackDoorTest class.
      */
 
-    public static final String OPERATION_CREATE_INSTRUCTOR = "OPERATION_CREATE_INSTRUCTOR";
     public static final String OPERATION_DELETE_INSTRUCTOR = "OPERATION_DELETE_INSTRUCTOR";
-    public static final String OPERATION_DELETE_INSTRUCTOR_NON_CASCADE = "OPERATION_DELETE_INSTRUCTOR_NON_CASCADE";
     public static final String OPERATION_DELETE_COURSE = "OPERATION_DELETE_COURSE";
     public static final String OPERATION_DELETE_ACCOUNT = "OPERATION_DELETE_ACCOUNT";
-    public static final String OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE = "OPERATION_DELETE_COURSE_BY_ID_NON_CASCADE";
     public static final String OPERATION_DELETE_STUDENT = "OPERATION_DELETE_STUDENT";
-    public static final String OPERATION_DELETE_TEAM_FORMING_LOG = "OPERATION_DELETE_TEAM_FORMING_LOG";
-    public static final String OPERATION_DELETE_TEAM_PROFILE = "OPERATION_DELETE_TEAM_PROFILE";
-    public static final String OPERATION_DELETE_TFS = "OPERATION_DELETE_TFS";
     public static final String OPERATION_DELETE_FEEDBACK_SESSION = "OPERATION_DELETE_FEEDBACK_SESSION";
     public static final String OPERATION_DELETE_FEEDBACK_QUESTION = "OPERATION_DELETE_FEEDBACK_QUESTION";
     public static final String OPERATION_DELETE_FEEDBACK_RESPONSE = "OPERATION_DELETE_FEEDBACK_RESPONSE";
-    public static final String OPERATION_EDIT_ACCOUNT = "OPERATION_EDIT_ACCOUNT";
     public static final String OPERATION_EDIT_FEEDBACK_SESSION = "OPERATION_EDIT_FEEDBACK_SESSION";
     public static final String OPERATION_EDIT_FEEDBACK_QUESTION = "OPERATION_EDIT_FEEDBACK_QUESTION";
     public static final String OPERATION_EDIT_STUDENT = "OPERATION_EDIT_STUDENT";
     public static final String OPERATION_EDIT_STUDENT_PROFILE_PICTURE = "OPERATION_EDIT_STUDENT_PROFILE_PICTURE";
-    public static final String OPERATION_EDIT_TEAM_PROFILE = "OPERATION_EDIT_TEAM_PROFILE";
-    public static final String OPERATION_EDIT_TFS = "OPERATION_EDIT_TFS";
     public static final String OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID = "OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID";
     public static final String OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL = "OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL";
     public static final String OPERATION_GET_ACCOUNT_AS_JSON = "OPERATION_GET_ACCOUNT_AS_JSON";
@@ -51,10 +42,6 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_GET_STUDENT_AS_JSON = "OPERATION_GET_STUDENT_AS_JSON";
     public static final String OPERATION_GET_ENCRYPTED_KEY_FOR_INSTRUCTOR = "OPERATION_GET_ENCRYPTED_KEY_FOR_INSTRUCTOR";
     public static final String OPERATION_GET_ENCRYPTED_KEY_FOR_STUDENT = "OPERATION_GET_ENCRYPTED_KEY_FOR_STUDENT";
-    public static final String OPERATION_GET_ALL_STUDENTS_AS_JSON = "OPERATION_GET_ALL_STUDENTS";
-    public static final String OPERATION_GET_TEAM_FORMING_LOG_AS_JSON = "OPERATION_GET_TEAM_FORMING_LOG_AS_JSON";
-    public static final String OPERATION_GET_TEAM_PROFILE_AS_JSON = "OPERATION_GET_TEAM_PROFILE_AS_JSON";
-    public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
     public static final String OPERATION_GET_FEEDBACK_SESSION_AS_JSON = "OPERATION_GET_FEEDBACK_SESSION_AS_JSON";
     public static final String OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON =
             "OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON";
@@ -66,12 +53,9 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON = "OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON";
     public static final String OPERATION_IS_PICTURE_PRESENT_IN_GCS = "OPERATION_IS_PICTURE_PRESENT_IN_GCS";
     
-    public static final String OPERATION_PUT_DOCUMENTS_FOR_STUDENTS = "OPERATION_PUT_DOCUMENTS_FOR_STUDENTS";
-
     public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
     public static final String OPERATION_REMOVE_DATABUNDLE = "OPERATION_REMOVE_DATABUNDLE";
     public static final String OPERATION_REMOVE_AND_RESTORE_DATABUNDLE = "OPERATION_REMOVE_AND_RESTORE_DATABUNDLE";
-    public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
     public static final String OPERATION_PUT_DOCUMENTS = "OPERATION_PUT_DOCUMENTS";
     
     public static final String PARAMETER_BACKDOOR_KEY = "Params.BACKDOOR_KEY";
@@ -81,12 +65,9 @@ public class BackDoorServlet extends HttpServlet {
     public static final String PARAMETER_FEEDBACK_QUESTION_ID = "PARAMETER_QUESTION_ID";
     public static final String PARAMETER_INSTRUCTOR_EMAIL = "PARAMETER_INSTRUCTOR_EMAIL";
     public static final String PARAMETER_INSTRUCTOR_ID = "PARAMETER_INSTRUCTOR_ID";
-    public static final String PARAMETER_INSTRUCTOR_NAME = "PARAMETER_INSTRUCTOR_NAME";
     public static final String PARAMETER_DATABUNDLE_JSON = "PARAMETER_DATABUNDLE_JSON";
     public static final String PARAMETER_JSON_STRING = "PARAMETER_JASON_STRING";
     public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
-    public static final String PARAMETER_STUDENT_ID = "PARAMETER_STUDENT_ID";
-    public static final String PARAMETER_TEAM_NAME = "PARAMETER_TEAM_NAME";
     public static final String PARAMETER_FEEDBACK_SESSION_NAME = "PARAMETER_FEEDBACK_SESSION_NAME";
     public static final String PARAMETER_FEEDBACK_QUESTION_NUMBER = "PARAMETER_FEEDBACK_QUESTION_NUMBER";
     public static final String PARAMETER_GIVER_EMAIL = "PARAMETER_GIVER_EMAIL";
@@ -175,9 +156,6 @@ public class BackDoorServlet extends HttpServlet {
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
             return backDoorLogic.getStudentAsJson(courseId, email);
-        } else if (action.equals(OPERATION_GET_ALL_STUDENTS_AS_JSON)) {
-            String courseId = req.getParameter(PARAMETER_COURSE_ID);
-            return backDoorLogic.getAllStudentsAsJson(courseId);
         } else if (action.equals(OPERATION_GET_ENCRYPTED_KEY_FOR_INSTRUCTOR)) {
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             String email = req.getParameter(PARAMETER_INSTRUCTOR_EMAIL);
@@ -198,18 +176,12 @@ public class BackDoorServlet extends HttpServlet {
             DataBundle dataBundle = JsonUtils.fromJson(
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.removeDataBundle(dataBundle);
-        } else if (action.equals(OPERATION_PUT_DOCUMENTS_FOR_STUDENTS)) {
-            String dataBundleJsonString = req
-                    .getParameter(PARAMETER_DATABUNDLE_JSON);
-            DataBundle dataBundle = JsonUtils.fromJson(
-                    dataBundleJsonString, DataBundle.class);
-            backDoorLogic.putDocumentsForStudents(dataBundle);
         } else if (action.equals(OPERATION_REMOVE_AND_RESTORE_DATABUNDLE)) {
             String dataBundleJsonString = req
                     .getParameter(PARAMETER_DATABUNDLE_JSON);
             DataBundle dataBundle = JsonUtils.fromJson(
                     dataBundleJsonString, DataBundle.class);
-            backDoorLogic.deleteExistingData(dataBundle);
+            backDoorLogic.removeDataBundle(dataBundle);
             backDoorLogic.persistDataBundle(dataBundle);
         } else if (action.equals(OPERATION_PUT_DOCUMENTS)) {
             String dataBundleJsonString = req
@@ -217,9 +189,6 @@ public class BackDoorServlet extends HttpServlet {
             DataBundle dataBundle = JsonUtils.fromJson(
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.putDocuments(dataBundle);
-        } else if (action.equals(OPERATION_EDIT_ACCOUNT)) {
-            String newValues = req.getParameter(PARAMETER_JSON_STRING);
-            backDoorLogic.editAccountAsJson(newValues);
         } else if (action.equals(OPERATION_EDIT_FEEDBACK_SESSION)) {
             String newValues = req.getParameter(PARAMETER_JSON_STRING);
             backDoorLogic.editFeedbackSessionAsJson(newValues);
@@ -278,4 +247,5 @@ public class BackDoorServlet extends HttpServlet {
         }
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
+    
 }

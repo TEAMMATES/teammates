@@ -34,7 +34,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         String status = logic.persistDataBundle(new DataBundle());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
-        logic.deleteExistingData(dataBundle);
+        logic.removeDataBundle(dataBundle);
         logic.persistDataBundle(dataBundle);
         verifyPresentInDatastore(dataBundle);
 

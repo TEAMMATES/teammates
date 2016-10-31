@@ -22,11 +22,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.logic.backdoor.BackDoorServlet;
 
 import com.google.gson.reflect.TypeToken;
@@ -41,16 +39,9 @@ import com.google.gson.reflect.TypeToken;
  * 
  */
 public final class BackDoor {
-    private static final int RETRY_DELAY_IN_MILLISECONDS = 5000;
     
     private BackDoor() {
         //utility class
-    }
-
-    public static String putDocumentsForStudents(String dataBundleJson) {
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PUT_DOCUMENTS_FOR_STUDENTS);
-        params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
-        return makePostRequest(params);
     }
 
     /**
@@ -103,17 +94,6 @@ public final class BackDoor {
     }
 
     /**
-     * Persists given data. If given entities already exist in the data store,
-     * they will be overwritten.
-     * 
-     * @param dataBundleJson
-     * @return
-     */
-    public static String restoreDataBundle(String dataBundleJson) {
-        return persistNewDataBundle(dataBundleJson);
-    }
-    
-    /**
      * Removes given data. If given entities have already been deleted,
      * it fails silently
      * 
@@ -144,56 +124,6 @@ public final class BackDoor {
         return putDocumentsInBackDoor(json);
     }
 
-    /**
-     * Deletes instructors contained in the jsonString
-     * 
-     * @param jsonString
-     */
-    public static void deleteInstructors(String jsonString) {
-        DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
-        deleteInstructors(data);
-    }
-
-    private static void deleteInstructors(DataBundle data) {
-        Map<String, InstructorAttributes> instructors = data.instructors;
-        for (InstructorAttributes instructor : instructors.values()) {
-            deleteInstructor(instructor.email, instructor.courseId);
-        }
-    }
-    
-    /**
-     * Deletes COURSES contained in the jsonString
-     * 
-     * This should recursively delete all INSTRUCTORS, EVALUATIONS, SUBMISSIONS and STUDENTS related
-     * 
-     * @param jsonString
-     */
-    public static void deleteCourses(String jsonString) {
-        DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
-        Map<String, CourseAttributes> courses = data.courses;
-        for (CourseAttributes course : courses.values()) {
-            deleteCourse(course.getId());
-        }
-    }
-    
-    /**
-     * Deletes FEEDBACK SESSIONS contained in the jsonString
-     * 
-     * This should recursively delete all FEEDBACK QUESIONS AND RESPONSES related to the session.
-     * 
-     * @param jsonString
-     */
-    public static void deleteFeedbackSessions(DataBundle data) {
-        Map<String, FeedbackSessionAttributes> feedbackSessions = data.feedbackSessions;
-        for (FeedbackSessionAttributes feedbackSession : feedbackSessions.values()) {
-            deleteFeedbackSession(
-                    feedbackSession.getFeedbackSessionName(),
-                    feedbackSession.getCourseId());
-        }
-    }
-    
-    //====================================================================================
-
     public static String createAccount(AccountAttributes account) {
         DataBundle dataBundle = new DataBundle();
         dataBundle.accounts.put(account.googleId, account);
@@ -206,18 +136,6 @@ public final class BackDoor {
     
     public static StudentProfileAttributes getStudentProfile(String googleId) {
         return JsonUtils.fromJson(getStudentProfileAsJson(googleId), StudentProfileAttributes.class);
-    }
-    
-    /**
-     * If object not found in the first try, it will retry once more after a delay.
-     */
-    public static AccountAttributes getAccountWithRetry(String googleId) {
-        AccountAttributes a = getAccount(googleId);
-        if (a == null) {
-            ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
-            a = getAccount(googleId);
-        }
-        return a;
     }
     
     public static String getAccountAsJson(String googleId) {
@@ -238,12 +156,6 @@ public final class BackDoor {
         return Boolean.parseBoolean(makePostRequest(params));
     }
 
-    public static String editAccount(AccountAttributes account) {
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_ACCOUNT);
-        params.put(BackDoorServlet.PARAMETER_JSON_STRING, JsonUtils.toJson(account));
-        return makePostRequest(params);
-    }
-    
     public static String uploadAndUpdateStudentProfilePicture(String googleId, String pictureKey) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT_PROFILE_PICTURE);
         params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
@@ -295,12 +207,6 @@ public final class BackDoor {
 
     }
 
-    public static String editInstructor(InstructorAttributes instructor)
-            throws NotImplementedException {
-        throw new NotImplementedException(
-                "Not implemented because editing instructors is not currently allowed");
-    }
-
     public static String deleteInstructor(String courseId, String instructorEmail) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_INSTRUCTOR);
         params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
@@ -324,25 +230,6 @@ public final class BackDoor {
         return JsonUtils.fromJson(getCourseAsJson(courseId), CourseAttributes.class);
     }
     
-    /**
-     * Checks existence with a bias for non existence. If object found in the
-     * first try, it will retry once more after a delay.
-     */
-    public static boolean isCourseNonExistent(String courseId) {
-        CourseAttributes c = getCourse(courseId);
-        if (c != null) {
-            ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
-            c = getCourse(courseId);
-        }
-        return c == null;
-    }
-
-    public static String editCourse(CourseAttributes course)
-            throws NotImplementedException {
-        throw new NotImplementedException(
-                "Not implemented because editing courses is not currently allowed");
-    }
-
     public static String deleteCourse(String courseId) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_COURSE);
         params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
@@ -367,18 +254,6 @@ public final class BackDoor {
         return JsonUtils.fromJson(studentJson, StudentAttributes.class);
     }
 
-    public static List<StudentAttributes> getAllStudentsForCourse(String courseId) {
-        HashMap<String, Object> params = createParamMap(
-                BackDoorServlet.OPERATION_GET_ALL_STUDENTS_AS_JSON);
-        params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
-        String studentJson = makePostRequest(params);
-        
-        List<StudentAttributes> studentList = JsonUtils
-                .fromJson(studentJson, new TypeToken<List<StudentAttributes>>() { }
-                .getType());
-        return studentList;
-    }
-    
     public static String getEncryptedKeyForStudent(String courseId, String studentEmail) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_ENCRYPTED_KEY_FOR_STUDENT);
         params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
