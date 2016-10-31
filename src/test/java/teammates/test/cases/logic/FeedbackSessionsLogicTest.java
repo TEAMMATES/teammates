@@ -41,7 +41,6 @@ import teammates.logic.api.Logic;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
 import teammates.logic.automated.FeedbackSessionUnpublishedMailAction;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -374,7 +373,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // This file contains a session with a private session + a standard
         // session + a special session with all questions without recipients.
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionDetailsTest.json");
-        new BackDoorLogic().persistDataBundle(newDataBundle);
+        removeAndRestoreData(newDataBundle);
         
         Map<String, FeedbackSessionDetailsBundle> detailsMap =
                 new HashMap<String, FeedbackSessionDetailsBundle>();
@@ -774,7 +773,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // session which needs to have enough qn/response combinations to cover as much
         // of the SUT as possible
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
-        new BackDoorLogic().persistDataBundle(responseBundle);
+        removeAndRestoreData(responseBundle);
         
         ______TS("standard session with varied visibilities");
         

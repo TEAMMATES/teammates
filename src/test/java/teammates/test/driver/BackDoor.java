@@ -4,11 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,18 +22,18 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Sanitizer;
 import teammates.logic.backdoor.BackDoorOperation;
 
 import com.google.gson.reflect.TypeToken;
 
 /**
  * Used to access the datastore without going through the UI. The main use of
- * this class is for the test suite to prepare test data. <br>
+ * this class is for the test suite to prepare test data.<br>
  * It works only if the test.backdoor.key in test.properties matches the
- * app.backdoor.key in build.properties of the deployed app. Using this
- * mechanism we can limit back door access to only the person who deployed the
- * application.
- * 
+ * app.backdoor.key in build.properties of the deployed app.<br>
+ * Using this mechanism, we can limit back door access to only the person who
+ * deployed the application.
  */
 public final class BackDoor {
     
@@ -106,7 +103,7 @@ public final class BackDoor {
         return JsonUtils.fromJson(studentProfileJsonString, StudentProfileAttributes.class);
     }
     
-    public static boolean isPicturePresentInGcs(String pictureKey) {
+    public static boolean getWhetherPictureIsPresentInGcs(String pictureKey) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_IS_PICTURE_PRESENT_IN_GCS);
         params.put(BackDoorOperation.PARAMETER_PICTURE_KEY, pictureKey);
         return Boolean.parseBoolean(makePostRequest(params));
@@ -152,7 +149,6 @@ public final class BackDoor {
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         params.put(BackDoorOperation.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
         return makePostRequest(params);
-
     }
 
     public static String deleteInstructor(String courseId, String instructorEmail) {
@@ -216,8 +212,7 @@ public final class BackDoor {
         return makePostRequest(params);
     }
 
-    public static FeedbackSessionAttributes getFeedbackSession(String courseId,
-            String feedbackSessionName) {
+    public static FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_SESSION_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
@@ -231,16 +226,15 @@ public final class BackDoor {
         return makePostRequest(params);
     }
     
-    public static String deleteFeedbackSession(String feedbackSessionName,
-            String courseId) {
+    public static String deleteFeedbackSession(String feedbackSessionName, String courseId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_FEEDBACK_SESSION);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         return makePostRequest(params);
     }
-
-    public static FeedbackQuestionAttributes getFeedbackQuestion(String courseId,
-            String feedbackSessionName, int qnNumber) {
+    
+    public static FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
+                                                                 int qnNumber) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_QUESTION_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -274,8 +268,8 @@ public final class BackDoor {
         return restoreDataBundle(dataBundle);
     }
     
-    public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
-            String giverEmail, String recipient) {
+    public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giverEmail,
+                                                                 String recipient) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_QUESTION_ID, feedbackQuestionId);
         params.put(BackDoorOperation.PARAMETER_GIVER_EMAIL, giverEmail);
@@ -284,33 +278,29 @@ public final class BackDoor {
         return JsonUtils.fromJson(feedbackResponseJson, FeedbackResponseAttributes.class);
     }
     
-    public static List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(
-            String courseId, String recipientEmail) {
+    public static List<FeedbackResponseAttributes>
+            getFeedbackResponsesForReceiverForCourse(String courseId, String recipientEmail) {
         Map<String, String> params =
                 createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         params.put(BackDoorOperation.PARAMETER_RECIPIENT, recipientEmail);
         String feedbackResponsesJson = makePostRequest(params);
-        return JsonUtils
-                .fromJson(feedbackResponsesJson, new TypeToken<List<FeedbackResponseAttributes>>(){}
-                .getType());
+        return JsonUtils.fromJson(feedbackResponsesJson,
+                                  new TypeToken<List<FeedbackResponseAttributes>>(){}.getType());
     }
     
-    public static List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse(
-            String courseId, String giverEmail) {
+    public static List<FeedbackResponseAttributes>
+            getFeedbackResponsesFromGiverForCourse(String courseId, String giverEmail) {
         Map<String, String> params =
                 createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         params.put(BackDoorOperation.PARAMETER_GIVER_EMAIL, giverEmail);
         String feedbackResponsesJson = makePostRequest(params);
-        return JsonUtils
-                .fromJson(feedbackResponsesJson, new TypeToken<List<FeedbackResponseAttributes>>(){}
-                .getType());
+        return JsonUtils.fromJson(feedbackResponsesJson,
+                                  new TypeToken<List<FeedbackResponseAttributes>>(){}.getType());
     }
 
-    public static String deleteFeedbackResponse(String feedbackQuestionId,
-                                              String giverEmail,
-                                              String recipient) {
+    public static String deleteFeedbackResponse(String feedbackQuestionId, String giverEmail, String recipient) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_FEEDBACK_RESPONSE);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_QUESTION_ID, feedbackQuestionId);
         params.put(BackDoorOperation.PARAMETER_GIVER_EMAIL, giverEmail);
@@ -322,7 +312,7 @@ public final class BackDoor {
         Map<String, String> map = new HashMap<String, String>();
         map.put(BackDoorOperation.PARAMETER_BACKDOOR_OPERATION, operation.toString());
 
-        // For Authentication
+        // For authentication
         map.put(BackDoorOperation.PARAMETER_BACKDOOR_KEY, TestProperties.BACKDOOR_KEY);
 
         return map;
@@ -342,9 +332,8 @@ public final class BackDoor {
 
     private static String readResponse(URLConnection conn) throws IOException {
         conn.setReadTimeout(10000);
-        BufferedReader rd = new BufferedReader(new InputStreamReader(
-                conn.getInputStream(), "UTF-8"));
-        
+        InputStreamReader isr = new InputStreamReader(conn.getInputStream(), Const.SystemParams.ENCODING);
+        BufferedReader rd = new BufferedReader(isr);
         StringBuilder sb = new StringBuilder();
         String line;
         while ((line = rd.readLine()) != null) {
@@ -354,30 +343,26 @@ public final class BackDoor {
         return sb.toString();
     }
 
-    private static void sendRequest(String paramString, URLConnection conn)
-            throws IOException {
-        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+    private static void sendRequest(String paramString, URLConnection conn) throws IOException {
+        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), Const.SystemParams.ENCODING);
         wr.write(paramString);
         wr.flush();
         wr.close();
     }
 
-    private static URLConnection getConnectionToUrl(String urlString)
-            throws MalformedURLException, IOException {
+    private static URLConnection getConnectionToUrl(String urlString) throws IOException {
         URL url = new URL(urlString);
         URLConnection conn = url.openConnection();
         conn.setDoOutput(true);
         return conn;
     }
 
-    private static String encodeParameters(Map<String, String> map)
-            throws UnsupportedEncodingException {
+    private static String encodeParameters(Map<String, String> map) {
         StringBuilder dataStringBuilder = new StringBuilder();
         for (Map.Entry<String, String> e : map.entrySet()) {
-            dataStringBuilder.append(URLEncoder.encode(e.getKey(), "UTF-8")
-                    + "=" + URLEncoder.encode(e.getValue().toString(), "UTF-8")
-                    + "&");
+            dataStringBuilder.append(e.getKey() + "=" + Sanitizer.sanitizeForUri(e.getValue().toString()) + "&");
         }
         return dataStringBuilder.toString();
     }
+
 }

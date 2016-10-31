@@ -28,29 +28,22 @@ public class BackDoorServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-        String action = req.getParameter(BackDoorOperation.PARAMETER_BACKDOOR_OPERATION);
-        log.info(action);
-        BackDoorOperation opCode = BackDoorOperation.valueOf(action);
-
-        String returnValue;
-
-        String keyReceived = req.getParameter(BackDoorOperation.PARAMETER_BACKDOOR_KEY);
-        
         resp.setContentType("text/plain; charset=utf-8");
         
+        String keyReceived = req.getParameter(BackDoorOperation.PARAMETER_BACKDOOR_KEY);
         boolean isAuthorized = keyReceived.equals(Config.BACKDOOR_KEY);
         if (isAuthorized) {
+            String action = req.getParameter(BackDoorOperation.PARAMETER_BACKDOOR_OPERATION);
+            log.info(action);
+            
+            BackDoorOperation opCode = BackDoorOperation.valueOf(action);
+            String returnValue;
             try {
                 returnValue = executeBackEndAction(req, opCode);
-            } catch (Exception e) {
+            } catch (Exception | AssertionError e) {
                 log.info(e.getMessage());
-                returnValue = Const.StatusCodes.BACKDOOR_STATUS_FAILURE
-                                                + TeammatesException.toStringWithStackTrace(e);
-            } catch (AssertionError ae) {
-                log.info(ae.getMessage());
-                returnValue = Const.StatusCodes.BACKDOOR_STATUS_FAILURE
-                                                + " Assertion error " + ae.getMessage();
+                returnValue = Const.StatusCodes.BACKDOOR_STATUS_FAILURE + " "
+                              + TeammatesException.toStringWithStackTrace(e);
             }
             resp.getWriter().write(returnValue);
         } else {

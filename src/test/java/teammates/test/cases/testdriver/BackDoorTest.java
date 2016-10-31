@@ -113,35 +113,28 @@ public class BackDoorTest extends BaseTestCase {
     }
     
     @Test
-    public void testAccounts() {
-        
-        testCreateAccount();
-        testGetAccount();
-        testDeleteAccount();
-    }
-    
     public void testCreateAccount() {
         AccountAttributes newAccount = dataBundle.accounts.get("instructor1OfCourse1");
+        
+        // Make sure not already inside
         BackDoor.deleteAccount(newAccount.googleId);
         verifyAbsentInDatastore(newAccount);
+        
+        // Perform creation
         BackDoor.createAccount(newAccount);
         verifyPresentInDatastore(newAccount);
+        
+        // Clean up
+        BackDoor.deleteAccount(newAccount.googleId);
+        verifyAbsentInDatastore(newAccount);
     }
     
     public void testGetAccount() {
-        AccountAttributes testAccount = dataBundle.accounts.get("instructor1OfCourse1");
-        verifyPresentInDatastore(testAccount);
-        AccountAttributes actualAccount = BackDoor.getAccount(testAccount.googleId);
-        actualAccount.createdAt = testAccount.createdAt;
-        assertEquals(JsonUtils.toJson(testAccount), JsonUtils.toJson(actualAccount));
+        // already tested by testPersistenceAndDeletion
     }
     
     public void testDeleteAccount() {
-        AccountAttributes testAccount = dataBundle.accounts.get("instructor2OfCourse1");
-        BackDoor.createAccount(testAccount);
-        verifyPresentInDatastore(testAccount);
-        BackDoor.deleteAccount(testAccount.googleId);
-        verifyAbsentInDatastore(testAccount);
+        // already tested by testPersistenceAndDeletion
     }
 
     public void testDeleteInstructors() {

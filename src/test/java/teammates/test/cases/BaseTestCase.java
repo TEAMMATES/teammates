@@ -76,10 +76,8 @@ public class BaseTestCase {
     }
 
     protected static void removeAndRestoreTypicalDataInDatastore() throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = getTypicalDataBundle();
-        backDoorLogic.removeDataBundle(dataBundle);
-        backDoorLogic.persistDataBundle(dataBundle);
+        removeAndRestoreData(dataBundle);
     }
     
     protected static void removeTypicalDataInDatastore() {
@@ -98,8 +96,12 @@ public class BaseTestCase {
     }
 
     protected static void removeAndRestoreDatastoreFromJson(String pathToJsonFile) throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = loadDataBundle(pathToJsonFile);
+        removeAndRestoreData(dataBundle);
+    }
+
+    protected static void removeAndRestoreData(DataBundle dataBundle) throws Exception {
+        BackDoorLogic backDoorLogic = new BackDoorLogic();
         backDoorLogic.removeDataBundle(dataBundle);
         backDoorLogic.persistDataBundle(dataBundle);
     }
