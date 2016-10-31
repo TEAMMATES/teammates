@@ -31,8 +31,8 @@ public class BackDoorTest extends BaseTestCase {
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
-        int retryLimit = 5;
         String status = Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+        int retryLimit = 5;
         while (status.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE) && retryLimit > 0) {
             status = BackDoor.removeAndRestoreDataBundleFromDb(dataBundle);
             retryLimit--;
@@ -234,9 +234,11 @@ public class BackDoorTest extends BaseTestCase {
         StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student",
                                                           "tgsr@gmail.tmt", "", "course1");
         BackDoor.createStudent(student);
-        String key = "[BACKDOOR_STATUS_FAILURE]";
-        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]")) {
+        String key = Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+        int retryLimit = 5;
+        while (key.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE) && retryLimit > 0) {
             key = BackDoor.getEncryptedKeyForStudent(student.course, student.email);
+            retryLimit--;
         }
 
         // The following is the google app engine description about generating
@@ -382,8 +384,10 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyPresentInDatastore(StudentAttributes expectedStudent) {
         StudentAttributes actualStudent = null;
-        while (actualStudent == null) {
+        int retryLimit = 5;
+        while (actualStudent == null && retryLimit > 0) {
             actualStudent = BackDoor.getStudent(expectedStudent.course, expectedStudent.email);
+            retryLimit--;
         }
         equalizeIrrelevantData(expectedStudent, actualStudent);
         expectedStudent.lastName = StringHelper.splitName(expectedStudent.name)[1];
@@ -392,8 +396,10 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyPresentInDatastore(CourseAttributes expectedCourse) {
         CourseAttributes actualCourse = null;
-        while (actualCourse == null) {
+        int retryLimit = 5;
+        while (actualCourse == null && retryLimit > 0) {
             actualCourse = BackDoor.getCourse(expectedCourse.getId());
+            retryLimit--;
         }
         // Ignore time field as it is stamped at the time of creation in testing
         actualCourse.createdAt = expectedCourse.createdAt;
@@ -402,8 +408,10 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyPresentInDatastore(InstructorAttributes expectedInstructor) {
         InstructorAttributes actualInstructor = null;
-        while (actualInstructor == null) {
+        int retryLimit = 5;
+        while (actualInstructor == null && retryLimit > 0) {
             actualInstructor = BackDoor.getInstructorByEmail(expectedInstructor.email, expectedInstructor.courseId);
+            retryLimit--;
         }
         
         equalizeIrrelevantData(expectedInstructor, actualInstructor);
