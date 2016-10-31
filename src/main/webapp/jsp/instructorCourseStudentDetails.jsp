@@ -6,7 +6,7 @@
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/contextualcomments.js"></script>
-    <script type="text/javascript">
+    <script>
         var isShowCommentBox = ${data.commentBoxShown};
         var commentRecipient = '${data.commentRecipient}';
     </script>

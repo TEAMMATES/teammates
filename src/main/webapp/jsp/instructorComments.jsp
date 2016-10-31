@@ -4,14 +4,16 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/comments" prefix="comments" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
+<c:set var="cssIncludes">
+    <link type="text/css" href="/stylesheets/omniComment.css" rel="stylesheet">
+</c:set>
 <c:set var="jsIncludes">
-    <link href="/stylesheets/omniComment.css" rel="stylesheet">
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
-    <script src="/js/omniComment.js"></script>
+    <script type="text/javascript" src="/js/omniComment.js"></script>
 </c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}">
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
     <comments:search instructorSearchLink="${data.instructorSearchLink}" displayArchive="${data.displayArchive}" instructorCommentsLink="${data.instructorCommentsLink}" commentsForStudentsTables="${data.commentsForStudentsTables}" feedbackSessions="${data.feedbackSessions}" />
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
