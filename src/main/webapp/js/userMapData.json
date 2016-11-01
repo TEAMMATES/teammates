@@ -58,12 +58,9 @@
   "Austria": [
     "IMC University of Applied Sciences Krems"
   ],
-  "Bahrain": [
-    "Bahrain Polytechnic"
-  ],
   "Belgium": [
     "Arteveldehogeschool",
-	"Artevelde University College Ghent",
+    "Artevelde University College Ghent",
     "BA Stassart",
     "Burgerschool",
     "Busleyden Atheneum",
@@ -82,6 +79,9 @@
     "Viatienen SWeTe",
     "Virgo Sapiens",
     "Vrije Universiteit Brussel"
+  ],
+  "Bahrain": [
+    "Bahrain Polytechnic"
   ],
   "Botswana": [
     "Alpha"
@@ -180,9 +180,9 @@
     "Shanghai University of Int. Business and Economics",
     "Tianfu University Chengdu China"
   ],
-  "Colombia": [   
-	"Universidad EAFIT",
-	"Universidad de Cundinamarca ",
+  "Colombia": [
+    "Universidad EAFIT",
+    "Universidad de Cundinamarca",
     "Universidad de Los Andes",
     "Universidad El Bosque"
   ],
@@ -242,7 +242,7 @@
     "Uni Hamburg",
     "Universität Augsburg",
     "Universität der Bundeswehr München",
-	"University of Paderborn",
+    "University of Paderborn",
     "Wescale"
   ],
   "Ghana": [
@@ -261,7 +261,7 @@
     "HKU SPACE Community College",
     "Queen Elizabeth School",
     "The Hong Kong Polytechnic University",
-	"University of Hong Kong",
+    "University of Hong Kong",
     "The ISF Academy",
     "YOT Chan Wong Shuk Fong Memorial Secondary School"
   ],
@@ -329,10 +329,10 @@
   ],
   "Italy": [
     "Arxo",
-    "IIS Bruno-Franchetti",
     "Instilla",
+    "Kefato University of Trento",
     "Università Cattolica - Milano",
-	"University of Trento"
+    "University of Trento"
   ],
   "Jamaica": [
     "University of The West Indies, Mona"
@@ -377,12 +377,11 @@
   ],
   "Mexico": [
     "Escuela Bancaria y Comercial",
-    "Insituto Tecnologico de Estudios Superiores",
-    "Instituto Tecnologico de Estudios Superiores",
     "ITESM",
     "ITESO",
+    "Instituto Tecnologico de Estudios Superiores",
     "Peterson Schools",
-	"Universidad Autónoma de Baja California",
+    "Universidad Autónoma de Baja California",
     "UNID"
   ],
   "Netherlands": [
@@ -453,6 +452,7 @@
   "Peru": [
     "Independencia",
     "Open-Quechua",
+    "Universidad de Ingeniería y Tecnología",
     "Universidad Nacional de San Agustín"
   ],
   "Philippines": [
@@ -681,7 +681,7 @@
     "University of Warwick",
     "VATSIM"
   ],
-    "Uruguay": [
+  "Uruguay": [
     "Universidad ORT Uruguay"
   ],
   "United States": [
@@ -718,7 +718,7 @@
     "Brigham Young University",
     "Brigham Young University-Idaho",
     "Bristol-Myers Squibb",
-	"Bryant University",
+    "Bryant University",
     "Broad Institute",
     "Brooklyn College of CUNY",
     "Brooklyn High School",
@@ -748,7 +748,7 @@
     "Central Academy of Technology and Arts",
     "Central High School",
     "Central Louisiana Technical Community College",
-	"Charlotte School of Law",
+    "Charlotte School of Law",
     "Chamberlain College of Nursing",
     "Charles Darwin Elementary School",
     "Chester County High School",
@@ -907,10 +907,10 @@
     "Liberty High School",
     "Liberty University",
     "Limestone College",
-	"Lincoln-King Academy",
+    "Lincoln-King Academy",
     "Lincoln Memorial University",
     "Los Alamitos High School Science",
-	"Louisiana State University",
+    "Louisiana State University",
     "Louis Pasteur Middle School 67",
     "Lower Columbia College",
     "Luther College",
@@ -942,7 +942,7 @@
     "MIT",
     "Montclair State University",
     "Monterey Peninsula College",
-	"Morningside College",
+    "Morningside College",
     "Moreno Valley High School",
     "Morgan State University",
     "Morton Ranch High School",
@@ -1250,7 +1250,7 @@
     "YTI Career Institute",
     "Zane State College"
   ],
-  "Venezuela": [	
+  "Venezuela": [
     "Universidad Católica Andrés Bello",
     "Centro de Desarrollo Araguaney"
   ],
