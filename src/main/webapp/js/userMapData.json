@@ -62,8 +62,8 @@
     "Bahrain Polytechnic"
   ],
   "Belgium": [
-    "Artevelde University College Ghent",
     "Arteveldehogeschool",
+	"Artevelde University College Ghent",
     "BA Stassart",
     "Burgerschool",
     "Busleyden Atheneum",
@@ -180,10 +180,10 @@
     "Shanghai University of Int. Business and Economics",
     "Tianfu University Chengdu China"
   ],
-  "Colombia": [
-    "Universidad de Cundinamarca ",
+  "Colombia": [   
+	"Universidad EAFIT",
+	"Universidad de Cundinamarca ",
     "Universidad de Los Andes",
-    "Universidad EAFIT",
     "Universidad El Bosque"
   ],
   "Czech Republic": [
@@ -240,14 +240,13 @@
     "Technical University of Munich ",
     "TU Dresden",
     "Uni Hamburg",
-    "University of Paderborn",
     "Universität Augsburg",
     "Universität der Bundeswehr München",
+	"University of Paderborn",
     "Wescale"
   ],
   "Ghana": [
-    "Ashesi University College",
-    "Ashesi Unuiversity"
+    "Ashesi University"
   ],
   "Greece": [
     "City College",
@@ -262,8 +261,8 @@
     "HKU SPACE Community College",
     "Queen Elizabeth School",
     "The Hong Kong Polytechnic University",
+	"University of Hong Kong",
     "The ISF Academy",
-    "University of Hong Kong",
     "YOT Chan Wong Shuk Fong Memorial Secondary School"
   ],
   "Hungary": [
@@ -332,9 +331,8 @@
     "Arxo",
     "IIS Bruno-Franchetti",
     "Instilla",
-    "Kefato University of Trento",
-    "University of Trento",
-    "Università Cattolica - Milano"
+    "Università Cattolica - Milano",
+	"University of Trento"
   ],
   "Jamaica": [
     "University of The West Indies, Mona"
@@ -384,8 +382,8 @@
     "ITESM",
     "ITESO",
     "Peterson Schools",
-    "UNID",
-    "Universidad Autónoma de Baja California"
+	"Universidad Autónoma de Baja California",
+    "UNID"
   ],
   "Netherlands": [
     "Amsterdam University College",
@@ -683,6 +681,9 @@
     "University of Warwick",
     "VATSIM"
   ],
+    "Uruguay": [
+    "Universidad ORT Uruguay"
+  ],
   "United States": [
     "Academy of Our Lady of Mercy",
     "Allen High School",
@@ -712,19 +713,19 @@
     "Boston University",
     "Boston University School of Public Health",
     "Bowie Junior High",
-    "Bowling Green State University",
     "Bradley University",
     "Brazosport College",
     "Brigham Young University",
     "Brigham Young University-Idaho",
     "Bristol-Myers Squibb",
+	"Bryant University",
     "Broad Institute",
     "Brooklyn College of CUNY",
     "Brooklyn High School",
     "Broward College",
-    "Bryant University",
     "Bullock Creek High School",
     "Burrell College of Osteopathic Medicine",
+	"Bowling Green State University",
     "BYU Idaho Online",
     "Cal Poly Pomona",
     "Caledonia Middle School",
@@ -747,9 +748,9 @@
     "Central Academy of Technology and Arts",
     "Central High School",
     "Central Louisiana Technical Community College",
+	"Charlotte School of Law",
     "Chamberlain College of Nursing",
     "Charles Darwin Elementary School",
-    "Charlotte School of Law",
     "Chester County High School",
     "Chestnut Hill College",
     "Chicago State University",
@@ -906,11 +907,11 @@
     "Liberty High School",
     "Liberty University",
     "Limestone College",
+	"Lincoln-King Academy",
     "Lincoln Memorial University",
-    "Lincoln-King Academy",
     "Los Alamitos High School Science",
+	"Louisiana State University",
     "Louis Pasteur Middle School 67",
-    "Louisiana State University",
     "Lower Columbia College",
     "Luther College",
     "Marin Juniors Volleyball Club",
@@ -941,9 +942,9 @@
     "MIT",
     "Montclair State University",
     "Monterey Peninsula College",
+	"Morningside College",
     "Moreno Valley High School",
     "Morgan State University",
-    "Morningside College",
     "Morton Ranch High School",
     "Mount Mercy University",
     "Mount St. Mary's College",
@@ -1104,12 +1105,12 @@
     "UC San Diego",
     "Union Mine High School",
     "Univeristy of North Georgia",
-    "University at Albany",
     "University at Buffalo",
     "University of Akron",
     "University of Alabama at Birmingham",
     "University of Alaska",
     "University of Alaska Anchorage",
+	"University at Albany",
     "University of Alaska-Fairbanks",
     "University of Arizona",
     "University of Arizona South",
@@ -1249,12 +1250,9 @@
     "YTI Career Institute",
     "Zane State College"
   ],
-  "Uruguay": [
-    "Universidad ORT Uruguay"
-  ],
-  "Venezuela": [
-	"Centro de Desarrollo Araguaney",
-	"Universidad Católica Andrés Bello"
+  "Venezuela": [	
+    "Universidad Católica Andrés Bello",
+    "Centro de Desarrollo Araguaney"
   ],
   "Vietnam": [
     "Dong Nai University",
