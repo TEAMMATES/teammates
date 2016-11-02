@@ -1,4 +1,4 @@
-$(function() {
+$(document).ready(function() {
     $('.comments > .list-group-item').hover(function() {
         $("a[type='button']", this).show();
     }, function() {

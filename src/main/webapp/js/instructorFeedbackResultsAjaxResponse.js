@@ -1,9 +1,3 @@
-function getAppendedResponseRateData(data) {
-    var appendedResponseStatus = $(data).find('#responseStatus').html();
-    $(data).remove();
-    return appendedResponseStatus;
-}
-
 $(document).ready(function() {
     var responseRateRequest = function(e) {
         var panelHeading = $(this);
@@ -39,3 +33,9 @@ $(document).ready(function() {
     $responseRatePanel.click(responseRateRequest);
     $('.ajax-response-auto').click();
 });
+
+function getAppendedResponseRateData(data) {
+    var appendedResponseStatus = $(data).find('#responseStatus').html();
+    $(data).remove();
+    return appendedResponseStatus;
+}

@@ -1,3 +1,7 @@
+$(document).ready(function() {
+    $('#timeFramePanel').toggle();
+});
+
 function toggleContent(id) {
 
     var duration = 500;
@@ -85,7 +89,3 @@ function toggleFilter() {
         $('#referenceText').text('Show Filter');
     }
 }
-
-$(function() {
-    $('#timeFramePanel').toggle();
-});

@@ -1,3 +1,9 @@
+$(document).ready(function() {
+    registerResponseCommentsEvent();
+    registerResponseCommentCheckboxEvent();
+    enableHoverToDisplayEditOptions();
+});
+
 function isInCommentsPage() {
     return $(location).attr('href').indexOf('instructorCommentsPage') !== -1;
 }
@@ -250,12 +256,6 @@ function enableHoverToDisplayEditOptions() {
         $('div[id|="commentBar"] a[type="button"]', this).hide();
     });
 }
-
-$(document).ready(function() {
-    registerResponseCommentsEvent();
-    registerResponseCommentCheckboxEvent();
-    enableHoverToDisplayEditOptions();
-});
 
 function removeUnwantedVisibilityOptions(commentId) {
     var commentIds = commentId.split('-');

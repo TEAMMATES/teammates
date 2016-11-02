@@ -8,7 +8,6 @@ var currentPage = 1;
 var totalPages;
 
 $(document).ready(function() {
-    
     toggleSort($('#button_sort_createat').parent());
     reLabelOrderedAccountEntries();
     caculateTotalPages();
