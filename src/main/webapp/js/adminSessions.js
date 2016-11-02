@@ -12,10 +12,10 @@ function toggleContent(id) {
 
     if (pill === 'active') {
         $('#pill_' + id).attr('class', ' ');
-        jQuery('#badge_' + id).fadeIn(duration);
+        $('#badge_' + id).fadeIn(duration);
     } else {
         $('#pill_' + id).attr('class', 'active');
-        jQuery('#badge_' + id).fadeOut(duration);
+        $('#badge_' + id).fadeOut(duration);
     }
 
 }
@@ -43,38 +43,6 @@ function closeAllSections(count) {
     }
 
 }
-
-jQuery(document).ready(function() {
-
-    var offset = 220;
-    var duration = 500;
-    jQuery(window).scroll(function() {
-        if (jQuery(this).scrollTop() > offset) {
-            jQuery('.back-to-top-left').fadeIn(duration);
-            jQuery('.back-to-top-right').fadeIn(duration);
-        } else {
-            jQuery('.back-to-top-left').fadeOut(duration);
-            jQuery('.back-to-top-right').fadeOut(duration);
-        }
-    });
-
-    jQuery('.back-to-top-left').click(function(event) {
-        event.preventDefault();
-        jQuery('html, body').animate({
-            scrollTop: 0
-        }, duration);
-        return false;
-    });
-
-    jQuery('.back-to-top-right').click(function(event) {
-        event.preventDefault();
-        jQuery('html, body').animate({
-            scrollTop: 0
-        }, duration);
-        return false;
-    });
-
-});
 
 function toggleFilter() {
     $('#timeFramePanel').slideToggle('slow');
