@@ -5,6 +5,14 @@ $(function() {
         }
     });
     
+    $('#profileUploadPictureSubmit').on('click', function() {
+        finaliseUploadPictureForm();
+    });
+    
+    $('#profileEditPictureSubmit').on('click', function() {
+        finaliseEditPictureForm();
+    });
+    
     $(window).load(function() {
         $('#studentPhoto').change(function() {
             if ($(this).val() === '') {
