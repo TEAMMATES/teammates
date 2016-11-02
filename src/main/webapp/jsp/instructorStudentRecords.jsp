@@ -9,7 +9,6 @@
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script>
         var showCommentBox = '${data.showCommentBox}';
     </script>
