@@ -90,7 +90,7 @@ function finaliseUploadPictureForm() {
         return;
     }
 
-    initialSubmitMessage = $('#profileUploadPictureSubmit').html();
+    var initialSubmitMessage = $('#profileUploadPictureSubmit').html();
     $.ajax({
         url: '/page/studentProfileCreateFormUrl?user=' + $("input[name='user']").val(),
         beforeSend: function() {
