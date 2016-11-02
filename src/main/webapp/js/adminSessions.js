@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('#timeFramePanel').toggle();
+    AdminCommon.bindBackToTopButtons();
 });
 
 function toggleContent(id) {
@@ -23,7 +24,6 @@ function toggleContent(id) {
 function openAllSections(count) {
 
     for (var i = 1; i <= count; i++) {
-
         var pill = $('#pill_' + i).attr('class');
         if (pill !== 'active') {
             toggleContent(i);
@@ -35,7 +35,6 @@ function openAllSections(count) {
 function closeAllSections(count) {
 
     for (var i = 1; i <= count; i++) {
-
         var pill = $('#pill_' + i).attr('class');
         if (pill === 'active') {
             toggleContent(i);

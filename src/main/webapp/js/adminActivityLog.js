@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('#filterReference').toggle();
+    AdminCommon.bindBackToTopButtons();
 });
 
 function toggleReference() {

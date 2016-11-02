@@ -15,6 +15,7 @@ $(document).ready(function() {
     showFirstPage();
     updateEntriesCount();
     bindDeleteAccountAction();
+    AdminCommon.bindBackToTopButtons();
 });
 
 function updatePagination() {
