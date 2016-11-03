@@ -5,15 +5,17 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/search" prefix="search" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 
+<c:set var="cssIncludes">
+    <link type="text/css" href="/stylesheets/omniComment.css" rel="stylesheet">
+</c:set>
 <c:set var="jsIncludes">
-    <link href="&#x2f;stylesheets&#x2f;omniComment.css" rel="stylesheet"/>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorSearch.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript" src="/js/lib/jquery.highlight.js"></script>
 </c:set>
 
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Search" jsIncludes="${jsIncludes}">
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Search" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
 
     <search:searchPageInput />
     <br>

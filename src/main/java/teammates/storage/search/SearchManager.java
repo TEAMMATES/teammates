@@ -52,7 +52,6 @@ public final class SearchManager {
             if (!isSuccessful) {
                 elapsedTime += ThreadHelper.WAIT_DURATION;
             }
-            log.info("TEST");
         }
         if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
             log.severe(String.format(ERROR_EXCEED_DURATION, document, indexName));

@@ -129,7 +129,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      the relevant issue name and include the issue number as well.<br>
      e.g. ` Incorrect error message when adding an existing instructor #1760`<br>
      In the PR description, mention the issue number in this format: `Fixes #1760`. 
-     Doing so will create an automatic reference from the issue to the pull request.<br>
+     Doing so will [automatically close the related issue once the pull request is merged.](https://github.com/blog/1506-closing-issues-via-pull-requests)<br>
 
    * Once a PR is opened, the CI server will first run static analysis on the code base.
      If there are problems found, the build will terminate without proceeding to testing.

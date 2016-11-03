@@ -10,7 +10,7 @@
     <script type="text/javascript" src="/js/timezone.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script>
-        var courseTimeZone = "${data.course.timeZone}";
+        var courseTimeZone = '${data.course.timeZone}';
     </script>
     <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEditAjax.js"></script>

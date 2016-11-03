@@ -1,5 +1,5 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<t:staticPage jsIncludes="${jsIncludes}" currentPage="terms">
+<t:staticPage currentPage="terms">
     <h1 id="caption">
         Terms of Use
     </h1>

@@ -1,7 +1,7 @@
 #TEAMMATES Developer Web Site
 
 <img src="https://img.shields.io/badge/users-80K%2B-brightgreen.svg"> 
-<img src="https://img.shields.io/badge/universities-700%2B-green.svg"> 
+<img src="https://img.shields.io/badge/universities-1000%2B-green.svg"> 
 [![Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
 
 <img src="https://img.shields.io/badge/java-119%20KLoC-blue.svg">
@@ -84,7 +84,8 @@ TEAMMATES team wishes to thank the following invaluable contributions.
 * [**School of Computing, National University of Singapore (NUS)**](http://www.comp.nus.edu.sg), for providing us with the infrastructure support to run the project.
 * [**Centre for Development of Teaching and Learning (CDTL)**](http://www.cdtl.nus.edu.sg/) of NUS, for supporting us with several *Teaching Enhancement Grants* over the years.
 * **Learning Innovation Fund-Technology (LIF-T)** initiative of NUS, for funding us for the 2015-2018 period.
-* **Google Summer of Code** Program, for including TEAMMATES as a mentor organization in *GSoC2014* and *GSoC2015* editions.
+* **Google Summer of Code** Program, for including TEAMMATES as a mentor organization in *GSoC2014*, *GSoC2015* and *GSoC2016* editions.
+* **Facebook Open Academy** Program, for including TEAMMATES as a mentor organization in FBOA 2016.
 * [**YourKit LLC**](ttps://www.yourkit.com), for providing us with free licenses for the [YourKit Java Profiler <img src="https://www.yourkit.com/images/yklogo.png" width='70'>](https://www.yourkit.com/.net/profiler/index.jsp) (an industry leading profiler tool for Java applications).
 
 ##License

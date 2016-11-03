@@ -62,6 +62,7 @@ function attachVisibilityDropdownEvent() {
         var selectedOption = $clickedElem.data('optionName');
         var $containingForm = $clickedElem.closest('form');
 
+        checkAndMarkDestructiveChange($clickedElem.text(), $containingForm);
         setVisibilityDropdownMenuText($clickedElem.text(), $containingForm);
 
         var $editTab = $containingForm.find('.visibilityOptions');
@@ -77,6 +78,20 @@ function attachVisibilityDropdownEvent() {
 
         updateVisibilityMessageDiv($containingForm);
     });
+}
+
+function checkAndMarkDestructiveChange(selectedOption, $containingForm) {
+    if (selectedOption === 'Custom visibility options...') {
+        return;
+    }
+
+    var currentOption = $containingForm.find('.visibility-options-dropdown button').text();
+    var isSelectionChanged = selectedOption !== currentOption;
+    var hasResponses = $containingForm.attr('editStatus') === 'hasResponses';
+
+    if (isSelectionChanged && hasResponses) {
+        $containingForm.attr('editStatus', 'mustDeleteResponses');
+    }
 }
 
 /**
@@ -114,16 +129,10 @@ function showVisibilityCheckboxesIfCustomOptionSelected($containingForm) {
     }
 }
 
-var checkCheckboxCallback = function(index, checkbox) {
-    checkbox.checked = true;
-};
-
-var uncheckCheckboxCallback = function(index, checkbox) {
-    checkbox.checked = false;
-};
-
 function uncheckAllVisibilityOptionCheckboxes($containingForm) {
-    $containingForm.find('input[type="checkbox"]').each(uncheckCheckboxCallback);
+    $containingForm.find('input[type="checkbox"]').each(function(index, checkbox) {
+        checkbox.checked = false;
+    });
 }
 
 /**
@@ -175,7 +184,7 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
  * @param checkboxClass - the CSS class of the checkbox to be checked
  */
 function allowRecipientToSee(checkboxClass, $containingForm) {
-    $containingForm.find('input[type="checkbox"][value="RECEIVER"]').filter(checkboxClass).each(checkCheckboxCallback);
+    $containingForm.find('input[type="checkbox"][value="RECEIVER"]' + checkboxClass).prop('checked', true);
 }
 
 /**
@@ -183,7 +192,7 @@ function allowRecipientToSee(checkboxClass, $containingForm) {
  * @param checkboxClass - the CSS class of the checkbox to be checked
  */
 function allowInstructorToSee(checkboxClass, $containingForm) {
-    $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]').filter(checkboxClass).each(checkCheckboxCallback);
+    $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]' + checkboxClass).prop('checked', true);
 }
 
 /**
@@ -196,6 +205,28 @@ function updateVisibilityCheckboxesDiv($containingForm) {
     disableRowsAccordingToGiver($containingForm);
     disableRowsAccordingToRecipient($containingForm);
     disableRowsForSpecificGiverRecipientCombinations($containingForm);
+
+    // handles edge case for Team Contribution Question:
+    // normal behavior is that all hidden checkboxes are unchecked, but Team Contribution Question expect even the hidden
+    // Recipient's Team Members can see answer checkbox to be checked
+    fixCheckboxValuesForTeamContribQuestion($containingForm);
+}
+
+/**
+ * Ensures the hidden checkbox for Recipient's Team Members can see answer is consistent with Recipient can see answer
+ */
+function fixCheckboxValuesForTeamContribQuestion($containingForm) {
+    if ($containingForm.find('input[name="questiontype"]').val() !== 'CONTRIB') {
+        return;
+    }
+    var recipientCanSeeAnswerCheckbox =
+        $containingForm.find('input.visibilityCheckbox').filter('[name=receiverLeaderCheckbox]');
+    var recipientTeamCanSeeAnswerCheckbox =
+        $containingForm.find('input.answerCheckbox').filter('[value=RECEIVER_TEAM_MEMBERS]');
+
+    if (recipientCanSeeAnswerCheckbox.prop('checked')) {
+        recipientTeamCanSeeAnswerCheckbox.prop('checked', true);
+    }
 }
 
 /**
@@ -264,7 +295,11 @@ function enableRow($containingForm, row) {
 
 function disableRow($containingForm, row) {
     var $table = $containingForm.find('.visibilityOptions').find('table');
-    $($table.children().children()[row]).hide();
+    var $row = $($table.children().children()[row]);
+    $row.find('input[type="checkbox"]').each(function(index, checkbox) {
+        checkbox.checked = false;
+    });
+    $row.hide();
 }
 
 function disableRowsAccordingToRecipient($containingForm) {
