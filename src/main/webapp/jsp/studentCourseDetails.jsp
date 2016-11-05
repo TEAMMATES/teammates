@@ -9,7 +9,7 @@
     <script type="text/javascript" src="/js/student.js"></script>
 </c:set>
 
-<ts:studentPage bodyTitle="Team Details for ${data.studentCourseDetailsPanel.courseId}" pageTitle="TEAMMATES - Student">
+<ts:studentPage bodyTitle="Team Details for ${data.studentCourseDetailsPanel.courseId}" pageTitle="TEAMMATES - Student" jsIncludes="${jsIncludes}">
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br>
     <div class="well well-plain">
