@@ -68,6 +68,9 @@
                                 <li><a href="#instructorFeedbackResultsPageByRecipientQuestionGiver">Instructor Feedback Results Page (By recipient-question-giver)</a></li>
                                 <li><a href="#instructorFeedbackResultsPageByQuestion">Instructor Feedback Results Page (By question)</a></li>
                                 <li><a href="#instructorCommentsPage">Instructor Comments Page</a></li>
+                                <li><a href="#instructorStudentCommentAddPage">Instructor Comment Add Page</a></li>
+								<li><a href="#instructorStudentCommentEditPage">Instructor Comment Edit Page</a></li>
+								<li><a href="#instructorStudentCommentClearPendingPage">Instructor Comment Clear Pending Page</a></li>
                                 <li><a href="#instructorSearchPage">Instructor Search Page</a></li>
                             </ul>
                         </td>
@@ -199,6 +202,18 @@
                 
                 <div class="pageinfo">Instructor Comments Page</div>
                 <div id="instructorCommentsPage"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Instructor Comment Add Page</div>
+                <div id="instructorStudentCommentAddPage"></div>
+                <br><hr class="hr-bold"><br>
+				
+				<div class="pageinfo">Instructor Comment Edit Page</div>
+                <div id="instructorStudentCommentEditPage"></div>
+                <br><hr class="hr-bold"><br>
+				
+				<div class="pageinfo">Instructor Comment Clear Pending Page</div>
+                <div id="instructorStudentCommentClearPendingPage"></div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Search Page</div>
@@ -358,6 +373,9 @@
                 $('#instructorFeedbackResultsPageByRecipientQuestionGiver').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient-question-giver #mainContent');
                 $('#instructorFeedbackResultsPageByQuestion').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=question #mainContent');
                 $('#instructorCommentsPage').load('<%=Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE%>?user=teammates.test&courseid=CS2104 #mainContent');
+                $('#instructorStudentCommentAddPage').load('<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>?user=teammates.test&courseid=CS2104&commenttext=comment-text #mainContent');
+				$('#instructorStudentCommentEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.tmt&commentid=comment-id&commentedittype=comment-edit-type #mainContent');
+				$('#instructorStudentCommentClearPendingPage').load('<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING%>?user=teammates.test&courseid=CS2104 #mainContent');
                 $('#instructorSearchPage').load('<%=Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE%>?user=teammates.test&searchkey=teammates #mainContent');
                 $('#studentHomePage').load('<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #mainContent');
                 $('#studentProfilePage').load('<%=Const.ActionURIs.STUDENT_PROFILE_PAGE%>?user=alice.b.tmms #mainContent');
