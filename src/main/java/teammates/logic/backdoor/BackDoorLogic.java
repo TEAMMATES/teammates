@@ -158,7 +158,7 @@ public class BackDoorLogic extends Logic {
             String sessionId = response.feedbackSessionName + "%" + response.courseId;
             
             if (!sessionIds.contains(sessionId)) {
-                updateRespondants(response.feedbackSessionName, response.courseId);
+                updateRespondents(response.feedbackSessionName, response.courseId);
                 sessionIds.add(sessionId);
             }
         }

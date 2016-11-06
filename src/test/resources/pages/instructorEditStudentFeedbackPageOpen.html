@@ -1,0 +1,211 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Submit Feedback
+  </h1>
+  <br>
+  <form action="/page/instructorEditStudentFeedbackSave" method="post" name="form_submit_response">
+    <input name="fsname" type="hidden" value="First feedback session">
+    <input name="courseid" type="hidden" value="IESFPTCourse">
+    <input name="user" type="hidden" value="IESFPTCourseinstr">
+    <div id="statusMessagesToUser" style="display: none;">
+    </div>
+    <div class="well well-plain" id="course1">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="panel-heading">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">
+                Course ID:
+              </label>
+              <div class="col-sm-10">
+                <p class="form-control-static">
+                  IESFPTCourse
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">
+                Session:
+              </label>
+              <div class="col-sm-10">
+                <p class="form-control-static">
+                  First feedback session
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">
+                Opening time:
+              </label>
+              <div class="col-sm-10">
+                <p class="form-control-static">
+                  Sun, 01 Apr 2012, 11:59 PM
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">
+                Closing time:
+              </label>
+              <div class="col-sm-10">
+                <p class="form-control-static">
+                  Fri, 30 Apr 2027, 11:59 PM
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">
+                Instructions:
+              </label>
+              <div class="col-sm-10">
+                <p class="form-control-static text-preserve-space">
+                  Please please fill in the following questions.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <span class="help-block align-center">
+        Some questions may be hidden due to visibility options
+      </span>
+    </div>
+    <input name="questiontype-1" type="hidden" value="TEXT">
+    <input name="questionid-1" type="hidden" value="${question.id}">
+    <input name="questionresponsetotal-1" type="hidden" value="1">
+    <div class="form-horizontal">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Question 1:
+          <br>
+          <span class="text-preserve-space">
+            What is the best selling point of your product?
+          </span>
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">
+            Only the following persons can see your responses:
+          </p>
+          <ul class="text-muted">
+            <li class="unordered">
+              Instructors in this course can see your response, the name of the recipient, and your name.
+            </li>
+          </ul>
+          <br>
+          <div class="form-group margin-0">
+            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+              <label for="input">
+                To:
+              </label>
+              <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
+                <option value="">
+                </option>
+                <option selected="" value="student1InIESFPTCourse@gmail.tmt">
+                  Myself
+                </option>
+              </select>
+              <span>
+                Myself
+              </span>
+            </div>
+            <div class="col-sm-12">
+              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" rows="4">
+                Student 1 self feedback.
+              </textarea>
+              <div class="margin-top-7px text-color-gray font-weight-normal">
+                <div class="col-md-6 padding-0" style="display:none">
+                  Recommended length for the answer:
+                  <span id="recommendedLength-1-0">
+                    0
+                  </span>
+                  words
+                </div>
+                <div class="pull-right">
+                  Response length:
+                  <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">
+                    4
+                  </span>
+                  words
+                </div>
+              </div>
+              <input name="responseid-1-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <input name="questiontype-2" type="hidden" value="NUMSCALE">
+    <input name="questionid-2" type="hidden" value="${question.id}">
+    <input name="questionresponsetotal-2" type="hidden" value="1">
+    <div class="form-horizontal">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Question 2:
+          <br>
+          <span class="text-preserve-space">
+            Rate your product.
+          </span>
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">
+            Only the following persons can see your responses:
+          </p>
+          <ul class="text-muted">
+            <li class="unordered">
+              Instructors in this course can see your response, the name of the recipient, and your name.
+            </li>
+            <li class="unordered">
+              You can see your own feedback in the results page later on.
+            </li>
+          </ul>
+          <br>
+          <div class="form-group margin-0">
+            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+              <label for="input">
+                To:
+              </label>
+              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="display:none;max-width:125px">
+                <option selected="" value="">
+                </option>
+                <option value="student1InIESFPTCourse@gmail.tmt">
+                  Myself
+                </option>
+              </select>
+              <span>
+                Myself
+              </span>
+            </div>
+            <div class="col-sm-12">
+              <div class="col-sm-3 mobile-no-padding">
+                <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-2-0" onchange="validateNumScaleAnswer(2, 0)" step="0.5" type="number" value="">
+                <input name="numscalemin-2-0" type="hidden" value="1">
+                <input name="numscalemax-2-0" type="hidden" value="5">
+                <input name="numscalestep-2-0" type="hidden" value="0.5">
+              </div>
+              <div class="text-muted form-control-static">
+                [Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="bold align-center">
+      <input name="moderatedperson" type="hidden" value="student1InIESFPTCourse@gmail.tmt">
+      <input name="sendsubmissionemail" type="checkbox">
+      Send me a confirmation email
+      <input class="btn btn-primary center-block margin-top-7px" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback">
+    </div>
+    <br>
+    <br>
+  </form>
+</div>
