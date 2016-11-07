@@ -87,16 +87,13 @@ $(document).ready(function() {
 
 /**
  * This is the comparator that is used for sorting start and end times on the InstructorHome page
- * It works by adding on the current year to time values and then comparing them.
- * This is needed since the time in the table on the InstructorHome page doesn't include the year component
- *
  * @param x
  * @param y
  * @returns 1 if Date x is after y, 0 if same and -1 if before
  */
 function instructorHomeDateComparator(x, y) {
-    var x0 = Date.parse(x + ' ' + CURRENT_YEAR);
-    var y0 = Date.parse(y + ' ' + CURRENT_YEAR);
+    var x0 = Date.parse(x);
+    var y0 = Date.parse(y);
     if (x0 > y0) {
         return 1;
     }
