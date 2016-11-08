@@ -103,7 +103,7 @@
                                 <li><a href="#contact">Contact Page</a></li>
                                 <li><a href="#terms">Terms Of Use Page</a></li>
                                 <li><a href="#request">Request Account Page</a></li>
-                                <li><a href="#usermap">UserMap Page</a></li>
+                                <li><a href="#usermap">Usermap Page</a></li>
                                 <li><a href="#studentHelp">Student Help Page</a></li>
                                 <li><a href="#instructorHelp">Instructor Help Page</a></li>
                             </ul>
@@ -302,7 +302,7 @@
                 </div>
                 <br><hr class="hr-bold"><br>
                 
-                <div class="pageinfo">UserMap Page</div>
+                <div class="pageinfo">Usermap Page</div>
                 <div id="usermap">
                     <iframe class="full-width" src="/usermap.jsp"></iframe>
                 </div>
