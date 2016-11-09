@@ -1615,9 +1615,8 @@ public class FeedbackSessionsLogic {
         Assumption.assertFalse(student == null && instructor == null);
         
         try {
-            String timestamp = TimeHelper.formatTime12H(
-                    TimeHelper.convertToUserTimeZone(Calendar.getInstance(TimeZone.getTimeZone("UTC")),
-                            session.getTimeZone()).getTime());
+            Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            
             EmailWrapper email = instructor == null
                     ? new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session,
                             student, timestamp)
