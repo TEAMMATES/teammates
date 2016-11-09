@@ -69,7 +69,7 @@ _**Phase A**: Know the project_
     
 _**Phase B**: Set up locally_
 
-1.  Set up TEAMMATES development environment on your computer.  
+1.  [Set up TEAMMATES development environment on your computer.](settingUp.md)  
     Important:  
     * Follow instructions to the letter. _Install the specified versions of the tool stack, not the latest versions._  
     * If you encounter any problems, refer to the [Developer Troubleshooting Guide](troubleshooting-guide.md).
