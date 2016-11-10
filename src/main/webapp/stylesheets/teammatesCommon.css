@@ -1,13 +1,14 @@
-@CHARSET "ISO-8859-1";
+@charset 'UTF-8';
 
 /*////////////////////////////////////////////////////////////
 /////////////////// Atomic Classes //////////////////////////
 //////////////////////////////////////////////////////////*/
+
 body {
     padding: 60px 0 30px;
 }
 
-a#editUncommonSettingsButton:hover{
+a#editUncommonSettingsButton:hover {
     cursor: pointer;
 }
 
@@ -130,7 +131,7 @@ which usually match 2 classes (eg .btn.disabled)
 /*
 Apply to thead to make headers not bold.
 */
-.font-weight-normal,.font-weight-normal>tr>th {
+.font-weight-normal, .font-weight-normal > tr > th {
     font-weight: normal;
 }
 
@@ -181,7 +182,7 @@ Apply to thead to make headers not bold.
     color: white;
 }
 
-.inline,input.inline {
+.inline, input.inline {
     display: inline;
 }
 
@@ -209,7 +210,7 @@ Apply to thead to make headers not bold.
     margin: 0 auto;
 }
 
-.min-height-0.checkbox,.min-height-0 {
+.min-height-0.checkbox, .min-height-0 {
     min-height: 0;
 }
 
@@ -249,9 +250,6 @@ Apply to thead to make headers not bold.
     padding-left: 7px;
 }
 
-.margin-0 {
-    margin: 0;
-}
 .margin-left-auto {
     margin-left: auto;
 }
@@ -261,11 +259,11 @@ Apply to thead to make headers not bold.
 }
 
 .overlay {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 .overflow-hidden {
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .overflow-auto {
@@ -328,7 +326,7 @@ Apply to thead to make headers not bold.
     display: flex;
 }
 
-.form-control.width-100-pc,.width-100-pc {
+.form-control.width-100-pc, .width-100-pc {
     width: 100%;
 }
 
@@ -344,6 +342,7 @@ Apply to thead to make headers not bold.
     a[href]:after {
         content: none;
     }
+
     .no-print {
         display: none;
     }
@@ -352,6 +351,7 @@ Apply to thead to make headers not bold.
 /*////////////////////////////////////////////////////////////
 ///////////////////////// NavBar ////////////////////////////
 //////////////////////////////////////////////////////////*/
+
 .comment-list {
     padding-top: 15px;
 }
@@ -359,7 +359,7 @@ Apply to thead to make headers not bold.
 .well-default {
     background-color: #d9edf7;
     background-image: none;
-    border: 0px;
+    border: 0;
     -webkit-box-shadow: 0 0 0 0;
     -moz-box-shadow: 0 0 0 0;
     box-shadow: 0 0 0 0;
@@ -370,7 +370,7 @@ Apply to thead to make headers not bold.
     width: 60%;
 }
 
-@media ( max-width : 767px) {
+@media (max-width: 767px) {
     .well-sm-wide {
         width: 100%;
     }
@@ -379,7 +379,7 @@ Apply to thead to make headers not bold.
 .well-plain {
     background-color: #eaeff5;
     background-image: none;
-    border: 0px;
+    border: 0;
     -webkit-box-shadow: 0 0 0 0;
     -moz-box-shadow: 0 0 0 0;
     box-shadow: 0 0 0 0;
@@ -417,61 +417,73 @@ Apply to thead to make headers not bold.
 }
 
 .text-box-error {
-    border:2px solid red;
+    border: 2px solid red;
 }
 
 /* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
 /* Prevents content overflow in navbar*/
+
 @media (min-width: 768px) and (max-width: 991px) {
-    .container>.navbar-header {
+    .container > .navbar-header {
         float: none;
         margin-left: -15px;
         margin-right: -15px;
     }
-    .navbar>.container .navbar-brand {
-        margin-left: 0px;
+
+    .navbar > .container .navbar-brand {
+        margin-left: 0;
     }
+
     .navbar-toggle {
         display: block;
     }
-    .container>.navbar-collapse {
+
+    .container > .navbar-collapse {
         border-top: 1px solid transparent;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
         max-height: 345px; /* Avoids scrollbar from showing up */
         margin-right: -15px;
         margin-left: -15px;
     }
+
     /* Since the original bootstrap code has !important,
     we need to match with !important to override */
     .navbar-collapse.collapse {
         display: none!important;
     }
+
     .navbar-nav {
         float: none!important;
         margin: 7.5px -15px;
     }
-    .navbar-nav>li {
+
+    .navbar-nav > li {
         float: none;
         padding-left: 15px;
         padding-right: 15px;
     }
-    .navbar-nav>li>a {
+
+    .navbar-nav > li > a {
         padding-top: 10px;
         padding-bottom: 10px;
     }
+
     .navbar-text {
         float: none;
         margin: 15px 0;
     }
-    .navbar-collapse.collapse.in { 
+
+    .navbar-collapse.collapse.in {
         display: block!important;
     }
+
     .collapsing {
         overflow: hidden!important;
     }
+
     /* Makes container exhibit container-fluid behavior */
     .container {
-      width: auto;
+        width: auto;
     }
 }
 
@@ -484,46 +496,47 @@ Apply to thead to make headers not bold.
 /*////////////////////////////////////////////////////////////
 ///////////////////////// Affix /////////////////////////////
 //////////////////////////////////////////////////////////*/
+
 .affix {
     position: fixed;
     top: 100px;
 }
 
-.affix>li>a {
+.affix > li > a {
     color: gray;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
-.affix>li.active>a {
+.affix > li.active > a {
     color: #31708f;
     font-weight: 700;
     border-left: 2px solid #31708f;
 }
 
-.affix>li>.nav {
+.affix > li > .nav {
     font-size: 12px;
 }
 
-.affix>li>.nav>li>a {
+.affix > li > .nav > li > a {
     color: gray;
     padding-top: 1px;
     padding-bottom: 1px;
     padding-left: 30px;
 }
 
-.affix>li.active>.nav {
+.affix > li.active > .nav {
     display: block;
     width: 100%;
 }
 
-.affix>li>.nav>li.active>a {
+.affix > li > .nav > li.active > a {
     color: #31708f;
     font-weight: 700;
     border-left: 2px solid #31708f;
 }
 
-.affix>li:not (.active ) >.nav {
+.affix > li:not (.active ) > .nav {
     display: none;
 }
 
@@ -538,6 +551,7 @@ Apply to thead to make headers not bold.
 /*////////////////////////////////////////////////////////////
 /////////////////////// Main Content ////////////////////////
 //////////////////////////////////////////////////////////*/
+
 .bs-example {
     background-color: #fafafa;
     border-color: #e5e5e5 #eee #eee;
@@ -564,13 +578,13 @@ Apply to thead to make headers not bold.
 }
 
 .bs-example .container {
-    width: auto
+    width: auto;
 }
 
-.bs-example+.highlight {
+.bs-example + .highlight {
     margin: -15px -15px 15px;
     border-radius: 0;
-    border-width: 0 0 1px
+    border-width: 0 0 1px;
 }
 
 .course-id-table-width {
@@ -596,7 +610,7 @@ Apply to thead to make headers not bold.
 }
 
 .teamMembersDetailsCell {
-    vertical-align: middle; 
+    vertical-align: middle;
     padding-left: 30px;
 }
 
@@ -617,7 +631,7 @@ Apply to thead to make headers not bold.
     cursor: pointer;
 }
 
-@media ( min-width :768px) {
+@media (min-width: 768px) {
     .bs-example {
         background-color: #fff;
         border: 1px solid #ddd;
@@ -630,7 +644,8 @@ Apply to thead to make headers not bold.
         margin-left: 0;
         margin-right: 0;
     }
-    .bs-example+.highlight {
+
+    .bs-example + .highlight {
         border-width: 1px;
         -webkit-border-bottom-left-radius: 4px;
         -moz-border-radius-bottomleft: 4px;
@@ -651,7 +666,7 @@ Apply to thead to make headers not bold.
     margin-top: 1px;
     width: 12px;
 }
-    
+
 .feedback-path-title,
 .visibility-title {
     color: #2aabd2;
@@ -681,7 +696,7 @@ Apply to thead to make headers not bold.
     text-align: center;
 }
 
-.profile-pic-edit>img {
+.profile-pic-edit > img {
     max-width: 100%;
     max-height: 80%;
 }
@@ -696,10 +711,11 @@ Apply to thead to make headers not bold.
 .profile-pic-icon-hover,
 .profile-pic-icon-click {
     overflow: hidden;
-        cursor: default;
+    cursor: default;
 }
-        .profile-pic-icon-hover > img,
-        .profile-pic-icon-click > img {
+
+.profile-pic-icon-hover > img,
+.profile-pic-icon-click > img {
     width: 40px;
     height: 40px;
 }
@@ -724,17 +740,17 @@ Apply to thead to make headers not bold.
     position: relative;
 }
 
-    .profile-pic-file-selector > #studentPhoto {
-        position: absolute;
-        top: 0;
-        right: 0;
-        min-width: 100%;
-        min-height: 100%;
-        filter: alpha(opacity=0);
-        opacity: 0;
-        cursor: inherit;
-        display: block;
-    }
+.profile-pic-file-selector > #studentPhoto {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    cursor: inherit;
+    display: block;
+}
 
 .questionType {
     display: inline-block;
@@ -759,15 +775,14 @@ Apply to thead to make headers not bold.
     background: url(../images/sortDownButton.png);
 }
 
-.button-sort-ascending:hover,.button-sort-none:hover,.button-sort-descending:hover
-    {
+.button-sort-ascending:hover, .button-sort-none:hover, .button-sort-descending:hover {
     cursor: pointer;
 }
 
 .link-disabled {
     pointer-events: none;
     cursor: default;
-    opacity: 0.5;
+    opacity: .5;
 }
 
 .link-disabled:hover {
@@ -819,7 +834,7 @@ Apply to thead to make headers not bold.
 
 .modal-footer {
     padding: 14px 15px 15px;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 /*////////////////////////////////////////////////////////////
@@ -872,18 +887,19 @@ Apply to thead to make headers not bold.
     -webkit-border-radius: 6px 0 6px 6px;
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
- }
+}
 
 /*////////////////////////////////////////////////////////////
 ////////////////////////// Footer ///////////////////////////
 //////////////////////////////////////////////////////////*/
+
 #footerComponent {
     background-color: black;
     background-image: linear-gradient(to bottom, #3c3c3c 0, #222 100%);
-    bottom: 0px;
+    bottom: 0;
     color: gray;
     height: 20px;
-    margin: 0px;
+    margin: 0;
     position: fixed;
     text-align: center;
     width: 100%;
@@ -893,36 +909,37 @@ Apply to thead to make headers not bold.
 /*////////////////////////////////////////////////////////////
 ////////////////////////// Back To Top ///////////////////////////
 //////////////////////////////////////////////////////////*/
+
 .back-to-top-left {
     position: fixed;
     bottom: 8em;
-    left: 0px;
+    left: 0;
     text-decoration: none;
     color: #000000;
-    background-color: rgba(235, 235, 235, 0.80);
+    background-color: rgba(235, 235, 235, .8);
     font-size: 12px;
-    padding: 0.8em;
+    padding: .8em;
     display: none;
 }
 
 .back-to-top-right {
     position: fixed;
     bottom: 8em;
-    right: 0px;
+    right: 0;
     text-decoration: none;
     color: #000000;
-    background-color: rgba(235, 235, 235, 0.80);
+    background-color: rgba(235, 235, 235, .8);
     font-size: 12px;
-    padding: 0.8em;
+    padding: .8em;
     display: none;
 }
 
 .back-to-top-left:hover {
-    background-color: rgba(135, 135, 135, 0.50);
+    background-color: rgba(135, 135, 135, .5);
 }
 
 .back-to-top-right:hover {
-    background-color: rgba(135, 135, 135, 0.50);
+    background-color: rgba(135, 135, 135, .5);
 }
 
 /*////////////////////////////////////////////////////////////
@@ -933,16 +950,15 @@ Apply to thead to make headers not bold.
 Prevent Long URL From Breaking Out of Container
 */
 .emailLog-text {
-     -ms-word-break: break-all;
-     /* Be VERY careful with this, breaks normal words wh_erever */
-     word-break: break-all;
-     /* Non standard for webkit */
-     word-break: break-word;
+    -ms-word-break: break-all;
+    /* Be VERY careful with this, breaks normal words wh_erever */
+    word-break: break-all;
+    /* Non standard for webkit */
+    word-break: break-word;
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
 }
-
 
 .highlight {
     background-color: #FFFF88;
@@ -951,17 +967,21 @@ Prevent Long URL From Breaking Out of Container
 /*//////////////////////////////////////////////////////////
 ////////////////////// Responsiveness //////////////////////
 //////////////////////////////////////////////////////////*/
+
 @media (max-width: 767px) {
     .mobile-no-padding {
         padding-left: 0;
         padding-right: 0;
     }
+
     .mobile-align-left {
         text-align: left !important;
     }
+
     .mobile-no-pull {
         float: inherit !important;
     }
+
     .mobile-margin-top-10px {
         margin-top: 10px;
     }
@@ -972,18 +992,23 @@ Prevent Long URL From Breaking Out of Container
         padding-left: 0;
         padding-right: 0;
     }
+
     .tablet-align-left {
         text-align: left !important;
     }
+
     .tablet-bottom-align {
         vertical-align: bottom;
     }
+
     .tablet-margin-10px {
         margin: 10px;
     }
+
     .tablet-no-pull {
         float: inherit !important;
     }
+
     .tablet-margin-top-10px {
         margin-top: 10px;
     }
@@ -993,6 +1018,7 @@ Prevent Long URL From Breaking Out of Container
     .tablet-no-mobile-margin-top-20px {
         margin-top: 20px;
     }
+
     .tablet-no-mobile-margin-top-0 {
         margin-top: 0;
     }
@@ -1003,9 +1029,11 @@ Prevent Long URL From Breaking Out of Container
         padding-left: 0;
         padding-right: 0;
     }
+
     .tablet-bottom-align {
         vertical-align: bottom;
     }
+
     .tablet-margin-10px {
         margin: 10px;
     }
