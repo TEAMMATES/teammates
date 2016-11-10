@@ -301,6 +301,13 @@ task eslint(type: Exec) {
     commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile + ignore
 }
 
+task stylelint(type: Exec) {
+    def command = ["stylelint"]
+    def cssDirs = ["src/main/webapp/stylesheets/*.css"]
+    def configFile = ["--config", "static-analysis/teammates-stylelint.yml"]
+    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + cssDirs + configFile
+}
+
 checkstyle {
     toolVersion = checkstyleVersion
     configFile = file("static-analysis/teammates-checkstyle.xml")
@@ -334,13 +341,17 @@ task installEslint(type: Exec) {
     commandLine "npm", "install", "eslint@3.0.0"
 }
 
+task installStylelint(type: Exec) {
+    commandLine "npm", "install", "stylelint@7.5.0"
+}
+
 task downloadStaticAnalysisTools {
     description "Downloads all static analysis tools."
     group "Static analysis"
     doFirst {
         configurations.staticAnalysis.resolve()
     }
-    finalizedBy installEslint
+    finalizedBy installEslint, installStylelint
 }
 
 task staticAnalysisMain {
@@ -368,7 +379,7 @@ macker.shouldRunAfter staticAnalysisMain, staticAnalysisTest
 task staticAnalysis {
     description "Runs the entire static analysis tasks."
     group "Static analysis"
-    dependsOn eslint, staticAnalysisMain, staticAnalysisTest, macker
+    dependsOn eslint, stylelint, staticAnalysisMain, staticAnalysisTest, macker
 }
 
 // TEST TASKS
