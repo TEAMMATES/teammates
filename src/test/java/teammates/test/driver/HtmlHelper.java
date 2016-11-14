@@ -85,7 +85,7 @@ public final class HtmlHelper {
     }
     
     private static boolean areSameHtmls(String expected, String actual) {
-        return AssertHelper.isContainsRegex(expected, actual);
+        return expected.equals(actual);
     }
     
     /**
