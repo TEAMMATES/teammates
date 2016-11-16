@@ -159,8 +159,8 @@ public final class TimeHelper {
         int serverOffset = time.getTimeZone().getRawOffset();
         int sessionOffset = (int) (60 * 60 * 1000 * timeZone);
         int offset = sessionOffset - serverOffset;
-        TimeZone sessionTimeZone = TimeZone.getTimeZone("GMT" + String.format("%s%.0f", timeZone > 0 ? "+" : "", timeZone));
-
+        TimeZone sessionTimeZone = getTimeZone(timeZone);
+        
         // Check the timeZone if it is already set
         if(time.getTimeZone().equals(sessionTimeZone)) {
             return time;
@@ -169,6 +169,15 @@ public final class TimeHelper {
             time.add(Calendar.MILLISECOND, offset);
         }
         return time;
+    }
+    
+    public static TimeZone getTimeZone(double timeZone) {
+        int hours = (int) timeZone;
+        int minutes = (int) (timeZone - hours) * 60;
+        
+        String timeZoneId = "GMT" + String.format("%s%02d%02d", hours > 0 ? "+" : "", hours, Math.abs(minutes));
+        
+        return TimeZone.getTimeZone(timeZoneId);
     }
     
     /**
