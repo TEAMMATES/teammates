@@ -230,7 +230,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         timeSingapore.set(Calendar.MONTH, 8);
         timeSingapore.set(Calendar.HOUR_OF_DAY, 10);
         timeSingapore.set(Calendar.MINUTE, 30);
-        
+        session.setTimeZone(12.75);
         EmailWrapper emailSingapore = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(
                 session, student1, timeSingapore);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
