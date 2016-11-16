@@ -156,10 +156,40 @@ public final class TimeHelper {
     }
 
     public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
-        // Create new time to avoid time zone changes
-        Calendar newTime = (Calendar) time.clone();
-        newTime.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
-        return newTime;
+        int serverOffset = time.getTimeZone().getRawOffset();
+        int sessionOffset = (int) (60 * 60 * 1000 * timeZone);
+        int offset = sessionOffset - serverOffset;
+        TimeZone sessionTimeZone = TimeZone.getTimeZone("GMT" + String.format("%s%.0f", timeZone > 0 ? "+" : "", timeZone));
+
+        // Check the timeZone if it is already set
+        if(time.getTimeZone().equals(sessionTimeZone)) {
+            return time;
+        } else {
+            time.setTimeZone(sessionTimeZone);
+            time.add(Calendar.MILLISECOND, offset);
+        }
+        return time;
+    }
+    
+    /**
+     * Formats the timestamp to a String with respecting the time zone
+    */
+    public static String formatTime12H(Calendar timestamp) {
+        if(timestamp == null) {
+            return "";
+        }
+
+        DateFormat converter = null;
+        
+        if (timestamp.get(Calendar.HOUR_OF_DAY) == 12 && timestamp.get(Calendar.MINUTE) == 0) {
+            converter = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
+            converter.setTimeZone(timestamp.getTimeZone());
+            return converter.format(timestamp) + " NOON";
+        }
+        
+        converter = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a");
+        converter.setTimeZone(timestamp.getTimeZone());
+        return converter.format(timestamp.getTime());
     }
 
     /**

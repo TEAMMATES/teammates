@@ -134,6 +134,7 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, String submitUrl,
             String userName, String userEmail, Calendar timestamp) {
         TimeHelper.convertToUserTimeZone(timestamp, session.getTimeZone());
+        
         String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
         String subject = EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject();
 
@@ -144,7 +145,7 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${submitUrl}", submitUrl,
-                "${timeStamp}", TimeHelper.formatTime12H(timestamp.getTime()),
+                "${timeStamp}", TimeHelper.formatTime12H(timestamp),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
