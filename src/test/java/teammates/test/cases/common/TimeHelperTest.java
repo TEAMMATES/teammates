@@ -218,4 +218,25 @@ public class TimeHelperTest extends BaseTestCase {
         double timeZoneChathamIslands = 12.75;
         assertEquals(TimeZone.getTimeZone("GMT+12:45"), TimeHelper.getTimeZone(timeZoneChathamIslands));
     }
+    
+    @Test
+    public void testFormatTime12HForCalendar() {
+        ______TS("Calendar time is morning time (AM)");
+        Calendar morningTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        morningTime.clear();
+        morningTime.set(2016, 10, 17, 9, 41);
+        assertEquals("Thu, 17 Nov 2016, 09:41 AM", TimeHelper.formatTime12H(morningTime));
+
+        ______TS("Calendar time is NOON");
+        Calendar noonTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        noonTime.clear();
+        noonTime.set(2016, 10, 16, 12, 0);
+        assertEquals("Wed, 16 Nov 2016, 12:00 NOON", TimeHelper.formatTime12H(noonTime));
+
+        ______TS("Calendar time is afternoon time (PM)");
+        Calendar afternoonTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        afternoonTime.clear();
+        afternoonTime.set(2016, 10, 20, 19, 15);
+        assertEquals("Sun, 20 Nov 2016, 07:15 PM", TimeHelper.formatTime12H(afternoonTime));
+    }
 }
