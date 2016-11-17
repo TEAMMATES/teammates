@@ -204,4 +204,18 @@ public class TimeHelperTest extends BaseTestCase {
         assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(date));
     }
     
+    @Test
+    public void testGetTimeZone() {
+        ______TS("Time zone for Toronto (less than UTC)");
+        double timeZoneToronto = -5.0;
+        assertEquals(TimeZone.getTimeZone("GMT-05:00"), TimeHelper.getTimeZone(timeZoneToronto));
+
+        ______TS("Time zone for London (UTC)");
+        double timeZoneLondon = 0.0;
+        assertEquals(TimeZone.getTimeZone("GMT"), TimeHelper.getTimeZone(timeZoneLondon));
+
+        ______TS("Time zone for New Zealand, Chatham Islands (greater than UTC and not full hour)");
+        double timeZoneChathamIslands = 12.75;
+        assertEquals(TimeZone.getTimeZone("GMT+12:45"), TimeHelper.getTimeZone(timeZoneChathamIslands));
+    }
 }
