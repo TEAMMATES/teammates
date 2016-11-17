@@ -155,25 +155,38 @@ public final class TimeHelper {
         return convertToUserTimeZone(c, timeZone).getTime();
     }
 
+    /**
+     * Converts the time to the given time zone.
+     * 
+     * @param time
+     *            The time to change.
+     * @param timeZone
+     *            The time zone to change to.
+     * @return Returns with the updated time object.
+     */
     public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
-        int serverOffset = time.getTimeZone().getRawOffset();
-        int sessionOffset = (int) (60 * 60 * 1000 * timeZone);
-        int offset = sessionOffset - serverOffset;
         TimeZone sessionTimeZone = getTimeZone(timeZone);
 
         // Check the timeZone if it is already set
         if (time.getTimeZone().equals(sessionTimeZone)) {
             return time;
         } else {
+            time.getTimeInMillis();
             time.setTimeZone(sessionTimeZone);
-            time.add(Calendar.MILLISECOND, offset);
         }
         return time;
     }
     
+    /**
+     * Converts a time zone offset in double to a proper TimeZone object.
+     * 
+     * @param timeZone
+     *            Time zone offset in hours.
+     * @return Returns with TimeZone object representing the double timeZone.
+     */
     public static TimeZone getTimeZone(double timeZone) {
         int hours = (int) timeZone;
-        int minutes = (int) (timeZone - hours) * 60;
+        int minutes = (int) ((timeZone - hours) * 60);
 
         String timeZoneId = "GMT"
                 + String.format("%s%02d%02d", hours > 0 ? "+" : "", hours, Math.abs(minutes));
@@ -182,7 +195,12 @@ public final class TimeHelper {
     }
     
     /**
-     * Formats the timestamp to a String with respecting the time zone
+     * Formats the time stamp to a String using the parameter's time zone and
+     * not the default one. Example format: Sun, 04 Sep 2016, 03:15 PM
+     * 
+     * @param timestamp
+     *            Time stamp to format in Calendar.
+     * @return Returns with a formatted String.
      */
     public static String formatTime12H(Calendar timestamp) {
         if (timestamp == null) {
@@ -194,7 +212,7 @@ public final class TimeHelper {
         if (timestamp.get(Calendar.HOUR_OF_DAY) == 12 && timestamp.get(Calendar.MINUTE) == 0) {
             converter = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
             converter.setTimeZone(timestamp.getTimeZone());
-            return converter.format(timestamp) + " NOON";
+            return converter.format(timestamp.getTime()) + " NOON";
         }
 
         converter = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a");
