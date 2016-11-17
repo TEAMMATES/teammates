@@ -133,7 +133,7 @@ public class EmailGenerator {
     private EmailWrapper generateSubmissionConfirmationEmail(
             CourseAttributes course, FeedbackSessionAttributes session, String submitUrl,
             String userName, String userEmail, Calendar timestamp) {
-        TimeHelper.convertToUserTimeZone(timestamp, session.getTimeZone());
+        TimeHelper.convertToTimeZone(timestamp, session.getTimeZone());
         
         String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
         String subject = EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject();

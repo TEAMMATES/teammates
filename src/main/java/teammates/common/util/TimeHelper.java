@@ -154,9 +154,16 @@ public final class TimeHelper {
         c.setTime(d);
         return convertToUserTimeZone(c, timeZone).getTime();
     }
+    
+    public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
+        time.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
+        return time; // for chaining
+    }
 
     /**
-     * Converts the time to the given time zone.
+     * Converts the time to the given time zone. Contrary to the
+     * convertToUserTimeZone, this method actually sets the time zone in the
+     * Calendar object and not just applies the offset.
      * 
      * @param time
      *            The time to change.
@@ -164,7 +171,7 @@ public final class TimeHelper {
      *            The time zone to change to.
      * @return Returns with the updated time object.
      */
-    public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
+    public static Calendar convertToTimeZone(Calendar time, double timeZone) {
         TimeZone sessionTimeZone = getTimeZone(timeZone);
 
         // Check the timeZone if it is already set
