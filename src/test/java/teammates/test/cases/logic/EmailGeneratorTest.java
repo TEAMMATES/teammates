@@ -226,6 +226,35 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
         verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailForInstructor.html");
+        
+        ______TS("feedback session submission email with Singapore timezone");
+
+        session.setTimeZone(12.75);
+        Calendar timeForStudentSingapore = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
+        timeForStudentSingapore.set(Calendar.DATE, 4);
+        timeForStudentSingapore.set(Calendar.MONTH, 8);
+        timeForStudentSingapore.set(Calendar.HOUR_OF_DAY, 10);
+        timeForStudentSingapore.set(Calendar.MINUTE, 30);
+        EmailWrapper emailSingapore = new EmailGenerator()
+                .generateFeedbackSubmissionConfirmationEmailForStudent(
+                        session, student1, timeForStudentSingapore);
+        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
+                session.getFeedbackSessionName());
+        verifyEmail(emailSingapore, student1.email, subject,
+                "/sessionSubmissionConfirmationEmailForStudentServerSingapore.html");
+
+        Calendar timeForInstructorSingapore = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
+        timeForInstructorSingapore.set(Calendar.DATE, 4);
+        timeForInstructorSingapore.set(Calendar.MONTH, 8);
+        timeForInstructorSingapore.set(Calendar.HOUR_OF_DAY, 10);
+        timeForInstructorSingapore.set(Calendar.MINUTE, 30);
+        emailSingapore = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(
+                session,
+                instructor1, timeForInstructorSingapore);
+        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
+                session.getFeedbackSessionName());
+        verifyEmail(emailSingapore, instructor1.email, subject,
+                "/sessionSubmissionConfirmationEmailForInstructorServerSingapore.html");
 
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
         
