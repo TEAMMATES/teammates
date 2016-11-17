@@ -160,9 +160,9 @@ public final class TimeHelper {
         int sessionOffset = (int) (60 * 60 * 1000 * timeZone);
         int offset = sessionOffset - serverOffset;
         TimeZone sessionTimeZone = getTimeZone(timeZone);
-        
+
         // Check the timeZone if it is already set
-        if(time.getTimeZone().equals(sessionTimeZone)) {
+        if (time.getTimeZone().equals(sessionTimeZone)) {
             return time;
         } else {
             time.setTimeZone(sessionTimeZone);
@@ -174,28 +174,29 @@ public final class TimeHelper {
     public static TimeZone getTimeZone(double timeZone) {
         int hours = (int) timeZone;
         int minutes = (int) (timeZone - hours) * 60;
-        
-        String timeZoneId = "GMT" + String.format("%s%02d%02d", hours > 0 ? "+" : "", hours, Math.abs(minutes));
-        
+
+        String timeZoneId = "GMT"
+                + String.format("%s%02d%02d", hours > 0 ? "+" : "", hours, Math.abs(minutes));
+
         return TimeZone.getTimeZone(timeZoneId);
     }
     
     /**
      * Formats the timestamp to a String with respecting the time zone
-    */
+     */
     public static String formatTime12H(Calendar timestamp) {
-        if(timestamp == null) {
+        if (timestamp == null) {
             return "";
         }
 
         DateFormat converter = null;
-        
+
         if (timestamp.get(Calendar.HOUR_OF_DAY) == 12 && timestamp.get(Calendar.MINUTE) == 0) {
             converter = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
             converter.setTimeZone(timestamp.getTimeZone());
             return converter.format(timestamp) + " NOON";
         }
-        
+
         converter = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a");
         converter.setTimeZone(timestamp.getTimeZone());
         return converter.format(timestamp.getTime());
