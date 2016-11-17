@@ -239,4 +239,19 @@ public class TimeHelperTest extends BaseTestCase {
         afternoonTime.set(2016, 10, 20, 19, 15);
         assertEquals("Sun, 20 Nov 2016, 07:15 PM", TimeHelper.formatTime12H(afternoonTime));
     }
+    
+    @Test
+    public void testConvertToUserTimeZone() {
+        Calendar utcTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        utcTime.clear();
+        utcTime.set(2015, 0, 15, 4, 15, 0);
+
+        ______TS("Calendar time zone conversion");
+        assertEquals(TimeZone.getTimeZone("GMT-9:30"),
+                TimeHelper.convertToUserTimeZone(utcTime, -9.5).getTimeZone());
+        assertEquals("Wed, 14 Jan 2015, 06:45 PM", TimeHelper.formatTime12H(utcTime));
+        assertEquals(TimeZone.getTimeZone("GMT+4:00"),
+                TimeHelper.convertToUserTimeZone(utcTime, 4.0).getTimeZone());
+        assertEquals("Thu, 15 Jan 2015, 08:15 AM", TimeHelper.formatTime12H(utcTime));
+    }
 }
