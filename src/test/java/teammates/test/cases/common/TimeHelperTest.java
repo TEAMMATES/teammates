@@ -204,4 +204,54 @@ public class TimeHelperTest extends BaseTestCase {
         assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(date));
     }
     
+    @Test
+    public void testGetTimeZone() {
+        ______TS("Time zone for Toronto (less than UTC)");
+        double timeZoneToronto = -5.0;
+        assertEquals(TimeZone.getTimeZone("GMT-05:00"), TimeHelper.getTimeZone(timeZoneToronto));
+
+        ______TS("Time zone for London (UTC)");
+        double timeZoneLondon = 0.0;
+        assertEquals(TimeZone.getTimeZone("GMT"), TimeHelper.getTimeZone(timeZoneLondon));
+
+        ______TS("Time zone for New Zealand, Chatham Islands (greater than UTC and not full hour)");
+        double timeZoneChathamIslands = 12.75;
+        assertEquals(TimeZone.getTimeZone("GMT+12:45"), TimeHelper.getTimeZone(timeZoneChathamIslands));
+    }
+    
+    @Test
+    public void testFormatTime12HForCalendar() {
+        ______TS("Calendar time is morning time (AM)");
+        Calendar morningTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        morningTime.clear();
+        morningTime.set(2016, 10, 17, 9, 41);
+        assertEquals("Thu, 17 Nov 2016, 09:41 AM", TimeHelper.formatTime12H(morningTime));
+
+        ______TS("Calendar time is NOON");
+        Calendar noonTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        noonTime.clear();
+        noonTime.set(2016, 10, 16, 12, 0);
+        assertEquals("Wed, 16 Nov 2016, 12:00 NOON", TimeHelper.formatTime12H(noonTime));
+
+        ______TS("Calendar time is afternoon time (PM)");
+        Calendar afternoonTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        afternoonTime.clear();
+        afternoonTime.set(2016, 10, 20, 19, 15);
+        assertEquals("Sun, 20 Nov 2016, 07:15 PM", TimeHelper.formatTime12H(afternoonTime));
+    }
+    
+    @Test
+    public void testConvertToTimeZone() {
+        Calendar utcTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        utcTime.clear();
+        utcTime.set(2015, 0, 15, 4, 15, 0);
+
+        ______TS("Calendar time zone conversion");
+        assertEquals(TimeZone.getTimeZone("GMT-9:30"),
+                TimeHelper.convertToTimeZone(utcTime, -9.5).getTimeZone());
+        assertEquals("Wed, 14 Jan 2015, 06:45 PM", TimeHelper.formatTime12H(utcTime));
+        assertEquals(TimeZone.getTimeZone("GMT+4:00"),
+                TimeHelper.convertToTimeZone(utcTime, 4.0).getTimeZone());
+        assertEquals("Thu, 15 Jan 2015, 08:15 AM", TimeHelper.formatTime12H(utcTime));
+    }
 }

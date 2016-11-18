@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -17,7 +18,6 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -205,22 +205,45 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("feedback session submission email");
 
-        Calendar time = Calendar.getInstance();
-        time.set(Calendar.DATE, 4);
-        time.set(Calendar.MONTH, 8);
-        time.set(Calendar.HOUR_OF_DAY, 5);
-        time.set(Calendar.MINUTE, 30);
-        EmailWrapper email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(
-                session, student1, TimeHelper.formatTime12H(time.getTime()));
+        Calendar timeUtc = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        timeUtc.set(Calendar.DATE, 4);
+        timeUtc.set(Calendar.MONTH, 8);
+        timeUtc.set(Calendar.HOUR_OF_DAY, 5);
+        timeUtc.set(Calendar.MINUTE, 30);
+        
+        EmailWrapper emailUtc = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(
+                session, student1, timeUtc);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
-        verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailForStudent.html");
+        verifyEmail(emailUtc, student1.email, subject, "/sessionSubmissionConfirmationEmailForStudentServerUTC.html");
 
-        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
-                instructor1, TimeHelper.formatTime12H(time.getTime()));
+        emailUtc = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
+                instructor1, timeUtc);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
-        verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailForInstructor.html");
+        verifyEmail(emailUtc, instructor1.email, subject, "/sessionSubmissionConfirmationEmailForInstructorServerUTC.html");
+        
+        ______TS("feedback session submission email with Singapore timezone");
+
+        Calendar timeSingapore = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+        timeSingapore.set(Calendar.DATE, 4);
+        timeSingapore.set(Calendar.MONTH, 8);
+        timeSingapore.set(Calendar.HOUR_OF_DAY, 10);
+        timeSingapore.set(Calendar.MINUTE, 30);
+        session.setTimeZone(12.75);
+        EmailWrapper emailSingapore = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(
+                session, student1, timeSingapore);
+        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
+                                session.getFeedbackSessionName());
+        verifyEmail(emailSingapore, student1.email, subject,
+                "/sessionSubmissionConfirmationEmailForStudentServerSingapore.html");
+
+        emailSingapore = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
+                instructor1, timeSingapore);
+        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
+                                session.getFeedbackSessionName());
+        verifyEmail(emailSingapore, instructor1.email, subject,
+                "/sessionSubmissionConfirmationEmailForInstructorServerSingapore.html");
 
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
         
