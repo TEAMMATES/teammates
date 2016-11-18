@@ -205,56 +205,33 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("feedback session submission email");
 
-        Calendar timeForStudent = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        timeForStudent.set(Calendar.DATE, 4);
-        timeForStudent.set(Calendar.MONTH, 8);
-        timeForStudent.set(Calendar.HOUR_OF_DAY, 5);
-        timeForStudent.set(Calendar.MINUTE, 30);
+        Calendar time = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        time.set(Calendar.DATE, 4);
+        time.set(Calendar.MONTH, 8);
+        time.set(Calendar.HOUR_OF_DAY, 5);
+        time.set(Calendar.MINUTE, 30);
         EmailWrapper email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(
-                session, student1, timeForStudent);
+                session, student1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
-                                session.getFeedbackSessionName());
-        verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailForStudent.html");
+                session.getFeedbackSessionName());
+        verifyEmail(email, student1.email, subject,
+                "/sessionSubmissionConfirmationEmailPositiveTimeZone.html");
 
-        Calendar timeForInstructor = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        timeForInstructor.set(Calendar.DATE, 4);
-        timeForInstructor.set(Calendar.MONTH, 8);
-        timeForInstructor.set(Calendar.HOUR_OF_DAY, 5);
-        timeForInstructor.set(Calendar.MINUTE, 30);
+        session.setTimeZone(-9.5);
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
-                instructor1, timeForInstructor);
-        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
-                                session.getFeedbackSessionName());
-        verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailForInstructor.html");
-        
-        ______TS("feedback session submission email with Singapore timezone");
-
-        session.setTimeZone(12.75);
-        Calendar timeForStudentSingapore = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
-        timeForStudentSingapore.set(Calendar.DATE, 4);
-        timeForStudentSingapore.set(Calendar.MONTH, 8);
-        timeForStudentSingapore.set(Calendar.HOUR_OF_DAY, 10);
-        timeForStudentSingapore.set(Calendar.MINUTE, 30);
-        EmailWrapper emailSingapore = new EmailGenerator()
-                .generateFeedbackSubmissionConfirmationEmailForStudent(
-                        session, student1, timeForStudentSingapore);
+                instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                 session.getFeedbackSessionName());
-        verifyEmail(emailSingapore, student1.email, subject,
-                "/sessionSubmissionConfirmationEmailForStudentServerSingapore.html");
+        verifyEmail(email, instructor1.email, subject,
+                "/sessionSubmissionConfirmationEmailNegativeTimeZone.html");
 
-        Calendar timeForInstructorSingapore = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
-        timeForInstructorSingapore.set(Calendar.DATE, 4);
-        timeForInstructorSingapore.set(Calendar.MONTH, 8);
-        timeForInstructorSingapore.set(Calendar.HOUR_OF_DAY, 10);
-        timeForInstructorSingapore.set(Calendar.MINUTE, 30);
-        emailSingapore = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(
-                session,
-                instructor1, timeForInstructorSingapore);
+        session.setTimeZone(0.0);
+        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
+                instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                 session.getFeedbackSessionName());
-        verifyEmail(emailSingapore, instructor1.email, subject,
-                "/sessionSubmissionConfirmationEmailForInstructorServerSingapore.html");
+        verifyEmail(email, instructor1.email, subject,
+                "/sessionSubmissionConfirmationEmailZeroTimeZone.html");
 
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
         
