@@ -24,7 +24,7 @@ $(document).ready(function() {
             },
             success: function(data) {
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
-                $(panelHeading).removeClass('ajax_response_rate_submit');
+                $(panelHeading).removeClass('ajax_response_submit');
                 $(panelHeading).off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
                 $(panelHeading).click(toggleSingleCollapse);
@@ -33,9 +33,9 @@ $(document).ready(function() {
         });
     };
 
-    // ajax_response_rate_submit requires the user to click on it to load the noResponsePanel,
-    // ajax_response_rate_auto automatically loads the noResponsePanel when the page is loaded
-    $responseRatePanel = $('.ajax_response_rate_submit,.ajax_response_rate_auto');
+    // ajax_response_submit requires the user to click on it to load the noResponsePanel,
+    // ajax_response_auto automatically loads the noResponsePanel when the page is loaded
+    $responseRatePanel = $('.ajax_response_submit,.ajax_response_auto');
     $responseRatePanel.click(responseRateRequest);
-    $('.ajax_response_rate_auto').click();
+    $('.ajax_response_auto').click();
 });
