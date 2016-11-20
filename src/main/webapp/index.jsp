@@ -54,7 +54,7 @@
             <div class="overviewByteData">
                 <h2 class="overviewByteHeading">Award Winning, Mature, Field-tested:</h2>
                 <p>
-                    TEAMMATES has been in operation since 2010. It has benefited from the work of over <a href="about.jsp">190 developers</a>.<br>
+                    TEAMMATES has been in operation since 2010. It has benefited from the work of over <a href="about.jsp">130 developers</a>.<br>
                     TEAMMATES won the Grand Prize at the OSS Awards World Challenge 2014 and was selected as a mentoring organization for Google Summer of Code Program (2014, 2015, 2016) and Facebook Open Academy Program (2016).
                 </p>
             </div>
