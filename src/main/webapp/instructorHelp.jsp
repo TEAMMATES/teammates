@@ -1319,6 +1319,18 @@
                                     </ul>
                                 </span>
                             </li>
+                            <li>
+                                <b>Private session</b>
+                                <span class="text-muted">
+                                    <ul>
+                                        <li>
+                                            A private session is a session that is never visible to others.
+                                            This is for you to record your feedback about students, only you can see this session.
+                                            If you want to create a private session then set the "Session visible from" to Never.
+                                        </li>
+                                    </ul>
+                                </span>
+                            </li>
                         </ul>
                     </div>
                 </div>
