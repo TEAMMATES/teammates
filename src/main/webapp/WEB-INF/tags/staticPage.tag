@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="stylesheets/teammates.css" type="text/css">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <title>TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects</title>
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    ${jsIncludes}
 </head>
 <body>
     <div id="mainContainer">
@@ -93,5 +91,7 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    ${jsIncludes}
 </body>
 </html>

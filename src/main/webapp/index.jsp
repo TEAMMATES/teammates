@@ -54,8 +54,8 @@
             <div class="overviewByteData">
                 <h2 class="overviewByteHeading">Award Winning, Mature, Field-tested:</h2>
                 <p>
-                    TEAMMATES has been in operation since 2010. It has benefited from the work of over <a href="about.jsp">130 developers</a>.<br>
-                    TEAMMATES won the Grand Prize at the OSS Awards World Challenge 2014 and was selected for the Google Summer of Code programs in 2014 and 2015.
+                    TEAMMATES has been in operation since 2010. It has benefited from the work of over <a href="about.jsp">190 developers</a>.<br>
+                    TEAMMATES won the Grand Prize at the OSS Awards World Challenge 2014 and was selected as a mentoring organization for Google Summer of Code Program (2014, 2015, 2016) and Facebook Open Academy Program (2016).
                 </p>
             </div>
             <div style="clear: both;"></div>
@@ -97,7 +97,7 @@
             <div class="overviewByteData">
                 <h2 class="overviewByteHeading">Growing Global Community:</h2>
                 <p>
-                    TEAMMATES community is growing fast, spanning over 700 universities from many countries across the globe:
+                    TEAMMATES community is growing fast, spanning over 1000 universities from many countries across the globe:
                     Singapore, Canada, USA, UK, Turkey, Australia, Malaysia, Belgium, Taiwan, Macau, Sri Lanka, India, China, Vietnam, and more ...
                 </p>
                 <p><a href="usermap.jsp">See who is using TEAMMATES.</a></p>
