@@ -1619,7 +1619,7 @@
                                                 </div>
                                                 <div class="row radio">
                                                     <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Select this option if you want the feedback session to never be visible. Use this option if you want to use this as a private feedback session.">
-                                                        <label for="sessionVisibleFromButton_never">Never (this is a private session)</label>
+                                                        <label for="sessionVisibleFromButton_never">Never</label>
                                                         <input type="radio" name="sessionVisibleFromButton" id="sessionVisibleFromButton_never" value="never">
                                                     </div>
                                                 </div>
