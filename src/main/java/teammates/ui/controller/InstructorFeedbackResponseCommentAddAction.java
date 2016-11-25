@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
@@ -122,22 +123,13 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         
         data.comment = createdComment;
         data.commentId = commentId;
-        data.showCommentToString = joinParticipantTypes(createdComment.showCommentTo, ",");
-        data.showGiverNameToString = joinParticipantTypes(createdComment.showGiverNameTo, ",");
+        data.showCommentToString = Utils.joinParticipantTypes(createdComment.showCommentTo, ",");
+        data.showGiverNameToString = Utils.joinParticipantTypes(createdComment.showGiverNameTo, ",");
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
 
-    private String joinParticipantTypes(List<FeedbackParticipantType> participants, String joiner) {
-        if (participants.isEmpty()) {
-            return "";
-        }
-        StringBuilder result = new StringBuilder();
-        for (FeedbackParticipantType fpt : participants) {
-            result.append(fpt).append(joiner);
-        }
-        return result.substring(0, result.length() - joiner.length());
-    }
+    
     
     private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
         return comment.isVisibleTo(FeedbackParticipantType.GIVER)
