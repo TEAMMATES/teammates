@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -128,8 +127,6 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
-
-    
     
     private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
         return comment.isVisibleTo(FeedbackParticipantType.GIVER)

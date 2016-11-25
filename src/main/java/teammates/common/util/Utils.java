@@ -40,21 +40,19 @@ public final class Utils {
     
     /**
      * Convert a list of {@link FeedbackParticipantType} to a string where each element will be separated by
-     * a delimiter. 
+     * a delimiter.
      */
     public static String joinParticipantTypes(List<FeedbackParticipantType> participants, String delimiter) {
         String result = "";
         if (!participants.isEmpty()) {
             StringBuilder strBuilder = new StringBuilder();
-            for (int i = 0, limit = participants.size() - 1 ; i < limit; i++) {
+            for (int i = 0, limit = participants.size() - 1; i < limit; i++) {
                 strBuilder.append(participants.get(i)).append(delimiter);
             }
             // Then add the last one
-            strBuilder.append(participants.size()-1);
-            
+            strBuilder.append(participants.size() - 1);
             result = strBuilder.toString();
         }
-        
         return result;
     }
 
