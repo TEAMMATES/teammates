@@ -50,7 +50,7 @@ public final class Utils {
                 strBuilder.append(participants.get(i)).append(delimiter);
             }
             // Then add the last one
-            strBuilder.append(participants.size() - 1);
+            strBuilder.append(participants.get(participants.size() - 1));
             result = strBuilder.toString();
         }
         return result;
