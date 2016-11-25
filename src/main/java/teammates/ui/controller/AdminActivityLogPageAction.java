@@ -368,7 +368,7 @@ public class AdminActivityLogPageAction extends Action {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         appCal.setTimeInMillis(Long.parseLong(logTimeInAdminTimeZone));
-        TimeHelper.convertToUserTimeZone(appCal, timeZone);
+        appCal = TimeHelper.convertToUserTimeZone(appCal, timeZone);
         return sdf.format(appCal.getTime());
     }
 }
