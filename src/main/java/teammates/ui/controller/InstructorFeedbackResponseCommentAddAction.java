@@ -14,7 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
@@ -122,8 +122,8 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         
         data.comment = createdComment;
         data.commentId = commentId;
-        data.showCommentToString = Utils.joinParticipantTypes(createdComment.showCommentTo, ",");
-        data.showGiverNameToString = Utils.joinParticipantTypes(createdComment.showGiverNameTo, ",");
+        data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
+        data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
