@@ -111,7 +111,7 @@ public class StringHelperTest extends BaseTestCase {
         ArrayList<Integer> ints = new ArrayList<Integer>();
         ints.add(1);
         ints.add(44);
-        assertEquals("1\n44", StringHelper.toString(strings, "\n"));
+        assertEquals("1\n44", StringHelper.toString(ints, "\n"));
     }
 
     @Test
