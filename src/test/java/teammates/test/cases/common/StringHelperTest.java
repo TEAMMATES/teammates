@@ -93,7 +93,34 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test
-    public void testToStringForStringLists() {
+    public void testToString() {
+        testToStringForStringLists();
+        testToStringForEnumLists();
+        testToStringForObjectLists();
+    }
+    
+    private class ToStringTestObject {
+        
+        public ToStringTestObject(String string) {
+            this.string = string;
+        }
+        
+        @Override
+        public String toString() {
+            return "str " + string;
+        }
+        
+        private String string;
+    }
+    
+    private enum ToStringTestEnum {
+        A,
+        B,
+        C,
+        D
+    }
+    
+    private void testToStringForStringLists() {
         ArrayList<String> strings = new ArrayList<String>();
         assertEquals("", StringHelper.toString(strings, ""));
         assertEquals("", StringHelper.toString(strings, "<br>"));
@@ -107,6 +134,24 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("aaabbb", StringHelper.toString(strings, ""));
         assertEquals("aaa\nbbb", StringHelper.toString(strings, "\n"));
         assertEquals("aaa<br>bbb", StringHelper.toString(strings, "<br>"));
+    }
+    
+    private void testToStringForEnumLists() {
+        ArrayList<ToStringTestEnum> list = new ArrayList<ToStringTestEnum>();
+        list.add(ToStringTestEnum.A);
+        list.add(ToStringTestEnum.B);
+        assertEquals("AB", StringHelper.toString(list, ""));
+        
+        list.add(ToStringTestEnum.C);
+        list.add(ToStringTestEnum.D);
+        assertEquals("A<br>B<br>C<br>D", StringHelper.toString(list, "<br>"));
+    }
+    
+    private void testToStringForObjectLists() {
+        ArrayList<ToStringTestObject> list = new ArrayList<ToStringTestObject>();
+        list.add(new ToStringTestObject("aa"));
+        list.add(new ToStringTestObject("ab"));
+        assertEquals("str aa\nstr ab", StringHelper.toString(list, "\n"));
     }
 
     @Test
