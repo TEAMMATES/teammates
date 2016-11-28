@@ -149,7 +149,7 @@ public final class StringHelper {
     }
     
     /**
-     * Convert and concatenates a list of objects to a single string, separated by line breaks.
+     * Converts and concatenates a list of objects to a single string, separated by line breaks.
      * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
      * @return Concatenated string.
      */
@@ -158,7 +158,7 @@ public final class StringHelper {
     }
 
     /**
-     * Convert and concatenates a list of objects to a single string, separated by the given delimiter.
+     * Converts and concatenates a list of objects to a single string, separated by the given delimiter.
      * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
      * @return Concatenated string.
      */
