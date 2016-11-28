@@ -318,8 +318,9 @@ public final class Const {
                 "Select this option to have the feedback session become visible "
                 + "when it is open for submissions (as selected above).";
         public static final String FEEDBACK_SESSION_SESSIONVISIBLENEVER =
-                "Select this option if you want the feedback session to never be visible. "
-                + "Use this option if you want to use this as a private feedback session.";
+                "Select this option if you want the feedback session to be private. "
+                + "A private session is never visible to anyone. "
+                + "Private sessions can be used to record your own comments about others, for your own reference.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELABEL =
                 "Please select when the responses for the feedback session will be visible to the designated recipients."
                 + "<br>You can select the response visibility for each type of user and question later.";
