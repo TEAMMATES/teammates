@@ -471,6 +471,10 @@
                 <li>Nguyen Truong Duy 
                     [bug reporting/fixing, enhancements]
                 </li>
+                <li>Nikoletta Szedljak
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asznicci"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Nisala Niroshana 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ANisalaNiroshana"
                         target="_blank">bug reporting/fixing, enhancements</a>]
@@ -510,6 +514,10 @@
                 </li>
                 <li>Ruchir Sharma 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aruchirsharma1993"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Sai Sasidhar Nimmagadda
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ansaiisasidhar"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Samat Davletshin 
@@ -668,6 +676,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Adustinlapierre"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Fred Xu
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Afairbet"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Gable Heng
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Agableh"
                         target="_blank">bug reporting/fixing, enhancements</a>]
@@ -688,6 +700,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AHooDeLin"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Jake Akers
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajakers821"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Jayant Jain 
                     [bug reporting/fixing, enhancements]
                 </li>
@@ -700,6 +716,10 @@
                 </li>
                 <li>Justin Ouyang 
                     [bug reporting/fixing, enhancements]
+                </li>
+                <li>Kenny Zhao
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akennyzha"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Kevin Thich
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ak-thich"
@@ -722,6 +742,10 @@
                 </li>
                 <li>Manvi Jain 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amanvijain"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Manraj Singh
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AManrajGrover"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Marianna Sternefeld 
@@ -773,6 +797,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ANaruto8"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Shekhar Reddy
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AShekharReddy4"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Shiv Kandikuppa 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashiv12095"
                         target="_blank">bug reporting/fixing, enhancements</a>]
@@ -796,6 +824,10 @@
                 </li>
                 <li>Venkatesan Harish 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aharishv7"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Warren Schrader
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AwwSchrader"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
             </ol>

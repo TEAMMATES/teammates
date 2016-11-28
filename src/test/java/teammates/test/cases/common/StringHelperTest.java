@@ -93,7 +93,7 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test
-    public void testToStringForStringLists() {
+    public void testToString() {
         ArrayList<String> strings = new ArrayList<String>();
         assertEquals("", StringHelper.toString(strings, ""));
         assertEquals("", StringHelper.toString(strings, "<br>"));
@@ -107,6 +107,11 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("aaabbb", StringHelper.toString(strings, ""));
         assertEquals("aaa\nbbb", StringHelper.toString(strings, "\n"));
         assertEquals("aaa<br>bbb", StringHelper.toString(strings, "<br>"));
+        
+        ArrayList<Integer> ints = new ArrayList<Integer>();
+        ints.add(1);
+        ints.add(44);
+        assertEquals("1\n44", StringHelper.toString(ints, "\n"));
     }
 
     @Test
