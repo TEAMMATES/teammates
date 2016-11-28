@@ -35,5 +35,4 @@ public final class Utils {
                 .disableHtmlEscaping()
                 .create();
     }
-
 }
