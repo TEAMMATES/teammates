@@ -22,6 +22,9 @@ rules:
     # Specify whether or not quotation marks should be used around font family names
     # font-family-name-quotes
 
+    # Disallow duplicate font family names.
+    # font-family-no-duplicate-names
+
     # Font weight
 
     # Require numeric or named (where possible) font-weight values

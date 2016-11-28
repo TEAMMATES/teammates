@@ -342,7 +342,7 @@ task installEslint(type: Exec) {
 }
 
 task installStylelint(type: Exec) {
-    commandLine "npm", "install", "stylelint@7.5.0"
+    commandLine "npm", "install", "stylelint@7.6.0"
 }
 
 task downloadStaticAnalysisTools {
