@@ -20,6 +20,7 @@ public class TimezoneSyncerTest extends BaseUiTestCase {
     public static void classSetUp() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
+        loginAdmin(browser);
         page = AppPage.getNewPageInstance(browser).navigateTo(createUrl(Const.ViewURIs.TIMEZONE));
     }
     
