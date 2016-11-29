@@ -1,7 +1,6 @@
 package teammates.logic.backdoor;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +14,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
@@ -94,7 +94,7 @@ public class BackDoorServlet extends HttpServlet {
     public static final String PARAMETER_PICTURE_KEY = "PARAMETER_PICTURE_KEY";
     public static final String PARAMETER_PICTURE_DATA = "PARAMETER_PICTURE_DATA";
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
