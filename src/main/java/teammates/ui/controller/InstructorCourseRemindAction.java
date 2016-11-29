@@ -132,7 +132,7 @@ public class InstructorCourseRemindAction extends Action {
         return emailContent.substring(startIndex, endIndex);
     }
     
-    private class JoinEmailData {
+    private static class JoinEmailData {
         String userName;
         String regKey;
         

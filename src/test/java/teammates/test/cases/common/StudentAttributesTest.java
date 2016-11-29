@@ -19,7 +19,7 @@ import teammates.test.cases.BaseTestCase;
 
 public class StudentAttributesTest extends BaseTestCase {
 
-    private class StudentAttributesWithModifiableTimestamp extends StudentAttributes {
+    private static class StudentAttributesWithModifiableTimestamp extends StudentAttributes {
         
         private void setCreatedAt(Date createdAt) {
             this.createdAt = createdAt;
