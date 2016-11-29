@@ -9,12 +9,10 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.util.FileHelper;
-
-import com.google.gson.Gson;
 
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
@@ -36,7 +34,6 @@ public final class ImportData {
     private static final int WAIT_TIME_BETWEEN_REQUEST = 1000; //ms
     
     private static DataBundle data;
-    private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
     
     private ImportData() {
@@ -45,7 +42,7 @@ public final class ImportData {
 
     public static void main(String[] args) throws Exception {
         jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + SOURCE_FILE_NAME);
-        data = gson.fromJson(jsonString, DataBundle.class);
+        data = JsonUtils.fromJson(jsonString, DataBundle.class);
         
         String status = "";
         do {
@@ -127,7 +124,7 @@ public final class ImportData {
         }
         System.out.print(count + " entities of type " + type + " left " + map.size() + " \n");
         
-        String status = BackDoor.persistNewDataBundle(gson.toJson(bundle));
+        String status = BackDoor.persistNewDataBundle(JsonUtils.toJson(bundle));
         
         // wait a few seconds to allow data to persist completedly
         try {

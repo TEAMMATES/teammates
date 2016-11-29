@@ -6,9 +6,9 @@ import java.util.List;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
 
@@ -133,7 +133,7 @@ public class AccountAttributes extends EntityAttributes {
     
     @Override
     public String toString() {
-        return Utils.getTeammatesGson().toJson(this, AccountAttributes.class);
+        return JsonUtils.toJson(this, AccountAttributes.class);
     }
 
     @Override
@@ -153,7 +153,7 @@ public class AccountAttributes extends EntityAttributes {
     
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, AccountAttributes.class);
+        return JsonUtils.toJson(this, AccountAttributes.class);
     }
     
     @Override

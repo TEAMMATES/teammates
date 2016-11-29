@@ -13,7 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 
 @SuppressWarnings("serial")
@@ -189,32 +189,32 @@ public class BackDoorServlet extends HttpServlet {
         } else if (action.equals(OPERATION_PERSIST_DATABUNDLE)) {
             String dataBundleJsonString = req
                     .getParameter(PARAMETER_DATABUNDLE_JSON);
-            DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
+            DataBundle dataBundle = JsonUtils.fromJson(
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.persistDataBundle(dataBundle);
         } else if (action.equals(OPERATION_REMOVE_DATABUNDLE)) {
             String dataBundleJsonString = req
                     .getParameter(PARAMETER_DATABUNDLE_JSON);
-            DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
+            DataBundle dataBundle = JsonUtils.fromJson(
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.removeDataBundle(dataBundle);
         } else if (action.equals(OPERATION_PUT_DOCUMENTS_FOR_STUDENTS)) {
             String dataBundleJsonString = req
                     .getParameter(PARAMETER_DATABUNDLE_JSON);
-            DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
+            DataBundle dataBundle = JsonUtils.fromJson(
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.putDocumentsForStudents(dataBundle);
         } else if (action.equals(OPERATION_REMOVE_AND_RESTORE_DATABUNDLE)) {
             String dataBundleJsonString = req
                     .getParameter(PARAMETER_DATABUNDLE_JSON);
-            DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
+            DataBundle dataBundle = JsonUtils.fromJson(
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.deleteExistingData(dataBundle);
             backDoorLogic.persistDataBundle(dataBundle);
         } else if (action.equals(OPERATION_PUT_DOCUMENTS)) {
             String dataBundleJsonString = req
                     .getParameter(PARAMETER_DATABUNDLE_JSON);
-            DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
+            DataBundle dataBundle = JsonUtils.fromJson(
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.putDocuments(dataBundle);
         } else if (action.equals(OPERATION_EDIT_ACCOUNT)) {
@@ -232,7 +232,7 @@ public class BackDoorServlet extends HttpServlet {
             backDoorLogic.editStudentAsJson(originalEmail, newValues);
         } else if (action.equals(OPERATION_EDIT_STUDENT_PROFILE_PICTURE)) {
             String picture = req.getParameter(PARAMETER_PICTURE_DATA);
-            byte[] pictureData = Utils.getTeammatesGson().fromJson(picture, byte[].class);
+            byte[] pictureData = JsonUtils.fromJson(picture, byte[].class);
             String googleId = req.getParameter(PARAMETER_GOOGLE_ID);
             backDoorLogic.uploadAndUpdateStudentProfilePicture(googleId, pictureData);
         } else if (action.equals(OPERATION_DELETE_FEEDBACK_SESSION)) {

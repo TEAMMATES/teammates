@@ -15,21 +15,19 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.util.Priority;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.gson.Gson;
 
 @Priority(2)
 public class BackDoorTest extends BaseTestCase {
 
-    private static Gson gson = Utils.getTeammatesGson();
     private static DataBundle dataBundle = getTypicalDataBundle();
-    private static String jsonString = gson.toJson(dataBundle);
+    private static String jsonString = JsonUtils.toJson(dataBundle);
 
     @BeforeClass
     public static void setUp() {
@@ -142,9 +140,9 @@ public class BackDoorTest extends BaseTestCase {
         AccountAttributes testAccount = dataBundle.accounts.get("instructor1OfCourse1");
         verifyPresentInDatastore(testAccount);
         String actualString = BackDoor.getAccountAsJson(testAccount.googleId);
-        AccountAttributes actualAccount = gson.fromJson(actualString, AccountAttributes.class);
+        AccountAttributes actualAccount = JsonUtils.fromJson(actualString, AccountAttributes.class);
         actualAccount.createdAt = testAccount.createdAt;
-        assertEquals(gson.toJson(testAccount), gson.toJson(actualAccount));
+        assertEquals(JsonUtils.toJson(testAccount), JsonUtils.toJson(actualAccount));
     }
     
     public void testEditAccount() {
@@ -386,9 +384,7 @@ public class BackDoorTest extends BaseTestCase {
     }
 
     private void verifyPresentInDatastore(String dataBundleJsonString) {
-        Gson gson = Utils.getTeammatesGson();
-
-        DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
+        DataBundle data = JsonUtils.fromJson(dataBundleJsonString, DataBundle.class);
         Map<String, AccountAttributes> accounts = data.accounts;
         for (AccountAttributes expectedAccount : accounts.values()) {
             verifyPresentInDatastore(expectedAccount);
@@ -416,11 +412,11 @@ public class BackDoorTest extends BaseTestCase {
         while ("null".equals(studentJsonString)) {
             studentJsonString = BackDoor.getStudentAsJson(expectedStudent.course, expectedStudent.email);
         }
-        StudentAttributes actualStudent = gson.fromJson(studentJsonString,
+        StudentAttributes actualStudent = JsonUtils.fromJson(studentJsonString,
                 StudentAttributes.class);
         equalizeIrrelevantData(expectedStudent, actualStudent);
         expectedStudent.lastName = StringHelper.splitName(expectedStudent.name)[1];
-        assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
+        assertEquals(JsonUtils.toJson(expectedStudent), JsonUtils.toJson(actualStudent));
     }
 
     private void verifyPresentInDatastore(CourseAttributes expectedCourse) {
@@ -428,11 +424,11 @@ public class BackDoorTest extends BaseTestCase {
         while ("null".equals(courseJsonString)) {
             courseJsonString = BackDoor.getCourseAsJson(expectedCourse.getId());
         }
-        CourseAttributes actualCourse = gson.fromJson(courseJsonString,
+        CourseAttributes actualCourse = JsonUtils.fromJson(courseJsonString,
                 CourseAttributes.class);
         // Ignore time field as it is stamped at the time of creation in testing
         actualCourse.createdAt = expectedCourse.createdAt;
-        assertEquals(gson.toJson(expectedCourse), gson.toJson(actualCourse));
+        assertEquals(JsonUtils.toJson(expectedCourse), JsonUtils.toJson(actualCourse));
     }
 
     private void verifyPresentInDatastore(InstructorAttributes expectedInstructor) {
@@ -441,7 +437,7 @@ public class BackDoorTest extends BaseTestCase {
             instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email,
                                                                        expectedInstructor.courseId);
         }
-        InstructorAttributes actualInstructor = gson.fromJson(instructorJsonString, InstructorAttributes.class);
+        InstructorAttributes actualInstructor = JsonUtils.fromJson(instructorJsonString, InstructorAttributes.class);
         
         equalizeIrrelevantData(expectedInstructor, actualInstructor);
         assertTrue(expectedInstructor.isEqualToAnotherInstructor(actualInstructor));
@@ -449,7 +445,7 @@ public class BackDoorTest extends BaseTestCase {
     
     private void verifyPresentInDatastore(AccountAttributes expectedAccount) {
         String accountJsonString = BackDoor.getAccountAsJson(expectedAccount.googleId);
-        AccountAttributes actualAccount = gson.fromJson(accountJsonString, AccountAttributes.class);
+        AccountAttributes actualAccount = JsonUtils.fromJson(accountJsonString, AccountAttributes.class);
         // Ignore time field as it is stamped at the time of creation in testing
         actualAccount.createdAt = expectedAccount.createdAt;
         
@@ -458,27 +454,29 @@ public class BackDoorTest extends BaseTestCase {
             expectedAccount.studentProfile.googleId = expectedAccount.googleId;
         }
         expectedAccount.studentProfile.modifiedDate = actualAccount.studentProfile.modifiedDate;
-        assertEquals(gson.toJson(expectedAccount), gson.toJson(actualAccount));
+        assertEquals(JsonUtils.toJson(expectedAccount), JsonUtils.toJson(actualAccount));
     }
 
     private void verifyPresentInDatastore(FeedbackQuestionAttributes expectedQuestion) {
         String questionJsonString = BackDoor.getFeedbackQuestionAsJson(expectedQuestion.feedbackSessionName,
                                                                        expectedQuestion.courseId,
                                                                        expectedQuestion.questionNumber);
-        FeedbackQuestionAttributes actualQuestion = gson.fromJson(questionJsonString, FeedbackQuestionAttributes.class);
+        FeedbackQuestionAttributes actualQuestion =
+                JsonUtils.fromJson(questionJsonString, FeedbackQuestionAttributes.class);
         
         // Match the id of the expected Feedback Question because it is not known in advance
         equalizeId(expectedQuestion, actualQuestion);
-        assertEquals(gson.toJson(expectedQuestion), gson.toJson(actualQuestion));
+        assertEquals(JsonUtils.toJson(expectedQuestion), JsonUtils.toJson(actualQuestion));
     }
 
     private void verifyPresentInDatastore(FeedbackResponseAttributes expectedResponse) {
         String responseJsonString = BackDoor.getFeedbackResponseAsJson(expectedResponse.feedbackQuestionId,
                                                                        expectedResponse.giver,
                                                                        expectedResponse.recipient);
-        FeedbackResponseAttributes actualResponse = gson.fromJson(responseJsonString, FeedbackResponseAttributes.class);
+        FeedbackResponseAttributes actualResponse =
+                JsonUtils.fromJson(responseJsonString, FeedbackResponseAttributes.class);
 
-        assertEquals(gson.toJson(expectedResponse), gson.toJson(actualResponse));
+        assertEquals(JsonUtils.toJson(expectedResponse), JsonUtils.toJson(actualResponse));
     }
 
     private void equalizeIrrelevantData(
