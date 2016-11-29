@@ -487,7 +487,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
     }
     
-    class EmailListConfig {
+    private class EmailListConfig {
         public boolean student;
         public boolean instructor;
         public StudentStatus studentStatus = StudentStatus.ALL;
