@@ -44,6 +44,213 @@ public class PageData {
 
     private List<StatusMessage> statusMessagesToUser;
 
+    private static final List<String> nationalities = new ArrayList<>();
+
+    /**
+     * This list of nationalities was created for the drop-down list and contains 198 nationalities.
+     * reference : "https://mytaskhelper.com/forums/5-faq-s/topics/98-nationality-dropdown-list"
+     */
+    static{
+        createListForNationalities("Afghan");
+        createListForNationalities("Albanian");
+        createListForNationalities("Algerian");
+        createListForNationalities("American");
+        createListForNationalities("Andorran");
+        createListForNationalities("Angolan");
+        createListForNationalities("Antiguans");
+        createListForNationalities("Argentinean");
+        createListForNationalities("Armenian");
+        createListForNationalities("Australian");
+        createListForNationalities("Austrian");
+        createListForNationalities("Azerbaijani");
+        createListForNationalities("Bahamian");
+        createListForNationalities("Bahraini");
+        createListForNationalities("Bangladeshi");
+        createListForNationalities("Barbadian");
+        createListForNationalities("Barbudans");
+        createListForNationalities("Batswana");
+        createListForNationalities("Belarusian");
+        createListForNationalities("Belgian");
+        createListForNationalities("Belizean");
+        createListForNationalities("Beninese");
+        createListForNationalities("Bhutanese");
+        createListForNationalities("Bolivian");
+        createListForNationalities("Bosnian");
+        createListForNationalities("Brazilian");
+        createListForNationalities("British");
+        createListForNationalities("Bruneian");
+        createListForNationalities("Bulgarian");
+        createListForNationalities("Burkinabe");
+        createListForNationalities("Burmese");
+        createListForNationalities("Burundian");
+        createListForNationalities("Cambodian");
+        createListForNationalities("Cameroonian");
+        createListForNationalities("Canadian");
+        createListForNationalities("Cape Verdean");
+        createListForNationalities("Central African");
+        createListForNationalities("Chadian");
+        createListForNationalities("Chilean");
+        createListForNationalities("Chinese");
+        createListForNationalities("Colombian");
+        createListForNationalities("Comoran");
+        createListForNationalities("Congolese");
+        createListForNationalities("Congolese");
+        createListForNationalities("Costa Rican");
+        createListForNationalities("Croatian");
+        createListForNationalities("Cuban");
+        createListForNationalities("Cypriot");
+        createListForNationalities("Czech");
+        createListForNationalities("Danish");
+        createListForNationalities("Djibouti");
+        createListForNationalities("Dominican");
+        createListForNationalities("Dutch");
+        createListForNationalities("Dutchman");
+        createListForNationalities("Dutchwoman");
+        createListForNationalities("East Timorese");
+        createListForNationalities("Ecuadorean");
+        createListForNationalities("Egyptian");
+        createListForNationalities("Emirian");
+        createListForNationalities("Equatorial Guinean");
+        createListForNationalities("Eritrean");
+        createListForNationalities("Estonian");
+        createListForNationalities("Ethiopian");
+        createListForNationalities("Fijian");
+        createListForNationalities("Filipino");
+        createListForNationalities("Finnish");
+        createListForNationalities("French");
+        createListForNationalities("Gabonese");
+        createListForNationalities("Gambian");
+        createListForNationalities("Georgian");
+        createListForNationalities("German");
+        createListForNationalities("Ghanaian");
+        createListForNationalities("Greek");
+        createListForNationalities("Grenadian");
+        createListForNationalities("Guatemalan");
+        createListForNationalities("Guinea-Bissauan");
+        createListForNationalities("Guinean");
+        createListForNationalities("Guyanese");
+        createListForNationalities("Haitian");
+        createListForNationalities("Herzegovinian");
+        createListForNationalities("Honduran");
+        createListForNationalities("Hungarian");
+        createListForNationalities("I-Kiribati");
+        createListForNationalities("Icelander");
+        createListForNationalities("Indian");
+        createListForNationalities("Indonesian");
+        createListForNationalities("Iranian");
+        createListForNationalities("Iraqi");
+        createListForNationalities("Irish");
+        createListForNationalities("Irish");
+        createListForNationalities("Israeli");
+        createListForNationalities("Italian");
+        createListForNationalities("Ivorian");
+        createListForNationalities("Jamaican");
+        createListForNationalities("Japanese");
+        createListForNationalities("Jordanian");
+        createListForNationalities("Kazakhstani");
+        createListForNationalities("Kenyan");
+        createListForNationalities("Kittian and Nevisian");
+        createListForNationalities("Kuwaiti");
+        createListForNationalities("Kyrgyz");
+        createListForNationalities("Laotian");
+        createListForNationalities("Latvian");
+        createListForNationalities("Lebanese");
+        createListForNationalities("Liberian");
+        createListForNationalities("Libyan");
+        createListForNationalities("Liechtensteiner");
+        createListForNationalities("Lithuanian");
+        createListForNationalities("Luxembourger");
+        createListForNationalities("Macedonian");
+        createListForNationalities("Malagasy");
+        createListForNationalities("Malawian");
+        createListForNationalities("Malaysian");
+        createListForNationalities("Maldivan");
+        createListForNationalities("Malian");
+        createListForNationalities("Maltese");
+        createListForNationalities("Marshallese");
+        createListForNationalities("Mauritanian");
+        createListForNationalities("Mauritian");
+        createListForNationalities("Mexican");
+        createListForNationalities("Micronesian");
+        createListForNationalities("Moldovan");
+        createListForNationalities("Monacan");
+        createListForNationalities("Mongolian");
+        createListForNationalities("Moroccan");
+        createListForNationalities("Mosotho");
+        createListForNationalities("Motswana");
+        createListForNationalities("Mozambican");
+        createListForNationalities("Namibian");
+        createListForNationalities("Nauruan");
+        createListForNationalities("Nepalese");
+        createListForNationalities("Netherlander");
+        createListForNationalities("New Zealander");
+        createListForNationalities("Ni-Vanuatu");
+        createListForNationalities("Nicaraguan");
+        createListForNationalities("Nigerian");
+        createListForNationalities("Nigerien");
+        createListForNationalities("North Korean");
+        createListForNationalities("Northern Irish");
+        createListForNationalities("Norwegian");
+        createListForNationalities("Omani");
+        createListForNationalities("Pakistani");
+        createListForNationalities("Palauan");
+        createListForNationalities("Panamanian");
+        createListForNationalities("Papua New Guinean");
+        createListForNationalities("Paraguayan");
+        createListForNationalities("Peruvian");
+        createListForNationalities("Polish");
+        createListForNationalities("Portuguese");
+        createListForNationalities("Qatari");
+        createListForNationalities("Romanian");
+        createListForNationalities("Russian");
+        createListForNationalities("Rwandan");
+        createListForNationalities("Saint Lucian");
+        createListForNationalities("Salvadoran");
+        createListForNationalities("Samoan");
+        createListForNationalities("San Marinese");
+        createListForNationalities("Sao Tomean");
+        createListForNationalities("Saudi");
+        createListForNationalities("Scottish");
+        createListForNationalities("Senegalese");
+        createListForNationalities("Serbian");
+        createListForNationalities("Seychellois");
+        createListForNationalities("Sierra Leonean");
+        createListForNationalities("Singaporean");
+        createListForNationalities("Slovakian");
+        createListForNationalities("Solomon Islander");
+        createListForNationalities("Somali");
+        createListForNationalities("South African");
+        createListForNationalities("South Korean");
+        createListForNationalities("Spanish");
+        createListForNationalities("Sri Lankan");
+        createListForNationalities("Sudanese");
+        createListForNationalities("Surinamer");
+        createListForNationalities("Swazi");
+        createListForNationalities("Swedish");
+        createListForNationalities("Swiss");
+        createListForNationalities("Syrian");
+        createListForNationalities("Taiwanese");
+        createListForNationalities("Tajik");
+        createListForNationalities("Tanzanian");
+        createListForNationalities("Thai");
+        createListForNationalities("Togolese");
+        createListForNationalities("Tongan");
+        createListForNationalities("Tobagonian");
+        createListForNationalities("Tunisian");
+        createListForNationalities("Turkish");
+        createListForNationalities("Tuvaluan");
+        createListForNationalities("Ugandan");
+        createListForNationalities("Ukrainian");
+        createListForNationalities("Uruguayan");
+        createListForNationalities("Uzbekistani");
+        createListForNationalities("Venezuelan");
+        createListForNationalities("Vietnamese");
+        createListForNationalities("Welsh");
+        createListForNationalities("Yemenite");
+        createListForNationalities("Zambian");
+        createListForNationalities("Zimbabwean");
+    }
+
     /**
      * @param account The account for the nominal user.
      */
@@ -68,6 +275,14 @@ public class PageData {
         return account.googleId == null || student != null && !student.isRegistered();
     }
     
+    public static void createListForNationalities(String nationality) {
+        nationalities.add(nationality);
+    }
+
+    public static List<String> getNationalities() {
+        return nationalities;
+    }
+
     /* These util methods simply delegate the work to the matching *Helper
      * class. We keep them here so that JSP pages do not have to import
      * those *Helper classes.
@@ -177,10 +392,28 @@ public class PageData {
         return result;
     }
     
+    /**
+     * Returns the nationalities as HTML code.
+     * @param existingNationality
+     * @return
+     */
+    public static List<ElementTag> getNationalitiesAsElementTags(String existingNationality) {
+        List<String> nationalities = getNationalities();
+        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+
+        for(String nationality : nationalities) {
+            ElementTag option = createOption(nationality, nationality, 
+                                             isNationalityToBeSelected(existingNationality, nationality));
+            result.add(option);
+        }
+
+        return result;
+    }
+
     //TODO: methods below this point should be made 'protected' and only the
     //  child classes that need them should expose them using public methods
     //  with similar name. That way, we know which child needs which method.
-    
+
     /**
      * Returns the status of the student, whether he has joined the course.
      * This is based on googleId, if it's null or empty, then we assume he
@@ -803,6 +1036,20 @@ public class PageData {
         }
         int defaultGracePeriod = 15;
         return gracePeriodOptionValue == defaultGracePeriod;
+    }
+
+    /**
+     * Decides whether there is a selected nationality or not.
+     * @param existingNationality   The selected nationality.
+     * @param nationality           Nationality from the drop-down list.
+     * @return                      True if the existingNationality and the nationality are equal.
+     */
+    private static boolean isNationalityToBeSelected(String existingNationality, String nationality) {
+        boolean isEditingExistingNationality = existingNationality != null;
+        if(isEditingExistingNationality) {
+            return nationality.equals(existingNationality);
+        }
+        return false;
     }
 
     private static String formatAsString(double num) {

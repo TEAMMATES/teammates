@@ -1,7 +1,10 @@
 package teammates.ui.template;
 
+import java.util.List;
+
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.StringHelper;
+import teammates.ui.controller.PageData;
 
 public class StudentProfileEditBox {
 
@@ -11,6 +14,8 @@ public class StudentProfileEditBox {
     private String email;
     private String institute;
     private String nationality;
+    // option to select the nationality
+    private List<ElementTag> nationalitySelectField;
     private String gender;
     private String moreInfo;
     private String googleId;
@@ -24,6 +29,7 @@ public class StudentProfileEditBox {
         this.email = StringHelper.convertToEmptyStringIfNull(profile.email);
         this.institute = StringHelper.convertToEmptyStringIfNull(profile.institute);
         this.nationality = StringHelper.convertToEmptyStringIfNull(profile.nationality);
+        this.nationalitySelectField = PageData.getNationalitiesAsElementTags(profile.nationality);
         this.gender = profile.gender;
         this.moreInfo = StringHelper.convertToEmptyStringIfNull(profile.moreInfo);
         this.googleId = googleId;
@@ -52,6 +58,10 @@ public class StudentProfileEditBox {
 
     public String getNationality() {
         return nationality;
+    }
+
+    public List<ElementTag> getNationalitySelectField() {
+        return nationalitySelectField;
     }
 
     public String getGender() {
