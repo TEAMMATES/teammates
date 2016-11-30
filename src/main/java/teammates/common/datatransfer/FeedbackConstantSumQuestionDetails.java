@@ -311,6 +311,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.PER_OPTION_CHECKED, !distributeToRecipients && pointsPerOption ? "checked" : "",
                 Slots.PER_RECIPIENT_CHECKED, distributeToRecipients && pointsPerOption ? "checked" : "",
                 Slots.OPTION_RECIPIENT_DISPLAY_NAME, distributeToRecipients ? "recipient" : "option",
+                Slots.CONSTSUM_TOOLTIP_POINTS,
+                        distributeToRecipients ? Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_RECIPIENT
+                                               : Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_OPTION,
+                Slots.CONSTSUM_TOOLTIP_POINTS_PER_OPTION, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
+                Slots.CONSTSUM_TOOLTIP_POINTS_PER_RECIPIENT,
+                        Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, forceUnevenDistribution ? "checked" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
