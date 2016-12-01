@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorCourseEnrollResultPageData;
 
@@ -28,15 +28,15 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         String courseId = "idOfTypicalCourse1";
         
         @SuppressWarnings("unchecked")
-        List<StudentAttributes>[] students = new ArrayList[UpdateStatus.STATUS_COUNT];
-        for (int i = 0; i < UpdateStatus.STATUS_COUNT; i++) {
+        List<StudentAttributes>[] students = new ArrayList[StudentUpdateStatus.STATUS_COUNT];
+        for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
             students[i] = new ArrayList<StudentAttributes>();
         }
-        students[UpdateStatus.NEW.numericRepresentation].add(dataBundle.students.get("student1InCourse1"));
-        students[UpdateStatus.NEW.numericRepresentation].add(dataBundle.students.get("student2InCourse1"));
-        students[UpdateStatus.MODIFIED.numericRepresentation].add(dataBundle.students.get("student3InCourse1"));
-        students[UpdateStatus.UNMODIFIED.numericRepresentation].add(dataBundle.students.get("student4InCourse1"));
-        students[UpdateStatus.ERROR.numericRepresentation].add(dataBundle.students.get("student5InCourse1"));
+        students[StudentUpdateStatus.NEW.numericRepresentation].add(dataBundle.students.get("student1InCourse1"));
+        students[StudentUpdateStatus.NEW.numericRepresentation].add(dataBundle.students.get("student2InCourse1"));
+        students[StudentUpdateStatus.MODIFIED.numericRepresentation].add(dataBundle.students.get("student3InCourse1"));
+        students[StudentUpdateStatus.UNMODIFIED.numericRepresentation].add(dataBundle.students.get("student4InCourse1"));
+        students[StudentUpdateStatus.ERROR.numericRepresentation].add(dataBundle.students.get("student5InCourse1"));
         
         boolean hasSection = true;
         String enrollStudents = "enrollString";
@@ -52,29 +52,29 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         
         assertNotNull(pageData.getEnrollResultPanelList());
         assertEquals(students.length, pageData.getEnrollResultPanelList().size());
-        assertEquals(students[UpdateStatus.NEW.numericRepresentation].size(),
+        assertEquals(students[StudentUpdateStatus.NEW.numericRepresentation].size(),
                      pageData.getEnrollResultPanelList()
-                             .get(UpdateStatus.NEW.numericRepresentation)
+                             .get(StudentUpdateStatus.NEW.numericRepresentation)
                              .getStudentList().size());
-        assertEquals(students[UpdateStatus.ERROR.numericRepresentation].size(),
+        assertEquals(students[StudentUpdateStatus.ERROR.numericRepresentation].size(),
                      pageData.getEnrollResultPanelList()
-                             .get(UpdateStatus.ERROR.numericRepresentation)
+                             .get(StudentUpdateStatus.ERROR.numericRepresentation)
                              .getStudentList().size());
-        assertEquals(students[UpdateStatus.MODIFIED.numericRepresentation].size(),
+        assertEquals(students[StudentUpdateStatus.MODIFIED.numericRepresentation].size(),
                      pageData.getEnrollResultPanelList()
-                             .get(UpdateStatus.MODIFIED.numericRepresentation)
+                             .get(StudentUpdateStatus.MODIFIED.numericRepresentation)
                              .getStudentList().size());
-        assertEquals(students[UpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation].size(),
+        assertEquals(students[StudentUpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation].size(),
                      pageData.getEnrollResultPanelList()
-                             .get(UpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation)
+                             .get(StudentUpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation)
                              .getStudentList().size());
-        assertEquals(students[UpdateStatus.UNKNOWN.numericRepresentation].size(),
+        assertEquals(students[StudentUpdateStatus.UNKNOWN.numericRepresentation].size(),
                      pageData.getEnrollResultPanelList()
-                             .get(UpdateStatus.UNKNOWN.numericRepresentation)
+                             .get(StudentUpdateStatus.UNKNOWN.numericRepresentation)
                              .getStudentList().size());
-        assertEquals(students[UpdateStatus.UNMODIFIED.numericRepresentation].size(),
+        assertEquals(students[StudentUpdateStatus.UNMODIFIED.numericRepresentation].size(),
                      pageData.getEnrollResultPanelList()
-                             .get(UpdateStatus.UNMODIFIED.numericRepresentation)
+                             .get(StudentUpdateStatus.UNMODIFIED.numericRepresentation)
                              .getStudentList().size());
         
         assertTrue(pageData.isHasSection());

@@ -5,7 +5,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.AdminEmailAttributes;
-import teammates.common.util.Const.AdminEmailPageState;
 import teammates.ui.template.AdminDraftEmailRow;
 import teammates.ui.template.AdminDraftEmailTable;
 import teammates.ui.template.AdminEmailActions;
@@ -21,6 +20,10 @@ public abstract class AdminEmailPageData extends PageData {
     private AdminDraftEmailTable draftEmailTable;
     private AdminTrashEmailTable trashEmailTable;
 
+    protected enum AdminEmailPageState {
+        COMPOSE, SENT, TRASH, DRAFT
+    }
+    
     protected AdminEmailPageData(AccountAttributes account) {
         super(account);
     }
