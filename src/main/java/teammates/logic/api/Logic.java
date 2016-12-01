@@ -54,6 +54,7 @@ import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -85,7 +86,7 @@ public class Logic {
     protected static FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     protected static FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
     protected static AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
-    
+    protected static ProfilesLogic profilesLogic = ProfilesLogic.inst();
 
     /**
      * Produces the URL the user should use to login to the system
@@ -210,7 +211,7 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newStudentProfileAttributes);
         
-        accountsLogic.updateStudentProfile(newStudentProfileAttributes);
+        profilesLogic.updateStudentProfile(newStudentProfileAttributes);
     }
     
     /**
@@ -224,7 +225,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newPictureKey);
         
-        accountsLogic.updateStudentProfilePicture(googleId, newPictureKey);
+        profilesLogic.updateStudentProfilePicture(googleId, newPictureKey);
     }
     
     /**
@@ -246,13 +247,13 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
-        accountsLogic.deleteStudentProfilePicture(googleId);
+        profilesLogic.deleteStudentProfilePicture(googleId);
     }
     
     public void deletePicture(BlobKey key) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
         
-        accountsLogic.deletePicture(key);
+        profilesLogic.deletePicture(key);
     }
     
     /**
@@ -942,7 +943,7 @@ public class Logic {
      */
     public StudentProfileAttributes getStudentProfile(String googleId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-        return accountsLogic.getStudentProfile(googleId);
+        return profilesLogic.getStudentProfile(googleId);
     }
 
     /**
