@@ -50,7 +50,7 @@ public class StudentsLogic {
     private CoursesLogic coursesLogic = CoursesLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private AccountsLogic accLogic = AccountsLogic.inst();
+    private ProfilesLogic profilesLogic = ProfilesLogic.inst();
     private CommentsLogic commentsLogic = CommentsLogic.inst();
     
     public static StudentsLogic inst() {
@@ -144,7 +144,7 @@ public class StudentsLogic {
     public StudentProfileAttributes getStudentProfile(String googleId) {
         Assumption.assertNotNull(googleId);
         
-        return accLogic.getStudentProfile(googleId);
+        return profilesLogic.getStudentProfile(googleId);
     }
     
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
