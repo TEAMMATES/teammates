@@ -15,8 +15,8 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -255,7 +255,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         
         StudentEnrollDetails enrollDetails =
-                new StudentEnrollDetails(UpdateStatus.MODIFIED, student.course, student.email,
+                new StudentEnrollDetails(StudentUpdateStatus.MODIFIED, student.course, student.email,
                                          oldTeam, newTeam, oldSection, newSection);
         ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);

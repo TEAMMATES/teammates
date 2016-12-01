@@ -9,11 +9,11 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -368,7 +368,7 @@ public class StudentsLogic {
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
         for (StudentAttributes student : studentsInCourse) {
             if (!isInEnrollList(student, returnList)) {
-                student.updateStatus = StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST;
+                student.updateStatus = StudentUpdateStatus.NOT_IN_ENROLL_LIST;
                 returnList.add(student);
             }
         }
@@ -660,7 +660,7 @@ public class StudentsLogic {
             ArrayList<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for (StudentEnrollDetails enrollment : enrollmentList) {
-            if (enrollment.updateStatus != UpdateStatus.MODIFIED) {
+            if (enrollment.updateStatus != StudentUpdateStatus.MODIFIED) {
                 continue;
             }
 
@@ -692,11 +692,11 @@ public class StudentsLogic {
 
         boolean isModifyingExistingStudent = originalStudentAttributes != null;
         if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
-            enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
+            enrollmentDetails.updateStatus = StudentUpdateStatus.UNMODIFIED;
         } else if (isModifyingExistingStudent) {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email,
                                                                   validStudentAttributes, true);
-            enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
+            enrollmentDetails.updateStatus = StudentUpdateStatus.MODIFIED;
             
             if (!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
                 enrollmentDetails.oldTeam = originalStudentAttributes.team;
@@ -706,7 +706,7 @@ public class StudentsLogic {
             }
         } else {
             createStudentCascade(validStudentAttributes, hasDocument);
-            enrollmentDetails.updateStatus = UpdateStatus.NEW;
+            enrollmentDetails.updateStatus = StudentUpdateStatus.NEW;
         }
 
         return enrollmentDetails;
