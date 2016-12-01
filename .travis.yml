@@ -13,17 +13,17 @@ notifications:
 sudo: required
 dist: trusty
 
-addons:
-  firefox: "46.0"
+# addons:
+#   firefox: "46.0"
 
-before_install:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
-    --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1440x900x16"
+# before_install:
+#   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
+#     --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1440x900x16"
 
 before_script:
-  - export DISPLAY=:99.0
-  - tar -xjf /tmp/firefox-46.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
-  - export PATH="$TRAVIS_BUILD_DIR/firefox:$PATH"
+  # - export DISPLAY=:99.0
+  # - tar -xjf /tmp/firefox-46.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
+  # - export PATH="$TRAVIS_BUILD_DIR/firefox:$PATH"
   - ./gradlew createConfigs testClasses
   - ./gradlew downloadStaticAnalysisTools --continue
   - ./gradlew staticAnalysis --continue
