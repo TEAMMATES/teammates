@@ -10,11 +10,11 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.TaskQueuesLogic;
 

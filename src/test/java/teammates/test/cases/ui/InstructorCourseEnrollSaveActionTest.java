@@ -9,6 +9,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -77,27 +78,27 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
                                                              "Exchange student", courseId, "Team 1", "Section 3");
-        newStudent.updateStatus = StudentAttributes.UpdateStatus.NEW;
+        newStudent.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudent, pageData.getEnrollResultPanelList());
 
         StudentAttributes newStudentWithExtraSpaces = new StudentAttributes("student",
                 "studentWithExtraSpaces@gmail.tmt", "student with extra spaces", "", courseId, "Team 1", "Section 3");
-        newStudentWithExtraSpaces.updateStatus = StudentAttributes.UpdateStatus.NEW;
+        newStudentWithExtraSpaces.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
         
         StudentAttributes modifiedStudent = dataBundle.students.get("student1InCourse1");
         modifiedStudent.comments = "New comment added";
         modifiedStudent.section = "Section 2";
         modifiedStudent.team = "Team 1.3";
-        modifiedStudent.updateStatus = StudentAttributes.UpdateStatus.MODIFIED;
+        modifiedStudent.updateStatus = StudentUpdateStatus.MODIFIED;
         verifyStudentEnrollmentStatus(modifiedStudent, pageData.getEnrollResultPanelList());
         
         StudentAttributes unmodifiedStudent = dataBundle.students.get("student2InCourse1");
-        unmodifiedStudent.updateStatus = StudentAttributes.UpdateStatus.UNMODIFIED;
+        unmodifiedStudent.updateStatus = StudentUpdateStatus.UNMODIFIED;
         verifyStudentEnrollmentStatus(unmodifiedStudent, pageData.getEnrollResultPanelList());
         
         StudentAttributes unmodifiedStudentWithExtraSpaces = dataBundle.students.get("student3InCourse1");
-        unmodifiedStudentWithExtraSpaces.updateStatus = StudentAttributes.UpdateStatus.UNMODIFIED;
+        unmodifiedStudentWithExtraSpaces.updateStatus = StudentUpdateStatus.UNMODIFIED;
         verifyStudentEnrollmentStatus(unmodifiedStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
 
         String expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]"
@@ -138,12 +139,12 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         StudentAttributes student1 = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
                                                            "Exchange student", courseId, "Team 1", "None");
-        student1.updateStatus = StudentAttributes.UpdateStatus.NEW;
+        student1.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student1, pageData.getEnrollResultPanelList());
         
         StudentAttributes student2 = new StudentAttributes("james", "james@email.tmt", "James Tan", "",
                                                            courseId, "Team 2", "None");
-        student2.updateStatus = StudentAttributes.UpdateStatus.NEW;
+        student2.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student2, pageData.getEnrollResultPanelList());
         
         expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]:</span>"
@@ -276,7 +277,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     private void verifyStudentEnrollmentStatus(StudentAttributes student, List<EnrollResultPanel> panelList) {
         boolean result = false;
         
-        StudentAttributes.UpdateStatus status = student.updateStatus;
+        StudentUpdateStatus status = student.updateStatus;
         for (StudentAttributes s : panelList.get(status.numericRepresentation).getStudentList()) {
             if (s.isEnrollInfoSameAs(student)) {
                 result = true;

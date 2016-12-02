@@ -115,14 +115,6 @@ public final class Const {
      * Other Constants
      */
     
-    public enum AdminEmailPageState {
-        COMPOSE, SENT, TRASH, DRAFT
-    }
-    
-    public enum StatusMessageColor {
-        INFO, SUCCESS, WARNING, DANGER
-    }
-
     private Const() {
         // Utility class containing constants
     }
@@ -224,7 +216,7 @@ public final class Const {
     /* Text displayed to the user when the mouse hover over certain elements in
      * the UI.
      */
-    public class Tooltips {
+    public static class Tooltips {
     
         public static final String COURSE_ENROLL = "Enroll student into the course";
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
@@ -318,8 +310,9 @@ public final class Const {
                 "Select this option to have the feedback session become visible "
                 + "when it is open for submissions (as selected above).";
         public static final String FEEDBACK_SESSION_SESSIONVISIBLENEVER =
-                "Select this option if you want the feedback session to never be visible. "
-                + "Use this option if you want to use this as a private feedback session.";
+                "Select this option if you want the feedback session to be private. "
+                + "A private session is never visible to anyone. "
+                + "Private sessions can be used to record your own comments about others, for your own reference.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELABEL =
                 "Please select when the responses for the feedback session will be visible to the designated recipients."
                 + "<br>You can select the response visibility for each type of user and question later.";
@@ -559,7 +552,7 @@ public final class Const {
                 + " must be valid numbers with precision up to 2 decimal places.";
     }
 
-    public class FeedbackQuestionTypeNames {
+    public static class FeedbackQuestionTypeNames {
         public static final String TEXT = "Essay question";
         public static final String MCQ = "Multiple-choice (single answer) question";
         public static final String MSQ = "Multiple-choice (multiple answers) question";
@@ -572,7 +565,7 @@ public final class Const {
         public static final String RUBRIC = "Rubric question";
     }
     
-    public class FeedbackSessionResults {
+    public static class FeedbackSessionResults {
         public static final String QUESTION_SORT_TYPE = "question";
         public static final String GRQ_SORT_TYPE = "giver-recipient-question";
         public static final String RGQ_SORT_TYPE = "recipient-giver-question";
@@ -580,7 +573,7 @@ public final class Const {
         public static final String RQG_SORT_TYPE = "recipient-question-giver";
     }
 
-    public class InstructorPermissionRoleNames {
+    public static class InstructorPermissionRoleNames {
         public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
         public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
         public static final String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
@@ -588,13 +581,13 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
     
-    public class GenderTypes {
+    public static class GenderTypes {
         public static final String MALE = "male";
         public static final String FEMALE = "female";
         public static final String OTHER = "other";
     }
 
-    public class ParamsNames {
+    public static class ParamsNames {
         
         public static final String IS_USING_AJAX = "isusingAjax";
         
@@ -851,14 +844,14 @@ public final class Const {
         public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
     }
     
-    public class SearchIndex {
+    public static class SearchIndex {
         public static final String COMMENT = "comment";
         public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";
     }
     
-    public class SearchDocumentField {
+    public static class SearchDocumentField {
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
         public static final String STUDENT_ATTRIBUTE = "studentAttribute";
         public static final String INSTRUCTOR_ATTRIBUTE = "instructorAttribute";
@@ -884,7 +877,7 @@ public final class Const {
         public static final String IS_VISIBLE_TO_GIVER = "isVisibleToGiver";
     }
 
-    public class ActionURIs {
+    public static class ActionURIs {
         
         /* _PAGE/Page in the Action URI name means 'show page' */
     
@@ -1034,7 +1027,7 @@ public final class Const {
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
     
-    public class AutomatedActionNames {
+    public static class AutomatedActionNames {
         //real servlet names to be logged for automated actions, not for url pattern recognition
         public static final String AUTOMATED_LOG_COMPILATION = "logCompilation";
         public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
@@ -1050,18 +1043,18 @@ public final class Const {
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
     }
     
-    public class PublicActionNames {
+    public static class PublicActionNames {
         public static final String PUBLIC_IMAGE_SERVE_ACTION = "publicImageServeAction";
     }
     
-    public class PageNames {
+    public static class PageNames {
         public static final String INSTRUCTOR_HOME_PAGE = "instructorHomePage";
         public static final String INSTRUCTOR_FEEDBACKS_PAGE = "instructorFeedbacksPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "instructorFeedbackEditPage";
         public static final String INSTRUCTOR_FEEDBACK_COPY = "instructorFeedbackCopy";
     }
     
-    public class ViewURIs {
+    public static class ViewURIs {
         
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
     
@@ -1459,7 +1452,7 @@ public final class Const {
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
-    public class StatusCodes {
+    public static class StatusCodes {
     
         // Backdoor responses
         public static final String BACKDOOR_STATUS_SUCCESS = "[BACKDOOR_STATUS_SUCCESS]";
@@ -1481,7 +1474,7 @@ public final class Const {
         public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
     }
 
-    public class PlaceholderText {
+    public static class PlaceholderText {
         public static final String FEEDBACK_QUESTION = "A concise version of the question e.g. "
                 + "&quot;How well did the team member communicate?&quot;";
         public static final String FEEDBACK_QUESTION_DESCRIPTION = "More details about the question e.g. &quot;In answering "

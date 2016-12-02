@@ -170,7 +170,7 @@ public abstract class EmailAction {
         return "";
     }
     
-    private class EmailData {
+    private static class EmailData {
         String userName;
         String regKey;
         
