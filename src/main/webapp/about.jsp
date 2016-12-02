@@ -26,7 +26,7 @@
                     <span class="bold">Facebook Open Academy</span> Program, for including TEAMMATES as a mentor organization in FBOA 2016.
                 </li>
                 <li style="margin: 0 0 10px 0;">
-                    <span class="bold">YourKit LLC</span>, for providing us with free licenses for the <a href="https://www.yourkit.com/.net/profiler/index.jsp">YourKit Java Profiler</a>
+                    <span class="bold">YourKit LLC</span>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler/">YourKit Java Profiler</a>
                     <img src="https://www.yourkit.com/images/yklogo.png" width='70'>.
                 </li>
             </ul>
