@@ -127,8 +127,8 @@
                 <h2 class="overviewByteHeading">Well Received by the Academic Community:</h2>
                 <p>
                     TEAMMATES has been presented, and well-received, in education-related conferences such as the 
-                    <a href="http://conferences.computer.org/cseet/2011/CSEET_2011/Index.jsp" target="blank">International Conference on Software Engineering Education and Training (CSEET)</a>,
-                    the <a href="http://www.cdtl.nus.edu.sg/tlhe/" target="blank">International Conference on Teaching and Learning in Higher Education (TLHE)</a>,
+                    <a href="http://conferences.computer.org/cseet/2011/CSEET_2011/Index.html" target="blank">International Conference on Software Engineering Education and Training (CSEET)</a>,
+                    the <a href="https://ictlhe.umt.edu.my/" target="blank">International Conference on Teaching and Learning in Higher Education (TLHE)</a>,
                     the <a href="http://iated.org/edulearn13/" target="blank">EDULEARN13 Conference (Spain)</a>,
                     and the <a href="http://cdtl.nus.edu.sg/tel2013/" target="blank">Tel2013 Symposium (Singapore)</a>.
                 </p>
