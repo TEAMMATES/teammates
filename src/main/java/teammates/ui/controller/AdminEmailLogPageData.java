@@ -194,7 +194,7 @@ public class AdminEmailLogPageData extends PageData {
      * The boolean variables determine if the specific label was within the query
      * The XXValue variables hold the data linked to the label in the query
      */
-    private class QueryParameters {
+    private static class QueryParameters {
         public boolean isToDateInQuery;
         public long toDateValue;
         

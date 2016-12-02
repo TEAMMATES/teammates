@@ -26,7 +26,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
     
     private DataBundle typicalBundle = getTypicalDataBundle();
 
-    private class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
+    private static class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
         
         private void setCreatedAt(Date createdAt) {
             this.createdAt = createdAt;

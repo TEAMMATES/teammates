@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -19,7 +19,7 @@ import teammates.test.cases.BaseTestCase;
 
 public class StudentAttributesTest extends BaseTestCase {
 
-    private class StudentAttributesWithModifiableTimestamp extends StudentAttributes {
+    private static class StudentAttributesWithModifiableTimestamp extends StudentAttributes {
         
         private void setCreatedAt(Date createdAt) {
             this.createdAt = createdAt;
@@ -57,13 +57,13 @@ public class StudentAttributesTest extends BaseTestCase {
     
     @Test
     public void testUpdateStatusEnum() {
-        assertEquals(UpdateStatus.ERROR, UpdateStatus.enumRepresentation(0));
-        assertEquals(UpdateStatus.NEW, UpdateStatus.enumRepresentation(1));
-        assertEquals(UpdateStatus.MODIFIED, UpdateStatus.enumRepresentation(2));
-        assertEquals(UpdateStatus.UNMODIFIED, UpdateStatus.enumRepresentation(3));
-        assertEquals(UpdateStatus.NOT_IN_ENROLL_LIST, UpdateStatus.enumRepresentation(4));
-        assertEquals(UpdateStatus.UNKNOWN, UpdateStatus.enumRepresentation(5));
-        assertEquals(UpdateStatus.UNKNOWN, UpdateStatus.enumRepresentation(-1));
+        assertEquals(StudentUpdateStatus.ERROR, StudentUpdateStatus.enumRepresentation(0));
+        assertEquals(StudentUpdateStatus.NEW, StudentUpdateStatus.enumRepresentation(1));
+        assertEquals(StudentUpdateStatus.MODIFIED, StudentUpdateStatus.enumRepresentation(2));
+        assertEquals(StudentUpdateStatus.UNMODIFIED, StudentUpdateStatus.enumRepresentation(3));
+        assertEquals(StudentUpdateStatus.NOT_IN_ENROLL_LIST, StudentUpdateStatus.enumRepresentation(4));
+        assertEquals(StudentUpdateStatus.UNKNOWN, StudentUpdateStatus.enumRepresentation(5));
+        assertEquals(StudentUpdateStatus.UNKNOWN, StudentUpdateStatus.enumRepresentation(-1));
     }
 
     @Test
