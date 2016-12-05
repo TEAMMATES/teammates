@@ -915,7 +915,7 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
         }
         break;
     default:
-        throw 'Unexpected giverType';
+        throw new Error('Unexpected giverType');
     }
 }
 
