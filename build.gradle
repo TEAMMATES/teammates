@@ -54,7 +54,7 @@ dependencies {
                     "com.sun.jersey:jersey-client:1.19.3",
                     "com.sun.jersey:jersey-core:1.19.3",
                     "com.sun.jersey.contribs:jersey-multipart:1.19.3",
-                    "joda-time:joda-time:2.9.4",
+                    "joda-time:joda-time:2.9.6",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:1.10.1"
 
@@ -74,7 +74,7 @@ dependencies {
     runtime         configurations.exclude
 
     enhancer        "javax.jdo:jdo2-api:2.3-eb",
-                    "joda-time:joda-time:2.9.4",
+                    "joda-time:joda-time:2.9.6",
                     "com.google.appengine.orm:datanucleus-appengine:1.0.10",
                     "org.datanucleus:datanucleus-core:1.1.5",
                     "org.datanucleus:datanucleus-jpa:1.1.5",
