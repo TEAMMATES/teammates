@@ -274,7 +274,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 ####Tools used in implementation
 * **HTML** [version 5, using latest features is discouraged due to lack of enough Browser support], JavaScript, CSS
 * **Bootstrap** [version 3.1.1], as the front-end UI framework
-* **jQuery** [version 1.11.3]
+* **jQuery** [version 1.12.4]
   jQuery is a JavaScript Library that simplifies HTML document traversing, event handling, animating, and Ajax interactions for rapid web development.
 * **JSON** (JavaScript Object Notation): JSON is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the JavaScript.
 * **Gson** [version 2.2.2] Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object.
@@ -305,7 +305,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
     TestNG is a Java test automation framework.
 * **EclEmma/JaCoCo** [latest stable]
     JaCoCo is a Java code coverage library. EclEmma is its plugin and integration for Eclipse.
-* **QUnit** [version 1.22.0]
+* **QUnit** [version 2.1.0]
     QUnit is a JavaScript unit test suite.
 * **Blanket.js** [version 1.2.3]
     Blanket.js is a JavaScript code coverage library.
