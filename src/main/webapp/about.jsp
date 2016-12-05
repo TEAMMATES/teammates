@@ -39,7 +39,7 @@
                     <img src="images/teammembers/damith.png" width="180px">
                 </td>
                 <td class="coreTeamDetailsCell">
-                    <a href="http://www.comp.nus.edu.sg/~damithch" target="_blank">Damith C. Rajapakse</a><br><br>
+                    <a href="http://www.comp.nus.edu.sg/~damithch/" target="_blank">Damith C. Rajapakse</a><br><br>
                     Founder (2010)<br>
                     Project Mentor (2010 -)
                 </td>
