@@ -8,7 +8,7 @@ apply plugin: "jacoco"
 
 def appengineVersion = "1.9.27"
 def checkstyleVersion = "6.19"
-def pmdVersion = "5.4.1"
+def pmdVersion = "5.5.2"
 def findbugsVersion = "3.0.1"
 
 buildscript {
