@@ -338,7 +338,7 @@ tasks.withType(FindBugs) {
 }
 
 task installEslint(type: Exec) {
-    commandLine "npm", "install", "eslint@3.0.0"
+    commandLine "npm", "install", "eslint@3.11.1"
 }
 
 task installStylelint(type: Exec) {
