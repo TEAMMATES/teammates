@@ -45,18 +45,18 @@ dependencies {
 
     appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
-    compile         "com.google.appengine.tools:appengine-gcs-client:0.3.13",
+    compile         "com.google.appengine.tools:appengine-gcs-client:0.4.4",
                     "com.google.appengine:appengine-api-labs:${appengineVersion}",
-                    "com.google.code.gson:gson:2.2.2",
-                    "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r239",
-                    "com.mailjet:mailjet-client:4.0.1",
+                    "com.google.code.gson:gson:2.8.0",
+                    "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20160924.1",
+                    "com.mailjet:mailjet-client:4.0.5",
                     "com.sendgrid:sendgrid-java:2.2.2",
-                    "com.sun.jersey:jersey-client:1.19",
-                    "com.sun.jersey:jersey-core:1.19",
-                    "com.sun.jersey.contribs:jersey-multipart:1.19",
+                    "com.sun.jersey:jersey-client:1.19.3",
+                    "com.sun.jersey:jersey-core:1.19.3",
+                    "com.sun.jersey.contribs:jersey-multipart:1.19.3",
                     "joda-time:joda-time:2.9.4",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
-                    "org.jsoup:jsoup:1.9.2"
+                    "org.jsoup:jsoup:1.10.1"
 
     exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
@@ -69,7 +69,7 @@ dependencies {
                     "org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1",
                     "org.datanucleus:datanucleus-core:1.1.5",
                     "org.datanucleus:datanucleus-jpa:1.1.5",
-                    "xerces:xercesImpl:2.9.1"
+                    "xerces:xercesImpl:2.11.0"
 
     runtime         configurations.exclude
 
@@ -84,10 +84,9 @@ dependencies {
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
                     "com.google.appengine:appengine-testing:${appengineVersion}",
                     "httpunit:httpunit:1.7",
-                    "javax.mail:mail:1.4.5",
-                    "org.apache.commons:commons-lang3:3.4",
-                    "org.seleniumhq.selenium:selenium-java:2.53.0",
-                    "org.testng:testng:6.8.7"
+                    "javax.mail:mail:1.4.7",
+                    "org.seleniumhq.selenium:selenium-java:2.53.1",
+                    "org.testng:testng:6.9.4"
 
     testExclude     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
 
@@ -433,7 +432,7 @@ test {
     options.suites "src/test/testng-travis.xml"
     options.useDefaultListeners = true
     options.outputDirectory = file("build/reports/test-try-1")
-    ignoreFailures = numOfTestRetries != 0 ? true : false
+    ignoreFailures = numOfTestRetries != 0
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
@@ -457,7 +456,7 @@ task travisTests {
 }
 
 (1..numOfTestRetries).each { id ->
-    def isLastRetry = id == numOfTestRetries ? true : false
+    def isLastRetry = id == numOfTestRetries
     task "testRetry${id}"(type: Test) {
         useTestNG()
         options.suites("build/reports/test-try-${id}/testng-failed.xml")
@@ -466,7 +465,7 @@ task travisTests {
         testClassesDir = sourceSets.test.output.classesDir
         classpath = sourceSets.test.runtimeClasspath
         testSrcDirs = sourceSets.test.java.srcDirs as List
-        ignoreFailures = isLastRetry ? false : true
+        ignoreFailures = !isLastRetry
         maxHeapSize = "1g"
         reports.html.enabled = false
         reports.junitXml.enabled = false
