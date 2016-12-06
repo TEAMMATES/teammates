@@ -377,7 +377,7 @@ function sortDate(x, y) {
 * @returns pattern string
 */
 function getDayMonthYearFormat() {
-    /* eslint-disable no-useless-escape */ //this is a valid regex
+    /* eslint-disable no-useless-escape */ // this is a valid regex
     return /^\s*(\d{2})[\/\- ](\d{2})[\/\- ](\d{4}|\d{2})\s*$/;
     /* eslint-enable no-useless-escape */
 }
@@ -748,7 +748,7 @@ function isNameValid(rawName) {
         return false;
     }
     
-    /* eslint-disable no-useless-escape */ //this is a valid regex
+    /* eslint-disable no-useless-escape */ // this is a valid regex
     if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
         // Returns true if a character NOT belonging to the following set
         // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
@@ -758,7 +758,7 @@ function isNameValid(rawName) {
     } else if (name.length > NAME_MAX_LENGTH) {
         return false;
     }
-    /* eslint-enable no-useless-escape */ 
+    /* eslint-enable no-useless-escape */
     return true;
 }
 
@@ -775,7 +775,7 @@ function isInstitutionValid(rawInstitution) {
         return false;
     }
     
-    /* eslint-disable no-useless-escape */ //this is a valid regex
+    /* eslint-disable no-useless-escape */ // this is a valid regex
     if (institution.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
         // Returns true if a character NOT belonging to the following set
         // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
@@ -828,7 +828,7 @@ function replaceAll(string, find, replace) {
 }
 
 function escapeRegExp(string) {
-    /* eslint-disable no-useless-escape */ //this is a valid regex
+    /* eslint-disable no-useless-escape */ // this is a valid regex
     return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
     /* eslint-enable no-useless-escape */
 }
