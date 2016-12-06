@@ -93,6 +93,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             FeedbackQuestionDetails questionDetails = questionAttributes.getQuestionDetails();
             
             int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);
+            String qnId = "";
                         
             Set<String> emailSet = data.bundle.getRecipientEmails(questionAttributes.getId());
             emailSet.add("");
@@ -108,6 +109,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 if (response.feedbackQuestionType != questionAttributes.questionType) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, questionIndx));
                 }
+                
+                qnId = response.feedbackQuestionId;
                 
                 boolean isExistingResponse = response.getId() != null;
                 // test that if editing an existing response, that the edited response's id
@@ -133,10 +136,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     responsesForQuestion.add(response);
                 }
             }
-            
+                    
             List<String> questionSpecificErrors =
                     questionDetails.validateResponseAttributes(responsesForQuestion,
-                                                               data.bundle.recipientList.get(questionId).size());
+                                                               data.bundle.recipientList.get(qnId).size());
             errors.addAll(questionSpecificErrors);
             
             if (!emailSet.containsAll(responsesRecipients)) {
