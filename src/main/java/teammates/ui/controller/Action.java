@@ -128,9 +128,9 @@ public abstract class Action {
     }
 
     /**
-     * Retrieves registration key from URL parameter list
+     * Retrieves registration key from the HTTP request
      * 
-     * @return Registration key or null if key not in parameter list
+     * @return Registration key or null if key not in HTTP request
      */
     protected String getRegkeyFromRequest() {
         return getRequestParamValue(Const.ParamsNames.REGKEY);
