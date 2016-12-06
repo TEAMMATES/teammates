@@ -17,9 +17,6 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.AccountsDb;
-import teammates.storage.api.ProfilesDb;
-
-import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Handles the logic related to accounts.
@@ -32,7 +29,6 @@ public class AccountsLogic {
         
     private static AccountsLogic instance;
     private static final AccountsDb accountsDb = new AccountsDb();
-    private static final ProfilesDb profilesDb = new ProfilesDb();
     
     private static final Logger log = Utils.getLogger();
     
@@ -363,25 +359,4 @@ public class AccountsLogic {
         accountsDb.createAccount(account);
     }
 
-    public StudentProfileAttributes getStudentProfile(String googleId) {
-        return profilesDb.getStudentProfile(googleId);
-    }
-
-    public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        profilesDb.updateStudentProfile(newStudentProfileAttributes);
-    }
-
-    public void deleteStudentProfilePicture(String googleId) throws EntityDoesNotExistException {
-        profilesDb.deleteStudentProfilePicture(googleId);
-    }
-    
-    public void deletePicture(BlobKey key) {
-        profilesDb.deletePicture(key);
-    }
-
-    public void updateStudentProfilePicture(String googleId, String newPictureKey) throws EntityDoesNotExistException {
-        profilesDb.updateStudentProfilePicture(googleId, newPictureKey);
-        
-    }
 }

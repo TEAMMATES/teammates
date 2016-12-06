@@ -4,6 +4,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -35,7 +36,7 @@ public class InstructorCourseEnrollPageAction extends Action {
     private void addDataLossWarningToStatusToUser(String courseId) {
         if (hasExistingResponses(courseId)) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_ENROLL_POSSIBLE_DATA_LOSS,
-                                               Const.StatusMessageColor.WARNING));
+                                               StatusMessageColor.WARNING));
         }
     }
 

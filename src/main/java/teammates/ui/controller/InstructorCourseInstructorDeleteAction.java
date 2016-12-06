@@ -5,8 +5,8 @@ import java.util.List;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**

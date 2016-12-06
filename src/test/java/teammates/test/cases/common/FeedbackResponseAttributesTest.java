@@ -10,7 +10,7 @@ import teammates.test.cases.BaseTestCase;
 
 public class FeedbackResponseAttributesTest extends BaseTestCase {
 
-    private class FeedbackResponseAttributesWithModifiableTimestamp extends FeedbackResponseAttributes {
+    private static class FeedbackResponseAttributesWithModifiableTimestamp extends FeedbackResponseAttributes {
         
         private void setCreatedAt(Date createdAt) {
             this.createdAt = createdAt;

@@ -12,10 +12,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.GaeLogApi;
 import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Version;
 import teammates.logic.api.GateKeeper;
@@ -368,7 +368,7 @@ public class AdminActivityLogPageAction extends Action {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         appCal.setTimeInMillis(Long.parseLong(logTimeInAdminTimeZone));
-        TimeHelper.convertToUserTimeZone(appCal, timeZone);
+        appCal = TimeHelper.convertToUserTimeZone(appCal, timeZone);
         return sdf.format(appCal.getTime());
     }
 }

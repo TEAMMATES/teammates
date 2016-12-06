@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -90,7 +91,7 @@ public class EmailGenerator {
      * Generates the feedback submission confirmation email for the given {@code session} for {@code student}
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
-            FeedbackSessionAttributes session, StudentAttributes student, String timestamp) {
+            FeedbackSessionAttributes session, StudentAttributes student, Calendar timestamp) {
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -106,7 +107,7 @@ public class EmailGenerator {
      * Generates the feedback submission confirmation email for the given {@code session} for {@code instructor}.
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForInstructor(
-            FeedbackSessionAttributes session, InstructorAttributes instructor, String timestamp) {
+            FeedbackSessionAttributes session, InstructorAttributes instructor, Calendar timestamp) {
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -131,7 +132,8 @@ public class EmailGenerator {
     
     private EmailWrapper generateSubmissionConfirmationEmail(
             CourseAttributes course, FeedbackSessionAttributes session, String submitUrl,
-            String userName, String userEmail, String timeStamp) {
+            String userName, String userEmail, Calendar timestamp) {
+        Calendar time = TimeHelper.convertToUserTimeZone(timestamp, session.getTimeZone());
         String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
         String subject = EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject();
         
@@ -142,7 +144,7 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${submitUrl}", submitUrl,
-                "${timeStamp}", timeStamp,
+                "${timeStamp}", TimeHelper.formatTime12H(time.getTime()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
