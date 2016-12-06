@@ -758,7 +758,6 @@ public final class Const {
         public static final String STUDENT_ID = "googleid";
         
         public static final String REGKEY = "key";
-        public static final String REGKEY_LEGACY = "regkey";
         public static final String STUDENT_EMAIL = "studentemail";
         public static final String FROM_COMMENTS_PAGE = "commentpage";
         public static final String FROM_COURSE_DETAILS_PAGE = "coursedetailspage";
