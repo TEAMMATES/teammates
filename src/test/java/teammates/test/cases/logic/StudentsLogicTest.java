@@ -205,7 +205,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         expectedStudentProfile.shortName = "short";
         expectedStudentProfile.email = "personal@email.tmt";
         expectedStudentProfile.institute = "institute";
-        expectedStudentProfile.nationality = "Valid Nationality";
+        expectedStudentProfile.nationality = "Angolan";
         expectedStudentProfile.gender = "female";
         expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
         
