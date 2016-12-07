@@ -37,7 +37,7 @@ public class PageData {
     
     protected static final Logger log = Utils.getLogger();
 
-    private static final List<String> NATINALITIES = new ArrayList<>();
+    private static final List<String> NATIONALITIES = new ArrayList<>();
     
     /** The user for whom the pages are displayed (i.e. the 'nominal user').
      *  May not be the logged in user (under masquerade mode) */
@@ -276,11 +276,11 @@ public class PageData {
     }
     
     public static void createListForNationalities(String nationality) {
-        NATINALITIES.add(nationality);
+        NATIONALITIES.add(nationality);
     }
 
     public static List<String> getNationalities() {
-        return NATINALITIES;
+        return NATIONALITIES;
     }
 
     /* These util methods simply delegate the work to the matching *Helper
