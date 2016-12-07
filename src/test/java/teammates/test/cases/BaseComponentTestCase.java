@@ -14,7 +14,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
@@ -196,7 +196,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     protected static void verifyPresentInDatastore(StudentAttributes expected) {
         StudentAttributes actual = studentsDb.getStudentForEmail(expected.course, expected.email);
         StudentAttributes expectedCopy = expected.getCopy();
-        expectedCopy.updateStatus = UpdateStatus.UNKNOWN;
+        expectedCopy.updateStatus = StudentUpdateStatus.UNKNOWN;
         expectedCopy.lastName = StringHelper.splitName(expected.name)[1];
         equalizeIrrelevantData(expectedCopy, actual);
         assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));

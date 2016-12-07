@@ -18,10 +18,10 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -150,7 +150,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         StudentEnrollDetails enrollmentResult = enrollStudent(student1);
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
         verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
-                StudentAttributes.UpdateStatus.NEW);
+                StudentUpdateStatus.NEW);
         verifyPresentInDatastore(student1);
 
         ______TS("add existing student");
@@ -158,14 +158,14 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         // Verify it was not added
         enrollmentResult = enrollStudent(student1);
         verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
-                StudentAttributes.UpdateStatus.UNMODIFIED);
+                StudentUpdateStatus.UNMODIFIED);
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         ______TS("add student into non-empty course");
         StudentAttributes student2 = new StudentAttributes("sect 1", "t1", "n2", "e2@g", "c", instructorCourse);
         enrollmentResult = enrollStudent(student2);
         verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
-                StudentAttributes.UpdateStatus.NEW);
+                StudentUpdateStatus.NEW);
         
         //add some more students to the same course (we add more than one
         //  because we can use them for testing cascade logic later in this test case)
@@ -389,7 +389,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
         StudentEnrollDetails studentDetails1 =
-                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
+                new StudentEnrollDetails(StudentUpdateStatus.MODIFIED,
                                          course1Id, student1InCourse1.email, student1InCourse1.team,
                                          student1InCourse1.team + "tmp", student1InCourse1.section,
                                          student1InCourse1.section + "tmp");
@@ -420,7 +420,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         enrollmentList = new ArrayList<StudentEnrollDetails>();
         studentDetails1 =
-                new StudentEnrollDetails(StudentAttributes.UpdateStatus.UNMODIFIED, course1Id,
+                new StudentEnrollDetails(StudentUpdateStatus.UNMODIFIED, course1Id,
                                          student1InCourse1.email, student1InCourse1.team,
                                          student1InCourse1.team + "tmp", student1InCourse1.section,
                                          student1InCourse1.section + "tmp");
@@ -444,7 +444,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         ______TS("adjust feedback response: delete after adjustment");
         
         studentDetails1 =
-                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED, course1Id,
+                new StudentEnrollDetails(StudentUpdateStatus.MODIFIED, course1Id,
                                          student2InCourse1.email, student1InCourse1.team,
                                          student1InCourse1.team + "tmp", student1InCourse1.section,
                                          student1InCourse1.section + "tmp");
@@ -671,11 +671,11 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         // Test enroll result
         line0 = "t1|n1|e1@g|c1";
         verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest),
-                enrollResults.get(0), StudentAttributes.UpdateStatus.NEW);
+                enrollResults.get(0), StudentUpdateStatus.NEW);
         verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseIdForEnrollTest),
-                enrollResults.get(1), StudentAttributes.UpdateStatus.NEW);
+                enrollResults.get(1), StudentUpdateStatus.NEW);
         verifyEnrollmentResultForStudent(saf.makeStudent(line4, courseIdForEnrollTest),
-                enrollResults.get(4), StudentAttributes.UpdateStatus.NEW);
+                enrollResults.get(4), StudentUpdateStatus.NEW);
             
         CourseDetailsBundle cd = coursesLogic.getCourseDetails(courseIdForEnrollTest);
         assertEquals(5, cd.stats.unregisteredTotal);
@@ -690,16 +690,16 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         assertEquals(6, enrollResults.size());
         assertEquals(6, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
         verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest),
-                enrollResults.get(0), StudentAttributes.UpdateStatus.UNMODIFIED);
+                enrollResults.get(0), StudentUpdateStatus.UNMODIFIED);
         verifyEnrollmentResultForStudent(saf.makeStudent(modifiedLine2, courseIdForEnrollTest),
-                enrollResults.get(1), StudentAttributes.UpdateStatus.MODIFIED);
+                enrollResults.get(1), StudentUpdateStatus.MODIFIED);
         verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseIdForEnrollTest),
-                enrollResults.get(2), StudentAttributes.UpdateStatus.UNMODIFIED);
+                enrollResults.get(2), StudentUpdateStatus.UNMODIFIED);
         verifyEnrollmentResultForStudent(saf.makeStudent(line5, courseIdForEnrollTest),
-                enrollResults.get(3), StudentAttributes.UpdateStatus.NEW);
-        assertEquals(StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST,
+                enrollResults.get(3), StudentUpdateStatus.NEW);
+        assertEquals(StudentUpdateStatus.NOT_IN_ENROLL_LIST,
                 enrollResults.get(4).updateStatus);
-        assertEquals(StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST,
+        assertEquals(StudentUpdateStatus.NOT_IN_ENROLL_LIST,
                 enrollResults.get(5).updateStatus);
         
         ______TS("includes an incorrect line");
@@ -738,19 +738,19 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         String line = headerLine + Const.EOL + "t8|n8|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.size());
-        assertEquals(StudentAttributes.UpdateStatus.NEW,
+        assertEquals(StudentUpdateStatus.NEW,
                 enrollResults.get(0).updateStatus);
             
         line = headerLine + Const.EOL + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.size());
-        assertEquals(StudentAttributes.UpdateStatus.MODIFIED,
+        assertEquals(StudentUpdateStatus.MODIFIED,
                 enrollResults.get(0).updateStatus);
             
         line = headerLine + Const.EOL + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.size());
-        assertEquals(StudentAttributes.UpdateStatus.UNMODIFIED,
+        assertEquals(StudentUpdateStatus.UNMODIFIED,
                 enrollResults.get(0).updateStatus);
 
         ______TS("duplicated emails");
@@ -1214,7 +1214,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     }
     
     private void verifyEnrollmentDetailsForStudent(StudentAttributes expectedStudent, String oldTeam,
-                                                   StudentEnrollDetails enrollmentResult, UpdateStatus status) {
+                                                   StudentEnrollDetails enrollmentResult, StudentUpdateStatus status) {
         assertEquals(expectedStudent.email, enrollmentResult.email);
         assertEquals(expectedStudent.team, enrollmentResult.newTeam);
         assertEquals(expectedStudent.course, enrollmentResult.course);
@@ -1223,7 +1223,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     }
     
     private void verifyEnrollmentResultForStudent(StudentAttributes expectedStudent,
-                                                  StudentAttributes enrollmentResult, UpdateStatus status) {
+                                                  StudentAttributes enrollmentResult, StudentUpdateStatus status) {
         String errorMessage = "mismatch! \n expected:\n"
                             + Utils.getTeammatesGson().toJson(expectedStudent)
                             + "\n actual \n"

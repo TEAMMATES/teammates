@@ -1,8 +1,8 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.blobstore.BlobstoreFailureException;

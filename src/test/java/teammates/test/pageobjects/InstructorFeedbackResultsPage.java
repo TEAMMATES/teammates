@@ -320,7 +320,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void clickAjaxNoResponsePanel() {
-        WebElement ajaxPanels = browser.driver.findElement(By.cssSelector(".ajax_response_rate_submit"));
+        WebElement ajaxPanels = browser.driver.findElement(By.cssSelector(".ajax-response-submit"));
         click(ajaxPanels);
     }
 
@@ -498,7 +498,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void changeFsNameInNoResponsePanelForm(String newFsName) {
         
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('.ajax_response_rate_submit [name=\"fsname\"]').val('" + newFsName + "')");
+        js.executeScript("$('.ajax-response-submit [name=\"fsname\"]').val('" + newFsName + "')");
     }
     
     public void waitForAjaxError(int indexOfForm) {
@@ -510,7 +510,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void waitForAjaxErrorOnNoResponsePanel() {
-        By ajaxErrorSelector = By.cssSelector(".ajax_response_rate_submit .ajax-error");
+        By ajaxErrorSelector = By.cssSelector(".ajax-response-submit .ajax-error");
         waitForElementPresence(ajaxErrorSelector);
         
         waitForTextContainedInElementPresence(ajaxErrorSelector, "[ Failed to load. Click here to retry. ]");
