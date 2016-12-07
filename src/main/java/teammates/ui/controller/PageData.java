@@ -36,6 +36,8 @@ import teammates.ui.template.InstructorFeedbackSessionActions;
 public class PageData {
     
     protected static final Logger log = Utils.getLogger();
+
+    private static final List<String> NATINALITIES = new ArrayList<>();
     
     /** The user for whom the pages are displayed (i.e. the 'nominal user').
      *  May not be the logged in user (under masquerade mode) */
@@ -44,13 +46,11 @@ public class PageData {
 
     private List<StatusMessage> statusMessagesToUser;
 
-    private static final List<String> nationalities = new ArrayList<>();
-
     /**
      * This list of nationalities was created for the drop-down list and contains 198 nationalities.
      * reference : "https://mytaskhelper.com/forums/5-faq-s/topics/98-nationality-dropdown-list"
      */
-    static{
+    static {
         createListForNationalities("Afghan");
         createListForNationalities("Albanian");
         createListForNationalities("Algerian");
@@ -276,11 +276,11 @@ public class PageData {
     }
     
     public static void createListForNationalities(String nationality) {
-        nationalities.add(nationality);
+        NATINALITIES.add(nationality);
     }
 
     public static List<String> getNationalities() {
-        return nationalities;
+        return NATINALITIES;
     }
 
     /* These util methods simply delegate the work to the matching *Helper
@@ -401,9 +401,9 @@ public class PageData {
         List<String> nationalities = getNationalities();
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
 
-        for(String nationality : nationalities) {
-            ElementTag option = createOption(nationality, nationality, 
-                                             isNationalityToBeSelected(existingNationality, nationality));
+        for (String nationality : nationalities) {
+            ElementTag option = createOption(nationality, nationality,
+                    isNationalityToBeSelected(existingNationality, nationality));
             result.add(option);
         }
 
@@ -1046,7 +1046,7 @@ public class PageData {
      */
     private static boolean isNationalityToBeSelected(String existingNationality, String nationality) {
         boolean isEditingExistingNationality = existingNationality != null;
-        if(isEditingExistingNationality) {
+        if (isEditingExistingNationality) {
             return nationality.equals(existingNationality);
         }
         return false;
