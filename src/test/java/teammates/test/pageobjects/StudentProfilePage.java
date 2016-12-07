@@ -8,8 +8,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
+import teammates.ui.controller.PageData;
 
 public class StudentProfilePage extends AppPage {
 
@@ -26,7 +28,7 @@ public class StudentProfilePage extends AppPage {
     protected WebElement institutionBox;
 
     @FindBy(id = "studentNationality")
-    protected WebElement countryBox;
+    protected WebElement studentNationalityDropdown;
 
     @FindBy(id = "genderMale")
     protected WebElement genderMaleRadio;
@@ -117,8 +119,13 @@ public class StudentProfilePage extends AppPage {
         fillTextBox(institutionBox, studentInstitution);
     }
 
-    public void fillNationality(String studentNationality) {
-        fillTextBox(countryBox, studentNationality);
+    public void selectNationality(String studentNationality) {
+        if (PageData.getNationalities().contains(studentNationality)) {
+            Select dropdown = new Select(studentNationalityDropdown);
+            dropdown.selectByVisibleText(studentNationality);
+        } else {
+            fail("Given nationality " + studentNationality + " is not valid!");
+        }
     }
 
     public void fillMoreInfo(String moreInfo) {
@@ -147,7 +154,7 @@ public class StudentProfilePage extends AppPage {
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);
-        fillNationality(nationality);
+        selectNationality(nationality);
         fillMoreInfo(moreInfo);
         selectGender(gender);
         submitEditedProfile();
@@ -158,9 +165,17 @@ public class StudentProfilePage extends AppPage {
         assertEquals(shortName, shortNameBox.getAttribute("value"));
         assertEquals(email, emailBox.getAttribute("value"));
         assertEquals(institute, institutionBox.getAttribute("value"));
-        assertEquals(nationality, countryBox.getAttribute("value"));
+        ensureNationalityIsSelectedAs(nationality);
         ensureGenderIsSelectedAs(gender);
         assertEquals(moreInfo, moreInfoBox.getText());
+    }
+
+    private void ensureNationalityIsSelectedAs(String nationality) {
+        if (PageData.getNationalities().contains(nationality)) {
+            assertEquals(nationality, studentNationalityDropdown.getAttribute("value"));
+        } else {
+            fail("unexpected nationality value given");
+        }
     }
 
     private void ensureGenderIsSelectedAs(String gender) {
