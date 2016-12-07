@@ -89,7 +89,7 @@
                 Nationality
             </label>
            
-                <select id="studentNationality"
+                <select id="<%=Const.ParamsNames.STUDENT_NATIONALITY%>"
                         name="<%=Const.ParamsNames.STUDENT_NATIONALITY%>"
                         class="form-control"
                         style="width: 300px">
