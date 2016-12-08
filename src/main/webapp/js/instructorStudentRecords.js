@@ -4,8 +4,6 @@ var DISPLAY_COMMENT_BLANK = 'Please enter a valid comment. The comment can\'t be
 
 $(document).ready(function() {
 
-    $('div[id^="plainCommentText"]').css('margin-left', '15px');
-
     // Auto-loading for feedback responses
     $('div[id^="studentFeedback-"]').click();
 

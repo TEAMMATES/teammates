@@ -8,7 +8,6 @@
     <link type="text/css" href="/stylesheets/omniComment.css" rel="stylesheet">
 </c:set>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
     <script type="text/javascript" src="/js/omniComment.js"></script>
