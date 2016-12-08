@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
-import teammates.ui.controller.PageData;
+import teammates.common.util.NationalityHelper;
 
 public class StudentProfilePage extends AppPage {
 
@@ -124,7 +124,7 @@ public class StudentProfilePage extends AppPage {
      * if the nationality is valid, otherwise it fails with a message.
      */
     public void selectNationality(String studentNationality) {
-        if (PageData.getNationalities().contains(studentNationality)) {
+        if (NationalityHelper.getNationalities().contains(studentNationality)) {
             Select dropdown = new Select(studentNationalityDropdown);
             dropdown.selectByVisibleText(studentNationality);
         } else {
@@ -179,7 +179,7 @@ public class StudentProfilePage extends AppPage {
      * If not, it fails with a message.
      */
     private void ensureNationalityIsSelectedAs(String nationality) {
-        if (PageData.getNationalities().contains(nationality)) {
+        if (NationalityHelper.getNationalities().contains(nationality)) {
             assertEquals(nationality, studentNationalityDropdown.getAttribute("value"));
         } else {
             fail("unexpected nationality value given");

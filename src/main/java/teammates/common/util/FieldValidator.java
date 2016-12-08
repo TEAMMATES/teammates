@@ -8,7 +8,6 @@ import java.util.List;
 import org.joda.time.DateTimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.ui.controller.PageData;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -439,15 +438,14 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if {@code nationality} is a non-null non-empty string contained in the {@link PageData}'s
+     * Checks if {@code nationality} is a non-null non-empty string contained in the {@link NationalityHelper}'s
      * list of nationalities.
-     * @param nationality
      * @return An explanation of why the {@code nationality} is not acceptable.
      *         Returns an empty string if the {@code nationality} is acceptable.
      */
     public String getInvalidityInfoForNationality(String nationality) {
         Assumption.assertTrue("Non-null value expected", nationality != null);
-        if (!PageData.getNationalities().contains(nationality)) {
+        if (!NationalityHelper.getNationalities().contains(nationality)) {
             return String.format(NATIONALITY_ERROR_MESSAGE, nationality);
         }
         return "";

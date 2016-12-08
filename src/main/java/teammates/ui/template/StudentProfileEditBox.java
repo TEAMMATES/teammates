@@ -3,8 +3,8 @@ package teammates.ui.template;
 import java.util.List;
 
 import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.util.NationalityHelper;
 import teammates.common.util.StringHelper;
-import teammates.ui.controller.PageData;
 
 public class StudentProfileEditBox {
 
@@ -29,7 +29,7 @@ public class StudentProfileEditBox {
         this.email = StringHelper.convertToEmptyStringIfNull(profile.email);
         this.institute = StringHelper.convertToEmptyStringIfNull(profile.institute);
         this.nationality = StringHelper.convertToEmptyStringIfNull(profile.nationality);
-        this.nationalitySelectField = PageData.getNationalitiesAsElementTags(profile.nationality);
+        this.nationalitySelectField = NationalityHelper.getNationalitiesAsElementTags(profile.nationality);
         this.gender = profile.gender;
         this.moreInfo = StringHelper.convertToEmptyStringIfNull(profile.moreInfo);
         this.googleId = googleId;
