@@ -119,6 +119,10 @@ public class StudentProfilePage extends AppPage {
         fillTextBox(institutionBox, studentInstitution);
     }
 
+    /**
+     * Selects student nationality from the dropdown list using Selenium
+     * if the nationality is valid, otherwise it fails with a message.
+     */
     public void selectNationality(String studentNationality) {
         if (PageData.getNationalities().contains(studentNationality)) {
             Select dropdown = new Select(studentNationalityDropdown);
@@ -170,6 +174,10 @@ public class StudentProfilePage extends AppPage {
         assertEquals(moreInfo, moreInfoBox.getText());
     }
 
+    /**
+     * Makes sure that the nationality is selected in the dropdown list.
+     * If not, it fails with a message.
+     */
     private void ensureNationalityIsSelectedAs(String nationality) {
         if (PageData.getNationalities().contains(nationality)) {
             assertEquals(nationality, studentNationalityDropdown.getAttribute("value"));
