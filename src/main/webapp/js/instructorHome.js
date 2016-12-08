@@ -35,7 +35,7 @@ $(document).ready(function() {
     // Click event binding for course archive button
     $('body').on('click', '.course-archive-for-test', function(event) {
         event.preventDefault();
-        $clickedLink = $(event.target);
+        var $clickedLink = $(event.target);
 
         var messageText = 'Are you sure you want to archive ' + $clickedLink.data('courseId') + '? '
             + 'This action can be reverted by going to the "courses" tab and unarchiving the desired course(s).';

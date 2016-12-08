@@ -27,21 +27,20 @@
             id="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNumber}" 
             value="${numOfMcqChoices}">
     </div>
-    <div class="col-sm-6 row">
-        <div class="col-md-8 margin-bottom-7px">
-            <div class="checkbox">
-                <label class="bold-label">
+    <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
+        <div class="border-gray narrow-slight visible-xs margin-bottom-7px margin-top-7px"></div>
+        <div class="checkbox padding-top-0">
+            <label class="bold-label">
+                <span class="inline-block">
                     <input type="checkbox"
                         disabled
                         id="generateOptionsCheckbox-${questionNumber}"
                         ${checkedGeneratedOptions}
                         onchange="toggleMcqGeneratedOptions(this,${questionNumber})">
                     Or, generate options from the list of all
-                </label>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <select class="form-control" id="mcqGenerateForSelect-${questionNumber}" 
+                </span>
+            </label>
+            <select class="form-control width-auto inline" id="mcqGenerateForSelect-${questionNumber}"
                 onchange="changeMcqGenerateFor(${questionNumber})"
                 disabled>
                 <option ${studentSelected} value="${FeedbackParticipantType.STUDENTS.toString()}">students</option>
