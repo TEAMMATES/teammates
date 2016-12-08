@@ -714,8 +714,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         cal.add(Calendar.DATE, 30);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
         
+        String valueOfEndDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE);
         assertEquals(sdf.format(initialCal.getTime()),
-                     feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE));
+                     valueOfEndDate);
         
         
         ______TS("decreasing start date affects visible time, end date range and publish date range");
@@ -723,12 +724,17 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         cal.add(Calendar.DATE, -35);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
         
+        String valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(sdf.format(cal.getTime()),
-                     feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
+                     valueOfVisibleDate);
+        
+        String maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(sdf.format(cal.getTime()),
-                     feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
+                     maxValueOfVisibleDate);
+        
+        String minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
         assertEquals(sdf.format(cal.getTime()),
-                     feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
+                     minValueOfPublishDate);
         
         
         ______TS("decreasing end date does not affects start time or visible time");
@@ -740,17 +746,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(sdf.format(initialCal.getTime()),
                      valueOfStartDate);
         
-        String valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(initialCal.getTime()),
-                     valueOfVisibleDate);
+        assertEquals(sdf.format(initialCal.getTime()), valueOfVisibleDate);
         
-        String maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(initialCal.getTime()),
-                     maxValueOfVisibleDate);
+        assertEquals(sdf.format(initialCal.getTime()), maxValueOfVisibleDate);
         
-        String minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
-        assertEquals(sdf.format(initialCal.getTime()),
-                     minValueOfPublishDate);
+        assertEquals(sdf.format(initialCal.getTime()), minValueOfPublishDate);
         
         
         ______TS("changing visible date affects publish date range");
@@ -758,8 +758,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         cal.add(Calendar.DATE, -10);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, cal);
         
-        assertEquals(sdf.format(cal.getTime()),
-                     feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
+        assertEquals(sdf.format(cal.getTime()), minValueOfPublishDate);
         
         
         ______TS("changing publish date affects visible date range publishTime < startTime");
@@ -767,8 +766,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         cal.add(Calendar.DATE, 9);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, cal);
         
-        assertEquals(sdf.format(cal.getTime()),
-                     feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
+        assertEquals(sdf.format(cal.getTime()), maxValueOfVisibleDate); 
         
         
         ______TS("changing publish date does not affect visible date range publishTime > startTime");
@@ -782,8 +780,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, cal);
         
         //check if maxDate is start time and not publish time
-        assertEquals(sdf.format(initialCal.getTime()),
-                     feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
+        assertEquals(sdf.format(initialCal.getTime()), maxValueOfVisibleDate);
         
     }
     
