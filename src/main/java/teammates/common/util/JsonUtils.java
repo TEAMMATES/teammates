@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * Provides means to handle, manipulate, and convert JSON objects to/from strings.
@@ -47,7 +48,12 @@ public final class JsonUtils {
      * @see {@link Gson#fromJson(String, Type)}.
      */
     public static <T> T fromJson(String json, Type typeOfT) {
-        return getTeammatesGson().fromJson(json, typeOfT);
+        try {
+            return getTeammatesGson().fromJson(json, typeOfT);
+        } catch (JsonSyntaxException e) {
+            // some of the existing data does not use the prescribed date format
+            return new Gson().fromJson(json, typeOfT);
+        }
     }
     
     /**
