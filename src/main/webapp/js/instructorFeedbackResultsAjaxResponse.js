@@ -1,9 +1,3 @@
-function getAppendedResponseRateData(data) {
-    var appendedResponseStatus = $(data).find('#responseStatus').html();
-    $(data).remove();
-    return appendedResponseStatus;
-}
-
 $(document).ready(function() {
     var responseRateRequest = function(e) {
         var panelHeading = $(this);
@@ -24,7 +18,7 @@ $(document).ready(function() {
             },
             success: function(data) {
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
-                $(panelHeading).removeClass('ajax_response_rate_submit');
+                $(panelHeading).removeClass('ajax-response-submit');
                 $(panelHeading).off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
                 $(panelHeading).click(toggleSingleCollapse);
@@ -33,9 +27,15 @@ $(document).ready(function() {
         });
     };
 
-    // ajax_response_rate_submit requires the user to click on it to load the noResponsePanel,
-    // ajax_response_rate_auto automatically loads the noResponsePanel when the page is loaded
-    $responseRatePanel = $('.ajax_response_rate_submit,.ajax_response_rate_auto');
+    // ajax-response-submit requires the user to click on it to load the noResponsePanel,
+    // ajax-response-auto automatically loads the noResponsePanel when the page is loaded
+    $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
     $responseRatePanel.click(responseRateRequest);
-    $('.ajax_response_rate_auto').click();
+    $('.ajax-response-auto').click();
 });
+
+function getAppendedResponseRateData(data) {
+    var appendedResponseStatus = $(data).find('#responseStatus').html();
+    $(data).remove();
+    return appendedResponseStatus;
+}

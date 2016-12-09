@@ -18,38 +18,6 @@ import teammates.common.util.Utils;
 import teammates.storage.entity.CourseStudent;
 
 public class StudentAttributes extends EntityAttributes {
-    public enum UpdateStatus {
-        ERROR(0),
-        NEW(1),
-        MODIFIED(2),
-        UNMODIFIED(3),
-        NOT_IN_ENROLL_LIST(4),
-        UNKNOWN(5);
-
-        public static final int STATUS_COUNT = 6;
-        public final int numericRepresentation;
-
-        UpdateStatus(int numericRepresentation) {
-            this.numericRepresentation = numericRepresentation;
-        }
-
-        public static UpdateStatus enumRepresentation(int numericRepresentation) {
-            switch (numericRepresentation) {
-            case 0:
-                return ERROR;
-            case 1:
-                return NEW;
-            case 2:
-                return MODIFIED;
-            case 3:
-                return UNMODIFIED;
-            case 4:
-                return NOT_IN_ENROLL_LIST;
-            default:
-                return UNKNOWN;
-            }
-        }
-    }
 
     // Note: be careful when changing these variables as their names are used in *.json files.
     public String googleId;
@@ -62,7 +30,7 @@ public class StudentAttributes extends EntityAttributes {
     public String section;
     public String key;
 
-    public transient UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
+    public transient StudentUpdateStatus updateStatus = StudentUpdateStatus.UNKNOWN;
     
     /*
      * Creation and update time stamps.

@@ -4,9 +4,9 @@
  */
 
 $(document).ready(function() {
-    $('[data-unreg].navLinks').click(function(event) {
-        event.preventDefault();
-        $clickedLink = $(event.target);
+    $('[data-unreg].navLinks').click(function(e) {
+        e.preventDefault();
+        var $clickedLink = $(e.target);
 
         var messageText = 'You have to register using a google account in order to access this page. Would '
                           + 'you like to proceed and register?';

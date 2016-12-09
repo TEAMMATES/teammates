@@ -11,9 +11,9 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
 
