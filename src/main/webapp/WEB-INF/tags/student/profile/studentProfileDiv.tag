@@ -88,14 +88,14 @@
             <label for="studentNationality">
                 Nationality
             </label>
-            <select id="<%=Const.ParamsNames.STUDENT_NATIONALITY%>"
+            <select id="studentNationality"
                     name="<%=Const.ParamsNames.STUDENT_NATIONALITY%>"
                     class="form-control" style="width: 300px">
-                <option label="--- Select ---">
+                <option label="--- Select ---" />
                 <c:forEach items="${profile.nationalitySelectField}"
                            var="option">
                     <option ${option.attributesToString}>
-                            ${option.content}
+                        ${option.content}
                     </option>
                 </c:forEach>
             </select>
