@@ -88,18 +88,17 @@
             <label for="studentNationality">
                 Nationality
             </label>
-           
-                <select id="<%=Const.ParamsNames.STUDENT_NATIONALITY%>"
-                        name="<%=Const.ParamsNames.STUDENT_NATIONALITY%>"
-                        class="form-control"
-                        style="width: 300px">
-                    <option label="--- Select ---" >
-                    <c:forEach items="${profile.nationalitySelectField}" var="option">
-                        <option ${option.attributesToString}>
-                            ${option.content}</option>
-                    </c:forEach>
-
-                </select>
+            <select id="<%=Const.ParamsNames.STUDENT_NATIONALITY%>"
+                    name="<%=Const.ParamsNames.STUDENT_NATIONALITY%>"
+                    class="form-control" style="width: 300px">
+                <option label="--- Select ---">
+                <c:forEach items="${profile.nationalitySelectField}"
+                           var="option">
+                    <option ${option.attributesToString}>
+                            ${option.content}
+                    </option>
+                </c:forEach>
+            </select>
         </div>
         <div class="form-group">
             <label for="studentGender">
