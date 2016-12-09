@@ -21,6 +21,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.NationalityHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
@@ -129,6 +130,23 @@ public class PageData {
                                              formatAsString(timeZoneOption), isExistingTimeZone);
             result.add(option);
         }
+        return result;
+    }
+
+    /**
+     * Returns the nationalities as HTML code.
+     */
+    public static List<ElementTag> getNationalitiesAsElementTags(String existingNationality) {
+        List<String> nationalities = NationalityHelper.getNationalities();
+        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+        boolean isEditingExistingNationality = existingNationality != null;
+
+        for (String nationality : nationalities) {
+            ElementTag option = createOption(nationality, nationality,
+                                             isEditingExistingNationality && nationality.equals(existingNationality));
+            result.add(option);
+        }
+
         return result;
     }
     

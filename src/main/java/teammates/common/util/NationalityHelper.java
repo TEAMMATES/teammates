@@ -3,8 +3,6 @@ package teammates.common.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.ui.template.ElementTag;
-
 /**
  * This is a helper class to hold nationality-related functions.
  */
@@ -239,46 +237,6 @@ public final class NationalityHelper {
      */
     public static List<String> getNationalities() {
         return NATIONALITIES;
-    }
-    
-    /**
-     * Returns the nationalities as HTML code.
-     */
-    public static List<ElementTag> getNationalitiesAsElementTags(String existingNationality) {
-        List<String> nationalities = getNationalities();
-        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
-
-        for (String nationality : nationalities) {
-            ElementTag option = createOption(nationality, nationality,
-                    isNationalityToBeSelected(existingNationality, nationality));
-            result.add(option);
-        }
-
-        return result;
-    }
-
-    /**
-     * Decides whether there is a selected nationality or not.
-     * @param existingNationality   The selected nationality.
-     * @param nationality           Nationality from the drop-down list.
-     * @return                      True if the existingNationality and the nationality are equal.
-     */
-    private static boolean isNationalityToBeSelected(String existingNationality, String nationality) {
-        boolean isEditingExistingNationality = existingNationality != null;
-        if (isEditingExistingNationality) {
-            return nationality.equals(existingNationality);
-        }
-        return false;
-    }
-
-    /**
-     * Returns an element tag representing a HTML option
-     */
-    public static ElementTag createOption(String text, String value, boolean isSelected) {
-        if (isSelected) {
-            return new ElementTag(text, "value", value, "selected", null);
-        }
-        return new ElementTag(text, "value", value);
     }
 
 }
