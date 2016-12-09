@@ -6,10 +6,6 @@ var WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
 // text displayed to user
 var SESSION_NOT_OPEN = 'Feedback Session Not Open';
 
-function isPreview() {
-    return $(document).find('.navbar').text().indexOf('Preview') !== -1;
-}
-
 $(document).ready(function() {
 
     /**
@@ -95,6 +91,10 @@ $(document).ready(function() {
 
     showModalWarningIfSessionClosed();
 });
+
+function isPreview() {
+    return $(document).find('.navbar').text().indexOf('Preview') !== -1;
+}
 
 // Saves the value in the other option textbox for MCQ questions
 function updateMcqOtherOptionField() {

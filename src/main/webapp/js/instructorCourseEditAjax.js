@@ -1,5 +1,11 @@
 var instructorSize;
 
+$(document).ready(function() {
+    var editLinks = $('a[id^=instrEditLink]');
+    instructorSize = editLinks.length;
+    $(editLinks).click(editFormRequest);
+});
+
 function editFormRequest(e) {
     e.preventDefault();
     var editButton = this;
@@ -39,9 +45,3 @@ function editFormRequest(e) {
     });
 
 }
-
-$(document).ready(function() {
-    var editLinks = $('a[id^=instrEditLink]');
-    instructorSize = editLinks.length;
-    $(editLinks).click(editFormRequest);
-});

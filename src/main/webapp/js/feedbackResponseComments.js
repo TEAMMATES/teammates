@@ -1,3 +1,9 @@
+$(document).ready(function() {
+    registerResponseCommentsEvent();
+    registerResponseCommentCheckboxEvent();
+    enableHoverToDisplayEditOptions();
+});
+
 function isInCommentsPage() {
     return $(location).attr('href').indexOf('instructorCommentsPage') !== -1;
 }
@@ -53,7 +59,6 @@ var addCommentHandler = function(e) {
                 submitButton.prop('disabled', false);
                 cancelButton.prop('disabled', false);
                 removeFormErrorMessage(submitButton);
-                addFormRow.prev().find('div[id^=plainCommentText]').css('margin-left', '15px');
                 addFormRow.prev().show();
                 addFormRow.hide();
             }
@@ -182,8 +187,6 @@ function registerResponseCommentsEvent() {
     $('body').on('click', 'form[class*="responseCommentEditForm"] > div > a[id^="button_save_comment_for_edit"]',
                  editCommentHandler);
     $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
-    
-    $('div[id^=plainCommentText]').css('margin-left', '15px');
 }
 
 function registerResponseCommentCheckboxEvent() {
@@ -253,12 +256,6 @@ function enableHoverToDisplayEditOptions() {
         $('div[id|="commentBar"] a[type="button"]', this).hide();
     });
 }
-
-$(document).ready(function() {
-    registerResponseCommentsEvent();
-    registerResponseCommentCheckboxEvent();
-    enableHoverToDisplayEditOptions();
-});
 
 function removeUnwantedVisibilityOptions(commentId) {
     var commentIds = commentId.split('-');
