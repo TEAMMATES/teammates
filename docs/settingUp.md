@@ -264,7 +264,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 * **GitHub** : Used to host the repo and code reviewing.
 * **Gradle** : Build and dependency management tool.
 * **Node.js** : We use Node Package Manager (NPM) from Node.js as a dependency management tool.
-* **CheckStyle, PMD, FindBugs, Macker, ESLint**: Static analysis tools for code quality check. The details of these tools can be found in [this document](staticAnalysis.md).
+* **CheckStyle, PMD, FindBugs, Macker, ESLint, Stylelint**: Static analysis tools for code quality check. The details of these tools can be found in [this document](staticAnalysis.md).
 * [**PowerPointLabs**](http://PowerPointLabs.info) [Sister project]: Used for creating demo videos.
 * Optional: [**HubTurbo**](https://github.com/HubTurbo/HubTurbo/wiki/Getting-Started) [Sister project]: 
   Can be used as a client for accessing the GitHub issue tracker.

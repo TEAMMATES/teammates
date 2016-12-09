@@ -1,6 +1,11 @@
 var isSessionsAjaxSending = false;
 var oldStatus = null;
 
+$(document).ready(function() {
+    oldStatus = $('.statusMessage').clone();
+    $('#ajaxForSessions').submit(ajaxRequest);
+});
+
 var ajaxRequest = function(e) {
     e.preventDefault();
     
@@ -43,8 +48,3 @@ var ajaxRequest = function(e) {
         }
     });
 };
-
-$(document).ready(function() {
-    oldStatus = $('.statusMessage').clone();
-    $('#ajaxForSessions').submit(ajaxRequest);
-});

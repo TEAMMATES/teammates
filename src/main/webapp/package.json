@@ -16,6 +16,7 @@
     "printthis": "0.1.5",
     "qunitjs": "1.22.0",
     "respond.js": "1.4.2",
+    "stylelint": "7.6.0",
     "tinymce": "4.1.7",
     "topojson": "1.6.26"
   }

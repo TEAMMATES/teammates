@@ -1,6 +1,76 @@
-/*
-    InstructorFeedbackResults.js
-*/
+$(document).ready(function() {
+    var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
+
+    $('a[id^="collapse-panels-button-section-"]').on('click', function() {
+        var isGroupByTeam = document.getElementById('frgroupbyteam').checked;
+        var childPanelType;
+        if (isGroupByTeam) {
+            childPanelType = 'div.panel.panel-warning';
+        } else {
+            childPanelType = participantPanelType;
+        }
+        var panels = $(this).closest('.panel-success')
+                            .children('.panel-collapse')
+                            .find(childPanelType)
+                            .children('.panel-collapse');
+        toggleCollapse(this, panels);
+    });
+
+    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', function() {
+        var panels = $(this).closest('.panel-warning')
+                            .children('.panel-collapse')
+                            .find(participantPanelType)
+                            .children('.panel-collapse');
+        toggleCollapse(this, panels);
+    });
+
+    $('#results-search-box').keyup(function() {
+        updateResultsFilter();
+    });
+
+    // prevent submitting form when enter is pressed.
+    $('#results-search-box').keypress(function(e) {
+        if (e.which === 13) {
+            return false;
+        }
+    });
+
+    if ($('.panel-success').length >= 1 || $('.panel-info').length >= 1 || $('.panel-default').length >= 1) {
+        $('#collapse-panels-button').show();
+    } else {
+        $('#collapse-panels-button').hide();
+    }
+
+    // Show/Hide statistics
+    showHideStats();
+    $('#show-stats-checkbox').change(showHideStats);
+
+    // auto select the html table when modal is shown
+    $('#fsResultsTableWindow').on('shown.bs.modal', function() {
+        selectElementContents(document.getElementById('fsModalTable'));
+    });
+
+    var panels = $('div.panel');
+    bindCollapseEvents(panels, 0);
+    
+    bindPublishButtons();
+    bindUnpublishButtons();
+    
+    $('#button-print').on('click', function() {
+        // Fix to hide the filter placeholder when it is empty.
+        if ($('#results-search-box').val()) {
+            $('#filter-box-parent-div').removeClass('hide-for-print');
+        } else {
+            $('#filter-box-parent-div').addClass('hide-for-print');
+        }
+        
+        $('#mainContent').printThis({
+            importCSS: true,
+            importStyle: true,
+            loadCSS: '/stylesheets/printview.css'
+        });
+    });
+});
 
 /**
  * Selects the whole table
@@ -272,77 +342,3 @@ function removeSection(id) {
 
     $heading.parent().remove();
 }
-
-$(document).ready(function() {
-    var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
-
-    $('a[id^="collapse-panels-button-section-"]').on('click', function() {
-        var isGroupByTeam = document.getElementById('frgroupbyteam').checked;
-        var childPanelType;
-        if (isGroupByTeam) {
-            childPanelType = 'div.panel.panel-warning';
-        } else {
-            childPanelType = participantPanelType;
-        }
-        var panels = $(this).closest('.panel-success')
-                            .children('.panel-collapse')
-                            .find(childPanelType)
-                            .children('.panel-collapse');
-        toggleCollapse(this, panels);
-    });
-
-    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', function() {
-        var panels = $(this).closest('.panel-warning')
-                            .children('.panel-collapse')
-                            .find(participantPanelType)
-                            .children('.panel-collapse');
-        toggleCollapse(this, panels);
-    });
-
-    $('#results-search-box').keyup(function() {
-        updateResultsFilter();
-    });
-
-    // prevent submitting form when enter is pressed.
-    $('#results-search-box').keypress(function(e) {
-        if (e.which === 13) {
-            return false;
-        }
-    });
-
-    if ($('.panel-success').length >= 1 || $('.panel-info').length >= 1 || $('.panel-default').length >= 1) {
-        $('#collapse-panels-button').show();
-    } else {
-        $('#collapse-panels-button').hide();
-    }
-
-    // Show/Hide statistics
-    showHideStats();
-    $('#show-stats-checkbox').change(showHideStats);
-
-    // auto select the html table when modal is shown
-    $('#fsResultsTableWindow').on('shown.bs.modal', function() {
-        selectElementContents(document.getElementById('fsModalTable'));
-    });
-
-    var panels = $('div.panel');
-    bindCollapseEvents(panels, 0);
-    
-    bindPublishButtons();
-    bindUnpublishButtons();
-    
-    $('#button-print').on('click', function() {
-        // Fix to hide the filter placeholder when it is empty.
-        if ($('#results-search-box').val()) {
-            $('#filter-box-parent-div').removeClass('hide-for-print');
-        } else {
-            $('#filter-box-parent-div').addClass('hide-for-print');
-        }
-        
-        $('#mainContent').printThis({
-            importCSS: true,
-            importStyle: true,
-            loadCSS: '/stylesheets/printview.css'
-        });
-    });
-});

@@ -59,7 +59,7 @@
         </c:if>
     </div>
     <%-- do not add whitespace between the opening and closing tags --%>
-    <div id="plainCommentText${commentIndex}">${comment.commentText}</div>
+    <div id="plainCommentText${commentIndex}" style="margin-left: 15px;">${comment.commentText}</div>
     <c:if test="${comment.editDeleteEnabled}">
         <form method="post"
               action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>"

@@ -149,29 +149,30 @@ public final class StringHelper {
     }
     
     /**
-     * Concatenates a list of strings to a single string, separated by line breaks.
+     * Converts and concatenates a list of objects to a single string, separated by line breaks.
+     * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
      * @return Concatenated string.
      */
-    public static String toString(List<String> strings) {
-        return toString(strings, Const.EOL);
+    public static <T> String toString(List<T> list) {
+        return toString(list, Const.EOL);
     }
 
     /**
-     * Concatenates a list of strings to a single string, separated by the given delimiter.
+     * Converts and concatenates a list of objects to a single string, separated by the given delimiter.
+     * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
      * @return Concatenated string.
      */
-    public static String toString(List<String> strings, String delimiter) {
-        if (strings.isEmpty()) {
+    public static <T> String toString(List<T> list, String delimiter) {
+        if (list.isEmpty()) {
             return "";
         }
         
         StringBuilder returnValue = new StringBuilder();
-        for (int i = 0; i < strings.size() - 1; i++) {
-            String s = strings.get(i);
-            returnValue.append(s).append(delimiter);
+        for (int i = 0; i < list.size() - 1; i++) {
+            returnValue.append(list.get(i)).append(delimiter);
         }
         //append the last item
-        returnValue.append(strings.get(strings.size() - 1));
+        returnValue.append(list.get(list.size() - 1));
         
         return returnValue.toString();
     }
