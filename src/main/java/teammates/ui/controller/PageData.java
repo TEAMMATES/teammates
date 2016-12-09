@@ -138,12 +138,10 @@ public class PageData {
      */
     public static List<ElementTag> getNationalitiesAsElementTags(String existingNationality) {
         List<String> nationalities = NationalityHelper.getNationalities();
-        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
-        boolean isEditingExistingNationality = existingNationality != null;
+        List<ElementTag> result = new ArrayList<ElementTag>();
 
         for (String nationality : nationalities) {
-            ElementTag option = createOption(nationality, nationality,
-                                             isEditingExistingNationality && nationality.equals(existingNationality));
+            ElementTag option = createOption(nationality, nationality, nationality.equals(existingNationality));
             result.add(option);
         }
 
