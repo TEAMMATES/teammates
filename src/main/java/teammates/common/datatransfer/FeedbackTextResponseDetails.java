@@ -17,13 +17,13 @@ public class FeedbackTextResponseDetails extends
     
     public FeedbackTextResponseDetails(String answer) {
         super(FeedbackQuestionType.TEXT);
-        this.answer = answer == null ? null : Sanitizer.sanitizeForRichText(answer);
+        this.answer = Sanitizer.sanitizeForRichText(answer);
     }
 
     @Override
     public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
-        this.answer = answer[0] == null ? null : Sanitizer.sanitizeForRichText(answer[0]);
+        this.answer = Sanitizer.sanitizeForRichText(answer[0]);
     }
 
     @Override
