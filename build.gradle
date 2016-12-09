@@ -144,7 +144,7 @@ eclipse {
 
                 // Method to put mail.jar on top of the classpath
                 def nonMailEntries = cp.entries.findAll{ entry ->
-                    !entry.path.contains("mail-1.4.5")
+                    !entry.path.contains("mail-1.4.7")
                 }
                 cp.entries.removeAll(nonMailEntries)
                 cp.entries.addAll(nonMailEntries)
@@ -432,7 +432,7 @@ test {
     options.suites "src/test/testng-travis.xml"
     options.useDefaultListeners = true
     options.outputDirectory = file("build/reports/test-try-1")
-    ignoreFailures = numOfTestRetries != 0
+    ignoreFailures = numOfTestRetries != 0 ? true : false
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
@@ -456,7 +456,7 @@ task travisTests {
 }
 
 (1..numOfTestRetries).each { id ->
-    def isLastRetry = id == numOfTestRetries
+    def isLastRetry = id == numOfTestRetries ? true : false
     task "testRetry${id}"(type: Test) {
         useTestNG()
         options.suites("build/reports/test-try-${id}/testng-failed.xml")
@@ -465,7 +465,7 @@ task travisTests {
         testClassesDir = sourceSets.test.output.classesDir
         classpath = sourceSets.test.runtimeClasspath
         testSrcDirs = sourceSets.test.java.srcDirs as List
-        ignoreFailures = !isLastRetry
+        ignoreFailures = isLastRetry ? false : true
         maxHeapSize = "1g"
         reports.html.enabled = false
         reports.junitXml.enabled = false
