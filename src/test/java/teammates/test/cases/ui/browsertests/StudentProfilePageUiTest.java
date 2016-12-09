@@ -128,14 +128,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                           "male", "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
-        ______TS("Typical case: changing nationalities for complete coverage");
-
-        profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "Canadian",
-                                         "male", "this is enough!$%&*</>");
-        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Canadian",
-                                          "male", "this is enough!$%&*</>");
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
-
         ______TS("Typical case: changing genders for complete coverage");
 
         profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "American",

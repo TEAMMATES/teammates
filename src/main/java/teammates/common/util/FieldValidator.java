@@ -444,7 +444,7 @@ public class FieldValidator {
      *         Returns an empty string if the {@code nationality} is acceptable.
      */
     public String getInvalidityInfoForNationality(String nationality) {
-        Assumption.assertTrue("Non-null value expected", nationality != null);
+        Assumption.assertNotNull("Non-null value expected", nationality);
         if (!NationalityHelper.getNationalities().contains(nationality)) {
             return String.format(NATIONALITY_ERROR_MESSAGE, nationality);
         }
