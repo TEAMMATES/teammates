@@ -18,7 +18,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     @FindBy(id = "button_save_comment")
     private WebElement saveCommentLink;
 
-    @FindBy(id = "commentText")
+    @FindBy(id = "commenttext")
     private WebElement commentTextBox;
 
     public InstructorStudentRecordsPage(Browser browser) {
