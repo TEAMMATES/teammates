@@ -170,8 +170,14 @@
           </tbody>
         </table>
       </div>
-      <textarea class="form-control" id="commentText" name="commenttext" placeholder="Enter your comment here ..." rows="6" style="margin-bottom: 15px;">
-      </textarea>
+      <div id="rich-text-toolbar-comment-container">
+      </div>
+      <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" id="commenttext" spellcheck="false" style="margin-bottom: 15px; position: relative;">
+        <p>
+          <br data-mce-bogus="1">
+        </p>
+      </div>
+      <input name="commenttext" type="hidden">
       <div style="text-align: center;">
         <input class="btn btn-primary" id="button_save_comment" type="submit" value="Save">
         <input class="btn btn-default" id="button_cancel_comment" type="button" value="Cancel">
