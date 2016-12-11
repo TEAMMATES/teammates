@@ -113,8 +113,8 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForRichText() {
-        assertEquals(null, Sanitizer.sanitizeForRichText((Text)null));
-        assertEquals(null, Sanitizer.sanitizeForRichText((String)null));
+        assertEquals(null, Sanitizer.sanitizeForRichText((Text) null));
+        assertEquals(null, Sanitizer.sanitizeForRichText((String) null));
         assertEquals("", Sanitizer.sanitizeForRichText(""));
         assertEquals("<p>wihtout changes</p>", Sanitizer.sanitizeForRichText("<p>wihtout changes</p>"));
         assertEquals("<p>spaces test</p>", Sanitizer.sanitizeForRichText("<p >spaces test</p >"));
