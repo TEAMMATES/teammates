@@ -146,7 +146,7 @@ public final class Sanitizer {
     /**
      * Sanitizes the {@link com.google.appengine.api.datastore.Text} with rich-text.
      * Removes disallowed elements based on defined policy.
-     * @return A new sanitized {@link com.google.appengine.api.datastore.Text} or null if the input was null. 
+     * @return A new sanitized {@link com.google.appengine.api.datastore.Text} or null if the input was null.
      */
     public static Text sanitizeForRichText(Text text) {
         if (text == null || text.getValue() == null) {
