@@ -135,11 +135,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("create new responses");
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
 
         String responseText = "Test Self Feedback";
-        submitPage.fillResponseTextBox(1, 0, responseText);
+        submitPage.fillResponseRichTextEditor(1, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(1, 0));
-        
+
         responseText = "Response to Benny.";
         submitPage.selectRecipient(2, 0, "Benny Charles");
         submitPage.fillResponseTextBox(2, 0, responseText);
@@ -348,7 +349,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         //check edited
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-        assertEquals(editedResponse,
+        assertEquals("<p>" + editedResponse + "</p>",
                      BackDoor.getFeedbackResponse(fq.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
                                                   "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData.getValue());
 
@@ -533,7 +534,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.selectRecipient(2, 2, "");
         submitPage.fillResponseTextBox(2, 2, "Response to no recipient");
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyStatus("You did not specify a recipient for your response in question(s) 2.");
+        submitPage.verifyStatus("You did not specify a recipient for your response in question 2.");
     }
 
     private void testResponsiveSubmission() {

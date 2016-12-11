@@ -5,8 +5,9 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/search" prefix="adminSearch" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/adminSearch.js"></script>
     <script type="text/javascript" src="/js/lib/jquery.highlight.js"></script>
+    <script type="text/javascript" src="/js/administrator.js"></script>
+    <script type="text/javascript" src="/js/adminSearch.js"></script>
 </c:set>
 
 <ta:adminPage bodyTitle="Admin Search" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">

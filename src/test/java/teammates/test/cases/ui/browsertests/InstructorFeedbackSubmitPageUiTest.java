@@ -252,7 +252,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
 
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-        assertEquals(editedResponse,
+        assertEquals("<p>" + editedResponse + "</p>",
                     BackDoor.getFeedbackResponse(
                                  fq.getId(), "IFSubmitUiT.instr@gmail.tmt",
                                  "IFSubmitUiT.alice.b@gmail.tmt").getResponseDetails().getAnswerString());
@@ -339,13 +339,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-"
                                                     + qnNumber + "-" + responseNumber));
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-"
-                                                     + qnNumber + "-" + responseNumber));
 
         // Test that the recipient selection is disabled and not visible
         assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-"
-                                                     + qnNumber + "-" + responseNumber));
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-"
                                                      + qnNumber + "-" + responseNumber));
     }
 

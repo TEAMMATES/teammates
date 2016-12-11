@@ -97,9 +97,9 @@ function setupFsCopyModal() {
     $('#instructorCopyModalForm').submit(
         function(e) {
             e.preventDefault();
-            $this = $(this);
+            var $this = $(this);
             
-            $copyModalStatusMessage = $('#feedback-copy-modal-status');
+            var $copyModalStatusMessage = $('#feedback-copy-modal-status');
             
             $.ajax({
                 type: 'POST',
@@ -247,7 +247,7 @@ function bindCourseDeleteLinks() {
     $('body').on('click', '.course-delete-link', function(event) {
         event.preventDefault();
 
-        $clickedLink = $(event.target);
+        var $clickedLink = $(event.target);
         var messageText = 'Are you sure you want to delete the course: ' + $clickedLink.data('courseId') + '? '
                           + 'This operation will delete all students and sessions in this course. '
                           + 'All instructors of this course will not be able to access it hereafter as well.';
@@ -296,7 +296,7 @@ function bindRemindButtons() {
     $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', function(event) {
         event.preventDefault();
 
-        $button = $(event.target);
+        var $button = $(event.target);
         var messageText = 'Send e-mails to remind students who have not submitted their feedback for '
                           + $button.data('fsname') + '?';
         var okCallback = function() {
@@ -334,7 +334,7 @@ function bindUnpublishButtons() {
     $('body').on('click', '.session-unpublish-for-test', function(event) {
         event.preventDefault();
 
-        $button = $(event.target);
+        var $button = $(event.target);
         var messageText = 'Are you sure you want to unpublish the session ' + $button.data('fsname') + '?';
         var okCallback = function() {
             window.location = $button.attr('href');
