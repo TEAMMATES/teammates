@@ -72,7 +72,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.giverEmail = giverEmail;
         this.feedbackResponseId = feedbackResponseId;
         this.createdAt = createdAt;
-        this.commentText = commentText == null ? null : new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
+        this.commentText = Sanitizer.sanitizeForRichText(commentText);
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
         this.showCommentTo = new ArrayList<FeedbackParticipantType>();
@@ -191,9 +191,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     @Override
     public void sanitizeForSaving() {
         this.commentText = Sanitizer.sanitizeTextField(this.commentText);
-        if (commentText != null) {
-            this.commentText = new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
-        }
+        this.commentText = Sanitizer.sanitizeForRichText(this.commentText);
     }
     
     @Override

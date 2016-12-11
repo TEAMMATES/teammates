@@ -142,6 +142,18 @@ public final class Sanitizer {
         }
         return policy.sanitize(content);
     }
+    
+    /**
+     * Sanitizes the {@link com.google.appengine.api.datastore.Text} with rich-text.
+     * Removes disallowed elements based on defined policy.
+     * @return A new sanitized {@link com.google.appengine.api.datastore.Text} or null if the input was null. 
+     */
+    public static Text sanitizeForRichText(Text text) {
+        if (text == null || text.getValue() == null) {
+            return null;
+        }
+        return new Text(Sanitizer.sanitizeForRichText(text.getValue()));
+    }
 
     /**
      * Sanitizes the string for inserting into HTML. Converts special characters

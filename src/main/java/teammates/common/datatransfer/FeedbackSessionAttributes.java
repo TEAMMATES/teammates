@@ -103,7 +103,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorId;
-        this.instructions = instructions == null ? null : new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));
+        this.instructions = Sanitizer.sanitizeForRichText(instructions);
         this.createdTime = createdTime;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -459,10 +459,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public void sanitizeForSaving() {
-
-        if (instructions != null) {
-            this.instructions = new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));
-        }
+        this.instructions = Sanitizer.sanitizeForRichText(instructions);
     }
 
     @Override
