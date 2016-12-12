@@ -124,7 +124,7 @@ public class StudentProfilePage extends AppPage {
      * if the nationality is valid, otherwise it fails with a message.
      */
     public void selectNationality(String studentNationality) {
-        if (NationalityHelper.getNationalities().contains(studentNationality)) {
+        if (NationalityHelper.getNationalities().contains(studentNationality) || "".equals(studentNationality)) {
             Select dropdown = new Select(studentNationalityDropdown);
             dropdown.selectByVisibleText(studentNationality);
         } else {
@@ -158,7 +158,9 @@ public class StudentProfilePage extends AppPage {
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);
-        selectNationality(nationality);
+        if (nationality != null) {
+            selectNationality(nationality);
+        }
         fillMoreInfo(moreInfo);
         selectGender(gender);
         submitEditedProfile();
@@ -179,7 +181,7 @@ public class StudentProfilePage extends AppPage {
      * If not, it fails with a message.
      */
     private void ensureNationalityIsSelectedAs(String nationality) {
-        if (NationalityHelper.getNationalities().contains(nationality)) {
+        if (NationalityHelper.getNationalities().contains(nationality) || "".equals(nationality)) {
             assertEquals(nationality, studentNationalityDropdown.getAttribute("value"));
         } else {
             fail("unexpected nationality value given");
