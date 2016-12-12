@@ -9,8 +9,10 @@
 <link href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
+<link href="${lib.path}/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
+<link href="${lib.path}/skins/lightgray/content.inline.min.css" rel="stylesheet">
 </head>
-<body>
+<body spellcheck="false">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -308,8 +310,14 @@
           </tbody>
         </table>
       </div>
-      <textarea class="form-control" id="commentText" name="commenttext" placeholder="Enter your comment here ..." rows="6" style="margin-bottom: 15px;">
-      </textarea>
+      <div id="rich-text-toolbar-comment-container">
+      </div>
+      <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" id="commenttext" spellcheck="false" style="margin-bottom: 15px; position: relative;">
+        <p>
+          <br data-mce-bogus="1">
+        </p>
+      </div>
+      <input name="commenttext" type="hidden">
       <div style="text-align: center;">
         <input class="btn btn-primary" id="button_save_comment" type="submit" value="Save">
         <input class="btn btn-default" id="button_cancel_comment" type="button" value="Cancel">
@@ -411,6 +419,10 @@
 <script src="/js/lib/bootbox.min.js" type="text/javascript">
 </script>
 <script src="/js/common.js" type="text/javascript">
+</script>
+<script src="/js/lib/tinymce.min.js" type="text/javascript">
+</script>
+<script src="/js/richTextEditor.js" type="text/javascript">
 </script>
 <script src="/js/instructor.js" type="text/javascript">
 </script>

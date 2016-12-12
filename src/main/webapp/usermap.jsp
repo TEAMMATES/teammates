@@ -8,7 +8,7 @@
     <script type="text/javascript" src="/js/userMap.js"></script>
 </c:set>
 <t:staticPage jsIncludes="${jsIncludes}">
-    <h1 id="caption">Who is using TEAMMATES?</h1>
+    <h1 class="caption">Who is using TEAMMATES?</h1>
     <div id="contentHolder">
         <div id="container" style="position: relative; width: 800px; height: 500px; border: 1px solid #DEDEDE;"></div>
         <p id="lastUpdate" class="lastUpdate">Last updated: 30 September 2016</p>
