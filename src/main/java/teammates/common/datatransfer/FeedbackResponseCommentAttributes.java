@@ -190,7 +190,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.commentText = Sanitizer.sanitizeTextField(this.commentText);
         this.commentText = Sanitizer.sanitizeForRichText(this.commentText);
     }
     
