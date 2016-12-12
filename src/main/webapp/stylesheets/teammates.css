@@ -192,7 +192,7 @@ h2 {
     font-weight: bold;
 }
 
-#caption {
+.caption {
     margin: 30px auto;
     width: 800px;
     color: #e46d0b;
