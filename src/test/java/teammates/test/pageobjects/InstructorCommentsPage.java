@@ -170,8 +170,7 @@ public class InstructorCommentsPage extends AppPage {
         WebElement textarea = browser.driver.findElement(By.id(editorId));
         waitForRichTextEditorToLoad(editorId);
         click(textarea);
-        textarea.clear();
-        textarea.sendKeys(text);
+        fillRichTextEditor(textarea.getAttribute("id"), text);
     }
     
     public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx,

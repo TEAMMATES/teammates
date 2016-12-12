@@ -1,6 +1,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="about">
-    <h1 id="caption">About Us</h1>
+    <h1 class="caption">About Us</h1>
     <div id="contentHolder">
         <p class="bold">Acknowledgements:</p>
         <br>
