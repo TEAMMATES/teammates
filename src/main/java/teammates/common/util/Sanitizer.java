@@ -152,7 +152,7 @@ public final class Sanitizer {
         if (text == null || text.getValue() == null) {
             return null;
         }
-        return new Text(Sanitizer.sanitizeForRichText(sanitizeTextField(text.getValue())));
+        return new Text(Sanitizer.sanitizeForRichText(text.getValue()));
     }
 
     /**
