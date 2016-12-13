@@ -392,6 +392,22 @@ public final class Const {
                 "Cancel adding new question. No new question will be added to the feedback session.";
         public static final String FEEDBACK_QUESTION_INPUT_DESCRIPTION =
                 "Please enter the description of the question.";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_OPTION =
+                "Respondents will have to distribute the total points specified here among the options, "
+                + "e.g. if you specify 100 points here and there are 3 options, "
+                + "respondents will have to distribute 100 points among 3 options.";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_RECIPIENT =
+                "Respondents will have to distribute the total points specified here among the recipients, "
+                + "e.g. if you specify 100 points here and there are 3 recipients, "
+                + "respondents will have to distribute 100 points among 3 recipients.";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION =
+                "The number of points to distribute will vary based on the number of options, "
+                + "e.g. if you specify 100 points here and there are 3 options, "
+                + "the total number of points to distribute among 3 options will be 300 (i.e. 100 x 3).";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT =
+                "The number of points to distribute will vary based on the number of recipients, "
+                + "e.g. if you specify 100 points here and there are 3 recipients, "
+                + "the total number of points to distribute among 3 recipients will be 300 (i.e. 100 x 3).";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
@@ -742,7 +758,6 @@ public final class Const {
         public static final String STUDENT_ID = "googleid";
         
         public static final String REGKEY = "key";
-        public static final String REGKEY_LEGACY = "regkey";
         public static final String STUDENT_EMAIL = "studentemail";
         public static final String FROM_COMMENTS_PAGE = "commentpage";
         public static final String FROM_COURSE_DETAILS_PAGE = "coursedetailspage";

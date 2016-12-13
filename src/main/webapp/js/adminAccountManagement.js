@@ -8,13 +8,14 @@ var currentPage = 1;
 var totalPages;
 
 $(document).ready(function() {
-    
     toggleSort($('#button_sort_createat').parent());
     reLabelOrderedAccountEntries();
     caculateTotalPages();
     updatePagination();
     showFirstPage();
     updateEntriesCount();
+    bindDeleteAccountAction();
+    AdminCommon.bindBackToTopButtons();
 });
 
 function updatePagination() {
@@ -139,6 +140,27 @@ function goToNextPage() {
     showEntriesForSelectedPage();
     updateEntriesCount();
     updatePagination();
+}
+
+function bindDeleteAccountAction() {
+    $('.admin-delete-account-link').on('click', function(event) {
+        event.preventDefault();
+
+        var $clickedLink = $(event.target);
+        var googleId = $clickedLink.data('googleId');
+        var existingCourses = document.getElementById('courses_' + googleId).innerHTML;
+
+        var messageText = 'Are you sure you want to delete the account ' + googleId + '?'
+                          + '<br><br>' + existingCourses
+                          + '<br><br>This operation will delete ALL information about this account from the system.';
+
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deletion', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+    });
 }
 
 $(document).keydown(function(e) {

@@ -307,9 +307,12 @@
                         </table>
                       </div>
                       <div class="form-group">
-                        <textarea class="form-control" id="commentText1" name="commenttext" placeholder="Your comment about this student" rows="3">
+                        <div id="rich-text-toolbar-comment-container-1">
+                        </div>
+                        <div class="panel panel-default panel-body" id="commentText1">
                           This is a private comment--cannot seen by other instructors
-                        </textarea>
+                        </div>
+                        <input name="commenttext" type="hidden">
                       </div>
                       <div class="col-sm-offset-5">
                         <input class="btn btn-primary" id="commentsave-1" onclick="return submitCommentForm('1');" title="Save comment" type="submit" value="Save">
