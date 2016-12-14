@@ -23,8 +23,8 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
 import teammates.logic.automated.FeedbackSubmissionAdjustmentAction;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -34,7 +34,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-import com.google.gson.Gson;
 
 public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCase {
     
@@ -259,8 +258,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
                                          oldTeam, newTeam, oldSection, newSection);
         ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
-        Gson gsonBuilder = Utils.getTeammatesGson();
-        String enrollString = gsonBuilder.toJson(enrollList);
+        String enrollString = JsonUtils.toJson(enrollList);
 
         //Prepare parameter map
         HashMap<String, String> paramMap = new HashMap<String, String>();
