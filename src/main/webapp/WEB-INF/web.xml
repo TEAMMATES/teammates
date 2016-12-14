@@ -223,7 +223,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     
     <servlet>
         <servlet-name>EntityModifiedLogs</servlet-name>
-        <servlet-class>teammates.logic.automated.EntityModifiedLogsServlet</servlet-class>
+        <servlet-class>teammates.ui.controller.EntityModifiedLogsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EntityModifiedLogs</servlet-name>
@@ -324,6 +324,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>AdminPages</web-resource-name>
             <description>Page for admin use only</description>
             <url-pattern>/admin/*</url-pattern>
+            <url-pattern>/entityModifiedLogs</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>

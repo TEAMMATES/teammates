@@ -1,14 +1,17 @@
-package teammates.logic.automated;
+package teammates.ui.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Utils;
 
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
@@ -17,34 +20,33 @@ import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
 
 @SuppressWarnings("serial")
-public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
-
+public class EntityModifiedLogsServlet extends HttpServlet {
+    
+    private static final Logger log = Utils.getLogger();
+    
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        servletName = "entityModifiedLogs";
-        action = "extracts entities that were modified from logs";
-
-        String message = "Compiling logs for email notification";
-        logMessage(req, message);
-
+        doPost(req, resp);
+    }
+    
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         resp.setContentType("application/json");
-   
         try {
             PrintWriter writer = resp.getWriter();
-
             LogService logService = LogServiceFactory.getLogService();
-
-            long endTime = new java.util.Date().getTime();
-            // Sets the range to 6 minutes to slightly overlap the 5 minute scheduled task timer
+            
+            long endTime = new Date().getTime();
             long queryRange = 1000 * 60 * 60 * 24;
             long startTime = endTime - queryRange;
-
-            LogQuery q = LogQuery.Builder.withDefaults().includeAppLogs(true)
-                    .startTimeMillis(startTime).endTimeMillis(endTime);
-            Iterator<RequestLogs> logIterator = logService.fetch(q).iterator();
-
-            while (logIterator.hasNext()) {
-                RequestLogs requestLogs = logIterator.next();
+            
+            LogQuery q = LogQuery.Builder.withDefaults()
+                                         .includeAppLogs(true)
+                                         .startTimeMillis(startTime)
+                                         .endTimeMillis(endTime);
+            Iterable<RequestLogs> logs = logService.fetch(q);
+            
+            for (RequestLogs requestLogs : logs) {
                 List<AppLogLine> logList = requestLogs.getAppLogLines();
                 
                 for (int i = 0; i < logList.size(); i++) {
@@ -53,7 +55,6 @@ public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
                     if (logMessage.contains("modified course::")) {
                         String[] tokens = logMessage.split("::");
                         String courseId = tokens[1];
-                      
                         writer.println(courseId);
                     }
                 }
@@ -62,4 +63,5 @@ public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
             log.severe(TeammatesException.toStringWithStackTrace(e));
         }
     }
+    
 }

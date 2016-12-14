@@ -22,7 +22,6 @@ public class AutomatedActionFactory {
         map("/auto/compileLogs", null);
         map("/auto/courseJoinRemindEmailWorker", null);
         map("/auto/emailWorker", null);
-        map("/auto/entityModifiedLogs", null);
         map("/auto/feedbackRemindEmailParticularUsersWorker", null);
         map("/auto/feedbackRemindEmailWorker", null);
         map("/auto/feedbackSessionOpeningReminders", null);
