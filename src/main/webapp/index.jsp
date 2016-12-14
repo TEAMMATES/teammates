@@ -7,7 +7,7 @@
 <t:staticPage jsIncludes="${jsIncludes}" currentPage="index">
     <div id="browserMessage" style="display: none;"></div>
     <br>
-    <h1 id="caption" style="text-align: center;">
+    <h1 class="caption" style="text-align: center;">
         Student peer evaluations/feedback, shareable instructor comments, and more...
     </h1>
     <div id="contentHolder">                  
@@ -113,7 +113,7 @@
                 <h2 class="overviewByteHeading">Not for Profit:</h2>
                 <p>
                     TEAMMATES does not have commercial ambitions. It is funded mainly by education grants from the National University of Singapore.
-                    TEAMMATES also received funding support under the <a href="https://www.google-melange.com/"> Google Summer of Code</a> program in 2014 and 2015.
+                    TEAMMATES also received funding support under the <a href="https://developers.google.com/open-source/gsoc/" target="_blank"> Google Summer of Code</a> program in 2014 and 2015.
                 </p>
             </div>
             <div style="clear: both;"></div>
@@ -127,9 +127,9 @@
                 <h2 class="overviewByteHeading">Well Received by the Academic Community:</h2>
                 <p>
                     TEAMMATES has been presented, and well-received, in education-related conferences such as the 
-                    <a href="http://conferences.computer.org/cseet/2011/CSEET_2011/Index.jsp" target="blank">International Conference on Software Engineering Education and Training (CSEET)</a>,
-                    the <a href="http://www.cdtl.nus.edu.sg/tlhe/" target="blank">International Conference on Teaching and Learning in Higher Education (TLHE)</a>,
-                    the <a href="http://iated.org/edulearn13/" target="blank">EDULEARN13 Conference (Spain)</a>,
+                    <a href="http://conferences.computer.org/cseet/2011/CSEET_2011/Index.html" target="blank">International Conference on Software Engineering Education and Training (CSEET)</a>,
+                    the <a href="http://www.cdtl.nus.edu.sg/Tlhe/tlhe2011/default.htm" target="blank">International Conference on Teaching and Learning in Higher Education (TLHE)</a>,
+                    the <a href="https://iated.org/edulearn13/" target="blank">EDULEARN13 Conference (Spain)</a>,
                     and the <a href="http://cdtl.nus.edu.sg/tel2013/" target="blank">Tel2013 Symposium (Singapore)</a>.
                 </p>
             </div>

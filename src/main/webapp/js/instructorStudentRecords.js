@@ -4,8 +4,6 @@ var DISPLAY_COMMENT_BLANK = 'Please enter a valid comment. The comment can\'t be
 
 $(document).ready(function() {
 
-    $('div[id^="plainCommentText"]').css('margin-left', '15px');
-
     // Auto-loading for feedback responses
     $('div[id^="studentFeedback-"]').click();
 
@@ -88,6 +86,11 @@ function readyStudentRecordsPage() {
  * Currently done this way because the link is placed on a different column
  */
 function submitCommentForm(commentIdx) {
+    if ($('#' + COMMENT_EDITTYPE + '-' + commentIdx).val() !== 'delete') {
+        tinymce.get('commentText' + commentIdx).save();
+        $('input[name=commentText' + commentIdx + ']').attr('name', 'commenttext');
+    }
+
     $('#form_commentedit-' + commentIdx).submit();
     return false;
 }
@@ -97,7 +100,19 @@ function submitCommentForm(commentIdx) {
  * Blanks are not allowed.
  */
 function checkComment(form) {
-    var formTextField = $(form).find('[name="' + COMMENT_TEXT + '"]').val();
+    var formTextField;
+
+    if ($(form).find('[id^=' + COMMENT_EDITTYPE + ']').val() === 'delete') {
+        return true;
+    }
+
+    if ($(form).attr('name') === 'form_commentadd') {
+        formTextField = tinymce.get(COMMENT_TEXT).getContent();
+    } else {
+        var editorId = $(form).attr('id').match(/^form_commentedit-(\d+)$/)[1];
+        formTextField = tinymce.get('commentText' + editorId).getContent();
+    }
+
     if (isBlank(formTextField)) {
         setStatusMessage(DISPLAY_COMMENT_BLANK, StatusType.DANGER);
         scrollToTop();
@@ -110,7 +125,15 @@ function checkComment(form) {
  */
 function showAddCommentBox() {
     $('#comment_box').show();
-    $('#commentText').focus();
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#commenttext', {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-comment-container'
+        });
+        /* eslint-enable camelcase */
+    }
 }
 
 function hideAddCommentBox() {
@@ -138,8 +161,15 @@ function enableComment(commentIdx) {
     $('#commentBar-' + commentIdx).hide();
     $('#plainCommentText' + commentIdx).hide();
     $('div[id="commentTextEdit' + commentIdx + '"]').show();
-    $('textarea[id="commentText' + commentIdx + '"]').val($('#plainCommentText' + commentIdx).text());
-    $('textarea[id="commentText' + commentIdx + '"]').focus();
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#commentText' + commentIdx, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-comment-container-' + commentIdx
+        });
+        /* eslint-enable camelcase */
+    }
 }
 
 function disableComment(commentIdx) {

@@ -1,6 +1,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="about">
-    <h1 id="caption">About Us</h1>
+    <h1 class="caption">About Us</h1>
     <div id="contentHolder">
         <p class="bold">Acknowledgements:</p>
         <br>
@@ -11,10 +11,10 @@
             <br>
             <ul>
                 <li style="margin: 0 0 10px 0;">
-                    <a href="http://www.comp.nus.edu.sg/">School of Computing, National University of Singapore (NUS)</a>, for providing us with the infrastructure support to run the project.
+                    <a href="http://www.comp.nus.edu.sg/" target="_blank">School of Computing, National University of Singapore (NUS)</a>, for providing us with the infrastructure support to run the project.
                 </li>
                 <li style="margin: 0 0 10px 0;">
-                    <a href="http://www.cdtl.nus.edu.sg/">Centre for Development of Teaching and Learning (CDTL)</a> of NUS, for supporting us with several Teaching Enhancement Grants over the years.
+                    <a href="http://www.cdtl.nus.edu.sg/" target="_blank">Centre for Development of Teaching and Learning (CDTL)</a> of NUS, for supporting us with several Teaching Enhancement Grants over the years.
                 </li>
                 <li style="margin: 0 0 10px 0;">
                     <span class="bold">Learning Innovation Fund-Technology (LIF-T)</span> initiative of NUS, for funding us for the 2015-2018 period.
@@ -26,7 +26,7 @@
                     <span class="bold">Facebook Open Academy</span> Program, for including TEAMMATES as a mentor organization in FBOA 2016.
                 </li>
                 <li style="margin: 0 0 10px 0;">
-                    <span class="bold">YourKit LLC</span>, for providing us with free licenses for the <a href="https://www.yourkit.com/.net/profiler/index.jsp">YourKit Java Profiler</a>
+                    <span class="bold">YourKit LLC</span>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler/" target="_blank">YourKit Java Profiler</a>
                     <img src="https://www.yourkit.com/images/yklogo.png" width='70'>.
                 </li>
             </ul>
@@ -39,7 +39,7 @@
                     <img src="images/teammembers/damith.png" width="180px">
                 </td>
                 <td class="coreTeamDetailsCell">
-                    <a href="http://www.comp.nus.edu.sg/~damithch">Damith C. Rajapakse</a><br><br>
+                    <a href="http://www.comp.nus.edu.sg/~damithch/" target="_blank">Damith C. Rajapakse</a><br><br>
                     Founder (2010)<br>
                     Project Mentor (2010 -)
                 </td>
@@ -433,6 +433,10 @@
                 <li>Kseniia Solodovnik 
                     [bug reporting/fixing, enhancements]
                 </li>
+                <li>Lee Lunn
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aleelunn"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Le Minh Khue 
                     [bug reporting/fixing, enhancements]
                 </li>
@@ -453,6 +457,10 @@
                 </li>
                 <li>Michael Limantara 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amikelimantara"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Mohamed Moanis
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amohamed-moanis"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Mohit Singh Kanwal 
@@ -641,6 +649,10 @@
                 </li>
                 <br>
                 <div style="margin: 0 auto; padding: 0 0 15px;">[One-time contributions]</div>
+                <li>Adarsh Khubchandani
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aaskhubchandani"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Alexandr Kolymago
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajusttimki"
                         target="_blank">bug reporting/fixing, enhancements</a>]
@@ -733,6 +745,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aleonardhml"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Lim Jia Yee
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajia1"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Mairieli Wessel 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amairieli"
                         target="_blank">bug reporting/fixing, enhancements</a>]
@@ -822,12 +838,20 @@
                 <li>Vaibhav Desai 
                     [bug reporting/fixing, enhancements]
                 </li>
+                <li>Vamsi Sangam
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AVamsiSangam"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Venkatesan Harish 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aharishv7"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Warren Schrader
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AwwSchrader"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Xiao Pu
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Axpdavid"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
             </ol>

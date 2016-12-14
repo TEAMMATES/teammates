@@ -72,7 +72,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.giverEmail = giverEmail;
         this.feedbackResponseId = feedbackResponseId;
         this.createdAt = createdAt;
-        this.commentText = commentText;
+        this.commentText = commentText == null ? null : new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
         this.showCommentTo = new ArrayList<FeedbackParticipantType>();
@@ -192,9 +192,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public void sanitizeForSaving() {
         this.commentText = Sanitizer.sanitizeTextField(this.commentText);
         if (commentText != null) {
-            //replacing "\n" with "\n<br>" here is to make comment text support displaying breakline
-            String sanitizedText = Sanitizer.sanitizeForHtml(commentText.getValue()).replace("\n", "\n<br>");
-            this.commentText = new Text(sanitizedText);
+            this.commentText = new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
         }
     }
     
