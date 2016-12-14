@@ -1,13 +1,11 @@
 package teammates.common.datatransfer;
 
-import java.util.logging.Logger;
-
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 
 public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetails {
 
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     private double answer;
     

@@ -1,6 +1,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage>
-    <h1 id="caption">
+    <h1 class="caption">
         Request for an Account
     </h1>
     <div id="contentHolder">

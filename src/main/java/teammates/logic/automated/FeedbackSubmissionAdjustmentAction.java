@@ -13,12 +13,11 @@ import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
@@ -78,9 +77,8 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                                         FeedbackResponsesLogic.inst().getFeedbackResponsesForSession(
                                                                         feedbackSession.getFeedbackSessionName(),
                                                                         feedbackSession.getCourseId());
-        Gson gsonParser = Utils.getTeammatesGson();
         ArrayList<StudentEnrollDetails> enrollmentList =
-                gsonParser.fromJson(enrollmentDetails, new TypeToken<ArrayList<StudentEnrollDetails>>(){}.getType());
+                JsonUtils.fromJson(enrollmentDetails, new TypeToken<ArrayList<StudentEnrollDetails>>(){}.getType());
         for (FeedbackResponseAttributes response : allResponses) {
             try {
                 StudentsLogic.inst().adjustFeedbackResponseForEnrollments(enrollmentList, response);

@@ -9,12 +9,11 @@ import org.json.JSONObject;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackQuestion;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.gson.Gson;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
@@ -150,7 +149,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, FeedbackQuestionAttributes.class);
+        return JsonUtils.toJson(this, FeedbackQuestionAttributes.class);
     }
 
     @Override
@@ -566,8 +565,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * @param questionDetails
      */
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
-        Gson gson = Utils.getTeammatesGson();
-        questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
+        questionMetaData = new Text(JsonUtils.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
     }
 
     /** 
@@ -581,8 +579,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         if (questionType == FeedbackQuestionType.TEXT && !isValidJsonString(questionMetaDataValue)) {
             return new FeedbackTextQuestionDetails(questionMetaDataValue);
         }
-        Gson gson = Utils.getTeammatesGson();
-        return gson.fromJson(questionMetaDataValue, getFeedbackQuestionDetailsClass());
+        return JsonUtils.fromJson(questionMetaDataValue, getFeedbackQuestionDetailsClass());
     }
 
     /** 

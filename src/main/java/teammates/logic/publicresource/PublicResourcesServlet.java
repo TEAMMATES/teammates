@@ -1,7 +1,6 @@
 package teammates.logic.publicresource;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +10,7 @@ import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 
 /** 
  * Serves the public resources stored in google cloud storage using the blobkey.<br>
@@ -20,7 +19,7 @@ import teammates.common.util.Utils;
 @SuppressWarnings("serial")
 public abstract class PublicResourcesServlet extends HttpServlet {
     
-    protected static final Logger log = Utils.getLogger();
+    protected static final Logger log = Logger.getLogger();
     
     protected String servletName = "Unspecified";
     protected String action = "unspecified";

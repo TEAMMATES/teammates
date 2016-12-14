@@ -327,7 +327,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         // The stack trace is different depending on the environment in which the test is run at.
         // As a workaround, after the last common line, change all the stack trace to "..."
         String lastCommonLineRegex =
-                "(?s)(at org\\.testng\\.TestRunner\\.run\\(TestRunner\\.java:617\\)\\s*)at.*?(\\s*</code>)";
+                "(?s)(at org\\.testng\\.TestRunner\\.run\\(TestRunner\\.java:621\\)\\s*)at.*?(\\s*</code>)";
         String modifiedContent = email.getContent().replaceAll(lastCommonLineRegex, "$1...$2");
         email.setContent(modifiedContent);
         
