@@ -44,6 +44,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.TimeKeeper;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
@@ -2056,8 +2057,10 @@ public class FeedbackSessionsLogic {
                     }
     
                     boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
+                    TimeKeeper timeKeeper = new TimeKeeper();
                     if (thisQuestionHasResponses) {
                         for (FeedbackResponseAttributes response : responsesForThisQn) {
+                            timeKeeper.hasEnoughTimeThrowException();
                             boolean isVisibleResponse = false;
                             if (response.giver.equals(userEmail)
                                     || response.recipient.equals(userEmail)
@@ -2188,7 +2191,9 @@ public class FeedbackSessionsLogic {
         }
         
         Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
+        TimeKeeper timeKeeper = new TimeKeeper();
         for (FeedbackResponseAttributes response : allResponses) {
+            timeKeeper.hasEnoughTimeThrowException();
             FeedbackQuestionAttributes relatedQuestion = allQuestionsMap
                     .get(response.feedbackQuestionId);
             if (relatedQuestion != null) {
