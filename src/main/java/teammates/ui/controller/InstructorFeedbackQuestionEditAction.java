@@ -200,8 +200,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                                                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
         
         if (numberOfEntitiesIsUserDefined(newQuestion.recipientType, nEntityTypes)) {
-            String nEntities;
-            nEntities = HttpRequestHelper.getValueFromParamMap(requestParameters,
+            String nEntities = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
             Assumption.assertNotNull(nEntities);
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(nEntities);
