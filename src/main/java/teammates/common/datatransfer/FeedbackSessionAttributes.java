@@ -12,9 +12,9 @@ import java.util.TimeZone;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackSession;
 
 import com.google.appengine.api.datastore.Text;
@@ -185,7 +185,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, FeedbackSessionAttributes.class);
+        return JsonUtils.toJson(this, FeedbackSessionAttributes.class);
     }
 
     @Override

@@ -8,9 +8,9 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackResponseComment;
 
 import com.google.appengine.api.datastore.Text;
@@ -185,7 +185,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, FeedbackResponseCommentAttributes.class);
+        return JsonUtils.toJson(this, FeedbackResponseCommentAttributes.class);
     }
     
     @Override

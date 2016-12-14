@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,12 +15,12 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 import teammates.logic.core.EmailSender;
 
 public abstract class EmailAction {
 
-    protected static final Logger log = Utils.getLogger();
+    protected static final Logger log = Logger.getLogger();
     
     protected HttpServletRequest req;
     protected List<EmailWrapper> emailsToBeSent;

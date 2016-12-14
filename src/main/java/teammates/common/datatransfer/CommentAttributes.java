@@ -11,9 +11,9 @@ import java.util.Set;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
 
 import com.google.appengine.api.datastore.Text;
@@ -201,7 +201,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
 
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, CommentAttributes.class);
+        return JsonUtils.toJson(this, CommentAttributes.class);
     }
     
     @Override

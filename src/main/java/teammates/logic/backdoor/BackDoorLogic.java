@@ -26,8 +26,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CommentsDb;
@@ -267,85 +267,85 @@ public class BackDoorLogic extends Logic {
 
     public String getAccountAsJson(String googleId) {
         AccountAttributes accountData = getAccount(googleId, true);
-        return Utils.getTeammatesGson().toJson(accountData);
+        return JsonUtils.toJson(accountData);
     }
 
     public String getStudentProfileAsJson(String googleId) {
         StudentProfileAttributes profileData = getStudentProfile(googleId);
-        return Utils.getTeammatesGson().toJson(profileData);
+        return JsonUtils.toJson(profileData);
     }
     
     public String getInstructorAsJsonById(String instructorId, String courseId) {
         InstructorAttributes instructorData = getInstructorForGoogleId(courseId, instructorId);
-        return Utils.getTeammatesGson().toJson(instructorData);
+        return JsonUtils.toJson(instructorData);
     }
     
     public String getInstructorAsJsonByEmail(String instructorEmail, String courseId) {
         InstructorAttributes instructorData = getInstructorForEmail(courseId, instructorEmail);
-        return Utils.getTeammatesGson().toJson(instructorData);
+        return JsonUtils.toJson(instructorData);
     }
 
     public String getCourseAsJson(String courseId) {
         CourseAttributes course = getCourse(courseId);
-        return Utils.getTeammatesGson().toJson(course);
+        return JsonUtils.toJson(course);
     }
 
     public String getStudentAsJson(String courseId, String email) {
         StudentAttributes student = getStudentForEmail(courseId, email);
-        return Utils.getTeammatesGson().toJson(student);
+        return JsonUtils.toJson(student);
     }
     
     public String getAllStudentsAsJson(String courseId) {
         List<StudentAttributes> studentList = studentsLogic
                 .getStudentsForCourse(courseId);
-        return Utils.getTeammatesGson().toJson(studentList);
+        return JsonUtils.toJson(studentList);
     }
     
     public String getFeedbackSessionAsJson(String feedbackSessionName, String courseId) {
         FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
-        return Utils.getTeammatesGson().toJson(fs);
+        return JsonUtils.toJson(fs);
     }
     
     public String getFeedbackQuestionAsJson(String feedbackSessionName, String courseId, int qnNumber) {
         FeedbackQuestionAttributes fq =
                 feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
-        return Utils.getTeammatesGson().toJson(fq);
+        return JsonUtils.toJson(fq);
     }
     
     public String getFeedbackQuestionForIdAsJson(String questionId) {
         FeedbackQuestionAttributes fq =
                 feedbackQuestionsLogic.getFeedbackQuestion(questionId);
-        return Utils.getTeammatesGson().toJson(fq);
+        return JsonUtils.toJson(fq);
     }
 
     public String getFeedbackResponseAsJson(String feedbackQuestionId, String giverEmail, String recipient) {
         FeedbackResponseAttributes fq =
                 feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
-        return Utils.getTeammatesGson().toJson(fq);
+        return JsonUtils.toJson(fq);
     }
     
     public String getFeedbackResponsesForGiverAsJson(String courseId, String giverEmail) {
         List<FeedbackResponseAttributes> responseList =
                 feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
-        return Utils.getTeammatesGson().toJson(responseList);
+        return JsonUtils.toJson(responseList);
     }
     
     public String getFeedbackResponsesForReceiverAsJson(String courseId, String recipient) {
         List<FeedbackResponseAttributes> responseList =
                 feedbackResponsesLogic.getFeedbackResponsesForReceiverForCourse(courseId, recipient);
-        return Utils.getTeammatesGson().toJson(responseList);
+        return JsonUtils.toJson(responseList);
     }
     
     public void editAccountAsJson(String newValues)
             throws InvalidParametersException, EntityDoesNotExistException {
-        AccountAttributes account = Utils.getTeammatesGson().fromJson(newValues,
+        AccountAttributes account = JsonUtils.fromJson(newValues,
                 AccountAttributes.class);
         updateAccount(account);
     }
     
     public void editStudentAsJson(String originalEmail, String newValues)
             throws InvalidParametersException, EntityDoesNotExistException {
-        StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
+        StudentAttributes student = JsonUtils.fromJson(newValues,
                 StudentAttributes.class);
         student.section = student.section == null ? "None" : student.section;
         updateStudentWithoutDocument(originalEmail, student);
@@ -353,14 +353,14 @@ public class BackDoorLogic extends Logic {
     
     public void editFeedbackSessionAsJson(String feedbackSessionJson)
             throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession = Utils.getTeammatesGson().fromJson(
+        FeedbackSessionAttributes feedbackSession = JsonUtils.fromJson(
                 feedbackSessionJson, FeedbackSessionAttributes.class);
         updateFeedbackSession(feedbackSession);
     }
     
     public void editFeedbackQuestionAsJson(String feedbackQuestionJson)
             throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackQuestionAttributes feedbackQuestion = Utils.getTeammatesGson().fromJson(
+        FeedbackQuestionAttributes feedbackQuestion = JsonUtils.fromJson(
                                         feedbackQuestionJson, FeedbackQuestionAttributes.class);
         updateFeedbackQuestion(feedbackQuestion);
     }
