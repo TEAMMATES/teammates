@@ -31,7 +31,7 @@
       <timezone>Australia/Perth</timezone>
     </cron>
     <cron>
-      <url>/compileLogs</url>
+      <url>/auto/compileLogs</url>
       <description>Compile severe logs and sends out email notifications.</description>
       <schedule>every 5 minutes synchronized</schedule>
       <timezone>Australia/Perth</timezone>

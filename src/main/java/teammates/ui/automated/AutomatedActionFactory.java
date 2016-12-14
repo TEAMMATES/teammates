@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Const.ActionURIs;
 
 /**
  * Generates the matching {@link AutomatedAction} for a given URI.
@@ -19,7 +20,7 @@ public class AutomatedActionFactory {
     static {
         map("/auto/adminEmailPrepareTaskQueueWorker", null);
         map("/auto/adminEmailWorker", null);
-        map("/auto/compileLogs", null);
+        map(ActionURIs.AUTOMATED_LOG_COMPILATION, CompileLogsAction.class);
         map("/auto/courseJoinRemindEmailWorker", null);
         map("/auto/emailWorker", null);
         map("/auto/feedbackRemindEmailParticularUsersWorker", null);

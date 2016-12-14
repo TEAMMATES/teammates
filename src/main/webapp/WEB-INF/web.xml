@@ -213,15 +213,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>CompileLogs</servlet-name>
-        <servlet-class>teammates.logic.automated.CompileLogsServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CompileLogs</servlet-name>
-        <url-pattern>/compileLogs</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
         <servlet-name>EntityModifiedLogs</servlet-name>
         <servlet-class>teammates.ui.controller.EntityModifiedLogsServlet</servlet-class>
     </servlet>

@@ -21,7 +21,6 @@ import com.google.appengine.api.log.AppLogLine;
 public class ActivityLogEntry {
     
     public static String[] automatedActions = {
-            Const.AutomatedActionNames.AUTOMATED_LOG_COMPILATION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSED_MAIL_ACTION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION,
