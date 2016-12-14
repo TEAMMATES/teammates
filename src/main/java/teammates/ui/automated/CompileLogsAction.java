@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.appengine.api.log.AppLogLine;
-import com.google.appengine.api.log.LogQuery;
-import com.google.appengine.api.log.LogService;
-import com.google.appengine.api.log.LogServiceFactory;
-import com.google.appengine.api.log.RequestLogs;
-import com.google.appengine.api.log.LogService.LogLevel;
-
 import teammates.common.util.EmailWrapper;
 import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.EmailSender;
+
+import com.google.appengine.api.log.AppLogLine;
+import com.google.appengine.api.log.LogQuery;
+import com.google.appengine.api.log.LogService;
+import com.google.appengine.api.log.LogService.LogLevel;
+import com.google.appengine.api.log.LogServiceFactory;
+import com.google.appengine.api.log.RequestLogs;
 
 /**
  * Cron job: compiles application logs and sends severe logs compilation to the support email.
