@@ -2,6 +2,9 @@ package teammates.ui.automated;
 
 import teammates.logic.core.FeedbackSessionsLogic;
 
+/**
+ * Cron job: schedules feedback session closed emails to be sent.
+ */
 public class FeedbackSessionClosedRemindersAction extends AutomatedAction {
     
     @Override

@@ -15,6 +15,9 @@ import teammates.common.util.EmailWrapper;
 import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.EmailSender;
 
+/**
+ * Cron job: compiles application logs and sends severe logs compilation to the support email.
+ */
 public class CompileLogsAction extends AutomatedAction {
     
     @Override
