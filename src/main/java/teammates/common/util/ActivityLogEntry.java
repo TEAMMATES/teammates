@@ -264,6 +264,10 @@ public class ActivityLogEntry {
     }
 
     private String changeRoleToAutoIfAutomatedActions(String servletName, String role) {
+        if (servletName.startsWith("/auto/")) {
+            return "Auto";
+        }
+        
         for (String name : automatedActions) {
             if (name.toLowerCase().contains(servletName.toLowerCase())) {
                 return "Auto";

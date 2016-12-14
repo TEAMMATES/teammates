@@ -244,6 +244,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/page/*</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <description>Servlet that handles all automated requests, e.g cron jobs</description>
+        <servlet-name>AutomatedServlet</servlet-name>
+        <servlet-class>teammates.ui.automated.AutomatedServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AutomatedServlet</servlet-name>
+        <url-pattern>/auto/*</url-pattern>
+    </servlet-mapping>
     
     <servlet>
         <servlet-name>PublicImageServlet</servlet-name>
@@ -263,6 +272,19 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
       <user-data-constraint>
         <transport-guarantee>CONFIDENTIAL</transport-guarantee>
       </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>AutomatedActions</web-resource-name>
+            <description>Servlets that trigger automated actions</description>
+            <url-pattern>/auto/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
