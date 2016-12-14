@@ -25,10 +25,10 @@ public class AutomatedActionFactory {
         map("/auto/emailWorker", null);
         map("/auto/feedbackRemindEmailParticularUsersWorker", null);
         map("/auto/feedbackRemindEmailWorker", null);
-        map("/auto/feedbackSessionOpeningReminders", null);
-        map("/auto/feedbackSessionClosedReminders", null);
-        map("/auto/feedbackSessionClosingReminders", null);
-        map("/auto/feedbackSessionPublishedReminders", null);
+        map(ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS, FeedbackSessionOpeningRemindersAction.class);
+        map(ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, FeedbackSessionClosedRemindersAction.class);
+        map(ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS, FeedbackSessionClosingRemindersAction.class);
+        map(ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, FeedbackSessionPublishedRemindersAction.class);
         map("/auto/feedbackSubmissionAdjustmentWorker", null);
         map("/auto/sendEmailWorker", null);
     }
