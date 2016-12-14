@@ -27,7 +27,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.storage.api.CommentsDb;
@@ -41,8 +41,6 @@ import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.test.util.FileHelper;
-
-import com.google.gson.Gson;
 
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
@@ -59,7 +57,6 @@ public class UploadBackupData extends RemoteApiClient {
     private static final String BACKUP_FOLDER = "BackupFiles/Backup";
 
     private static DataBundle data;
-    private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
     
     private static Set<String> coursesPersisted = new HashSet<String>();
@@ -135,7 +132,7 @@ public class UploadBackupData extends RemoteApiClient {
                 String folderName = BACKUP_FOLDER + "/" + folder;
                 
                 jsonString = FileHelper.readFile(folderName + "/" + backupFile);
-                data = gson.fromJson(jsonString, DataBundle.class);
+                data = JsonUtils.fromJson(jsonString, DataBundle.class);
                 
                 feedbackQuestionsPersisted = new HashMap<String, FeedbackQuestionAttributes>();
                 feedbackQuestionIds = new HashMap<String, String>();

@@ -89,19 +89,15 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                     googleIdEntry.html(originalGoogleIdEntry);
                     $(button).html(originalButton);
                 }
-                               
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
-
             }, 500);
         }
     });
 }
 
 function adminSearchDiscloseAllStudents() {
-    
     $('.fslink_student').slideDown();
     $('.studentRow').attr('class', 'studentRow active');
-    
 }
 
 function adminSearchCollapseAllStudents() {

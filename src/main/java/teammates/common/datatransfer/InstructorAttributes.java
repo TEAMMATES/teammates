@@ -5,12 +5,9 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Instructor;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 
 /**
  * The data transfer class for Instructor entities.
@@ -18,8 +15,6 @@ import com.google.gson.JsonParser;
 public class InstructorAttributes extends EntityAttributes {
     
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
-    
-    private static Gson gson = Utils.getTeammatesGson();
     
     // Note: be careful when changing these variables as their names are used in *.json files.
     public String googleId;
@@ -169,11 +164,11 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     public String getTextFromInstructorPrivileges() {
-        return gson.toJson(privileges, InstructorPrivileges.class);
+        return JsonUtils.toJson(privileges, InstructorPrivileges.class);
     }
     
     private static InstructorPrivileges getInstructorPrivilegesFromText(String instructorPrivilegesAsText) {
-        return gson.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
+        return JsonUtils.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
     }
     
     public String getName() {
@@ -244,7 +239,7 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Override
     public String toString() {
-        return gson.toJson(this, InstructorAttributes.class);
+        return JsonUtils.toJson(this, InstructorAttributes.class);
     }
  
     @Override
@@ -264,7 +259,7 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, InstructorAttributes.class);
+        return JsonUtils.toJson(this, InstructorAttributes.class);
     }
     
     @Override
@@ -349,8 +344,7 @@ public class InstructorAttributes extends EntityAttributes {
         // JsonParser is used instead of
         // this.getJsonString().equals(instructor.getJsonString) so that the
         // comparison ignores the order of key-value pairs in the json strings.
-        JsonParser parser = new JsonParser();
-        return parser.parse(getJsonString()).equals(parser.parse(instructor.getJsonString()));
+        return JsonUtils.parse(getJsonString()).equals(JsonUtils.parse(instructor.getJsonString()));
     }
     
     public boolean isCustomRole() {

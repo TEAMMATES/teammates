@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import org.jsoup.Jsoup;
+
 import teammates.common.util.Sanitizer;
 
 public class FeedbackTextResponseDetails extends
@@ -15,28 +17,28 @@ public class FeedbackTextResponseDetails extends
     
     public FeedbackTextResponseDetails(String answer) {
         super(FeedbackQuestionType.TEXT);
-        this.answer = answer;
+        this.answer = Sanitizer.sanitizeForRichText(answer);
     }
 
     @Override
     public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
-        this.answer = answer[0];
+        this.answer = Sanitizer.sanitizeForRichText(answer[0]);
     }
 
     @Override
     public String getAnswerString() {
-        return answer;
+        return Sanitizer.sanitizeForRichText(answer);
     }
 
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
-        return Sanitizer.sanitizeForHtml(answer);
+        return Sanitizer.sanitizeForRichText(answer);
     }
 
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return Sanitizer.sanitizeForCsv(answer);
+        return Sanitizer.sanitizeForCsv(Jsoup.parse(answer).text());
     }
 
 }

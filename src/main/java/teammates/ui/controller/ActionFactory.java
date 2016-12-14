@@ -5,19 +5,18 @@ import static teammates.common.util.Const.ActionURIs.*;
 // CHECKSTYLE.ON:AvoidStarImport
 
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 
 /**
  * Is used to generate the matching {@link Action} for a given URI.
  */
 public class ActionFactory {
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     private static HashMap<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
     

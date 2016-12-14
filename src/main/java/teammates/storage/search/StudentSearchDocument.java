@@ -3,10 +3,10 @@ package teammates.storage.search;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
-import com.google.gson.Gson;
 
 public class StudentSearchDocument extends SearchDocument {
 
@@ -52,7 +52,7 @@ public class StudentSearchDocument extends SearchDocument {
                                             .setText(searchableTextBuilder.toString()))
                 // attribute field is used to convert a doc back to attribute
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.STUDENT_ATTRIBUTE)
-                                            .setText(new Gson().toJson(student)))
+                                            .setText(JsonUtils.toJson(student)))
                 .setId(student.key)
                 .build();
         

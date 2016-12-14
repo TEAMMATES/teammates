@@ -11,9 +11,9 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
@@ -42,13 +42,12 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorStudentListPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
 
-        BackDoor.putDocumentsForStudents(Utils.getTeammatesGson().toJson(testData));
+        BackDoor.putDocumentsForStudents(JsonUtils.toJson(testData));
 
         // upload a profile picture for one of the students
         StudentAttributes student = testData.students.get("Student3Course3");
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
-        String pictureData = Utils.getTeammatesGson()
-                                  .toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
+        String pictureData = JsonUtils.toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
         assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]",
                      BackDoor.uploadAndUpdateStudentProfilePicture(student.googleId, pictureData));
 

@@ -16,8 +16,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
@@ -31,7 +31,6 @@ import teammates.test.driver.GaeSimulation;
 import teammates.test.util.FileHelper;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.gson.Gson;
 
 /** Base class for Component tests.
  * Automatically sets up the GAE Simulation @BeforeTest and tears it down @AfterTest
@@ -49,8 +48,6 @@ public class BaseComponentTestCase extends BaseTestCase {
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
-
-    private static Gson gson = Utils.getTeammatesGson();
 
     @BeforeTest
     public void testSetUp() {
@@ -99,7 +96,7 @@ public class BaseComponentTestCase extends BaseTestCase {
         CourseAttributes actual = coursesDb.getCourse(expected.getId());
         // Ignore time field as it is stamped at the time of creation in testing
         actual.createdAt = expected.createdAt;
-        assertEquals(gson.toJson(expected), gson.toJson(actual));
+        assertEquals(JsonUtils.toJson(expected), JsonUtils.toJson(actual));
     }
 
     protected static void verifyAbsentInDatastore(FeedbackQuestionAttributes fq) {
@@ -117,7 +114,7 @@ public class BaseComponentTestCase extends BaseTestCase {
         if (wildcardId) {
             expectedCopy.setId(actual.getId());
         }
-        assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
+        assertEquals(JsonUtils.toJson(expectedCopy), JsonUtils.toJson(actual));
     }
     
     protected static void verifyAbsentInDatastore(FeedbackResponseCommentAttributes frc) {
@@ -150,7 +147,7 @@ public class BaseComponentTestCase extends BaseTestCase {
             expectedCopy.setId(actual.getId());
         }
         
-        assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
+        assertEquals(JsonUtils.toJson(expectedCopy), JsonUtils.toJson(actual));
     }
     
     protected static void verifyAbsentInDatastore(FeedbackSessionAttributes fs) {
@@ -163,7 +160,7 @@ public class BaseComponentTestCase extends BaseTestCase {
                 fsDb.getFeedbackSession(expectedCopy.getCourseId(), expected.getFeedbackSessionName());
         expectedCopy.setRespondingInstructorList(actual.getRespondingInstructorList());
         expectedCopy.setRespondingStudentList(actual.getRespondingStudentList());
-        assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
+        assertEquals(JsonUtils.toJson(expectedCopy), JsonUtils.toJson(actual));
     }
 
     protected static void verifyAbsentInDatastore(InstructorAttributes instructor) {
@@ -199,7 +196,7 @@ public class BaseComponentTestCase extends BaseTestCase {
         expectedCopy.updateStatus = StudentUpdateStatus.UNKNOWN;
         expectedCopy.lastName = StringHelper.splitName(expected.name)[1];
         equalizeIrrelevantData(expectedCopy, actual);
-        assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
+        assertEquals(JsonUtils.toJson(expectedCopy), JsonUtils.toJson(actual));
     }
 
     private static void equalizeIrrelevantData(

@@ -23,6 +23,40 @@ var instructorPrivilegeValues = [
     'canmodifysessioncommentinsection'
 ];
 
+$(document).ready(function() {
+    
+    var numOfInstr = $("form[id^='formEditInstructor']").length;
+    for (var i = 0; i < numOfInstr; i++) {
+        var instrNum = i + 1;
+        var instrRole = $('#accessControlInfoForInstr' + instrNum + ' div div p span').html().trim();
+        instructorCourseEditInstructorAccessLevelWhenLoadingPage.push(instrRole);
+        checkTheRoleThatApplies(i + 1);
+    }
+
+    $('#courseEditLink').click(editCourse);
+    $('a[id^="instrCancelLink"]').hide();
+    $('a[id^="instrCancelLink"]').click(function() {
+        var instrNum = $(this).attr('id').substring('instrCancelLink'.length);
+        disableFormEditInstructor(instrNum);
+    });
+    bindCheckboxToggle();
+    var index = $('#new-instructor-index').val();
+    bindChangingRole(index);
+
+    bindRemindInstructorLink();
+    bindDeleteInstructorLink();
+    
+    if (typeof moment !== 'undefined') {
+        var $selectElement = $('#' + COURSE_TIME_ZONE);
+        TimeZone.prepareTimeZoneInput($selectElement);
+        TimeZone.updateTimeZone($selectElement, courseTimeZone);
+
+        $('#auto-detect-time-zone').on('click', function() {
+            autoDetectTimeZone();
+        });
+    }
+});
+
 /**
  * Enable the user to edit one instructor and disable editting for other instructors
  * @param instructorNum
@@ -447,16 +481,6 @@ function bindCheckboxToggle() {
     });
 }
 
-$(function() {
-    var numOfInstr = $("form[id^='formEditInstructor']").length;
-    for (var i = 0; i < numOfInstr; i++) {
-        var instrNum = i + 1;
-        var instrRole = $('#accessControlInfoForInstr' + instrNum + ' div div p span').html().trim();
-        instructorCourseEditInstructorAccessLevelWhenLoadingPage.push(instrRole);
-        checkTheRoleThatApplies(i + 1);
-    }
-});
-
 /**
  * Activates the edit course form.
  */
@@ -472,28 +496,3 @@ function autoDetectTimeZone() {
     var $selectElement = $('#' + COURSE_TIME_ZONE);
     TimeZone.autoDetectAndUpdateTimeZone($selectElement);
 }
-
-$(document).ready(function() {
-    $('#courseEditLink').click(editCourse);
-    $('a[id^="instrCancelLink"]').hide();
-    $('a[id^="instrCancelLink"]').click(function() {
-        var instrNum = $(this).attr('id').substring('instrCancelLink'.length);
-        disableFormEditInstructor(instrNum);
-    });
-    bindCheckboxToggle();
-    var index = $('#new-instructor-index').val();
-    bindChangingRole(index);
-
-    bindRemindInstructorLink();
-    bindDeleteInstructorLink();
-    
-    if (typeof moment !== 'undefined') {
-        var $selectElement = $('#' + COURSE_TIME_ZONE);
-        TimeZone.prepareTimeZoneInput($selectElement);
-        TimeZone.updateTimeZone($selectElement, courseTimeZone);
-
-        $('#auto-detect-time-zone').on('click', function() {
-            autoDetectTimeZone();
-        });
-    }
-});
