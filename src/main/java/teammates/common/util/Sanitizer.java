@@ -140,7 +140,7 @@ public final class Sanitizer {
         if (content == null) {
             return null;
         }
-        return policy.sanitize(content);
+        return policy.sanitize(sanitizeTextField(content));
     }
     
     /**
@@ -152,7 +152,7 @@ public final class Sanitizer {
         if (text == null || text.getValue() == null) {
             return null;
         }
-        return new Text(Sanitizer.sanitizeForRichText(text.getValue()));
+        return new Text(sanitizeForRichText(text.getValue()));
     }
 
     /**
