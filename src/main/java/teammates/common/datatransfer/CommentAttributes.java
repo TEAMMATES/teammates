@@ -11,9 +11,9 @@ import java.util.Set;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
 
 import com.google.appengine.api.datastore.Text;
@@ -48,7 +48,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         this.giverEmail = giverEmail;
         this.recipientType = recipientType == null ? CommentParticipantType.PERSON : recipientType;
         this.recipients = recipients;
-        this.commentText = commentText;
+        this.commentText = commentText == null ? null : new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
         this.createdAt = createdAt;
         this.lastEditorEmail = giverEmail;
         this.lastEditedAt = createdAt;
@@ -66,7 +66,9 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         this.showRecipientNameTo = comment.getShowRecipientNameTo();
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
-        this.commentText = comment.getCommentText();
+        this.commentText = comment.getCommentText() == null
+                           ? null
+                           : new Text(Sanitizer.sanitizeForRichText(comment.getCommentText().getValue()));
         this.lastEditorEmail = comment.getLastEditorEmail() == null
                              ? comment.getGiverEmail()
                              : comment.getLastEditorEmail();
@@ -199,7 +201,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
 
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, CommentAttributes.class);
+        return JsonUtils.toJson(this, CommentAttributes.class);
     }
     
     @Override
@@ -223,9 +225,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         }
         
         if (commentText != null) {
-            //replacing "\n" with "\n<br>" here is to make comment text support displaying breakline
-            String sanitizedText = Sanitizer.sanitizeForHtml(commentText.getValue()).replace("\n", "\n<br>");
-            this.commentText = new Text(sanitizedText);
+            this.commentText = new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
         }
         
         if (recipientType != null) {

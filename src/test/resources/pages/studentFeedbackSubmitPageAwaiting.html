@@ -9,8 +9,10 @@
 <link href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
+<link href="${lib.path}/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
+<link href="${lib.path}/skins/lightgray/content.inline.min.css" rel="stylesheet">
 </head>
-<body class="modal-open">
+<body class="modal-open" spellcheck="false">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -196,8 +198,14 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-1-0" data-recommended-text="0" disabled="" id="responsetext-1-0" name="responsetext-1-0" rows="4">
-              </textarea>
+              <div id="rich-text-toolbar-response-text-container-1-0">
+              </div>
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" disabled="" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
+                <p>
+                  <br data-mce-bogus="1">
+                </p>
+              </div>
+              <input name="responsetext-1-0" type="hidden">
               <div class="margin-top-7px text-color-gray font-weight-normal">
                 <div class="col-md-6 padding-0" style="display:none">
                   Recommended length for the answer:
@@ -237,8 +245,14 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" data-length-text-id="responseLength-1-1" data-recommended-text="0" disabled="" id="responsetext-1-1" name="responsetext-1-1" rows="4">
-              </textarea>
+              <div id="rich-text-toolbar-response-text-container-1-1">
+              </div>
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-1-1" data-recommended-text="0" disabled="" id="responsetext-1-1" name="responsetext-1-1" spellcheck="false" style="position: relative;">
+                <p>
+                  <br data-mce-bogus="1">
+                </p>
+              </div>
+              <input name="responsetext-1-1" type="hidden">
               <div class="margin-top-7px text-color-gray font-weight-normal">
                 <div class="col-md-6 padding-0" style="display:none">
                   Recommended length for the answer:
@@ -315,6 +329,10 @@
 <script src="/js/lib/bootbox.min.js" type="text/javascript">
 </script>
 <script src="/js/common.js" type="text/javascript">
+</script>
+<script src="/js/lib/tinymce.min.js" type="text/javascript">
+</script>
+<script src="/js/richTextEditor.js" type="text/javascript">
 </script>
 <script src="/js/feedbackSubmissionsEdit.js" type="text/javascript">
 </script>

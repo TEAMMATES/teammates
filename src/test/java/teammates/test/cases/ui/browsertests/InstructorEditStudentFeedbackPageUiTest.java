@@ -56,7 +56,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageOpen.html");
         
-        submitPage.fillResponseTextBox(1, 0, "Good design");
+        submitPage.fillResponseRichTextEditor(1, 0, "Good design");
+
         submitPage.clickSubmitButton();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         
@@ -66,7 +67,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                           "student1InIESFPTCourse@gmail.tmt",
                                           "student1InIESFPTCourse@gmail.tmt");
         
-        assertEquals("Good design", fr.getResponseDetails().getAnswerString());
+        assertEquals("<p>Good design</p>", fr.getResponseDetails().getAnswerString());
     }
     
     private void testAddResponse() throws Exception {

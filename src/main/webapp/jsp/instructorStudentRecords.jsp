@@ -7,6 +7,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/courseStudentDetails" prefix="ticsd" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <c:set var="jsIncludes">
+    <script type="text/javascript" src="/js/lib/tinymce.min.js"></script>
+    <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
     <script>

@@ -18,17 +18,15 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
-import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
-
-import com.google.gson.Gson;
 
 public class AdminInstructorAccountAddAction extends Action {
     
@@ -183,8 +181,7 @@ public class AdminInstructorAccountAddAction extends Action {
                 // update feedback session time
                 "2013-04-01 11:59 PM UTC", formatter.format(c.getTime()));
 
-        Gson gson = Utils.getTeammatesGson();
-        DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+        DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
         
         BackDoorLogic backdoor = new BackDoorLogic();
         

@@ -135,30 +135,31 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("create new responses");
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
 
         String responseText = "Test Self Feedback";
-        submitPage.fillResponseTextBox(1, 0, responseText);
+        submitPage.fillResponseRichTextEditor(1, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(1, 0));
-        
+
         responseText = "Response to Benny.";
         submitPage.selectRecipient(2, 0, "Benny Charles");
-        submitPage.fillResponseTextBox(2, 0, responseText);
+        submitPage.fillResponseRichTextEditor(2, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 0));
         
         responseText = "Response to student who is going to drop out.";
         submitPage.selectRecipient(2, 1, "Drop out");
-        submitPage.fillResponseTextBox(2, 1, responseText);
+        submitPage.fillResponseRichTextEditor(2, 1, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 1));
         
         responseText = "Response to extra guy.";
         submitPage.selectRecipient(2, 2, "Extra guy");
-        submitPage.fillResponseTextBox(2, 2, responseText);
+        submitPage.fillResponseRichTextEditor(2, 2, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 2));
         submitPage.fillResponseTextBox(14, 0, "1");
 
         // Test partial response for question
         responseText = "Feedback to team 3";
-        submitPage.fillResponseTextBox(4, 1, responseText);
+        submitPage.fillResponseRichTextEditor(4, 1, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(4, 1));
 
         submitPage.verifyOtherOptionTextUnclickable(6, 0);
@@ -274,19 +275,19 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Test editing an existing response
         // + fill up rest of responses at the same time
         String editedResponse = "Edited response to Benny.";
-        submitPage.fillResponseTextBox(2, 0, editedResponse);
+        submitPage.fillResponseRichTextEditor(2, 0, editedResponse);
         assertEquals(editedResponse.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 0));
         
         responseText = "Feedback to instructors";
-        submitPage.fillResponseTextBox(3, 0, responseText);
+        submitPage.fillResponseRichTextEditor(3, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(3, 0));
         
         responseText = "Feedback to team 2.";
-        submitPage.fillResponseTextBox(4, 1, responseText);
+        submitPage.fillResponseRichTextEditor(4, 1, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(4, 1));
         
         responseText = "Feedback to teammate.";
-        submitPage.fillResponseTextBox(5, 0, responseText);
+        submitPage.fillResponseRichTextEditor(5, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(5, 0));
 
         submitPage.chooseMcqOption(6, 0, "UI");
@@ -348,7 +349,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         //check edited
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-        assertEquals(editedResponse,
+        assertEquals("<p>" + editedResponse + "</p>",
                      BackDoor.getFeedbackResponse(fq.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
                                                   "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData.getValue());
 
@@ -405,29 +406,29 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
 
         responseText = "Test Self Feedback";
-        submitPage.fillResponseTextBox(1, 0, responseText);
+        submitPage.fillResponseRichTextEditor(1, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(1, 0));
         
         responseText = "Response to Benny.";
         submitPage.selectRecipient(2, 0, "Benny Charles");
-        submitPage.fillResponseTextBox(2, 0, responseText);
+        submitPage.fillResponseRichTextEditor(2, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 0));
         
         responseText = "Response to student who is number 1.";
         submitPage.selectRecipient(2, 1, "Alice Betsy</option></td></div>'\"");
-        submitPage.fillResponseTextBox(2, 1, responseText);
+        submitPage.fillResponseRichTextEditor(2, 1, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 1));
         
         responseText = "Response to extra guy.";
         submitPage.selectRecipient(2, 2, "Extra guy");
-        submitPage.fillResponseTextBox(2, 2, responseText);
+        submitPage.fillResponseRichTextEditor(2, 2, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 2));
         
         submitPage.fillResponseTextBox(14, 0, "1");
 
         // Test partial response for question
         responseText = "Feedback to team 3";
-        submitPage.fillResponseTextBox(4, 0, responseText);
+        submitPage.fillResponseRichTextEditor(4, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(4, 0));
         
         submitPage.chooseMcqOption(7, 1, "Algo");
@@ -531,9 +532,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 
         submitPage.selectRecipient(2, 2, "");
-        submitPage.fillResponseTextBox(2, 2, "Response to no recipient");
+        submitPage.fillResponseRichTextEditor(2, 2, "Response to no recipient");
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyStatus("You did not specify a recipient for your response in question(s) 2.");
+        submitPage.verifyStatus("You did not specify a recipient for your response in question 2.");
     }
 
     private void testResponsiveSubmission() {

@@ -2,11 +2,10 @@ package teammates.logic.core;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 
 /**
  * This class represents an feedback contribution question result for a given team.
@@ -20,7 +19,7 @@ public class TeamEvalResult {
     public static final int NSU = Const.POINTS_NOT_SURE;
     /** did Not SuBmit */
     public static final int NSB = Const.POINTS_NOT_SUBMITTED;
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
 
     /** submission values originally from students of the team */
     public int[][] claimed;

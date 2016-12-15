@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -19,13 +18,13 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackResponsesLogic {
 
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
 
     private static FeedbackResponsesLogic instance;
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();

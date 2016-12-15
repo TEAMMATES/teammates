@@ -7,7 +7,7 @@
 <t:staticPage jsIncludes="${jsIncludes}" currentPage="index">
     <div id="browserMessage" style="display: none;"></div>
     <br>
-    <h1 id="caption" style="text-align: center;">
+    <h1 class="caption" style="text-align: center;">
         Student peer evaluations/feedback, shareable instructor comments, and more...
     </h1>
     <div id="contentHolder">                  
