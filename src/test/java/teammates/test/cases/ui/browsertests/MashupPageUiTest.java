@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
@@ -41,7 +41,7 @@ public class MashupPageUiTest extends BaseUiTestCase {
     private void uploadNewPhotoForStudent() throws Exception {
         String googleId = testData.accounts.get("benny.c.tmms").googleId;
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
-        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
+        String pictureData = JsonUtils.toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
          
         BackDoor.uploadAndUpdateStudentProfilePicture(googleId, pictureData);
     }

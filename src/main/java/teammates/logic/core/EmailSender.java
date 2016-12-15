@@ -3,7 +3,6 @@ package teammates.logic.core;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
@@ -13,14 +12,14 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 
 /**
  * Handles operations related to sending emails.
  */
 public class EmailSender {
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     private final EmailSenderService service;
     

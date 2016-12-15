@@ -1,4 +1,4 @@
-#TEAMMATES Developer Web Site
+# TEAMMATES Developer Web Site
 
 <img src="https://img.shields.io/badge/users-80K%2B-brightgreen.svg"> 
 <img src="https://img.shields.io/badge/universities-1000%2B-green.svg"> 
@@ -23,14 +23,14 @@ This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.
 
 <img src="https://teammatesv4.appspot.com/images/raised-edge.png" width='600'>
 
-##Interested to join TEAMMATES developer team?
+## Interested to join TEAMMATES developer team?
 
 We welcome contributions from developers, especially students. Here are some resources: 
   * [**Contributor Orientation Guide**](/docs/orientation-guide.md) : This document describes what you need to know/do to become a contributor. This is **a MUST READ for new contributors**.
   * [**Project ideas page**] (https://docs.google.com/document/d/1fAvYvQr0E93OsZgyneaXGX0jaMA-zptTIxqLn83xwN0/pub?embedded=true) : These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g., summer internships).
   * [**Instructions for Google Summer of Code applicants**] (https://docs.google.com/document/d/1Iu63WRIw8uz8liEW089IQHDQTRbh-QoOLMyfTPXNOa0/pub?embedded=true) : Read this before you apply to work for TEAMMATES under GSoC.
 
-##Documentation For Developers
+## Documentation For Developers
 Here are some documents important for TEAMMATES developers:
 
 ### Main documents
@@ -79,7 +79,7 @@ Here are some documents important for TEAMMATES developers:
       * [Notes on 'access control'] (https://docs.google.com/document/d/1g-1YhhYMCwO4NGJzn26HVzLxzm5PI6JAFxUNtHEEGDc/pub?embedded=true) - by Gu Junchao
       * [Notes on 'profiles' feature] (https://docs.google.com/document/d/1TGVkdu6JlOFX_2dJoeZu1avkiKj8ZqFcpBREJhKK78c/pub?embedded=true) - by Thyagesh Manikandan
 
-##Acknowledgements
+## Acknowledgements
 TEAMMATES team wishes to thank the following invaluable contributions. 
 * [**School of Computing, National University of Singapore (NUS)**](http://www.comp.nus.edu.sg), for providing us with the infrastructure support to run the project.
 * [**Centre for Development of Teaching and Learning (CDTL)**](http://www.cdtl.nus.edu.sg/) of NUS, for supporting us with several *Teaching Enhancement Grants* over the years.
@@ -88,10 +88,10 @@ TEAMMATES team wishes to thank the following invaluable contributions.
 * **Facebook Open Academy** Program, for including TEAMMATES as a mentor organization in FBOA 2016.
 * [**YourKit LLC**](ttps://www.yourkit.com), for providing us with free licenses for the [YourKit Java Profiler <img src="https://www.yourkit.com/images/yklogo.png" width='70'>](https://www.yourkit.com/.net/profiler/index.jsp) (an industry leading profiler tool for Java applications).
 
-##License
+## License
 TEAMMATES is released under GPLv2
 
-##Contact 
+## Contact 
 The best way for potential contributors to contact us is by [posting a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new) 
 (yes, we use the issue tracker as a discussion forum too).
 

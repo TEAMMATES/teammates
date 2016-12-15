@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
@@ -22,7 +21,7 @@ import com.google.appengine.api.log.RequestLogs;
 @SuppressWarnings("serial")
 public class EntityModifiedLogsServlet extends HttpServlet {
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {

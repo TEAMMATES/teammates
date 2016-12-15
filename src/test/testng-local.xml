@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="local-tests" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="teammates.test.util.PriorityInterceptor" />
+    </listeners>
+
     <test name="unstable-tests">
-        <listeners>
-            <listener class-name="teammates.test.util.PriorityInterceptor" />
-        </listeners>
         <classes>
         </classes>
     </test>
 
     <test name="smoke-tests">
-        <listeners>
-            <listener class-name="teammates.test.util.PriorityInterceptor" />
-        </listeners>
         <classes>
             <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
         </classes>

@@ -274,10 +274,10 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 ####Tools used in implementation
 * **HTML** [version 5, using latest features is discouraged due to lack of enough Browser support], JavaScript, CSS
 * **Bootstrap** [version 3.1.1], as the front-end UI framework
-* **jQuery** [version 1.11.3]
+* **jQuery** [version 1.12.4]
   jQuery is a JavaScript Library that simplifies HTML document traversing, event handling, animating, and Ajax interactions for rapid web development.
 * **JSON** (JavaScript Object Notation): JSON is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the JavaScript.
-* **Gson** [version 2.2.2] Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object.
+* **Gson** [version 2.8.0] Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object.
 * **JavaServer Pages (JSP)**: JSP technology provides a simplified way to create dynamic web content. A JSP page can be thought as an HTML page with embedded Java code snippets.
 * **JavaServer Pages Standard Tag Library (JSTL)**: JSTL extends the JSP specification by providing a standard set of JSP tags for common tasks, and allows creation of custom tags for use in JSP files.
 * **Java Servlets**: Java Servlet technology provides a simple, consistent mechanism for extending the functionality of a Web server and for accessing existing business systems. A servlet can almost be thought of as an applet that runs on the server side--without a face.
@@ -287,25 +287,25 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
   The DataNucleus Access Platform provides persistence and retrieval of data to a range of datastores using a range of APIs, with a range of query languages.
   Comes with App Engine SDK.
 * **Java Persistence API (JPA)** [version 1.0]: JPA is a standard interface for accessing databases in Java, providing an automatic mapping between Java classes and database tables.
-* **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
-* **Jsoup** [version 1.9.2]: This library is required to parse HTML files. It is needed by some email services to obtain the plain text component from the HTML component. In addition, this is also used during UI testing, for doing a logical comparison of the pages generated against expected pages.
+* **Xerces XML Parser** [version 2.11.0]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
+* **Jsoup** [version 1.10.1]: This library is required to parse HTML files. It is needed by some email services to obtain the plain text component from the HTML component. In addition, this is also used during UI testing, for doing a logical comparison of the pages generated against expected pages.
 * **SendGrid, Mailgun, Mailjet** Alternative framework to JavaMail for sending emails. The details of these tools can be found in [this document](emails.md).
 * **Google Cloud SDK**: This is a set of tools that helps us manage resources and applications hosted on Google Cloud Platform. We use it to run client scripts on GAE remotely.
 
 ####Tools used in testing
 
-* **Selenium** [version 2.53.0]
+* **Selenium** [version 2.53.1]
     Selenium automates browsers. We use it for automating our UI tests.
     We require Selenium standalone server, Java language bindings (all bundled in Selenium Java),
     and Chrome driver for testing with Chrome.
-* **JavaMail** [version 1.4.5]
+* **JavaMail** [version 1.4.7]
     The JavaMail API provides a platform-independent and protocol-independent framework to build mail and messaging applications.
     Usage: For accessing test users' email accounts to examine emails sent from TEAMMATES.
 * **TestNG** [latest stable]
     TestNG is a Java test automation framework.
 * **EclEmma/JaCoCo** [latest stable]
     JaCoCo is a Java code coverage library. EclEmma is its plugin and integration for Eclipse.
-* **QUnit** [version 1.22.0]
+* **QUnit** [version 2.1.0]
     QUnit is a JavaScript unit test suite.
 * **Blanket.js** [version 1.2.3]
     Blanket.js is a JavaScript code coverage library.

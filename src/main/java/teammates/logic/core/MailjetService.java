@@ -11,6 +11,7 @@ import com.mailjet.client.MailjetClient;
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.MailjetResponse;
 import com.mailjet.client.errors.MailjetException;
+import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.mailjet.client.resource.Email;
 
 /**
@@ -47,7 +48,7 @@ public class MailjetService extends EmailSenderService {
     }
     
     @Override
-    protected void sendEmailWithService(EmailWrapper wrapper) throws MailjetException {
+    protected void sendEmailWithService(EmailWrapper wrapper) throws MailjetException, MailjetSocketTimeoutException {
         MailjetRequest email = parseToEmail(wrapper);
         MailjetClient mailjet = new MailjetClient(Config.MAILJET_APIKEY, Config.MAILJET_SECRETKEY);
         MailjetResponse response = mailjet.post(email);
