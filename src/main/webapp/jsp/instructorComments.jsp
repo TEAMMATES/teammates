@@ -10,7 +10,6 @@
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/lib/tinymce.min.js"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
     <script type="text/javascript" src="/js/omniComment.js"></script>
@@ -40,7 +39,7 @@
                 </div>
             </div>
             <c:set var="panelIdx" value="0" />
-            <c:if test="${not empty data.commentsForStudentsTables}"> <%--check student comments starts--%> 
+            <c:if test="${not empty data.commentsForStudentsTables}"> <%--check student comments starts--%>
                 <c:set var="panelIdx" value="${panelIdx + 1}" />
                 <div id="panel_display-${panelIdx}">
                     <br>
