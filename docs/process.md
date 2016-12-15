@@ -68,7 +68,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
     ```
 8. Fix the issue.
    * Have a look at our coding and testing best practices (links given [here]
-   (../README.md)) before you start your first issue.
+   (README.md)) before you start your first issue.
    * Keep in mind that we have 'reference' code that has extra explanatory 
    notes to help new developers. These are listed in the 'Coding Best Practices' document.
    * You may commit as many times as you wish while you are fixing the code. 
@@ -180,7 +180,7 @@ Role: reviewer
     * The code is synced with upstream. GitHub should show it as 'can merge'. 
       If not, ask the dev to sync with upstream. 
     * Ensure appropriate header comments and expected standards are followed
-      * the standards used in TEAMMATES are available at [Readme](../README.md) under the *Supplementary documents* section
+      * the standards used in TEAMMATES are available [here](README.md) under the *Supplementary documents* section
   * If any of the above are not OK, 
     * change the status of the PR to `s.Ongoing`
     * Add comments in the diff to suggest changes.
