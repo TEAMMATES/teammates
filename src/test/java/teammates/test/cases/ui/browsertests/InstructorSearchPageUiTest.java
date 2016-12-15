@@ -10,7 +10,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -33,7 +33,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         // upload a profile picture for one of the students
         StudentAttributes student = testData.students.get("student2InCourse1");
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
-        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
+        String pictureData = JsonUtils.toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
         assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]",
                 BackDoor.uploadAndUpdateStudentProfilePicture(student.googleId, pictureData));
     }

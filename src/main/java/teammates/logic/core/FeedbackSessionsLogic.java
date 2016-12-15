@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -41,10 +40,10 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -53,7 +52,7 @@ public class FeedbackSessionsLogic {
     
     private static FeedbackSessionsLogic instance;
 
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
 
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();

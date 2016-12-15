@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
-import com.google.gson.Gson;
 
 public class StudentSearchResultBundle extends SearchResultBundle {
 
@@ -43,7 +43,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for (ScoredDocument doc : filteredResults) {
-            StudentAttributes student = new Gson().fromJson(
+            StudentAttributes student = JsonUtils.fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
                     StudentAttributes.class);
             if (student.key == null) {
@@ -81,7 +81,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         
         for (ScoredDocument doc : results) {
             StudentAttributes student =
-                    new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
+                    JsonUtils.fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
                                                          StudentAttributes.class);
             
             if (studentsLogic.getStudentForRegistrationKey(StringHelper.encrypt(student.key)) == null) {

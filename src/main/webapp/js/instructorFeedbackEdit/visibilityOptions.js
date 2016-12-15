@@ -175,7 +175,7 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
         allowInstructorToSee('.recipientCheckbox', $containingForm);
         break;
     default:
-        throw 'Unexpected common visibility option type';
+        throw new Error('Unexpected common visibility option type');
     }
 }
 
@@ -339,7 +339,7 @@ function disableRowsAccordingToRecipient($containingForm) {
         disableRow($containingForm, ROW_RECIPIENT_TEAM);
         break;
     default:
-        throw 'Unexpected recipientType';
+        throw new Error('Unexpected recipientType');
     }
 }
 
@@ -359,7 +359,7 @@ function disableRowsAccordingToGiver($containingForm) {
         disableRow($containingForm, ROW_GIVER_TEAM);
         break;
     default:
-        throw 'Unexpected giverType';
+        throw new Error('Unexpected giverType');
     }
 }
 

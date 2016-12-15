@@ -25,12 +25,10 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.storage.api.StudentsDb;
-
-import com.google.gson.Gson;
 
 /**
  * Handles  operations related to student roles.
@@ -519,8 +517,7 @@ public class StudentsLogic {
         paramMap.put(ParamsNames.COURSE_ID, courseId);
         paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, sessionName);
         
-        Gson gsonBuilder = Utils.getTeammatesGson();
-        String enrollmentDetails = gsonBuilder.toJson(enrollmentList);
+        String enrollmentDetails = JsonUtils.toJson(enrollmentList);
         paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();

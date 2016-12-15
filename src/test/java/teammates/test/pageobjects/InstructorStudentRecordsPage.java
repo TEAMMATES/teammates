@@ -18,7 +18,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     @FindBy(id = "button_save_comment")
     private WebElement saveCommentLink;
 
-    @FindBy(id = "commentText")
+    @FindBy(id = "commenttext")
     private WebElement commentTextBox;
 
     public InstructorStudentRecordsPage(Browser browser) {
@@ -42,7 +42,9 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public InstructorStudentRecordsPage addComment(String commentText) {
         click(addCommentLink);
-        commentTextBox.sendKeys(commentText);
+        waitForRichTextEditorToLoad("commenttext");
+        click(commentTextBox);
+        fillRichTextEditor(commentTextBox.getAttribute("id"), commentText);
         click(saveCommentLink);
         waitForPageToLoad();
         return this;
@@ -50,7 +52,9 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public void addCommentWithVisibility(String commentText, int id) {
         click(addCommentLink);
-        commentTextBox.sendKeys(commentText);
+        waitForRichTextEditorToLoad("commenttext");
+        click(commentTextBox);
+        fillRichTextEditor(commentTextBox.getAttribute("id"), commentText);
         click(getVisibilityToggleLink(id));
         clickAllCheckboxes(id);
         click(saveCommentLink);
@@ -71,8 +75,10 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public InstructorStudentRecordsPage editComment(int id, String comment) {
         click(getCommentEditLink(id));
-        getCommentTextBox(id).clear();
-        getCommentTextBox(id).sendKeys(comment);
+        WebElement commentTextBox = getCommentTextBox(id);
+        waitForRichTextEditorToLoad("commentText" + id);
+        click(commentTextBox);
+        fillRichTextEditor(commentTextBox.getAttribute("id"), comment);
         click(getCommentSaveLink(id));
         waitForPageToLoad();
         return this;

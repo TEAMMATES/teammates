@@ -6,13 +6,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.InstructorsLogic;
 
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
-import com.google.gson.Gson;
 
 public class InstructorSearchResultBundle extends SearchResultBundle {
     
@@ -38,7 +38,7 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
         
         for (ScoredDocument doc : results) {
             InstructorAttributes instructor =
-                    new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).getText(),
+                    JsonUtils.fromJson(doc.getOnlyField(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).getText(),
                                                          InstructorAttributes.class);
             
             if (instructorsLogic.getInstructorForRegistrationKey(StringHelper.encrypt(instructor.key)) == null) {

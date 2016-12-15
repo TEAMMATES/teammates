@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,7 +52,7 @@ public class ActivityLogEntry {
     private static final int TIME_TAKEN_WARNING_UPPER_RANGE = 20000;
     private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     private long time;
     private String servletName;

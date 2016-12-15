@@ -11,6 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.Sanitizer;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -98,7 +99,7 @@ public class FeedbackResponseComment {
         this.feedbackResponseId = feedbackResponseId;
         this.sendingState = sendingState;
         this.createdAt = createdAt;
-        this.commentText = commentText;
+        this.commentText = commentText == null ? null : new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
         this.showCommentTo = showCommentTo;
