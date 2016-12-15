@@ -174,8 +174,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     }
 
     private String getExpectedLogMessageNonExistentBlob(AccountAttributes student) {
-        String expectedLogMessage;
-        expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
+        String expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
                            + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
                            + student.googleId + "|||student2InCourse1@gmail.tmt|||"
                            + "Servlet Action Failure : Reading and transforming image failed.Could not read blob."
