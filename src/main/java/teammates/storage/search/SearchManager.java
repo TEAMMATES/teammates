@@ -2,12 +2,11 @@ package teammates.storage.search;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
+import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Index;
@@ -30,7 +29,7 @@ public final class SearchManager {
             "Failed to put document %s into search index %s due to non-transient backend issue.";
     private static final String ERROR_EXCEED_DURATION =
             "Operation did not succeed in time to put document %s into search index %s";
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String, Index>>();
     
     private SearchManager() {

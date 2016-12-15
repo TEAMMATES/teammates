@@ -70,16 +70,6 @@ public class PriorityInterceptor implements IMethodInterceptor {
             }
             
             private int packagePriorityOffset(String packageName) {
-                //Storage tests go first!
-                if (packageName.contains("storage")) {
-                    return 1000000;
-                }
-                //Action tests go last. (in component tests)
-                if (packageName.contains("teammates.test.cases.ui")) {
-                    return -1000000;
-                }
-
-
                 int index = packageOrder.indexOf(packageName);
 
                 if (index == -1) {

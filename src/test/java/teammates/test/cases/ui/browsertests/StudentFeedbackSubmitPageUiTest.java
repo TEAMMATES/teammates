@@ -124,8 +124,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         ______TS("Not yet visible session");
         
-        FeedbackSessionNotVisiblePage fsNotVisiblePage;
-        fsNotVisiblePage = loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible("Alice", "Not Yet Visible Session");
+        FeedbackSessionNotVisiblePage fsNotVisiblePage =
+                loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible("Alice", "Not Yet Visible Session");
         fsNotVisiblePage.verifyHtmlMainContent("/studentFeedbackSubmitPageNotYetVisible.html");
         
     }
