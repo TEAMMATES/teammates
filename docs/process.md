@@ -51,11 +51,6 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    Inactivity for a longer time may result in the issue being un-assigned so that
    someone else can work on it.
 
-4. Add remote names for committer repo (let's call it `upstream`)
-   ```
-   git remote add   upstream      https://github.com/TEAMMATES/repo.git
-   ```
-
 5. Update your local repo (the one you created when setting up the project on your computer) 
    with the latest version of the code from the committer repo.
    ```
