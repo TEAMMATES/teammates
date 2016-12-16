@@ -772,8 +772,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         calAfter.add(Calendar.DATE, 9);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, calAfter);
         
-        assertEquals(sdf.format(calAfter.getTime()), maxValueOfVisibleDate); 
-        
+        assertEquals(sdf.format(calAfter.getTime()), maxValueOfVisibleDate);
         
         ______TS("changing publish date does not affect visible date range publishTime > startTime");
         
