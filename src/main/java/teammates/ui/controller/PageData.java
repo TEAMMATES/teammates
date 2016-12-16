@@ -140,11 +140,24 @@ public class PageData {
         List<String> nationalities = NationalityHelper.getNationalities();
         List<ElementTag> result = new ArrayList<ElementTag>();
 
+        result.add(createOption("--- Select ---", "", !nationalities.contains(existingNationality)));
+
         for (String nationality : nationalities) {
             ElementTag option = createOption(nationality, nationality, nationality.equals(existingNationality));
             result.add(option);
         }
 
+        return result;
+    }
+
+    public static String getLegacyNationality(String existingNationality) {
+        List<String> nationalities = NationalityHelper.getNationalities();
+        String result = null;
+        if (nationalities.contains(existingNationality) || "".equals(existingNationality)) {
+            result = "";
+        } else {
+            result = "Current value: " + existingNationality;
+        }
         return result;
     }
     

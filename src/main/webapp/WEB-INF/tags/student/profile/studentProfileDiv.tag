@@ -91,9 +91,6 @@
             <select id="studentNationality"
                     name="<%=Const.ParamsNames.STUDENT_NATIONALITY%>"
                     class="form-control" style="width: 300px">
-                <option label="--- Select ---"
-                        value="">
-                </option>
                 <c:forEach items="${profile.nationalitySelectField}"
                            var="option">
                     <option ${option.attributesToString}>
@@ -101,6 +98,7 @@
                     </option>
                 </c:forEach>
             </select>
+            ${profile.legacyNationality}
         </div>
         <div class="form-group">
             <label for="studentGender">
