@@ -18,7 +18,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
@@ -901,14 +900,6 @@ public class PageData {
      */
     public List<StatusMessage> getStatusMessagesToUser() {
         return statusMessagesToUser;
-    }
-
-    public String getjQueryFilePath() {
-        return Const.SystemParams.getjQueryFilePath(Config.isDevServer());
-    }
-
-    public String getjQueryUiFilePath() {
-        return Const.SystemParams.getjQueryUiFilePath(Config.isDevServer());
     }
 
 }

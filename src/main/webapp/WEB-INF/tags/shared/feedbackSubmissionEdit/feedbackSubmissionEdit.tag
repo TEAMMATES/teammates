@@ -1,4 +1,5 @@
 <%@ tag description="Student/Instructor feedback submission edit page" %>
+<%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
@@ -8,7 +9,7 @@
 <%@ attribute name="moderatedPersonName" required="true" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/lib/tinymce.min.js"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE.getScriptSource() %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
     <script type="text/javascript" src="/js/student.js"></script>

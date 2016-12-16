@@ -181,36 +181,6 @@ public final class Const {
         
         public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
         
-        private SystemParams() {
-            // utility class
-        }
-        
-        /**
-         * @return The file source for jquery.min.js used in application pages,
-         * chosen based on the build's environment.<br>
-         * <ul>
-         * <li>Local files are used on development to enable purely offline testing</li>
-         * <li>CDN files are used on production to reduce the load on appspot's server</li>
-         * </ul>
-         */
-        public static final String getjQueryFilePath(boolean isDevServer) {
-            return isDevServer ? "/js/lib/jquery.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js";
-        }
-        
-        /**
-         * @return The file source for jquery-ui.min.js used in application pages,
-         * chosen based on the build's environment.<br>
-         * <ul>
-         * <li>Local files are used on development to enable purely offline testing</li>
-         * <li>CDN files are used on production to reduce the load on appspot's server</li>
-         * </ul>
-         */
-        public static final String getjQueryUiFilePath(boolean isDevServer) {
-            return isDevServer ? "/js/lib/jquery-ui.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js";
-        }
-        
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in

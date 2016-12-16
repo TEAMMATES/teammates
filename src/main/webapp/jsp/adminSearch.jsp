@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin" prefix="ta" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin/search" prefix="adminSearch" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/lib/jquery.highlight.js"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_HIGHLIGHT.getScriptSource() %>"></script>
     <script type="text/javascript" src="/js/administrator.js"></script>
     <script type="text/javascript" src="/js/adminSearch.js"></script>
 </c:set>

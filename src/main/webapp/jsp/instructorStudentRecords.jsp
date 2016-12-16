@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/courseStudentDetails" prefix="ticsd" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/lib/tinymce.min.js"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE.getScriptSource() %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>

@@ -1,5 +1,6 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="org.joda.time.DateTimeZone" %>
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,9 +20,9 @@
                 <td id="momentjs"></td>
             </tr>
         </table>
-        <script type="text/javascript" src="/js/lib/jquery.min.js"></script>
-        <script type="text/javascript" src="/js/lib/moment.min.js"></script>
-        <script type="text/javascript" src="/js/lib/moment-timezone-with-data-2010-2020.min.js"></script>
+        <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY.getScriptSource() %>"></script>
+        <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT.getScriptSource() %>"></script>
+        <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE.getScriptSource() %>"></script>
         <script>
             var d = new Date();
             moment.tz.names().forEach(function(timeZone) {
