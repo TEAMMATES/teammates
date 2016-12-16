@@ -149,6 +149,9 @@ public class PageData {
         return result;
     }
 
+    /**
+     * Creates and returns a String if the existing nationality is incorrect.
+     */
     public static String getLegacyNationality(String existingNationality) {
         List<String> nationalities = NationalityHelper.getNationalities();
         String result = null;
