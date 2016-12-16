@@ -12,9 +12,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.CourseStudent;
 
 public class StudentAttributes extends EntityAttributes {
@@ -327,7 +327,7 @@ public class StudentAttributes extends EntityAttributes {
 
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, StudentAttributes.class);
+        return JsonUtils.toJson(this, StudentAttributes.class);
     }
 
     @Override

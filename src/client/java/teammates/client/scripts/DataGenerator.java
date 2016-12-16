@@ -79,8 +79,7 @@ public final class DataGenerator {
      * @throws IOException
      */
     public static void writeDataToFile(String data, String filePath) throws IOException {
-        File f;
-        f = new File(filePath);
+        File f = new File(filePath);
         // Create file if it does not exist
         if (!f.exists()) {
             try {

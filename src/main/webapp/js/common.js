@@ -377,7 +377,7 @@ function sortDate(x, y) {
 * @returns pattern string
 */
 function getDayMonthYearFormat() {
-    return /^\s*(\d{2})[\/\- ](\d{2})[\/\- ](\d{4}|\d{2})\s*$/;
+    return /^\s*(\d{2})[/\- ](\d{2})[/\- ](\d{4}|\d{2})\s*$/;
 }
 
 /**
@@ -641,8 +641,11 @@ function setStatusMessageToForm(message, status, form) {
     var $copyOfStatusMessagesToUser = populateStatusMessageDiv(message, status).clone().show();
     $(DIV_STATUS_MESSAGE).remove();
     $(form).prepend($copyOfStatusMessagesToUser);
-    scrollToElement($copyOfStatusMessagesToUser[0], { offset: window.innerHeight / 8 * -1,
-                                                      duration: 1000 });
+    var opts = {
+        offset: window.innerHeight / 8 * -1,
+        duration: 1000
+    };
+    scrollToElement($copyOfStatusMessagesToUser[0], opts);
 
 }
 
@@ -747,7 +750,7 @@ function isNameValid(rawName) {
         return false;
     }
     
-    if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
+    if (name.match(/[^/\\,.'\-()0-9a-zA-Z \t]/)) {
         // Returns true if a character NOT belonging to the following set
         // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
         // apostrophe('), hyphen(-), round brackets(()), alpha numeric
@@ -772,7 +775,7 @@ function isInstitutionValid(rawInstitution) {
         return false;
     }
     
-    if (institution.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
+    if (institution.match(/[^/\\,.'\-()0-9a-zA-Z \t]/)) {
         // Returns true if a character NOT belonging to the following set
         // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
         // apostrophe('), hyphen(-), round brackets(()), alpha numeric
@@ -823,7 +826,7 @@ function replaceAll(string, find, replace) {
 }
 
 function escapeRegExp(string) {
-    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+    return string.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
 }
 
 /**

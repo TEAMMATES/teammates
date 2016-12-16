@@ -14,10 +14,10 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
-import com.google.gson.Gson;
 
 /**
  * The SearchDocument object that defines how we store {@link Document} for response comments
@@ -204,19 +204,19 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                             .setDate(comment.createdAt))
                 // attribute field is used to convert a doc back to attribute
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE)
-                                            .setText(new Gson().toJson(comment)))
+                                            .setText(JsonUtils.toJson(comment)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE)
-                                            .setText(new Gson().toJson(relatedResponse)))
+                                            .setText(JsonUtils.toJson(relatedResponse)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME)
-                                            .setText(new Gson().toJson(responseGiverName)))
+                                            .setText(JsonUtils.toJson(responseGiverName)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME)
-                                            .setText(new Gson().toJson(responseRecipientName)))
+                                            .setText(JsonUtils.toJson(responseRecipientName)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE)
-                                            .setText(new Gson().toJson(relatedQuestion)))
+                                            .setText(JsonUtils.toJson(relatedQuestion)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE)
-                                            .setText(new Gson().toJson(relatedSession)))
+                                            .setText(JsonUtils.toJson(relatedSession)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME)
-                                            .setText(new Gson().toJson(displayedName)))
+                                            .setText(JsonUtils.toJson(displayedName)))
                 .setId(comment.getId().toString())
                 .build();
         return doc;

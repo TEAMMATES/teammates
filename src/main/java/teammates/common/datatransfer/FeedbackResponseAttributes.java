@@ -8,11 +8,10 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.gson.Gson;
 
 public class FeedbackResponseAttributes extends EntityAttributes {
     public String feedbackSessionName;
@@ -167,7 +166,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, FeedbackResponseAttributes.class);
+        return JsonUtils.toJson(this, FeedbackResponseAttributes.class);
     }
     
     @Override
@@ -179,8 +178,6 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * @param responseDetails
      */
     public void setResponseDetails(FeedbackResponseDetails responseDetails) {
-        Gson gson = Utils.getTeammatesGson();
-        
         if (responseDetails == null) {
             // There was error extracting response data from http request
             responseMetaData = new Text("");
@@ -189,7 +186,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             // This is due to legacy data in the data store before there were multiple question types
             responseMetaData = new Text(responseDetails.getAnswerString());
         } else {
-            responseMetaData = new Text(gson.toJson(responseDetails, getFeedbackResponseDetailsClass()));
+            responseMetaData = new Text(JsonUtils.toJson(responseDetails, getFeedbackResponseDetailsClass()));
         }
     }
     
@@ -209,8 +206,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             // This is due to legacy data in the data store before there are multiple question types
             return new FeedbackTextResponseDetails(responseMetaData.getValue());
         }
-        Gson gson = Utils.getTeammatesGson();
-        return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
+        return JsonUtils.fromJson(responseMetaData.getValue(), responseDetailsClass);
     }
     
     /** This method gets the appropriate class type for the Feedback*ResponseDetails object

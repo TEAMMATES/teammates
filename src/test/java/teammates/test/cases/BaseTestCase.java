@@ -8,7 +8,7 @@ import org.testng.AssertJUnit;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.TestProperties;
 import teammates.test.util.FileHelper;
@@ -60,7 +60,7 @@ public class BaseTestCase {
             String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
                                   + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
-            return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+            return JsonUtils.fromJson(jsonString, DataBundle.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

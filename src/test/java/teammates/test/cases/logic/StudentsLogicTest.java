@@ -30,10 +30,10 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -1225,9 +1225,9 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     private void verifyEnrollmentResultForStudent(StudentAttributes expectedStudent,
                                                   StudentAttributes enrollmentResult, StudentUpdateStatus status) {
         String errorMessage = "mismatch! \n expected:\n"
-                            + Utils.getTeammatesGson().toJson(expectedStudent)
+                            + JsonUtils.toJson(expectedStudent)
                             + "\n actual \n"
-                            + Utils.getTeammatesGson().toJson(enrollmentResult);
+                            + JsonUtils.toJson(enrollmentResult);
         assertTrue(errorMessage, enrollmentResult.isEnrollInfoSameAs(expectedStudent)
                                  && enrollmentResult.updateStatus == status);
     }
