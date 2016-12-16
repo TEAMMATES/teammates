@@ -126,7 +126,7 @@ public class StudentProfilePage extends AppPage {
     public void selectNationality(String studentNationality) {
         if (NationalityHelper.getNationalities().contains(studentNationality) || "".equals(studentNationality)) {
             Select dropdown = new Select(studentNationalityDropdown);
-            dropdown.selectByVisibleText(studentNationality);
+            dropdown.selectByValue(studentNationality);
         } else {
             fail("Given nationality " + studentNationality + " is not valid!");
         }
@@ -158,9 +158,7 @@ public class StudentProfilePage extends AppPage {
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);
-        if (nationality != null) {
-            selectNationality(nationality);
-        }
+        selectNationality(nationality);
         fillMoreInfo(moreInfo);
         selectGender(gender);
         submitEditedProfile();

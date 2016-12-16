@@ -129,14 +129,11 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
         ______TS("Typical case: default nationality is selected");
-        
-        StudentProfileAttributes spaNationality = new StudentProfileAttributes("valid.id", "short.name", "e@email.tmt",
-                                                                               "inst", "", "male",
-                                                                               "this is enough!$%&*</>", "");
-        profilePage.editProfileThroughUi(spaNationality.googleId, spaNationality.shortName, spaNationality.email,
-                                         spaNationality.institute, spaNationality.nationality, spaNationality.gender,
-                                         spaNationality.moreInfo);
-        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "", "male", "this is enough!$%&*</>");
+
+        profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "",
+                                         "male", "this is enough!$%&*</>");
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "",
+                                          "male", "this is enough!$%&*</>");
 
         ______TS("Typical case: changing genders for complete coverage");
 
