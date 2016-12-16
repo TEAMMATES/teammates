@@ -8,9 +8,9 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackResponseComment;
 
 import com.google.appengine.api.datastore.Text;
@@ -72,7 +72,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.giverEmail = giverEmail;
         this.feedbackResponseId = feedbackResponseId;
         this.createdAt = createdAt;
-        this.commentText = commentText == null ? null : new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
+        this.commentText = Sanitizer.sanitizeForRichText(commentText);
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
         this.showCommentTo = new ArrayList<FeedbackParticipantType>();
@@ -185,15 +185,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, FeedbackResponseCommentAttributes.class);
+        return JsonUtils.toJson(this, FeedbackResponseCommentAttributes.class);
     }
     
     @Override
     public void sanitizeForSaving() {
-        this.commentText = Sanitizer.sanitizeTextField(this.commentText);
-        if (commentText != null) {
-            this.commentText = new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
-        }
+        this.commentText = Sanitizer.sanitizeForRichText(this.commentText);
     }
     
     @Override

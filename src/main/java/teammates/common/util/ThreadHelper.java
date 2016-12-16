@@ -2,13 +2,12 @@ package teammates.common.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.logging.Logger;
 
 import teammates.common.exception.TeammatesException;
 
 public final class ThreadHelper {
     public static final int WAIT_DURATION = 20;
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     private ThreadHelper() {
         // utility class

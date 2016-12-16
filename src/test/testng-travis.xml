@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="travis-tests" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="teammates.test.util.PriorityInterceptor" />
+    </listeners>
+
     <test name="component-tests">
-        <listeners>
-            <listener class-name="teammates.test.util.PriorityInterceptor" />
-        </listeners>
         <!--These can be run without starting the server. Should be run often. -->
         <packages>
+            <package name="teammates.test.cases.storage" />
             <package name="teammates.test.cases.automated" />
             <package name="teammates.test.cases.common" />
             <package name="teammates.test.cases.logic" />
-            <package name="teammates.test.cases.storage" />
-            <package name="teammates.test.cases.ui" />
             <package name="teammates.test.cases.ui.pagedata" />
+            <package name="teammates.test.cases.ui" />
         </packages>
         <classes>
             <class name="teammates.test.cases.testdriver.AssertHelperTest" />
@@ -26,9 +27,6 @@
 
     <test name="sequential-ui-tests">
         <!--Theses cases need to be run sequentially to avoid state leaks between tests -->
-        <listeners>
-            <listener class-name="teammates.test.util.PriorityInterceptor" />
-        </listeners>
         <classes>
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
@@ -41,9 +39,6 @@
     <test name="occasional-tests" parallel="classes">
      <!-- These need not to run often unless the modification relates to them
     directly. But they should be run before pushing new code to the repo. -->
-        <listeners>
-            <listener class-name="teammates.test.util.PriorityInterceptor" />
-        </listeners>
         <classes>
             <class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
             <class name="teammates.test.cases.ui.browsertests.TableSortTest" />
@@ -53,9 +48,6 @@
 
     <test name="parallel-ui-tests" parallel="classes">
         <!-- These cover the important UI functionality. Can be run in parallel. -->
-        <listeners>
-            <listener class-name="teammates.test.util.PriorityInterceptor" />
-        </listeners>
         <classes>
             <class name="teammates.test.cases.ui.browsertests.AppPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.TimezoneSyncerTest" />
@@ -103,9 +95,6 @@
 
     <test name="rare-tests" parallel="classes">
      <!-- These need not be run during staging. -->
-        <listeners>
-            <listener class-name="teammates.test.util.PriorityInterceptor" />
-        </listeners>
         <classes>
             <class name="teammates.test.cases.testdriver.BackDoorTest" />
         </classes>

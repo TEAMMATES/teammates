@@ -1,19 +1,17 @@
 package teammates.logic.automated;
 
-import java.util.logging.Logger;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 
 @SuppressWarnings("serial")
 public abstract class AutomatedRemindersServlet extends HttpServlet {
     
-    protected static final Logger log = Utils.getLogger();
+    protected static final Logger log = Logger.getLogger();
     
     protected String servletName = "unspecified";
     protected String action = "unspecified";

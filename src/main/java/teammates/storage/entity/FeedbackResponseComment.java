@@ -99,7 +99,7 @@ public class FeedbackResponseComment {
         this.feedbackResponseId = feedbackResponseId;
         this.sendingState = sendingState;
         this.createdAt = createdAt;
-        this.commentText = commentText == null ? null : new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
+        this.commentText = Sanitizer.sanitizeForRichText(commentText);
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
         this.showCommentTo = showCommentTo;

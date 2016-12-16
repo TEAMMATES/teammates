@@ -310,6 +310,19 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
           </user-data-constraint>
     </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>TestPages</web-resource-name>
+            <description>Page for testing use only</description>
+            <url-pattern>/dev/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
     <error-page>
         <error-code>401</error-code>
         <location>/unauthorized.jsp</location>

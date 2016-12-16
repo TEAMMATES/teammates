@@ -1,13 +1,11 @@
 package teammates.logic.automated;
 
-import java.util.logging.Logger;
-
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 
 public abstract class TaskQueueWorkerAction {
-    protected static final Logger log = Utils.getLogger();
+    protected static final Logger log = Logger.getLogger();
     protected HttpServletRequest request;
     
     protected TaskQueueWorkerAction(HttpServletRequest request) {

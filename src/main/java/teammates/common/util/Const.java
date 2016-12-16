@@ -195,7 +195,7 @@ public final class Const {
          */
         public static final String getjQueryFilePath(boolean isDevServer) {
             return isDevServer ? "/js/lib/jquery.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
+                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js";
         }
         
         /**
@@ -208,7 +208,7 @@ public final class Const {
          */
         public static final String getjQueryUiFilePath(boolean isDevServer) {
             return isDevServer ? "/js/lib/jquery-ui.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js";
+                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js";
         }
         
     }
@@ -1127,8 +1127,8 @@ public final class Const {
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp";
         
-        public static final String MASHUP = "/mashup.jsp";
-    
+        public static final String MASHUP = "/dev/mashup.jsp";
+        public static final String TIMEZONE = "/dev/timezone.jsp";
     }
 
     /* These are status messages that may be shown to the user */
