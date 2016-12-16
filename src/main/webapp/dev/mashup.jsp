@@ -10,13 +10,26 @@
         <meta http-equiv="X-UA-Compatible" content="IE=8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         
-        <title>Teammates - Webpage Compilation</title>
+        <title>TEAMMATES - Webpage Compilation</title>
         
         <link rel="shortcut icon" href="/favicon.png">
         <link type="text/css" href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet">
         <link type="text/css" href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet">
         <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
-        <link type="text/css" href="/stylesheets/mashup.css" rel="stylesheet">
+        <style>
+            .full-width {
+                width: 100%;
+            }
+            
+            .pageinfo {
+                font-size: 14px;
+                color: red;
+            }
+            
+            .hr-bold {
+                border: 2px red solid;
+            }
+        </style>
         <script type="text/javascript" src="/js/lib/jquery.min.js"></script>
         <script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
