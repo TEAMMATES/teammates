@@ -36,7 +36,7 @@ public class AutomatedActionFactory {
         map(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL,
                 FeedbackSessionRemindParticularUsersEmailWorkerAction.class);
         map("/auto/feedbackSubmissionAdjustmentWorker", null);
-        map("/auto/sendEmailWorker", null);
+        map(TaskQueue.SEND_EMAIL_WORKER_URL, SendEmailWorkerAction.class);
     }
     
     private static void map(String actionUri, Class<? extends AutomatedAction> actionClass) {

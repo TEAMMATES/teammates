@@ -147,8 +147,6 @@ public final class Const {
         public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
                                 "feedback-submission-adjust-queue";
         
-        public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
-        
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
@@ -1011,7 +1009,6 @@ public final class Const {
         public static final String EMAIL_WORKER = "/emailWorker";
         public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER =
                                     "/feedbackSubmissionAdjustmentWorker";
-        public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
     
     /**
@@ -1035,6 +1032,9 @@ public final class Const {
                 "feedback-session-remind-particular-users-email-queue";
         public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionRemindParticularUsersEmail";
+        
+        public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
+        public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
         
     }
     
