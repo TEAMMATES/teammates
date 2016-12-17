@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.ActionURIs;
+import teammates.common.util.Const.TaskQueue;
 
 /**
  * Generates the matching {@link AutomatedAction} for a given URI.
@@ -29,7 +30,7 @@ public class AutomatedActionFactory {
         // Task queue workers
         map("/auto/adminEmailPrepareTaskQueueWorker", null);
         map("/auto/adminEmailWorker", null);
-        map("/auto/courseJoinRemindEmailWorker", null);
+        map(TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, CourseJoinRemindEmailWorkerAction.class);
         map("/auto/emailWorker", null);
         map("/auto/feedbackRemindEmailParticularUsersWorker", null);
         map("/auto/feedbackRemindEmailWorker", null);

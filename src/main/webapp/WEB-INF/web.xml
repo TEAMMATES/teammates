@@ -130,15 +130,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>CourseJoinRemindEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.CourseJoinRemindEmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CourseJoinRemindEmailWorkerServlet</servlet-name>
-        <url-pattern>/courseJoinRemindEmailWorker</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
         <servlet-name>SendEmailWorkerServlet</servlet-name>
         <servlet-class>teammates.logic.automated.SendEmailWorkerServlet</servlet-class>
     </servlet>

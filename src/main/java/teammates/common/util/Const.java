@@ -150,8 +150,6 @@ public final class Const {
         public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
                                 "feedback-submission-adjust-queue";
         
-        public static final String COURSE_JOIN_REMIND_EMAIL_TASK_QUEUE = "course-join-remind-email-queue";
-        
         public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
         public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE =
                 "feedback-remind-email-particular-users-queue";
@@ -1016,7 +1014,6 @@ public final class Const {
         public static final String BACKDOOR = "/backdoor";
         
         //Task Queue Worker Servlets URI
-        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER = "/courseJoinRemindEmailWorker";
         public static final String EMAIL_WORKER = "/emailWorker";
         public static final String ADMIN_EMAIL_WORKER = "/adminEmailWorker";
         public static final String ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER = "/adminEmailPrepareTaskQueueWorker";
@@ -1026,6 +1023,16 @@ public final class Const {
         public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER =
                                     "/feedbackRemindEmailParticularUsersWorker";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
+    }
+    
+    /**
+     * Configurations for task queue.
+     */
+    public static class TaskQueue {
+        
+        public static final String COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME = "course-join-remind-email-queue";
+        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER_URL = "/worker/courseJoinRemindEmail";
+        
     }
     
     public static class AutomatedActionNames {
