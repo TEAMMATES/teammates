@@ -32,8 +32,9 @@ public class AutomatedActionFactory {
         map(TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, AdminSendEmailWorkerAction.class);
         map(TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, CourseJoinRemindEmailWorkerAction.class);
         map("/auto/emailWorker", null);
-        map("/auto/feedbackRemindEmailParticularUsersWorker", null);
-        map("/auto/feedbackRemindEmailWorker", null);
+        map(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, FeedbackSessionRemindEmailWorkerAction.class);
+        map(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL,
+                FeedbackSessionRemindParticularUsersEmailWorkerAction.class);
         map("/auto/feedbackSubmissionAdjustmentWorker", null);
         map("/auto/sendEmailWorker", null);
     }

@@ -63,28 +63,25 @@
   <rate>4/s</rate>  
 </queue>  
 
-<queue>
-  <name>feedback-remind-email-queue</name>
-   <!-- Configuration allows for 5 feedback reminder emails to be queued
-       when the bucket is not full
-  -->
-  <rate>5/s</rate>
-  <bucket-size>5</bucket-size> 
-  <retry-parameters>
-      <task-retry-limit>2</task-retry-limit>
-  </retry-parameters>
-</queue>
-<queue>
-  <name>feedback-remind-email-particular-users-queue</name>
-   <!-- Configuration allows for 5 feedback reminder to particular 
-       users emails to be queued when the bucket is not full
-  -->
-  <rate>5/s</rate>
-  <bucket-size>5</bucket-size> 
-  <retry-parameters>
-      <task-retry-limit>2</task-retry-limit>
-  </retry-parameters>
-</queue>
+    <queue>
+        <name>feedback-session-remind-email-queue</name>
+        <!-- Configuration allows for 5 feedback reminder emails to be queued when the bucket is not full -->
+        <rate>5/s</rate>
+        <bucket-size>5</bucket-size>
+        <retry-parameters>
+            <task-retry-limit>2</task-retry-limit>
+        </retry-parameters>
+    </queue>
+
+    <queue>
+        <name>feedback-session-remind-particular-users-email-queue</name>
+        <!-- Configuration allows for 5 feedback reminder to particular users emails to be queued when the bucket is not full -->
+        <rate>5/s</rate>
+        <bucket-size>5</bucket-size>
+        <retry-parameters>
+            <task-retry-limit>2</task-retry-limit>
+        </retry-parameters>
+    </queue>
 
 <queue>  
   <name>send-email-queue</name>  

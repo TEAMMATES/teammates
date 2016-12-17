@@ -131,24 +131,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>FeedbackRemindEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackRemindEmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackRemindEmailWorkerServlet</servlet-name>
-        <url-pattern>/feedbackRemindEmailWorker</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>FeedbackRemindEmailParticularUsersWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackRemindEmailParticularUsersWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackRemindEmailParticularUsersWorkerServlet</servlet-name>
-        <url-pattern>/feedbackRemindEmailParticularUsersWorker</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>EntityModifiedLogs</servlet-name>
         <servlet-class>teammates.ui.controller.EntityModifiedLogsServlet</servlet-class>
     </servlet>

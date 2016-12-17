@@ -147,9 +147,6 @@ public final class Const {
         public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
                                 "feedback-submission-adjust-queue";
         
-        public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
-        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE =
-                "feedback-remind-email-particular-users-queue";
         public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
@@ -1014,9 +1011,6 @@ public final class Const {
         public static final String EMAIL_WORKER = "/emailWorker";
         public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER =
                                     "/feedbackSubmissionAdjustmentWorker";
-        public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
-        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER =
-                                    "/feedbackRemindEmailParticularUsersWorker";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
     
@@ -1033,6 +1027,14 @@ public final class Const {
         
         public static final String COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME = "course-join-remind-email-queue";
         public static final String COURSE_JOIN_REMIND_EMAIL_WORKER_URL = "/worker/courseJoinRemindEmail";
+        
+        public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
+        public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = "/worker/feedbackSessionRemindEmail";
+        
+        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME =
+                "feedback-session-remind-particular-users-email-queue";
+        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionRemindParticularUsersEmail";
         
     }
     
