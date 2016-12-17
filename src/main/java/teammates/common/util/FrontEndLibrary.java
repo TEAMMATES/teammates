@@ -40,7 +40,7 @@ public enum FrontEndLibrary {
      * </ul>
      */
     public String getScriptSource() {
-        return Config.isDevServer() ? localSrc : cdnSrc;
+        return Config.isDevServer() ? cdnSrc : localSrc;
     }
     
 }
