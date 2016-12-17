@@ -28,8 +28,8 @@ public class AutomatedActionFactory {
         map(ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, FeedbackSessionPublishedRemindersAction.class);
         
         // Task queue workers
-        map("/auto/adminEmailPrepareTaskQueueWorker", null);
-        map("/auto/adminEmailWorker", null);
+        map(TaskQueue.ADMIN_PREPARE_EMAIL_WORKER_URL, AdminPrepareEmailWorkerAction.class);
+        map(TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, AdminSendEmailWorkerAction.class);
         map(TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, CourseJoinRemindEmailWorkerAction.class);
         map("/auto/emailWorker", null);
         map("/auto/feedbackRemindEmailParticularUsersWorker", null);
