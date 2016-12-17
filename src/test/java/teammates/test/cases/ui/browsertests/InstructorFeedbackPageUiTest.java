@@ -720,7 +720,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                      valueOfEndDate);
         
         
-        ______TS("decreasing start date affects visible time, end date range and publish date range"); 
+        ______TS("decreasing start date affects visible time, end date range and publish date range");
         cal.set(2014, 3, 16, 0, 0, 0);
         
         cal.add(Calendar.DATE, -35);
