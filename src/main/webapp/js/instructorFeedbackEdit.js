@@ -150,9 +150,11 @@ function disableEditFS() {
     if (typeof RichTextEditor !== 'undefined') {
         destroyEditor('instructions');
         var richTextEditor = new RichTextEditor({
-            selector: '#instructions',
-            inline: true,
-            readonly: true
+            initParams: {
+                selector: '#instructions',
+                inline: true,
+                readonly: true
+            }
         });
         richTextEditor.init();
     }

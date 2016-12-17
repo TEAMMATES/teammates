@@ -126,12 +126,16 @@ function checkComment(form) {
 function showAddCommentBox() {
     $('#comment_box').show();
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#commenttext', {
-            inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-comment-container'
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#commenttext',
+                inline: true,
+                fixed_toolbar_container: '#rich-text-toolbar-comment-container'
+            }
         });
+        richTextEditor.init();
         /* eslint-enable camelcase */
     }
 }
@@ -162,12 +166,16 @@ function enableComment(commentIdx) {
     $('#plainCommentText' + commentIdx).hide();
     $('div[id="commentTextEdit' + commentIdx + '"]').show();
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#commentText' + commentIdx, {
-            inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-comment-container-' + commentIdx
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#commentText' + commentIdx,
+                inline: true,
+                fixed_toolbar_container: '#rich-text-toolbar-comment-container-' + commentIdx
+            }
         });
+        richTextEditor.init();
         /* eslint-enable camelcase */
     }
 }
