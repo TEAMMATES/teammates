@@ -963,11 +963,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // If question specific sorting is not needed, responses are sorted
-            // by default order (first by team name, then by display name)
+            // in the following order (first by recipient name, then by team name,
+            // then by display name)
             if (questionDetails.isQuestionSpecificSortingRequired()) {
                 Collections.sort(responseRows, questionDetails.getResponseRowsSortOrder());
             } else {
-                responseRows = InstructorFeedbackResultsResponseRow.sortListWithDefaultOrder(responseRows);
+                responseRows = InstructorFeedbackResultsResponseRow.sortListByRecipientNameThenDefaultOrder(responseRows);
             }
             
         }
