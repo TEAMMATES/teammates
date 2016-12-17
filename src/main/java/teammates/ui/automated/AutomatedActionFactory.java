@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.TeammatesException;
@@ -18,17 +19,20 @@ public class AutomatedActionFactory {
             new HashMap<String, Class<? extends AutomatedAction>>();
     
     static {
-        map("/auto/adminEmailPrepareTaskQueueWorker", null);
-        map("/auto/adminEmailWorker", null);
+        // Cron jobs
         map(ActionURIs.AUTOMATED_LOG_COMPILATION, CompileLogsAction.class);
-        map("/auto/courseJoinRemindEmailWorker", null);
-        map("/auto/emailWorker", null);
-        map("/auto/feedbackRemindEmailParticularUsersWorker", null);
-        map("/auto/feedbackRemindEmailWorker", null);
         map(ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS, FeedbackSessionOpeningRemindersAction.class);
         map(ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, FeedbackSessionClosedRemindersAction.class);
         map(ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS, FeedbackSessionClosingRemindersAction.class);
         map(ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, FeedbackSessionPublishedRemindersAction.class);
+        
+        // Task queue workers
+        map("/auto/adminEmailPrepareTaskQueueWorker", null);
+        map("/auto/adminEmailWorker", null);
+        map("/auto/courseJoinRemindEmailWorker", null);
+        map("/auto/emailWorker", null);
+        map("/auto/feedbackRemindEmailParticularUsersWorker", null);
+        map("/auto/feedbackRemindEmailWorker", null);
         map("/auto/feedbackSubmissionAdjustmentWorker", null);
         map("/auto/sendEmailWorker", null);
     }
@@ -40,13 +44,15 @@ public class AutomatedActionFactory {
     /**
      * @return the matching {@link AutomatedAction} object for the URI in the {@code req}.
      */
-    public AutomatedAction getAction(HttpServletRequest req) {
+    public AutomatedAction getAction(HttpServletRequest req, HttpServletResponse resp) {
         String uri = req.getRequestURI();
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
         }
         
-        return getAction(uri);
+        AutomatedAction action = getAction(uri);
+        action.initialiseAttributes(req, resp);
+        return action;
     }
     
     private AutomatedAction getAction(String uri) {

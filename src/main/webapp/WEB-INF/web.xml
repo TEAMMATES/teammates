@@ -200,13 +200,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet-mapping>
     
     <servlet>
-        <description>Servlet that handles all automated requests, e.g cron jobs</description>
+        <description>Servlet that handles all automated requests, e.g cron jobs and task queues</description>
         <servlet-name>AutomatedServlet</servlet-name>
         <servlet-class>teammates.ui.automated.AutomatedServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AutomatedServlet</servlet-name>
         <url-pattern>/auto/*</url-pattern>
+        <url-pattern>/worker/*</url-pattern>
     </servlet-mapping>
     
     <servlet>
@@ -233,6 +234,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>AutomatedActions</web-resource-name>
             <description>Servlets that trigger automated actions</description>
             <url-pattern>/auto/*</url-pattern>
+            <url-pattern>/worker/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>

@@ -25,12 +25,15 @@ public class AutomatedServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            AutomatedAction action = new AutomatedActionFactory().getAction(req);
+            AutomatedAction action = new AutomatedActionFactory().getAction(req, resp);
             
             String url = HttpRequestHelper.getRequestedUrl(req);
-            ActivityLogEntry activityLogEntry = new ActivityLogEntry(
-                    url, action.getActionDescription(), null, action.getActionMessage(), url);
-            log.info(activityLogEntry.generateLogMessage());
+            // Do not log task queue worker actions to prevent excessive logging
+            if (!url.startsWith("/worker/")) {
+                ActivityLogEntry activityLogEntry = new ActivityLogEntry(
+                        url, action.getActionDescription(), null, action.getActionMessage(), url);
+                log.info(activityLogEntry.generateLogMessage());
+            }
             
             action.execute();
         } catch (Exception e) {
