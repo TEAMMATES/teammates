@@ -13,27 +13,26 @@ public class AdminEmailImageUploadAction extends ImageUploadAction {
     
     @Override
     protected ActionResult execute() {
-        
         GateKeeper.inst().verifyAdminPrivileges(account);
-       
+
         data = new AdminEmailComposePageData(account);
         BlobInfo blobInfo = extractImageKey(Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD);
-        
+
         if (blobInfo == null) {
             data.isFileUploaded = false;
             data.fileSrcUrl = null;
-            log.info("Image Upload Failed");
+            log.warning("Image Upload Failed");
             statusToAdmin = "Image Upload Failed";
-            
+
             return createAjaxResult(data);
         }
-        
+
         BlobKey blobKey = blobInfo.getBlobKey();
-      
+
         data.isFileUploaded = true;
         data.fileSrcUrl = Const.ActionURIs.PUBLIC_EMAIL_FILE_SERVE + "?blob-key=" + blobKey.getKeyString();
         String absoluteFileSrcUrl = Config.getAppUrl(data.fileSrcUrl).toAbsoluteString();
-        
+
         log.info("New Image Uploaded : " + absoluteFileSrcUrl);
         statusToAdmin = "New Image Uploaded : " + "<a href="
                 + data.fileSrcUrl + " target=blank>" + absoluteFileSrcUrl + "</a>";

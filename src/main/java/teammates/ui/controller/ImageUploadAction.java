@@ -23,7 +23,7 @@ public class ImageUploadAction extends Action {
         if (blobInfo == null) {
             data.isFileUploaded = false;
             data.fileSrcUrl = null;
-            log.info("Image Upload Failed");
+            log.warning("Image Upload Failed");
             statusToAdmin = "Image Upload Failed";
 
             return createAjaxResult(data);
@@ -32,7 +32,7 @@ public class ImageUploadAction extends Action {
         BlobKey blobKey = blobInfo.getBlobKey();
 
         data.isFileUploaded = true;
-        data.fileSrcUrl = Const.ActionURIs.PUBLIC_FILE_SERVE + "?blob-key=" + blobKey.getKeyString();
+        data.fileSrcUrl = Const.ActionURIs.PUBLIC_IMAGE_SERVE + "?blob-key=" + blobKey.getKeyString();
         String absoluteFileSrcUrl = Config.getAppUrl(data.fileSrcUrl).toAbsoluteString();
 
         log.info("New Image Uploaded : " + absoluteFileSrcUrl);
@@ -53,7 +53,7 @@ public class ImageUploadAction extends Action {
                 isError = true;
                 return null;
             }
-            
+
             BlobInfo image = blobs.get(0);
             return validateImage(image);
         } catch (IllegalStateException e) {
@@ -73,7 +73,7 @@ public class ImageUploadAction extends Action {
             data.ajaxStatus = Const.StatusMessages.FILE_NOT_A_PICTURE;
             return null;
         }
-           
+
         return image;
     }
 
@@ -81,7 +81,7 @@ public class ImageUploadAction extends Action {
         if (blobKey.equals(new BlobKey(""))) {
             return;
         }
-        
+
         try {
             deleteUploadedFile(blobKey);
         } catch (BlobstoreFailureException bfe) {
