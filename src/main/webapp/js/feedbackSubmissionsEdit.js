@@ -16,23 +16,27 @@ $(document).ready(function() {
             var idSuffix = id.match(/^responsetext(.*)$/)[1];
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-            var richTextEditor new RichTextEditor({
+            var richTextEditor = new RichTextEditor({
                 initParams: {
                     selector: '#' + id,
                     inline: true,
                     fixed_toolbar_container: '#rich-text-toolbar-response-text-container' + idSuffix,
                     setup: function(ed) {
                         ed.on('keyup', function() {
-                            updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                            updateTextQuestionWordsCount(
+                                    id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                         });
                         ed.on('keydown', function() {
-                            updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                            updateTextQuestionWordsCount(
+                                    id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                         });
                         ed.on('init', function() {
-                            updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                            updateTextQuestionWordsCount(
+                                    id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                         });
                         ed.on('change', function() {
-                            updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                            updateTextQuestionWordsCount(
+                                    id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                         });
                     }
                 }

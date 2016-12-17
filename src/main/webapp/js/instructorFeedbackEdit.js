@@ -254,7 +254,7 @@ function backupQuestion(questionNum) {
  */
 function enableQuestion(questionNum) {
     if (typeof RichTextEditor !== 'undefined') {
-        destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);        
+        destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         var richTextEditor = new RichTextEditor({
             initParams: {
