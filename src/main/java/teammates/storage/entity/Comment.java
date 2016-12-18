@@ -105,7 +105,7 @@ public class Comment {
         this.showGiverNameTo = showGiverNameTo;
         this.showRecipientNameTo = showRecipientNameTo;
         this.createdAt = date;
-        this.commentText = comment == null ? null : new Text(Sanitizer.sanitizeForRichText(comment.getValue()));
+        this.commentText = Sanitizer.sanitizeForRichText(comment);
         this.lastEditorEmail = lastEditorEmail == null ? giverEmail : lastEditorEmail;
         this.lastEditedAt = lastEditedAt == null ? date : lastEditedAt;
     }
