@@ -689,8 +689,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             public int compare(InstructorFeedbackResultsResponseRow a1,
                     InstructorFeedbackResultsResponseRow a2){
                 return ComparisonChain.start()
-                        .compare(a1.getRecipientDisplayableIdentifier(),
-                                a2.getRecipientDisplayableIdentifier())
+                        .compare(a1.getRecipientDisplayableIdentifier().toLowerCase(),
+                                a2.getRecipientDisplayableIdentifier().toLowerCase())
                         .compare(a1.getGiverTeam(), a2.getGiverTeam())
                         .compare(a1.getGiverDisplayableIdentifier(), a2.getGiverDisplayableIdentifier())
                         .result();
