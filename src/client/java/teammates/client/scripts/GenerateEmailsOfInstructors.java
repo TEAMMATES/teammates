@@ -3,9 +3,6 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.List;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 
@@ -13,11 +10,6 @@ import teammates.storage.entity.Account;
  * Obtains email of instructors and prints to console
  */
 public class GenerateEmailsOfInstructors extends RemoteApiClient {
-    
-  //TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
-    protected final PersistenceManager pm = JDOHelper
-            .getPersistenceManagerFactory("transactions-optional")
-            .getPersistenceManager();
     
     public static void main(String[] args) throws IOException {
         GenerateEmailsOfInstructors statistics = new GenerateEmailsOfInstructors();
@@ -29,7 +21,7 @@ public class GenerateEmailsOfInstructors extends RemoteApiClient {
     protected void doOperation() {
         String q = "SELECT FROM " + Account.class.getName() + " WHERE isInstructor == true";
         
-        List<Account> instructorAccounts = (List<Account>) pm.newQuery(q).execute();
+        List<Account> instructorAccounts = (List<Account>) PM.newQuery(q).execute();
         
         // Print
         for (int i = 0; i < instructorAccounts.size() - 1; i++) {

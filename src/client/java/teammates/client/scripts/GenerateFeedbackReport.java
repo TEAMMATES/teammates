@@ -9,7 +9,6 @@ import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
 
 /**
  * Generates the feedback report as a csv.
@@ -23,7 +22,6 @@ public class GenerateFeedbackReport extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize(); //TODO: push to parent class
         Logic logic = new Logic();
         
         try {

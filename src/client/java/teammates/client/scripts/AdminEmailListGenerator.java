@@ -15,7 +15,6 @@ import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -40,10 +39,6 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private enum StudentStatus { REG, UNREG, ALL }
     
     private enum InstructorStatus { REG, UNREG, ALL }
-    
-    private static final PersistenceManager pm = JDOHelper
-                                                   .getPersistenceManagerFactory("transactions-optional")
-                                                   .getPersistenceManager();
     
     private int iterationCounter;
     
@@ -198,11 +193,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private HashSet<String> addInstructorEmailIntoSet(HashSet<String> instructorEmailSet) {
         String q = "SELECT FROM " + Instructor.class.getName();
-        List<?> allInstructors = (List<?>) pm.newQuery(q).execute();
+        @SuppressWarnings("unchecked")
+        List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(q).execute();
         
-        for (Object object : allInstructors) {
-            Instructor instructor = (Instructor) object;
-            // intended casting of ? to remove unchecked casting
+        for (Instructor instructor : allInstructors) {
             if ((instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG
                         || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG
                         || emailListConfig.instructorStatus == InstructorStatus.ALL)
@@ -217,11 +211,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private HashSet<String> addStudentEmailIntoSet(HashSet<String> studentEmailSet) {
         String q = "SELECT FROM " + CourseStudent.class.getName();
-        List<?> allStudents = (List<?>) pm.newQuery(q).execute();
+        @SuppressWarnings("unchecked")
+        List<CourseStudent> allStudents = (List<CourseStudent>) PM.newQuery(q).execute();
 
-        for (Object object : allStudents) {
-            CourseStudent student = (CourseStudent) object;
-            // intended casting from ? due to unchecked casting
+        for (CourseStudent student : allStudents) {
             if ((isRegistered(student) && emailListConfig.studentStatus == StudentStatus.REG
                         || !isRegistered(student) && emailListConfig.studentStatus == StudentStatus.UNREG
                         || emailListConfig.studentStatus == StudentStatus.ALL)
@@ -391,7 +384,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private Course getCourseEntity(String courseId) {
         
-        Query q = pm.newQuery(Course.class);
+        Query q = PM.newQuery(Course.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("ID == courseIdParam");
         
@@ -409,7 +402,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
         try {
             Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
-            Account account = pm.getObjectById(Account.class, key);
+            Account account = PM.getObjectById(Account.class, key);
             
             if (JDOHelper.isDeleted(account)) {
                 return null;

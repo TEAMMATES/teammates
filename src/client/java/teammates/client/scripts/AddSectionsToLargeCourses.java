@@ -6,15 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.jdo.PersistenceManager;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.FeedbackResponse;
@@ -70,8 +67,6 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             System.out.println("In Preview Mode");
         }
         
-        Datastore.initialize();
-        
         Set<String> courses;
         if (isForAllCourses) {
             courses = getCourses();
@@ -90,7 +85,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     private Set<String> getCourses() {
         String q = "SELECT FROM " + Course.class.getName();
         @SuppressWarnings("unchecked")
-        List<Course> courses = (List<Course>) Datastore.getPersistenceManager().newQuery(q).execute();
+        List<Course> courses = (List<Course>) PM.newQuery(q).execute();
         
         Set<String> allCourses = new HashSet<String>();
         
@@ -172,25 +167,23 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             return;
         }
         
-        PersistenceManager pm = Datastore.getPersistenceManager();
-        
-        CourseStudent studentEntity = getStudent(student.email, student.course, pm);
+        CourseStudent studentEntity = getStudent(student.email, student.course);
         updateStudentToBeInSection(studentEntity, currentSection);
         
-        List<FeedbackResponse> responsesForStudent = getResponsesForStudent(student, pm);
+        List<FeedbackResponse> responsesForStudent = getResponsesForStudent(student);
         updateFeedbackResponsesToBeInSection(responsesForStudent, student, currentSection);
         
-        pm.close();
+        PM.close();
             
     }
     
-    private CourseStudent getStudent(String email, String courseId, PersistenceManager pm) {
+    private CourseStudent getStudent(String email, String courseId) {
         
         String q = "SELECT FROM " + CourseStudent.class.getName() + " "
                 + "WHERE email == emailParam && courseID == courseIdParam" + " "
                 + "PARAMETERS String emailParam, String courseIdParam";
         @SuppressWarnings("unchecked")
-        List<CourseStudent> studentList = (List<CourseStudent>) pm.newQuery(q).execute(email, courseId);
+        List<CourseStudent> studentList = (List<CourseStudent>) PM.newQuery(q).execute(email, courseId);
         
         return studentList.get(0);
     }
@@ -227,7 +220,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         // note that comments are not updated
     }
     
-    private List<FeedbackResponse> getResponsesForStudent(StudentAttributes student, PersistenceManager pm) {
+    private List<FeedbackResponse> getResponsesForStudent(StudentAttributes student) {
         String studentEmail = student.email;
         String studentTeam = student.team;
         String course = student.course;
@@ -238,7 +231,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
                 + "PARAMETERS String emailParam, String courseParam";
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> responsesAsGiver = (List<FeedbackResponse>) pm.newQuery(q).execute(studentEmail, course);
+        List<FeedbackResponse> responsesAsGiver = (List<FeedbackResponse>) PM.newQuery(q).execute(studentEmail, course);
         
         q = "SELECT FROM " + FeedbackResponse.class.getName() + " "
                 + "WHERE (receiver == emailParam" + " "
@@ -248,8 +241,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
      
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> responsesAsReceiver =
-                (List<FeedbackResponse>) Datastore.getPersistenceManager().newQuery(q)
-                                                  .execute(studentEmail, studentTeam, course);
+                (List<FeedbackResponse>) PM.newQuery(q).execute(studentEmail, studentTeam, course);
         
         List<FeedbackResponse> responses = new ArrayList<FeedbackResponse>();
         responses.addAll(responsesAsGiver);
