@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.HttpRequestHelper;
@@ -44,8 +43,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
             assertNotNull(paramMap.get(ParamsNames.SUBMISSION_COURSE));
             
             FeedbackSessionsEmailTaskQueueCallback.taskCount++;
-             
-            return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
+            return TASK_QUEUE_RESPONSE_OK;
         }
     }
     

@@ -143,7 +143,6 @@ public final class Const {
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
         
-        public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
@@ -1460,9 +1459,6 @@ public final class Const {
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null\n";
     
-        // Task Queue Response Success code
-        public static final int TASK_QUEUE_RESPONSE_OK = 200;
-        
         // POST parameter null message
         public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
     }
