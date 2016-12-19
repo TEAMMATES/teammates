@@ -200,7 +200,7 @@ public class InstructorStudentCommentEditAction extends Action {
         if (isCommentPublicToRecipient(comment)) {
             comment.sendingState = CommentSendingState.PENDING;
         }
-        comment.commentText = commentText == null ? null : new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
+        comment.commentText = Sanitizer.sanitizeForRichText(commentText);
         comment.createdAt = new Date();
         
         return comment;
