@@ -47,17 +47,17 @@
         </retry-parameters>
     </queue>
 
-<queue>  
-  <name>feedback-submission-adjust-queue</name>  
-  <!-- Processes each feedback adjustment sequentially
-  -->
-  <rate>1/s</rate>
-  <bucket-size>5</bucket-size>
-  <max-concurrent-requests>1</max-concurrent-requests>
-  <retry-parameters>
-      <task-retry-limit>2</task-retry-limit>
-  </retry-parameters>  
-</queue>     
+    <queue>
+        <name>feedback-response-adjustment-queue</name>
+        <!-- Processes each feedback adjustment sequentially -->
+        <rate>1/s</rate>
+        <bucket-size>5</bucket-size>
+        <max-concurrent-requests>1</max-concurrent-requests>
+        <retry-parameters>
+            <task-retry-limit>2</task-retry-limit>
+        </retry-parameters>
+    </queue>
+
 <queue>  
   <name>search-document</name>  
   <rate>4/s</rate>  

@@ -144,8 +144,6 @@ public final class Const {
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
         
         public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
-        public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
-                                "feedback-submission-adjust-queue";
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
@@ -1007,8 +1005,6 @@ public final class Const {
         
         //Task Queue Worker Servlets URI
         public static final String EMAIL_WORKER = "/emailWorker";
-        public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER =
-                                    "/feedbackSubmissionAdjustmentWorker";
     }
     
     /**
@@ -1024,6 +1020,9 @@ public final class Const {
         
         public static final String COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME = "course-join-remind-email-queue";
         public static final String COURSE_JOIN_REMIND_EMAIL_WORKER_URL = "/worker/courseJoinRemindEmail";
+        
+        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
+        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
         
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = "/worker/feedbackSessionRemindEmail";
