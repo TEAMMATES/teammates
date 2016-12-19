@@ -35,6 +35,10 @@ public abstract class AutomatedAction {
         response.setStatus(100);
     }
     
+    protected void setErrorResponse() {
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
+    
     protected abstract String getActionDescription();
     
     protected abstract String getActionMessage();

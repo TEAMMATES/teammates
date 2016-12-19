@@ -27,6 +27,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Const.TaskQueue;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -955,7 +956,7 @@ public class CommentsLogic {
         paramMap.put(Const.ParamsNames.EMAIL_TYPE, EmailType.PENDING_COMMENT_CLEARED.toString());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(Const.SystemParams.EMAIL_TASK_QUEUE, Const.ActionURIs.EMAIL_WORKER, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.PREPARE_EMAIL_QUEUE_NAME, TaskQueue.PREPARE_EMAIL_WORKER_URL, paramMap);
     }
     
 }

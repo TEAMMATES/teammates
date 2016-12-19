@@ -143,8 +143,6 @@ public final class Const {
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
         
-        public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
-        
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
@@ -1003,8 +1001,6 @@ public final class Const {
         
         public static final String BACKDOOR = "/backdoor";
         
-        //Task Queue Worker Servlets URI
-        public static final String EMAIL_WORKER = "/emailWorker";
     }
     
     /**
@@ -1031,6 +1027,9 @@ public final class Const {
                 "feedback-session-remind-particular-users-email-queue";
         public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionRemindParticularUsersEmail";
+        
+        public static final String PREPARE_EMAIL_QUEUE_NAME = "prepare-email-queue";
+        public static final String PREPARE_EMAIL_WORKER_URL = "/worker/prepareEmail";
         
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";

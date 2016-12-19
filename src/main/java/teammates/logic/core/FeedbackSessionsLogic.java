@@ -2721,7 +2721,7 @@ public class FeedbackSessionsLogic {
         paramMap.put(ParamsNames.EMAIL_TYPE, emailType.toString());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE, Const.ActionURIs.EMAIL_WORKER, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.PREPARE_EMAIL_QUEUE_NAME, TaskQueue.PREPARE_EMAIL_WORKER_URL, paramMap);
     }
     
 }
