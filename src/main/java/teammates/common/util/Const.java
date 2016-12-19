@@ -1036,17 +1036,6 @@ public final class Const {
         
     }
     
-    public static class AutomatedActionNames {
-        //real servlet names to be logged for automated actions, not for url pattern recognition
-        public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_CLOSED_MAIL_ACTION = "feedbackSessionClosedMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_UNPUBLISHED_MAIL_ACTION =
-                                                                "feedbackSessionUnpublishedMailAction";
-        public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
-    }
-    
     public static class PublicActionNames {
         public static final String PUBLIC_IMAGE_SERVE_ACTION = "publicImageServeAction";
     }
