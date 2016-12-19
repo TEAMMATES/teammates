@@ -23,6 +23,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -533,8 +534,8 @@ public class StudentsLogic {
         paramMap.put(ParamsNames.STUDENT_EMAIL, student.getEmail());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.COURSE_JOIN_REMIND_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.COURSE_JOIN_REMIND_EMAIL_WORKER, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME,
+                                        TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, paramMap);
         
         return new EmailGenerator().generateStudentCourseJoinEmail(course, student);
     }

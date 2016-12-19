@@ -110,45 +110,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/emailWorker</url-pattern>
     </servlet-mapping>
     
-    
-    <servlet>
-        <servlet-name>AdminEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.AdminEmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminEmailWorkerServlet</servlet-name>
-        <url-pattern>/adminEmailWorker</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>AdminEmailPrepareTaskQueueWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.AdminEmailPrepareTaskQueueWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminEmailPrepareTaskQueueWorkerServlet</servlet-name>
-        <url-pattern>/adminEmailPrepareTaskQueueWorker</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>CourseJoinRemindEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.CourseJoinRemindEmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CourseJoinRemindEmailWorkerServlet</servlet-name>
-        <url-pattern>/courseJoinRemindEmailWorker</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>SendEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.SendEmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SendEmailWorkerServlet</servlet-name>
-        <url-pattern>/sendEmailWorker</url-pattern>
-    </servlet-mapping>
-    
-    
-    
     <servlet>
         <servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
         <servlet-class>teammates.logic.automated.FeedbackSubmissionAdjustmentWorkerServlet</servlet-class>
@@ -158,24 +119,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
     </servlet-mapping>
     
-    <servlet>
-        <servlet-name>FeedbackRemindEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackRemindEmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackRemindEmailWorkerServlet</servlet-name>
-        <url-pattern>/feedbackRemindEmailWorker</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>FeedbackRemindEmailParticularUsersWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackRemindEmailParticularUsersWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackRemindEmailParticularUsersWorkerServlet</servlet-name>
-        <url-pattern>/feedbackRemindEmailParticularUsersWorker</url-pattern>
-    </servlet-mapping>
-
     <servlet>
         <servlet-name>EntityModifiedLogs</servlet-name>
         <servlet-class>teammates.ui.controller.EntityModifiedLogsServlet</servlet-class>
@@ -200,13 +143,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet-mapping>
     
     <servlet>
-        <description>Servlet that handles all automated requests, e.g cron jobs</description>
+        <description>Servlet that handles all automated requests, e.g cron jobs and task queues</description>
         <servlet-name>AutomatedServlet</servlet-name>
         <servlet-class>teammates.ui.automated.AutomatedServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AutomatedServlet</servlet-name>
         <url-pattern>/auto/*</url-pattern>
+        <url-pattern>/worker/*</url-pattern>
     </servlet-mapping>
     
     <servlet>
@@ -233,6 +177,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>AutomatedActions</web-resource-name>
             <description>Servlets that trigger automated actions</description>
             <url-pattern>/auto/*</url-pattern>
+            <url-pattern>/worker/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>

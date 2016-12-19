@@ -144,18 +144,8 @@ public final class Const {
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
         
         public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
-        public static final String ADMIN_EMAIL_TASK_QUEUE = "admin-send-email-queue";
-        public static final String ADMIN_PREPARE_EMAIL_TASK_QUEUE = "admin-prepare-email-task-queue";
-        
         public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
                                 "feedback-submission-adjust-queue";
-        
-        public static final String COURSE_JOIN_REMIND_EMAIL_TASK_QUEUE = "course-join-remind-email-queue";
-        
-        public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
-        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE =
-                "feedback-remind-email-particular-users-queue";
-        public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
@@ -1016,16 +1006,36 @@ public final class Const {
         public static final String BACKDOOR = "/backdoor";
         
         //Task Queue Worker Servlets URI
-        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER = "/courseJoinRemindEmailWorker";
         public static final String EMAIL_WORKER = "/emailWorker";
-        public static final String ADMIN_EMAIL_WORKER = "/adminEmailWorker";
-        public static final String ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER = "/adminEmailPrepareTaskQueueWorker";
         public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER =
                                     "/feedbackSubmissionAdjustmentWorker";
-        public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
-        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER =
-                                    "/feedbackRemindEmailParticularUsersWorker";
-        public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
+    }
+    
+    /**
+     * Configurations for task queue.
+     */
+    public static class TaskQueue {
+        
+        public static final String ADMIN_PREPARE_EMAIL_QUEUE_NAME = "admin-prepare-email-queue";
+        public static final String ADMIN_PREPARE_EMAIL_WORKER_URL = "/worker/adminPrepareEmail";
+        
+        public static final String ADMIN_SEND_EMAIL_QUEUE_NAME = "admin-send-email-queue";
+        public static final String ADMIN_SEND_EMAIL_WORKER_URL = "/worker/adminSendEmail";
+        
+        public static final String COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME = "course-join-remind-email-queue";
+        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER_URL = "/worker/courseJoinRemindEmail";
+        
+        public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
+        public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = "/worker/feedbackSessionRemindEmail";
+        
+        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME =
+                "feedback-session-remind-particular-users-email-queue";
+        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionRemindParticularUsersEmail";
+        
+        public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
+        public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
+        
     }
     
     public static class AutomatedActionNames {
