@@ -687,7 +687,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return new Comparator<InstructorFeedbackResultsResponseRow>() {
             @Override
             public int compare(InstructorFeedbackResultsResponseRow a1,
-                    InstructorFeedbackResultsResponseRow a2){
+                    InstructorFeedbackResultsResponseRow a2) {
                 return ComparisonChain.start()
                         .compare(a1.getRecipientDisplayableIdentifier().toLowerCase(),
                                 a2.getRecipientDisplayableIdentifier().toLowerCase())
