@@ -6,12 +6,15 @@ import java.util.Map;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.TaskQueue;
+import teammates.common.util.Logger;
 import teammates.logic.core.TaskQueuesLogic;
 
 /**
  * Allows for adding specific type of tasks to the task queue.
  */
 public class TaskQueuer {
+    
+    private static final Logger log = Logger.getLogger();
     
     // The following methods are facades to the actual logic for adding tasks to the queue.
     // Using this method, the actual logic can still be black-boxed
@@ -56,6 +59,34 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE);
         
         addTask(TaskQueue.ADMIN_PREPARE_EMAIL_QUEUE_NAME, TaskQueue.ADMIN_PREPARE_EMAIL_WORKER_URL, paramMap);
+    }
+    
+    /**
+     * Schedules an admin email to be sent.
+     * 
+     * @param emailId the ID of admin email to be retrieved from the database (if needed)
+     * @param emailReceiver the email address of the email receiver
+     * @param emailSubject the subject of the email
+     * @param emailContent the content of the email
+     */
+    public void scheduleAdminEmailForSending(String emailId, String emailReceiver, String emailSubject,
+                                             String emailContent) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.ADMIN_EMAIL_RECEIVER, emailReceiver);
+        paramMap.put(ParamsNames.ADMIN_EMAIL_SUBJECT, emailSubject);
+        paramMap.put(ParamsNames.ADMIN_EMAIL_CONTENT, emailContent);
+        
+        try {
+            addTask(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME, TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, paramMap);
+        } catch (IllegalArgumentException e) {
+            if (e.getMessage().toLowerCase().contains("task size too large")) {
+                log.info("Email task size exceeds max limit. Switching to large email task mode.");
+                paramMap.remove(ParamsNames.ADMIN_EMAIL_SUBJECT);
+                paramMap.remove(ParamsNames.ADMIN_EMAIL_CONTENT);
+                paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
+                addTask(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME, TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, paramMap);
+            }
+        }
     }
     
 }

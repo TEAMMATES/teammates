@@ -3,19 +3,15 @@ package teammates.ui.automated;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.core.AdminEmailsLogic;
-import teammates.logic.core.TaskQueuesLogic;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.apphosting.api.ApiProxy;
@@ -98,7 +94,6 @@ public class AdminPrepareEmailWorkerAction extends AutomatedAction {
         
         AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
         Assumption.assertNotNull(adminEmail);
-        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         List<String> addressList = new ArrayList<String>();
         
         if (addressReceiverListString.contains(",")) {
@@ -108,25 +103,8 @@ public class AdminPrepareEmailWorkerAction extends AutomatedAction {
         }
         
         for (String emailAddress : addressList) {
-            Map<String, String> paramMap = new HashMap<String, String>();
-            paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-            paramMap.put(ParamsNames.ADMIN_EMAIL_RECEIVER, emailAddress);
-            paramMap.put(ParamsNames.ADMIN_EMAIL_SUBJECT, adminEmail.getSubject());
-            paramMap.put(ParamsNames.ADMIN_EMAIL_CONTENT, adminEmail.getContent().getValue());
-            
-            try {
-                taskQueueLogic.createAndAddTask(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME,
-                                                TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, paramMap);
-            } catch (IllegalArgumentException e) {
-                if (e.getMessage().toLowerCase().contains("task size too large")) {
-                    log.info("Email task size exceeds max limit. Switching to large email task mode.");
-                    paramMap.remove(ParamsNames.ADMIN_EMAIL_SUBJECT);
-                    paramMap.remove(ParamsNames.ADMIN_EMAIL_CONTENT);
-                    taskQueueLogic.createAndAddTask(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME,
-                                                    TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, paramMap);
-                }
-            }
-            
+            taskQueuer.scheduleAdminEmailForSending(emailId, emailAddress, adminEmail.getSubject(),
+                                                    adminEmail.getContent().getValue());
         }
         
     }
@@ -137,7 +115,6 @@ public class AdminPrepareEmailWorkerAction extends AutomatedAction {
         
         AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
         Assumption.assertNotNull(adminEmail);
-        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         
         log.info("Resume Adding group mail tasks for mail with id " + emailId + "from list index: "
                  + indexOfEmailListToResume + " email index: " + indexOfEmailToResume);
@@ -151,25 +128,8 @@ public class AdminPrepareEmailWorkerAction extends AutomatedAction {
             
             for (int j = indexOfEmailToResume; j < currentEmailList.size(); j++) {
                 String receiverEmail = currentEmailList.get(j);
-                
-                Map<String, String> paramMap = new HashMap<String, String>();
-                paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-                paramMap.put(ParamsNames.ADMIN_EMAIL_RECEIVER, receiverEmail);
-                paramMap.put(ParamsNames.ADMIN_EMAIL_SUBJECT, adminEmail.getSubject());
-                paramMap.put(ParamsNames.ADMIN_EMAIL_CONTENT, adminEmail.getContent().getValue());
-                
-                try {
-                    taskQueueLogic.createAndAddTask(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME,
-                                                    TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, paramMap);
-                } catch (IllegalArgumentException e) {
-                    if (e.getMessage().toLowerCase().contains("task size too large")) {
-                        log.info("Email task size exceeds max limit. Switching to large email task mode.");
-                        paramMap.remove(ParamsNames.ADMIN_EMAIL_SUBJECT);
-                        paramMap.remove(ParamsNames.ADMIN_EMAIL_CONTENT);
-                        taskQueueLogic.createAndAddTask(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME,
-                                                        TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, paramMap);
-                    }
-                }
+                taskQueuer.scheduleAdminEmailForSending(emailId, receiverEmail, adminEmail.getSubject(),
+                                                        adminEmail.getContent().getValue());
                 
                 if (isNearDeadline()) {
                     taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, i, j);
