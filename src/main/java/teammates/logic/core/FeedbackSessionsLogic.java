@@ -1626,31 +1626,6 @@ public class FeedbackSessionsLogic {
         }
     }
 
-    public void scheduleFeedbackRemindEmails(String courseId, String feedbackSessionName) {
-        
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
-        paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
-        
-        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
-        taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME,
-                                        TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, paramMap);
-    }
-    
-    public void scheduleFeedbackRemindEmailsForParticularUsers(String courseId,
-            String feedbackSessionName, String[] usersToRemind) {
-    
-        HashMap<String, String[]> paramMap = new HashMap<String, String[]>();
-        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[]{feedbackSessionName});
-        paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[]{courseId});
-        paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
-        
-        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
-        taskQueueLogic.createAndAddTaskMultisetParam(
-                TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
-    }
-
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
         ArrayList<FeedbackSessionAttributes> requiredSessions = new
                 ArrayList<FeedbackSessionAttributes>();

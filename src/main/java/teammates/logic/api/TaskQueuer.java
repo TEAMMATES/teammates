@@ -118,4 +118,39 @@ public class TaskQueuer {
                 TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL, paramMap);
     }
     
+    /**
+     * Schedules for feedback session reminders (i.e. student has not submitted responses yet)
+     * for the specified feedback session.
+     * 
+     * @param courseId the course ID of the feedback session
+     * @param feedbackSessionName the name of the feedback session
+     */
+    public void scheduleFeedbackSessionReminders(String courseId, String feedbackSessionName) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
+        paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
+        
+        addTask(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME,
+                TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, paramMap);
+    }
+    
+    /**
+     * Schedules for feedback session reminders (i.e. student has not submitted responses yet)
+     * for the specified feedback session for the specified group of users.
+     * 
+     * @param courseId the course ID of the feedback session
+     * @param feedbackSessionName the name of the feedback session
+     * @param usersToRemind the group of users to send the reminders to
+     */
+    public void scheduleFeedbackSessionRemindersForParticularUsers(String courseId, String feedbackSessionName,
+                                                                   String[] usersToRemind) {
+        Map<String, String[]> paramMap = new HashMap<String, String[]>();
+        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[] { feedbackSessionName });
+        paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[] { courseId });
+        paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
+        
+        addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
+                             TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
+    }
+    
 }

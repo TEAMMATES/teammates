@@ -12,7 +12,7 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.api.Logic;
+//import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
@@ -25,7 +25,7 @@ import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 @Test(sequential = true)
 public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQueueTestCase {
     
-    private static final Logic logic = new Logic();
+    //private static final Logic logic = new Logic();
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     private static final DataBundle dataBundle = getTypicalDataBundle();
 
@@ -116,12 +116,12 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
 
         ______TS("Send feedback session reminder email");
         
-        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session2InCourse1");
+        //FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session2InCourse1");
         int counter = 0;
 
         while (counter != 10) {
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-            logic.sendReminderForFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName());
+            //logic.sendReminderForFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName());
             if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)) {
                 break;
             }
@@ -133,9 +133,9 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         ______TS("Try to send reminder for null feedback session");
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-        fsa = dataBundle.feedbackSessions.get("session2InCourse1");
+        //fsa = dataBundle.feedbackSessions.get("session2InCourse1");
         try {
-            logic.sendReminderForFeedbackSession(fsa.getCourseId(), null);
+            //logic.sendReminderForFeedbackSession(fsa.getCourseId(), null);
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals("The supplied parameter was null\n", ae.getMessage());

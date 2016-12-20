@@ -1190,37 +1190,6 @@ public class Logic {
     
         return studentsLogic.sendRegistrationInviteToStudentAfterGoogleIdReset(courseId, studentEmail);
     }
-
-    /**
-     * Sends reminders to students who haven't submitted yet. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     */
-    public void sendReminderForFeedbackSession(String courseId, String feedbackSessionName) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        
-        feedbackSessionsLogic.scheduleFeedbackRemindEmails(courseId, feedbackSessionName);
-    }
-    
-    /**
-     * Sends reminders to selected users. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     */
-    public void sendReminderForFeedbackSessionParticularUsers(String courseId,
-                                                              String feedbackSessionName,
-                                                              String[] usersToRemind) {
-     
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, usersToRemind);
-
-        feedbackSessionsLogic.scheduleFeedbackRemindEmailsForParticularUsers(courseId,
-                                                                             feedbackSessionName,
-                                                                             usersToRemind);
-    }
     
     /**
      * Sends confirmation email for submission to user. <br>
