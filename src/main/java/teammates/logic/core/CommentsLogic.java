@@ -26,7 +26,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Const.TaskQueue;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -944,18 +943,6 @@ public class CommentsLogic {
     @SuppressWarnings("deprecation")
     public List<CommentAttributes> getAllComments() {
         return commentsDb.getAllComments();
-    }
-    
-    /**
-     * Sends notifications to students in course {@code courseId} who have received comments and not yet been notified.
-     */
-    public void sendCommentNotification(String courseId) {
-        Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(Const.ParamsNames.EMAIL_COURSE, courseId);
-        
-        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
-        taskQueueLogic.createAndAddTask(TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME,
-                                        TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL, paramMap);
     }
     
 }

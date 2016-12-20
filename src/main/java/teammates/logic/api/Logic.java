@@ -2482,14 +2482,6 @@ public class Logic {
     }
     
     /**
-     * @see CommentsLogic#sendCommentNotification(String)
-     */
-    public void sendCommentNotification(String courseId) {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        commentsLogic.sendCommentNotification(courseId);
-    }
-
-    /**
      * This method is not scalable. Not to be used unless for admin features.
      * @return the list of all adminEmails in the database.
      * <br> Empty List if no admin email found
