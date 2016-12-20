@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,12 +17,12 @@ import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
 /** An 'action' to be performed by the system. If the logged in user is allowed
@@ -31,7 +30,7 @@ import teammates.logic.api.Logic;
  * perform that action.
  */
 public abstract class Action {
-    protected static final Logger log = Utils.getLogger();
+    protected static final Logger log = Logger.getLogger();
     
     /** This is used to ensure unregistered users don't access certain pages in the system */
     public String regkey;
@@ -127,17 +126,13 @@ public abstract class Action {
         return loggedInUser;
     }
 
+    /**
+     * Retrieves registration key from the HTTP request
+     * 
+     * @return Registration key or null if key not in HTTP request
+     */
     protected String getRegkeyFromRequest() {
-        String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
-        if (regkey == null) {
-            // TODO: remove this branch on October 15th 2014.
-            String legacyRegkey = getRequestParamValue(Const.ParamsNames.REGKEY_LEGACY);
-            if (legacyRegkey != null) {
-                log.severe("TEAMMATES accessed using old join link");
-            }
-            return legacyRegkey;
-        }
-        return regkey;
+        return getRequestParamValue(Const.ParamsNames.REGKEY);
     }
 
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,

@@ -3,24 +3,22 @@ package teammates.logic.core;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
-import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.SystemParams;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 
 /**
  * Handles operations related to sending emails.
  */
 public class EmailSender {
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     private final EmailSenderService service;
     
@@ -75,8 +73,8 @@ public class EmailSender {
             paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReplyToAddress);
             
             TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-            taskQueueLogic.createAndAddDeferredTask(SystemParams.SEND_EMAIL_TASK_QUEUE,
-                    Const.ActionURIs.SEND_EMAIL_WORKER, paramMap, emailDelayTimer);
+            taskQueueLogic.createAndAddDeferredTask(TaskQueue.SEND_EMAIL_QUEUE_NAME,
+                                                    TaskQueue.SEND_EMAIL_WORKER_URL, paramMap, emailDelayTimer);
         } catch (Exception e) {
             log.severe("Error when adding email to task queue: " + e.getMessage() + "\n"
                        + "Email sender: " + emailSender + "\n"

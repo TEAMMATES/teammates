@@ -193,7 +193,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
         commentsPage.fillTextareaToEditStudentCommentForRow(1, "edited student comment\na new line");
         commentsPage.saveEditStudentCommentForRow(1);
-        commentsPage.verifyContains("edited student comment\n<br />a new line");
+        commentsPage.verifyContains("edited student comment<br />a new line");
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageAddSc.html");
 

@@ -1,12 +1,10 @@
 package teammates.storage.datastore;
 
-import java.util.logging.Logger;
-
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 
 //TODO: we might not really need this class. To be reconsidered.
 /**
@@ -17,7 +15,7 @@ import teammates.common.util.Utils;
 public final class Datastore {
 
     private static PersistenceManagerFactory pmf;
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
     
     private Datastore() {

@@ -9,8 +9,7 @@
     <jsp:attribute name="jsIncludes">
         <script type="text/javascript" src="/js/instructor.js"></script>
         <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
-        <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponseRate.js"></script>
-        <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+        <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponse.js"></script>
         <script type="text/javascript" src="/js/lib/printThis.js"></script>
         ${jsIncludes}
     </jsp:attribute>

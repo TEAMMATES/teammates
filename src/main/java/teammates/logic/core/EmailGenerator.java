@@ -1,10 +1,10 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -17,11 +17,11 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -33,7 +33,7 @@ import com.google.appengine.api.log.AppLogLine;
  */
 public class EmailGenerator {
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -163,7 +163,7 @@ public class EmailGenerator {
      * Generates the feedback submission confirmation email for the given {@code session} for {@code student}
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
-            FeedbackSessionAttributes session, StudentAttributes student, String timestamp) {
+            FeedbackSessionAttributes session, StudentAttributes student, Calendar timestamp) {
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -179,7 +179,7 @@ public class EmailGenerator {
      * Generates the feedback submission confirmation email for the given {@code session} for {@code instructor}.
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForInstructor(
-            FeedbackSessionAttributes session, InstructorAttributes instructor, String timestamp) {
+            FeedbackSessionAttributes session, InstructorAttributes instructor, Calendar timestamp) {
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -204,7 +204,8 @@ public class EmailGenerator {
     
     private EmailWrapper generateSubmissionConfirmationEmail(
             CourseAttributes course, FeedbackSessionAttributes session, String submitUrl,
-            String userName, String userEmail, String timeStamp) {
+            String userName, String userEmail, Calendar timestamp) {
+        Calendar time = TimeHelper.convertToUserTimeZone(timestamp, session.getTimeZone());
         String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
         String subject = EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject();
         
@@ -215,7 +216,7 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${submitUrl}", submitUrl,
-                "${timeStamp}", timeStamp,
+                "${timeStamp}", TimeHelper.formatTime12H(time.getTime()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);

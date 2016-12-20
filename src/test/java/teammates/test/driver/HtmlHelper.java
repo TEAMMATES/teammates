@@ -85,7 +85,8 @@ public final class HtmlHelper {
     }
     
     private static boolean areSameHtmls(String expected, String actual) {
-        return AssertHelper.isContainsRegex(expected, actual);
+        // accounts for the variations in line breaks
+        return expected.replaceAll("[\r\n]", "").equals(actual.replaceAll("[\r\n]", ""));
     }
     
     /**

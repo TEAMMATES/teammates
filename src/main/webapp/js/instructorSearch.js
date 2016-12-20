@@ -1,4 +1,4 @@
-$(function() {
+$(document).ready(function() {
     $('.comments > .list-group-item').hover(function() {
         $("a[type='button']", this).show();
     }, function() {
@@ -7,6 +7,4 @@ $(function() {
     
     // highlight search string
     highlightSearchResult('#searchBox', '.panel-body');
-
-    $('div[id^=plainCommentText]').css('margin-left', '15px');
 });

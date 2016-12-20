@@ -5,11 +5,11 @@ import java.util.List;
 
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.GaeLogApi;
 import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
 
