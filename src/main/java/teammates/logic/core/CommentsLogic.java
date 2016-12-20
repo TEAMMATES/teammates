@@ -953,7 +953,7 @@ public class CommentsLogic {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(Const.ParamsNames.EMAIL_COURSE, courseId);
         
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         taskQueueLogic.createAndAddTask(TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME,
                                         TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL, paramMap);
     }

@@ -72,7 +72,7 @@ public class EmailSender {
             paramMap.put(ParamsNames.EMAIL_RECEIVER, emailReceiver);
             paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReplyToAddress);
             
-            TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+            TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
             taskQueueLogic.createAndAddDeferredTask(TaskQueue.SEND_EMAIL_QUEUE_NAME,
                                                     TaskQueue.SEND_EMAIL_WORKER_URL, paramMap, emailDelayTimer);
         } catch (Exception e) {

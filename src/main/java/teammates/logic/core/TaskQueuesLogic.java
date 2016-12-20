@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.appengine.api.taskqueue.Queue;
@@ -7,39 +8,64 @@ import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 
 /**
- * Handles  operations related to Task Queues.
+ * Handles operations related to task queues.
  */
 public class TaskQueuesLogic {
-
-    private static TaskQueuesLogic instance;
     
-    public static TaskQueuesLogic inst() {
-        if (instance == null) {
-            instance = new TaskQueuesLogic();
-        }
-        return instance;
+    /**
+     * Adds the given task to the specified queue.
+     * 
+     * @param queueName the name of the queue for the task
+     * @param workerUrl the URL to be triggered when the task is executed
+     * @param paramMap the one-to-one parameter mapping for the task
+     */
+    public void createAndAddTask(String queueName, String workerUrl, Map<String, String> paramMap) {
+        createAndAddDeferredTask(queueName, workerUrl, paramMap, 0);
     }
     
-    public void createAndAddTask(String queueName,
-            String workerUrl, Map<String, String> paramMap) {
-        Queue requiredQueue = QueueFactory.getQueue(queueName);
-        TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
-        
-        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-            String name = entry.getKey();
-            String value = entry.getValue();
-            
-            taskToBeAdded = taskToBeAdded.param(name, value);
+    /**
+     * Adds the given task, to be run after the specified time, to the specified queue.
+     * 
+     * @param queueName the name of the queue for the task
+     * @param workerUrl the URL to be triggered when the task is executed
+     * @param paramMap the one-to-one parameter mapping for the task
+     * @param countdownTime the time delay for the task to be executed
+     */
+    public void createAndAddDeferredTask(String queueName, String workerUrl,
+                                         Map<String, String> paramMap, long countdownTime) {
+        Map<String, String[]> multisetParamMap = new HashMap<String, String[]>();
+        for (Map.Entry<String, String> entrySet : paramMap.entrySet()) {
+            multisetParamMap.put(entrySet.getKey(), new String[] { entrySet.getValue() });
         }
-        
-        requiredQueue.add(taskToBeAdded);
+        createAndAddDeferredTaskMultisetParam(queueName, workerUrl, multisetParamMap, countdownTime);
     }
     
-    // TODO Combine this and createAndAddTask and modify task schedulers accordingly?
-    public void createAndAddTaskMultisetParam(String queueName,
-            String workerUrl, Map<String, String[]> paramMap) {
+    /**
+     * Adds the given task to the specified queue.
+     * 
+     * @param queueName the name of the queue for the task
+     * @param workerUrl the URL to be triggered when the task is executed
+     * @param paramMap the one-to-many parameter mapping for the task
+     */
+    public void createAndAddTaskMultisetParam(String queueName, String workerUrl, Map<String, String[]> paramMap) {
+        createAndAddDeferredTaskMultisetParam(queueName, workerUrl, paramMap, 0);
+    }
+    
+    /**
+     * Adds the given task, to be run after the specified time, to the specified queue.
+     * 
+     * @param queueName the name of the queue for the task
+     * @param workerUrl the URL to be triggered when the task is executed
+     * @param paramMap the one-to-many parameter mapping for the task
+     * @param countdownTime the time delay for the task to be executed
+     */
+    public void createAndAddDeferredTaskMultisetParam(
+            String queueName, String workerUrl, Map<String, String[]> paramMap, long countdownTime) {
         Queue requiredQueue = QueueFactory.getQueue(queueName);
         TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
+        if (countdownTime > 0) {
+            taskToBeAdded.countdownMillis(countdownTime);
+        }
         
         for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
             String name = entry.getKey();
@@ -53,19 +79,4 @@ public class TaskQueuesLogic {
         requiredQueue.add(taskToBeAdded);
     }
     
-    public void createAndAddDeferredTask(String queueName,
-            String workerUrl, Map<String, String> paramMap, long countdownTime) {
-        Queue requiredQueue = QueueFactory.getQueue(queueName);
-        TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
-        taskToBeAdded.countdownMillis(countdownTime);
-        
-        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-            String name = entry.getKey();
-            String value = entry.getValue();
-            
-            taskToBeAdded = taskToBeAdded.param(name, value);
-        }
-        
-        requiredQueue.add(taskToBeAdded);
-    }
 }

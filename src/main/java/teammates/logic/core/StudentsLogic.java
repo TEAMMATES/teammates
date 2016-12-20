@@ -520,7 +520,7 @@ public class StudentsLogic {
         String enrollmentDetails = JsonUtils.toJson(enrollmentList);
         paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
         
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME,
                                         TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL, paramMap);
         
@@ -532,7 +532,7 @@ public class StudentsLogic {
         paramMap.put(ParamsNames.COURSE_ID, course.getId());
         paramMap.put(ParamsNames.STUDENT_EMAIL, student.getEmail());
         
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         taskQueueLogic.createAndAddTask(TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME,
                                         TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, paramMap);
         

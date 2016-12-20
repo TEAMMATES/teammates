@@ -96,7 +96,7 @@ public class AdminPrepareEmailWorkerAction extends AutomatedAction {
     
     private void pauseAndCreateAnNewTask(String emailId, String groupReceiverListFileKey,
                                          int indexOfEmailList, int indexOfEmail) {
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
@@ -113,7 +113,7 @@ public class AdminPrepareEmailWorkerAction extends AutomatedAction {
         
         AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
         Assumption.assertNotNull(adminEmail);
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         List<String> addressList = new ArrayList<String>();
         
         if (addressReceiverListString.contains(",")) {
@@ -152,7 +152,7 @@ public class AdminPrepareEmailWorkerAction extends AutomatedAction {
         
         AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
         Assumption.assertNotNull(adminEmail);
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         
         log.info("Resume Adding group mail tasks for mail with id " + emailId + "from list index: "
                  + indexOfEmailListToResume + " email index: " + indexOfEmailToResume);

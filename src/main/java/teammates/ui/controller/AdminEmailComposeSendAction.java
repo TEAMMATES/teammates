@@ -127,7 +127,7 @@ public class AdminEmailComposeSendAction extends Action {
             return;
         }
         
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         
         HashMap<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
@@ -147,7 +147,7 @@ public class AdminEmailComposeSendAction extends Action {
             return;
         }
         
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         
         HashMap<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);

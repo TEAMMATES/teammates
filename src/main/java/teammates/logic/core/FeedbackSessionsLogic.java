@@ -1632,7 +1632,7 @@ public class FeedbackSessionsLogic {
         paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
         paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
         
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME,
                                         TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, paramMap);
     }
@@ -1645,7 +1645,7 @@ public class FeedbackSessionsLogic {
         paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[]{courseId});
         paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
         
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         taskQueueLogic.createAndAddTaskMultisetParam(
                 TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
                 TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
@@ -2685,7 +2685,7 @@ public class FeedbackSessionsLogic {
         paramMap.put(ParamsNames.EMAIL_FEEDBACK, session.getFeedbackSessionName());
         paramMap.put(ParamsNames.EMAIL_COURSE, session.getCourseId());
         
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME,
                                         TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, paramMap);
     }
@@ -2695,7 +2695,7 @@ public class FeedbackSessionsLogic {
         paramMap.put(ParamsNames.EMAIL_FEEDBACK, session.getFeedbackSessionName());
         paramMap.put(ParamsNames.EMAIL_COURSE, session.getCourseId());
         
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
         taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME,
                                         TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, paramMap);
     }
