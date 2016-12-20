@@ -270,17 +270,6 @@ public abstract class AppPage {
         click(okayButton);
         waitForModalToDisappear();
     }
-    
-    /**
-     * Waits for a first confirmation modal to appear and click no
-     */
-    public void waitForTwoConfirmationModalAndClickOnNo() {
-        waitForModalPresence();
-        WebElement noButton = browser.driver.findElement(By.cssSelector("[data-bb-handler='no']"));
-        waitForElementToBeClickable(noButton);
-        click(noButton);
-        waitForModalToDisappear();
-    }
 
     /**
      * Waits for a confirmation modal to appear and click the cancel button
@@ -650,17 +639,6 @@ public abstract class AppPage {
     public AppPage clickAndConfirm(WebElement elementToClick) {
         click(elementToClick);
         waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
-        return this;
-    }
-    
-    /**
-     * Clicks the element and clicks 'Yes' in the follow up dialog box.
-     * Fails if there is no dialog box.
-     * @return the resulting page.
-     */
-    public AppPage clickNoOnModal() {
-        waitForTwoConfirmationModalAndClickOnNo();
         waitForPageToLoad();
         return this;
     }

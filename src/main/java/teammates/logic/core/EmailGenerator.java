@@ -90,7 +90,7 @@ public class EmailGenerator {
      * Generates the summary of the feedback sessions (in which at least one
      * email has been sent to students) email for the given {@code courseId} for {@code student}
      */
-    public EmailWrapper generateFeedbackSessionResendSummaryOfCourse(String courseId, StudentAttributes student) {
+    public EmailWrapper generateFeedbackSessionSummaryOfCourse(String courseId, StudentAttributes student) {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
         
@@ -113,31 +113,34 @@ public class EmailGenerator {
                                    : "";
         
         for (FeedbackSessionAttributes fsa : sessions) {
-            String submitUrl = fsa.isOpened()
-                        ? "<a href = \"" + Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                            .withCourseId(course.getId())
-                            .withSessionName(fsa.getFeedbackSessionName())
-                            .withRegistrationKey(StringHelper.encrypt(student.key))
-                            .withStudentEmail(student.email)
-                            .toAbsoluteString() + "\">link<//a>"
-                        : "(Feedback session is " + (fsa.isClosed() ? "closed" : "not yet opened") + ")";
-
-            String reportUrl = fsa.isPublished()
-                        ? "<a href = \"" + Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-                                .withCourseId(course.getId())
-                                .withSessionName(fsa.getFeedbackSessionName())
-                                .withRegistrationKey(StringHelper.encrypt(student.key))
-                                .withStudentEmail(student.email)
-                                .toAbsoluteString() + "\">link<//a>"
-                        : "(Feedback session is not yet published)";
+            
+            String submitUrlHTML = "(Feedback session is " + (fsa.isClosed() ? "closed" : "not yet opened") + ")";
+            String reportUrlHTML = "(Feedback session is not yet published)";
+            
+            if (fsa.isOpened()) {
+                String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                        .withCourseId(course.getId())
+                        .withSessionName(fsa.getFeedbackSessionName())
+                        .withRegistrationKey(StringHelper.encrypt(student.key))
+                        .withStudentEmail(student.email)
+                        .toAbsoluteString();
+                submitUrlHTML = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
+                
+                String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                        .withCourseId(course.getId())
+                        .withSessionName(fsa.getFeedbackSessionName())
+                        .withRegistrationKey(StringHelper.encrypt(student.key))
+                        .withStudentEmail(student.email)
+                        .toAbsoluteString();
+                reportUrlHTML = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
+            }
             
             linksFragmentValue.append(Templates.populateTemplate(
                     EmailTemplates.FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS,
                     "${feedbackSessionName}", fsa.getFeedbackSessionName(),
-                    "${deadline}", fsa.isClosed() ? TimeHelper.formatTime12H(fsa.getEndTime()) + " (Passed)"
-                                                  : TimeHelper.formatTime12H(fsa.getEndTime()),
-                    "${submitUrl}", submitUrl,
-                    "${reportUrl}", reportUrl));
+                    "${deadline}",  TimeHelper.formatTime12H(fsa.getEndTime()) + (fsa.isClosed() ? " (Passed)" : ""),
+                    "${submitUrl}", submitUrlHTML,
+                    "${reportUrl}", reportUrlHTML));
         }
         
         String emailBody = Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,

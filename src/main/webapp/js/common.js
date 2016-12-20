@@ -960,7 +960,7 @@ function hideSingleCollapse(e) {
  *  Bootstrap modals"
  */
 var BootboxWrapper = {
-    DEFAULT_OK_TEXT: 'Ok',
+    DEFAULT_OK_TEXT: 'OK',
     DEFAULT_CANCEL_TEXT: 'Cancel',
     DEFAULT_YES_TEXT: 'Yes',
     DEFAULT_NO_TEXT: 'No',

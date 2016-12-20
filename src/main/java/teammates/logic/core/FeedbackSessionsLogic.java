@@ -209,8 +209,7 @@ public class FeedbackSessionsLogic {
     /**
      * checks if there is any email sent from the course
      * @param courseId
-     * @param userEmail
-     * @return true if there is any email sent from the course.
+     * @return true if there is some open or published email sent for the course.
      */
     public boolean isOpenOrPublishedEmailSentForTheCourse(String courseId) {
         List<FeedbackSessionAttributes> sessions = getFeedbackSessionsForCourse(courseId);
@@ -1604,11 +1603,11 @@ public class FeedbackSessionsLogic {
         }
     }
     
-    public EmailWrapper sendAllLinksToNewStudentEmail(String courseId,
+    public EmailWrapper sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(String courseId,
             StudentAttributes student) throws EntityDoesNotExistException {
 
         try {
-            EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendSummaryOfCourse(courseId, student);
+            EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, student);
             new EmailSender().sendEmail(email);
             return email;
         } catch (Exception e) {

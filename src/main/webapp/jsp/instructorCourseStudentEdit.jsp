@@ -8,6 +8,6 @@
     <script type="text/javascript" src="/js/instructorStudentEdit.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Student Details" jsIncludes="${jsIncludes}">
-    <csde:studentInformationTable studentInfoTable="${data.studentInfoTable}" newEmail="${data.newEmail}" anyEmailSentForTheCourse="${data.openOrPublishedEmailSentForTheCourse}" />
+    <csde:studentInformationTable studentInfoTable="${data.studentInfoTable}" newEmail="${data.newEmail}" />
     <br><br>
 </ti:instructorPage>
