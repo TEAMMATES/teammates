@@ -94,21 +94,6 @@ public class AdminPrepareEmailWorkerAction extends AutomatedAction {
         return timeLeftInMillis / 1000 < 100;
     }
     
-    private void pauseAndCreateAnNewTask(String emailId, String groupReceiverListFileKey,
-                                         int indexOfEmailList, int indexOfEmail) {
-        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
-        
-        Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY, groupReceiverListFileKey);
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, Integer.toString(indexOfEmailList));
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, Integer.toString(indexOfEmail));
-        paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE);
-        
-        taskQueueLogic.createAndAddTask(TaskQueue.ADMIN_PREPARE_EMAIL_QUEUE_NAME,
-                                        TaskQueue.ADMIN_PREPARE_EMAIL_WORKER_URL, paramMap);
-    }
-    
     private void addAdminEmailToTaskQueue(String emailId, String addressReceiverListString) {
         
         AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
@@ -187,7 +172,7 @@ public class AdminPrepareEmailWorkerAction extends AutomatedAction {
                 }
                 
                 if (isNearDeadline()) {
-                    pauseAndCreateAnNewTask(emailId, groupReceiverListFileKey, i, j);
+                    taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, i, j);
                     log.info("Adding group mail tasks for mail with id " + emailId
                              + " have been paused with list index: " + i + " email index: " + j);
                     return;

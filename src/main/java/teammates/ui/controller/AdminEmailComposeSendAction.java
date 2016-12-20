@@ -126,19 +126,7 @@ public class AdminEmailComposeSendAction extends Action {
         if (!groupModeOn) {
             return;
         }
-        
-        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
-        
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY, groupReceiverListFileKey);
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, "0");
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, "0");
-        paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE);
-        
-        taskQueueLogic.createAndAddTask(TaskQueue.ADMIN_PREPARE_EMAIL_QUEUE_NAME,
-                                        TaskQueue.ADMIN_PREPARE_EMAIL_WORKER_URL, paramMap);
-
+        taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, 0, 0);
     }
     
     private void moveJobToAddressModeTaskQueue() {
