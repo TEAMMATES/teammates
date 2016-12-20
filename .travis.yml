@@ -24,6 +24,7 @@ before_script:
   - export DISPLAY=:99.0
   - tar -xjf /tmp/firefox-46.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
   - export PATH="$TRAVIS_BUILD_DIR/firefox:$PATH"
+  - export PATH="./node_modules/.bin":$PATH
   - ./gradlew createConfigs testClasses
   - ./gradlew downloadStaticAnalysisTools --continue
   - ./gradlew staticAnalysis --continue

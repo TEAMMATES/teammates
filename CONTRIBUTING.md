@@ -1,7 +1,7 @@
 # Contributing to TEAMMATES
 **Are you a new contributor?** Check out the [Contributor's Orientation Guide][COG].
 
-[COG]: /devdocs/orientation-guide.md
+[COG]: /docs/orientation-guide.md
 
 ### Submitting a bug report
 Search [the issue tracker][issue tracker] to ensure that there is no open issue addressing the bug.  
@@ -15,7 +15,7 @@ Make sure that the pull request addresses an open issue in the issue tracker.
 Remember to follow the [TEAMMATES Development Process][dev]. In particular, make sure you follow the naming
 conventions for pull request titles and branch names.
 
-[dev]: /devdocs/process.md
+[dev]: /docs/process.md
 
 For a comprehensive directory of resources, including **style guides** and **best practices**, please refer to [README.md][readme].
 

@@ -9,6 +9,12 @@ _gaq.push(['_trackPageview']);
     ga.async = true;
     // Always use the ssl version, if not test will fail as local testing uses non HTTPs by default
     ga.src = 'https://ssl.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(ga, s);
+    var scripts = document.getElementsByTagName('script');
+    for (var i = 0; i < scripts.length; i++) {
+        var s = scripts.item(i);
+        if (s.src.endsWith('googleAnalytics.js')) {
+            s.parentNode.insertBefore(ga, s);
+            break;
+        }
+    }
 })();

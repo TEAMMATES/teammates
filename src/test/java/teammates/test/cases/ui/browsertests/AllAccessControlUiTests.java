@@ -163,7 +163,11 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         url = createUrl(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/pageNotFound.html");
- 
+        
+        ______TS("enable javascript page");
+        url = createUrl(Const.ViewURIs.ENABLE_JS);
+        currentPage.navigateTo(url);
+        currentPage.verifyHtml("/enableJs.html");
     }
 
     private void loginStudent(String userName, String password) {
@@ -214,7 +218,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         currentPage.navigateTo(url);
         // A simple regex check is enough because we do full HTML tests
         // elsewhere
-        AssertHelper.assertContainsRegex("{*}" + unregUsername + "{*}Welcome stranger{*}",
+        AssertHelper.assertContainsRegex(
+                unregUsername + "{*}Ooops! Your Google account is not known to TEAMMATES",
                 currentPage.getPageSource());
     }
 

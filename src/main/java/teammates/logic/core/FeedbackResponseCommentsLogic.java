@@ -15,8 +15,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.UserType;
-import teammates.common.datatransfer.UserType.Role;
+import teammates.common.datatransfer.UserRole;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -260,7 +259,7 @@ public class FeedbackResponseCommentsLogic {
      * Verify whether the comment is visible to certain user
      * @return true/false
      */
-    public boolean isResponseCommentVisibleForUser(String userEmail, String courseId, UserType.Role role,
+    public boolean isResponseCommentVisibleForUser(String userEmail, String courseId, UserRole role,
             String section, StudentAttributes student, Set<String> studentsEmailInTeam,
             FeedbackResponseAttributes response, FeedbackQuestionAttributes relatedQuestion,
             FeedbackResponseCommentAttributes relatedComment, InstructorAttributes instructor) {
@@ -275,8 +274,8 @@ public class FeedbackResponseCommentsLogic {
         boolean isVisibleResponseComment = false;
         
         
-        boolean userIsInstructor = role == Role.INSTRUCTOR;
-        boolean userIsStudent = role == Role.STUDENT;
+        boolean userIsInstructor = role == UserRole.INSTRUCTOR;
+        boolean userIsStudent = role == UserRole.STUDENT;
         
         boolean userIsInstructorAndRelatedResponseCommentIsVisibleToInstructors =
                 userIsInstructor && isResponseCommentVisibleTo(relatedQuestion, relatedComment,

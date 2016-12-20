@@ -4,16 +4,25 @@ $(document).ready(function() {
             $('#commentArea').hide();
         } else {
             $('#commentArea').show();
-            $('#commentText').focus();
         }
     });
-    
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#commenttext', {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-comment-container'
+        });
+        /* eslint-enable camelcase */
+    }
+
     $('form[name="form_commentadd"]').submit(function() {
+        tinymce.get('commenttext').save();
         return checkComment(this);
     });
     
-    function checkComment(form) {
-        var formTextField = $(form).find('[name=commenttext]').val();
+    function checkComment() {
+        var formTextField = tinymce.get('commenttext').getContent();
         if (isBlank(formTextField)) {
             setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
             scrollToTop();

@@ -7,7 +7,7 @@
         <script>
             var motdUrl = window.location.origin + '/<c:out value="${motdUrl}" />';
         </script>
-        <script type="text/javascript" src="/js/studentMotd.js"></script>
+        <script type="text/javascript" src="/js/studentMotd.js" defer></script>
         <div class="container theme-showcase" id="student-motd-container">
             <div class="row">
                 <div class="col-sm-12">

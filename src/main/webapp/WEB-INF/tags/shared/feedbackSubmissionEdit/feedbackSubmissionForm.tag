@@ -47,7 +47,7 @@
                     There are no questions for you to answer here!
             </c:when>
             <c:otherwise>
-                <input type="checkbox" name="sendsubmissionemail" checked>
+                <input type="checkbox" name="sendsubmissionemail">
                 Send me a confirmation email
                 <input type="submit" class="btn btn-primary center-block margin-top-7px"
                        id="response_submit_button" data-toggle="tooltip"

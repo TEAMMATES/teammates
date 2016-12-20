@@ -637,8 +637,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
 
     private FeedbackQuestionAttributes getQuestionFromDatastore(String questionKey) {
-        FeedbackQuestionAttributes question;
-        question = typicalBundle.feedbackQuestions.get(questionKey);
+        FeedbackQuestionAttributes question = typicalBundle.feedbackQuestions.get(questionKey);
         question = fqLogic.getFeedbackQuestion(
                 question.feedbackSessionName, question.courseId, question.questionNumber);
         return question;

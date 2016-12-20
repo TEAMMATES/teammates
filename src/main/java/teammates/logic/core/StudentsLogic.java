@@ -9,11 +9,11 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -23,14 +23,13 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.storage.api.StudentsDb;
-
-import com.google.gson.Gson;
 
 /**
  * Handles  operations related to student roles.
@@ -50,7 +49,7 @@ public class StudentsLogic {
     private CoursesLogic coursesLogic = CoursesLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private AccountsLogic accLogic = AccountsLogic.inst();
+    private ProfilesLogic profilesLogic = ProfilesLogic.inst();
     private CommentsLogic commentsLogic = CommentsLogic.inst();
     
     public static StudentsLogic inst() {
@@ -144,7 +143,7 @@ public class StudentsLogic {
     public StudentProfileAttributes getStudentProfile(String googleId) {
         Assumption.assertNotNull(googleId);
         
-        return accLogic.getStudentProfile(googleId);
+        return profilesLogic.getStudentProfile(googleId);
     }
     
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
@@ -368,7 +367,7 @@ public class StudentsLogic {
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
         for (StudentAttributes student : studentsInCourse) {
             if (!isInEnrollList(student, returnList)) {
-                student.updateStatus = StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST;
+                student.updateStatus = StudentUpdateStatus.NOT_IN_ENROLL_LIST;
                 returnList.add(student);
             }
         }
@@ -519,8 +518,7 @@ public class StudentsLogic {
         paramMap.put(ParamsNames.COURSE_ID, courseId);
         paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, sessionName);
         
-        Gson gsonBuilder = Utils.getTeammatesGson();
-        String enrollmentDetails = gsonBuilder.toJson(enrollmentList);
+        String enrollmentDetails = JsonUtils.toJson(enrollmentList);
         paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
@@ -536,8 +534,8 @@ public class StudentsLogic {
         paramMap.put(ParamsNames.STUDENT_EMAIL, student.getEmail());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.COURSE_JOIN_REMIND_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.COURSE_JOIN_REMIND_EMAIL_WORKER, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME,
+                                        TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, paramMap);
         
         return new EmailGenerator().generateStudentCourseJoinEmail(course, student);
     }
@@ -660,7 +658,7 @@ public class StudentsLogic {
             ArrayList<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for (StudentEnrollDetails enrollment : enrollmentList) {
-            if (enrollment.updateStatus != UpdateStatus.MODIFIED) {
+            if (enrollment.updateStatus != StudentUpdateStatus.MODIFIED) {
                 continue;
             }
 
@@ -692,11 +690,11 @@ public class StudentsLogic {
 
         boolean isModifyingExistingStudent = originalStudentAttributes != null;
         if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
-            enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
+            enrollmentDetails.updateStatus = StudentUpdateStatus.UNMODIFIED;
         } else if (isModifyingExistingStudent) {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email,
                                                                   validStudentAttributes, true);
-            enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
+            enrollmentDetails.updateStatus = StudentUpdateStatus.MODIFIED;
             
             if (!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
                 enrollmentDetails.oldTeam = originalStudentAttributes.team;
@@ -706,7 +704,7 @@ public class StudentsLogic {
             }
         } else {
             createStudentCascade(validStudentAttributes, hasDocument);
-            enrollmentDetails.updateStatus = UpdateStatus.NEW;
+            enrollmentDetails.updateStatus = StudentUpdateStatus.NEW;
         }
 
         return enrollmentDetails;

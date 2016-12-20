@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.logic.core.CommentsLogic;
 
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
-import com.google.gson.Gson;
 
 /**
  * The search result bundle for {@link CommentAttributes}.
@@ -44,7 +44,7 @@ public class CommentSearchResultBundle extends SearchResultBundle {
         
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for (ScoredDocument doc : filteredResults) {
-            CommentAttributes comment = new Gson().fromJson(
+            CommentAttributes comment = JsonUtils.fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(),
                     CommentAttributes.class);
             if (commentsLogic.getComment(comment.getCommentId()) == null) {

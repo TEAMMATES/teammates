@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -27,9 +26,9 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.storage.api.CoursesDb;
 
 /**
@@ -45,7 +44,7 @@ public class CoursesLogic {
     //TODO: There's no need for this class to be a Singleton.
     private static CoursesLogic instance;
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     /* Explanation: This class depends on CoursesDb class but no other *Db classes.
      * That is because reading/writing entities from/to the datastore is the

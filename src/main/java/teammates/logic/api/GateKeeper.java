@@ -21,16 +21,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class GateKeeper {
     private static UserService userService = UserServiceFactory.getUserService();
 
-    /**
-     * This enum is not used at the moment. It is for future reference. We plan
-     * to pass Activity as an additional parameter to access control methods for
-     * finer-grain access control. e.g., to block some instructors from viewing
-     * results of an evaluation.
-     */
-    public enum Activity {
-        ADD, VIEW, UPDATE, DELETE
-    }
-
     private static GateKeeper instance;
 
     public static GateKeeper inst() {

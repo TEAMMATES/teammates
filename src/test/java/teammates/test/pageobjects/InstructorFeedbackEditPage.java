@@ -474,9 +474,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void enableVisibilityOptions(int qnNumber) {
+    public void enableOtherVisibilityOptions(int qnNumber) {
+        clickVisibilityDropdown("OTHER", qnNumber);
+    }
+
+    public void clickVisibilityDropdown(String optionValue, int qnNumber) {
         click(browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber + " .visibility-options-dropdown "
-                                                        + "a[data-option-name=\"OTHER\"]")));
+                                                        + "a[data-option-name=\"" + optionValue + "\"]")));
     }
 
     public void clickAddQuestionButton() {
@@ -1116,5 +1120,12 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement checkbox = browser.driver.findElement(giverNameVisibilitycheckBox);
         waitForElementVisibility(checkbox);
         click(checkbox);
+    }
+
+    public boolean isCheckboxChecked(String checkboxClass, String checkboxValue, int questionNumber) {
+        By checkboxSelector = By.cssSelector("#questionTable-" + questionNumber + " input[value='" + checkboxValue
+                                                       + "']." + checkboxClass);
+        WebElement checkbox = browser.driver.findElement(checkboxSelector);
+        return checkbox.isSelected();
     }
 }

@@ -10,8 +10,8 @@
 
 <c:if test="${data.allSectionsSelected}">
     <div class="panel panel-warning">
-        <%-- see instructorFeedbackResultsAjaxResponseRate.js --%>
-        <div class="panel-heading ${data.largeNumberOfResponses ? 'ajax_response_rate_submit' : 'ajax_response_rate_auto'}">
+        <%-- see instructorFeedbackResultsAjaxResponse.js --%>
+        <div class="panel-heading ${data.largeNumberOfResponses ? 'ajax-response-submit' : 'ajax-response-auto'}">
             <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${data.bundle.feedbackSession.courseId}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${data.bundle.feedbackSession.feedbackSessionName}">
