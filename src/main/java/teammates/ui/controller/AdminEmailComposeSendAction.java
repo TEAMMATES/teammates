@@ -2,21 +2,17 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.core.TaskQueuesLogic;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
@@ -130,21 +126,10 @@ public class AdminEmailComposeSendAction extends Action {
     }
     
     private void moveJobToAddressModeTaskQueue() {
-        
         if (!addressModeOn) {
             return;
         }
-        
-        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
-        
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, addressReceiverListString);
-        
-        taskQueueLogic.createAndAddTask(TaskQueue.ADMIN_PREPARE_EMAIL_QUEUE_NAME,
-                                        TaskQueue.ADMIN_PREPARE_EMAIL_WORKER_URL, paramMap);
-
+        taskQueuer.scheduleAdminEmailPreparationInAddressMode(emailId, addressReceiverListString);
     }
 
     private void recordNewSentEmail(String subject,

@@ -36,6 +36,21 @@ public class TaskQueuer {
     // The following methods are the actual API methods to be used by the client classes
     
     /**
+     * Schedules an admin email preparation in address mode, i.e. using the address list given directly.
+     * 
+     * @param emailId the ID of admin email to be retrieved from the database
+     * @param addressReceiverListString the list of email receivers given as String
+     */
+    public void scheduleAdminEmailPreparationInAddressMode(String emailId, String addressReceiverListString) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
+        paramMap.put(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, addressReceiverListString);
+        paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE);
+        
+        addTask(TaskQueue.ADMIN_PREPARE_EMAIL_QUEUE_NAME, TaskQueue.ADMIN_PREPARE_EMAIL_WORKER_URL, paramMap);
+    }
+    
+    /**
      * Schedules an admin email preparation in group mode, i.e. using the group receiver list
      * retrieved from the Google Cloud Storage (GCS).
      * <p>
