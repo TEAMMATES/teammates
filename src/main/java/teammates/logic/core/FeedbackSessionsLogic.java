@@ -36,9 +36,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
-import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
@@ -89,10 +87,6 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_CONFIRM =
             String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "confirm submission");
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
-    private static final String ERROR_NON_EXISTENT_FS_PUBLISH =
-            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
-    private static final String ERROR_NON_EXISTENT_FS_UNPUBLISH =
-            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "unpublish");
     private static final String ERROR_FS_ALREADY_PUBLISH = "Error publishing feedback session: "
                                                            + "Session has already been published.";
     private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
@@ -1444,17 +1438,8 @@ public class FeedbackSessionsLogic {
      * manually. Preconditions: * The feedback session has to be set as
      * manually/automatically published. The feedback session can't be private
      */
-    public void publishFeedbackSession(String feedbackSessionName,
-            String courseId)
+    public void publishFeedbackSession(FeedbackSessionAttributes sessionToPublish)
             throws EntityDoesNotExistException, InvalidParametersException {
-
-        FeedbackSessionAttributes sessionToPublish =
-                getFeedbackSession(feedbackSessionName, courseId);
-
-        if (sessionToPublish == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_PUBLISH + courseId + "/" + feedbackSessionName);
-        }
-
         if (sessionToPublish.isPrivateSession()) {
             throw new InvalidParametersException(ERROR_FS_PRIVATE_PUBLISH);
         }
@@ -1465,9 +1450,6 @@ public class FeedbackSessionsLogic {
 
         sessionToPublish.setResultsVisibleFromTime(currentDateTime(sessionToPublish));
         updateFeedbackSession(sessionToPublish);
-        if (sessionToPublish.isPublishedEmailEnabled()) {
-            sendFeedbackSessionPublishedEmail(sessionToPublish);
-        }
     }
 
     private Date currentDateTime(FeedbackSessionAttributes sessionToPublish) {
@@ -1480,17 +1462,8 @@ public class FeedbackSessionsLogic {
      * manually. Preconditions: * The feedback session has to be set as manually
      * published.
      */
-    public void unpublishFeedbackSession(String feedbackSessionName,
-            String courseId)
+    public void unpublishFeedbackSession(FeedbackSessionAttributes sessionToUnpublish)
             throws EntityDoesNotExistException, InvalidParametersException {
-
-        FeedbackSessionAttributes sessionToUnpublish =
-                getFeedbackSession(feedbackSessionName, courseId);
-
-        if (sessionToUnpublish == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UNPUBLISH + courseId + "/" + feedbackSessionName);
-        }
-
         if (sessionToUnpublish.isPrivateSession()) {
             throw new InvalidParametersException(ERROR_FS_PRIVATE_UNPUBLISH);
         }
@@ -1500,11 +1473,7 @@ public class FeedbackSessionsLogic {
         }
 
         sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
-
         updateFeedbackSession(sessionToUnpublish);
-        if (sessionToUnpublish.isPublishedEmailEnabled()) {
-            sendFeedbackSessionUnpublishedEmail(sessionToUnpublish);
-        }
     }
 
     public List<EmailWrapper> sendReminderForFeedbackSession(String courseId,
@@ -1659,14 +1628,6 @@ public class FeedbackSessionsLogic {
             }
         }
         return requiredSessions;
-    }
-
-    public void scheduleFeedbackSessionPublishedEmails() {
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
-
-        for (FeedbackSessionAttributes session : sessions) {
-            sendFeedbackSessionPublishedEmail(session);
-        }
     }
 
     /**
@@ -2655,24 +2616,4 @@ public class FeedbackSessionsLogic {
         }
     }
 
-    private void sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
-        Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, session.getFeedbackSessionName());
-        paramMap.put(ParamsNames.EMAIL_COURSE, session.getCourseId());
-        
-        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
-        taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME,
-                                        TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, paramMap);
-    }
-    
-    public void sendFeedbackSessionUnpublishedEmail(FeedbackSessionAttributes session) {
-        Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, session.getFeedbackSessionName());
-        paramMap.put(ParamsNames.EMAIL_COURSE, session.getCourseId());
-        
-        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
-        taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME,
-                                        TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, paramMap);
-    }
-    
 }

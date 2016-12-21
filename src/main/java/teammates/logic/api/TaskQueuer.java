@@ -153,4 +153,34 @@ public class TaskQueuer {
                              TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
     }
     
+    /**
+     * Schedules for feedback session published email to be sent.
+     * 
+     * @param courseId the course ID of the feedback session
+     * @param feedbackSessionName the name of the feedback session
+     */
+    public void scheduleFeedbackSessionPublishedEmail(String courseId, String feedbackSessionName) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.EMAIL_COURSE, courseId);
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedbackSessionName);
+        
+        addTask(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME,
+                TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, paramMap);
+    }
+    
+    /**
+     * Schedules for feedback session unpublished email to be sent.
+     * 
+     * @param courseId the course ID of the feedback session
+     * @param feedbackSessionName the name of the feedback session
+     */
+    public void scheduleFeedbackSessionUnpublishedEmail(String courseId, String feedbackSessionName) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.EMAIL_COURSE, courseId);
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedbackSessionName);
+        
+        addTask(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME,
+                TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, paramMap);
+    }
+    
 }

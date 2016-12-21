@@ -1613,13 +1613,12 @@ public class Logic {
      *             if the feedback session is not ready to be published.
      * @throws EntityDoesNotExistException
      */
-    public void publishFeedbackSession(String feedbackSessionName, String courseId) throws EntityDoesNotExistException,
-                                                                                           InvalidParametersException {
+    public void publishFeedbackSession(FeedbackSessionAttributes session)
+            throws EntityDoesNotExistException, InvalidParametersException {
         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, session);
     
-        feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
+        feedbackSessionsLogic.publishFeedbackSession(session);
     }
 
     /**
@@ -1628,13 +1627,12 @@ public class Logic {
      * @throws InvalidParametersException
      *             if the feedback session is not ready to be unpublished.
      */
-    public void unpublishFeedbackSession(String feedbackSessionName, String courseId)
+    public void unpublishFeedbackSession(FeedbackSessionAttributes session)
             throws EntityDoesNotExistException, InvalidParametersException {
         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, session);
     
-        feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
+        feedbackSessionsLogic.unpublishFeedbackSession(session);
     }
 
     /**

@@ -6,7 +6,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
+//import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
@@ -27,7 +27,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     
     //private static final Logic logic = new Logic();
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-    private static final DataBundle dataBundle = getTypicalDataBundle();
+    //private static final DataBundle dataBundle = getTypicalDataBundle();
 
     @SuppressWarnings("serial")
     public static class FeedbackSessionsEmailTaskQueueCallback extends BaseTaskQueueCallback {
@@ -84,7 +84,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
 
         while (counter != 10) {
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-            feedbackSessionsLogic.publishFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
+            //feedbackSessionsLogic.publishFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
             if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)) {
                 break;
             }
@@ -98,12 +98,12 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
         fsa.setEndTime(TimeHelper.getHoursOffsetToCurrentTime(0));
         feedbackSessionsLogic.updateFeedbackSession(fsa);
-        try {
-            feedbackSessionsLogic.publishFeedbackSession("non-existent-feedback-session", "non-existent-course");
-        } catch (Exception e) {
-            assertEquals("Trying to publish a non-existent feedback session: " + "non-existent-course" + "/"
-                         + "non-existent-feedback-session", e.getMessage());
-        }
+        //try {
+            // feedbackSessionsLogic.publishFeedbackSession("non-existent-feedback-session", "non-existent-course");
+        //} catch (Exception e) {
+        //    assertEquals("Trying to publish a non-existent feedback session: " + "non-existent-course" + "/"
+        //                 + "non-existent-feedback-session", e.getMessage());
+        //}
         if (!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
         }
@@ -232,7 +232,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         int counter = 0;
         while (counter != 10) {
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-            fsLogic.scheduleFeedbackSessionPublishedEmails(); // empty session
+            //fsLogic.scheduleFeedbackSessionPublishedEmails(); // empty session
             if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)) {
                 break;
             }
@@ -246,7 +246,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("Empty session", "idOfTypicalCourse1");
         fsa.setPublishedEmailEnabled(false);
         fsLogic.updateFeedbackSession(fsa);
-        fsLogic.scheduleFeedbackSessionPublishedEmails();
+        //fsLogic.scheduleFeedbackSessionPublishedEmails();
         
         if (!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
@@ -258,18 +258,18 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         // this method tests a function from FeedbackSessionLogic.java
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        //FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
         ______TS("1 unpublished email to be sent");
         
-        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session2InCourse1");
+        //FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session2InCourse1");
         int counter = 0;
         
         // retry test when it fails, to avoid test failures when other tests ran
         // in parallel were also adding tasks to the same task queue.
         while (counter != 10) {
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-            fsLogic.sendFeedbackSessionUnpublishedEmail(fsa);
+            //fsLogic.sendFeedbackSessionUnpublishedEmail(fsa);
             if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)) {
                 break;
             }

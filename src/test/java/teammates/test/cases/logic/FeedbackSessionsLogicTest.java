@@ -1861,8 +1861,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         fsLogic.updateFeedbackSession(sessionUnderTest);
         
-        fsLogic.publishFeedbackSession(
-                sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
+        fsLogic.publishFeedbackSession(sessionUnderTest);
 
         // Set real time of publishing
         FeedbackSessionAttributes sessionPublished =
@@ -1874,7 +1873,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         ______TS("failure: already published");
         
         try {
-            fsLogic.publishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
+            fsLogic.publishFeedbackSession(sessionUnderTest);
             signalFailureToDetectException(
                     "Did not catch exception signalling that session is already published.");
         } catch (InvalidParametersException e) {
@@ -1883,8 +1882,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("success: unpublish");
         
-        fsLogic.unpublishFeedbackSession(
-                sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
+        fsLogic.unpublishFeedbackSession(sessionUnderTest);
         
         sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         
@@ -1896,7 +1894,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         ______TS("failure: not published");
         
         try {
-            fsLogic.unpublishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
+            fsLogic.unpublishFeedbackSession(sessionUnderTest);
             signalFailureToDetectException(
                     "Did not catch exception signalling that session is not published.");
         } catch (InvalidParametersException e) {
@@ -1908,7 +1906,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse2");
 
         try {
-            fsLogic.publishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
+            fsLogic.publishFeedbackSession(sessionUnderTest);
             signalFailureToDetectException(
                     "Did not catch exception signalling that private session can't "
                     + "be published.");
@@ -1917,35 +1915,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         }
         
         try {
-            fsLogic.unpublishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
+            fsLogic.unpublishFeedbackSession(sessionUnderTest);
             signalFailureToDetectException(
                     "Did not catch exception signalling that private session should "
                     + "not be published");
         } catch (InvalidParametersException e) {
             assertEquals("Error unpublishing feedback session: Session is private and can't be unpublished.",
                          e.getMessage());
-        }
-                
-        ______TS("failure: session does not exist");
-
-        sessionUnderTest.setFeedbackSessionName("non-existant session");
-        
-        try {
-            fsLogic.publishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
-            signalFailureToDetectException(
-                    "Did not catch exception signalling that session does not exist.");
-        } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to publish a non-existent feedback session: " + sessionUnderTest.getCourseId()
-                         + "/" + sessionUnderTest.getFeedbackSessionName(), e.getMessage());
-        }
-        
-        try {
-            fsLogic.unpublishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
-            signalFailureToDetectException(
-                    "Did not catch exception signalling that session does not exist.");
-        } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to unpublish a non-existent feedback session: " + sessionUnderTest.getCourseId()
-                         + "/" + sessionUnderTest.getFeedbackSessionName(), e.getMessage());
         }
     }
     
@@ -2286,7 +2262,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
             if (fs.isPublished()) {
-                fsLogic.unpublishFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
+                fsLogic.unpublishFeedbackSession(fs);
             }
         }
     }

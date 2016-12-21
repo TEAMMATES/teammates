@@ -72,7 +72,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         while (counter < 10) {
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
-            fsLogic.scheduleFeedbackSessionPublishedEmails();
+            //fsLogic.scheduleFeedbackSessionPublishedEmails();
             if (FeedbackSessionPublishedCallback.verifyTaskCount(1)) {
                 break;
             }
@@ -105,14 +105,14 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
             
         // Check that 3 published sessions will have emails sent as
         // Manually publish sessions have emails also added to the task queue
-        fsLogic.publishFeedbackSession(session2.getFeedbackSessionName(), session2.getCourseId());
+        //fsLogic.publishFeedbackSession(session2.getFeedbackSessionName(), session2.getCourseId());
 
         counter = 0;
 
         while (counter < 10) {
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
-            fsLogic.scheduleFeedbackSessionPublishedEmails();
+            //fsLogic.scheduleFeedbackSessionPublishedEmails();
             if (FeedbackSessionPublishedCallback.verifyTaskCount(3)) {
                 break;
             }
@@ -120,14 +120,14 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         assertEquals(3, FeedbackSessionPublishedCallback.taskCount);
         
         ______TS("unpublish a session");
-        fsLogic.unpublishFeedbackSession(session2.getFeedbackSessionName(), session2.getCourseId());
+        //fsLogic.unpublishFeedbackSession(session2.getFeedbackSessionName(), session2.getCourseId());
         
         counter = 0;
 
         while (counter < 10) {
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
-            fsLogic.scheduleFeedbackSessionPublishedEmails();
+            //fsLogic.scheduleFeedbackSessionPublishedEmails();
             if (FeedbackSessionPublishedCallback.verifyTaskCount(2)) {
                 break;
             }
@@ -156,7 +156,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         
         ______TS("testing whether no more mails are sent");
         FeedbackSessionPublishedCallback.resetTaskCount();
-        fsLogic.scheduleFeedbackSessionPublishedEmails();
+        //fsLogic.scheduleFeedbackSessionPublishedEmails();
         if (!FeedbackSessionPublishedCallback.verifyTaskCount(0)) {
             assertEquals(FeedbackSessionPublishedCallback.taskCount, 0);
         }
