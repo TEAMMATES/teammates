@@ -36,7 +36,6 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -87,8 +86,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         testIsFeedbackSessionCompletedByInstructor();
         testIsFeedbackSessionFullyCompletedByStudent();
                 
-        testSendReminderForFeedbackSession();
-        testSendReminderForFeedbackSessionParticularUsers();
         testSendFeedbackSessionSubmissionConfirmationEmail();
         testDeleteFeedbackSessionsForCourse();
     }
@@ -1930,24 +1927,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
         
-        ______TS("failure: non-existent feedback session for instructor");
-        
-        try {
-            fsLogic.isFeedbackSessionCompletedByInstructor("nonExistentFSName", fs.getCourseId(), "random.instructor@email");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to check a non-existent feedback session: "
-                         + fs.getCourseId() + "/" + "nonExistentFSName",
-                         edne.getMessage());
-        }
-        
         ______TS("success: empty session");
         
         fs = dataBundle.feedbackSessions.get("empty.session");
         
-        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(
-                fs.getFeedbackSessionName(), fs.getCourseId(), instructor.email));
-        
+        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs, instructor.email));
     }
     
     public void testIsFeedbackSessionCompletedByStudent() {
@@ -1986,163 +1970,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         ______TS("success case: partially done by student 3");
         assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
                                                                      student3OfCourse1.email));
-    }
-    
-    public void testScheduleFeedbackSessionOpeningEmails() {
-        // this method is tested in FeedbackSessionEmailTaskQueueTest.java
-    }
-    
-    public void testScheduleFeedbackSessionClosingEmails() {
-        // this method is tested in FeedbackSessionEmailTaskQueueTest.java
-    }
-    
-    public void testScheduleFeedbackSessionPublishedEmails() {
-        // this method is tested in FeedbackSessionEmailTaskQueueTest.java
-    }
-    
-    public void testSendReminderForFeedbackSession() throws Exception {
-        // private method. no need to check for authentication.
-        Logic logic = new Logic();
-        
-        ______TS("typical success case");
-        
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        String courseName = CoursesLogic.inst().getCourse(fs.getCourseId()).getName();
-
-        List<EmailWrapper> emailsSent =
-                fsLogic.sendReminderForFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
-        assertEquals(11, emailsSent.size());
-
-        fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
-
-        List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.getCourseId());
-        for (StudentAttributes s : studentList) {
-            EmailWrapper emailToStudent = getEmailToStudent(s, emailsSent);
-            if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
-                String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
-                assertNull(errorMessage, emailToStudent);
-            } else {
-                String errorMessage = "No email sent to " + s.email + " when he hasn't completed the session.";
-                assertNotNull(errorMessage, emailToStudent);
-                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                           fs.getFeedbackSessionName()),
-                             emailToStudent.getSubject());
-            }
-        }
-        
-        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.getCourseId());
-        String notificationHeader = "The email below has been sent to students of course: " + fs.getCourseId();
-        for (InstructorAttributes i : instructorList) {
-            List<EmailWrapper> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
-            
-            if (fsLogic.isFeedbackSessionCompletedByInstructor(fs.getFeedbackSessionName(), fs.getCourseId(), i.email)) {
-                // Only send notification (no reminder) if instructor already completed the session
-                assertEquals(1, emailsToInstructor.size());
-                AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
-                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                           fs.getFeedbackSessionName()),
-                             emailsToInstructor.get(0).getSubject());
-            } else {
-                // Send both notification and reminder if the instructor hasn't completed the session
-                assertEquals(2, emailsToInstructor.size());
-                
-                assertTrue(emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
-                            || emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
-                assertTrue(!emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
-                            || !emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
-                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                           fs.getFeedbackSessionName()),
-                             emailsToInstructor.get(0).getSubject());
-                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                           fs.getFeedbackSessionName()),
-                             emailsToInstructor.get(1).getSubject());
-            }
-
-        }
-        
-        ______TS("failure: non-existent Feedback session");
-        
-        String nonExistentFsName = "non-ExIsTENT FsnaMe123";
-        
-        try {
-            fsLogic.sendReminderForFeedbackSession(fs.getCourseId(), nonExistentFsName);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to remind a non-existent feedback session: "
-                         + fs.getCourseId() + "/" + nonExistentFsName,
-                         edne.getMessage());
-        }
-        
-    }
-    
-    public void testSendReminderForFeedbackSessionParticularUsers() throws Exception {
-        // private method. no need to check for authentication.
-        Logic logic = new Logic();
-        
-        ______TS("typical success case");
-        
-        StudentAttributes studentToRemind = dataBundle.students.get("student5InCourse1");
-        InstructorAttributes instrToRemind = dataBundle.instructors.get("helperOfCourse1");
-        
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        String courseName = CoursesLogic.inst().getCourse(fs.getCourseId()).getName();
-        String[] usersToRemind = new String[] {studentToRemind.email, instrToRemind.email};
-
-        List<EmailWrapper> emailsSent =
-                fsLogic.sendReminderForFeedbackSessionParticularUsers(
-                        fs.getCourseId(), fs.getFeedbackSessionName(), usersToRemind);
-        assertEquals(7, emailsSent.size());
-
-        EmailWrapper emailToStudent = getEmailToStudent(studentToRemind, emailsSent);
-        String errorMessage = "No email sent to selected student " + studentToRemind.email;
-        assertNotNull(errorMessage, emailToStudent);
-        assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                   fs.getFeedbackSessionName()),
-                     emailToStudent.getSubject());
-
-        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.getCourseId());
-        String notificationHeader = "The email below has been sent to students of course: " + fs.getCourseId();
-        for (InstructorAttributes i : instructorList) {
-            List<EmailWrapper> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
-            
-            if (i.email.equals(instrToRemind.email)) {
-                // Send both notification and reminder if the instructor is selected
-                assertEquals(2, emailsToInstructor.size());
-                
-                assertTrue(emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
-                            || emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
-                assertTrue(!emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
-                            || !emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
-                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                           fs.getFeedbackSessionName()),
-                             emailsToInstructor.get(0).getSubject());
-                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                           fs.getFeedbackSessionName()),
-                             emailsToInstructor.get(1).getSubject());
-            } else {
-                // Only send notification (no reminder) if instructor is not selected
-                assertEquals(1, emailsToInstructor.size());
-                AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
-                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                           fs.getFeedbackSessionName()),
-                             emailsToInstructor.get(0).getSubject());
-            }
-        }
-        
-        ______TS("failure: non-existent Feedback session");
-        
-        String nonExistentFsName = "non-ExIsTENT FsnaMe123";
-        
-        try {
-            fsLogic.sendReminderForFeedbackSessionParticularUsers(
-                    fs.getCourseId(), nonExistentFsName, usersToRemind);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to remind a non-existent feedback session: "
-                         + fs.getCourseId() + "/" + nonExistentFsName,
-                         edne.getMessage());
-        }
-        
     }
     
     private void testSendFeedbackSessionSubmissionConfirmationEmail() throws Exception {
@@ -2292,27 +2119,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     @AfterClass
     public static void classTearDown() {
         printTestClassFooter();
-    }
-
-    private EmailWrapper getEmailToStudent(StudentAttributes student, List<EmailWrapper> emailsSent) {
-        for (EmailWrapper email : emailsSent) {
-            boolean isEmailSentToThisStudent = email.getRecipient().equalsIgnoreCase(student.email);
-            if (isEmailSentToThisStudent) {
-                return email;
-            }
-        }
-        return null;
-    }
-
-    private List<EmailWrapper> getEmailsToInstructor(InstructorAttributes instructor, List<EmailWrapper> emailsSent) {
-        List<EmailWrapper> emailsToInstructor = new ArrayList<EmailWrapper>();
-        for (EmailWrapper email : emailsSent) {
-            boolean isEmailSentToThisInstructor = email.getRecipient().equalsIgnoreCase(instructor.email);
-            if (isEmailSentToThisInstructor) {
-                emailsToInstructor.add(email);
-            }
-        }
-        return emailsToInstructor;
     }
 
 }

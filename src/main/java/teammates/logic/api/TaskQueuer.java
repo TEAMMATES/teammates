@@ -1,11 +1,13 @@
 package teammates.logic.api;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.TaskQueue;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.logic.core.TaskQueuesLogic;
 
@@ -195,6 +197,58 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.STUDENT_EMAIL, studentEmail);
         
         addTask(TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME, TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, paramMap);
+    }
+    
+    /**
+     * Schedules for the given list of emails to be sent.
+     * 
+     * @param emails the list of emails to be sent
+     */
+    public void scheduleEmailsForSending(List<EmailWrapper> emails) {
+        if (emails.isEmpty()) {
+            return;
+        }
+        
+        // Equally spread out the emails to be sent over 1 hour
+        // Sets interval to a maximum of 5 seconds if the interval is too large
+        int oneHourInMillis = 60 * 60 * 1000;
+        int emailIntervalMillis = Math.min(5000, oneHourInMillis / emails.size());
+        
+        int numberOfEmailsSent = 0;
+        for (EmailWrapper email : emails) {
+            long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
+            scheduleEmailForSending(email, emailDelayTimer);
+            numberOfEmailsSent++;
+        }
+    }
+    
+    private void scheduleEmailForSending(EmailWrapper email, long emailDelayTimer) {
+        String emailSubject = email.getSubject();
+        String emailSenderName = email.getSenderName();
+        String emailSender = email.getSenderEmail();
+        String emailReceiver = email.getRecipient();
+        String emailReplyToAddress = email.getReplyTo();
+        try {
+            Map<String, String> paramMap = new HashMap<String, String>();
+            paramMap.put(ParamsNames.EMAIL_SUBJECT, emailSubject);
+            paramMap.put(ParamsNames.EMAIL_CONTENT, email.getContent());
+            paramMap.put(ParamsNames.EMAIL_SENDER, emailSender);
+            if (emailSenderName != null && !emailSenderName.isEmpty()) {
+                paramMap.put(ParamsNames.EMAIL_SENDERNAME, emailSenderName);
+            }
+            paramMap.put(ParamsNames.EMAIL_RECEIVER, emailReceiver);
+            paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReplyToAddress);
+            
+            addDeferredTask(TaskQueue.SEND_EMAIL_QUEUE_NAME, TaskQueue.SEND_EMAIL_WORKER_URL,
+                            paramMap, emailDelayTimer);
+        } catch (Exception e) {
+            log.severe("Error when adding email to task queue: " + e.getMessage() + "\n"
+                       + "Email sender: " + emailSender + "\n"
+                       + "Email sender name: " + emailSenderName + "\n"
+                       + "Email receiver: " + emailReceiver + "\n"
+                       + "Email subject: " + emailSubject + "\n"
+                       + "Email reply-to address: " + emailReplyToAddress);
+        }
     }
     
 }

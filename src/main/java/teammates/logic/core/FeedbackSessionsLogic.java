@@ -83,7 +83,6 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_GET = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "get");
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
     private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "check");
-    private static final String ERROR_NON_EXISTENT_FS_REMIND = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "remind");
     private static final String ERROR_NON_EXISTENT_FS_CONFIRM =
             String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "confirm submission");
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
@@ -1143,9 +1142,7 @@ public class FeedbackSessionsLogic {
         return !allQuestions.isEmpty();
     }
 
-    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa,
-                                                       String userEmail) {
-        Assumption.assertNotNull(fsa);
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
         if (fsa.getRespondingStudentList().contains(userEmail)) {
             return true;
         }
@@ -1158,24 +1155,16 @@ public class FeedbackSessionsLogic {
         return allQuestions.isEmpty();
     }
 
-    public boolean isFeedbackSessionCompletedByInstructor(
-            String feedbackSessionName,
-            String courseId, String userEmail)
+    public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
             throws EntityDoesNotExistException {
-
-        FeedbackSessionAttributes fsa = this.getFeedbackSession(feedbackSessionName, courseId);
-        if (fsa == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
-        }
-        
         if (fsa.getRespondingInstructorList().contains(userEmail)) {
             return true;
         }
-
+        
+        String feedbackSessionName = fsa.getFeedbackSessionName();
+        String courseId = fsa.getCourseId();
         List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
-                        courseId, userEmail);
-
+                fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
         // if there is no question for instructor, session is complete
         return allQuestions.isEmpty();
     }
@@ -1476,85 +1465,6 @@ public class FeedbackSessionsLogic {
         updateFeedbackSession(sessionToUnpublish);
     }
 
-    public List<EmailWrapper> sendReminderForFeedbackSession(String courseId,
-            String feedbackSessionName) throws EntityDoesNotExistException {
-        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
-        }
-
-        FeedbackSessionAttributes session = getFeedbackSession(
-                feedbackSessionName, courseId);
-        List<StudentAttributes> studentList = studentsLogic
-                .getStudentsForCourse(courseId);
-        List<InstructorAttributes> instructorList = instructorsLogic
-                .getInstructorsForCourse(courseId);
-
-        // Filter out students who have submitted the feedback session
-        List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
-        for (StudentAttributes student : studentList) {
-            if (!isFeedbackSessionCompletedByStudent(session, student.email)) {
-                studentsToRemindList.add(student);
-            }
-        }
-
-        // Filter out instructors who have submitted the feedback session
-        List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
-        for (InstructorAttributes instructor : instructorList) {
-            if (!isFeedbackSessionCompletedByInstructor(
-                    session.getFeedbackSessionName(), session.getCourseId(),
-                    instructor.email)) {
-                instructorsToRemindList.add(instructor);
-            }
-        }
-
-        try {
-            List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
-                    session, studentsToRemindList, instructorsToRemindList, instructorList);
-            new EmailSender().sendEmails(emails);
-            return emails;
-        } catch (Exception e) {
-            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
-        }
-    }
-    
-    public List<EmailWrapper> sendReminderForFeedbackSessionParticularUsers(String courseId,
-            String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
-        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
-        }
-
-        FeedbackSessionAttributes session = getFeedbackSession(
-                feedbackSessionName, courseId);
-        
-        List<InstructorAttributes> instructorList = instructorsLogic
-                .getInstructorsForCourse(courseId);
-        List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
-        List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
-
-        for (String userEmail : usersToRemind) {
-            StudentAttributes student = studentsLogic
-                    .getStudentForEmail(courseId, userEmail);
-            if (student != null) {
-                studentsToRemindList.add(student);
-            }
-
-            InstructorAttributes instructor = instructorsLogic
-                    .getInstructorForEmail(courseId, userEmail);
-            if (instructor != null) {
-                instructorsToRemindList.add(instructor);
-            }
-        }
-
-        try {
-            List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
-                    session, studentsToRemindList, instructorsToRemindList, instructorList);
-            new EmailSender().sendEmails(emails);
-            return emails;
-        } catch (Exception e) {
-            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
-        }
-    }
-    
     public EmailWrapper sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName,
                                                            String userId, String unregisteredStudentEmail,
                                                            String regKey)

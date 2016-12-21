@@ -1157,6 +1157,25 @@ public class Logic {
     }
 
     /**
+     * @see {@link FeedbackSessionsLogic#isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes, String)}
+     */
+    public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByInstructor(fsa, userEmail);
+    }
+
+    /**
+     * @see {@link FeedbackSessionsLogic#isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes, String)}
+     */
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail);
+    }
+
+    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      */

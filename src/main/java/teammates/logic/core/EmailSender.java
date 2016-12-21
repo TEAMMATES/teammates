@@ -1,14 +1,8 @@
 package teammates.logic.core;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
-import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -31,57 +25,6 @@ public class EmailSender {
             service = new MailjetService();
         } else {
             service = new JavamailService();
-        }
-    }
-    
-    /**
-     * Sends the given list of {@code messages}.
-     */
-    public void sendEmails(List<EmailWrapper> messages) {
-        if (messages.isEmpty()) {
-            return;
-        }
-        
-        // Equally spread out the emails to be sent over 1 hour
-        // Sets interval to a maximum of 5 seconds if the interval is too large
-        int oneHourInMillis = 60 * 60 * 1000;
-        int emailIntervalMillis = Math.min(5000, oneHourInMillis / messages.size());
-        
-        int numberOfEmailsSent = 0;
-        for (EmailWrapper m : messages) {
-            long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
-            addEmailToTaskQueue(m, emailDelayTimer);
-            numberOfEmailsSent++;
-        }
-    }
-    
-    private void addEmailToTaskQueue(EmailWrapper message, long emailDelayTimer) {
-        String emailSubject = message.getSubject();
-        String emailSenderName = message.getSenderName();
-        String emailSender = message.getSenderEmail();
-        String emailReceiver = message.getRecipient();
-        String emailReplyToAddress = message.getReplyTo();
-        try {
-            Map<String, String> paramMap = new HashMap<String, String>();
-            paramMap.put(ParamsNames.EMAIL_SUBJECT, emailSubject);
-            paramMap.put(ParamsNames.EMAIL_CONTENT, message.getContent());
-            paramMap.put(ParamsNames.EMAIL_SENDER, emailSender);
-            if (emailSenderName != null && !emailSenderName.isEmpty()) {
-                paramMap.put(ParamsNames.EMAIL_SENDERNAME, emailSenderName);
-            }
-            paramMap.put(ParamsNames.EMAIL_RECEIVER, emailReceiver);
-            paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReplyToAddress);
-            
-            TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
-            taskQueueLogic.createAndAddDeferredTask(TaskQueue.SEND_EMAIL_QUEUE_NAME,
-                                                    TaskQueue.SEND_EMAIL_WORKER_URL, paramMap, emailDelayTimer);
-        } catch (Exception e) {
-            log.severe("Error when adding email to task queue: " + e.getMessage() + "\n"
-                       + "Email sender: " + emailSender + "\n"
-                       + "Email sender name: " + emailSenderName + "\n"
-                       + "Email receiver: " + emailReceiver + "\n"
-                       + "Email subject: " + emailSubject + "\n"
-                       + "Email reply to address: " + emailReplyToAddress);
         }
     }
     

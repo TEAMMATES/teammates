@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
+import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
 
 /**
@@ -21,6 +22,7 @@ public abstract class AutomatedAction {
     
     protected static final Logger log = Logger.getLogger();
     
+    protected Logic logic;
     protected TaskQueuer taskQueuer;
     
     protected HttpServletRequest request;
@@ -29,6 +31,7 @@ public abstract class AutomatedAction {
     protected void initialiseAttributes(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
+        this.logic = new Logic();
         this.taskQueuer = new TaskQueuer();
     }
     
