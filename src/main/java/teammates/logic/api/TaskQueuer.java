@@ -24,16 +24,16 @@ public class TaskQueuer {
     // while at the same time allowing this API to be mocked during test.
     
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap) {
-        new TaskQueuesLogic().createAndAddTask(queueName, workerUrl, paramMap);
+        new TaskQueuesLogic().addTask(queueName, workerUrl, paramMap);
     }
     
     protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap,
                                    long countdownTime) {
-        new TaskQueuesLogic().createAndAddDeferredTask(queueName, workerUrl, paramMap, countdownTime);
+        new TaskQueuesLogic().addDeferredTask(queueName, workerUrl, paramMap, countdownTime);
     }
     
     protected void addTaskMultisetParam(String queueName, String workerUrl, Map<String, String[]> paramMap) {
-        new TaskQueuesLogic().createAndAddTaskMultisetParam(queueName, workerUrl, paramMap);
+        new TaskQueuesLogic().addTaskMultisetParam(queueName, workerUrl, paramMap);
     }
     
     // The following methods are the actual API methods to be used by the client classes

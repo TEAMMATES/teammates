@@ -19,8 +19,8 @@ public class TaskQueuesLogic {
      * @param workerUrl the URL to be triggered when the task is executed
      * @param paramMap the one-to-one parameter mapping for the task
      */
-    public void createAndAddTask(String queueName, String workerUrl, Map<String, String> paramMap) {
-        createAndAddDeferredTask(queueName, workerUrl, paramMap, 0);
+    public void addTask(String queueName, String workerUrl, Map<String, String> paramMap) {
+        addDeferredTask(queueName, workerUrl, paramMap, 0);
     }
     
     /**
@@ -31,13 +31,12 @@ public class TaskQueuesLogic {
      * @param paramMap the one-to-one parameter mapping for the task
      * @param countdownTime the time delay for the task to be executed
      */
-    public void createAndAddDeferredTask(String queueName, String workerUrl,
-                                         Map<String, String> paramMap, long countdownTime) {
+    public void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, long countdownTime) {
         Map<String, String[]> multisetParamMap = new HashMap<String, String[]>();
         for (Map.Entry<String, String> entrySet : paramMap.entrySet()) {
             multisetParamMap.put(entrySet.getKey(), new String[] { entrySet.getValue() });
         }
-        createAndAddDeferredTaskMultisetParam(queueName, workerUrl, multisetParamMap, countdownTime);
+        addDeferredTaskMultisetParam(queueName, workerUrl, multisetParamMap, countdownTime);
     }
     
     /**
@@ -47,8 +46,8 @@ public class TaskQueuesLogic {
      * @param workerUrl the URL to be triggered when the task is executed
      * @param paramMap the one-to-many parameter mapping for the task
      */
-    public void createAndAddTaskMultisetParam(String queueName, String workerUrl, Map<String, String[]> paramMap) {
-        createAndAddDeferredTaskMultisetParam(queueName, workerUrl, paramMap, 0);
+    public void addTaskMultisetParam(String queueName, String workerUrl, Map<String, String[]> paramMap) {
+        addDeferredTaskMultisetParam(queueName, workerUrl, paramMap, 0);
     }
     
     /**
@@ -59,7 +58,7 @@ public class TaskQueuesLogic {
      * @param paramMap the one-to-many parameter mapping for the task
      * @param countdownTime the time delay for the task to be executed
      */
-    public void createAndAddDeferredTaskMultisetParam(
+    public void addDeferredTaskMultisetParam(
             String queueName, String workerUrl, Map<String, String[]> paramMap, long countdownTime) {
         Queue requiredQueue = QueueFactory.getQueue(queueName);
         TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
