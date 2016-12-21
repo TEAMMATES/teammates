@@ -1,9 +1,6 @@
 package teammates.ui.automated;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.reflect.TypeToken;
 
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -15,6 +12,8 @@ import teammates.common.util.JsonUtils;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
+
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Task queue worker action: adjusts feedback responses in the database due to
@@ -60,7 +59,7 @@ public class FeedbackResponseAdjustmentWorkerAction extends AutomatedAction {
                 FeedbackResponsesLogic.inst().getFeedbackResponsesForSession(feedbackSession.getFeedbackSessionName(),
                                                                              feedbackSession.getCourseId());
         List<StudentEnrollDetails> enrollmentList =
-                JsonUtils.fromJson(enrollmentDetails, new TypeToken<ArrayList<StudentEnrollDetails>>(){}.getType());
+                JsonUtils.fromJson(enrollmentDetails, new TypeToken<List<StudentEnrollDetails>>(){}.getType());
         for (FeedbackResponseAttributes response : allResponses) {
             try {
                 StudentsLogic.inst().adjustFeedbackResponseForEnrollments(enrollmentList, response);
