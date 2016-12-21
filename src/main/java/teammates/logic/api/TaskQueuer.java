@@ -36,6 +36,12 @@ public class TaskQueuer {
         new TaskQueuesLogic().addTaskMultisetParam(queueName, workerUrl, paramMap);
     }
     
+    // The following methods are to be overridden by the mock object. In production, these methods are not used.
+    
+    public Map<String, Integer> getTasksAdded() {
+        return null;
+    }
+    
     // The following methods are the actual API methods to be used by the client classes
     
     /**
