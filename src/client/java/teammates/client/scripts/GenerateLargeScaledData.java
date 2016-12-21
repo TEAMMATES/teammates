@@ -8,7 +8,6 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.storage.datastore.Datastore;
 import teammates.test.driver.TestProperties;
 import teammates.test.util.FileHelper;
 
@@ -21,7 +20,6 @@ public class GenerateLargeScaledData extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize(); //TODO: push to parent class
         Logic logic = new Logic();
         DataBundle largeScaleBundle = loadDataBundle("/largeScaleTest.json");
         
