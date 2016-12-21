@@ -158,7 +158,9 @@ public class PageData {
         if (nationalities.contains(existingNationality) || "".equals(existingNationality)) {
             return "";
         }
-        return "Current value: " + existingNationality;
+        return "Previously entered value was " + existingNationality + ". "
+               + "This is not a valid nationality; "
+               + "please choose a valid nationality from the dropdown list before saving.";
     }
     
     /**
