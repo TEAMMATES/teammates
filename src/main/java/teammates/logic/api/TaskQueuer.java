@@ -183,4 +183,18 @@ public class TaskQueuer {
                 TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, paramMap);
     }
     
+    /**
+     * Schedules for course registration to be sent to the specified student.
+     * 
+     * @param courseId the target course ID
+     * @param studentEmail the email address of the student
+     */
+    public void scheduleCourseRegistrationInviteToStudent(String courseId, String studentEmail) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.COURSE_ID, courseId);
+        paramMap.put(ParamsNames.STUDENT_EMAIL, studentEmail);
+        
+        addTask(TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME, TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, paramMap);
+    }
+    
 }

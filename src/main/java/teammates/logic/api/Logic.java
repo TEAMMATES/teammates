@@ -1149,16 +1149,11 @@ public class Logic {
     }
 
     /**
-     * Sends the registration invite to unregistered students in the course.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @return The list of emails sent. These can be used for
-     *         verification.
+     * @see {@link StudentsLogic#getUnregisteredStudentsForCourse(String)}
      */
-    public List<EmailWrapper> sendRegistrationInviteForCourse(String courseId) {
+    public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        return studentsLogic.sendRegistrationInviteForCourse(courseId);
+        return studentsLogic.getUnregisteredStudentsForCourse(courseId);
     }
 
     /**

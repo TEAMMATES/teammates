@@ -526,19 +526,6 @@ public class StudentsLogic {
         
     }
     
-    private EmailWrapper scheduleRegistrationInviteToStudent(CourseAttributes course, StudentAttributes student) {
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        
-        paramMap.put(ParamsNames.COURSE_ID, course.getId());
-        paramMap.put(ParamsNames.STUDENT_EMAIL, student.getEmail());
-        
-        TaskQueuesLogic taskQueueLogic = new TaskQueuesLogic();
-        taskQueueLogic.createAndAddTask(TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME,
-                                        TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, paramMap);
-        
-        return new EmailGenerator().generateStudentCourseJoinEmail(course, student);
-    }
-
     public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
             throws EntityDoesNotExistException {
         
@@ -592,18 +579,6 @@ public class StudentsLogic {
         
     }
     
-    public List<EmailWrapper> sendRegistrationInviteForCourse(String courseId) {
-        List<StudentAttributes> studentDataList = getUnregisteredStudentsForCourse(courseId);
-        
-        List<EmailWrapper> emailsSent = new ArrayList<EmailWrapper>();
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        for (StudentAttributes s : studentDataList) {
-            EmailWrapper email = scheduleRegistrationInviteToStudent(course, s);
-            emailsSent.add(email);
-        }
-        return emailsSent;
-    }
-
     public void deleteStudentCascade(String courseId, String studentEmail) {
         deleteStudentCascade(courseId, studentEmail, true);
     }

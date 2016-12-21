@@ -88,8 +88,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         testEnrollLinesChecking();
         testEnrollStudents();
         
-        testSendRegistrationInviteForCourse();
-        
         testDeleteStudent();
         
         
@@ -1107,51 +1105,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                                                       student1InCourse1.email));
         
     }
-
-    public void testSendRegistrationInviteForCourse() throws Exception {
-        
-        ______TS("all students already registered");
-   
-        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
-    
-        // send registration key to a class in which all are registered
-        List<EmailWrapper> emailsSent = studentsLogic.sendRegistrationInviteForCourse(course1.getId());
-        assertEquals(0, emailsSent.size());
-        
-        ______TS("typical case: send invite to one student");
-        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
-        String courseId = course1.getId();
-        String courseName = course1.getName();
-        StudentAttributes newsStudent0Info = new StudentAttributes("sect", "team", "n0", "e0@google.tmt", "", courseId);
-        StudentAttributes newsStudent1Info = new StudentAttributes("sect", "team", "n1", "e1@google.tmt", "", courseId);
-        StudentAttributes newsStudent2Info = new StudentAttributes("sect", "team", "n2", "e2@google.tmt", "", courseId);
-        enrollStudent(newsStudent0Info);
-        enrollStudent(newsStudent1Info);
-        enrollStudent(newsStudent2Info);
-
-        List<EmailWrapper> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
-        assertEquals(3, msgsForCourse.size());
-        verifyJoinInviteToStudent(newsStudent0Info, msgsForCourse.get(0), courseName, courseId);
-        verifyJoinInviteToStudent(newsStudent1Info, msgsForCourse.get(1), courseName, courseId);
-        verifyJoinInviteToStudent(newsStudent2Info, msgsForCourse.get(2), courseName, courseId);
-        
-        studentsLogic.updateStudentCascadeWithoutDocument(student1InCourse1.email, student1InCourse1);
-        studentsLogic.updateStudentCascadeWithoutDocument(student2InCourse1.email, student2InCourse1);
-        studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent0Info.course, newsStudent0Info.email);
-        studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent1Info.course, newsStudent1Info.email);
-        studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent2Info.course, newsStudent2Info.email);
-    
-        ______TS("null parameters");
-    
-        try {
-            studentsLogic.sendRegistrationInviteForCourse(null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
-    }
     
     public void testDeleteStudent() {
 
@@ -1204,13 +1157,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     public static void classTearDown() {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
         printTestClassFooter();
-    }
-    
-    private void verifyJoinInviteToStudent(StudentAttributes student, EmailWrapper email, String courseName,
-                                           String courseId) {
-        assertEquals(student.email, email.getRecipient());
-        assertEquals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), courseName, courseId),
-                     email.getSubject());
     }
     
     private void verifyEnrollmentDetailsForStudent(StudentAttributes expectedStudent, String oldTeam,
