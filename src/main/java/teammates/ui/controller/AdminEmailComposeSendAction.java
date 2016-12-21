@@ -10,7 +10,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.SystemParams;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StatusMessage;
@@ -136,8 +136,8 @@ public class AdminEmailComposeSendAction extends Action {
         paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, "0");
         paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE);
         
-        taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.ADMIN_PREPARE_EMAIL_QUEUE_NAME,
+                                        TaskQueue.ADMIN_PREPARE_EMAIL_WORKER_URL, paramMap);
 
     }
     
@@ -154,8 +154,8 @@ public class AdminEmailComposeSendAction extends Action {
         paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE);
         paramMap.put(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, addressReceiverListString);
         
-        taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.ADMIN_PREPARE_EMAIL_QUEUE_NAME,
+                                        TaskQueue.ADMIN_PREPARE_EMAIL_WORKER_URL, paramMap);
 
     }
 
