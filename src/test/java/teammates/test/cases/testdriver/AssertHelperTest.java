@@ -25,7 +25,7 @@ public class AssertHelperTest extends BaseTestCase {
         AssertHelper.assertContainsRegex("404 Page Not Found",
                 "Error: 404 Page Not Found. Check the URL.");
         AssertHelper.assertContainsRegex("Fails on checking assert contains regex",
-                "404 Page Not Found",
+                "404 Page Not Foundd",
                 "Error: 404 Page Not Found. Check the URL.");
     
         String pageStr = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER
