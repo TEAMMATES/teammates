@@ -1,45 +1,46 @@
-package teammates.logic.automated;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+package teammates.ui.automated;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.EmailSender;
 
 /**
- * Retrieves admin email content and subject by email id and sends email to the receiver
+ * Task queue worker action: sends queued admin email.
  */
-@SuppressWarnings("serial")
-public class AdminEmailWorkerServlet extends WorkerServlet {
-
+public class AdminSendEmailWorkerAction extends AutomatedAction {
+    
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        
-        
-        String emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);
+    protected String getActionDescription() {
+        return null;
+    }
+    
+    @Override
+    protected String getActionMessage() {
+        return null;
+    }
+    
+    @Override
+    public void execute() {
+        String emailId = getRequestParamValue(ParamsNames.ADMIN_EMAIL_ID);
         Assumption.assertNotNull(emailId);
         
-        String receiverEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_RECEIVER);
+        String receiverEmail = getRequestParamValue(ParamsNames.ADMIN_EMAIL_RECEIVER);
         Assumption.assertNotNull(receiverEmail);
         
-
-        
-        String emailContent = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_CONTENT);
-        String emailSubject = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_SUBJECT);
+        String emailContent = getRequestParamValue(ParamsNames.ADMIN_EMAIL_CONTENT);
+        String emailSubject = getRequestParamValue(ParamsNames.ADMIN_EMAIL_SUBJECT);
         
         if (emailContent == null || emailSubject == null) {
             log.info("Sending large email. Going to retrieve email content and subject from datastore.");
             AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
             Assumption.assertNotNull(adminEmail);
-
+            
             emailContent = adminEmail.getContent().getValue();
             emailSubject = adminEmail.getSubject();
         }
@@ -56,7 +57,6 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         } catch (Exception e) {
             log.severe("Unexpected error while sending admin emails: " + TeammatesException.toStringWithStackTrace(e));
         }
-
     }
     
 }

@@ -38,6 +38,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -1633,8 +1634,8 @@ public class FeedbackSessionsLogic {
         paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.FEEDBACK_REMIND_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_WORKER, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME,
+                                        TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, paramMap);
     }
     
     public void scheduleFeedbackRemindEmailsForParticularUsers(String courseId,
@@ -1646,8 +1647,9 @@ public class FeedbackSessionsLogic {
         paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE,
-                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER, paramMap);
+        taskQueueLogic.createAndAddTaskMultisetParam(
+                TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
+                TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
     }
 
     public void scheduleFeedbackSessionOpeningEmails() {

@@ -48,7 +48,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         this.giverEmail = giverEmail;
         this.recipientType = recipientType == null ? CommentParticipantType.PERSON : recipientType;
         this.recipients = recipients;
-        this.commentText = commentText == null ? null : new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
+        this.commentText = Sanitizer.sanitizeForRichText(commentText);
         this.createdAt = createdAt;
         this.lastEditorEmail = giverEmail;
         this.lastEditedAt = createdAt;
@@ -66,9 +66,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         this.showRecipientNameTo = comment.getShowRecipientNameTo();
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
-        this.commentText = comment.getCommentText() == null
-                           ? null
-                           : new Text(Sanitizer.sanitizeForRichText(comment.getCommentText().getValue()));
+        this.commentText = Sanitizer.sanitizeForRichText(comment.getCommentText());
         this.lastEditorEmail = comment.getLastEditorEmail() == null
                              ? comment.getGiverEmail()
                              : comment.getLastEditorEmail();
@@ -212,10 +210,10 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
     @Override
     public void sanitizeForSaving() {
         this.courseId = this.courseId.trim();
-        this.commentText = Sanitizer.sanitizeTextField(this.commentText);
+        this.commentText = Sanitizer.sanitizeForRichText(commentText);
         this.courseId = Sanitizer.sanitizeForHtml(courseId);
         this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
-        
+
         if (recipients != null) {
             HashSet<String> sanitizedRecipients = new HashSet<String>();
             for (String recipientId : recipients) {
@@ -223,15 +221,11 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
             }
             recipients = sanitizedRecipients;
         }
-        
-        if (commentText != null) {
-            this.commentText = new Text(Sanitizer.sanitizeForRichText(commentText.getValue()));
-        }
-        
+
         if (recipientType != null) {
             sanitizeForVisibilityOptions();
         }
-        
+
         removeIrrelevantVisibilityOptions();
     }
 

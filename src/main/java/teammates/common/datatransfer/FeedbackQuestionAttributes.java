@@ -48,9 +48,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.courseId = fq.getCourseId();
         this.creatorEmail = fq.getCreatorEmail();
         this.questionMetaData = fq.getQuestionMetaData();
-        this.questionDescription = fq.getQuestionDescription() == null
-                                   ? null
-                                   : new Text(Sanitizer.sanitizeForRichText(fq.getQuestionDescription().getValue()));
+        this.questionDescription = Sanitizer.sanitizeForRichText(fq.getQuestionDescription());
         this.questionNumber = fq.getQuestionNumber();
         this.questionType = fq.getQuestionType();
         this.giverType = fq.getGiverType();
@@ -545,9 +543,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public void sanitizeForSaving() {
-        this.questionDescription = this.questionDescription == null
-                                   ? null
-                                   : new Text(Sanitizer.sanitizeForRichText(this.questionDescription.getValue()));
+        this.questionDescription = Sanitizer.sanitizeForRichText(this.questionDescription);
     }
     
     private boolean isValidJsonString(String jsonString) {
