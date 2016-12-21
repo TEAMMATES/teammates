@@ -98,6 +98,7 @@
                     </option>
                 </c:forEach>
             </select>
+            <input type="hidden" name="existingNationality" value="${profile.nationality}">
             ${profile.legacyNationality}
         </div>
         <div class="form-group">
