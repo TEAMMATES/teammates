@@ -6,7 +6,6 @@ import java.util.List;
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
 
 public class DataMigrationForSearchableInstructors extends RemoteApiClient {
     
@@ -19,8 +18,6 @@ public class DataMigrationForSearchableInstructors extends RemoteApiClient {
 
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-
         List<InstructorAttributes> allInstructors = getAllInstructors();
         for (InstructorAttributes instructor : allInstructors) {
             updateDocumentForInstructor(instructor);

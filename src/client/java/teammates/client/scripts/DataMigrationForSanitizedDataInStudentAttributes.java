@@ -3,8 +3,6 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.List;
 
-import javax.jdo.PersistenceManager;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -12,7 +10,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.datastore.Datastore;
 
 public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiClient {
     private static final boolean isPreview = true;
@@ -28,8 +25,6 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
 
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-
         List<StudentAttributes> allStudents = getAllStudents();
         if (isPreview) {
             System.out.println("Checking Sanitization for students...");
@@ -152,10 +147,6 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
             System.out.println("Student " + student.email + " does not exist!");
             e.printStackTrace();
         }
-    }
-
-    protected PersistenceManager getPm() {
-        return Datastore.getPersistenceManager();
     }
 
     protected List<StudentAttributes> getAllStudents() {

@@ -39,7 +39,6 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.datastore.Datastore;
 import teammates.test.util.FileHelper;
 
 /**
@@ -83,8 +82,6 @@ public class UploadBackupData extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-        
         String[] folders = getFolders();
 
         for (String folder : folders) {
