@@ -405,24 +405,37 @@ def failedXmlUrl = "https://gist.githubusercontent.com/anonymous/gist_id/raw/"
     }
 }
 
+// Displays full exception; to be run after the test fails after the last retry
+// For HTML tests, the exception is displayed in diff form instead of the extremely verbose full exception message
 def afterTestClosure = { descriptor, result ->
     if (result.resultType == TestResult.ResultType.FAILURE && result.exception != null && result.exception.getMessage() != null) {
+        println ""
+
         def msg = result.exception.getMessage()
-        def shouldDiff = msg.indexOf("<<[expected>\n") != -1
-        if (shouldDiff) {
-            file("expected").text = msg[(msg.indexOf("<<[expected>\n") + 13)..(msg.indexOf("\n</expected]>>") - 1)]
-            file("actual").text = msg[(msg.indexOf("<<[actual>\n") + 11)..(msg.indexOf("\n</actual]>>") - 1)]
-            if (isWindows) {
-                def process = "FC expected actual".execute()
-                println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
-                println process.getText()
-                process.waitFor()
-            } else {
-                def process = "diff expected actual".execute()
-                println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
-                println process.getText()
-                process.waitFor()
+        def shouldDisplayAsDiff = msg.indexOf("<<expected>") != -1
+        if (shouldDisplayAsDiff) {
+            def expectedFileName = "expected-${descriptor.getClassName()}"
+            def actualFileName = "actual-${descriptor.getClassName()}"
+            file("${expectedFileName}").text = msg[(msg.indexOf("<<expected>") + 11)..(msg.indexOf("</expected>>") - 1)]
+            file("${actualFileName}").text = msg[(msg.indexOf("<<actual>") + 9)..(msg.indexOf("</actual>>") - 1)]
+            def diffCommand = isWindows ? "FC" : "diff"
+            def process = "${diffCommand} ${expectedFileName} ${actualFileName}".execute()
+            println process.getText()
+            process.waitFor()
+            def deleteCommand = isWindows ? "del" : "rm"
+            "${deleteCommand} ${expectedFileName}".execute()
+            "${deleteCommand} ${actualFileName}".execute()
+        } else {
+            println "${result.exception.getClass().getName()}: ${result.exception.getMessage()}"
+        }
+
+        for (StackTraceElement ste : result.exception.getStackTrace()) {
+            if (ste.getClassName().contains("NativeMethodAccessorImpl")) {
+                // Everything after this line is the internal workings of TestNG, not important for us
+                println "\t..."
+                break
             }
+            println "\tat ${ste.getClassName()}.${ste.getMethodName()}(${ste.getFileName()}:${ste.getLineNumber()})"
         }
     }
 }
@@ -444,7 +457,6 @@ test {
     testLogging {
         events "passed"
     }
-    afterTest afterTestClosure
     finalizedBy "killFirefox1"
     dependsOn "enhancerRun"
 }
@@ -476,11 +488,8 @@ task travisTests {
         }
         testLogging {
             events "passed"
-            if (isLastRetry) {
-                exceptionFormat = "full"
-            }
         }
-        if (!isLastRetry) {
+        if (isLastRetry) {
             afterTest afterTestClosure
         }
         finalizedBy "killFirefox${id+1}"
