@@ -154,13 +154,11 @@ public class PageData {
      */
     public static String getLegacyNationality(String existingNationality) {
         List<String> nationalities = NationalityHelper.getNationalities();
-        String result = null;
+
         if (nationalities.contains(existingNationality) || "".equals(existingNationality)) {
-            result = "";
-        } else {
-            result = "Current value: " + existingNationality;
+            return "";
         }
-        return result;
+        return "Current value: " + existingNationality;
     }
     
     /**
