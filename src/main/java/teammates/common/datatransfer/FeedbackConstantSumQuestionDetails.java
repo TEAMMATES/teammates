@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -398,7 +400,16 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+        SortedMap<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>(new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s2.compareTo(s1);
+            }
+        });
+        
+        sortedOptionPoints.putAll(optionPoints);
+        
+        for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
             
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
