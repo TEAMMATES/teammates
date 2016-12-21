@@ -388,23 +388,6 @@ def isTravis = System.getenv("TRAVIS") != null
 def failedXmlPath = "test-output/testng-failed.xml"
 def failedXmlUrl = "https://gist.githubusercontent.com/anonymous/gist_id/raw/"
 
-(1..numOfTestRetries + 1).each { id ->
-    task "killFirefox${id}"(type: Exec) {
-        doFirst {
-            if (isWindows) {
-                commandLine "TASKKILL", "/F", "/IM", "firefox.exe"
-            } else {
-                commandLine "pkill", "firefox"
-            }
-            // Silence output for this task
-            standardOutput = new ByteArrayOutputStream()
-            errorOutput = standardOutput
-        }
-        ignoreExitValue = true
-        outputs.upToDateWhen { false }
-    }
-}
-
 // Displays full exception; to be run after the test fails after the last retry
 // For HTML tests, the exception is displayed in diff form instead of the extremely verbose full exception message
 def afterTestClosure = { descriptor, result ->
@@ -440,44 +423,20 @@ def afterTestClosure = { descriptor, result ->
     }
 }
 
-test {
-    useTestNG()
-    options.suites "src/test/testng-travis.xml"
-    options.useDefaultListeners = true
-    options.outputDirectory = file("build/reports/test-try-1")
-    ignoreFailures = numOfTestRetries != 0 ? true : false
-    maxHeapSize = "1g"
-    reports.html.enabled = false
-    reports.junitXml.enabled = false
-    if (isTravis) {
-        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
-    } else {
-        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
-    }
-    testLogging {
-        events "passed"
-    }
-    finalizedBy "killFirefox1"
-    dependsOn "enhancerRun"
-}
-
 task travisTests {
     description "Runs the full test suite and retries failed test up to ${numOfTestRetries} times."
     group "Test"
-    dependsOn "test"
 }
 
-(1..numOfTestRetries).each { id ->
-    def isLastRetry = id == numOfTestRetries ? true : false
-    task "testRetry${id}"(type: Test) {
+(1..numOfTestRetries + 1).each { id ->
+    def isFirstTry = id == 1
+    def isLastRetry = id == numOfTestRetries + 1
+    task "testTry${id}"(type: Test) {
         useTestNG()
-        options.suites("build/reports/test-try-${id}/testng-failed.xml")
-        options.outputDirectory = file("build/reports/test-try-${id+1}")
+        options.suites isFirstTry ? "src/test/testng-travis.xml" : "build/reports/test-try-${id - 1}/testng-failed.xml"
+        options.outputDirectory = file("build/reports/test-try-${id}")
         options.useDefaultListeners = true
-        testClassesDir = sourceSets.test.output.classesDir
-        classpath = sourceSets.test.runtimeClasspath
-        testSrcDirs = sourceSets.test.java.srcDirs as List
-        ignoreFailures = isLastRetry ? false : true
+        ignoreFailures = !isLastRetry
         maxHeapSize = "1g"
         reports.html.enabled = false
         reports.junitXml.enabled = false
@@ -492,30 +451,43 @@ task travisTests {
         if (isLastRetry) {
             afterTest afterTestClosure
         }
-        finalizedBy "killFirefox${id+1}"
-        dependsOn test, enhancerRun
+        finalizedBy "killFirefox${id}"
+        dependsOn enhancerRun
         onlyIf {
-            file("build/reports/test-try-${id}/testng-failed.xml").exists()
+            isFirstTry || file("build/reports/test-try-${id - 1}/testng-failed.xml").exists()
         }
     }
-    travisTests.dependsOn "testRetry${id}"
+    travisTests.dependsOn "testTry${id}"
+
+    task "killFirefox${id}"(type: Exec) {
+        doFirst {
+            if (isWindows) {
+                commandLine "taskkill", "/f", "/im", "firefox.exe"
+            } else {
+                commandLine "pkill", "firefox"
+            }
+            // Silence output for this task
+            standardOutput = new ByteArrayOutputStream()
+            errorOutput = standardOutput
+        }
+        ignoreExitValue = true
+        outputs.upToDateWhen { false }
+    }
 }
 
 task generateFailedCmd(type: Exec) {
-    onlyIf {
-        file("build/reports/test-try-${numOfTestRetries}/testng-failed.xml").exists()
-    }
     def os = new ByteArrayOutputStream()
     doFirst {
-        commandLine "gist", "-p", "build/reports/test-try-${numOfTestRetries}/testng-failed.xml"
+        commandLine "gist", "-p", "build/reports/test-try-${numOfTestRetries + 1}/testng-failed.xml"
         standardOutput = os
     }
     doLast {
         def gistUrl = os.toString()
         def gistHash = gistUrl.substring(gistUrl.lastIndexOf("/") + 1).replaceAll("\\s", "")
-        logger.lifecycle("Run failed tests locally using the gradle task")
-        logger.lifecycle("./gradlew -Pgist=${gistHash} downloadFailedXml")
-        logger.lifecycle("followed by running \"Failed tests\" in Eclipse")
+        println "Run failed tests locally by downloading the XML file containing the failed tests using the command:"
+        println "Windows: gradlew.bat -Pgist=${gistHash} downloadFailedXml"
+        println "Linux/OS X: ./gradlew -Pgist=${gistHash} downloadFailedXml"
+        println "followed by running \"Failed tests\" in Eclipse."
     }
 }
 
@@ -537,8 +509,8 @@ task downloadFailedXml {
         new URL(downloadUrl).withInputStream{i -> failedXml.withOutputStream{ it << i }}
     }
     doLast {
-        logger.lifecycle("The failed xml has been downloaded successfully.")
-        logger.lifecycle("You can now run the failed tests from Eclipse.")
+        println "The XML file containing the failed tests has been downloaded successfully."
+        println "You can now run the failed tests from Eclipse."
     }
     dependsOn cleanTestOutputDir
 }
