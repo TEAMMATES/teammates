@@ -10,7 +10,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.api.Logic;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.storage.datastore.Datastore;
 
 public class DataMigrationForResponseRate extends RemoteApiClient {
     
@@ -37,8 +36,6 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-        
         if (isForAllSession) {
             updateRespondentsForAllSessions();
         } else {

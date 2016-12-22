@@ -12,7 +12,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
 
 public class DataRepairForCorruptedResponses extends RemoteApiClient {
     
@@ -25,7 +24,6 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize();
         try {
             repairDataForSession("Course-ID", "Session name");
         } catch (EntityDoesNotExistException | InvalidParametersException | EntityAlreadyExistsException e) {

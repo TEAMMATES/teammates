@@ -11,7 +11,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionFactory;
 
@@ -70,8 +69,6 @@ public class GaeSimulation {
         localSearch.setPersistent(false);
         helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localTasks, localSearch);
         helper.setUp();
-        
-        Datastore.initialize();
         
         sc = new ServletRunner().newClient();
     }

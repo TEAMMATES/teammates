@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -12,7 +11,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const.SystemParams;
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.FeedbackSession;
 
 public class DataMigrationForSentClosingEmailFieldInSessions extends RemoteApiClient {
@@ -27,8 +25,6 @@ public class DataMigrationForSentClosingEmailFieldInSessions extends RemoteApiCl
     
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-        
         List<FeedbackSessionAttributes> sessions = getNonPrivateFeedbackSessions();
         for (FeedbackSessionAttributes session : sessions) {
             populateClosingEmailField(session);
@@ -65,13 +61,9 @@ public class DataMigrationForSentClosingEmailFieldInSessions extends RemoteApiCl
         return sessions;
     }
     
-    private PersistenceManager getPm() {
-        return Datastore.getPersistenceManager();
-    }
-    
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getNonPrivateFeedbackSessionEntities() {
-        Query q = getPm().newQuery(FeedbackSession.class);
+        Query q = PM.newQuery(FeedbackSession.class);
         q.declareParameters("Enum private");
         q.setFilter("feedbackSessionType != private");
         
