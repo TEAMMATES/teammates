@@ -235,14 +235,34 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     }
     
     protected void testActionWithEmailAndCourseUnauthorisedInstructorOrStudentMasquerade() {
-        gaeSimulation.loginAsAdmin("admin.user");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(student.email),
                 Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
         };
         
-        ______TS("Failure case: masqueraded instructor not from same course");
+        ______TS("Failure case: unauthorised student masqueraded as a student from same team");
+        AccountAttributes unauthStudent = dataBundle.accounts.get("student1InArchivedCourse");
+        gaeSimulation.loginAsStudent(unauthStudent.googleId);
+        try {
+            action = getAction(addUserIdToParams(student.googleId, submissionParams));
+            signalFailureToDetectException();
+        } catch (UnauthorizedAccessException uae) {
+            ignoreExpectedException();
+        }
+        
+        ______TS("Failure case: unauthorised instructor masqueraded as a authorised instructor");
         AccountAttributes unauthInstructor = dataBundle.accounts.get("instructor1OfCourse2");
+        AccountAttributes instructor = dataBundle.accounts.get("instructor1OfCourse1");
+        gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
+        try {
+            action = getAction(addUserIdToParams(instructor.googleId, submissionParams));
+            signalFailureToDetectException();
+        } catch (UnauthorizedAccessException uae) {
+            ignoreExpectedException();
+        }
+        
+        gaeSimulation.loginAsAdmin("admin.user");
+        ______TS("Failure case: masqueraded instructor not from same course");
         action = getAction(addUserIdToParams(unauthInstructor.googleId, submissionParams));
         try {
             action.executeAndPostProcess();
@@ -252,7 +272,6 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         }
         
         ______TS("Failure case: masqueraded student not from same course");
-        AccountAttributes unauthStudent = dataBundle.accounts.get("student1InArchivedCourse");
         action = getAction(addUserIdToParams(unauthStudent.googleId, submissionParams));
         try {
             action.executeAndPostProcess();
