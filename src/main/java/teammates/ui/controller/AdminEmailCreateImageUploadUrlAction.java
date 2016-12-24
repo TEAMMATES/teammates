@@ -4,19 +4,28 @@ import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.api.GateKeeper;
 
-public class AdminEmailCreateImageUploadUrlAction extends CreateImageUploadUrlAction {
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+
+public class AdminEmailCreateImageUploadUrlAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        return createAjaxResult(createImageUploadUrlPageData());
-    }
-
-    protected void verifyPrivileges() {
+        
         new GateKeeper().verifyAdminPrivileges(account);
-    }
-
-    protected String getUploadUrl() {
-        return GoogleCloudStorageHelper.getNewUploadUrl(Const.ActionURIs.ADMIN_EMAIL_IMAGE_UPLOAD);
+        
+        AdminEmailCreateImageUploadUrlAjaxPageData data = new AdminEmailCreateImageUploadUrlAjaxPageData(account);
+        
+        try {
+            data.nextUploadUrl = GoogleCloudStorageHelper.getNewUploadUrl(Const.ActionURIs.ADMIN_EMAIL_IMAGE_UPLOAD);
+            data.ajaxStatus = "Image upload url created, proceed to uploading";
+        } catch (BlobstoreFailureException | IllegalArgumentException e) {
+            data.nextUploadUrl = null;
+            isError = true;
+            data.ajaxStatus = "An error occurred when creating upload URL, please try again";
+        }
+          
+        return createAjaxResult(data);
+        
     }
 
 }

@@ -269,5 +269,4 @@
             name="<%= Const.ParamsNames.USER_ID %>"
             value="${data.account.googleId}">
     </form>
-
 </div>

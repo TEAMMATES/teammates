@@ -43,7 +43,6 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
@@ -2607,15 +2606,6 @@ public class Logic {
     public void deleteAdminEmailUploadedFile(BlobKey key) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
         adminEmailsLogic.deleteAdminEmailUploadedFile(key);
-    }
-
-    /**
-     * Deletes uploaded file
-     * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
-     */
-    public void deleteUploadedFile(BlobKey key) {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
-        GoogleCloudStorageHelper.deleteFile(key);
     }
 
     /**
