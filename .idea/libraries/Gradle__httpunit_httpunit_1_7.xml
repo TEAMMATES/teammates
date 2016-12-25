@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: httpunit:httpunit:1.7">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/httpunit/httpunit/1.7/2030058ecce7aea03442cd5b40782ab94e1008f5/httpunit-1.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/httpunit/httpunit/1.7/48055f7695f34e1660f1f1bd657f021995fb6d8e/httpunit-1.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

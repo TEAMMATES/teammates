@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.sendgrid:smtpapi-java:1.2.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sendgrid/smtpapi-java/1.2.0/98c3181e9f78a77b1942c8eafba3de860403db0/smtpapi-java-1.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sendgrid/smtpapi-java/1.2.0/820e532e8e929941218a57d2092e4d8d262e4429/smtpapi-java-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

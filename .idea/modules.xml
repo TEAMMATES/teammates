@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/src/client/client.iml" filepath="$PROJECT_DIR$/src/client/client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/main/main.iml" filepath="$PROJECT_DIR$/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teammates.iml" filepath="$PROJECT_DIR$/.idea/modules/teammates.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teammates_endpointsSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/teammates_endpointsSrc.iml" group="teammates" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teammates_functionalTest.iml" filepath="$PROJECT_DIR$/.idea/modules/teammates_functionalTest.iml" group="teammates" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teammates_main.iml" filepath="$PROJECT_DIR$/.idea/modules/teammates_main.iml" group="teammates" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teammates_test.iml" filepath="$PROJECT_DIR$/.idea/modules/teammates_test.iml" group="teammates" />
+      <module fileurl="file://$PROJECT_DIR$/src/test/test.iml" filepath="$PROJECT_DIR$/src/test/test.iml" />
+    </modules>
+  </component>
+</project>

@@ -10,7 +10,7 @@ import teammates.test.pageobjects.BrowserPool;
 
 /** Covers the table sorting functionality
  */
-public class AppPageUiTest extends BaseUiTestCase {
+public class AppTableSortingTest extends BaseUiTestCase {
     private static Browser browser;
     private static AppPage page;
 
@@ -18,7 +18,7 @@ public class AppPageUiTest extends BaseUiTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
-        page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/appPage0.html"));
+        page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/appTableSortingTestPage.html"));
     }
     
     @Test
