@@ -25,7 +25,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Const.TaskQueue;
 import teammates.storage.api.CommentsDb;
@@ -953,10 +952,10 @@ public class CommentsLogic {
     public void sendCommentNotification(String courseId) {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(Const.ParamsNames.EMAIL_COURSE, courseId);
-        paramMap.put(Const.ParamsNames.EMAIL_TYPE, EmailType.PENDING_COMMENT_CLEARED.toString());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(TaskQueue.PREPARE_EMAIL_QUEUE_NAME, TaskQueue.PREPARE_EMAIL_WORKER_URL, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME,
+                                        TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL, paramMap);
     }
     
 }

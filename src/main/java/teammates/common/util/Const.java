@@ -1019,6 +1019,11 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
         
+        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME =
+                "feedback-session-published-email-queue";
+        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionPublishedEmail";
+        
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = "/worker/feedbackSessionRemindEmail";
         
@@ -1027,8 +1032,15 @@ public final class Const {
         public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionRemindParticularUsersEmail";
         
-        public static final String PREPARE_EMAIL_QUEUE_NAME = "prepare-email-queue";
-        public static final String PREPARE_EMAIL_WORKER_URL = "/worker/prepareEmail";
+        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME =
+                "feedback-session-unpublished-email-queue";
+        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionUnpublishedEmail";
+        
+        public static final String PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME =
+                "pending-comment-cleared-email-queue";
+        public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
+                "/worker/pendingCommentClearedEmail";
         
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";

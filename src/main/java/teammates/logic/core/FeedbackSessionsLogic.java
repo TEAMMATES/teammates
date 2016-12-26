@@ -39,7 +39,6 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Const.TaskQueue;
-import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
@@ -2682,21 +2681,23 @@ public class FeedbackSessionsLogic {
     }
 
     private void sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
-        addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_PUBLISHED);
-    }
-    
-    public void sendFeedbackSessionUnpublishedEmail(FeedbackSessionAttributes session) {
-        addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_UNPUBLISHED);
-    }
-
-    private void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes session, EmailType emailType) {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.EMAIL_FEEDBACK, session.getFeedbackSessionName());
         paramMap.put(ParamsNames.EMAIL_COURSE, session.getCourseId());
-        paramMap.put(ParamsNames.EMAIL_TYPE, emailType.toString());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(TaskQueue.PREPARE_EMAIL_QUEUE_NAME, TaskQueue.PREPARE_EMAIL_WORKER_URL, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME,
+                                        TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, paramMap);
+    }
+    
+    public void sendFeedbackSessionUnpublishedEmail(FeedbackSessionAttributes session) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, session.getFeedbackSessionName());
+        paramMap.put(ParamsNames.EMAIL_COURSE, session.getCourseId());
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME,
+                                        TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, paramMap);
     }
     
 }

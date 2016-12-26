@@ -55,6 +55,13 @@
 </queue>  
 
     <queue>
+        <name>feedback-session-published-email-queue</name>
+        <!-- Configuration allows for reminders for 1 feedback session to be queued for execution every second when the bucket is empty -->
+        <rate>1/s</rate>
+        <bucket-size>1</bucket-size>
+    </queue>
+
+    <queue>
         <name>feedback-session-remind-email-queue</name>
         <!-- Configuration allows for 5 feedback reminder emails to be queued when the bucket is not full -->
         <rate>5/s</rate>
@@ -75,8 +82,15 @@
     </queue>
 
     <queue>
-        <name>prepare-email-queue</name>
+        <name>feedback-session-unpublished-email-queue</name>
         <!-- Configuration allows for reminders for 1 feedback session to be queued for execution every second when the bucket is empty -->
+        <rate>1/s</rate>
+        <bucket-size>1</bucket-size>
+    </queue>
+
+    <queue>
+        <name>pending-comment-cleared-email-queue</name>
+        <!-- Configuration allows for comments notifications for 1 course to be queued for execution every second when the bucket is empty -->
         <rate>1/s</rate>
         <bucket-size>1</bucket-size>
     </queue>
