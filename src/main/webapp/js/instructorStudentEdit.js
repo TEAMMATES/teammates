@@ -12,7 +12,8 @@ function readyInstructorStudentEditPage() {
     
     $(INSTRUCTOR_STUDENT_EDIT_FORM).on('submit', function(event) {
         
-        var isEmailFieldChanged = $('#newstudentemail').val() !== $('#studentemail').val();
+        var newStudentEmail = $('#newstudentemail').val();
+        var isEmailFieldChanged = newStudentEmail !== $('#studentemail').val();
         var isOpenOrPublishedEmailSentInThisCourse = $('#openorpublishedemailsent').val();
         
         if ($(INSTRUCTOR_STUDENT_EDIT_FORM).attr('editStatus') === 'mustDeleteResponses') {
@@ -24,7 +25,7 @@ function readyInstructorStudentEditPage() {
             var okCallback = function() {
                 
                 if (isEmailFieldChanged && isOpenOrPublishedEmailSentInThisCourse) {
-                    sendEmailToNewEmailOption(event);
+                    sendEmailToNewEmailOption(event, newStudentEmail);
                 } else {
                     event.target.submit();
                 }
@@ -33,14 +34,14 @@ function readyInstructorStudentEditPage() {
             BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
                     BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
         } else if (isEmailFieldChanged && isOpenOrPublishedEmailSentInThisCourse) {
-            sendEmailToNewEmailOption(event);
+            sendEmailToNewEmailOption(event, newStudentEmail);
         }
     });
     
-    function sendEmailToNewEmailOption(event) {
+    function sendEmailToNewEmailOption(event, newStudentEmail) {
         event.preventDefault();
         var messageText = 'Do you want to resend past session links of this course to the new email '
-                + $('#newstudentemail').val() + '?';
+                + newStudentEmail + '?';
         var yesCallback = function() {
             $('#isSendEmail').val(true);
             event.target.submit();

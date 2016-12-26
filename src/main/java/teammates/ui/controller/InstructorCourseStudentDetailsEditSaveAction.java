@@ -66,16 +66,15 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             
             logic.updateStudent(studentEmail, student);
             
-            boolean isSendEmail = getRequestParamAsBoolean(Const.ParamsNames.EMAIL_SEND_CHECK);
-            if (isEmailChanged && isSendEmail) {
+            boolean isSessionSummarySendEmail = getRequestParamAsBoolean(Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK);
+            if (isEmailChanged && isSessionSummarySendEmail) {
                 logic.sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(courseId, student);
             }
-            if (isSendEmail) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT,
-                                                   StatusMessageColor.SUCCESS));
-            } else {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
-            }
+            
+            statusToUser.add(new StatusMessage(isSessionSummarySendEmail
+                                ? Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT
+                                : Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
+            
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + "'s</span> details in "
                             + "Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                             + "New Email: " + student.email + "<br>New Team: " + student.team + "<br>"

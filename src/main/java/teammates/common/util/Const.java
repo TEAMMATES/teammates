@@ -794,7 +794,7 @@ public final class Const {
         public static final String EMAIL_COURSE = "course";
         public static final String EMAIL_FEEDBACK = "feedback";
         public static final String EMAIL_TYPE = "type";
-        public static final String EMAIL_SEND_CHECK = "sessionsummarysendemail";
+        public static final String SESSION_SUMMARY_EMAIL_SEND_CHECK = "sessionsummarysendemail";
         public static final String OPEN_OR_PUBLISHED_EMAIL_SEND_CHECK = "openorpublishedemailsent";
         
         public static final String EMAIL_CONTENT = "content";

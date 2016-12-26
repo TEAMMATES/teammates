@@ -1000,7 +1000,7 @@ var BootboxWrapper = {
      * Custom confirmation dialog to replace default confirm() function
      * Required params: titleText, messageText and okCallback
      * Optional params: cancelCallBack (defaults to null)
-     *                  okButtonText (defaults to "Ok")
+     *                  okButtonText (defaults to "OK")
      *                  cancelButtonText (defaults to "Cancel")
      *                  color (defaults to StatusType.INFO)
      */

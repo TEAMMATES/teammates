@@ -87,8 +87,10 @@ public class EmailGenerator {
     }
     
     /**
-     * Generates the summary of the feedback sessions (in which at least one
-     * email has been sent to students) email for the given {@code courseId} for {@code student}
+     * Generates the email containing the summary of the feedback sessions
+     * email for the given {@code courseId} for {@code student}
+     * @param courseId
+     * @param student
      */
     public EmailWrapper generateFeedbackSessionSummaryOfCourse(String courseId, StudentAttributes student) {
         

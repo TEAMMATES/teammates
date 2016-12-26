@@ -2494,15 +2494,11 @@ public class Logic {
         commentsLogic.sendCommentNotification(courseId);
     }
     
-    /**
-     * This method sends all links (sent previously in the course) to
-     * the new email address.
-     */
-    public EmailWrapper sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(String courseId,
+    public void sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(String courseId,
             StudentAttributes student) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
-        return feedbackSessionsLogic.sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(courseId, student);
+        feedbackSessionsLogic.sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(courseId, student);
     }
 
     /**
