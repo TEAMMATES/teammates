@@ -1652,14 +1652,6 @@ public class FeedbackSessionsLogic {
                 TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
     }
 
-    public void scheduleFeedbackSessionOpeningEmails() {
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
-
-        for (FeedbackSessionAttributes session : sessions) {
-            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_OPENING);
-        }
-    }
-
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
         ArrayList<FeedbackSessionAttributes> requiredSessions = new
                 ArrayList<FeedbackSessionAttributes>();
@@ -1693,23 +1685,6 @@ public class FeedbackSessionsLogic {
             }
         }
         return requiredSessions;
-    }
-
-    public void scheduleFeedbackSessionClosingEmails() {
-
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsClosingWithinTimeLimit();
-
-        for (FeedbackSessionAttributes session : sessions) {
-            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_CLOSING);
-        }
-    }
-    
-    public void scheduleFeedbackSessionClosedEmails() {
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsClosedWithinThePastHour();
-
-        for (FeedbackSessionAttributes session : sessions) {
-            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_CLOSED);
-        }
     }
 
     public void scheduleFeedbackSessionPublishedEmails() {
