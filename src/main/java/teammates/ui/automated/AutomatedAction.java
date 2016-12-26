@@ -8,7 +8,13 @@ import teammates.common.util.Logger;
 
 /**
  * An automated "action" to be performed by the system, triggered by cron jobs or task queues.
- * Non-administrators are barred from performing this class of action.
+ * <p>
+ * This class of action is different from the non-automated ones in the following manner:
+ * <ul>
+ *     <li>Non-administrators are barred from performing it.</li>
+ *     <li>The limit for request is 10 minutes instead of 1 minute.</li>
+ * </ul>
+ * </p>
  */
 public abstract class AutomatedAction {
     
