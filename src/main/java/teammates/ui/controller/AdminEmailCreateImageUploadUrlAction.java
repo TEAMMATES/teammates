@@ -8,7 +8,7 @@ public class AdminEmailCreateImageUploadUrlAction extends CreateImageUploadUrlAc
 
     @Override
     protected ActionResult execute() {
-        return createAjaxResult(createImageUploadUrlPageData());
+        return createAjaxResult(getCreateImageUploadUrlPageData());
     }
 
     protected void verifyPrivileges() {

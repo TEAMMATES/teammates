@@ -13,7 +13,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class ImageUploadAction extends Action {
 
-    FileUploadPageData data;
+    private FileUploadPageData data;
 
     @Override
     protected ActionResult execute() {

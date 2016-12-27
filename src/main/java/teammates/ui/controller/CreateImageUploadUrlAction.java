@@ -10,10 +10,10 @@ public class CreateImageUploadUrlAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        return createAjaxResult(createImageUploadUrlPageData());
+        return createAjaxResult(getCreateImageUploadUrlPageData());
     }
 
-    protected final CreateImageUploadUrlAjaxPageData createImageUploadUrlPageData() {
+    protected final CreateImageUploadUrlAjaxPageData getCreateImageUploadUrlPageData() {
         verifyPrivileges();
         CreateImageUploadUrlAjaxPageData data = new CreateImageUploadUrlAjaxPageData(account);
 
