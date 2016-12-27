@@ -1,6 +1,24 @@
 // TODO: Move constants from Common.js into appropriate files if not shared.
 var TIMEZONE_SELECT_UNINITIALISED = '-9999';
 
+$(document).ready(function() {
+    var isEdit = typeof readyFeedbackEditPage === 'function';
+
+    if (typeof RichTextEditor !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#instructions',
+                inline: true,
+                readonly: isEdit,
+                fixed_toolbar_container: '#richtext-toolbar-container'
+            }
+        });
+        richTextEditor.init();
+        /* eslint-enable camelcase */
+    }
+});
+
 /**
  * Check whether the feedback question input is valid
  * @param form
@@ -337,21 +355,3 @@ function collapseIfPrivateSession() {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
     }
 }
-
-$(document).ready(function() {
-    var isEdit = typeof readyFeedbackEditPage === 'function';
-
-    if (typeof RichTextEditor !== 'undefined') {
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        var richTextEditor = new RichTextEditor({
-            initParams: {
-                selector: '#instructions',
-                inline: true,
-                readonly: isEdit,
-                fixed_toolbar_container: '#richtext-toolbar-container'
-            }
-        });
-        richTextEditor.init();
-        /* eslint-enable camelcase */
-    }
-});

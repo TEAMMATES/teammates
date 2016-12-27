@@ -22,15 +22,9 @@ function RichTextEditor(params) {
     };
 
     var prepareAdditionalParams = function() {
-        if (!additionalParams.uploadImageId) {
-            additionalParams.uploadImageId = 'uploadImage';
-        }
-        if (!additionalParams.uploadImageInputName) {
-            additionalParams.uploadImageInputName = 'imagetoupload';
-        }
-        if (!additionalParams.createImageUploadUrl) {
-            additionalParams.createImageUploadUrl = '/page/createImageUploadUrl';
-        }
+        additionalParams.uploadImageId = additionalParams.uploadImageId || 'uploadImage';
+        additionalParams.uploadImageInputName = additionalParams.uploadImageInputName || 'imagetoupload';
+        additionalParams.createImageUploadUrl = additionalParams.createImageUploadUrl || '/page/createImageUploadUrl';
 
         checkMandatoryParams(MANDATORY_ADDITIONAL_PARAMS, additionalParams);
     };
@@ -99,7 +93,7 @@ function RichTextEditor(params) {
                 showUploadingGif();
             },
             error: function() {
-                setErrorMessage('URL request failured, please try again.');
+                setErrorMessage('URL request failed, please try again.');
             },
             success: function(data) {
                 setTimeout(function() {
@@ -166,9 +160,9 @@ function RichTextEditor(params) {
         $('body').append($('<div id="uploadFileBlock" style="display: none;"></div>'));
         $('#uploadFileBlock').append(
                 '<form id="' + uploadImageId + 'Form" action="" method="POST" enctype="multipart/form-data">');
-        $('#' + uploadImageId + 'Form').append('<span id="' + uploadImageId + 'Input" />');
+        $('#' + uploadImageId + 'Form').append('<span id="' + uploadImageId + 'Input"></span>');
         $('#' + uploadImageId + 'Input').append(
-                '<input type="file" id="' + uploadImageId + '" name="' + uploadImageInputName + '" />');
+                '<input type="file" id="' + uploadImageId + '" name="' + uploadImageInputName + '"></input>');
 
         $('#' + uploadImageId).on('change paste keyup', function() {
             createImageUploadUrl();
