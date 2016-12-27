@@ -1,13 +1,16 @@
-# Development
+# Development Guideline
+
+These are the common tasks involved when working on features, enhancements, bug fixes, etc. for TEAMMATES.
+
 * [Managing the dev server](#managing-the-dev-server)
-* [Logging in to the system](#logging-in-to-the-system)
+* [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
 * [Testing](#testing)
 * [Deploying to a staging server](#deploying-to-a-staging-server)
 * [Running client scripts](#running-client-scripts)
 * [Config points](#config-points)
 
 The instructions in all parts of this document work for Linux, OS X, and Windows, with the following pointers:
-- Change `./gradlew` to `gradlew.bat` in Windows.
+- Replace `./gradlew` to `gradlew.bat` if you are using Windows.
 - All the commands are assumed to be run from the root project folder, unless otherwise specified.
 - It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](settingUp.md).
 
@@ -22,6 +25,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 * To start the dev server, right-click on the project folder and choose `Run As → Web Application`.<br>
   After some time, you should see this message (or similar) on the Eclipse console: `Dev App Server is now running`.
   The dev server URL will be given at the console output, e.g `http://localhost:8888`.
+
 * To stop the dev server, click the "Terminate" icon on the Eclipse console.
 
 ### Outside Eclipse
@@ -40,7 +44,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
   ./gradlew appengineStop
   ```
 
-## Logging in to the system
+## Logging in to a TEAMMATES instance
 
 This instruction set applies for both dev server and production server, with slight differences explained where applicable.
 - The local dev server is assumed to be accessible at `http://localhost:8888`.
@@ -144,15 +148,14 @@ When running the test cases, if a few cases fail (this can happen due to timing 
 
 Typically, we run the test suite within Eclipse, but core developers may prefer to run it outside Eclipse so that they can continue to use Eclipse while the test suite is running. If you wish to do such, given below is the procedure:
 
-* Start the dev server.
+1. Start the dev server.
 
-* Run the following command from the project root folder:
-  ```sh
-  ./gradlew travisTests
-  ```
-  This will run the full test suite once and retry the failed tests several times.
+1. Run the following command to run the full test suite once and retry the failed tests several times:
+   ```sh
+   ./gradlew travisTests
+   ```
 
-* The final result can be viewed by opening `{project folder}/build/reports/test-try-{n}/index.html`, where `{n}` is the sequence number of the test run.
+1. The final result can be viewed by opening `{project folder}/build/reports/test-try-{n}/index.html`, where `{n}` is the sequence number of the test run.
 
 ## Deploying to a staging server
 

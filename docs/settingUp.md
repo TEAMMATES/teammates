@@ -1,7 +1,10 @@
 # Setting up a development environment
 
+This is a step-by-step guide to setting up a development environment in your local machine.
+You will use that environment to work on features, enhancements, bug fixes, etc. which ultimately allows you to contribute to the project.
+
 The instructions in all parts of this document work for Linux, OS X, and Windows, with the following pointers:
-- Change `./gradlew` to `gradlew.bat` in Windows.
+- Replace `./gradlew` to `gradlew.bat` if you are using Windows.
 - All the commands are assumed to be run from the root project folder, unless otherwise specified.
 - When a version is specified for any tool, install that version instead of the latest version available.
 
@@ -45,9 +48,9 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 ## Step 4: Set up Eclipse IDE
 
-Eclipse IDE is our preferred development environment and support request for TEAMMATES-specific Eclipse issues will be entertained.
+Eclipse IDE is our preferred development environment. Support requests related to other IDEs will not be entertained.
 
-> Change all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` in Windows.
+> Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows.
 
 1. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) version Luna and install the following plugins:
    * [Google Plugin for Eclipse version 4.4](https://developers.google.com/eclipse/docs/install-eclipse-4.4).<br>
