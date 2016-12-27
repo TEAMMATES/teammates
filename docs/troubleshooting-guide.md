@@ -1,23 +1,16 @@
 # Developer Troubleshooting Guide
 
+This document can help you to fix the common problems encountered while contributing to TEAMMATES.
+Note that some of the screenshots might be outdated, but the instructions will remain the same and all necessary modifications will be explained.
+
 * [Troubleshooting project setup](#troubleshooting-project-setup)
     * [Setup checklist](#setup-checklist)
     * [Common setup errors and solutions](#common-setup-errors-and-solutions)
 * [Troubleshooting test failures](#troubleshooting-test-failures)
     * [Optimizing IDE layout for testing](#optimizing-ide-layout-for-testing)
     * [How automated browser tests work](#how-automated-browser-tests-work)
-    * [Getting help to resolve test failures](#getting-help-to-resolve-test-failures)
     * [Common test errors and solutions](#common-test-errors-and-solutions)
-
-This document can help you to fix the problems encountered while contributing to TEAMMATES. Failing that, you can [post in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to ask for help. Remember to supply as much relevant information as possible when asking for help, e.g:
-
-1. How the issue originates
-1. Step in the setting up guide that you are in (if you are setting up the project)
-1. What measures you have taken to address the issue
-1. Operating system, JDK version, Eclipse version, Firefox version (where applicable)
-1. Screenshots (if any)
-
-Note that some of the screenshots might be outdated, but the instructions will remain the same and all necessary modifications will be explained.
+* [Submitting help request](#submitting-help-request)
 
 ## Troubleshooting project setup
 
@@ -50,9 +43,9 @@ Use this checklist to verify that your project setup is correct.
     ![setup-checklist-3.png](images/setup-checklist-3.png)
 
 1. **Check the SDK version**
-   ```
+
    Note: We are using version 1.9.27 instead of 1.9.4
-   ```
+
     `Project → Properties → Google → App Engine`
 
     ![setup-checklist-4.png](images/setup-checklist-4.png)
@@ -127,12 +120,6 @@ Expected | Actual | Explanation
 
 Furthermore, you might see tags such as `${test.student1}` and `${version}` in some of the expected files (e.g. `studentHomeHTML.html`) if you open them in Eclipse. The test code will replace those tags with correct values before performing the comparison. For example, `${version}` will be replaced by something like `4.89`.
 
-### Getting help to resolve test failures
-
-Remember to state which tests are failing and for each of those:
-* The detailed error message (taken from the TestNG tab)
-* Any relevant screenshots (e.g. screenshot of the diff window showing the offending difference)
-
 ### Common test errors and solutions
 
 1. **ERROR**: Encountered `java.net.ConnectException: Connection refused` when running some tests.
@@ -196,3 +183,14 @@ Remember to state which tests are failing and for each of those:
 1. **ERROR (on Linux)**: `java.io.IOException: Directory "/tmpfiles" could not be created`.
 
    **SOLUTION**: Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations. The "tmp" folder in the specified directory needs to be created before running the tests.
+
+# Submitting help request
+
+If none of the items in this guide helps with the problem you face, you can [post in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to request for help.
+Remember to supply as much relevant information as possible when requestng for help, e.g.:
+
+1. Step in the setting up guide that you are in (if you are setting up the project), or which tests are failing (if you are resolving test failures)
+1. Error messages shown on the console (or from the TestNG tab if resolving test failures)
+1. What measures you have taken to address the problem
+1. Operating system, JDK version, Eclipse version, Firefox version (where applicable)
+1. Screenshots (if any)
