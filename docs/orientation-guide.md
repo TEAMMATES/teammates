@@ -3,7 +3,6 @@
 We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/about.jsp) for a list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in a OSS production environment. Here are some information that might be useful to would-be contributors.
 
 * [Knowledge required](#knowledge-required)
-* [Dev community structure](#dev-community-structure)
 * [Getting started](#getting-started)
 * [Orientation task list](#orientation-task-list)
 * [Contacting us](#contacting-us)
@@ -25,14 +24,6 @@ Roles:
 * **Test developer**: Works on automating system tests.
 * **Frontend developer**: Works on the frontend of the App that is generated dynamically from the server side.
 * **Backend developer**: Works on the backend logic of the App, including data storage.
-
-## Dev community structure
-
-[TEAMMATES community](https://teammatesv4.appspot.com/about.jsp) has three tiers, defined based on the level of involvement.
-
-* **Contributor**: Small but noteworthy contribution(s) to the project.
-* **Committer**: Significant contributions sustained over a long period of time.
-* **Core member**: Significant and sustained contributions in recent times. Core members can progress through the levels: **Snr Developer**, **Area Lead**, **Project Lead**, and **Project Mentor**.
 
 ## Getting started
 
