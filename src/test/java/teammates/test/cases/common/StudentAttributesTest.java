@@ -408,8 +408,7 @@ public class StudentAttributesTest extends BaseTestCase {
     }
     
     private StudentAttributes generateValidStudentAttributesObject() {
-        StudentAttributes s;
-        s = new StudentAttributes();
+        StudentAttributes s = new StudentAttributes();
         s.googleId = "valid.google.id";
         s.name = "valid name";
         s.email = "valid@email.com";

@@ -20,7 +20,8 @@ public class TimezoneSyncerTest extends BaseUiTestCase {
     public static void classSetUp() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
-        page = AppPage.getNewPageInstance(browser).navigateTo(createUrl("/timezone.jsp"));
+        loginAdmin(browser);
+        page = AppPage.getNewPageInstance(browser).navigateTo(createUrl(Const.ViewURIs.TIMEZONE));
     }
     
     @Test

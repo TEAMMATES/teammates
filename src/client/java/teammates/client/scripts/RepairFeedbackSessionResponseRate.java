@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -22,7 +21,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.api.Logic;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.FeedbackSession;
 
 /**
@@ -68,8 +66,6 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-        
         List<FeedbackSessionAttributes> feedbackSessions;
         if (numDays > 0) {
             feedbackSessions = getFeedbackSessionsWithStartDateNoOlderThan(numDays);
@@ -176,8 +172,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
                                                     Date startDate, Date endDate) {
         List<FeedbackSessionAttributes> result = new ArrayList<>();
         
-        PersistenceManager pm = Datastore.getPersistenceManager();
-        Query query = pm.newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
+        Query query = PM.newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
                                 + "WHERE this.startTime >= rangeStart && this.startTime < rangeEnd "
                                 + "PARAMETERS java.util.Date rangeStart, "
                                 + "java.util.Date rangeEnd");

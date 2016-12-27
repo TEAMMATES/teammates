@@ -24,8 +24,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     private static String[] excludedLogRequestURIs = {
             Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,
-            // this servlet name is set in CompileLogsServlet
-            Const.AutomatedActionNames.AUTOMATED_LOG_COMPILATION
+            Const.ActionURIs.AUTOMATED_LOG_COMPILATION
     };
     
     private String filterQuery;
