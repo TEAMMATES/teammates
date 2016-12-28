@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
@@ -49,9 +48,9 @@ public class TaskQueuer {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
         paramMap.put(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, addressReceiverListString);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE);
         
-        addTask(TaskQueue.ADMIN_PREPARE_EMAIL_QUEUE_NAME, TaskQueue.ADMIN_PREPARE_EMAIL_WORKER_URL, paramMap);
+        addTask(TaskQueue.ADMIN_PREPARE_EMAIL_ADDRESS_MODE_QUEUE_NAME,
+                TaskQueue.ADMIN_PREPARE_EMAIL_ADDRESS_MODE_WORKER_URL, paramMap);
     }
     
     /**
@@ -75,9 +74,9 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY, groupReceiverListFileKey);
         paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, Integer.toString(emailListIndex));
         paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, Integer.toString(emailIndex));
-        paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE);
         
-        addTask(TaskQueue.ADMIN_PREPARE_EMAIL_QUEUE_NAME, TaskQueue.ADMIN_PREPARE_EMAIL_WORKER_URL, paramMap);
+        addTask(TaskQueue.ADMIN_PREPARE_EMAIL_GROUP_MODE_QUEUE_NAME,
+                TaskQueue.ADMIN_PREPARE_EMAIL_GROUP_MODE_WORKER_URL, paramMap);
     }
     
     /**
