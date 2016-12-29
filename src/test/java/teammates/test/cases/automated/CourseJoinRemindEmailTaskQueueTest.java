@@ -6,7 +6,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
 import teammates.logic.api.Logic;
@@ -30,8 +29,7 @@ public class CourseJoinRemindEmailTaskQueueTest extends BaseComponentUsingTaskQu
             assertNotNull(paramMap.get(ParamsNames.STUDENT_EMAIL));
             
             CourseJoinRemindEmailTaskQueueCallback.taskCount++;
-             
-            return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
+            return TASK_QUEUE_RESPONSE_OK;
         }
     }
     

@@ -11,6 +11,8 @@ public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
 
     public static int taskCount;
     
+    protected static final int TASK_QUEUE_RESPONSE_OK = 200;
+    
     @Override
     public void initialize(Map<String, String> arg0) {
         taskCount = 0;

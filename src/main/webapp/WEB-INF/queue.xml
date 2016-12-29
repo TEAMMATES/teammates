@@ -5,15 +5,6 @@
   <name>default</name>  
   <rate>4/s</rate>  
 </queue>
-<queue>  
-  <name>configure-and-prepare-email-queue</name>  
-  <!-- Configuration allows for reminders for 
-       1 evaluation/feedback session to be queued 
-       for execution every second when the bucket is empty
-  -->
-  <rate>1/s</rate>
-  <bucket-size>1</bucket-size>  
-</queue>
 
     <queue>
         <name>admin-prepare-email-queue</name>
@@ -47,21 +38,28 @@
         </retry-parameters>
     </queue>
 
-<queue>  
-  <name>feedback-submission-adjust-queue</name>  
-  <!-- Processes each feedback adjustment sequentially
-  -->
-  <rate>1/s</rate>
-  <bucket-size>5</bucket-size>
-  <max-concurrent-requests>1</max-concurrent-requests>
-  <retry-parameters>
-      <task-retry-limit>2</task-retry-limit>
-  </retry-parameters>  
-</queue>     
+    <queue>
+        <name>feedback-response-adjustment-queue</name>
+        <!-- Processes each feedback adjustment sequentially -->
+        <rate>1/s</rate>
+        <bucket-size>5</bucket-size>
+        <max-concurrent-requests>1</max-concurrent-requests>
+        <retry-parameters>
+            <task-retry-limit>2</task-retry-limit>
+        </retry-parameters>
+    </queue>
+
 <queue>  
   <name>search-document</name>  
   <rate>4/s</rate>  
 </queue>  
+
+    <queue>
+        <name>feedback-session-published-email-queue</name>
+        <!-- Configuration allows for reminders for 1 feedback session to be queued for execution every second when the bucket is empty -->
+        <rate>1/s</rate>
+        <bucket-size>1</bucket-size>
+    </queue>
 
     <queue>
         <name>feedback-session-remind-email-queue</name>
@@ -81,6 +79,20 @@
         <retry-parameters>
             <task-retry-limit>2</task-retry-limit>
         </retry-parameters>
+    </queue>
+
+    <queue>
+        <name>feedback-session-unpublished-email-queue</name>
+        <!-- Configuration allows for reminders for 1 feedback session to be queued for execution every second when the bucket is empty -->
+        <rate>1/s</rate>
+        <bucket-size>1</bucket-size>
+    </queue>
+
+    <queue>
+        <name>pending-comment-cleared-email-queue</name>
+        <!-- Configuration allows for comments notifications for 1 course to be queued for execution every second when the bucket is empty -->
+        <rate>1/s</rate>
+        <bucket-size>1</bucket-size>
     </queue>
 
     <queue>
