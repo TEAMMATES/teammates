@@ -749,7 +749,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         initialCal.setTime(cal.getTime());
         //cal.add(Calendar.DATE, -50);
         Calendar changedEndDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        changedEndDate.set(2014, 2, 20, 0, 0, 0);
+        changedEndDate.set(2014, 1, 20, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, changedEndDate);
 
         valueOfStartDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
@@ -769,7 +769,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         //cal.add(Calendar.DATE, -10);
         Calendar changedVisibleDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        changedVisibleDate.set(2014, 2, 10, 0, 0, 0);
+        changedVisibleDate.set(2014, 1, 10, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, changedVisibleDate);
 
         valueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
@@ -780,7 +780,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         //cal.add(Calendar.DATE, 9);
         Calendar changedPublishDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        changedPublishDate.set(2014, 2, 19, 0, 0, 0);
+        changedPublishDate.set(2014, 1, 19, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
 
         valueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
@@ -795,7 +795,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, changedStartDate);
 
 
-        changedPublishDate.set(2014, 3, 21, 0, 0, 0);
+        changedPublishDate.set(2014, 2, 21, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
         //check if maxDate is start time and not publish time
 
