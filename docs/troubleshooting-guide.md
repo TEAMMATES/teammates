@@ -26,7 +26,8 @@ Use this checklist to verify that your project setup is correct.
 
     In Eclipse, go to `Help → Install new software → What's already installed`.
     
-    Ensure that Google Plugin version is `4.4` (not `4.3` as shown in the screenshot) and TestNG is installed.
+    * Ensure that Google Plugin version is `4.4` (Luna), `4.5` (Mars), or `4.6` (Neon), not `4.3` as shown in the screenshot.
+    * Ensure that TestNG is installed.
 
     ![setup-checklist-1.png](images/setup-checklist-1.png)
 

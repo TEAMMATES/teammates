@@ -52,8 +52,8 @@ Eclipse IDE is our preferred development environment. Support requests related t
 
 > Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows.
 
-1. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) version Luna and install the following plugins:
-   * [Google Plugin for Eclipse version 4.4](https://developers.google.com/eclipse/docs/install-eclipse-4.4).<br>
+1. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) version Luna, Mars, or Neon, and install the following plugins:
+   * [Google Plugin for Eclipse](https://developers.google.com/eclipse/docs/download). Use the correct version for your Eclipse IDE.<br>
      Be careful to omit other plugins shown on the screen (e.g Google App Engine Tools for Android, GWT plugin).<br>
      Sometimes the update site for the GAE plugin does not work. In that case, follow the instructions [here](https://developers.google.com/eclipse/docs/install-from-zip).
    * The latest stable [TestNG Eclipse plugin](http://testng.org/doc/download.html).
