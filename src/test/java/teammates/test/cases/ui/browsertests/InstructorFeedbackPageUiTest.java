@@ -810,7 +810,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         // If the client is, this test will always pass.
         assertEquals(feedbackPage.getClientTimeZone(), feedbackPage.getTimeZone());
     }
-\
+
     public void testResponseRateLink() {
         ______TS("test response rate link clickable");
 
