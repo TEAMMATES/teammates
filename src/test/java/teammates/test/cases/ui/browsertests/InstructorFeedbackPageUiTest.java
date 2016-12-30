@@ -780,7 +780,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         //cal.add(Calendar.DATE, 9);
         Calendar changedPublishDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        changedPublishDate.set(2014,2,19,0,0,0);
+        changedPublishDate.set(2014, 2, 19, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
 
         valueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
