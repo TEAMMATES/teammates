@@ -21,7 +21,6 @@ It is provided as a cloud-based service for educators/students and is currently 
 This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/) to go to the TEAMMATES product website.**
 
 [**Documentation**](docs/README.md) |
-[**Team Members**](docs/team.md#core-team-member) |
 [**Version History**](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed) |
 [**Project Stats**](https://www.openhub.net/p/teammatesonline)
 
