@@ -32,15 +32,11 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
-import teammates.logic.automated.EmailAction;
-import teammates.logic.automated.FeedbackSessionPublishedMailAction;
-import teammates.logic.automated.FeedbackSessionUnpublishedMailAction;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -1867,12 +1863,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         fsLogic.publishFeedbackSession(
                 sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
 
-        HashMap<String, String> paramMap = createParamMapForAction(sessionUnderTest, EmailType.FEEDBACK_PUBLISHED);
-        EmailAction fsPublishedAction = new FeedbackSessionPublishedMailAction(paramMap);
-        fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
-        
-        sessionUnderTest.setSentPublishedEmail(true);
-
         // Set real time of publishing
         FeedbackSessionAttributes sessionPublished =
                 fsLogic.getFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
@@ -1895,13 +1885,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         fsLogic.unpublishFeedbackSession(
                 sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
         
-        paramMap = createParamMapForAction(sessionUnderTest, EmailType.FEEDBACK_UNPUBLISHED);
-        EmailAction fsUnpublishedAction = new FeedbackSessionUnpublishedMailAction(paramMap);
-        fsUnpublishedAction.getPreparedEmailsAndPerformSuccessOperations();
-        assertFalse(fsLogic.getFeedbackSession(sessionUnderTest.getFeedbackSessionName(),
-                sessionUnderTest.getCourseId()).isSentPublishedEmail());
-        
-        sessionUnderTest.setSentPublishedEmail(false);
         sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         
         assertEquals(
@@ -2334,16 +2317,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         printTestClassFooter();
     }
 
-    private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs, EmailType emailType) {
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-
-        paramMap.put(ParamsNames.EMAIL_TYPE, emailType.toString());
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.getFeedbackSessionName());
-        paramMap.put(ParamsNames.EMAIL_COURSE, fs.getCourseId());
-
-        return paramMap;
-    }
-    
     private EmailWrapper getEmailToStudent(StudentAttributes student, List<EmailWrapper> emailsSent) {
         for (EmailWrapper email : emailsSent) {
             boolean isEmailSentToThisStudent = email.getRecipient().equalsIgnoreCase(student.email);
