@@ -721,12 +721,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         //cal.add(Calendar.DATE, 30);
         Calendar changedStartDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        changedStartDate.set(2014,4,16,0,0,0);
+        changedStartDate.set(2014, 4, 16, 0, 0, 0);
 
         //feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, changedStartDate);
         valueOfEndDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE);
-        assertEquals(sdf.format(initialCal.getTime()),valueOfEndDate);
+        assertEquals(sdf.format(initialCal.getTime()), valueOfEndDate);
 
 
         ______TS("decreasing start date affects visible time, end date range and publish date range");
@@ -736,48 +736,44 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, changedStartDate);
 
         valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(cal.getTime()),valueOfVisibleDate);
+        assertEquals(sdf.format(cal.getTime()), valueOfVisibleDate);
 
         maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(cal.getTime()),maxValueOfVisibleDate);
+        assertEquals(sdf.format(cal.getTime()), maxValueOfVisibleDate);
 
         minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
-        assertEquals(sdf.format(cal.getTime()),minValueOfPublishDate);
+        assertEquals(sdf.format(cal.getTime()), minValueOfPublishDate);
 
 
         ______TS("decreasing end date does not affects start time or visible time");
         initialCal.setTime(cal.getTime());
         //cal.add(Calendar.DATE, -50);
         Calendar changedEndDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        changedEndDate.set(2014,2,20,0,0,0);
+        changedEndDate.set(2014, 2, 20, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, changedEndDate);
 
         valueOfStartDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
-        assertEquals(sdf.format(initialCal.getTime()),
-                     valueOfStartDate);
+        assertEquals(sdf.format(initialCal.getTime()), valueOfStartDate);
 
         valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(initialCal.getTime()),
-                     valueOfVisibleDate);
+        assertEquals(sdf.format(initialCal.getTime()), valueOfVisibleDate);
 
         maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(initialCal.getTime()),
-                     maxValueOfVisibleDate);
+        assertEquals(sdf.format(initialCal.getTime()), maxValueOfVisibleDate);
 
         minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
-        assertEquals(sdf.format(initialCal.getTime()),
-                     minValueOfPublishDate);
+        assertEquals(sdf.format(initialCal.getTime()), minValueOfPublishDate);
 
 
         ______TS("changing visible date affects publish date range");
 
         //cal.add(Calendar.DATE, -10);
         Calendar changedVisibleDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        changedVisibleDate.set(2014,2,10,0,0,0);
+        changedVisibleDate.set(2014, 2, 10, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, changedVisibleDate);
 
         valueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
-        assertEquals(sdf.format(cal.getTime()),valueOfPublishDate);
+        assertEquals(sdf.format(cal.getTime()), valueOfPublishDate);
 
 
         ______TS("changing publish date affects visible date range publishTime < startTime");
@@ -788,23 +784,23 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
 
         valueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(cal.getTime()),valueOfVisibleDate);
+        assertEquals(sdf.format(cal.getTime()), valueOfVisibleDate);
 
 
         ______TS("changing publish date does not affect visible date range publishTime > startTime");
 
 
-        changedStartDate.set(2014, 1, 19);
+        changedStartDate.set(2014, 1, 19, 0, 0, 0);
         initialCal.setTime(cal.getTime());
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, changedStartDate);
 
 
-        changedPublishDate.set(2014,3,21,0,0,0);
+        changedPublishDate.set(2014, 3, 21, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
         //check if maxDate is start time and not publish time
 
         valueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(initialCal.getTime()),valueOfVisibleDate);
+        assertEquals(sdf.format(initialCal.getTime()), valueOfVisibleDate);
 
     }
 
