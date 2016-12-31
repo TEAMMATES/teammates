@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>  
 <queue-entries>
   
-<queue>  
-  <name>default</name>  
-  <rate>4/s</rate>  
-</queue>
-
     <queue>
         <name>admin-prepare-email-queue</name>
         <rate>1/s</rate>
@@ -48,11 +43,6 @@
             <task-retry-limit>2</task-retry-limit>
         </retry-parameters>
     </queue>
-
-<queue>  
-  <name>search-document</name>  
-  <rate>4/s</rate>  
-</queue>  
 
     <queue>
         <name>feedback-session-published-email-queue</name>
