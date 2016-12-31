@@ -399,7 +399,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
-        
+        /*
         SortedMap<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>(new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
@@ -408,8 +408,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         });
         
         sortedOptionPoints.putAll(optionPoints);
-        
-        for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
+        */
+        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
@@ -491,7 +491,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private Map<String, List<Integer>> generateOptionPointsMapping(
             List<FeedbackResponseAttributes> responses) {
         
-        Map<String, List<Integer>> optionPoints = new HashMap<String, List<Integer>>();
+        Map<String, List<Integer>> optionPoints = new TreeMap<String, List<Integer>>();
         for (FeedbackResponseAttributes response : responses) {
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
             
