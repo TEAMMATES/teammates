@@ -53,7 +53,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
 
 4. Add remote names for committer repo (let's call it `upstream`)
    ```
-   git remote add   upstream      https://github.com/TEAMMATES/teammates.git
+   git remote add   upstream      https://github.com/TEAMMATES/repo.git
    ```
 
 5. Update your local repo (the one you created when setting up the project on your computer) 
