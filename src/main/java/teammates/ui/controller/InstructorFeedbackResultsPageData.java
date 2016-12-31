@@ -44,9 +44,7 @@ import teammates.ui.template.InstructorFeedbackResultsSessionPanel;
 public class InstructorFeedbackResultsPageData extends PageData {
     private static final String MODERATE_RESPONSES_FOR_GIVER = "Moderate Responses";
     private static final String MODERATE_SINGLE_RESPONSE = "Moderate Response";
-
     private static final int RESPONDENTS_LIMIT_FOR_AUTOLOADING = 150;
-
     private static int sectionId;
     private static Pattern sectionIdPattern = Pattern.compile("^section-(\\d+)");
 
@@ -65,7 +63,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private FieldValidator validator = new FieldValidator();
     private String feedbackSessionName;
-
     private String displayableFsName;
     private String displayableCourseId;
 
@@ -78,7 +75,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // for giver > question > recipient, recipient > question > giver,
     // giver > recipient > question, recipient > giver > question
     private LinkedHashMap<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
-
     private Map<FeedbackQuestionAttributes, FeedbackQuestionDetails> questionToDetailsMap = new HashMap<>();
     private Map<String, String> profilePictureLinks = new HashMap<>();
 
@@ -157,7 +153,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             questionPanels.add(questionPanel);
         }
-
     }
 
     private void initCommonVariables(InstructorAttributes instructor, String selectedSection,
@@ -264,7 +259,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             Assumption.fail();
             break;
         }
-
     }
 
     private void buildSectionPanelForViewByParticipantParticipantQuestion(
@@ -693,7 +687,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                 sectionPanel, teamWithoutResponses, teamMembers);
             }
         }
-
     }
 
     private static String getCurrentTeam(FeedbackSessionResultsBundle bundle, String giverIdentifier) {
@@ -731,7 +724,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             addMissingParticipantsPanelsWithoutModerationButtonForTeam(sectionPanel,
                                                         teamName, sortedTeamMembersWithoutResponses);
         }
-
     }
 
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
@@ -763,7 +755,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionPanel.setAbleToLoadResponses(false);
 
         sectionPanels.put(selectedSection, sectionPanel);
-
     }
 
     /**
@@ -1770,5 +1761,4 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public void setLargeNumberOfRespondents(boolean needAjax) {
         this.isLargeNumberOfRespondents = needAjax;
     }
-
 }
