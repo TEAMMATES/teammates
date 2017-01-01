@@ -522,7 +522,7 @@ public class PerformanceProfiler extends Thread {
         Set<String> set = data.students.keySet();
         for (String studentKey : set) {
             StudentAttributes student = data.students.get(studentKey);
-            status.append(' ').append(BackDoor.getStudentAsJson(student.course, student.email));
+            status.append(' ').append(JsonUtils.toJson(BackDoor.getStudent(student.course, student.email)));
         }
         return status.toString();
     }
