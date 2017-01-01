@@ -322,7 +322,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessMcq() throws Exception {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreData(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -488,7 +488,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessMsq() throws Exception {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreData(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -655,7 +655,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessNumScale() throws Exception {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreData(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -745,7 +745,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessConstSumOption() throws Exception {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreData(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -842,7 +842,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessConstSumRecipient() throws Exception {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreData(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -941,7 +941,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessContributionQuestion() throws Exception {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreData(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -1029,7 +1029,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessRubricQuestion() throws Exception {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreData(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -1234,7 +1234,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // Restore responses
         FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreData(dataBundle);
 
         fs = dataBundle.feedbackSessions.get("rubricSession");
         fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);

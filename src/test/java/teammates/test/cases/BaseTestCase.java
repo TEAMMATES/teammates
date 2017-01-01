@@ -71,11 +71,6 @@ public class BaseTestCase {
         removeAndRestoreData(dataBundle);
     }
 
-    protected static void removeAndRestoreDatastoreFromJson(String pathToJsonFile) throws Exception {
-        DataBundle dataBundle = loadDataBundle(pathToJsonFile);
-        removeAndRestoreData(dataBundle);
-    }
-
     protected static void removeAndRestoreData(DataBundle dataBundle) throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         backDoorLogic.removeDataBundle(dataBundle);

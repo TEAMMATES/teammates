@@ -17,13 +17,12 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest {
 
-    private static DataBundle dataBundle;
+    private static DataBundle dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
-        removeAndRestoreDatastoreFromJson("/InstructorEditStudentFeedbackPageTest.json");
+        removeAndRestoreData(dataBundle);
         
         uri = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE;
     }

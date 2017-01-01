@@ -51,13 +51,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private DataBundle dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
+    private static DataBundle dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         gaeSimulation.resetDatastore();
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionsLogicTest.json");
+        removeAndRestoreData(dataBundle);
     }
     
     @Test
@@ -1222,8 +1222,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         ______TS("MCQ results");
         
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreData(newDataBundle);
         session = newDataBundle.feedbackSessions.get("mcqSession");
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         

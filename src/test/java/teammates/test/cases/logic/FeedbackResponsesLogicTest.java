@@ -41,15 +41,16 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private DataBundle typicalBundle = getTypicalDataBundle();
-    private DataBundle questionTypeBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+    private static DataBundle typicalBundle = getTypicalDataBundle();
+    private static DataBundle specialCharBundle = loadDataBundle("/SpecialCharacterTest.json");
+    private static DataBundle questionTypeBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         removeAndRestoreTypicalDataInDatastore();
-        removeAndRestoreDatastoreFromJson("/SpecialCharacterTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreData(specialCharBundle);
+        removeAndRestoreData(questionTypeBundle);
     }
     
     @Test
