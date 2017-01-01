@@ -43,11 +43,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     // TODO: refactor this test. try to use admin login or create instructors and courses not using json
     
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTestDataOnServer(loadDataBundle("/InstructorHomePageUiTest1.json"));
+        removeAndRestoreDataBundle(loadDataBundle("/InstructorHomePageUiTest1.json"));
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
 
         // Remove entities created during test
         BackDoor.deleteCourse("newIns.wit-demo");
@@ -379,7 +379,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         // recover the deleted course and its related entities
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         loginAsCommonInstructor();
         homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS1101);
         homePage.loadInstructorHomeTab();

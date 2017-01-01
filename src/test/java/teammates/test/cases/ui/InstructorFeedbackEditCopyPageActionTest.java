@@ -19,9 +19,9 @@ public class InstructorFeedbackEditCopyPageActionTest extends BaseActionTest {
     private static DataBundle dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreData(dataBundle);
+        removeAndRestoreDataBundle(dataBundle);
         
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE;
     }

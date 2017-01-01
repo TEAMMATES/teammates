@@ -15,7 +15,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
     }
 

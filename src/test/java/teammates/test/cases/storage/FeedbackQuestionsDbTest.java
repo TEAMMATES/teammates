@@ -24,7 +24,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
     }
     

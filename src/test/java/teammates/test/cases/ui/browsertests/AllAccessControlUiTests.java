@@ -44,7 +44,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     private static InstructorAttributes otherInstructor;
 
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
 
         printTestClassHeader();
 
@@ -54,7 +54,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         testData.students.get("student1InCourse1.access").googleId = TestProperties.TEST_STUDENT1_ACCOUNT;
         testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
         
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         
         otherInstructor = testData.instructors.get("instructor1OfCourse2");
 

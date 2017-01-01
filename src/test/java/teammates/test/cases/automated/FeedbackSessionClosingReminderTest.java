@@ -46,12 +46,12 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
     }
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionClosingCallback.class);
         gaeSimulation.resetDatastore();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
     }
     
     @AfterClass

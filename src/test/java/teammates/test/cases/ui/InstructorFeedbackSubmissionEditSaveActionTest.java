@@ -24,14 +24,14 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     private static final DataBundle dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreData(dataBundle);
+        removeAndRestoreDataBundle(dataBundle);
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
 
@@ -273,7 +273,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         ______TS("Successful case: mcq: typical case");
 
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreData(dataBundle);
+        removeAndRestoreDataBundle(dataBundle);
 
         fq = fqDb.getFeedbackQuestion("MCQ Session", "FSQTT.idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);

@@ -29,7 +29,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes gracedFeedbackSession;
 
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentHomePageUiTest.json");
         
@@ -47,7 +47,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         testData.students.get("alice.tmms@SHomeUiT.CS4221").googleId = student1GoogleId;
         testData.students.get("alice.tmms@SHomeUiT.CS4221").email = student1Email;
         
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         
         gracedFeedbackSession = BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
         gracedFeedbackSession.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));

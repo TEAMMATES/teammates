@@ -35,7 +35,7 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 public class EmailSenderTest extends BaseComponentTestCase {
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
     }
     

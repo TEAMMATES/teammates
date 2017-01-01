@@ -17,9 +17,9 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
     private static DataBundle dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreData(dataBundle);
+        removeAndRestoreDataBundle(dataBundle);
         
         uri = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
     }

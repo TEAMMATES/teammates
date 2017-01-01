@@ -18,10 +18,10 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     private static DataBundle dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         
-        removeAndRestoreData(dataBundle);
+        removeAndRestoreDataBundle(dataBundle);
         
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED;
     }

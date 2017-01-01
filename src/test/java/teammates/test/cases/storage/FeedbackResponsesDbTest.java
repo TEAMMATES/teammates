@@ -30,7 +30,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     private static Map<String, FeedbackResponseAttributes> fras;
     
     @BeforeClass
-    public void classSetUp() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         addResponsesToDb();
         fras = dataBundle.feedbackResponses;

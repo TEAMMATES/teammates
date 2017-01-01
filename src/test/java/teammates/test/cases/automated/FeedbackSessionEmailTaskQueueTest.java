@@ -48,12 +48,12 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     }
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionsEmailTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
     }
     
     @Test(enabled = false)

@@ -50,9 +50,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     private String[] submissionParams = new String[]{};
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         addUnregStudentToCourse1();
     }
     

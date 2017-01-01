@@ -66,13 +66,13 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(
                 SubmissionsAdjustmentTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
     }
     
     @AfterClass

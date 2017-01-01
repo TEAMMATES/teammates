@@ -23,9 +23,9 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
     }
 
@@ -162,7 +162,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         ______TS("typical case");
 
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
 
         FeedbackSessionsLogic.inst()
                 .publishFeedbackSession(session1InCourse1.getSessionName(), session1InCourse1.getCourseId());

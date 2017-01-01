@@ -24,7 +24,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         
         /* Explanation: This is just to display the test class name in the console */
         printTestClassHeader();
@@ -38,7 +38,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
          * simulated GAE datastore. A replica of this can be found in the 'dataBundle' variable
          * declared above
          */
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
     }
     
     @Test

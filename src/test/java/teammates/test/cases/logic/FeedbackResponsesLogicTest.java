@@ -46,11 +46,11 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     private static DataBundle questionTypeBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
-        removeAndRestoreData(specialCharBundle);
-        removeAndRestoreData(questionTypeBundle);
+        removeAndRestoreTypicalDataBundle();
+        removeAndRestoreDataBundle(specialCharBundle);
+        removeAndRestoreDataBundle(questionTypeBundle);
     }
     
     @Test

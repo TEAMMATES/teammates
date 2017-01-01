@@ -54,10 +54,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         gaeSimulation.resetDatastore();
-        removeAndRestoreData(dataBundle);
+        removeAndRestoreDataBundle(dataBundle);
     }
     
     @Test
@@ -369,7 +369,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // This file contains a session with a private session + a standard
         // session + a special session with all questions without recipients.
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionDetailsTest.json");
-        removeAndRestoreData(newDataBundle);
+        removeAndRestoreDataBundle(newDataBundle);
         
         Map<String, FeedbackSessionDetailsBundle> detailsMap =
                 new HashMap<String, FeedbackSessionDetailsBundle>();
@@ -769,7 +769,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // session which needs to have enough qn/response combinations to cover as much
         // of the SUT as possible
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
-        removeAndRestoreData(responseBundle);
+        removeAndRestoreDataBundle(responseBundle);
         
         ______TS("standard session with varied visibilities");
         
@@ -1223,7 +1223,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         ______TS("MCQ results");
         
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreData(newDataBundle);
+        removeAndRestoreDataBundle(newDataBundle);
         session = newDataBundle.feedbackSessions.get("mcqSession");
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         

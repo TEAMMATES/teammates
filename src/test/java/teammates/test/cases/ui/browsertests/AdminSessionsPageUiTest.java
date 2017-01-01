@@ -24,7 +24,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
     AdminSessionsPage sessionsPage;
     
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();

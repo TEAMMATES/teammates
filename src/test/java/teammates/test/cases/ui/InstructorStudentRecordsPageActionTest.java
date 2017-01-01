@@ -28,9 +28,9 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     private final Logic logic = new Logic();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
     }
 

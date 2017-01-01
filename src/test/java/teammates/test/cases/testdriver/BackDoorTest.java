@@ -27,7 +27,7 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTestDataOnServer(dataBundle);
+        removeAndRestoreDataBundle(dataBundle);
         
         // verifies that typical bundle is restored by the above operation
         verifyPresentInDatastore(dataBundle);

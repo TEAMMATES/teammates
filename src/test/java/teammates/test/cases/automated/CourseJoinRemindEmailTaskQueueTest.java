@@ -34,12 +34,12 @@ public class CourseJoinRemindEmailTaskQueueTest extends BaseComponentUsingTaskQu
     }
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(CourseJoinRemindEmailTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
     }
     
     @AfterClass

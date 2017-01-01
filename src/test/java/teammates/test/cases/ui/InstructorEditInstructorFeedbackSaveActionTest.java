@@ -20,9 +20,9 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     private static DataBundle dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreData(dataBundle);
+        removeAndRestoreDataBundle(dataBundle);
         
         uri = Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE;
     }
