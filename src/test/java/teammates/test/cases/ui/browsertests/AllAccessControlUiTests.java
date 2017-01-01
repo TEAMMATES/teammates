@@ -9,6 +9,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
@@ -244,6 +245,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     @AfterClass
     public static void classTearDown() {
+        BackDoor.removeDataBundle(testData);
         BrowserPool.release(browser);
     }
 }

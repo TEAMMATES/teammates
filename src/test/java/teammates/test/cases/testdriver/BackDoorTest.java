@@ -59,7 +59,7 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
         verifyAbsentInDatastore(fr);
         
         // ----------deleting Feedback Question entities-------------------------
-        fq = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        fq = dataBundle.feedbackQuestions.get("qn5InSession1InCourse1");
         verifyPresentInDatastore(fq);
         status = BackDoor.deleteFeedbackQuestion(fq.getId());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
