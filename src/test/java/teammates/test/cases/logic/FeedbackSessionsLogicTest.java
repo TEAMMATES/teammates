@@ -1410,6 +1410,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
+        
+        //System.out.println(export);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1452,9 +1454,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "Team, Recipient, Average Points",
                 "\"Team 1.2\",\"student5 In Course1\",10",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",10",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",30",
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",20",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",30",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",30",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
