@@ -65,6 +65,22 @@ public class AccountAttributes extends EntityAttributes {
         this.studentProfile.googleId = this.googleId;
     }
     
+    /**
+     * Gets a deep copy of this object.
+     */
+    public AccountAttributes getCopy() {
+        boolean isStudentProfileNull = this.studentProfile == null;
+        if (isStudentProfileNull) {
+            this.studentProfile = new StudentProfileAttributes();
+        }
+        AccountAttributes copy = new AccountAttributes(this.toEntity());
+        if (isStudentProfileNull) {
+            copy.studentProfile = null;
+            this.studentProfile = null;
+        }
+        return copy;
+    }
+    
     public boolean isInstructor() {
         return isInstructor;
     }

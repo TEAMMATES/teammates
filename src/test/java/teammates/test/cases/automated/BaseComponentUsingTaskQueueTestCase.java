@@ -16,7 +16,7 @@ public class BaseComponentUsingTaskQueueTestCase extends BaseComponentTestCase {
     
     @Override
     @BeforeTest
-    public void testSetUp() {
+    public void testSetup() {
         gaeSimulation = GaeSimulation.inst();
         gaeSimulation.setup();
     }

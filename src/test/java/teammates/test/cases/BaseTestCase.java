@@ -9,7 +9,6 @@ import org.testng.AssertJUnit;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.TestProperties;
 import teammates.test.util.FileHelper;
 
@@ -64,17 +63,6 @@ public class BaseTestCase {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    protected static void removeAndRestoreTypicalDataInDatastore() throws Exception {
-        DataBundle dataBundle = getTypicalDataBundle();
-        removeAndRestoreData(dataBundle);
-    }
-
-    protected static void removeAndRestoreData(DataBundle dataBundle) throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        backDoorLogic.removeDataBundle(dataBundle);
-        backDoorLogic.persistDataBundle(dataBundle);
     }
 
     protected void signalFailureToDetectException(String... messages) {

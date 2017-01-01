@@ -5,12 +5,10 @@ import java.io.IOException;
 
 import org.testng.annotations.BeforeSuite;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.BackDoor;
+import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
@@ -18,7 +16,7 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 
-public abstract class BaseUiTestCase extends BaseTestCase {
+public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
 
     /** indicates if the test-run is to use GodMode */
     protected static boolean isGodModeEnabled;
@@ -108,55 +106,6 @@ public abstract class BaseUiTestCase extends BaseTestCase {
         currentBrowser.isAdminLoggedIn = false;
     }
     
-    /**
-     * Removes and then creates given data on the datastore.
-     */
-    protected static void removeAndRestoreTestDataOnServer(DataBundle testData) {
-        int counter = 0;
-        String backDoorOperationStatus = "";
-        int retryLimit;
-        if (TestProperties.isDevServer()) {
-            retryLimit = 5;
-        } else {
-            retryLimit = 1;
-        }
-
-        while (counter < retryLimit) {
-            counter++;
-            backDoorOperationStatus = BackDoor.removeAndRestoreDataBundleFromDb(testData);
-            if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)) {
-                break;
-            }
-            System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
-        }
-        if (counter >= retryLimit) {
-            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-        }
-    }
-    
-    protected static void putDocuments(DataBundle testData) {
-        int counter = 0;
-        String backDoorOperationStatus = "";
-        int retryLimit;
-        if (TestProperties.isDevServer()) {
-            retryLimit = 5;
-        } else {
-            retryLimit = 1;
-        }
-
-        while (counter < retryLimit) {
-            counter++;
-            backDoorOperationStatus = BackDoor.putDocuments(testData);
-            if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)) {
-                break;
-            }
-            System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
-        }
-        if (counter >= retryLimit) {
-            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-        }
-    }
-
     protected static AdminHomePage loginAdmin(Browser currentBrowser) {
         return loginAdminToPage(currentBrowser, createUrl(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
     }

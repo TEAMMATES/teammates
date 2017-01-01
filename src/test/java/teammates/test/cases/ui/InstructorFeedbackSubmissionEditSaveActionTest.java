@@ -1,6 +1,5 @@
 package teammates.test.cases.ui;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -14,7 +13,6 @@ import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -30,11 +28,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         printTestClassHeader();
         removeAndRestoreData(dataBundle);
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE;
-    }
-
-    @AfterClass
-    public static void classTearDown() {
-        new BackDoorLogic().removeDataBundle(dataBundle);
     }
 
     @Test

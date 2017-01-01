@@ -55,7 +55,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         frDb.deleteEntity(fra);
         
         frDb.createEntity(fra);
-        verifyPresentInDatastore(fra, true);
+        verifyPresentInDatastore(fra);
         
         String feedbackQuestionId = fra.feedbackQuestionId;
         String giverEmail = fra.giver;
@@ -106,7 +106,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         frDb.createEntity(fra);
         
         // sets the id for fra
-        verifyPresentInDatastore(fra, true);
+        verifyPresentInDatastore(fra);
         
         ______TS("duplicate - with same id.");
         
