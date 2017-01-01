@@ -117,8 +117,7 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
         
-        BackDoorLogic backDoor = new BackDoorLogic();
-        List<InstructorAttributes> instructorList = backDoor.getInstructorsForCourse(courseId);
+        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName,
                                                             data.instructorInstitution);
         data.statusForAjax = "Instructor " + data.instructorName
@@ -183,41 +182,34 @@ public class AdminInstructorAccountAddAction extends Action {
 
         DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
         
-        BackDoorLogic backdoor = new BackDoorLogic();
+        BackDoorLogic backDoorLogic = new BackDoorLogic();
         
         try {
-            backdoor.persistDataBundle(data);
+            backDoorLogic.persistDataBundle(data);
         } catch (EntityDoesNotExistException e) {
-            int elapsedTime = 0;
-            
-            while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
-                ThreadHelper.waitBriefly();
-                elapsedTime += ThreadHelper.WAIT_DURATION;
-            }
-            
-            backdoor.persistDataBundle(data);
+            ThreadHelper.waitFor(Config.PERSISTENCE_CHECK_DURATION);
+            backDoorLogic.persistDataBundle(data);
             log.warning("Data Persistence was Checked Twice in This Request");
         }
         
         //produce searchable documents
-        List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, pageData.instructorEmail);
+        List<CommentAttributes> comments = logic.getCommentsForGiver(courseId, pageData.instructorEmail);
         List<FeedbackResponseCommentAttributes> frComments =
-                backdoor.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
-        List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
-        List<InstructorAttributes> instructors = backdoor.getInstructorsForCourse(courseId);
+                logic.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
+        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         
         for (CommentAttributes comment : comments) {
-            backdoor.putDocument(comment);
+            logic.putDocument(comment);
         }
         for (FeedbackResponseCommentAttributes comment : frComments) {
-            backdoor.putDocument(comment);
+            logic.putDocument(comment);
         }
         for (StudentAttributes student : students) {
-            backdoor.putDocument(student);
+            logic.putDocument(student);
         }
-        
         for (InstructorAttributes instructor : instructors) {
-            backdoor.putDocument(instructor);
+            logic.putDocument(instructor);
         }
         
         return courseId;
