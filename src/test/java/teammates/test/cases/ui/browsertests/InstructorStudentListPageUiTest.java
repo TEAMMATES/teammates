@@ -42,7 +42,9 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorStudentListPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
 
-        BackDoor.putDocumentsForStudents(JsonUtils.toJson(testData));
+        DataBundle studentsOnly = new DataBundle();
+        studentsOnly.students = testData.students;
+        putDocuments(studentsOnly); // put the search document for students only
 
         // upload a profile picture for one of the students
         StudentAttributes student = testData.students.get("Student3Course3");
