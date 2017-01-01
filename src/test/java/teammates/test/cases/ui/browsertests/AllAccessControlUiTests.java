@@ -50,13 +50,17 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
         testData = loadDataBundle("/AllAccessControlUiTest.json");
         
+        // This test suite requires some real accounts; Here, we inject them to the test data.
+        testData.students.get("student1InCourse1.access").googleId = TestProperties.TEST_STUDENT1_ACCOUNT;
+        testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
+        
+        removeAndRestoreTestDataOnServer(testData);
+        
         otherInstructor = testData.instructors.get("instructor1OfCourse2");
 
         browser = BrowserPool.getBrowser();
         
         currentPage = getHomePage(browser);
-        
-        restoreSpecialTestData();
     }
     
     @Test
@@ -188,17 +192,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         currentPage = loginPage.loginAsInstructor(userName, password);
     }
     
-    private static void restoreSpecialTestData() {
-        
-        testData = loadDataBundle("/AllAccessControlUiTest.json");
-        
-        // This test suite requires some real accounts; Here, we inject them to the test data.
-        testData.students.get("student1InCourse1.access").googleId = TestProperties.TEST_STUDENT1_ACCOUNT;
-        testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
-        
-        removeAndRestoreTestDataOnServer(testData);
-    }
-
     private void verifyCannotAccessAdminPages() {
         //cannot access directly
         AppUrl url = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
@@ -251,13 +244,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     @AfterClass
     public static void classTearDown() {
-        //delete any data related to real accounts used in testing (to prevent state leakage to other tests)
-        testData = loadDataBundle("/AllAccessControlUiTest.json");
-        
-        // This test suite requires some real accounts; Here, we inject them to the test data.
-        testData.students.get("student1InCourse1.access").googleId = TestProperties.TEST_STUDENT1_ACCOUNT;
-        testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
-        removeTestDataOnServer(testData);
         BrowserPool.release(browser);
     }
 }

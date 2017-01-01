@@ -223,7 +223,6 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
     @AfterClass
     public static void classTearDown() {
-        BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
     }
 

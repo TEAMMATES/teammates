@@ -109,60 +109,6 @@ public abstract class BaseUiTestCase extends BaseTestCase {
     }
     
     /**
-     * Updates/creates the given data on the datastore.
-     */
-    protected static void restoreTestDataOnServer(DataBundle testData) {
-
-        int counter = 0;
-        String backDoorOperationStatus = "";
-        int retryLimit;
-        if (TestProperties.isDevServer()) {
-            retryLimit = 5;
-        } else {
-            retryLimit = 1;
-        }
-
-        while (counter < retryLimit) {
-            counter++;
-            backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
-            if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)) {
-                break;
-            }
-            System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
-        }
-        if (counter >= retryLimit) {
-            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-        }
-    }
-
-    /**
-     * Updates/creates the given data on the datastore.
-     */
-    protected static void removeTestDataOnServer(DataBundle testData) {
-
-        int counter = 0;
-        String backDoorOperationStatus = "";
-        int retryLimit;
-        if (TestProperties.isDevServer()) {
-            retryLimit = 5;
-        } else {
-            retryLimit = 1;
-        }
-
-        while (counter < retryLimit) {
-            counter++;
-            backDoorOperationStatus = BackDoor.removeDataBundleFromDb(testData);
-            if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)) {
-                break;
-            }
-            System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
-        }
-        if (counter >= retryLimit) {
-            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-        }
-    }
-    
-    /**
      * Removes and then creates given data on the datastore.
      */
     protected static void removeAndRestoreTestDataOnServer(DataBundle testData) {

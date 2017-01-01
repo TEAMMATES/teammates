@@ -7,6 +7,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -44,21 +45,14 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetup() {
         printTestClassHeader();
-        testData = loadDataBundle("/InstructorHomePageUiTest1.json");
-        removeTestDataOnServer(loadDataBundle("/InstructorHomePageUiTest3.json"));
-        restoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser();
-    }
-    
-    private static void loadFinalHomePageTestData() {
-        
-        testData = loadDataBundle("/InstructorHomePageUiTest3.json");
+        removeAndRestoreTestDataOnServer(loadDataBundle("/InstructorHomePageUiTest1.json"));
+        testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         removeAndRestoreTestDataOnServer(testData);
-        
-        feedbackSessionAwaiting = testData.feedbackSessions.get("Second Feedback Session");
-        feedbackSessionOpen = testData.feedbackSessions.get("First Feedback Session");
-        feedbackSessionClosed = testData.feedbackSessions.get("Third Feedback Session");
-        feedbackSessionPublished = testData.feedbackSessions.get("Fourth Feedback Session");
+
+        // Remove entities created during test
+        BackDoor.deleteCourse("newIns.wit-demo");
+        BackDoor.deleteInstructor("newIns.wit-demo", "CHomeUiT.instructor.tmms@gmail.tmt");
+        browser = BrowserPool.getBrowser();
     }
     
     @Test
@@ -80,15 +74,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     private void testAjaxCourseTableLoad() throws Exception {
-        DataBundle unloadedCourseTestData = loadDataBundle("/InstructorHomePageUiTestUnloadedCourse.json");
-        removeAndRestoreTestDataOnServer(unloadedCourseTestData);
         loginAsInstructor("CHomeUiT.instructor.tmms.unloaded");
         
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeHTMLWithUnloadedCourse.html");
         
         loginAsCommonInstructor();
-        removeTestDataOnServer(unloadedCourseTestData);
     }
 
     private void testPersistenceCheck() throws Exception {
@@ -105,7 +96,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("login");
         
-        loginAsCommonInstructor();
+        loginAsNewInstructor();
         assertTrue(browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
     }
 
@@ -142,15 +133,26 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeNewInstructorWithoutSampleCourse.html");
         
-        testData = loadDataBundle("/InstructorHomePageUiTest2.json");
-        removeAndRestoreTestDataOnServer(testData);
+        CourseAttributes newCourse = new CourseAttributes("newIns.wit-demo", "Sample Course 101", "UTC");
+        BackDoor.createCourse(newCourse);
+        @SuppressWarnings("deprecation")
+        InstructorAttributes instr =
+                new InstructorAttributes("CHomeUiT.instructor.tmms.new", "newIns.wit-demo",
+                                         "Teammates Test New Instructor With Sample", "CHomeUiT.instructor.tmms@gmail.tmt");
+        BackDoor.createInstructor(instr);
+        
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeNewInstructorWithSampleCourse.html");
         
         ______TS("content: multiple courses");
         
-        loadFinalHomePageTestData();
-        homePage.loadInstructorHomeTab();
+        loginAsCommonInstructor();
+        
+        feedbackSessionAwaiting = testData.feedbackSessions.get("Second Feedback Session");
+        feedbackSessionOpen = testData.feedbackSessions.get("First Feedback Session");
+        feedbackSessionClosed = testData.feedbackSessions.get("Third Feedback Session");
+        feedbackSessionPublished = testData.feedbackSessions.get("Fourth Feedback Session");
+        
         // Should not see private session
         homePage.verifyHtmlMainContent("/instructorHomeHTMLWithHelperView.html");
         updateInstructorToCoownerPrivileges();
@@ -375,8 +377,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         browser.driver.get(urlToArchive.toAbsoluteString());
         assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ViewURIs.UNAUTHORIZED));
         
-        //restore
-        testData = loadDataBundle("/InstructorHomePageUiTest3.json");
+        // recover the deleted course and its related entities
+        testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         removeAndRestoreTestDataOnServer(testData);
         loginAsCommonInstructor();
         homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS1101);
@@ -506,6 +508,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("sort sessions by session end date");
         homePage.sortTablesByEndDate();
         homePage.verifyHtmlMainContent("/instructorHomeHTMLSortSessionsByEndDate.html");
+    }
+    
+    private void loginAsNewInstructor() {
+        String newInstructor = "CHomeUiT.instructor.tmms.new";
+        loginAsInstructor(newInstructor);
     }
     
     private void loginAsCommonInstructor() {
