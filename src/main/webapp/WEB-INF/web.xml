@@ -30,16 +30,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         </init-param>
     </filter>
 
-
-    <filter>
-        <filter-name>DatastoreFilter</filter-name>
-        <filter-class>teammates.storage.datastore.DatastoreFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>DatastoreFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
     <servlet>
         <servlet-name>appstats</servlet-name>
         <servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>
@@ -100,24 +90,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-    
-    <servlet>
-        <servlet-name>EmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.EmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EmailWorkerServlet</servlet-name>
-        <url-pattern>/emailWorker</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackSubmissionAdjustmentWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
-        <url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
-    </servlet-mapping>
     
     <servlet>
         <servlet-name>EntityModifiedLogs</servlet-name>
@@ -185,22 +157,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AutomatedEmails</web-resource-name>
-            <url-pattern>/emailWorker</url-pattern>
-        </web-resource-collection>
-         <web-resource-collection>
-            <web-resource-name>TaskQueue</web-resource-name>
-            <url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>admin</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-          </user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>

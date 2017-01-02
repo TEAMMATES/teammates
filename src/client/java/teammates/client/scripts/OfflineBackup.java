@@ -33,7 +33,6 @@ import teammates.storage.api.CommentsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.storage.datastore.Datastore;
 import teammates.test.driver.TestProperties;
 
 public class OfflineBackup extends RemoteApiClient {
@@ -49,7 +48,6 @@ public class OfflineBackup extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize();
         List<String> logs = getModifiedLogs();
         Set<String> courses = extractModifiedCourseIds(logs);
         backupFileDirectory = "BackupFiles/Backup/" + getCurrentDateAndTime();
