@@ -54,8 +54,7 @@ Eclipse IDE is our preferred development environment. Support requests related t
 
 1. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) version Luna, Mars, or Neon, and install the following plugins:
    * [Google Plugin for Eclipse](https://developers.google.com/eclipse/docs/download). Use the correct version for your Eclipse IDE.<br>
-     Be careful to omit other plugins shown on the screen (e.g Google App Engine Tools for Android, GWT plugin).<br>
-     Sometimes the update site for the GAE plugin does not work. In that case, follow the instructions [here](https://developers.google.com/eclipse/docs/install-from-zip).
+     Be careful to omit other plugins shown on the screen (e.g Google App Engine Tools for Android, GWT plugin).
    * The latest stable [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
 1. Configure Eclipse as follows (if you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES):
@@ -65,6 +64,15 @@ Eclipse IDE is our preferred development environment. Support requests related t
    * Text encoding: Go to `Eclipse → Preferences → General → Workspace`, change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
    * JRE: Go to `Eclipse → Preferences → Java → Installed JRE` and ensure a JDK (not a JRE) is selected (use **JDK 1.7**, as recommended by GAE).
      One of the items in the [troubleshooting guide](troubleshooting-guide.md) explains how to do this.
+   * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
+     Go to `Eclipse → Preferences` and configure for all the languages used in TEAMMATES:
+     * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`
+     * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`
+     * HTML: `Web → HTML Files → Editor → Indent using spaces`
+     * CSS: `Web → CSS Files → Editor → Indent using spaces`
+     * XML: `XML → XML Files → Editor → Indent using spaces`
+  * HTML/JSP syntax: We prefer not to use the HTML/JSP syntax validator provided by Eclipse.<br>
+    To turn it off, go to `Project → Properties → Validation → HTML Syntax Validator` and uncheck the `Build` option. Similarly for `JSP Content Validator` and `JSP Syntax Validator`.
 
 1. Run this command to download the dependencies required by TEAMMATES and configure them up to be used by Eclipse:
    ```sh

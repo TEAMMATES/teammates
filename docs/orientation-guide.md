@@ -3,7 +3,6 @@
 We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/about.jsp) for a list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in a OSS production environment. Here are some information that might be useful to would-be contributors.
 
 * [Knowledge required](#knowledge-required)
-* [Dev community structure](#dev-community-structure)
 * [Getting started](#getting-started)
 * [Orientation task list](#orientation-task-list)
 * [Contacting us](#contacting-us)
@@ -26,21 +25,14 @@ Roles:
 * **Frontend developer**: Works on the frontend of the App that is generated dynamically from the server side.
 * **Backend developer**: Works on the backend logic of the App, including data storage.
 
-## Dev community structure
-
-[TEAMMATES community](https://teammatesv4.appspot.com/about.jsp) has three tiers, defined based on the level of involvement.
-
-* **Contributor**: Small but noteworthy contribution(s) to the project.
-* **Committer**: Significant contributions sustained over a long period of time.
-* **Core member**: Significant and sustained contributions in recent times. Core members can progress through the levels: **Snr Developer**, **Area Lead**, **Project Lead**, and **Project Mentor**.
-
 ## Getting started
 
-Contributing to an OSS project requires you to figure out things on your own when you can, and seek help from the right resource when you cannot. To become a TEAMMATES contributor, you need to start honing those skills.<br>
-To help you with that, we have created a sequence of tasks you can try to complete.  Try to complete as many of them as you can, in the order they are listed.<br>
+Contributing to an OSS project requires you to figure out things on your own when you can, and seek help from the right resource (Google, StackOverflow, troubleshooting guides, issue tracker, etc.) when you cannot. To become a TEAMMATES contributor, you need to start honing those skills.<br>
+To help you with that, we have created a sequence of tasks you can try to complete. Try to complete as many of them as you can, in the order they are listed.<br>
 Of course we are happy to guide you if you encounter any difficulties when doing these tasks; we have provided a [troubleshooting guide](troubleshooting-guide.md) for some commonly faced problems. Failing that, you may post a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
-> Note: The task descriptions are brief by intention. We want you to try to figure out how to do those things by yourself.
+> - The task descriptions are brief by intention. We want you to try to figure out how to do those things by yourself.
+> - While the dev team members will be glad to answer your questions, you will not make a good impression if you ask questions which are already answered in the mentioned resources.
 
 ## Orientation task list
 
