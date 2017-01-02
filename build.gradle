@@ -143,6 +143,7 @@ eclipse {
                 }*.output = "target/test-classes"
 
                 // Method to put mail.jar on top of the classpath
+                // This is necessary because placing it in its default place causes unintended name clash
                 def nonMailEntries = cp.entries.findAll{ entry ->
                     !entry.path.contains("mail-1.4.7")
                 }
