@@ -38,7 +38,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
-import teammates.common.util.EmailType;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
@@ -1633,8 +1633,8 @@ public class FeedbackSessionsLogic {
         paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.FEEDBACK_REMIND_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_WORKER, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME,
+                                        TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, paramMap);
     }
     
     public void scheduleFeedbackRemindEmailsForParticularUsers(String courseId,
@@ -1646,16 +1646,9 @@ public class FeedbackSessionsLogic {
         paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE,
-                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER, paramMap);
-    }
-
-    public void scheduleFeedbackSessionOpeningEmails() {
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
-
-        for (FeedbackSessionAttributes session : sessions) {
-            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_OPENING);
-        }
+        taskQueueLogic.createAndAddTaskMultisetParam(
+                TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
+                TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
@@ -1691,23 +1684,6 @@ public class FeedbackSessionsLogic {
             }
         }
         return requiredSessions;
-    }
-
-    public void scheduleFeedbackSessionClosingEmails() {
-
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsClosingWithinTimeLimit();
-
-        for (FeedbackSessionAttributes session : sessions) {
-            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_CLOSING);
-        }
-    }
-    
-    public void scheduleFeedbackSessionClosedEmails() {
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsClosedWithinThePastHour();
-
-        for (FeedbackSessionAttributes session : sessions) {
-            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_CLOSED);
-        }
     }
 
     public void scheduleFeedbackSessionPublishedEmails() {
@@ -2705,21 +2681,23 @@ public class FeedbackSessionsLogic {
     }
 
     private void sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
-        addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_PUBLISHED);
-    }
-    
-    public void sendFeedbackSessionUnpublishedEmail(FeedbackSessionAttributes session) {
-        addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_UNPUBLISHED);
-    }
-
-    private void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes session, EmailType emailType) {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.EMAIL_FEEDBACK, session.getFeedbackSessionName());
         paramMap.put(ParamsNames.EMAIL_COURSE, session.getCourseId());
-        paramMap.put(ParamsNames.EMAIL_TYPE, emailType.toString());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE, Const.ActionURIs.EMAIL_WORKER, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME,
+                                        TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, paramMap);
+    }
+    
+    public void sendFeedbackSessionUnpublishedEmail(FeedbackSessionAttributes session) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, session.getFeedbackSessionName());
+        paramMap.put(ParamsNames.EMAIL_COURSE, session.getCourseId());
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME,
+                                        TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, paramMap);
     }
     
 }

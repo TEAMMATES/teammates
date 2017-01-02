@@ -143,21 +143,6 @@ public final class Const {
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
         
-        public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
-        public static final String ADMIN_EMAIL_TASK_QUEUE = "admin-send-email-queue";
-        public static final String ADMIN_PREPARE_EMAIL_TASK_QUEUE = "admin-prepare-email-task-queue";
-        
-        public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
-                                "feedback-submission-adjust-queue";
-        
-        public static final String COURSE_JOIN_REMIND_EMAIL_TASK_QUEUE = "course-join-remind-email-queue";
-        
-        public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
-        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE =
-                "feedback-remind-email-particular-users-queue";
-        public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
-        
-        public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
@@ -977,39 +962,59 @@ public final class Const {
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
-        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/feedbackSessionOpeningReminders";
-        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/feedbackSessionClosingReminders";
-        public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/feedbackSessionPublishedReminders";
+        public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
+        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/auto/feedbackSessionOpeningReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "/auto/feedbackSessionClosedReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/auto/feedbackSessionClosingReminders";
+        public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/auto/feedbackSessionPublishedReminders";
         
         public static final String BACKDOOR = "/backdoor";
         
-        //Task Queue Worker Servlets URI
-        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER = "/courseJoinRemindEmailWorker";
-        public static final String EMAIL_WORKER = "/emailWorker";
-        public static final String ADMIN_EMAIL_WORKER = "/adminEmailWorker";
-        public static final String ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER = "/adminEmailPrepareTaskQueueWorker";
-        public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER =
-                                    "/feedbackSubmissionAdjustmentWorker";
-        public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
-        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER =
-                                    "/feedbackRemindEmailParticularUsersWorker";
-        public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
     
-    public static class AutomatedActionNames {
-        //real servlet names to be logged for automated actions, not for url pattern recognition
-        public static final String AUTOMATED_LOG_COMPILATION = "logCompilation";
-        public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_CLOSED_MAIL_ACTION = "feedbackSessionClosedMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_UNPUBLISHED_MAIL_ACTION =
-                                                                "feedbackSessionUnpublishedMailAction";
-        public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
-        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
-        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
-        public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "feedbackSessionClosedReminders";
-        public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
+    /**
+     * Configurations for task queue.
+     */
+    public static class TaskQueue {
+        
+        public static final String ADMIN_PREPARE_EMAIL_QUEUE_NAME = "admin-prepare-email-queue";
+        public static final String ADMIN_PREPARE_EMAIL_WORKER_URL = "/worker/adminPrepareEmail";
+        
+        public static final String ADMIN_SEND_EMAIL_QUEUE_NAME = "admin-send-email-queue";
+        public static final String ADMIN_SEND_EMAIL_WORKER_URL = "/worker/adminSendEmail";
+        
+        public static final String COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME = "course-join-remind-email-queue";
+        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER_URL = "/worker/courseJoinRemindEmail";
+        
+        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
+        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
+        
+        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME =
+                "feedback-session-published-email-queue";
+        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionPublishedEmail";
+        
+        public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
+        public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = "/worker/feedbackSessionRemindEmail";
+        
+        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME =
+                "feedback-session-remind-particular-users-email-queue";
+        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionRemindParticularUsersEmail";
+        
+        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME =
+                "feedback-session-unpublished-email-queue";
+        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionUnpublishedEmail";
+        
+        public static final String PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME =
+                "pending-comment-cleared-email-queue";
+        public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
+                "/worker/pendingCommentClearedEmail";
+        
+        public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
+        public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
+        
     }
     
     public static class PublicActionNames {
@@ -1436,9 +1441,6 @@ public final class Const {
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null\n";
     
-        // Task Queue Response Success code
-        public static final int TASK_QUEUE_RESPONSE_OK = 200;
-        
         // POST parameter null message
         public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
     }

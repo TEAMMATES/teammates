@@ -22,7 +22,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.SystemParams;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -521,8 +521,8 @@ public class StudentsLogic {
         paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE,
-                Const.ActionURIs.FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME,
+                                        TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL, paramMap);
         
     }
     
@@ -533,8 +533,8 @@ public class StudentsLogic {
         paramMap.put(ParamsNames.STUDENT_EMAIL, student.getEmail());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.COURSE_JOIN_REMIND_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.COURSE_JOIN_REMIND_EMAIL_WORKER, paramMap);
+        taskQueueLogic.createAndAddTask(TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME,
+                                        TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, paramMap);
         
         return new EmailGenerator().generateStudentCourseJoinEmail(course, student);
     }
@@ -654,7 +654,7 @@ public class StudentsLogic {
     }
     
     public void adjustFeedbackResponseForEnrollments(
-            ArrayList<StudentEnrollDetails> enrollmentList,
+            List<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for (StudentEnrollDetails enrollment : enrollmentList) {
             if (enrollment.updateStatus != StudentUpdateStatus.MODIFIED) {
