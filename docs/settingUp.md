@@ -21,7 +21,7 @@ The full tool stack is given at the [end of this document](#tool-stack).
 ## Prerequisites
 Important: When a version is specified, please install that version instead of the latest version available.
 
-1. Install GitHub for Windows/Mac (recommended), or at least, Git.
+1. Install Source Tree or other similar Git Client, or at least Git.
 2. Install JDK 7.
 3. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) (version: Luna).
 4. Install Google Plugin for Eclipse version 4.4. <br>
