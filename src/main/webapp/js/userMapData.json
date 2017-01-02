@@ -106,7 +106,8 @@
     "Unificados AEDB 2016",
     "UniFOA",
     "Universidade Católica de Brasília",
-    "Universidade de São Paulo"
+    "Universidade de São Paulo",
+    "Universidade Federal do Rio de Janeiro"
   ],
   "Brunei Darussalam": [
     "Sekolah Menengah Sayyidina Ali"
@@ -328,6 +329,7 @@
     "Dundalk Institute of Technology",
     "National University of Ireland Galway",
     "Royal College of Surgeons in Ireland",
+    "Trinity Business School",
     "University College Dublin",
     "University of Limerick"
   ],
@@ -376,7 +378,6 @@
     "Universiti Malaysia Sarawak",
     "Universiti Putra Malaysia",
     "Universiti Sains Malaysia",
-    "University Technology Malaysia",
     "Universiti Teknologi Malaysia",
     "Universiti Teknologi Mara Johor",
     "Universiti Teknologi PETRONAS",
@@ -388,7 +389,6 @@
   "Mexico": [
     "Escuela Bancaria y Comercial",
     "ITESM",
-    "ITESM CEM",
     "ITESO",
     "Instituto Tecnologico de Estudios Superiores",
     "Peterson Schools",
@@ -513,10 +513,7 @@
     "Alhamra school",
     "American International School of Jeddah",
     "Prince Sattam bin Abdulaziz University"
-  ],
-  "Scotland": [
-    "Univeristy of Dundee"
-  ],
+  ],  
   "Serbia": [
     "University of Belgrade"
   ],
@@ -571,9 +568,6 @@
     "University of Primorska",
     "Univerza v Ljubljani"
   ],
-  "Spain": [
-    "Escola Martí"
-  ],
   "South Africa": [
     "Kingsmead College",
     "Pearson Institute of Higher Education",
@@ -590,6 +584,7 @@
   ],
   "Spain": [
     "Centro Didáctico",
+    "Escola Martí",
     "IE Business School",
     "IESE Business School",
     "Mondragon University",
@@ -690,6 +685,7 @@
     "University of Bristol",
     "University of Central Lancashire",
     "University of Chichester",
+    "University of Dundee",
     "University of Durham",
     "University of East London",
     "University of Glasgow",
@@ -1122,7 +1118,6 @@
     "Tennessee Technological University",
     "Texas A&M Health Science Center",
     "Texas A&M International University",
-    "Texas A&M of Corpus Christi",
     "Texas A&M Rangel College of Pharmacy",
     "Texas A&M University",
     "Texas A&M University-Corpus Christi",
@@ -1132,7 +1127,6 @@
     "Texas Woman's University",
     "The College of Wooster",
     "The Master's School",
-    "The University of Louisiana at Monroe",
     "Thiel College",
     "Thomas Jefferson Middle School",
     "Thomas Nelson Community College",
@@ -1165,7 +1159,6 @@
     "University of Colorado",
     "University of Colorado at Boulder",
     "University of Colorado at Colorado Springs",
-    "University of Colorado-Leeds School of Business",
     "University of Dallas",
     "University of Delaware",
     "University of Denver",
