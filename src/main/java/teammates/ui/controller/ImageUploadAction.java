@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 
@@ -32,12 +33,14 @@ public class ImageUploadAction extends Action {
         BlobKey blobKey = blobInfo.getBlobKey();
 
         data.isFileUploaded = true;
-        data.fileSrcUrl = Const.ActionURIs.PUBLIC_IMAGE_SERVE + "?blob-key=" + blobKey.getKeyString();
-        String absoluteFileSrcUrl = Config.getAppUrl(data.fileSrcUrl).toAbsoluteString();
+        AppUrl fileSrcUrl = Config.getAppUrl(Const.ActionURIs.PUBLIC_IMAGE_SERVE)
+                .withParam(Const.ParamsNames.BLOB_KEY, blobKey.getKeyString());
+        String absoluteFileSrcUrl = fileSrcUrl.toAbsoluteString();
+        data.fileSrcUrl = fileSrcUrl.toString();
 
         log.info("New Image Uploaded : " + absoluteFileSrcUrl);
-        statusToAdmin = "New Image Uploaded : " + "<a href="
-                + data.fileSrcUrl + " target=blank>" + absoluteFileSrcUrl + "</a>";
+        statusToAdmin = "New Image Uploaded : " + "<a href=" + data.fileSrcUrl + " target=\"_blank\">"
+                + absoluteFileSrcUrl + "</a>";
         data.ajaxStatus = "Image Successfully Uploaded to Google Cloud Storage";
 
         return createAjaxResult(data);

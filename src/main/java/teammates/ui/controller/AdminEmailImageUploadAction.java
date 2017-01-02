@@ -30,8 +30,9 @@ public class AdminEmailImageUploadAction extends ImageUploadAction {
 
         BlobKey blobKey = blobInfo.getBlobKey();
 
+        data.isFileUploaded = true;
         AppUrl fileSrcUrl = Config.getAppUrl(Const.ActionURIs.PUBLIC_IMAGE_SERVE)
-                .withParam("blob-key", blobKey.getKeyString());
+                .withParam(Const.ParamsNames.BLOB_KEY, blobKey.getKeyString());
         String absoluteFileSrcUrl = fileSrcUrl.toAbsoluteString();
         data.fileSrcUrl = fileSrcUrl.toString();
 
