@@ -45,7 +45,7 @@ Use this checklist to verify that your project setup is correct.
 
 1. **Check the SDK version**
 
-   Note: We are using version 1.9.27 instead of 1.9.4
+   Note: We are using version `1.9.27` instead of `1.9.4`.
 
     `Project → Properties → Google → App Engine`
 
@@ -185,7 +185,7 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
    **SOLUTION**: Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations. The "tmp" folder in the specified directory needs to be created before running the tests.
 
-# Submitting help request
+## Submitting help request
 
 If none of the items in this guide helps with the problem you face, you can [post in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to request for help.
 Remember to supply as much relevant information as possible when requestng for help, e.g.:
