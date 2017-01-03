@@ -484,19 +484,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
      * From the feedback responses, generate a mapping of the option to a list of points received for that option.
      * The key of the map returned is the option name / recipient's participant identifier.
      * The values of the map are list of points received by the key.
-     * The map is sorted in ascending order.
      * @param responses  a list of responses
      */
     private Map<String, List<Integer>> generateOptionPointsMapping(
             List<FeedbackResponseAttributes> responses) {
         
-        Map<String, List<Integer>> optionPoints = new TreeMap<String, List<Integer>>(new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s2.compareTo(s1);
-            }
-        });
-        
+        Map<String, List<Integer>> optionPoints = new TreeMap<String, List<Integer>>();
         for (FeedbackResponseAttributes response : responses) {
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
             
