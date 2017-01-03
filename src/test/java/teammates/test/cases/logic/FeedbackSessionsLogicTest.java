@@ -1409,6 +1409,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
+        
+        //System.out.println(export);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
