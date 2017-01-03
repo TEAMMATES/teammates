@@ -6,8 +6,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT.getScriptSource() %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE.getScriptSource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE.getLibrarySource() %>"></script>
     <script type="text/javascript" src="/js/timezone.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script>

@@ -2,11 +2,11 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="<%= FrontEndLibrary.D3.getScriptSource() %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.TOPOJSON.getScriptSource() %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.DATAMAPS.getScriptSource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.D3.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.TOPOJSON.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.DATAMAPS.getLibrarySource() %>"></script>
     <script>
-        var geoDataUrl = '<%= FrontEndLibrary.WORLDMAP.getScriptSource() %>';
+        var geoDataUrl = '<%= FrontEndLibrary.WORLDMAP.getLibrarySource() %>';
     </script>
     <script type="text/javascript" src="/js/countryCodes.js"></script>
     <script type="text/javascript" src="/js/userMap.js"></script>

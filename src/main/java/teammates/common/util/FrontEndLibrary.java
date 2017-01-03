@@ -39,7 +39,7 @@ public enum FrontEndLibrary {
      * <li>CDN files are used on production to reduce the load on Appspot's server.</li>
      * </ul>
      */
-    public String getScriptSource() {
+    public String getLibrarySource() {
         return Config.isDevServer() ? localSrc : cdnSrc;
     }
     
