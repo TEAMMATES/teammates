@@ -1,49 +1,30 @@
 package teammates.ui.controller;
 
-import teammates.common.util.AppUrl;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
-import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 
 public class AdminEmailImageUploadAction extends ImageUploadAction {
-    
-    AdminEmailComposePageData data;
-    
+
     @Override
     protected ActionResult execute() {
-        GateKeeper.inst().verifyAdminPrivileges(account);
-
-        data = new AdminEmailComposePageData(account);
-        BlobInfo blobInfo = extractImageKey(Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD);
-
-        if (blobInfo == null) {
-            data.isFileUploaded = false;
-            data.fileSrcUrl = null;
-            log.warning("Image Upload Failed");
-            statusToAdmin = "Image Upload Failed";
-
-            return createAjaxResult(data);
-        }
-
-        BlobKey blobKey = blobInfo.getBlobKey();
-
-        data.isFileUploaded = true;
-        AppUrl fileSrcUrl = Config.getAppUrl(Const.ActionURIs.PUBLIC_IMAGE_SERVE)
-                .withParam(Const.ParamsNames.BLOB_KEY, blobKey.getKeyString());
-        String absoluteFileSrcUrl = fileSrcUrl.toAbsoluteString();
-        data.fileSrcUrl = fileSrcUrl.toString();
-
-        log.info("New Image Uploaded : " + absoluteFileSrcUrl);
-        statusToAdmin = "New Image Uploaded : " + "<a href=" + data.fileSrcUrl + " target=\"_blank\">"
-                + absoluteFileSrcUrl + "</a>";
-        data.ajaxStatus = "Image Successfully Uploaded to Google Cloud Storage";
+        FileUploadPageData uploadPageData = prepareData();
+        AdminEmailComposePageData data = new AdminEmailComposePageData(account, uploadPageData);
 
         return createAjaxResult(data);
     }
-    
+
+    @Override
+    protected void verifyPrivileges() {
+        GateKeeper.inst().verifyAdminPrivileges(account);
+    }
+
+    @Override
+    protected String getImageKeyParam() {
+        return Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD;
+    }
+
     protected void deleteUploadedFile(BlobKey blobKey) {
         logic.deleteAdminEmailUploadedFile(blobKey);
     }

@@ -18,8 +18,23 @@ public class ImageUploadAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        data = new FileUploadPageData(account);
-        BlobInfo blobInfo = extractImageKey(Const.ParamsNames.IMAGE_TO_UPLOAD);
+        data = prepareData();
+
+        return createAjaxResult(data);
+    }
+
+    protected void verifyPrivileges() {
+        // This method can be overridden e.g. for verifying admin access
+    }
+
+    protected String getImageKeyParam() {
+        return Const.ParamsNames.IMAGE_TO_UPLOAD;
+    }
+
+    protected FileUploadPageData prepareData() {
+        verifyPrivileges();
+        FileUploadPageData data = new FileUploadPageData(account);
+        BlobInfo blobInfo = extractImageKey(getImageKeyParam());
 
         if (blobInfo == null) {
             data.isFileUploaded = false;
@@ -27,7 +42,7 @@ public class ImageUploadAction extends Action {
             log.warning("Image Upload Failed");
             statusToAdmin = "Image Upload Failed";
 
-            return createAjaxResult(data);
+            return data;
         }
 
         BlobKey blobKey = blobInfo.getBlobKey();
@@ -43,7 +58,7 @@ public class ImageUploadAction extends Action {
                 + absoluteFileSrcUrl + "</a>";
         data.ajaxStatus = "Image Successfully Uploaded to Google Cloud Storage";
 
-        return createAjaxResult(data);
+        return data;
     }
 
     protected BlobInfo extractImageKey(String param) {
