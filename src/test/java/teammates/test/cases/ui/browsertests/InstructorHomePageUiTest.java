@@ -466,7 +466,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getCourse(courseId));
         
         homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseId));
-        assertTrue(BackDoor.isCourseNonExistent(courseId));
+        assertNull(BackDoor.getCourse(courseId));
         homePage.verifyHtmlMainContent("/instructorHomeCourseDeleteSuccessful.html");
         
         //delete the other course as well

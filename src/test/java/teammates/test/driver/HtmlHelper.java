@@ -31,6 +31,8 @@ public final class HtmlHelper {
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( UTC)?";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
+    private static final String REGEX_EXTERNAL_LIBRARY =
+            "(?:/(?:stylesheets|js)/lib/|https://(?:[a-z0-9.@-]+/)+)([A-Za-z0-9.-]{3,}\\.(css|js))";
     
     private HtmlHelper() {
         // utility class
@@ -430,18 +432,11 @@ public final class HtmlHelper {
                       .replace(dateOfNextHour, "${date.nexthour}")
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
-                      // jQuery js file
-                      .replace(Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()),
-                               "${lib.path}/jquery.min.js")
-                      // jQuery-ui js file
-                      .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()),
-                               "${lib.path}/jquery-ui.min.js")
-                      // TinyMCE CSS skin
-                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css",
-                               "${lib.path}/skins/lightgray/skin.min.css")
-                      // TinyMCE CSS skin
-                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css",
-                               "${lib.path}/skins/lightgray/content.inline.min.css")
+                      // third-party library directories
+                      .replaceAll(REGEX_EXTERNAL_LIBRARY, "\\${lib.path}/$1")
+                      // TinyMCE CSS skin on dev server
+                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/",
+                               "${lib.path}/")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -486,15 +481,7 @@ public final class HtmlHelper {
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
-                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now))
-                      .replace("<!-- filepath.jquery -->",
-                               Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
-                      .replace("<!-- filepath.jquery-ui -->",
-                               Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()))
-                      .replace("<!-- tinymce.skin.min -->",
-                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css")
-                      .replace("<!-- tinymce.skin.inline -->",
-                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css");
+                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now));
     }
 
 }

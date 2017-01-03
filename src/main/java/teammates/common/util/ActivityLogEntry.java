@@ -19,14 +19,6 @@ import com.google.appengine.api.log.AppLogLine;
 /** A log entry to describe an action carried out by the app */
 public class ActivityLogEntry {
     
-    public static String[] automatedActions = {
-            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
-            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSED_MAIL_ACTION,
-            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION,
-            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION,
-            Const.AutomatedActionNames.AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION,
-    };
-    
     // The following constants describe the positions of the attributes
     // in the log message. i.e
     // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
@@ -257,17 +249,7 @@ public class ActivityLogEntry {
     }
 
     private String changeRoleToAutoIfAutomatedActions(String servletName, String role) {
-        if (servletName.startsWith("/auto/")) {
-            return "Auto";
-        }
-        
-        for (String name : automatedActions) {
-            if (name.toLowerCase().contains(servletName.toLowerCase())) {
-                return "Auto";
-            }
-        }
-        
-        return role;
+        return servletName.startsWith("/auto/") ? "Auto" : role;
     }
     
     private String formatTimeForId(Date date) {

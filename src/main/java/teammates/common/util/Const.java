@@ -50,7 +50,7 @@ public final class Const {
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String NO_SPECIFIC_RECIEPIENT = "No specific recipient";
+    public static final String NO_SPECIFIC_RECIPIENT = "No specific recipient";
     
     public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT = "Anonymous";
@@ -143,11 +143,6 @@ public final class Const {
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
         
-        public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
-        public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
-                                "feedback-submission-adjust-queue";
-        
-        public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
@@ -170,36 +165,6 @@ public final class Const {
         );
         
         public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
-        
-        private SystemParams() {
-            // utility class
-        }
-        
-        /**
-         * @return The file source for jquery.min.js used in application pages,
-         * chosen based on the build's environment.<br>
-         * <ul>
-         * <li>Local files are used on development to enable purely offline testing</li>
-         * <li>CDN files are used on production to reduce the load on appspot's server</li>
-         * </ul>
-         */
-        public static final String getjQueryFilePath(boolean isDevServer) {
-            return isDevServer ? "/js/lib/jquery.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js";
-        }
-        
-        /**
-         * @return The file source for jquery-ui.min.js used in application pages,
-         * chosen based on the build's environment.<br>
-         * <ul>
-         * <li>Local files are used on development to enable purely offline testing</li>
-         * <li>CDN files are used on production to reduce the load on appspot's server</li>
-         * </ul>
-         */
-        public static final String getjQueryUiFilePath(boolean isDevServer) {
-            return isDevServer ? "/js/lib/jquery-ui.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js";
-        }
         
     }
 
@@ -1005,10 +970,6 @@ public final class Const {
         
         public static final String BACKDOOR = "/backdoor";
         
-        //Task Queue Worker Servlets URI
-        public static final String EMAIL_WORKER = "/emailWorker";
-        public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER =
-                                    "/feedbackSubmissionAdjustmentWorker";
     }
     
     /**
@@ -1025,6 +986,14 @@ public final class Const {
         public static final String COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME = "course-join-remind-email-queue";
         public static final String COURSE_JOIN_REMIND_EMAIL_WORKER_URL = "/worker/courseJoinRemindEmail";
         
+        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
+        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
+        
+        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME =
+                "feedback-session-published-email-queue";
+        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionPublishedEmail";
+        
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = "/worker/feedbackSessionRemindEmail";
         
@@ -1033,20 +1002,19 @@ public final class Const {
         public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionRemindParticularUsersEmail";
         
+        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME =
+                "feedback-session-unpublished-email-queue";
+        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionUnpublishedEmail";
+        
+        public static final String PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME =
+                "pending-comment-cleared-email-queue";
+        public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
+                "/worker/pendingCommentClearedEmail";
+        
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
         
-    }
-    
-    public static class AutomatedActionNames {
-        //real servlet names to be logged for automated actions, not for url pattern recognition
-        public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_CLOSED_MAIL_ACTION = "feedbackSessionClosedMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_UNPUBLISHED_MAIL_ACTION =
-                                                                "feedbackSessionUnpublishedMailAction";
-        public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
     }
     
     public static class PublicActionNames {
@@ -1473,9 +1441,6 @@ public final class Const {
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null\n";
     
-        // Task Queue Response Success code
-        public static final int TASK_QUEUE_RESPONSE_OK = 200;
-        
         // POST parameter null message
         public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
     }
