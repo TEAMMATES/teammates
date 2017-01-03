@@ -399,8 +399,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
-        
-        SortedMap<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>(new Comparator<String>() {
+        /*
+        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>(new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
                 return s2.compareTo(s1);
@@ -408,8 +408,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         });
         
         sortedOptionPoints.putAll(optionPoints);
-        
-        for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
+        */
+        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
@@ -420,7 +420,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
-                fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
+                fragments.append(Templates.populateSortTemplate(FormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
                         Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(name),
                         Slots.TEAM, Sanitizer.sanitizeForHtml(teamName),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
@@ -429,7 +429,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             } else {
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
-                fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
+                fragments.append(Templates.populateSortTemplate(FormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                         Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(option),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
@@ -437,11 +437,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
         
         if (distributeToRecipients) {
-            return Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
+            return Templates.populateSortTemplate(FormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
                     Slots.OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
                     Slots.FRAGMENTS, fragments.toString());
         }
-        return Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_OPTION_STATS,
+        return Templates.populateSortTemplate(FormTemplates.CONSTSUM_RESULT_OPTION_STATS,
                 Slots.OPTION_RECIPIENT_DISPLAY_NAME, "Option",
                 Slots.FRAGMENTS, fragments.toString());
     }
