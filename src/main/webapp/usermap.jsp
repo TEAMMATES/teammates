@@ -1,9 +1,13 @@
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/lib/d3.min.js"></script>
-    <script type="text/javascript" src="/js/lib/topojson.min.js"></script>
-    <script type="text/javascript" src="/js/lib/datamaps.none.min.js"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.D3.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.TOPOJSON.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.DATAMAPS.getLibrarySource() %>"></script>
+    <script>
+        var geoDataUrl = '<%= FrontEndLibrary.WORLDMAP.getLibrarySource() %>';
+    </script>
     <script type="text/javascript" src="/js/countryCodes.js"></script>
     <script type="text/javascript" src="/js/userMap.js"></script>
 </c:set>
