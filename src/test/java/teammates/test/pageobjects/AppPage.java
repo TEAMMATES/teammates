@@ -296,7 +296,7 @@ public abstract class AppPage {
         click(okayButton);
         
         waitForModalPresence();
-        WebElement noButton = browser.driver.findElement(By.cssSelector("[data-bb-handler='no']"));  waitForElementToBeClickable(okayButton);
+        WebElement noButton = browser.driver.findElement(By.cssSelector("[data-bb-handler='no']"));
         waitForElementToBeClickable(noButton);
         click(noButton);
         waitForModalToDisappear();
