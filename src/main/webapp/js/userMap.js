@@ -90,7 +90,7 @@ function handleData(err, countryCoordinates, userData) {
             highlightFillColor: function(geo) {
                 return geo.fillColor || '#F5F5F5';
             },
-            dataUrl: '/js/lib/world.hires.topo.json',
+            dataUrl: geoDataUrl,
             // only change border
             highlightBorderColor: '#a4a4a4',
             highlightBorderWidth: 1,
