@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 import teammates.common.util.Assumption;
@@ -400,14 +399,33 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         DecimalFormat df = new DecimalFormat("#.##");
         
-        SortedMap<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>(new Comparator<String>() {
+        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>(new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
                 return s2.compareTo(s1);
             }
         });
         
-        sortedOptionPoints.putAll(optionPoints);
+        Map<String, String> identifierMap = new HashMap<String, String>();
+        
+        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+            
+            if (distributeToRecipients) {
+                
+                String participantIdentifier = entry.getKey();
+                String name = bundle.getNameForEmail(participantIdentifier);
+                
+                identifierMap.put(name, participantIdentifier);
+                sortedOptionPoints.put(name, entry.getValue());
+                
+            } else {
+                
+                String option = options.get(Integer.parseInt(entry.getKey()));
+                
+                identifierMap.put(option, entry.getKey());
+                sortedOptionPoints.put(option, entry.getValue());
+            }
+        }
         
         for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
             
@@ -416,8 +434,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             String pointsReceived = getListOfPointsAsString(points);
             
             if (distributeToRecipients) {
-                String participantIdentifier = entry.getKey();
-                String name = bundle.getNameForEmail(participantIdentifier);
+                String participantIdentifier = identifierMap.get(entry.getKey());
+                String name = entry.getKey();
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
@@ -427,7 +445,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
             
             } else {
-                String option = options.get(Integer.parseInt(entry.getKey()));
+                String option = entry.getKey();
                 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                         Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(option),
