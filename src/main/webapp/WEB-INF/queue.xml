@@ -2,7 +2,16 @@
 <queue-entries>
   
     <queue>
-        <name>admin-prepare-email-queue</name>
+        <name>admin-prepare-email-address-mode-queue</name>
+        <rate>1/s</rate>
+        <bucket-size>1</bucket-size>
+        <retry-parameters>
+            <task-retry-limit>2</task-retry-limit>
+        </retry-parameters>
+    </queue>
+
+    <queue>
+        <name>admin-prepare-email-group-mode-queue</name>
         <rate>1/s</rate>
         <bucket-size>1</bucket-size>
         <retry-parameters>
