@@ -398,13 +398,15 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
-        
+        /*
         Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>(new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
                 return s2.compareTo(s1);
             }
         });
+        */
+        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>();
         
         Map<String, String> identifierMap = new HashMap<String, String>();
         
@@ -479,14 +481,37 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         DecimalFormat df = new DecimalFormat("#.##");
         
+        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>();
+        
+        Map<String, String> identifierMap = new HashMap<String, String>();
+        
         for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+            
+            if (distributeToRecipients) {
+                
+                String participantIdentifier = entry.getKey();
+                String name = bundle.getNameForEmail(participantIdentifier);
+                
+                identifierMap.put(name, participantIdentifier);
+                sortedOptionPoints.put(name, entry.getValue());
+                
+            } else {
+                
+                String option = options.get(Integer.parseInt(entry.getKey()));
+                
+                identifierMap.put(option, entry.getKey());
+                sortedOptionPoints.put(option, entry.getValue());
+            }
+        }
+        
+        for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
             String option;
             if (distributeToRecipients) {
-                String teamName = bundle.getTeamNameForEmail(entry.getKey());
-                String recipientName = bundle.getNameForEmail(entry.getKey());
+                String teamName = bundle.getTeamNameForEmail(identifierMap.get(entry.getKey()));
+                String recipientName = entry.getKey();
                 option = Sanitizer.sanitizeForCsv(teamName) + "," + Sanitizer.sanitizeForCsv(recipientName);
             } else {
-                option = Sanitizer.sanitizeForCsv(options.get(Integer.parseInt(entry.getKey())));
+                option = Sanitizer.sanitizeForCsv(entry.getKey());
             }
             
             List<Integer> points = entry.getValue();
