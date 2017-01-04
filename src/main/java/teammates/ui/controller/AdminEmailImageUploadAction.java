@@ -7,19 +7,17 @@ import com.google.appengine.api.blobstore.BlobKey;
 
 public class AdminEmailImageUploadAction extends ImageUploadAction {
 
-    private AdminEmailComposePageData data;
-
     @Override
     protected ActionResult execute() {
+        GateKeeper.inst().verifyAdminPrivileges(account);
+
         FileUploadPageData uploadPageData = prepareData();
-        data = new AdminEmailComposePageData(account, uploadPageData);
+        AdminEmailComposePageData data = new AdminEmailComposePageData(account);
+        data.isFileUploaded = uploadPageData.isFileUploaded;
+        data.fileSrcUrl = uploadPageData.fileSrcUrl;
+        data.ajaxStatus = uploadPageData.ajaxStatus;
 
         return createAjaxResult(data);
-    }
-
-    @Override
-    protected void verifyPrivileges() {
-        GateKeeper.inst().verifyAdminPrivileges(account);
     }
 
     @Override

@@ -23,16 +23,11 @@ public class ImageUploadAction extends Action {
         return createAjaxResult(data);
     }
 
-    protected void verifyPrivileges() {
-
-    }
-
     protected String getImageKeyParam() {
         return Const.ParamsNames.IMAGE_TO_UPLOAD;
     }
 
     protected FileUploadPageData prepareData() {
-        verifyPrivileges();
         FileUploadPageData data = new FileUploadPageData(account);
         BlobInfo blobInfo = extractImageKey(getImageKeyParam());
 
