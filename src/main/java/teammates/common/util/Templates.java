@@ -1,10 +1,5 @@
 package teammates.common.util;
 
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
-
 public final class Templates {
     
     public static final String INSTRUCTOR_SAMPLE_DATA = FileHelper.readResourceFile("InstructorSampleData.json");
@@ -26,27 +21,6 @@ public final class Templates {
         String populatedTemplate = template;
         for (int i = 0; i < values.length; i += 2) {
             populatedTemplate = populatedTemplate.replace(values[i], values[i + 1]);
-        }
-        return populatedTemplate;
-    }
-    
-    /**
-     * Populates the HTML templates by replacing variables in the template string
-     * with the given value string in ascending order.
-     * @param template The template html to be populated
-     * @param values Array of a variable, even number of key-value pairs:
-     *                   { "key1", "val1", "key2", "val2", ... }
-     * @return The populated template in ascending order according to keys
-     */
-    public static String populateSortTemplate(String template, String... values) {
-        Assumption.assertTrue("The number of values passed in must be even", values.length % 2 == 0);
-        String populatedTemplate = template;
-        Map<String, String> sortedValues = new TreeMap<String, String>();
-        for (int i = 0; i < values.length; i += 2) {
-            sortedValues.put(values[i], values[i + 1]);
-        }
-        for (Entry<String, String> entry : sortedValues.entrySet()) {
-            populatedTemplate = populatedTemplate.replace(entry.getKey(), entry.getValue());
         }
         return populatedTemplate;
     }
