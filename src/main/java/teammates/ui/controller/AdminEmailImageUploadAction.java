@@ -5,6 +5,9 @@ import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
+/**
+ * Action: uploads an image for email
+ */
 public class AdminEmailImageUploadAction extends ImageUploadAction {
 
     @Override

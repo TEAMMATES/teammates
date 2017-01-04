@@ -6,6 +6,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 
+/**
+ * Action: creates a URL for uploading an image
+ */
 public class CreateImageUploadUrlAction extends Action {
 
     @Override

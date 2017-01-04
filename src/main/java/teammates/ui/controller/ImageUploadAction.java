@@ -12,6 +12,9 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
+/**
+ * Action: uploads an image
+ */
 public class ImageUploadAction extends Action {
 
     private FileUploadPageData data;

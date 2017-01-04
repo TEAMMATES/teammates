@@ -4,6 +4,9 @@ import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: creates a URL for uploading an image in email
+ */
 public class AdminEmailCreateImageUploadUrlAction extends CreateImageUploadUrlAction {
 
     @Override
