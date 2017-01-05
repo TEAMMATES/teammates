@@ -32,7 +32,15 @@ public abstract class AutomatedAction {
         this.request = request;
         this.response = response;
         this.logic = new Logic();
-        this.taskQueuer = new TaskQueuer();
+        setTaskQueuer(new TaskQueuer());
+    }
+    
+    public TaskQueuer getTaskQueuer() {
+        return taskQueuer;
+    }
+    
+    public void setTaskQueuer(TaskQueuer taskQueuer) {
+        this.taskQueuer = taskQueuer;
     }
     
     protected String getRequestParamValue(String paramName) {
