@@ -13,7 +13,7 @@
 
 <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
     <div class="panel-heading">
-        <strong>Instructors ${addInstructorPanel.index}:</strong>
+        <strong>Instructor ${addInstructorPanel.index}:</strong>
     </div>
 
     <div class="panel-body fill-plain">
