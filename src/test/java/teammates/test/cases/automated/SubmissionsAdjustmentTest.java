@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -94,7 +95,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         String nonExistentCourseId = "courseDoesNotExist";
         String enrollLines = newStudentLine + Const.EOL;
         
-        List<StudentAttributes> studentsInfo = new ArrayList<StudentAttributes>();
+        CourseEnrollmentResult studentsInfo = new CourseEnrollmentResult(null, null);
         try {
             studentsInfo = studentsLogic
                     .enrollStudentsWithoutDocument(enrollLines, nonExistentCourseId);
@@ -156,7 +157,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
                 + "of responses");
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
         
-        String oldEmail = studentsInfo.get(0).email;
+        String oldEmail = studentsInfo.studentList.get(0).email;
         StudentAttributes updatedAttributes = new StudentAttributes();
         updatedAttributes.email = "newEmail@g";
         updatedAttributes.course = course1.getId();

@@ -6,11 +6,10 @@ import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailWrapper;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.EmailSender;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 
 /**
@@ -37,7 +36,7 @@ public class PendingCommentClearedEmailWorkerAction extends AutomatedAction {
         CommentsLogic commentsLogic = CommentsLogic.inst();
         List<EmailWrapper> emailsToBeSent = new EmailGenerator().generatePendingCommentsClearedEmails(courseId);
         try {
-            new EmailSender().sendEmails(emailsToBeSent);
+            taskQueuer.scheduleEmailsForSending(emailsToBeSent);
             frcLogic.updateFeedbackResponseCommentsSendingState(
                     courseId, CommentSendingState.SENDING, CommentSendingState.SENT);
             commentsLogic.updateCommentsSendingState(courseId, CommentSendingState.SENDING, CommentSendingState.SENT);

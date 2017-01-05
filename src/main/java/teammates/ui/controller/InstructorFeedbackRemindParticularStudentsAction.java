@@ -29,8 +29,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
             return createRedirectResult(nextUrl);
         }
         
-        logic.sendReminderForFeedbackSessionParticularUsers(courseId,
-                feedbackSessionName, usersToRemind);
+        taskQueuer.scheduleFeedbackSessionRemindersForParticularUsers(courseId, feedbackSessionName, usersToRemind);
         
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
         statusToAdmin = "Email sent out to the selected user(s): ";
