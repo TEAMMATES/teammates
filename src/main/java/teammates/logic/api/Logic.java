@@ -14,6 +14,7 @@ import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -1139,7 +1140,7 @@ public class Logic {
      *         course that were not touched by the operation.
      * @throws EntityAlreadyExistsException
      */
-    public List<StudentAttributes> enrollStudents(String enrollLines, String courseId)
+    public CourseEnrollmentResult enrollStudents(String enrollLines, String courseId)
             throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1150,16 +1151,30 @@ public class Logic {
     }
 
     /**
-     * Sends the registration invite to unregistered students in the course.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @return The list of emails sent. These can be used for
-     *         verification.
+     * @see {@link StudentsLogic#getUnregisteredStudentsForCourse(String)}
      */
-    public List<EmailWrapper> sendRegistrationInviteForCourse(String courseId) {
+    public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        return studentsLogic.sendRegistrationInviteForCourse(courseId);
+        return studentsLogic.getUnregisteredStudentsForCourse(courseId);
+    }
+
+    /**
+     * @see {@link FeedbackSessionsLogic#isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes, String)}
+     */
+    public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByInstructor(fsa, userEmail);
+    }
+
+    /**
+     * @see {@link FeedbackSessionsLogic#isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes, String)}
+     */
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail);
     }
 
     /**
@@ -1190,37 +1205,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
     
         return studentsLogic.sendRegistrationInviteToStudentAfterGoogleIdReset(courseId, studentEmail);
-    }
-
-    /**
-     * Sends reminders to students who haven't submitted yet. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     */
-    public void sendReminderForFeedbackSession(String courseId, String feedbackSessionName) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        
-        feedbackSessionsLogic.scheduleFeedbackRemindEmails(courseId, feedbackSessionName);
-    }
-    
-    /**
-     * Sends reminders to selected users. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     */
-    public void sendReminderForFeedbackSessionParticularUsers(String courseId,
-                                                              String feedbackSessionName,
-                                                              String[] usersToRemind) {
-     
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, usersToRemind);
-
-        feedbackSessionsLogic.scheduleFeedbackRemindEmailsForParticularUsers(courseId,
-                                                                             feedbackSessionName,
-                                                                             usersToRemind);
     }
     
     /**
@@ -1645,13 +1629,12 @@ public class Logic {
      *             if the feedback session is not ready to be published.
      * @throws EntityDoesNotExistException
      */
-    public void publishFeedbackSession(String feedbackSessionName, String courseId) throws EntityDoesNotExistException,
-                                                                                           InvalidParametersException {
+    public void publishFeedbackSession(FeedbackSessionAttributes session)
+            throws EntityDoesNotExistException, InvalidParametersException {
         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, session);
     
-        feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
+        feedbackSessionsLogic.publishFeedbackSession(session);
     }
 
     /**
@@ -1660,13 +1643,12 @@ public class Logic {
      * @throws InvalidParametersException
      *             if the feedback session is not ready to be unpublished.
      */
-    public void unpublishFeedbackSession(String feedbackSessionName, String courseId)
+    public void unpublishFeedbackSession(FeedbackSessionAttributes session)
             throws EntityDoesNotExistException, InvalidParametersException {
         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, session);
     
-        feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
+        feedbackSessionsLogic.unpublishFeedbackSession(session);
     }
 
     /**
@@ -2482,14 +2464,6 @@ public class Logic {
         return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
     
-    /**
-     * @see CommentsLogic#sendCommentNotification(String)
-     */
-    public void sendCommentNotification(String courseId) {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        commentsLogic.sendCommentNotification(courseId);
-    }
-
     /**
      * This method is not scalable. Not to be used unless for admin features.
      * @return the list of all adminEmails in the database.
