@@ -99,7 +99,11 @@
                 </c:forEach>
             </select>
             <input type="hidden" name="existingNationality" value="${profile.nationality}">
-            ${profile.legacyNationality}
+            <c:if test="${not empty profile.legacyNationality}">
+                <div class="text-color-red">
+                    ${profile.legacyNationality}
+                </div>
+            </c:if>
         </div>
         <div class="form-group">
             <label for="studentGender">
