@@ -89,12 +89,20 @@ public abstract class Action {
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
-        taskQueuer = new TaskQueuer();
+        setTaskQueuer(new TaskQueuer());
         requestParameters = request.getParameterMap();
         session = request.getSession();
         
         // Set error status forwarded from the previous action
         isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
+    }
+    
+    public TaskQueuer getTaskQueuer() {
+        return taskQueuer;
+    }
+    
+    public void setTaskQueuer(TaskQueuer taskQueuer) {
+        this.taskQueuer = taskQueuer;
     }
 
     protected void authenticateUser() {
