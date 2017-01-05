@@ -5,17 +5,17 @@ import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.api.GateKeeper;
 
 /**
- * Action: creates a URL for uploading an image in email
+ * Action: creates a URL for uploading an image in admin email
  */
 public class AdminEmailCreateImageUploadUrlAction extends CreateImageUploadUrlAction {
 
     @Override
     protected ActionResult execute() {
+        verifyPrivileges();
         return createAjaxResult(getCreateImageUploadUrlPageData());
     }
 
-    @Override
-    protected void verifyPrivileges() {
+    private void verifyPrivileges() {
         new GateKeeper().verifyAdminPrivileges(account);
     }
 

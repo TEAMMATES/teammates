@@ -17,7 +17,6 @@ public class CreateImageUploadUrlAction extends Action {
     }
 
     protected final CreateImageUploadUrlAjaxPageData getCreateImageUploadUrlPageData() {
-        verifyPrivileges();
         CreateImageUploadUrlAjaxPageData data = new CreateImageUploadUrlAjaxPageData(account);
 
         try {
@@ -30,10 +29,6 @@ public class CreateImageUploadUrlAction extends Action {
         }
 
         return data;
-    }
-
-    protected void verifyPrivileges() {
-        // This method can be overridden e.g. for verifying admin access
     }
 
     protected String getUploadUrl() {

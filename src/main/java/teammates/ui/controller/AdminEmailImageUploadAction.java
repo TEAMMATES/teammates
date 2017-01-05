@@ -6,7 +6,7 @@ import teammates.logic.api.GateKeeper;
 import com.google.appengine.api.blobstore.BlobKey;
 
 /**
- * Action: uploads an image for email
+ * Action: uploads an image for admin email
  */
 public class AdminEmailImageUploadAction extends ImageUploadAction {
 
@@ -28,6 +28,7 @@ public class AdminEmailImageUploadAction extends ImageUploadAction {
         return Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD;
     }
 
+    @Override
     protected void deleteUploadedFile(BlobKey blobKey) {
         logic.deleteAdminEmailUploadedFile(blobKey);
     }
