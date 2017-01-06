@@ -50,7 +50,7 @@ public final class Const {
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String NO_SPECIFIC_RECIEPIENT = "No specific recipient";
+    public static final String NO_SPECIFIC_RECIPIENT = "No specific recipient";
     
     public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT = "Anonymous";
@@ -108,9 +108,6 @@ public final class Const {
         TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
     }
     
-    public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
-    public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
-    
     /* 
      * Other Constants
      */
@@ -165,36 +162,6 @@ public final class Const {
         );
         
         public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
-        
-        private SystemParams() {
-            // utility class
-        }
-        
-        /**
-         * @return The file source for jquery.min.js used in application pages,
-         * chosen based on the build's environment.<br>
-         * <ul>
-         * <li>Local files are used on development to enable purely offline testing</li>
-         * <li>CDN files are used on production to reduce the load on appspot's server</li>
-         * </ul>
-         */
-        public static final String getjQueryFilePath(boolean isDevServer) {
-            return isDevServer ? "/js/lib/jquery.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js";
-        }
-        
-        /**
-         * @return The file source for jquery-ui.min.js used in application pages,
-         * chosen based on the build's environment.<br>
-         * <ul>
-         * <li>Local files are used on development to enable purely offline testing</li>
-         * <li>CDN files are used on production to reduce the load on appspot's server</li>
-         * </ul>
-         */
-        public static final String getjQueryUiFilePath(boolean isDevServer) {
-            return isDevServer ? "/js/lib/jquery-ui.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js";
-        }
         
     }
 
@@ -632,7 +599,6 @@ public final class Const {
         public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
         public static final String ADMIN_EMAIL_RECEIVER = "emailreceiver";
         public static final String ADMIN_EMAIL_ADDRESS_RECEIVERS = "adminemailaddressreceivers";
-        public static final String ADMIN_EMAIL_TASK_QUEUE_MODE = "adminemailtaskqueuemode";
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY = "adminemailgroupreceiverlistfilekey";
         public static final String ADMIN_EMAIL_IMAGE_TO_UPLOAD = "emailimagetoupload";
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD = "emailgroupreceiverlisttoupload";
@@ -1009,8 +975,11 @@ public final class Const {
      */
     public static class TaskQueue {
         
-        public static final String ADMIN_PREPARE_EMAIL_QUEUE_NAME = "admin-prepare-email-queue";
-        public static final String ADMIN_PREPARE_EMAIL_WORKER_URL = "/worker/adminPrepareEmail";
+        public static final String ADMIN_PREPARE_EMAIL_ADDRESS_MODE_QUEUE_NAME = "admin-prepare-email-address-mode-queue";
+        public static final String ADMIN_PREPARE_EMAIL_ADDRESS_MODE_WORKER_URL = "/worker/adminPrepareEmailAddressMode";
+        
+        public static final String ADMIN_PREPARE_EMAIL_GROUP_MODE_QUEUE_NAME = "admin-prepare-email-group-mode-queue";
+        public static final String ADMIN_PREPARE_EMAIL_GROUP_MODE_WORKER_URL = "/worker/adminPrepareEmailGroupMode";
         
         public static final String ADMIN_SEND_EMAIL_QUEUE_NAME = "admin-send-email-queue";
         public static final String ADMIN_SEND_EMAIL_WORKER_URL = "/worker/adminSendEmail";

@@ -28,7 +28,8 @@ public class AutomatedActionFactory {
         map(ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, FeedbackSessionPublishedRemindersAction.class);
         
         // Task queue workers
-        map(TaskQueue.ADMIN_PREPARE_EMAIL_WORKER_URL, AdminPrepareEmailWorkerAction.class);
+        map(TaskQueue.ADMIN_PREPARE_EMAIL_ADDRESS_MODE_WORKER_URL, AdminPrepareEmailAddressModeWorkerAction.class);
+        map(TaskQueue.ADMIN_PREPARE_EMAIL_GROUP_MODE_WORKER_URL, AdminPrepareEmailGroupModeWorkerAction.class);
         map(TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, AdminSendEmailWorkerAction.class);
         map(TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, CourseJoinRemindEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL, FeedbackResponseAdjustmentWorkerAction.class);

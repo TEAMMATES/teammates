@@ -68,8 +68,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName()
         };
 
-        FeedbackSessionsLogic.inst()
-                .unpublishFeedbackSession(session1InCourse1.getSessionName(), session1InCourse1.getCourseId());
+        FeedbackSessionsLogic.inst().unpublishFeedbackSession(session1InCourse1);
 
         StudentFeedbackResultsPageAction pageAction = getAction(submissionParams);
 
@@ -81,8 +80,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         ______TS("cannot access a private session");
 
-        FeedbackSessionsLogic.inst()
-                .publishFeedbackSession(session1InCourse1.getSessionName(), session1InCourse1.getCourseId());
+        FeedbackSessionsLogic.inst().publishFeedbackSession(session1InCourse1);
 
         session1InCourse1.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
         FeedbackSessionsLogic.inst().updateFeedbackSession(session1InCourse1);
@@ -164,8 +162,9 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         removeAndRestoreTypicalDataInDatastore();
 
-        FeedbackSessionsLogic.inst()
-                .publishFeedbackSession(session1InCourse1.getSessionName(), session1InCourse1.getCourseId());
+        session1InCourse1 = FeedbackSessionsLogic.inst().getFeedbackSession(
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
+        FeedbackSessionsLogic.inst().publishFeedbackSession(session1InCourse1);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),

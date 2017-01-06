@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import teammates.common.datatransfer.CourseEnrollmentResult;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentUpdateStatus;
@@ -87,7 +89,17 @@ public class InstructorCourseEnrollSaveAction extends Action {
 
     private List<StudentAttributes>[] enrollAndProcessResultForDisplay(String studentsInfo, String courseId)
             throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        List<StudentAttributes> students = logic.enrollStudents(studentsInfo, courseId);
+        CourseEnrollmentResult enrollResult = logic.enrollStudents(studentsInfo, courseId);
+        List<StudentAttributes> students = enrollResult.studentList;
+        
+        // Adjust submissions for all feedback responses within the course
+        List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+        for (FeedbackSessionAttributes session : feedbackSessions) {
+            // Schedule adjustment of submissions for feedback session in course
+            taskQueuer.scheduleFeedbackResponseAdjustmentForCourse(
+                    courseId, session.getFeedbackSessionName(), enrollResult.enrollmentList);
+        }
+        
         Collections.sort(students, new Comparator<StudentAttributes>() {
             @Override
             public int compare(StudentAttributes o1, StudentAttributes o2) {
