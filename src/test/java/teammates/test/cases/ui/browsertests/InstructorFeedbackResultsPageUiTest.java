@@ -481,13 +481,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: filter by 'No specific recipient'");
 
-        resultsPage.filterResponsesForSection(Const.NO_SPECIFIC_RECIEPIENT);
+        resultsPage.filterResponsesForSection(Const.NO_SPECIFIC_RECIPIENT);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredByNoSection.html");
         
         
         ______TS("Verify that 'No specific recipient' has a section panel on a non-question view");
         resultsPage.displayByRecipientGiverQuestion();
-        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_RECIEPIENT));
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_RECIPIENT));
         assertFalse(resultsPage.isSectionPanelExist("Section A"));
 
         resultsPage.displayByQuestion();

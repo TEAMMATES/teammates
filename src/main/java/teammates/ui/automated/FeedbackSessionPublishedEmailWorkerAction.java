@@ -8,7 +8,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.EmailSender;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 /**
@@ -44,7 +43,7 @@ public class FeedbackSessionPublishedEmailWorkerAction extends AutomatedAction {
         List<EmailWrapper> emailsToBeSent =
                 new EmailGenerator().generateFeedbackSessionPublishedEmails(session);
         try {
-            new EmailSender().sendEmails(emailsToBeSent);
+            taskQueuer.scheduleEmailsForSending(emailsToBeSent);
             session.setSentPublishedEmail(true);
             fsLogic.updateFeedbackSession(session);
         } catch (Exception e) {

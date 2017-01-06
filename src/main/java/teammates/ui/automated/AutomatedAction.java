@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
+import teammates.logic.api.Logic;
+import teammates.logic.api.TaskQueuer;
 
 /**
  * An automated "action" to be performed by the system, triggered by cron jobs or task queues.
@@ -20,12 +22,25 @@ public abstract class AutomatedAction {
     
     protected static final Logger log = Logger.getLogger();
     
+    protected Logic logic;
+    protected TaskQueuer taskQueuer;
+    
     protected HttpServletRequest request;
     protected HttpServletResponse response;
     
     protected void initialiseAttributes(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
+        this.logic = new Logic();
+        setTaskQueuer(new TaskQueuer());
+    }
+    
+    public TaskQueuer getTaskQueuer() {
+        return taskQueuer;
+    }
+    
+    public void setTaskQueuer(TaskQueuer taskQueuer) {
+        this.taskQueuer = taskQueuer;
     }
     
     protected String getRequestParamValue(String paramName) {

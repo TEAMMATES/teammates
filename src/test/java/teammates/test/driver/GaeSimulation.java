@@ -11,6 +11,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.logic.api.Logic;
+import teammates.ui.automated.AutomatedAction;
+import teammates.ui.automated.AutomatedActionFactory;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionFactory;
 
@@ -124,7 +126,21 @@ public class GaeSimulation {
      */
     public Action getActionObject(String uri, String... parameters) {
         HttpServletRequest req = createWebRequest(uri, parameters);
-        return new ActionFactory().getAction(req);
+        Action action = new ActionFactory().getAction(req);
+        action.setTaskQueuer(new MockTaskQueuer());
+        return action;
+    }
+    
+    /** 
+     * @param parameters Parameters that appear in a HttpServletRequest
+     * received by the app.
+     * @return an {@link AutomatedAction} object that matches the parameters given.
+     */
+    public AutomatedAction getAutomatedActionObject(String uri, String... parameters) {
+        HttpServletRequest req = createWebRequest(uri, parameters);
+        AutomatedAction action = new AutomatedActionFactory().getAction(req, null);
+        action.setTaskQueuer(new MockTaskQueuer());
+        return action;
     }
 
     /** Refreshes the datastore by recreating it from scratch. */

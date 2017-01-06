@@ -102,6 +102,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT,
                      redirectResult.getStatusMessage());
+        verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME, 2);
              
         expectedLogSegment = "Registration Key sent to the following users "
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
