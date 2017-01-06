@@ -226,6 +226,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         time.set(Calendar.MONTH, 8);
         time.set(Calendar.HOUR_OF_DAY, 5);
         time.set(Calendar.MINUTE, 30);
+        time.set(Calendar.YEAR, 2016);
         email = new EmailGenerator()
                 .generateFeedbackSubmissionConfirmationEmailForStudent(session, student1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
