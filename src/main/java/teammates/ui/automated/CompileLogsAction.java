@@ -72,7 +72,7 @@ public class CompileLogsAction extends AutomatedAction {
         // Do not send any emails if there are no severe logs; prevents spamming
         if (!logs.isEmpty()) {
             EmailWrapper message = new EmailGenerator().generateCompiledLogsEmail(logs);
-            new EmailSender().sendLogReport(message);
+            new EmailSender().sendReport(message);
         }
     }
     

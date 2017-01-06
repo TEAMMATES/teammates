@@ -43,7 +43,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
@@ -74,8 +73,6 @@ public class Logic {
     public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
     
     protected static GateKeeper gateKeeper = GateKeeper.inst();
-    protected static EmailSender emailSender = new EmailSender();
-    protected static EmailGenerator emailGenerator = new EmailGenerator();
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -2512,23 +2509,6 @@ public class Logic {
     public void deleteUploadedFile(BlobKey key) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
         GoogleCloudStorageHelper.deleteFile(key);
-    }
-
-    /**
-     * Generates and emails an error report based on the supplied {@link Throwable} {@code error}.
-     */
-    public EmailWrapper emailErrorReport(String requestMethod, String requestUserAgent, String requestPath,
-                                         String requestUrl, String requestParams, UserType userType,
-                                         Throwable error) {
-        EmailWrapper errorReport =
-                emailGenerator.generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
-                                                        requestUrl, requestParams, userType, error);
-        try {
-            emailSender.sendErrorReport(errorReport);
-        } catch (Exception e) {
-            emailSender.reportErrorThroughFallbackChannel(error, errorReport, e);
-        }
-        return errorReport;
     }
 
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,
