@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.api;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,6 +22,11 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.CommentsLogic;
+import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.log.AppLogLine;
 

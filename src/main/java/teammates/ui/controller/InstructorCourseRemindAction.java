@@ -16,8 +16,8 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.core.EmailGenerator;
 
 /**
  * Action: remind instructor or student to register for a course by sending reminder emails

@@ -6,9 +6,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.EmailGenerator;
+import teammates.logic.api.EmailSender;
 import teammates.logic.core.AdminEmailsLogic;
-import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.EmailSender;
 
 /**
  * Task queue worker action: sends queued admin email.

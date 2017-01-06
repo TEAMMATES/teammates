@@ -24,6 +24,8 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.EmailGenerator;
+import teammates.logic.api.EmailSender;
 import teammates.storage.api.StudentsDb;
 
 /**

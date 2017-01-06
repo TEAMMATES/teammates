@@ -5,7 +5,7 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.core.EmailGenerator;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 /**

@@ -4,7 +4,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.core.EmailSender;
+import teammates.logic.api.EmailSender;
 
 /**
  * Task queue worker action: sends queued email.

@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.api;
 
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
@@ -6,6 +6,11 @@ import teammates.common.util.Config;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.logic.core.EmailSenderService;
+import teammates.logic.core.JavamailService;
+import teammates.logic.core.MailgunService;
+import teammates.logic.core.MailjetService;
+import teammates.logic.core.SendgridService;
 
 /**
  * Handles operations related to sending emails.

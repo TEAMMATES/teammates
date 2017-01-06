@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.common.util.EmailWrapper;
-import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.EmailSender;
+import teammates.logic.api.EmailGenerator;
+import teammates.logic.api.EmailSender;
 
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
