@@ -24,6 +24,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
+import teammates.logic.api.TaskQueuer;
 
 /** An 'action' to be performed by the system. If the logged in user is allowed
  * to perform the requested action, this object can talk to the back end to
@@ -45,6 +46,7 @@ public abstract class Action {
     public StudentAttributes student;
     
     protected Logic logic;
+    protected TaskQueuer taskQueuer;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
     protected String requestUrl;
@@ -87,11 +89,20 @@ public abstract class Action {
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
+        setTaskQueuer(new TaskQueuer());
         requestParameters = request.getParameterMap();
         session = request.getSession();
         
         // Set error status forwarded from the previous action
         isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
+    }
+    
+    public TaskQueuer getTaskQueuer() {
+        return taskQueuer;
+    }
+    
+    public void setTaskQueuer(TaskQueuer taskQueuer) {
+        this.taskQueuer = taskQueuer;
     }
 
     protected void authenticateUser() {

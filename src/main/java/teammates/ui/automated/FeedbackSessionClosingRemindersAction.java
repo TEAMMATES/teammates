@@ -6,7 +6,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
 import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.EmailSender;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 /**
@@ -32,7 +31,7 @@ public class FeedbackSessionClosingRemindersAction extends AutomatedAction {
         for (FeedbackSessionAttributes session : sessions) {
             List<EmailWrapper> emailsToBeSent = new EmailGenerator().generateFeedbackSessionClosingEmails(session);
             try {
-                new EmailSender().sendEmails(emailsToBeSent);
+                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 session.setSentClosingEmail(true);
                 fsLogic.updateFeedbackSession(session);
             } catch (Exception e) {
