@@ -1148,24 +1148,6 @@ public class Logic {
     }
 
     /**
-     * Sends confirmation email for submission to user. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. One parameter out of userId and unregisteredStudentEmail can be empty.<br>
-     */
-    public void sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName, String userId,
-                                                   String unregisteredStudentEmail, String unregisteredStudentRegKey)
-            throws EntityDoesNotExistException {
- 
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertFalse(ERROR_NULL_PARAMETER,
-                userId == null && (unregisteredStudentEmail == null || unregisteredStudentRegKey == null));
-
-        feedbackSessionsLogic.sendConfirmationEmailForSubmission(courseId, feedbackSessionName, userId,
-                                                                 unregisteredStudentEmail, unregisteredStudentRegKey);
-    }
-
-    /**
      * Deletes the student from the course including any submissions to/from
      * for this student in this course.
      * Fails silently if no match found. <br>
