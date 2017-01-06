@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -24,16 +25,20 @@ import teammates.logic.api.GateKeeper;
 public class InstructorCourseRemindAction extends Action {
     
     @Override
-    public ActionResult execute() {
+    public ActionResult execute() throws EntityDoesNotExistException {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
+        
+        CourseAttributes course = logic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException("Course with ID " + courseId + " does not exist!");
+        }
         
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        CourseAttributes course = logic.getCourse(courseId);
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
         if (isSendingToStudent) {
@@ -55,6 +60,10 @@ public class InstructorCourseRemindAction extends Action {
         if (isSendingToStudent) {
             taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, false);
             StudentAttributes studentData = logic.getStudentForEmail(courseId, studentEmail);
+            if (studentData == null) {
+                throw new EntityDoesNotExistException("Student with email " + studentEmail + " does not exist "
+                                                      + "in course " + courseId + "!");
+            }
             EmailWrapper emailSent = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
             emailsSent.add(emailSent);
             
@@ -64,6 +73,10 @@ public class InstructorCourseRemindAction extends Action {
         } else if (isSendingToInstructor) {
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(courseId, instructorEmail);
             InstructorAttributes instructorData = logic.getInstructorForEmail(courseId, instructorEmail);
+            if (instructorData == null) {
+                throw new EntityDoesNotExistException("Instructor with email " + instructorEmail + " does not exist "
+                                                      + "in course " + courseId + "!");
+            }
             EmailWrapper emailSent = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructorData);
             emailsSent.add(emailSent);
             
