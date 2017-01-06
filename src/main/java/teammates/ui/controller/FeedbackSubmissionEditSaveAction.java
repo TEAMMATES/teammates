@@ -30,7 +30,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
 import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.datastore.Text;
@@ -207,7 +206,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                 student, timestamp)
                         : new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
                                 instructor, timestamp);
-                new EmailSender().sendEmail(email);
+                emailSender.sendEmail(email);
             } catch (EmailSendingException e) {
                 log.severe("Submission confirmation email failed to send: "
                            + TeammatesException.toStringWithStackTrace(e));

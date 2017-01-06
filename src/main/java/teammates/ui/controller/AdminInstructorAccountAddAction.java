@@ -28,7 +28,6 @@ import teammates.common.util.Templates;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -129,7 +128,7 @@ public class AdminInstructorAccountAddAction extends Action {
         EmailWrapper email = new EmailGenerator().generateNewInstructorAccountJoinEmail(
                 instructorList.get(0).email, data.instructorShortName, joinLink);
         try {
-            new EmailSender().sendEmail(email);
+            emailSender.sendEmail(email);
         } catch (EmailSendingException e) {
             log.severe("Instructor welcome email failed to send: " + TeammatesException.toStringWithStackTrace(e));
         }

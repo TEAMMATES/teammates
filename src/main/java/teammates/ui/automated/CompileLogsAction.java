@@ -6,7 +6,6 @@ import java.util.List;
 
 import teammates.common.util.EmailWrapper;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
 
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
@@ -72,7 +71,7 @@ public class CompileLogsAction extends AutomatedAction {
         // Do not send any emails if there are no severe logs; prevents spamming
         if (!logs.isEmpty()) {
             EmailWrapper message = new EmailGenerator().generateCompiledLogsEmail(logs);
-            new EmailSender().sendReport(message);
+            emailSender.sendReport(message);
         }
     }
     

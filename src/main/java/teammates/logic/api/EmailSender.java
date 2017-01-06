@@ -1,5 +1,7 @@
 package teammates.logic.api;
 
+import java.util.List;
+
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
@@ -72,6 +74,16 @@ public class EmailSender {
                        + "\nReport content: " + report.getContent()
                        + "\nCause: " + TeammatesException.toStringWithStackTrace(e));
         }
+    }
+    
+    /**
+     * Gets the emails sent.
+     * This method is used only for testing, where it is overridden.
+     * 
+     * @throws UnsupporedOperationException if used in production, where it is not meant to be
+     */
+    public List<EmailWrapper> getEmailsSent() {
+        throw new UnsupportedOperationException("Method is used only for testing");
     }
     
 }

@@ -6,7 +6,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
 
 /**
  * Task queue worker action: sends registration email for an instructor of a course.
@@ -37,7 +36,7 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
         
         EmailWrapper email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
         try {
-            new EmailSender().sendEmail(email);
+            emailSender.sendEmail(email);
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
         }
