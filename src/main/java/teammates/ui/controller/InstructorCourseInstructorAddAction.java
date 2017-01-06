@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -18,7 +17,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorCourseInstructorAddAction extends InstructorCourseInstructorAbstractAction {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
@@ -36,8 +35,8 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         
         /* Process adding the instructor and setup status to be shown to user and admin */
         try {
-            InstructorAttributes newInstructor = logic.createInstructor(instructorToAdd);
-            logic.sendRegistrationInviteToInstructor(courseId, newInstructor);
+            logic.createInstructor(instructorToAdd);
+            taskQueuer.scheduleCourseRegistrationInviteToInstructor(courseId, instructorEmail);
 
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                                                              instructorName, instructorEmail),

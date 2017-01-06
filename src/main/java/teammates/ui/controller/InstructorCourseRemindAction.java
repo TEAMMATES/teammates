@@ -10,7 +10,6 @@ import java.util.TreeMap;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -25,7 +24,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorCourseRemindAction extends Action {
     
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
@@ -63,7 +62,9 @@ public class InstructorCourseRemindAction extends Action {
                                                StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         } else if (isSendingToInstructor) {
-            EmailWrapper emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
+            taskQueuer.scheduleCourseRegistrationInviteToInstructor(courseId, instructorEmail);
+            InstructorAttributes instructorData = logic.getInstructorForEmail(courseId, instructorEmail);
+            EmailWrapper emailSent = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructorData);
             emailsSent.add(emailSent);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail,

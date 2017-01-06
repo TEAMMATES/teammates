@@ -1,7 +1,7 @@
 package teammates.ui.automated;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
@@ -9,9 +9,9 @@ import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 
 /**
- * Task queue worker action: sends registration email for a student of a course.
+ * Task queue worker action: sends registration email for an instructor of a course.
  */
-public class CourseJoinRemindEmailWorkerAction extends AutomatedAction {
+public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
     
     @Override
     protected String getActionDescription() {
@@ -27,20 +27,15 @@ public class CourseJoinRemindEmailWorkerAction extends AutomatedAction {
     public void execute() {
         String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        String studentEmail = getRequestParamValue(ParamsNames.STUDENT_EMAIL);
-        Assumption.assertNotNull(studentEmail);
-        String isRejoinString = getRequestParamValue(ParamsNames.IS_STUDENT_REJOINING);
-        Assumption.assertNotNull(isRejoinString);
-        boolean isRejoin = Boolean.parseBoolean(isRejoinString);
+        String instructorEmail = getRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
+        Assumption.assertNotNull(instructorEmail);
         
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
-        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-        Assumption.assertNotNull(student);
+        InstructorAttributes instructor = logic.getInstructorForEmail(courseId, instructorEmail);
+        Assumption.assertNotNull(instructor);
         
-        EmailWrapper email = isRejoin
-                ? new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student)
-                : new EmailGenerator().generateStudentCourseJoinEmail(course, student);
+        EmailWrapper email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
         try {
             new EmailSender().sendEmail(email);
         } catch (Exception e) {

@@ -109,7 +109,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                      redirectResult.getStatusMessage());
         
         // 2 unregistered students, thus 2 emails queued to be sent
-        verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME, 2);
+        verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 2);
         
         List<TaskWrapper> tasksAdded = remindAction.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {

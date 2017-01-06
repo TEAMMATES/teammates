@@ -559,24 +559,6 @@ public class Logic {
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
     }
 
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, String instructorEmail)
-            throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
-    
-        return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
-    }
-    
-    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor)
-            throws EntityDoesNotExistException {
-        return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructor);
-    }
-    
     public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email)
             throws InvalidParametersException {
          

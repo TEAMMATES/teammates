@@ -219,6 +219,21 @@ public class TaskQueuer {
     }
     
     /**
+     * Schedules for course registration to be sent to the specified instructor.
+     * 
+     * @param courseId the target course ID
+     * @param instructorEmail the email address of the instructor
+     */
+    public void scheduleCourseRegistrationInviteToInstructor(String courseId, String instructorEmail) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.COURSE_ID, courseId);
+        paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
+        
+        addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,
+                TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);
+    }
+    
+    /**
      * Schedules for course registration to be sent to the specified student.
      * 
      * @param courseId the target course ID
@@ -230,7 +245,8 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.STUDENT_EMAIL, studentEmail);
         paramMap.put(ParamsNames.IS_STUDENT_REJOINING, String.valueOf(isRejoining));
         
-        addTask(TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME, TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, paramMap);
+        addTask(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME,
+                TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);
     }
     
     /**

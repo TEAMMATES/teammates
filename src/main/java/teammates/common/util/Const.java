@@ -989,9 +989,6 @@ public final class Const {
         public static final String ADMIN_SEND_EMAIL_QUEUE_NAME = "admin-send-email-queue";
         public static final String ADMIN_SEND_EMAIL_WORKER_URL = "/worker/adminSendEmail";
         
-        public static final String COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME = "course-join-remind-email-queue";
-        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER_URL = "/worker/courseJoinRemindEmail";
-        
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
         
@@ -1013,6 +1010,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionUnpublishedEmail";
         
+        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
+        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/instructorCourseJoinEmail";
+        
         public static final String PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME =
                 "pending-comment-cleared-email-queue";
         public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
@@ -1020,6 +1020,9 @@ public final class Const {
         
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
+        
+        public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
+        public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/studentCourseJoinEmail";
         
     }
     
