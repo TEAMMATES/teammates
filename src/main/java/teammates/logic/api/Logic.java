@@ -577,16 +577,6 @@ public class Logic {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructor);
     }
     
-    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) {
-         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, shortName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
-         
-        return instructorsLogic.sendJoinLinkToNewInstructor(instructor, shortName, institute);
-         
-    }
-     
     public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email)
             throws InvalidParametersException {
          

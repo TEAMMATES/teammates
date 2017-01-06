@@ -464,30 +464,18 @@ public class EmailGenerator {
     /**
      * Generates the new instructor account join email for the given {@code instructor}.
      */
-    public EmailWrapper generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,
-                                                              String shortName, String institute) {
-        
-        String joinUrl = generateNewInstructorAccountJoinLink(instructor, institute);
+    public EmailWrapper generateNewInstructorAccountJoinEmail(
+            String instructorEmail, String instructorShortName, String joinUrl) {
         
         String emailBody = Templates.populateTemplate(EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME,
-                "${userName}", shortName,
+                "${userName}", instructorShortName,
                 "${joinUrl}", joinUrl);
         
-        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructorEmail);
         email.setBcc(Config.SUPPORT_EMAIL);
-        email.setSubject(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), shortName));
+        email.setSubject(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), instructorShortName));
         email.setContent(emailBody);
         return email;
-    }
-    
-    /**
-     * Generates the join link to be sent to the account requester's email.
-     */
-    public String generateNewInstructorAccountJoinLink(InstructorAttributes instructor, String institute) {
-        return Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                     .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                     .withInstructorInstitution(institute)
-                     .toAbsoluteString();
     }
     
     /**

@@ -299,19 +299,6 @@ public class InstructorsLogic {
         
     }
     
-    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) {
-        
-        EmailGenerator emailGenerator = new EmailGenerator();
-
-        try {
-            EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
-            new EmailSender().sendEmail(email);
-            return emailGenerator.generateNewInstructorAccountJoinLink(instructor, institute);
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-    }
-
     public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name,
                                                               String institute, String email) {
         
