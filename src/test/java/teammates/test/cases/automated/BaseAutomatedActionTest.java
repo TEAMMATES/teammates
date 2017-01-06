@@ -15,6 +15,8 @@ public abstract class BaseAutomatedActionTest extends BaseComponentTestCase {
     
     protected abstract String getActionUri();
     
+    protected abstract AutomatedAction getAction(String... submissionParams);
+    
     @BeforeClass
     public void classSetUp() throws Exception {
         printTestClassHeader();

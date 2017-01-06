@@ -81,7 +81,8 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
         
     }
     
-    private FeedbackSessionClosingRemindersAction getAction() {
+    @Override
+    protected FeedbackSessionClosingRemindersAction getAction(String... submissionParams) {
         return (FeedbackSessionClosingRemindersAction) gaeSimulation.getAutomatedActionObject(getActionUri());
     }
     

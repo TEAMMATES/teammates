@@ -73,7 +73,8 @@ public class FeedbackSessionOpeningRemindersActionTest extends BaseAutomatedActi
         
     }
     
-    private FeedbackSessionOpeningRemindersAction getAction() {
+    @Override
+    protected FeedbackSessionOpeningRemindersAction getAction(String... submissionParams) {
         return (FeedbackSessionOpeningRemindersAction) gaeSimulation.getAutomatedActionObject(getActionUri());
     }
     

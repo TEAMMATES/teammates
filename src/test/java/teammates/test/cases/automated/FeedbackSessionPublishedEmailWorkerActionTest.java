@@ -36,7 +36,8 @@ public class FeedbackSessionPublishedEmailWorkerActionTest extends BaseAutomated
         verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 10);
     }
     
-    private FeedbackSessionPublishedEmailWorkerAction getAction(String[] submissionParams) {
+    @Override
+    protected FeedbackSessionPublishedEmailWorkerAction getAction(String... submissionParams) {
         return (FeedbackSessionPublishedEmailWorkerAction)
                 gaeSimulation.getAutomatedActionObject(getActionUri(), submissionParams);
     }

@@ -39,7 +39,8 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
         
     }
     
-    private FeedbackSessionRemindEmailWorkerAction getAction(String... submissionParams) {
+    @Override
+    protected FeedbackSessionRemindEmailWorkerAction getAction(String... submissionParams) {
         return (FeedbackSessionRemindEmailWorkerAction)
                 gaeSimulation.getAutomatedActionObject(getActionUri(), submissionParams);
     }
