@@ -224,10 +224,11 @@ public class TaskQueuer {
      * @param courseId the target course ID
      * @param studentEmail the email address of the student
      */
-    public void scheduleCourseRegistrationInviteToStudent(String courseId, String studentEmail) {
+    public void scheduleCourseRegistrationInviteToStudent(String courseId, String studentEmail, boolean isRejoining) {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.COURSE_ID, courseId);
         paramMap.put(ParamsNames.STUDENT_EMAIL, studentEmail);
+        paramMap.put(ParamsNames.IS_STUDENT_REJOINING, String.valueOf(isRejoining));
         
         addTask(TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME, TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, paramMap);
     }

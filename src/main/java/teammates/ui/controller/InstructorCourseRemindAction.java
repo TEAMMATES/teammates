@@ -54,7 +54,9 @@ public class InstructorCourseRemindAction extends Action {
         List<EmailWrapper> emailsSent = new ArrayList<EmailWrapper>();
         String redirectUrl = "";
         if (isSendingToStudent) {
-            EmailWrapper emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
+            taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, false);
+            StudentAttributes studentData = logic.getStudentForEmail(courseId, studentEmail);
+            EmailWrapper emailSent = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
             emailsSent.add(emailSent);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
@@ -70,7 +72,7 @@ public class InstructorCourseRemindAction extends Action {
         } else {
             List<StudentAttributes> studentDataList = logic.getUnregisteredStudentsForCourse(courseId);
             for (StudentAttributes student : studentDataList) {
-                taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail());
+                taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail(), false);
                 EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
                 emailsSent.add(email);
             }

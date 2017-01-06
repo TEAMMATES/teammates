@@ -542,6 +542,7 @@ public final class Const {
     public static class ParamsNames {
         
         public static final String IS_USING_AJAX = "isusingAjax";
+        public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
         
         public static final String BLOB_KEY = "blob-key";
         

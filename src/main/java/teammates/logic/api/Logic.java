@@ -1176,36 +1176,6 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
-            throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
-    
-        return studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
-    }
-    
-    /**
-     * Send rejoin email to student after google id has been reset.<br>
-     * Should only be used by admin in AdminStudentGoogleIdResetAction
-     * @param courseId
-     * @param studentEmail
-     * @return
-     * @throws EntityDoesNotExistException
-     */
-    public EmailWrapper sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
-           throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
-    
-        return studentsLogic.sendRegistrationInviteToStudentAfterGoogleIdReset(courseId, studentEmail);
-    }
-    
-    /**
      * Sends confirmation email for submission to user. <br>
      * Preconditions: <br>
      * * All parameters are non-null. One parameter out of userId and unregisteredStudentEmail can be empty.<br>

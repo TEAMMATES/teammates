@@ -1,10 +1,12 @@
 package teammates.ui.automated;
 
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.TeammatesException;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
-import teammates.logic.core.StudentsLogic;
+import teammates.common.util.EmailWrapper;
+import teammates.logic.api.EmailGenerator;
+import teammates.logic.api.EmailSender;
 
 /**
  * Task queue worker action: sends registration email for a student of a course.
@@ -27,11 +29,22 @@ public class CourseJoinRemindEmailWorkerAction extends AutomatedAction {
         Assumption.assertNotNull(courseId);
         String studentEmail = getRequestParamValue(ParamsNames.STUDENT_EMAIL);
         Assumption.assertNotNull(studentEmail);
+        String isRejoinString = getRequestParamValue(ParamsNames.IS_STUDENT_REJOINING);
+        Assumption.assertNotNull(isRejoinString);
+        boolean isRejoin = Boolean.parseBoolean(isRejoinString);
         
+        CourseAttributes course = logic.getCourse(courseId);
+        Assumption.assertNotNull(course);
+        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+        Assumption.assertNotNull(student);
+        
+        EmailWrapper email = isRejoin
+                ? new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student)
+                : new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         try {
-            StudentsLogic.inst().sendRegistrationInviteToStudent(courseId, studentEmail);
-        } catch (EntityDoesNotExistException e) {
-            log.severe("Unexpected error while sending emails: " + TeammatesException.toStringWithStackTrace(e));
+            new EmailSender().sendEmail(email);
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while sending email", e);
         }
     }
     
