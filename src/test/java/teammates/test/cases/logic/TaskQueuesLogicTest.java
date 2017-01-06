@@ -52,7 +52,7 @@ public class TaskQueuesLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test
+    @Test(enabled = false)
     public void allTests() {
         
         int waitTimeForQueueInMs = 1000; // the buffer time for the task to be queued
