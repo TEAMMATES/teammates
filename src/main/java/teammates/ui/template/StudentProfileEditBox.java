@@ -31,7 +31,7 @@ public class StudentProfileEditBox {
         this.institute = StringHelper.convertToEmptyStringIfNull(profile.institute);
         this.nationality = StringHelper.convertToEmptyStringIfNull(profile.nationality);
         this.nationalitySelectField = PageData.getNationalitiesAsElementTags(profile.nationality);
-        this.legacyNationality = PageData.getLegacyNationality(profile.nationality);
+        this.legacyNationality = PageData.getLegacyNationalityInstructions(profile.nationality);
         this.gender = profile.gender;
         this.moreInfo = StringHelper.convertToEmptyStringIfNull(profile.moreInfo);
         this.googleId = googleId;

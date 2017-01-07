@@ -151,7 +151,7 @@ public class PageData {
     /**
      * Creates and returns a String if the existing nationality is incorrect.
      */
-    public static String getLegacyNationality(String existingNationality) {
+    public static String getLegacyNationalityInstructions(String existingNationality) {
         List<String> nationalities = NationalityHelper.getNationalities();
 
         if (nationalities.contains(existingNationality) || "".equals(existingNationality)) {
