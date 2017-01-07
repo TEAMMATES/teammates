@@ -39,7 +39,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected String feedbackSessionName;
     protected FeedbackSubmissionEditPageData data;
     protected boolean hasValidResponse;
-    protected boolean isSendEmail;
+    protected boolean isSendSubmissionEmail;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -177,8 +177,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             removeRespondent();
         }
                
-        boolean isSendSubmissionEmail = "on".equals(getRequestParamValue(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
-        if (isSendEmail && isSendSubmissionEmail) {
+        boolean isSubmissionEmailRequested = "on".equals(getRequestParamValue(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
+        if (!isError && isSendSubmissionEmail && isSubmissionEmailRequested) {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
             Assumption.assertNotNull(session);
             
