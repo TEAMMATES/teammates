@@ -1,6 +1,6 @@
 package teammates.common.util;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -225,12 +225,7 @@ public final class NationalityHelper {
      * Returns with the nationalities list.
      */
     public static List<String> getNationalities() {
-        List<String> nationalities = new ArrayList<>();
-        
-        for (String nationality : NATIONALITIES) {
-            nationalities.add(nationality);
-        }
-        return nationalities;
+        return Arrays.asList(NATIONALITIES);
     }
 
 }
