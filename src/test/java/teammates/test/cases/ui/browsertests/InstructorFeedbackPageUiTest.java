@@ -722,7 +722,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         initialCal.setTime(cal.getTime());
         
         Calendar increasedStartDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        increasedStartDate((cal.add(Calendar.DATE, 30)).getTime());
+        increasedStartDate.setTime((cal.add(Calendar.DATE, 30)).getTime());
         
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, increasedStartDate);
         
