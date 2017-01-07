@@ -3,6 +3,7 @@ package teammates.test.cases.ui;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -677,6 +678,16 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         Action c = gaeSimulation.getActionObject(uri, params);
         RedirectResult r = (RedirectResult) c.executeAndPostProcess();
         AssertHelper.assertContains(expectedRedirectUrl, r.destination);
+    }
+
+    protected void verifyNoTasksAdded(Action action) {
+        Map<String, Integer> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        assertEquals(0, tasksAdded.keySet().size());
+    }
+
+    protected void verifySpecifiedTasksAdded(Action action, String taskName, int taskCount) {
+        Map<String, Integer> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        assertEquals(taskCount, tasksAdded.get(taskName).intValue());
     }
 
 }
