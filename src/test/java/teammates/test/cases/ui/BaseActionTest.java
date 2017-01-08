@@ -681,12 +681,12 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     protected void verifyNoTasksAdded(Action action) {
-        Map<String, Integer> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        Map<String, Integer> tasksAdded = action.getTaskQueuer().getNumberOfTasksAdded();
         assertEquals(0, tasksAdded.keySet().size());
     }
 
     protected void verifySpecifiedTasksAdded(Action action, String taskName, int taskCount) {
-        Map<String, Integer> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        Map<String, Integer> tasksAdded = action.getTaskQueuer().getNumberOfTasksAdded();
         assertEquals(taskCount, tasksAdded.get(taskName).intValue());
     }
 
