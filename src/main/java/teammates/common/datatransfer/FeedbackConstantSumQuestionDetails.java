@@ -398,14 +398,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
-        /*
-        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>(new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s2.compareTo(s1);
-            }
-        });
-        */
+        
         Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>();
         
         Map<String, String> identifierMap = new HashMap<String, String>();
