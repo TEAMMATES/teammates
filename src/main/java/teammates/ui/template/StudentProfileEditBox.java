@@ -16,7 +16,7 @@ public class StudentProfileEditBox {
     private String nationality;
     /** option to select the nationality */
     private List<ElementTag> nationalitySelectField;
-    private String legacyNationality;
+    private String legacyNationalityInstructions;
     private String gender;
     private String moreInfo;
     private String googleId;
@@ -31,7 +31,7 @@ public class StudentProfileEditBox {
         this.institute = StringHelper.convertToEmptyStringIfNull(profile.institute);
         this.nationality = StringHelper.convertToEmptyStringIfNull(profile.nationality);
         this.nationalitySelectField = PageData.getNationalitiesAsElementTags(profile.nationality);
-        this.legacyNationality = PageData.getLegacyNationalityInstructions(profile.nationality);
+        this.legacyNationalityInstructions = PageData.getLegacyNationalityInstructions(profile.nationality);
         this.gender = profile.gender;
         this.moreInfo = StringHelper.convertToEmptyStringIfNull(profile.moreInfo);
         this.googleId = googleId;
@@ -83,7 +83,7 @@ public class StudentProfileEditBox {
     }
 
     public String getLegacyNationality() {
-        return legacyNationality;
+        return legacyNationalityInstructions;
     }
 
 }
