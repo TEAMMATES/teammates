@@ -52,7 +52,7 @@ public class TaskQueuer {
      * Gets the tasks added to the queue.
      * This method is used only for testing, where it is overridden.
      * 
-     * @throws UnsupporedOperationException if used in production, where it is not meant to be
+     * @throws UnsupportedOperationException if used in production, where it is not meant to be
      */
     public List<TaskWrapper> getTasksAdded() {
         throw new UnsupportedOperationException("Method is used only for testing");
@@ -62,7 +62,7 @@ public class TaskQueuer {
      * Gets the number of tasks added for each queue name.
      * This method is used only for testing, where it is overridden.
      * 
-     * @throws UnsupporedOperationException if used in production, where it is not meant to be
+     * @throws UnsupportedOperationException if used in production, where it is not meant to be
      */
     public Map<String, Integer> getNumberOfTasksAdded() {
         throw new UnsupportedOperationException("Method is used only for testing");

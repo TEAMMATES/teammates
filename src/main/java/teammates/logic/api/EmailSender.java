@@ -80,7 +80,7 @@ public class EmailSender {
      * Gets the emails sent.
      * This method is used only for testing, where it is overridden.
      * 
-     * @throws UnsupporedOperationException if used in production, where it is not meant to be
+     * @throws UnsupportedOperationException if used in production, where it is not meant to be
      */
     public List<EmailWrapper> getEmailsSent() {
         throw new UnsupportedOperationException("Method is used only for testing");
