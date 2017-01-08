@@ -5,10 +5,9 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailWrapper;
 import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.EmailSender;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 /**
@@ -44,7 +43,7 @@ public class FeedbackSessionUnpublishedEmailWorkerAction extends AutomatedAction
         List<EmailWrapper> emailsToBeSent =
                 new EmailGenerator().generateFeedbackSessionUnpublishedEmails(session);
         try {
-            new EmailSender().sendEmails(emailsToBeSent);
+            taskQueuer.scheduleEmailsForSending(emailsToBeSent);
             session.setSentPublishedEmail(false);
             fsLogic.updateFeedbackSession(session);
         } catch (Exception e) {

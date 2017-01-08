@@ -72,6 +72,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
+        verifySpecifiedTasksAdded(enrollAction, Const.TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME, 6);
         
         InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
@@ -133,6 +134,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
+        verifyNoTasksAdded(enrollAction);
         
         pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
@@ -201,6 +203,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                                             + "</span>"
                                         + "</p>";
         assertEquals(expectedStatusMessage, pageResult.getStatusMessage());
+        verifyNoTasksAdded(enrollAction);
         
         InstructorCourseEnrollPageData enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, enrollPageData.getCourseId());
@@ -230,6 +233,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageResult = getShowPageResult(enrollAction);
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
+        verifyNoTasksAdded(enrollAction);
         
         //fail to enroll, if exceed the range
         enrollStringBuilder.append(Const.EOL).append("section" + sizeLimitBoundary + "\tteam" + sizeLimitBoundary
@@ -244,6 +248,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
         assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED, pageResult.getStatusMessage());
+        verifyNoTasksAdded(enrollAction);
         
         ______TS("Failure case: empty input");
 
@@ -260,6 +265,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());
+        verifyNoTasksAdded(enrollAction);
         
         enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, enrollPageData.getCourseId());

@@ -1,10 +1,16 @@
 package teammates.ui.automated;
 
-import teammates.common.exception.EntityDoesNotExistException;
+import java.util.ArrayList;
+import java.util.List;
+
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
-import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.common.util.EmailWrapper;
+import teammates.logic.core.EmailGenerator;
 
 /**
  * Task queue worker action: sends feedback session reminder email to a course.
@@ -30,8 +36,29 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
         Assumption.assertNotNull(courseId);
         
         try {
-            FeedbackSessionsLogic.inst().sendReminderForFeedbackSession(courseId, feedbackSessionName);
-        } catch (EntityDoesNotExistException e) {
+            FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+            List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
+            List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+            
+            List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+            for (StudentAttributes student : studentList) {
+                if (!logic.isFeedbackSessionCompletedByStudent(session, student.email)) {
+                    studentsToRemindList.add(student);
+                }
+            }
+            
+            // Filter out instructors who have submitted the feedback session
+            List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+            for (InstructorAttributes instructor : instructorList) {
+                if (!logic.isFeedbackSessionCompletedByInstructor(session, instructor.email)) {
+                    instructorsToRemindList.add(instructor);
+                }
+            }
+            
+            List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
+                    session, studentsToRemindList, instructorsToRemindList, instructorList);
+            taskQueuer.scheduleEmailsForSending(emails);
+        } catch (Exception e) {
             log.severe("Unexpected error while sending emails: " + TeammatesException.toStringWithStackTrace(e));
         }
     }
