@@ -85,7 +85,8 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseAutomatedAc
         
     }
     
-    private FeedbackSessionPublishedRemindersAction getAction() {
+    @Override
+    protected FeedbackSessionPublishedRemindersAction getAction(String... submissionParams) {
         return (FeedbackSessionPublishedRemindersAction) gaeSimulation.getAutomatedActionObject(getActionUri());
     }
     
