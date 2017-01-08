@@ -3,7 +3,7 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.AccountAttributes;
 
 /**
- * Page data for created image URL
+ * Page data for a page with created image URL
  */
 public class CreateImageUploadUrlAjaxPageData extends PageData {
     public String nextUploadUrl;

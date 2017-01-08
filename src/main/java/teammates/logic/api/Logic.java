@@ -2585,7 +2585,7 @@ public class Logic {
 
     /**
      * Deletes uploaded file
-     * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
+     * @param key the GCS blobkey used to fetch the file in Google Cloud Storage
      */
     public void deleteUploadedFile(BlobKey key) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
