@@ -797,7 +797,7 @@
                     <div class="bs-example">
                         <div class="panel panel-primary" id="panelAddInstructor" style="">
                             <div class="panel-heading">
-                                <strong>Instructors 2:</strong>
+                                <strong>Instructor 2:</strong>
                             </div>
 
                             <div class="panel-body fill-plain">
