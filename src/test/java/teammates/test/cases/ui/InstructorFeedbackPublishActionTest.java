@@ -1,6 +1,7 @@
 package teammates.test.cases.ui;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -8,6 +9,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.TaskWrapper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.InstructorFeedbackPublishAction;
@@ -58,6 +61,13 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED, result.getStatusMessage());
         assertFalse(result.isError);
         
+        verifySpecifiedTasksAdded(publishAction, Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 1);
+        
+        TaskWrapper taskAdded = publishAction.getTaskQueuer().getTasksAdded().get(0);
+        Map<String, String[]> paramMap = taskAdded.getParamMap();
+        assertEquals(session.getCourseId(), paramMap.get(ParamsNames.EMAIL_COURSE)[0]);
+        assertEquals(session.getSessionName(), paramMap.get(ParamsNames.EMAIL_FEEDBACK)[0]);
+        
         ______TS("Unsuccessful case 1: params with null course id");
         
         String errorMessage = "";
@@ -100,6 +110,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         assertEquals("Error publishing feedback session: Session has already been published.",
                      result.getStatusMessage());
         assertTrue(result.isError);
+        
+        verifyNoTasksAdded(publishAction);
         
         makeFeedbackSessionUnpublished(session);
     }

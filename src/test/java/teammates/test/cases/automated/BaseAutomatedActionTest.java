@@ -15,6 +15,8 @@ public abstract class BaseAutomatedActionTest extends BaseComponentTestCase {
     
     protected abstract String getActionUri();
     
+    protected abstract AutomatedAction getAction(String... submissionParams);
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
@@ -32,12 +34,12 @@ public abstract class BaseAutomatedActionTest extends BaseComponentTestCase {
     }
     
     protected void verifyNoTasksAdded(AutomatedAction action) {
-        Map<String, Integer> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        Map<String, Integer> tasksAdded = action.getTaskQueuer().getNumberOfTasksAdded();
         assertEquals(0, tasksAdded.keySet().size());
     }
     
     protected void verifySpecifiedTasksAdded(AutomatedAction action, String taskName, int taskCount) {
-        Map<String, Integer> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        Map<String, Integer> tasksAdded = action.getTaskQueuer().getNumberOfTasksAdded();
         assertEquals(taskCount, tasksAdded.get(taskName).intValue());
     }
     

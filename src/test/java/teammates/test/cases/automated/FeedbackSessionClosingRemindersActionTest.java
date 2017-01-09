@@ -1,11 +1,18 @@
 package teammates.test.cases.automated;
 
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailType;
+import teammates.common.util.TaskWrapper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.automated.FeedbackSessionClosingRemindersAction;
 
@@ -14,6 +21,7 @@ import teammates.ui.automated.FeedbackSessionClosingRemindersAction;
  */
 public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActionTest {
     
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final DataBundle dataBundle = getTypicalDataBundle();
     
@@ -69,6 +77,15 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
         // 5 students and 5 instructors in course1, 2 students have completed the feedback session
         verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 8);
         
+        String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
+        List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        for (TaskWrapper task : tasksAdded) {
+            Map<String, String[]> paramMap = task.getParamMap();
+            assertEquals(String.format(EmailType.FEEDBACK_CLOSING.getSubject(), courseName,
+                                       session1.getSessionName()),
+                         paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
+        }
+        
         ______TS("1 session closing soon with emails sent");
         
         session1.setSentClosingEmail(true);
@@ -81,7 +98,8 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
         
     }
     
-    private FeedbackSessionClosingRemindersAction getAction() {
+    @Override
+    protected FeedbackSessionClosingRemindersAction getAction(String... submissionParams) {
         return (FeedbackSessionClosingRemindersAction) gaeSimulation.getAutomatedActionObject(getActionUri());
     }
     

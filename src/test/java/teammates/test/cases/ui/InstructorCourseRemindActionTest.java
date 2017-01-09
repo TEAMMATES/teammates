@@ -1,5 +1,8 @@
 package teammates.test.cases.ui;
 
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -8,7 +11,9 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TaskWrapper;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
@@ -102,8 +107,16 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT,
                      redirectResult.getStatusMessage());
+        
+        // 2 unregistered students, thus 2 emails queued to be sent
         verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME, 2);
-             
+        
+        List<TaskWrapper> tasksAdded = remindAction.getTaskQueuer().getTasksAdded();
+        for (TaskWrapper task : tasksAdded) {
+            Map<String, String[]> paramMap = task.getParamMap();
+            assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
+        }
+        
         expectedLogSegment = "Registration Key sent to the following users "
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
                 + unregisteredStudent1.name + "<span class=\"bold\"> ("
@@ -119,6 +132,23 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent1.email);
         StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent2.email);
 
+        ______TS("Typical case: no unregistered students in course");
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId
+        };
+        remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
+        assertFalse(redirectResult.isError);
+        assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT, redirectResult.getStatusMessage());
+        expectedLogSegment = "Registration Key sent to the following users "
+                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>";
+        AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
+        
+        // no unregistered students, thus no emails sent
+        verifyNoTasksAdded(remindAction);
+        
         ______TS("Failure case: Invalid email parameter");
 
         String invalidEmail = "invalidEmail.com";
