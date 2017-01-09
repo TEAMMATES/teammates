@@ -752,6 +752,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, decreasedEndDate);
         
+        valueOfStartDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
         assertEquals(sdf.format(initialCal.getTime()), valueOfStartDate);
         
         assertEquals(sdf.format(initialCal.getTime()), valueOfVisibleDate);
