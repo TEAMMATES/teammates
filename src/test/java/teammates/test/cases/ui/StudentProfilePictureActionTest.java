@@ -208,6 +208,18 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
             assertEquals("User is not in the course that student belongs to", uae.getMessage());
         }
         
+        ______TS("Failure case: instructor from same course with no 'viewing student' privilege");
+        unauthInstructor = dataBundle.accounts.get("helperOfCourse1");
+        gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
+
+        action = getAction(submissionParams);
+        try {
+            action.executeAndPostProcess();
+            signalFailureToDetectException("Unauthorised Access");
+        } catch (UnauthorizedAccessException uae) {
+            assertEquals("Instructor does not have enough privileges to view the photo", uae.getMessage());
+        }
+        
         ______TS("Failure case: student not from same course");
         AccountAttributes unauthStudent = dataBundle.accounts.get("student1InArchivedCourse");
         gaeSimulation.loginAsStudent(unauthStudent.googleId);
@@ -247,10 +259,11 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
             action = getAction(addUserIdToParams(student.googleId, submissionParams));
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
-            ignoreExpectedException();
+            assertEquals("User student1InArchivedCourse is trying to masquerade as"
+                    + " student1InCourse1 without admin permission.", uae.getMessage());
         }
         
-        ______TS("Failure case: unauthorised instructor masqueraded as a authorised instructor");
+        ______TS("Failure case: unauthorised instructor masqueraded as an authorised instructor");
         AccountAttributes unauthInstructor = dataBundle.accounts.get("instructor1OfCourse2");
         AccountAttributes instructor = dataBundle.accounts.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
@@ -258,7 +271,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
             action = getAction(addUserIdToParams(instructor.googleId, submissionParams));
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
-            ignoreExpectedException();
+            assertEquals("User idOfInstructor1OfCourse2 is trying to masquerade as"
+                    + " idOfInstructor1OfCourse1 without admin permission.", uae.getMessage());
         }
         
         gaeSimulation.loginAsAdmin("admin.user");
@@ -316,6 +330,5 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     private StudentProfilePictureAction getAction(String... params) {
         return (StudentProfilePictureAction) gaeSimulation.getActionObject(uri, params);
     }
+
 }
-
-
