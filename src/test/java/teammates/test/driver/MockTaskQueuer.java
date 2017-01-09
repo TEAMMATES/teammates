@@ -1,8 +1,11 @@
 package teammates.test.driver;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import teammates.common.util.TaskWrapper;
 import teammates.logic.api.TaskQueuer;
 
 /**
@@ -13,35 +16,48 @@ import teammates.logic.api.TaskQueuer;
  */
 public class MockTaskQueuer extends TaskQueuer {
     
-    private Map<String, Integer> tasksAdded = new HashMap<String, Integer>();
+    private List<TaskWrapper> tasksAdded = new ArrayList<TaskWrapper>();
     
     @Override
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap) {
-        addTask(queueName);
+        Map<String, String[]> multisetParamMap = new HashMap<String, String[]>();
+        for (Map.Entry<String, String> entrySet : paramMap.entrySet()) {
+            multisetParamMap.put(entrySet.getKey(), new String[] { entrySet.getValue() });
+        }
+        TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap);
+        tasksAdded.add(task);
     }
     
     @Override
     protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap,
                                    long countdownTime) {
-        addTask(queueName);
+        // countdown time not tested, thus fallback to another method
+        addTask(queueName, workerUrl, paramMap);
     }
     
     @Override
     protected void addTaskMultisetParam(String queueName, String workerUrl, Map<String, String[]> paramMap) {
-        addTask(queueName);
-    }
-    
-    private void addTask(String queueName) {
-        if (!tasksAdded.containsKey(queueName)) {
-            tasksAdded.put(queueName, 0);
-        }
-        int oldTaskCount = tasksAdded.get(queueName);
-        tasksAdded.put(queueName, oldTaskCount + 1);
+        TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap);
+        tasksAdded.add(task);
     }
     
     @Override
-    public Map<String, Integer> getTasksAdded() {
+    public List<TaskWrapper> getTasksAdded() {
         return tasksAdded;
+    }
+    
+    @Override
+    public Map<String, Integer> getNumberOfTasksAdded() {
+        Map<String, Integer> numberOfTasksAdded = new HashMap<String, Integer>();
+        for (TaskWrapper task : tasksAdded) {
+            String queueName = task.getQueueName();
+            if (!numberOfTasksAdded.containsKey(queueName)) {
+                numberOfTasksAdded.put(queueName, 0);
+            }
+            int oldTaskCount = numberOfTasksAdded.get(queueName);
+            numberOfTasksAdded.put(queueName, oldTaskCount + 1);
+        }
+        return numberOfTasksAdded;
     }
     
 }
