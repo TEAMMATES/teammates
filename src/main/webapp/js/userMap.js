@@ -17,13 +17,20 @@ function handleData(err, countryCoordinates, userData) {
     var userCountries = Object.keys(userData);
     var countriesArr = [];
     var total = 0;
+    var date = "";
     userCountries.forEach(function(countryName) {
-        var countryTotal = userData[countryName].length;
-
-        countriesArr.push([countryName, countryTotal]);
-        total += countryTotal;
+	    if(countryName != "LastUpdated"){	
+	    	var countryTotal = userData[countryName].length;
+	        countriesArr.push([countryName, countryTotal]);
+	        total += countryTotal;
+	    }
+	    else{
+	    	date = userData[countryName];
+	    }
     });
-
+    
+    //set the last updated date in the page
+    document.getElementById('lastUpdateDate').innerHTML = date;
     // set the institution count in the page
     document.getElementById('totalUserCount').innerHTML = total;
     // set the country count in the page
