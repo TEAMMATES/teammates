@@ -82,7 +82,7 @@ public class StudentProfileEditBox {
         return pictureUrl;
     }
 
-    public String getLegacyNationality() {
+    public String getLegacyNationalityInstructions() {
         return legacyNationalityInstructions;
     }
 

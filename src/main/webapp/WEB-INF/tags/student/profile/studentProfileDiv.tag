@@ -99,9 +99,9 @@
                 </c:forEach>
             </select>
             <input type="hidden" name="existingNationality" value="${profile.nationality}">
-            <c:if test="${not empty profile.legacyNationality}">
+            <c:if test="${not empty profile.legacyNationalityInstructions}">
                 <div class="text-color-red">
-                    ${profile.legacyNationality}
+                    ${profile.legacyNationalityInstructions}
                 </div>
             </c:if>
         </div>
