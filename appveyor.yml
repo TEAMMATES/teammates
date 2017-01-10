@@ -11,7 +11,7 @@ build_script:
   - gradlew.bat createConfigs testClasses 
 
 test_script:
-  - gradlew.bat appengineRun travisTests
+  - gradlew.bat appengineRun ciTests
 
 on_finish:
   - gradlew.bat appengineStop
