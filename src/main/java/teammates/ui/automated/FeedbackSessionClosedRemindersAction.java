@@ -1,5 +1,11 @@
 package teammates.ui.automated;
 
+import java.util.List;
+
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.exception.TeammatesException;
+import teammates.common.util.EmailWrapper;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 /**
@@ -19,7 +25,19 @@ public class FeedbackSessionClosedRemindersAction extends AutomatedAction {
     
     @Override
     public void execute() {
-        FeedbackSessionsLogic.inst().scheduleFeedbackSessionClosedEmails();
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        List<FeedbackSessionAttributes> sessions = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+        
+        for (FeedbackSessionAttributes session : sessions) {
+            List<EmailWrapper> emailsToBeSent = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
+            try {
+                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+                session.setSentClosedEmail(true);
+                fsLogic.updateFeedbackSession(session);
+            } catch (Exception e) {
+                log.severe("Unexpected error: " + TeammatesException.toStringWithStackTrace(e));
+            }
+        }
     }
     
 }

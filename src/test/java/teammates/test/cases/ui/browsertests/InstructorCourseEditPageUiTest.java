@@ -739,7 +739,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("delete instructor then cancel");
         
         courseEditPage.clickDeleteInstructorLinkAndCancel(1);
-        assertNotNull(BackDoor.getInstructorAsJsonByGoogleId(instructorId, courseId));
+        assertNotNull(BackDoor.getInstructorByGoogleId(instructorId, courseId));
         
         ______TS("delete instructor successfully");
         
@@ -835,7 +835,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("delete course then cancel");
         
         courseEditPage.clickDeleteCourseLinkAndCancel();
-        assertNotNull(BackDoor.getCourseAsJson(courseId));
+        assertNotNull(BackDoor.getCourse(courseId));
         
         ______TS("delete course then proceed");
 

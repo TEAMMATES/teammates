@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -16,6 +17,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.core.EmailGenerator;
 
 /**
  * Action: remind instructor or student to register for a course by sending reminder emails
@@ -66,7 +68,12 @@ public class InstructorCourseRemindAction extends Action {
                                                StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
         } else {
-            emailsSent = logic.sendRegistrationInviteForCourse(courseId);
+            List<StudentAttributes> studentDataList = logic.getUnregisteredStudentsForCourse(courseId);
+            for (StudentAttributes student : studentDataList) {
+                taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail());
+                EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
+                emailsSent.add(email);
+            }
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDERS_SENT, StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;

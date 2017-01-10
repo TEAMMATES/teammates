@@ -1,7 +1,5 @@
 package teammates.test.cases.logic;
 
-import java.util.ArrayList;
-
 import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -57,11 +55,6 @@ public class EmailSenderTest extends BaseComponentTestCase {
         wrapper.setSubject(subject);
         wrapper.setContent(content);
         return wrapper;
-    }
-    
-    @Test
-    public void testNoExceptionThrownWhenNoMessagesToSend() {
-        new EmailSender().sendEmails(new ArrayList<EmailWrapper>());
     }
     
     @Test
