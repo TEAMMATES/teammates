@@ -15,7 +15,6 @@
     "Bond University",
     "Canterbury Primary",
     "Charles Sturt University",
-    "Curtin University",
     "Curtin University of Technology",
     "Deakin University",
     "Edith Cowan University",
@@ -61,10 +60,8 @@
   "Austria": [
     "IMC University of Applied Sciences Krems"
   ],
-  "Belgieum": [
-    "Annuntia"
-    ],
   "Belgium": [
+    "Annuntia",
     "Arteveldehogeschool",
     "Artevelde University College Ghent",
     "BA Stassart",
@@ -95,9 +92,6 @@
   "Botswana": [
     "Alpha"
   ],
-  "Brasil": [
-    "Associação Educacional Dom Bosco"
-    ],
   "Brazil": [
     "AEDB",
     "Associação Educacional Dom Bosco",
@@ -242,14 +236,13 @@
   ],
   "France": [
     "CentraleSupélec",
-    "EDHEC",
     "EDHEC Business School",
     "EMLYON Business School",
     "EM Strasbourg",
     "ESC-Dijon",
     "Grenoble Ecole de Management",
     "HEC Paris",
-    "IESEG",
+    
     "IESEG School of Management",
     "INSEAD",
     "ISEN",
@@ -286,9 +279,6 @@
     "Colegio Americano del Sur",
     "Francisco Marroquín University"
   ],
-  "HK": [
-    "HKU"
-    ],
   "Hong Kong": [
     "CCC Rotary Secondary School",
     "HKU SPACE Community College",
@@ -421,9 +411,7 @@
     "University of Nottingham Malaysia Campus",
     "University of Reading"
   ],
-  "metrocity": [
-      "BITS"
-    ],
+  
   "Mexico": [
     "Escuela Bancaria y Comercial",
     "ITESM",
@@ -465,7 +453,7 @@
     "ROC van Twente",
     "Rotterdam School of Management",
     "Rotterdam University of Applied Science",
-    "Saxion University",
+    
     "Saxion University of Applied Sciences",
     "Scala College Alphen aan den Rijn",
     "Summa College",
