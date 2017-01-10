@@ -375,13 +375,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         WebElement visibilityMessage2 = browser.driver.findElement(By.id("visibilityMessage-2"));
         feedbackEditPage.waitForElementVisibility(visibilityMessage2);
 
-        assertTrue("Expected the receiving student to be able to see response, but was "
-                   + visibilityMessage2.getText(), visibilityMessage2.getText()
-                   .contains("The receiving student can see your response, and your name."));
+        feedbackEditPage.waitForTextContainedInElementPresence(
+                By.id("visibilityMessage-2"),
+                "The receiving student can see your response, and your name.");
         
-        assertTrue("Expected instructors to be able to see response, but was "
-                   + visibilityMessage2.getText(), visibilityMessage2.getText()
-                   .contains("Instructors in this course can see your response, the name of the recipient, and your name."));
+        feedbackEditPage.waitForTextContainedInElementPresence(
+                By.id("visibilityMessage-2"),
+                "Instructors in this course can see your response, the name of the recipient, and your name.");
         
         feedbackEditPage.clickDeleteQuestionLink(2);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
@@ -816,9 +816,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickGiverNameVisibilityCheckBox("STUDENTS", 1);
         WebElement visibilityMessage1 = browser.driver.findElement(By.id("visibilityMessage-1"));
         feedbackEditPage.waitForElementVisibility(visibilityMessage1);
-        assertTrue("Visibility message does not correspond to visibility options",
-                   feedbackEditPage.getVisibilityMessage(1).contains("Other students in the course can see your response, "
-                                                                     + "and your name, but not the name of the recipient"));
+        feedbackEditPage.waitForTextContainedInElementPresence(
+                By.id("visibilityMessage-1"),
+                "Other students in the course can see your response, and your name, but not the name of the recipient");
 
         ______TS("Test visibility message corresponds to visibility options: going from Others to a predefined option");
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
@@ -830,8 +830,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickVisibilityDropdown("VISIBLE_TO_INSTRUCTORS_ONLY", 1);
         WebElement visibilityMessage2 = browser.driver.findElement(By.id("visibilityMessage-1"));
         feedbackEditPage.waitForElementVisibility(visibilityMessage2);
-        assertFalse("Visibility message does not correspond to visibility options",
-                   feedbackEditPage.getVisibilityMessage(1).contains("The receiving student"));
+        feedbackEditPage.waitForTextContainedInElementAbsence(
+                By.id("visibilityMessage-1"), "The receiving student");
 
         ______TS("Failure case: ajax on clicking visibility message button");
         
