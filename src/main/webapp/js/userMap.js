@@ -28,7 +28,7 @@ function handleData(err, countryCoordinates, userData) {
 	    	date = userData[countryName];
 	    }
     });
-    //set the last updated date in the page
+    // set the last updated date in the page
     document.getElementById('lastUpdateDate').innerHTML = date;
     // set the institution count in the page
     document.getElementById('totalUserCount').innerHTML = total;
