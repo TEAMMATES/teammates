@@ -23,8 +23,7 @@ import teammates.test.driver.BackDoor;
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
  */
-@SuppressWarnings("PMD.TestClassWithoutTestCases") // false positive by PMD
-public class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
+public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
     
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
