@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
+import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
 
@@ -24,6 +25,7 @@ public abstract class AutomatedAction {
     
     protected Logic logic;
     protected TaskQueuer taskQueuer;
+    protected EmailSender emailSender;
     
     protected HttpServletRequest request;
     protected HttpServletResponse response;
@@ -33,6 +35,7 @@ public abstract class AutomatedAction {
         this.response = response;
         this.logic = new Logic();
         setTaskQueuer(new TaskQueuer());
+        setEmailSender(new EmailSender());
     }
     
     public TaskQueuer getTaskQueuer() {
@@ -41,6 +44,14 @@ public abstract class AutomatedAction {
     
     public void setTaskQueuer(TaskQueuer taskQueuer) {
         this.taskQueuer = taskQueuer;
+    }
+    
+    public EmailSender getEmailSender() {
+        return emailSender;
+    }
+    
+    public void setEmailSender(EmailSender emailSender) {
+        this.emailSender = emailSender;
     }
     
     protected String getRequestParamValue(String paramName) {

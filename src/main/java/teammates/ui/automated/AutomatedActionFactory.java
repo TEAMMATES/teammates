@@ -31,15 +31,16 @@ public class AutomatedActionFactory {
         map(TaskQueue.ADMIN_PREPARE_EMAIL_ADDRESS_MODE_WORKER_URL, AdminPrepareEmailAddressModeWorkerAction.class);
         map(TaskQueue.ADMIN_PREPARE_EMAIL_GROUP_MODE_WORKER_URL, AdminPrepareEmailGroupModeWorkerAction.class);
         map(TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, AdminSendEmailWorkerAction.class);
-        map(TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, CourseJoinRemindEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL, FeedbackResponseAdjustmentWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, FeedbackSessionPublishedEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, FeedbackSessionRemindEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL,
                 FeedbackSessionRemindParticularUsersEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, FeedbackSessionUnpublishedEmailWorkerAction.class);
+        map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, InstructorCourseJoinEmailWorkerAction.class);
         map(TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL, PendingCommentClearedEmailWorkerAction.class);
         map(TaskQueue.SEND_EMAIL_WORKER_URL, SendEmailWorkerAction.class);
+        map(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, StudentCourseJoinEmailWorkerAction.class);
     }
     
     private static void map(String actionUri, Class<? extends AutomatedAction> actionClass) {

@@ -38,7 +38,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail);
 
         moderatedStudent = logic.getStudentForEmail(courseId, moderatedStudentEmail);
-        isSendEmail = false;
+        isSendSubmissionEmail = false;
     }
 
     @Override

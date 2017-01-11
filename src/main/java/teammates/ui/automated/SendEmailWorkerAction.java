@@ -4,7 +4,6 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.core.EmailSender;
 
 /**
  * Task queue worker action: sends queued email.
@@ -29,8 +28,8 @@ public class SendEmailWorkerAction extends AutomatedAction {
         String emailContent = getRequestParamValue(ParamsNames.EMAIL_CONTENT);
         Assumption.assertNotNull(emailContent);
         
-        String emailSender = getRequestParamValue(ParamsNames.EMAIL_SENDER);
-        Assumption.assertNotNull(emailSender);
+        String emailSenderEmail = getRequestParamValue(ParamsNames.EMAIL_SENDER);
+        Assumption.assertNotNull(emailSenderEmail);
         
         String emailSenderName = getRequestParamValue(ParamsNames.EMAIL_SENDERNAME);
         
@@ -42,7 +41,7 @@ public class SendEmailWorkerAction extends AutomatedAction {
         
         EmailWrapper message = new EmailWrapper();
         message.setRecipient(emailReceiver);
-        message.setSenderEmail(emailSender);
+        message.setSenderEmail(emailSenderEmail);
         if (emailSenderName != null) {
             message.setSenderName(emailSenderName);
         }
@@ -51,7 +50,7 @@ public class SendEmailWorkerAction extends AutomatedAction {
         message.setReplyTo(emailReply);
         
         try {
-            new EmailSender().sendEmail(message);
+            emailSender.sendEmail(message);
         } catch (Exception e) {
             log.severe("Error while sending email via servlet: " + TeammatesException.toStringWithStackTrace(e));
             setForRetry();
