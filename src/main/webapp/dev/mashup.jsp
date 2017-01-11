@@ -1,4 +1,5 @@
 <%@ page import="teammates.common.util.Const" %>
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ page import="teammates.common.util.StringHelper" %>
 <%@ page import="teammates.logic.core.FeedbackQuestionsLogic" %>
 <%@ page import="teammates.logic.api.Logic" %>
@@ -13,8 +14,8 @@
         <title>TEAMMATES - Webpage Compilation</title>
         
         <link rel="shortcut icon" href="/favicon.png">
-        <link type="text/css" href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet">
-        <link type="text/css" href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet">
+        <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS.getLibrarySource() %>">
+        <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS.getLibrarySource() %>">
         <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
         <style>
             .full-width {
@@ -30,8 +31,8 @@
                 border: 2px red solid;
             }
         </style>
-        <script type="text/javascript" src="/js/lib/jquery.min.js"></script>
-        <script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
+        <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY.getLibrarySource() %>"></script>
+        <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP.getLibrarySource() %>"></script>
         <script type="text/javascript" src="/js/common.js"></script>
     </head>
     <body>

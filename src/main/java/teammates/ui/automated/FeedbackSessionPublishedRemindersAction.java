@@ -1,5 +1,8 @@
 package teammates.ui.automated;
 
+import java.util.List;
+
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 /**
@@ -19,7 +22,11 @@ public class FeedbackSessionPublishedRemindersAction extends AutomatedAction {
     
     @Override
     public void execute() {
-        FeedbackSessionsLogic.inst().scheduleFeedbackSessionPublishedEmails();
+        List<FeedbackSessionAttributes> sessions =
+                FeedbackSessionsLogic.inst().getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+        for (FeedbackSessionAttributes session : sessions) {
+            taskQueuer.scheduleFeedbackSessionPublishedEmail(session.getCourseId(), session.getFeedbackSessionName());
+        }
     }
     
 }

@@ -48,7 +48,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
                 log.info("Operation did not persist in time: update comments from state PENDING to SENDING");
             } else {
                 //Set up emails notification
-                logic.sendCommentNotification(courseId);
+                taskQueuer.scheduleCommentsNotificationsForCourse(courseId);
             }
         }
         

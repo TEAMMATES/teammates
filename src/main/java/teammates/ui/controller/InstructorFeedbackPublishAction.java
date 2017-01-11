@@ -28,7 +28,10 @@ public class InstructorFeedbackPublishAction extends Action {
                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         try {
-            logic.publishFeedbackSession(feedbackSessionName, courseId);
+            logic.publishFeedbackSession(session);
+            if (session.isPublishedEmailEnabled()) {
+                taskQueuer.scheduleFeedbackSessionPublishedEmail(session.getCourseId(), session.getFeedbackSessionName());
+            }
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> "
