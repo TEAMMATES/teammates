@@ -48,7 +48,7 @@ public class StudentProfilePictureAction extends Action {
         log.info("email: " + email + ", course: " + courseId);
 
         StudentAttributes student = getStudentForGivenParameters(courseId, email);
-        new GateKeeper().verifyAccessibleForCurrentUserAsInstructor(account, courseId, student.section);
+        new GateKeeper().verifyAccessibleForCurrentUserAsInstructorOrTeamMember(account, courseId, student.section, email);
 
         return createImageResult(getPictureKeyForStudent(student));
     }
