@@ -120,8 +120,8 @@ public class StudentProfilePage extends AppPage {
     }
 
     /**
-     * Selects student nationality from the dropdown list using Selenium
-     * if the nationality is valid, otherwise it fails with a message.
+     * Selects student nationality from the dropdown list if the nationality is
+     * valid, otherwise it fails with a message.
      */
     public void selectNationality(String studentNationality) {
         if (NationalityHelper.getNationalities().contains(studentNationality) || "".equals(studentNationality)) {
