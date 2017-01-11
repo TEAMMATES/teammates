@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const.TaskQueue;
+import teammates.common.util.TaskWrapper;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.core.TaskQueuesLogic;
 import teammates.test.cases.BaseComponentTestCase;
@@ -52,7 +53,7 @@ public class TaskQueuesLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test
+    @Test(enabled = false)
     public void allTests() {
         
         int waitTimeForQueueInMs = 1000; // the buffer time for the task to be queued
@@ -61,14 +62,15 @@ public class TaskQueuesLogicTest extends BaseComponentTestCase {
         
         ______TS("add tasks for immediate queueing");
         
-        taskQueuesLogic.addTask(TaskQueue.SEND_EMAIL_QUEUE_NAME, "/workerUrl", new HashMap<String, String>());
+        taskQueuesLogic.addTask(new TaskWrapper(TaskQueue.SEND_EMAIL_QUEUE_NAME, "/workerUrl",
+                                                new HashMap<String, String[]>()));
         ThreadHelper.waitFor(waitTimeForQueueInMs);
         assertEquals(1, MockTaskQueueCallback.taskCount);
         
         // add another task from different queue
         
-        taskQueuesLogic.addTaskMultisetParam(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME, "/workerUrl",
-                                             new HashMap<String, String[]>());
+        taskQueuesLogic.addTask(new TaskWrapper(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME, "/workerUrl",
+                                                new HashMap<String, String[]>()));
         ThreadHelper.waitFor(waitTimeForQueueInMs);
         assertEquals(2, MockTaskQueueCallback.taskCount);
         
@@ -77,8 +79,8 @@ public class TaskQueuesLogicTest extends BaseComponentTestCase {
         
         ______TS("add task for delayed queueing");
         
-        taskQueuesLogic.addDeferredTask(TaskQueue.SEND_EMAIL_QUEUE_NAME, "/workerUrl",
-                                        new HashMap<String, String>(), 2000);
+        taskQueuesLogic.addDeferredTask(
+                new TaskWrapper(TaskQueue.SEND_EMAIL_QUEUE_NAME, "/workerUrl", new HashMap<String, String[]>()), 2000);
         ThreadHelper.waitFor(waitTimeForQueueInMs + 250);
         assertEquals(0, MockTaskQueueCallback.taskCount); // task is not queued yet
         ThreadHelper.waitFor(500);
