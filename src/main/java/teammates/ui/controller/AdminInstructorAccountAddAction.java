@@ -11,12 +11,14 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StatusMessage;
@@ -25,6 +27,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -118,8 +121,17 @@ public class AdminInstructorAccountAddAction extends Action {
         }
         
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName,
-                                                            data.instructorInstitution);
+        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
+                                .withInstructorInstitution(data.instructorInstitution)
+                                .toAbsoluteString();
+        EmailWrapper email = new EmailGenerator().generateNewInstructorAccountJoinEmail(
+                instructorList.get(0).email, data.instructorShortName, joinLink);
+        try {
+            emailSender.sendEmail(email);
+        } catch (EmailSendingException e) {
+            log.severe("Instructor welcome email failed to send: " + TeammatesException.toStringWithStackTrace(e));
+        }
         data.statusForAjax = "Instructor " + data.instructorName
                              + " has been successfully created with join link:<br>" + joinLink;
         statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.SUCCESS));

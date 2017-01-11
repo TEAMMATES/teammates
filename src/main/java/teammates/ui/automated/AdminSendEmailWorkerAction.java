@@ -6,9 +6,8 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.core.AdminEmailsLogic;
-import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.EmailSender;
 
 /**
  * Task queue worker action: sends queued admin email.
@@ -52,7 +51,7 @@ public class AdminSendEmailWorkerAction extends AutomatedAction {
             EmailWrapper email =
                     new EmailGenerator().generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),
                                                             emailSubject, receiverEmail);
-            new EmailSender().sendEmail(email);
+            emailSender.sendEmail(email);
             log.info("Email sent to " + receiverEmail);
         } catch (Exception e) {
             log.severe("Unexpected error while sending admin emails: " + TeammatesException.toStringWithStackTrace(e));

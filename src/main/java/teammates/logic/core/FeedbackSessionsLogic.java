@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -37,7 +36,6 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -76,15 +74,12 @@ public class FeedbackSessionsLogic {
     private static final String ASSUMPTION_FAIL_DELETE_INSTRUCTOR = "Fail to delete instructor respondent for ";
     private static final String ASSUMPTION_FAIL_RESPONSE_ORIGIN = "Client did not indicate the origin of the response(s)";
     private static final String ERROR_NUMBER_OF_RESPONSES_EXCEEDS_RANGE = "Number of responses exceeds the limited range";
-    private static final String ERROR_SENDING_EMAILS = "Error while sending emails: ";
     private static final String ERROR_NON_EXISTENT_COURSE = "Error getting feedback session(s): Course does not exist.";
     private static final String ERROR_NON_EXISTENT_STUDENT = "Error getting feedback session(s): Student does not exist.";
     private static final String ERROR_NON_EXISTENT_FS_STRING_FORMAT = "Trying to %s a non-existent feedback session: ";
     private static final String ERROR_NON_EXISTENT_FS_GET = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "get");
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
     private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "check");
-    private static final String ERROR_NON_EXISTENT_FS_CONFIRM =
-            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "confirm submission");
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
     private static final String ERROR_FS_ALREADY_PUBLISH = "Error publishing feedback session: "
                                                            + "Session has already been published.";
@@ -1463,46 +1458,6 @@ public class FeedbackSessionsLogic {
 
         sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         updateFeedbackSession(sessionToUnpublish);
-    }
-
-    public EmailWrapper sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName,
-                                                           String userId, String unregisteredStudentEmail,
-                                                           String regKey)
-                    throws EntityDoesNotExistException {
-        
-        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CONFIRM + courseId + "/" + feedbackSessionName);
-        }
-        FeedbackSessionAttributes session = getFeedbackSession(feedbackSessionName, courseId);
-        StudentAttributes student = null;
-        InstructorAttributes instructor = null;
-        
-        if (userId != null) {
-            student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, userId);
-            instructor = instructorsLogic.getInstructorForGoogleId(courseId, userId);
-        }
-        
-        if (student == null && unregisteredStudentEmail != null) {
-            student = new StudentAttributes();
-            student.email = unregisteredStudentEmail;
-            student.name = unregisteredStudentEmail;
-            student.key = regKey;
-        }
-        
-        Assumption.assertFalse(student == null && instructor == null);
-        
-        try {
-            Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            EmailWrapper email = instructor == null
-                    ? new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session,
-                            student, timestamp)
-                    : new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
-                            instructor, timestamp);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
-        }
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
