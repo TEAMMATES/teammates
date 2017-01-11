@@ -12,9 +12,12 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -23,6 +26,7 @@ import teammates.ui.controller.InstructorFeedbackSubmissionEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final DataBundle dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
 
     @BeforeClass
@@ -111,6 +115,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
+        // submission confirmation email not sent if parameter does not exist
+        verifyNoEmailsSent(a);
+        
         ______TS("Successful case: deleted response");
 
         submissionParams = new String[]{
@@ -121,7 +128,8 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "",
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on"
         };
 
         a = getAction(submissionParams);
@@ -132,6 +140,16 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
+
+        // submission confirmation email sent
+        verifyNumberOfEmailsSent(a, 1);
+        
+        EmailWrapper email = getEmailsSent(a).get(0);
+        String courseName = coursesLogic.getCourse(fr.courseId).getName();
+        assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
+                                   fr.feedbackSessionName),
+                     email.getSubject());
+        assertEquals(instructor1InCourse1.email, email.getRecipient());
 
         ______TS("Successful case: skipped question");
 
@@ -142,7 +160,8 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "",
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "off"
         };
 
         a = getAction(submissionParams);
@@ -153,6 +172,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
+
+        // submission confirmation email not sent if parameter is not "on"
+        verifyNoEmailsSent(a);
 
         ______TS("Successful case: new response");
 
@@ -266,7 +288,8 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "invalid_recipient_email",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString()
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString(),
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on"
         };
 
         a = getAction(submissionParams);
@@ -277,6 +300,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, "invalid_recipient_email"));
 
+        // submission confirmation email not sent if the action is an error, even with submission parameter "on"
+        verifyNoEmailsSent(a);
+        
         ______TS("Successful case: mcq: typical case");
 
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");

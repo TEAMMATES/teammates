@@ -52,7 +52,7 @@ public class TaskQueuer {
      * Gets the tasks added to the queue.
      * This method is used only for testing, where it is overridden.
      * 
-     * @throws UnsupporedOperationException if used in production, where it is not meant to be
+     * @throws UnsupportedOperationException if used in production, where it is not meant to be
      */
     public List<TaskWrapper> getTasksAdded() {
         throw new UnsupportedOperationException("Method is used only for testing");
@@ -62,7 +62,7 @@ public class TaskQueuer {
      * Gets the number of tasks added for each queue name.
      * This method is used only for testing, where it is overridden.
      * 
-     * @throws UnsupporedOperationException if used in production, where it is not meant to be
+     * @throws UnsupportedOperationException if used in production, where it is not meant to be
      */
     public Map<String, Integer> getNumberOfTasksAdded() {
         throw new UnsupportedOperationException("Method is used only for testing");
@@ -219,17 +219,34 @@ public class TaskQueuer {
     }
     
     /**
+     * Schedules for course registration to be sent to the specified instructor.
+     * 
+     * @param courseId the target course ID
+     * @param instructorEmail the email address of the instructor
+     */
+    public void scheduleCourseRegistrationInviteToInstructor(String courseId, String instructorEmail) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.COURSE_ID, courseId);
+        paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
+        
+        addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,
+                TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);
+    }
+    
+    /**
      * Schedules for course registration to be sent to the specified student.
      * 
      * @param courseId the target course ID
      * @param studentEmail the email address of the student
      */
-    public void scheduleCourseRegistrationInviteToStudent(String courseId, String studentEmail) {
+    public void scheduleCourseRegistrationInviteToStudent(String courseId, String studentEmail, boolean isRejoining) {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.COURSE_ID, courseId);
         paramMap.put(ParamsNames.STUDENT_EMAIL, studentEmail);
+        paramMap.put(ParamsNames.IS_STUDENT_REJOINING, String.valueOf(isRejoining));
         
-        addTask(TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME, TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, paramMap);
+        addTask(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME,
+                TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);
     }
     
     /**
