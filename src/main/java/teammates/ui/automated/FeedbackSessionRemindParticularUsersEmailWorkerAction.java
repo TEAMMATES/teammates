@@ -10,7 +10,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.core.EmailGenerator;
+import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: sends feedback session reminder email to particular students of a course.
