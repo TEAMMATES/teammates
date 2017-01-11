@@ -128,6 +128,7 @@ public class GaeSimulation {
         HttpServletRequest req = createWebRequest(uri, parameters);
         Action action = new ActionFactory().getAction(req);
         action.setTaskQueuer(new MockTaskQueuer());
+        action.setEmailSender(new MockEmailSender());
         return action;
     }
     
@@ -140,6 +141,7 @@ public class GaeSimulation {
         HttpServletRequest req = createWebRequest(uri, parameters);
         AutomatedAction action = new AutomatedActionFactory().getAction(req, null);
         action.setTaskQueuer(new MockTaskQueuer());
+        action.setEmailSender(new MockEmailSender());
         return action;
     }
 

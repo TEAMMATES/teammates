@@ -105,7 +105,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void setAdditionalParameters() {
-        isSendEmail = true;
+        isSendSubmissionEmail = true;
     }
 
     @Override

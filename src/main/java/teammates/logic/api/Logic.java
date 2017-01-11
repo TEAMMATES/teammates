@@ -43,14 +43,11 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.EmailSender;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -76,8 +73,6 @@ public class Logic {
     public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
     
     protected static GateKeeper gateKeeper = GateKeeper.inst();
-    protected static EmailSender emailSender = new EmailSender();
-    protected static EmailGenerator emailGenerator = new EmailGenerator();
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -561,34 +556,6 @@ public class Logic {
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
     }
 
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, String instructorEmail)
-            throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
-    
-        return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
-    }
-    
-    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor)
-            throws EntityDoesNotExistException {
-        return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructor);
-    }
-    
-    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) {
-         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, shortName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
-         
-        return instructorsLogic.sendJoinLinkToNewInstructor(instructor, shortName, institute);
-         
-    }
-     
     public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email)
             throws InvalidParametersException {
          
@@ -1175,54 +1142,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
-            throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
-    
-        return studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
-    }
-    
-    /**
-     * Send rejoin email to student after google id has been reset.<br>
-     * Should only be used by admin in AdminStudentGoogleIdResetAction
-     * @param courseId
-     * @param studentEmail
-     * @return
-     * @throws EntityDoesNotExistException
-     */
-    public EmailWrapper sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
-           throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
-    
-        return studentsLogic.sendRegistrationInviteToStudentAfterGoogleIdReset(courseId, studentEmail);
-    }
-    
-    /**
-     * Sends confirmation email for submission to user. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. One parameter out of userId and unregisteredStudentEmail can be empty.<br>
-     */
-    public void sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName, String userId,
-                                                   String unregisteredStudentEmail, String unregisteredStudentRegKey)
-            throws EntityDoesNotExistException {
- 
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertFalse(ERROR_NULL_PARAMETER,
-                userId == null && (unregisteredStudentEmail == null || unregisteredStudentRegKey == null));
-
-        feedbackSessionsLogic.sendConfirmationEmailForSubmission(courseId, feedbackSessionName, userId,
-                                                                 unregisteredStudentEmail, unregisteredStudentRegKey);
     }
 
     /**
@@ -2590,23 +2509,6 @@ public class Logic {
     public void deleteUploadedFile(BlobKey key) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
         GoogleCloudStorageHelper.deleteFile(key);
-    }
-
-    /**
-     * Generates and emails an error report based on the supplied {@link Throwable} {@code error}.
-     */
-    public EmailWrapper emailErrorReport(String requestMethod, String requestUserAgent, String requestPath,
-                                         String requestUrl, String requestParams, UserType userType,
-                                         Throwable error) {
-        EmailWrapper errorReport =
-                emailGenerator.generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
-                                                        requestUrl, requestParams, userType, error);
-        try {
-            emailSender.sendErrorReport(errorReport);
-        } catch (Exception e) {
-            emailSender.reportErrorThroughFallbackChannel(error, errorReport, e);
-        }
-        return errorReport;
     }
 
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,

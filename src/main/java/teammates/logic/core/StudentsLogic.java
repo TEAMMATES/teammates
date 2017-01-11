@@ -3,7 +3,6 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -20,7 +19,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -490,59 +488,6 @@ public class StudentsLogic {
         return errorMessage.toString();
     }
 
-    public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to student [" + studentEmail + "]");
-        }
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
-        if (studentData == null) {
-            throw new EntityDoesNotExistException(
-                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
-        }
-        
-        try {
-            EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
-    public EmailWrapper sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to student [" + studentEmail + "]");
-        }
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
-        if (studentData == null) {
-            throw new EntityDoesNotExistException(
-                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
-        }
-        
-        try {
-            EmailWrapper email =
-                    new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
     public void deleteStudentCascade(String courseId, String studentEmail) {
         deleteStudentCascade(courseId, studentEmail, true);
     }
