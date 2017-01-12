@@ -19,7 +19,7 @@
                     <td width="140px"></td>
                     <td style="vertical-align: middle; text-align: left;">
                         <h2 class="subcaption">
-                            <span id= "submissionsNumber" class="submissionsNumber">3,000,000+</span> feedback entries submitted so far ...
+                            <span id= "submissionsNumber" class="submissionsNumber">5,000,000+</span> feedback entries submitted so far ...
                         </h2>
                     </td>
                     <td style="text-align: right;">
