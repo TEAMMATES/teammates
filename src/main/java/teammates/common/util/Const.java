@@ -542,6 +542,7 @@ public final class Const {
     public static class ParamsNames {
         
         public static final String IS_USING_AJAX = "isusingAjax";
+        public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
         
         public static final String BLOB_KEY = "blob-key";
         
@@ -591,7 +592,9 @@ public final class Const {
         public static final String COURSE_TO_LOAD = "coursetoload";
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
-        
+
+        public static final String IMAGE_TO_UPLOAD = "imagetoupload";
+
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
         
@@ -910,7 +913,10 @@ public final class Const {
         
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
-        
+
+        public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
+        public static final String IMAGE_UPLOAD = "/page/imageUpload";
+
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
         public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
@@ -954,7 +960,8 @@ public final class Const {
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD = "/admin/adminEmailGroupReceiverListUpload";
         public static final String ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL =
                 "/admin/adminEmailCreateGroupReceiverListUploadUrl";
-        
+
+        public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
@@ -982,9 +989,6 @@ public final class Const {
         public static final String ADMIN_SEND_EMAIL_QUEUE_NAME = "admin-send-email-queue";
         public static final String ADMIN_SEND_EMAIL_WORKER_URL = "/worker/adminSendEmail";
         
-        public static final String COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME = "course-join-remind-email-queue";
-        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER_URL = "/worker/courseJoinRemindEmail";
-        
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
         
@@ -1006,6 +1010,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionUnpublishedEmail";
         
+        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
+        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/instructorCourseJoinEmail";
+        
         public static final String PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME =
                 "pending-comment-cleared-email-queue";
         public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
@@ -1013,6 +1020,9 @@ public final class Const {
         
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
+        
+        public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
+        public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/studentCourseJoinEmail";
         
     }
     

@@ -79,6 +79,9 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                      redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
+        // submission confirmation email not sent if parameter does not exist
+        verifyNoEmailsSent(editInstructorFsAction);
+        
         ______TS("deleted response");
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -89,7 +92,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "",
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail,
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on"
         };
         
         editInstructorFsAction = getAction(submissionParams);
@@ -103,6 +107,9 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                      redirectResult.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
+        // submission confirmation email still not sent even if parameter is "on" because this is moderation
+        verifyNoEmailsSent(editInstructorFsAction);
+        
         ______TS("skipped question");
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",

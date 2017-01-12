@@ -17,11 +17,11 @@ Here are some documents important for TEAMMATES developers.
 * [**Decision analysis**](https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true): Analysis of problems encountered, solutions considered, rationale for selection etc.
 * The [**glossary**](glossary.md) of terms used in the project.
 * **Coding standards** for:
-  [Java](https://docs.google.com/document/pub?id=1iAESIXM0zSxEa5OY7dFURam_SgLiSMhPQtU0drQagrs&embedded=true),
+  [Java](https://oss-generic.github.io/process/codingStandards/CodingStandard-Java.html),
   [JSP](https://docs.google.com/document/d/14bXfdveXvoIaPBYpL19m4PK6oPabSnnoawj6OGjOzD4/pub?embedded=true),
   [JavaScript](https://docs.google.com/document/d/1gZ6WG6HBTJYHAtVkz9kzi_SUuzfXqzO-SvFnLuag2xM/pub?embedded=true),
   [CSS](https://docs.google.com/document/d/1wA9paRA9cS7ByStGbhRRUZLEzEzimrNQjIDPVqy1ScI/pub),
-  [HTML](https://github.com/nus-cs2103/website/blob/master/contents/coding-standards-html.md)
+  [HTML](https://oss-generic.github.io/process/codingStandards/CodingStandard-Html.html)
 * [**Developer Troubleshooting Guide**](troubleshooting-guide.md)
 * **Best practices** for:
   [UI design](https://docs.google.com/document/d/1Vj59--sCYUfxgg-iLI53hMfc6YY1gguATTN_KXTQVUo/pub?embedded=true),
