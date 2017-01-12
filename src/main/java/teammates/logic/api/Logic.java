@@ -31,6 +31,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -2479,4 +2480,62 @@ public class Logic {
         return coursesLogic.getArchivedCourseIds(allCourses, instructorsForCourses);
     }
     
+    /**
+     * @see {@link FeedbackResponsesLogic#getFeedbackResponsesForSession(String, String)}
+     */
+    public List<FeedbackResponseAttributes>
+            getFeedbackResponsesForSession(String feedbackSessionName, String courseId) {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+        return feedbackResponsesLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
+    }
+
+    /**
+     * @see {@link StudentsLogic#adjustFeedbackResponseForEnrollments(List, FeedbackResponseAttributes)}
+     */
+    public void adjustFeedbackResponseForEnrollments(List<StudentEnrollDetails> enrollmentList,
+                                                     FeedbackResponseAttributes response)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(enrollmentList);
+        Assumption.assertNotNull(response);
+        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
+    }
+
+    /**
+     * @see {@link FeedbackSessionsLogic#getFeedbackSessionsClosedWithinThePastHour()}
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
+    }
+
+    /**
+     * @see {@link FeedbackSessionsLogic#getFeedbackSessionsClosingWithinTimeLimit()}
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosingWithinTimeLimit();
+    }
+
+    /**
+     * @see {@link FeedbackSessionsLogic#getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent()}
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+    }
+
+    /**
+     * @see {@link FeedbackSessionsLogic#getFeedbackSessionsWhichNeedOpenEmailsToBeSent()}
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+    }
+
+    /**
+     * @see {@link StudentsLogic#getSectionForTeam(String, String)}
+     */
+    public String getSectionForTeam(String courseId, String teamName) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(teamName);
+        return studentsLogic.getSectionForTeam(courseId, teamName);
+    }
+
 }

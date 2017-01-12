@@ -8,7 +8,6 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.logic.core.AdminEmailsLogic;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.apphosting.api.ApiProxy;
@@ -69,7 +68,7 @@ public class AdminPrepareEmailGroupModeWorkerAction extends AutomatedAction {
     private void addAdminEmailToTaskQueue(String emailId, String groupReceiverListFileKey,
             List<List<String>> processedReceiverEmails,
             int indexOfEmailListToResume, int indexOfEmailToResume) {
-        AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
+        AdminEmailAttributes adminEmail = logic.getAdminEmailById(emailId);
         Assumption.assertNotNull(adminEmail);
         
         log.info("Resume adding group mail tasks for mail with id " + emailId + " from list index: "
