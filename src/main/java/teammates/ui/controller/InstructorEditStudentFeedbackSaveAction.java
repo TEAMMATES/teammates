@@ -11,9 +11,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
@@ -38,7 +38,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail);
 
         moderatedStudent = logic.getStudentForEmail(courseId, moderatedStudentEmail);
-        isSendEmail = false;
+        isSendSubmissionEmail = false;
     }
 
     @Override
@@ -91,20 +91,20 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
     }
     
     @Override
-    protected void appendRespondant() {
+    protected void appendRespondent() {
         try {
-            logic.addStudentRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.addStudentRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to append student respondant");
+            log.severe("Fail to append student respondent");
         }
     }
 
     @Override
-    protected void removeRespondant() {
+    protected void removeRespondent() {
         try {
-            logic.deleteStudentRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.deleteStudentRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to remove student respondant");
+            log.severe("Fail to remove student respondent");
         }
     }
 

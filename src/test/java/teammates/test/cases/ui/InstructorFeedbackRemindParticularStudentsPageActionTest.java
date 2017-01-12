@@ -66,9 +66,6 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
     }
     
     private InstructorFeedbackRemindParticularStudentsPageAction getAction(String... params) {
-
-        return (InstructorFeedbackRemindParticularStudentsPageAction) (gaeSimulation
-                .getActionObject(uri, params));
-
+        return (InstructorFeedbackRemindParticularStudentsPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

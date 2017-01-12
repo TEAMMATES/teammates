@@ -128,7 +128,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
     }
     
     private InstructorCourseEditPageAction getAction(String... params) {
-        return (InstructorCourseEditPageAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorCourseEditPageAction) gaeSimulation.getActionObject(uri, params);
     }
     
     private void verifySameInstructorList(List<InstructorAttributes> list1, List<CourseEditInstructorPanel> list2) {

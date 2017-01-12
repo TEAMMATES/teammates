@@ -10,9 +10,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.util.Const;
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
+import teammates.ui.automated.AutomatedAction;
+import teammates.ui.automated.AutomatedActionFactory;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionFactory;
 
@@ -37,6 +37,8 @@ import com.meterware.servletunit.ServletUnitClient;
  */
 public class GaeSimulation {
 
+    private static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
+
     private static GaeSimulation instance = new GaeSimulation();
 
     /** This is used only to generate an HttpServletRequest for given parameters */
@@ -49,32 +51,18 @@ public class GaeSimulation {
     }
     
     public synchronized void setup() {
-        System.out.println("Setting up GAE simulation");
-        
-        LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
-        localTasks.setQueueXmlPath(Const.SystemParams.QUEUE_XML_PATH);
-        
-        LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
-        LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-        LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
-        LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
-        localSearch.setPersistent(false);
-        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localTasks, localSearch);
-        helper.setUp();
-        
-        Datastore.initialize();
-        
-        sc = new ServletRunner().newClient();
+        setupWithTaskQueueCallbackClass(null);
     }
     
-    public synchronized void setupWithTaskQueueCallbackClass(
-            Class<? extends LocalTaskQueueCallback> className) {
+    public synchronized void setupWithTaskQueueCallbackClass(Class<? extends LocalTaskQueueCallback> callbackClass) {
         System.out.println("Setting up GAE simulation");
         
         LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
-        localTasks.setQueueXmlPath(Const.SystemParams.QUEUE_XML_PATH)
-                  .setCallbackClass(className)
-                  .setDisableAutoTaskExecution(false);
+        localTasks.setQueueXmlPath(QUEUE_XML_PATH);
+        if (callbackClass != null) {
+            localTasks.setCallbackClass(callbackClass)
+                      .setDisableAutoTaskExecution(false);
+        }
         
         LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
         LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
@@ -83,8 +71,6 @@ public class GaeSimulation {
         localSearch.setPersistent(false);
         helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localTasks, localSearch);
         helper.setUp();
-        
-        Datastore.initialize();
         
         sc = new ServletRunner().newClient();
     }
@@ -140,7 +126,23 @@ public class GaeSimulation {
      */
     public Action getActionObject(String uri, String... parameters) {
         HttpServletRequest req = createWebRequest(uri, parameters);
-        return new ActionFactory().getAction(req);
+        Action action = new ActionFactory().getAction(req);
+        action.setTaskQueuer(new MockTaskQueuer());
+        action.setEmailSender(new MockEmailSender());
+        return action;
+    }
+    
+    /** 
+     * @param parameters Parameters that appear in a HttpServletRequest
+     * received by the app.
+     * @return an {@link AutomatedAction} object that matches the parameters given.
+     */
+    public AutomatedAction getAutomatedActionObject(String uri, String... parameters) {
+        HttpServletRequest req = createWebRequest(uri, parameters);
+        AutomatedAction action = new AutomatedActionFactory().getAction(req, null);
+        action.setTaskQueuer(new MockTaskQueuer());
+        action.setEmailSender(new MockEmailSender());
+        return action;
     }
 
     /** Refreshes the datastore by recreating it from scratch. */

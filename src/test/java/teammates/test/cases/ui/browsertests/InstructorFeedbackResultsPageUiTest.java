@@ -12,8 +12,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
@@ -55,6 +55,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     @Test
     public void testFrontEndActions() throws Exception {
+        testDefaultSort();
         testSortAction();
         testFilterAction();
         testPanelsCollapseExpand();
@@ -161,9 +162,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
-                                      "CFResultsUiT.fred.g@gmail.tmt",
-                                      "CFResultsUiT.charlie.d@gmail.tmt", "CFResultsUiT.danny.e@gmail.tmt",
-                                      "drop.out@gmail.tmt", "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
+                "CFResultsUiT.fred.g@gmail.tmt", "CFResultsUiT.charlie.d@gmail.tmt",
+                "CFResultsUiT.danny.e@gmail.tmt", "drop.out@gmail.tmt",
+                "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
 
         ______TS("Typical case: test moderate responses button for team response");
 
@@ -480,13 +481,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: filter by 'No specific recipient'");
 
-        resultsPage.filterResponsesForSection(Const.NO_SPECIFIC_RECIEPIENT);
+        resultsPage.filterResponsesForSection(Const.NO_SPECIFIC_RECIPIENT);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredByNoSection.html");
         
         
         ______TS("Verify that 'No specific recipient' has a section panel on a non-question view");
         resultsPage.displayByRecipientGiverQuestion();
-        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_RECIEPIENT));
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_RECIPIENT));
         assertFalse(resultsPage.isSectionPanelExist("Section A"));
 
         resultsPage.displayByQuestion();
@@ -596,6 +597,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
     }
 
+    public void testDefaultSort() throws Exception {
+
+        ______TS("Typical case: test default sort Team Name-->Giver display name");
+
+        resultsPage.fillSearchBox("default sort");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultDefaultSort.html");
+    }
+
+    
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
     public void testFeedbackResponseCommentActions() throws Exception {
 
@@ -670,8 +680,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
                                                   .withUserId("CFResultsUiT.instr")
                                                   .withCourseId("CFResultsUiT.CS2104")
-                                                  .withSessionName("First Session")
-                                                  .withDownloadType("csv");
+                                                  .withSessionName("First Session");
 
         resultsPage.verifyDownloadLink(reportUrl);
 
@@ -710,7 +719,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     private void uploadPhotoForStudent(String googleId) throws Exception {
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
-        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
+        String pictureData = JsonUtils.toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
         assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]",
                      BackDoor.uploadAndUpdateStudentProfilePicture(googleId, pictureData));
     }
@@ -758,8 +767,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         // check if the rows match the given order of values
         resultsPage.click(sortIcon);
         StringBuilder searchString = new StringBuilder();
-        for (int i = 0; i < values.length; i++) {
-            searchString.append(values[i]).append("{*}");
+        for (String value : values) {
+            searchString.append(value).append("{*}");
         }
         resultsPage.verifyContains(searchString.toString());
 

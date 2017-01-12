@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseRoster;
@@ -16,21 +15,17 @@ import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.UserType;
-import teammates.common.datatransfer.UserType.Role;
+import teammates.common.datatransfer.UserRole;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
  * Handles the logic related to {@link FeedbackResponseCommentAttributes}.
  */
 public class FeedbackResponseCommentsLogic {
-    @SuppressWarnings("unused") //used by test
-    private static final Logger log = Utils.getLogger();
     
     private static FeedbackResponseCommentsLogic instance;
 
@@ -264,7 +259,7 @@ public class FeedbackResponseCommentsLogic {
      * Verify whether the comment is visible to certain user
      * @return true/false
      */
-    public boolean isResponseCommentVisibleForUser(String userEmail, String courseId, UserType.Role role,
+    public boolean isResponseCommentVisibleForUser(String userEmail, String courseId, UserRole role,
             String section, StudentAttributes student, Set<String> studentsEmailInTeam,
             FeedbackResponseAttributes response, FeedbackQuestionAttributes relatedQuestion,
             FeedbackResponseCommentAttributes relatedComment, InstructorAttributes instructor) {
@@ -279,8 +274,8 @@ public class FeedbackResponseCommentsLogic {
         boolean isVisibleResponseComment = false;
         
         
-        boolean userIsInstructor = role == Role.INSTRUCTOR;
-        boolean userIsStudent = role == Role.STUDENT;
+        boolean userIsInstructor = role == UserRole.INSTRUCTOR;
+        boolean userIsStudent = role == UserRole.STUDENT;
         
         boolean userIsInstructorAndRelatedResponseCommentIsVisibleToInstructors =
                 userIsInstructor && isResponseCommentVisibleTo(relatedQuestion, relatedComment,

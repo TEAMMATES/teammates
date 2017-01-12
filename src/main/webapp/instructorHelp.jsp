@@ -223,7 +223,15 @@
                 <span class="text-bold">Enroll students
                 </span>
                 <div class="helpSectionContent">
-                    Enroll students by clicking the ‘Enroll’ link for the relevant course. That link is available in the ‘Courses’ page and the ‘Home’ page.
+                    Enroll students by doing one of the following options:
+                    <ul>
+                        <li>
+                            Go to the ‘Home’ page, click on the ‘Students‘ button on the corresponding course, and choose ‘Enroll’
+                        </li>
+                        <li>
+                            Go the the ‘Courses’ page and click the ‘Enroll‘ button of the corresponding course
+                        </li>
+                    </ul>
                     <br>
                     <br>
                 </div>
@@ -789,7 +797,7 @@
                     <div class="bs-example">
                         <div class="panel panel-primary" id="panelAddInstructor" style="">
                             <div class="panel-heading">
-                                <strong>Instructors 2:</strong>
+                                <strong>Instructor 2:</strong>
                             </div>
 
                             <div class="panel-body fill-plain">
@@ -1311,6 +1319,18 @@
                                     </ul>
                                 </span>
                             </li>
+                            <li>
+                                <b>Private session</b>
+                                <span class="text-muted">
+                                    <ul>
+                                        <li>
+                                            A private session is a session that is never visible to others.
+                                            This is for you to record your feedback about students, only you can see this session.
+                                            If you want to create a private session then set the "Session visible from" to Never.
+                                        </li>
+                                    </ul>
+                                </span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -1611,7 +1631,7 @@
                                                 </div>
                                                 <div class="row radio">
                                                     <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Select this option if you want the feedback session to never be visible. Use this option if you want to use this as a private feedback session.">
-                                                        <label for="sessionVisibleFromButton_never">Never (this is a private session)</label>
+                                                        <label for="sessionVisibleFromButton_never">Never</label>
                                                         <input type="radio" name="sessionVisibleFromButton" id="sessionVisibleFromButton_never" value="never">
                                                     </div>
                                                 </div>
@@ -2044,7 +2064,7 @@
                                         </div>
                                         <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements1">
                                             <label id="numofrecipients_text-1" class="control-label col-sm-4 small">
-                                                The maximum number of <span id="numofrecipients_text_inner-1"></span> each respondant should give feedback to:
+                                                The maximum number of <span id="numofrecipients_text_inner-1"></span> each respondent should give feedback to:
                                             </label>
                                             <div class="col-sm-8 form-control-static">
                                                 <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -2536,7 +2556,7 @@
                                         </div>
                                         <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                             <label class="control-label col-sm-4 small">
-                                                The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                             </label>
                                             <div class="col-sm-8 form-control-static">
                                                 <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -3504,7 +3524,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text">students</span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text">students</span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -3920,7 +3940,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text">students</span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text">students</span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -4298,7 +4318,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -4825,7 +4845,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -5423,7 +5443,7 @@
                                               </div>
                                               <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                   <label class="control-label col-sm-4 small">
-                                                      The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                      The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                   </label>
                                                   <div class="col-sm-8 form-control-static">
                                                       <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -6023,7 +6043,7 @@
                                               </div>
                                               <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                   <label class="control-label col-sm-4 small">
-                                                      The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                      The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                   </label>
                                                   <div class="col-sm-8 form-control-static">
                                                       <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -6387,7 +6407,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -7653,7 +7673,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -8173,7 +8193,7 @@
                                                 </div>
                                                 <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
@@ -8554,7 +8574,7 @@
                                                 </div>
                                                 <div style="display: block;" class="col-sm-12 row numberOfEntitiesElements">
                                                     <label class="control-label col-sm-4 small">
-                                                        The maximum number of <span class="number-of-entities-inner-text">teams</span> each respondant should give feedback to:
+                                                        The maximum number of <span class="number-of-entities-inner-text">teams</span> each respondent should give feedback to:
                                                     </label>
                                                     <div class="col-sm-8 form-control-static">
                                                         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">

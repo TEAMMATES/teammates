@@ -7,7 +7,6 @@
 // -----------------------------------------------------------------------------
 
 $(document).ready(function() {
-    bindErrorImages('.profile-pic-icon-hover, .profile-pic-icon-click');
     
     // bind the show picture onclick events
     bindStudentPhotoLink('.profile-pic-icon-click > .student-profile-pic-view-link');
@@ -98,9 +97,9 @@ function setupFsCopyModal() {
     $('#instructorCopyModalForm').submit(
         function(e) {
             e.preventDefault();
-            $this = $(this);
+            var $this = $(this);
             
-            $copyModalStatusMessage = $('#feedback-copy-modal-status');
+            var $copyModalStatusMessage = $('#feedback-copy-modal-status');
             
             $.ajax({
                 type: 'POST',
@@ -132,19 +131,6 @@ function setupFsCopyModal() {
 
 // Student Profile Picture
 // --------------------------------------------------------------------------
-
-/**
- * @param elements:
- * identifier that points to elements with
- * class: profile-pic-icon-click or profile-pic-icon-hover
- */
-function bindErrorImages(elements) {
-    $(elements).children('img').on('error', function() {
-        if ($(this).attr('src') !== '') {
-            $(this).attr('src', '/images/profile_picture_default.png');
-        }
-    });
-}
 
 /**
  * @param elements:
@@ -261,7 +247,7 @@ function bindCourseDeleteLinks() {
     $('body').on('click', '.course-delete-link', function(event) {
         event.preventDefault();
 
-        $clickedLink = $(event.target);
+        var $clickedLink = $(event.target);
         var messageText = 'Are you sure you want to delete the course: ' + $clickedLink.data('courseId') + '? '
                           + 'This operation will delete all students and sessions in this course. '
                           + 'All instructors of this course will not be able to access it hereafter as well.';
@@ -310,7 +296,7 @@ function bindRemindButtons() {
     $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', function(event) {
         event.preventDefault();
 
-        $button = $(event.target);
+        var $button = $(event.target);
         var messageText = 'Send e-mails to remind students who have not submitted their feedback for '
                           + $button.data('fsname') + '?';
         var okCallback = function() {
@@ -348,7 +334,7 @@ function bindUnpublishButtons() {
     $('body').on('click', '.session-unpublish-for-test', function(event) {
         event.preventDefault();
 
-        $button = $(event.target);
+        var $button = $(event.target);
         var messageText = 'Are you sure you want to unpublish the session ' + $button.data('fsname') + '?';
         var okCallback = function() {
             window.location = $button.attr('href');

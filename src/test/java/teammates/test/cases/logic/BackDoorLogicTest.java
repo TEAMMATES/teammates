@@ -1,6 +1,6 @@
 package teammates.test.cases.logic;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -28,25 +28,25 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     @Test
     public void testPersistDataBundle() throws Exception {
 
-        BackDoorLogic logic = new BackDoorLogic();
+        BackDoorLogic backDoorLogic = new BackDoorLogic();
         
         ______TS("empty data bundle");
-        String status = logic.persistDataBundle(new DataBundle());
+        String status = backDoorLogic.persistDataBundle(new DataBundle());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
-        logic.deleteExistingData(dataBundle);
-        logic.persistDataBundle(dataBundle);
+        backDoorLogic.removeDataBundle(dataBundle);
+        backDoorLogic.persistDataBundle(dataBundle);
         verifyPresentInDatastore(dataBundle);
 
         ______TS("try to persist while entities exist");
         
-        logic.persistDataBundle(loadDataBundle("/FeedbackSessionResultsTest.json"));
+        backDoorLogic.persistDataBundle(loadDataBundle("/FeedbackSessionResultsTest.json"));
         verifyPresentInDatastore(loadDataBundle("/FeedbackSessionResultsTest.json"));
         
         ______TS("null parameter");
         DataBundle nullDataBundle = null;
         try {
-            logic.persistDataBundle(nullDataBundle);
+            backDoorLogic.persistDataBundle(nullDataBundle);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(Const.StatusCodes.NULL_PARAMETER, e.errorCode);
@@ -57,7 +57,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);
         try {
-            logic.persistDataBundle(dataBundle);
+            backDoorLogic.persistDataBundle(dataBundle);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertTrue(e.getMessage().equals(
@@ -71,22 +71,22 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     }
     
     private void verifyPresentInDatastore(DataBundle data) {
-        HashMap<String, AccountAttributes> accounts = data.accounts;
+        Map<String, AccountAttributes> accounts = data.accounts;
         for (AccountAttributes expectedAccount : accounts.values()) {
             verifyPresentInDatastore(expectedAccount);
         }
         
-        HashMap<String, InstructorAttributes> instructors = data.instructors;
+        Map<String, InstructorAttributes> instructors = data.instructors;
         for (InstructorAttributes expectedInstructor : instructors.values()) {
             verifyPresentInDatastore(expectedInstructor);
         }
     
-        HashMap<String, CourseAttributes> courses = data.courses;
+        Map<String, CourseAttributes> courses = data.courses;
         for (CourseAttributes expectedCourse : courses.values()) {
             verifyPresentInDatastore(expectedCourse);
         }
     
-        HashMap<String, StudentAttributes> students = data.students;
+        Map<String, StudentAttributes> students = data.students;
         for (StudentAttributes expectedStudent : students.values()) {
             verifyPresentInDatastore(expectedStudent);
         }

@@ -8,7 +8,7 @@ import org.testng.AssertJUnit;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.TestProperties;
 import teammates.test.util.FileHelper;
@@ -60,7 +60,7 @@ public class BaseTestCase {
             String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
                                   + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
-            return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+            return JsonUtils.fromJson(jsonString, DataBundle.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -76,16 +76,14 @@ public class BaseTestCase {
     }
 
     protected static void removeAndRestoreTypicalDataInDatastore() throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = getTypicalDataBundle();
-        backDoorLogic.deleteExistingData(dataBundle);
-        backDoorLogic.persistDataBundle(dataBundle);
+        removeAndRestoreData(dataBundle);
     }
     
     protected static void removeTypicalDataInDatastore() {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = getTypicalDataBundle();
-        backDoorLogic.deleteExistingData(dataBundle);
+        backDoorLogic.removeDataBundle(dataBundle);
     }
     
     /**
@@ -98,9 +96,13 @@ public class BaseTestCase {
     }
 
     protected static void removeAndRestoreDatastoreFromJson(String pathToJsonFile) throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = loadDataBundle(pathToJsonFile);
-        backDoorLogic.deleteExistingData(dataBundle);
+        removeAndRestoreData(dataBundle);
+    }
+
+    protected static void removeAndRestoreData(DataBundle dataBundle) throws Exception {
+        BackDoorLogic backDoorLogic = new BackDoorLogic();
+        backDoorLogic.removeDataBundle(dataBundle);
         backDoorLogic.persistDataBundle(dataBundle);
     }
 

@@ -97,17 +97,17 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
 
-        submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
+        submitPage.fillResponseRichTextEditor(1, 0, "Test Self Feedback");
         submitPage.selectRecipient(2, 0, "Alice Betsy</option></td></div>'\"");
-        submitPage.fillResponseTextBox(2, 0, "Response to Alice.");
+        submitPage.fillResponseRichTextEditor(2, 0, "Response to Alice.");
         submitPage.selectRecipient(2, 1, "Drop out");
-        submitPage.fillResponseTextBox(2, 1, "Response to student who is going to drop out.");
+        submitPage.fillResponseRichTextEditor(2, 1, "Response to student who is going to drop out.");
         submitPage.selectRecipient(2, 2, "Extra guy");
-        submitPage.fillResponseTextBox(2, 2, "Response to extra guy.");
+        submitPage.fillResponseRichTextEditor(2, 2, "Response to extra guy.");
         submitPage.fillResponseTextBox(13, 0, "1");
 
         // Test partial response for question
-        submitPage.fillResponseTextBox(4, 1, "Feedback to Instructor 3");
+        submitPage.fillResponseRichTextEditor(4, 1, "Feedback to Instructor 3");
         submitPage.selectRecipient(6, 0, "Teammates Test2");
         submitPage.chooseMcqOption(6, 0, "Algo");
         submitPage.selectRecipient(8, 0, "Teammates Test2");
@@ -146,7 +146,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(
                                fqConstSum.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
 
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
 
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
@@ -170,11 +170,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // Test editing an existing response + fill up rest of responses at the same time
         String editedResponse = "Edited response to Alice.";
-        submitPage.fillResponseTextBox(2, 0, editedResponse);
-        submitPage.fillResponseTextBox(3, 0, "Feedback to instructors");
-        submitPage.fillResponseTextBox(4, 1, "Feedback to instructor 2.");
-        submitPage.fillResponseTextBox(4, 2, "Feedback to instructor 4.");
-        submitPage.fillResponseTextBox(4, 3, "Feedback to instructor 5.");
+        submitPage.fillResponseRichTextEditor(2, 0, editedResponse);
+        submitPage.fillResponseRichTextEditor(3, 0, "Feedback to instructors");
+        submitPage.fillResponseRichTextEditor(4, 1, "Feedback to instructor 2.");
+        submitPage.fillResponseRichTextEditor(4, 2, "Feedback to instructor 4.");
+        submitPage.fillResponseRichTextEditor(4, 3, "Feedback to instructor 5.");
 
         submitPage.chooseMcqOption(5, 0, "UI");
         submitPage.chooseMcqOption(6, 0, "UI"); // Changed from "Algo" to "UI"
@@ -249,10 +249,10 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(21, 0, "Team 3");
         submitPage.toggleMsqOption(21, 0, "");
 
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
 
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-        assertEquals(editedResponse,
+        assertEquals("<p>" + editedResponse + "</p>",
                     BackDoor.getFeedbackResponse(
                                  fq.getId(), "IFSubmitUiT.instr@gmail.tmt",
                                  "IFSubmitUiT.alice.b@gmail.tmt").getResponseDetails().getAnswerString());
@@ -339,13 +339,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-"
                                                     + qnNumber + "-" + responseNumber));
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-"
-                                                     + qnNumber + "-" + responseNumber));
 
         // Test that the recipient selection is disabled and not visible
         assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-"
-                                                     + qnNumber + "-" + responseNumber));
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-"
                                                      + qnNumber + "-" + responseNumber));
     }
 
@@ -488,7 +484,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "10");
         assertEquals("90 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
 
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus("Please fix the error(s) for distribution question(s) 17, 18, 19."
                                 + " To skip a distribution question, leave the boxes blank.");
 
@@ -516,7 +512,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("The same amount of points should not be given multiple times.",
                      submitPage.getConstSumMessage(qnNumber, 3));
 
-        submitPage.clickSubmitButton();
+        submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus("Please fix the error(s) for distribution question(s) 17, 18, 19."
                                 + " To skip a distribution question, leave the boxes blank.");
 

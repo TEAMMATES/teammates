@@ -92,8 +92,8 @@ public final class HttpRequestHelper {
             String param = new String(f.nextElement().toString());
             requestParameters.append(param).append("::");
             String[] parameterValues = request.getParameterValues(param);
-            for (int j = 0; j < parameterValues.length; j++) {
-                requestParameters.append(parameterValues[j]).append("//");
+            for (String parameterValue : parameterValues) {
+                requestParameters.append(parameterValue).append("//");
             }
             requestParameters.setLength(requestParameters.length() - 2);
             requestParameters.append(", ");

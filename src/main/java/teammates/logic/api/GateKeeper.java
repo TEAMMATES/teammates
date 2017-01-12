@@ -21,16 +21,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class GateKeeper {
     private static UserService userService = UserServiceFactory.getUserService();
 
-    /**
-     * This enum is not used at the moment. It is for future reference. We plan
-     * to pass Activity as an additional parameter to access control methods for
-     * finer-grain access control. e.g., to block some instructors from viewing
-     * results of an evaluation.
-     */
-    public enum Activity {
-        ADD, VIEW, UPDATE, DELETE
-    }
-
     private static GateKeeper instance;
 
     public static GateKeeper inst() {
@@ -346,14 +336,25 @@ public class GateKeeper {
         return StudentsLogic.inst().isStudentInAnyCourse(user.getNickname());
     }
 
-    public void verifyAccessibleForCurrentUserAsInstructor(AccountAttributes account, String courseId, String section) {
+    public void verifyAccessibleForCurrentUserAsInstructorOrTeamMember(AccountAttributes account, String courseId,
+            String section, String email) {
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForGoogleId(courseId, account.googleId);
-
-        if (instructor == null) {
-            throw new UnauthorizedAccessException("User is not instructor of the course that student belongs to");
-        } else if (!instructor.isAllowedForPrivilege(section,
-                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-            throw new UnauthorizedAccessException("User does not have enough privileges to view the photo");
+        if (instructor != null) {
+            if (!instructor.isAllowedForPrivilege(section,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+                throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the photo");
+            }
+            return;
         }
+        
+        StudentAttributes student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, account.googleId);
+        if (student != null) {
+            if (!StudentsLogic.inst().isStudentsInSameTeam(courseId, email, student.email)) {
+                throw new UnauthorizedAccessException("Student does not have enough privileges to view the photo");
+            }
+            return;
+        }
+        
+        throw new UnauthorizedAccessException("User is not in the course that student belongs to");
     }
 }

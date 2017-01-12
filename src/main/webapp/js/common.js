@@ -137,7 +137,7 @@ var DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
         'This feedback session name already existed in this course. Please use another name.';
 var DISPLAY_FEEDBACK_SESSION_NAME_EMPTY = 'Feedback session name must not be empty.';
 var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
-        'Please enter the maximum number of recipients each respondants should give feedback to.';
+        'Please enter the maximum number of recipients each respondents should give feedback to.';
 
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. The question text cannot be empty.';
 var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
@@ -153,6 +153,11 @@ var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
+    
+    $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function() {
+        bindDefaultImageIfMissing(this);
+    });
+    
     /**
      * Initializing then disabling is better than simply
      * not initializing for mobile due to some tooltips-specific
@@ -179,6 +184,18 @@ $(document).on('ajaxComplete ready', function() {
         }
     });
 });
+
+/**
+ * Binds a default image if the image is missing.
+ * @param element Image element.
+ */
+function bindDefaultImageIfMissing(element) {
+    $(element).on('error', function() {
+        if ($(this).attr('src') !== '') {
+            $(this).attr('src', '/images/profile_picture_default.png');
+        }
+    });
+}
 
 /**
  * Checks if the current device is touch based device
@@ -245,8 +262,12 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
     var columnType = 0;
     var store = [];
     var $RowList = $('tr', $table);
-    
+    // For date comparisons in instructor home page we should use
+    // the tool-tip value instead of display text since display text does not contain the year.
+    var shouldConsiderToolTipYear = comp && comp.toString().includes('instructorHomeDateComparator');
+
     // Iterate through column's contents to decide which comparator to use
+    var textToCompare;
     for (var i = row; i < $RowList.length; i++) {
         if ($RowList[i].cells[colIdx - 1] === undefined) {
             continue;
@@ -255,14 +276,17 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
         // $.trim trims leading/trailing whitespaces
         // jQuery(...).text() works like .innerText, but works in Firefox (.innerText does not)
         // $RowList[i].cells[colIdx - 1] is where we get the table cell from
-        var innerText = $.trim(jQuery($RowList[i].cells[colIdx - 1]).text());
+        // If shouldConsiderToolTipYear is true, we consider the tooltip value instead of innerText
+        textToCompare = shouldConsiderToolTipYear
+                ? $.trim($($RowList[i].cells[colIdx - 1]).find('span').attr('data-original-title'))
+                : $.trim($($RowList[i].cells[colIdx - 1]).text());
         
         // Store rows together with the innerText to compare
-        store.push([innerText, $RowList[i], i]);
+        store.push([textToCompare, $RowList[i], i]);
         
-        if ((columnType === 0 || columnType === 1) && isNumber(innerText)) {
+        if ((columnType === 0 || columnType === 1) && isNumber(textToCompare)) {
             columnType = 1;
-        } else if ((columnType === 0 || columnType === 2) && isDate(innerText)) {
+        } else if ((columnType === 0 || columnType === 2) && isDate(textToCompare)) {
             columnType = 2;
         } else {
             columnType = 3;
@@ -353,7 +377,7 @@ function sortDate(x, y) {
 * @returns pattern string
 */
 function getDayMonthYearFormat() {
-    return /^\s*(\d{2})[\/\- ](\d{2})[\/\- ](\d{4}|\d{2})\s*$/;
+    return /^\s*(\d{2})[/\- ](\d{2})[/\- ](\d{4}|\d{2})\s*$/;
 }
 
 /**
@@ -617,8 +641,11 @@ function setStatusMessageToForm(message, status, form) {
     var $copyOfStatusMessagesToUser = populateStatusMessageDiv(message, status).clone().show();
     $(DIV_STATUS_MESSAGE).remove();
     $(form).prepend($copyOfStatusMessagesToUser);
-    scrollToElement($copyOfStatusMessagesToUser[0], { offset: window.innerHeight / 8 * -1,
-                                                      duration: 1000 });
+    var opts = {
+        offset: window.innerHeight / 8 * -1,
+        duration: 1000
+    };
+    scrollToElement($copyOfStatusMessagesToUser[0], opts);
 
 }
 
@@ -642,6 +669,18 @@ function clearStatusMessages() {
     
     $statusMessagesToUser.empty();
     $statusMessagesToUser.hide();
+}
+
+function addLoadingIndicator(button, loadingText) {
+    button.html(loadingText);
+    button.prop('disabled', true);
+    button.append('<img src="/images/ajax-loader.gif">');
+}
+
+function removeLoadingIndicator(button, displayText) {
+    button.empty();
+    button.html(displayText);
+    button.prop('disabled', false);
 }
 
 /**
@@ -711,7 +750,7 @@ function isNameValid(rawName) {
         return false;
     }
     
-    if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
+    if (name.match(/[^/\\,.'\-()0-9a-zA-Z \t]/)) {
         // Returns true if a character NOT belonging to the following set
         // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
         // apostrophe('), hyphen(-), round brackets(()), alpha numeric
@@ -736,7 +775,7 @@ function isInstitutionValid(rawInstitution) {
         return false;
     }
     
-    if (institution.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
+    if (institution.match(/[^/\\,.'\-()0-9a-zA-Z \t]/)) {
         // Returns true if a character NOT belonging to the following set
         // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
         // apostrophe('), hyphen(-), round brackets(()), alpha numeric
@@ -787,7 +826,7 @@ function replaceAll(string, find, replace) {
 }
 
 function escapeRegExp(string) {
-    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+    return string.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
 }
 
 /**
@@ -808,12 +847,16 @@ function sanitizeForJs(rawString) {
  *                             Example- '.panel-body, #panel-data, .sub-container'
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
-    var searchKey = $(searchKeyId).val();
+    var searchKey = $(searchKeyId).val().trim();
     // split search key string on symbols and spaces and add to searchKeyList
     var searchKeyList = [];
-    $.each(searchKey.split(/[ "'.-]/), function() {
-        searchKeyList.push($.trim(this));
-    });
+    if (searchKey.charAt(0) === '"' && searchKey.charAt(searchKey.length - 1) === '"') {
+        searchKeyList.push(searchKey.replace(/"/g, '').trim());
+    } else {
+        $.each(searchKey.split(/[ "'.-]/), function() {
+            searchKeyList.push($.trim(this));
+        });
+    }
     // remove empty elements from searchKeyList
     searchKeyList = searchKeyList.filter(function(n) {
         return n !== '';
@@ -1017,3 +1060,16 @@ var BootboxWrapper = {
         .find('.modal-header').addClass('alert-' + color || StatusType.DEFAULT);
     }
 };
+
+// Toggle the visibility of additional question information for the specified question.
+function toggleAdditionalQuestionInfo(identifier) {
+    var $questionButton = $('#questionAdditionalInfoButton-' + identifier);
+
+    if ($questionButton.text() === $questionButton.attr('data-more')) {
+        $questionButton.text($questionButton.attr('data-less'));
+    } else {
+        $questionButton.text($questionButton.attr('data-more'));
+    }
+
+    $('#questionAdditionalInfo-' + identifier).toggle();
+}

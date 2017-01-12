@@ -9,7 +9,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.Action;
+import teammates.ui.controller.InstructorCourseAddAction;
 import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.ShowPageResult;
 
@@ -45,9 +45,9 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         ______TS("Error: Invalid parameter for Course ID");
         
         String invalidCourseId = "ticac,tpa1,id";
-        Action addAction = getAction(Const.ParamsNames.COURSE_ID, invalidCourseId,
-                                     Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
-                                     Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
+        InstructorCourseAddAction addAction = getAction(Const.ParamsNames.COURSE_ID, invalidCourseId,
+                                                        Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
+                                                        Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         ShowPageResult pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1",
@@ -178,7 +178,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         assertEquals(expected, pageResult.getStatusMessage());
     }
     
-    private Action getAction(String... parameters) {
-        return (Action) gaeSimulation.getActionObject(uri, parameters);
+    private InstructorCourseAddAction getAction(String... parameters) {
+        return (InstructorCourseAddAction) gaeSimulation.getActionObject(uri, parameters);
     }
 }

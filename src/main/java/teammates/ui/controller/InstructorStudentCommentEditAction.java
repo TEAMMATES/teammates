@@ -16,8 +16,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
@@ -127,6 +128,8 @@ public class InstructorStudentCommentEditAction extends Action {
     private CommentAttributes extractCommentData() {
         CommentAttributes comment = new CommentAttributes();
         
+        String editType = getRequestParamValue(Const.ParamsNames.COMMENT_EDITTYPE);
+
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
@@ -137,8 +140,10 @@ public class InstructorStudentCommentEditAction extends Action {
         String showRecipientTo = getRequestParamValue(Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO);
 
         String commentTextString = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT);
-        Assumption.assertNotNull(commentTextString);
-        Assumption.assertNotEmpty(commentTextString);
+        if (!"delete".equals(editType)) {
+            Assumption.assertNotNull(commentTextString);
+            Assumption.assertNotEmpty(commentTextString);
+        }
         
         Text commentText = new Text(commentTextString);
         
@@ -195,7 +200,7 @@ public class InstructorStudentCommentEditAction extends Action {
         if (isCommentPublicToRecipient(comment)) {
             comment.sendingState = CommentSendingState.PENDING;
         }
-        comment.commentText = commentText;
+        comment.commentText = Sanitizer.sanitizeForRichText(commentText);
         comment.createdAt = new Date();
         
         return comment;

@@ -231,7 +231,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         ______TS("typical successful case for published session");
         
-        FeedbackSessionsLogic.inst().publishFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
+        FeedbackSessionsLogic.inst().publishFeedbackSession(session);
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
@@ -274,6 +274,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
     }
     
     private InstructorFeedbackResponseCommentAddAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentAddAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorFeedbackResponseCommentAddAction) gaeSimulation.getActionObject(uri, params);
     }
 }

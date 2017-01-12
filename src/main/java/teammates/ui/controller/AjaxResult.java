@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.StatusMessage;
-
-import com.google.gson.Gson;
 
 public class AjaxResult extends ActionResult {
 
@@ -50,7 +49,7 @@ public class AjaxResult extends ActionResult {
         
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        String jsonData = new Gson().toJson(data);
+        String jsonData = JsonUtils.toJson(data);
         
         resp.getWriter().write(jsonData);
     }

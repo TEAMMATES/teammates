@@ -22,7 +22,6 @@ public class TeamEvalResultTest extends BaseTestCase {
 
     // CHECKSTYLE.OFF:SingleSpaceSeparator vertical alignment of values for readability
     @Test
-    // @formatter:off
     public void testCalculatePoints() {
         
         int[][] input = {
@@ -464,7 +463,6 @@ public class TeamEvalResultTest extends BaseTestCase {
                 new double[]{1, 2, NSB, 4, NSU, 6, NA},
                 new double[]{1.0, 2.0, 3.0, NA, 5.0, 6.0});
     }
-    // @formatter:on
 
     //--------------------------------------------------------------------
     

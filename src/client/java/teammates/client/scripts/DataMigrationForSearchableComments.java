@@ -3,7 +3,6 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.List;
 
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -11,7 +10,6 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Comment;
 import teammates.storage.entity.FeedbackResponseComment;
 
@@ -26,8 +24,6 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
 
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-
         List<InstructorAttributes> allInstructors = getAllInstructors();
         for (InstructorAttributes instructor : allInstructors) {
             updateCommentsForInstructor(instructor);
@@ -43,12 +39,12 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
         for (FeedbackResponseComment c : frComments) {
             putFrCommentToSearchableDocument(new FeedbackResponseCommentAttributes(c));
         }
-        getPm().close();
+        PM.close();
     }
     
     protected List<Comment> getCommentEntitiesForInstructor(
             InstructorAttributes instructor) {
-        Query q = getPm().newQuery(Comment.class);
+        Query q = PM.newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
 
@@ -60,7 +56,7 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
     
     protected List<FeedbackResponseComment> getFrCommentEntitiesForInstructor(
             InstructorAttributes instructor) {
-        Query q = getPm().newQuery(FeedbackResponseComment.class);
+        Query q = PM.newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
 
@@ -76,10 +72,6 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
     
     protected void putFrCommentToSearchableDocument(FeedbackResponseCommentAttributes comment) {
         logic.putDocument(comment);
-    }
-
-    protected PersistenceManager getPm() {
-        return Datastore.getPersistenceManager();
     }
 
     @SuppressWarnings("deprecation")

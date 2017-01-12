@@ -8,8 +8,6 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -29,6 +27,8 @@ import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
+
+import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackEditPageData extends PageData {
     

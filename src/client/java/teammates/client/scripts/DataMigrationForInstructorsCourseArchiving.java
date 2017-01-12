@@ -6,7 +6,6 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Instructor;
 
 /**
@@ -25,14 +24,11 @@ public class DataMigrationForInstructorsCourseArchiving extends RemoteApiClient 
 
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-        
         // Recreate indexes for instructor entity
         
         String query = "select from " + Instructor.class.getName();
         @SuppressWarnings("unchecked")
-        List<Instructor> instructorList = (List<Instructor>) Datastore.getPersistenceManager()
-                .newQuery(query).execute();
+        List<Instructor> instructorList = (List<Instructor>) PM.newQuery(query).execute();
         int i = 0;
         for (Instructor instructor : instructorList) {
             // This makes persistence manager think that isArchived has been modified,
@@ -49,8 +45,7 @@ public class DataMigrationForInstructorsCourseArchiving extends RemoteApiClient 
             System.out.println(++i + ". Added key for " + instructor.getEmail());
         }
         
-        
-        Datastore.getPersistenceManager().close();
+        PM.close();
         System.out.println("Processed " + i + " insturctors");
     }
 }

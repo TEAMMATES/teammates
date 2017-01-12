@@ -2,6 +2,7 @@ package teammates.test.cases.storage;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.testng.annotations.AfterClass;
@@ -26,7 +27,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static DataBundle dataBundle = getTypicalDataBundle();
-    private static HashMap<String, FeedbackResponseAttributes> fras;
+    private static Map<String, FeedbackResponseAttributes> fras;
     
     @BeforeClass
     public void classSetUp() throws Exception {
@@ -752,7 +753,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 "Empty feedback session", "idOfTypicalCourse1", "Section 1").isEmpty());
     }
     
-    @SuppressWarnings("static-access")
     @Test
     public void testUpdateFeedbackResponse() throws Exception {
 
@@ -802,12 +802,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 modifiedResponse.giver, modifiedResponse.recipient);
         FeedbackResponseDetails frd = modifiedResponse.getResponseDetails();
         
-        HashMap<String, String[]> requestParameters = new HashMap<String, String[]>();
+        Map<String, String[]> requestParameters = new HashMap<String, String[]>();
         requestParameters.put("questiontype-1", new String[] { "TEXT" });
         requestParameters.put("responsetext-1-0", new String[] { "New answer text!" });
         
         String[] answer = {"New answer text!"};
-        frd = frd.createResponseDetails(
+        frd = FeedbackResponseDetails.createResponseDetails(
                     answer, FeedbackQuestionType.TEXT,
                     null, requestParameters, 1, 0);
         modifiedResponse.setResponseDetails(frd);

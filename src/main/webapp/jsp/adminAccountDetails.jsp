@@ -5,12 +5,14 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin" prefix="ta" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin/accounts" prefix="accounts" %>
 
-<c:set var="jsIncludes">
+<c:set var="cssIncludes">
     <link rel="stylesheet" href="/stylesheets/adminAccountDetails.css" type="text/css">
+</c:set>
+<c:set var="jsIncludes">
     <script type="text/javascript" src="/js/administrator.js"></script>
 </c:set>
 
-<ta:adminPage pageTitle="TEAMMATES - Administrator Account Details" bodyTitle="Instructor Account Details" jsIncludes="${jsIncludes}">
+<ta:adminPage pageTitle="TEAMMATES - Administrator Account Details" bodyTitle="Instructor Account Details" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
     <accounts:accountDetailsForInstructorPanel accountInformation="${data.accountInformation}"/>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 

@@ -1,8 +1,8 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackRemindAction extends InstructorFeedbacksPageAction {
@@ -22,7 +22,7 @@ public class InstructorFeedbackRemindAction extends InstructorFeedbacksPageActio
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
-        logic.sendReminderForFeedbackSession(courseId, feedbackSessionName);
+        taskQueuer.scheduleFeedbackSessionReminders(courseId, feedbackSessionName);
         
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
         statusToAdmin = "Email sent out to all students who have not completed "

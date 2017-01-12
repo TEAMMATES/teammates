@@ -6,8 +6,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackResultsDownloadAction extends Action {
@@ -59,8 +59,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
             result.addResponseParam(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
             return result;
         }
-        String downloadType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_DOWNLOAD_TYPE);
-        return createFileDownloadResult(fileName, fileContent, downloadType);
+
+        return createFileDownloadResult(fileName, fileContent);
     }
 
 }

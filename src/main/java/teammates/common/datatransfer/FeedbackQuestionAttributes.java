@@ -9,14 +9,15 @@ import org.json.JSONObject;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackPath;
 import teammates.storage.entity.FeedbackQuestion;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
@@ -52,9 +53,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.courseId = fq.getCourseId();
         this.creatorEmail = fq.getCreatorEmail();
         this.questionMetaData = fq.getQuestionMetaData();
-        this.questionDescription = fq.getQuestionDescription() == null
-                                   ? null
-                                   : new Text(Sanitizer.sanitizeForRichText(fq.getQuestionDescription().getValue()));
+        this.questionDescription = Sanitizer.sanitizeForRichText(fq.getQuestionDescription());
         this.questionNumber = fq.getQuestionNumber();
         this.questionType = fq.getQuestionType();
         this.giverType = fq.getGiverType();
@@ -100,11 +99,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     public Date getCreatedAt() {
-        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
+        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
     
     public Date getUpdatedAt() {
-        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
+        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
     public String getId() {
@@ -158,7 +157,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, FeedbackQuestionAttributes.class);
+        return JsonUtils.toJson(this, FeedbackQuestionAttributes.class);
     }
 
     @Override
@@ -351,31 +350,31 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((courseId == null) ? 0 : courseId.hashCode());
+        result = prime * result + (courseId == null ? 0 : courseId.hashCode());
 
-        result = prime * result + ((creatorEmail == null) ? 0 : creatorEmail.hashCode());
+        result = prime * result + (creatorEmail == null ? 0 : creatorEmail.hashCode());
 
-        result = prime * result + ((feedbackSessionName == null) ? 0 : feedbackSessionName.hashCode());
+        result = prime * result + (feedbackSessionName == null ? 0 : feedbackSessionName.hashCode());
 
-        result = prime * result + ((giverType == null) ? 0 : giverType.hashCode());
+        result = prime * result + (giverType == null ? 0 : giverType.hashCode());
 
         result = prime * result + numberOfEntitiesToGiveFeedbackTo;
 
         result = prime * result + questionNumber;
 
-        result = prime * result + ((questionMetaData == null) ? 0 : questionMetaData.hashCode());
+        result = prime * result + (questionMetaData == null ? 0 : questionMetaData.hashCode());
 
-        result = prime * result + ((questionDescription == null) ? 0 : questionDescription.hashCode());
+        result = prime * result + (questionDescription == null ? 0 : questionDescription.hashCode());
 
-        result = prime * result + ((questionType == null) ? 0 : questionType.hashCode());
+        result = prime * result + (questionType == null ? 0 : questionType.hashCode());
 
-        result = prime * result + ((recipientType == null) ? 0 : recipientType.hashCode());
+        result = prime * result + (recipientType == null ? 0 : recipientType.hashCode());
 
-        result = prime * result + ((showGiverNameTo == null) ? 0 : showGiverNameTo.hashCode());
+        result = prime * result + (showGiverNameTo == null ? 0 : showGiverNameTo.hashCode());
 
-        result = prime * result + ((showRecipientNameTo == null) ? 0 : showRecipientNameTo.hashCode());
+        result = prime * result + (showRecipientNameTo == null ? 0 : showRecipientNameTo.hashCode());
 
-        result = prime * result + ((showResponsesTo == null) ? 0 : showResponsesTo.hashCode());
+        result = prime * result + (showResponsesTo == null ? 0 : showResponsesTo.hashCode());
 
         return result;
     }
@@ -568,9 +567,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public void sanitizeForSaving() {
-        this.questionDescription = this.questionDescription == null
-                                   ? null
-                                   : new Text(Sanitizer.sanitizeForRichText(this.questionDescription.getValue()));
+        this.questionDescription = Sanitizer.sanitizeForRichText(this.questionDescription);
     }
     
     private boolean isValidJsonString(String jsonString) {
@@ -588,8 +585,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * @param questionDetails
      */
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
-        Gson gson = Utils.getTeammatesGson();
-        questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
+        questionMetaData = new Text(JsonUtils.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
     }
 
     /** 
@@ -603,8 +599,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         if (questionType == FeedbackQuestionType.TEXT && !isValidJsonString(questionMetaDataValue)) {
             return new FeedbackTextQuestionDetails(questionMetaDataValue);
         }
-        Gson gson = Utils.getTeammatesGson();
-        return gson.fromJson(questionMetaDataValue, getFeedbackQuestionDetailsClass());
+        return JsonUtils.fromJson(questionMetaDataValue, getFeedbackQuestionDetailsClass());
     }
 
     /** 

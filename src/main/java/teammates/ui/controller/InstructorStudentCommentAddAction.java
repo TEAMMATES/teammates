@@ -17,8 +17,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Url;
 import teammates.logic.api.GateKeeper;
 
@@ -81,7 +81,7 @@ public class InstructorStudentCommentAddAction extends Action {
         //TODO: remove fromCommentsPage
         if (isFromCommentsPage) {
             return createRedirectResult(
-                           (new PageData(account).getInstructorCommentsLink())
+                           new PageData(account).getInstructorCommentsLink()
                            + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
         } else if (isFromStudentDetailsPage) {
             return createRedirectResult(getCourseStudentDetailsLink(courseId, studentEmail));

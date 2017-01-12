@@ -38,7 +38,9 @@ $(document).ready(function() {
                     $panelBody.html(appendedQuestion);
                 }
                 
-                bindErrorImages($panelBody.find('.profile-pic-icon-hover, .profile-pic-icon-click'));
+                $panelBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function() {
+                    bindDefaultImageIfMissing(this);
+                });
                 // bind the show picture onclick events
                 bindStudentPhotoLink($panelBody.find('.profile-pic-icon-click > .student-profile-pic-view-link'));
                 // bind the show picture onhover events
