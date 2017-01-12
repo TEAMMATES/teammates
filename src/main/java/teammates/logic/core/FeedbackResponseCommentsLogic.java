@@ -23,7 +23,10 @@ import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
- * Handles the logic related to {@link FeedbackResponseCommentAttributes}.
+ * Handles operations related to feedback response comments.
+ * 
+ * @see {@link FeedbackResponseCommentAttributes}
+ * @see {@link FeedbackResponseCommentsDb}
  */
 public class FeedbackResponseCommentsLogic {
     

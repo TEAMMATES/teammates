@@ -44,6 +44,12 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
+/**
+ * Handles operations related to feedback sessions.
+ * 
+ * @see {@link FeedbackSessionAttributes}
+ * @see {@link FeedbackSessionsDb}
+ */
 public class FeedbackSessionsLogic {
     
     private static FeedbackSessionsLogic instance;

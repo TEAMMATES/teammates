@@ -31,7 +31,10 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
 /**
- * Handles the logic related to {@link CommentAttributes}.
+ * Handles operations related to student comments.
+ * 
+ * @see {@link CommentAttributes}
+ * @see {@link CommentsDb}
  */
 public class CommentsLogic {
     

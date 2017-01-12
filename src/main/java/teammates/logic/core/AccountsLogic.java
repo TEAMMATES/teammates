@@ -18,7 +18,10 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
 /**
- * Handles the logic related to accounts.
+ * Handles operations related to accounts.
+ * 
+ * @see {@link AccountAttributes}
+ * @see {@link AccountsDb}
  */
 public class AccountsLogic {
     //The API of this class doesn't have header comments because it sits behind

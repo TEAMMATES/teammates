@@ -22,6 +22,12 @@ import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
 
+/**
+ * Handles operations related to feedback responses.
+ * 
+ * @see {@link FeedbackResponseAttributes}
+ * @see {@link FeedbackResponsesDb}
+ */
 public class FeedbackResponsesLogic {
 
     private static final Logger log = Logger.getLogger();

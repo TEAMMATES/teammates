@@ -25,7 +25,10 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 
 /**
- * Handles  operations related to student roles.
+ * Handles operations related to students.
+ * 
+ * @see {@link StudentAttributes}
+ * @see {@link StudentsDb}
  */
 public class StudentsLogic {
     //The API of this class doesn't have header comments because it sits behind

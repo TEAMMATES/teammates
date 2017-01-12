@@ -25,6 +25,12 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackQuestionsDb;
 
+/**
+ * Handles operations related to feedback questions.
+ * 
+ * @see {@link FeedbackQuestionAttributes}
+ * @see {@link FeedbackQuestionsDb}
+ */
 public class FeedbackQuestionsLogic {
     
     private static final Logger log = Logger.getLogger();

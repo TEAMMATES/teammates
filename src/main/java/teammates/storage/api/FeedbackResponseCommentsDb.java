@@ -28,8 +28,10 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 /**
- * Handles CRUD Operations for {@link FeedbackResponseComment}.
- * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
+ * Handles CRUD operations for feedback response comments.
+ * 
+ * @see {@link FeedbackResponseComment}
+ * @see {@link FeedbackResponseCommentAttributes}
  */
 public class FeedbackResponseCommentsDb extends EntitiesDb {
 

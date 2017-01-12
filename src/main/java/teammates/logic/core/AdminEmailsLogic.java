@@ -12,10 +12,11 @@ import teammates.storage.api.AdminEmailsDb;
 import com.google.appengine.api.blobstore.BlobKey;
 
 /**
- * Handles the logic related to admin emails
- *
+ * Handles operations related to emails sent by the admin.
+ * 
+ * @see {@link AdminEmailAttributes}
+ * @see {@link AdminEmailsDb}
  */
-
 public class AdminEmailsLogic {
     private static AdminEmailsLogic instance;
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();

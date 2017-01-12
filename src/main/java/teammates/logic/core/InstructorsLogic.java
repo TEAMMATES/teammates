@@ -15,7 +15,10 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.InstructorsDb;
 
 /**
- * Handles  operations related to instructor roles.
+ * Handles operations related to instructors.
+ * 
+ * @see {@link InstructorAttributes}
+ * @see {@link InstructorsDb}
  */
 public class InstructorsLogic {
     //The API of this class doesn't have header comments because it sits behind
