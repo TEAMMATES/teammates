@@ -59,7 +59,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
         
         List<String> studentRecipientList = new ArrayList<String>();
         for (StudentAttributes student : studentsLogic.getStudentsForCourse(session1.getCourseId())) {
-            if (!fsLogic.isFeedbackSessionCompletedByStudent(session1, student.email)) {
+            if (!fsLogic.isFeedbackSessionCompletedByStudent(session1, student)) {
                 studentRecipientList.add(student.email);
             }
         }

@@ -12,24 +12,15 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
 <c:set var="cssIncludes">
-    <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
-</c:set>
-<c:set var="jsIncludes">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="/stylesheets/lib/handsontable.full.min.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="<%= FrontEndLibrary.HANDSONTABLE_CSS.getLibrarySource() %>" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/customFeedbackPaths.css" type="text/css" media="screen">
-    
-    <script type="text/javascript" src="/js/lib/tinymce.min.js"></script>
-=======
+</c:set>
+<c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE.getLibrarySource() %>"></script>
->>>>>>> refs/heads/master
+    <script type="text/javascript" src="<%= FrontEndLibrary.HANDSONTABLE.getLibrarySource() %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
-<<<<<<< HEAD
-    <script type="text/javascript" src="/js/lib/handsontable.full.min.js"></script>
-=======
 
->>>>>>> refs/heads/master
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>

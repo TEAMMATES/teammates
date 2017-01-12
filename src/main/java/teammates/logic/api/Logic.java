@@ -1138,10 +1138,10 @@ public class Logic {
     /**
      * @see {@link FeedbackSessionsLogic#isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes, String)}
      */
-    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, StudentAttributes student) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, student);
     }
 
     /**

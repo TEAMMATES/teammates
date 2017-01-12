@@ -11,6 +11,8 @@ public enum FrontEndLibrary {
     BOOTSTRAP("/js/lib/", "https://unpkg.com/bootstrap@3.1.1/dist/js/", "bootstrap.min.js"),
     D3("/js/lib/", "https://unpkg.com/d3@3.5.17/", "d3.min.js"),
     DATAMAPS("/js/lib/", "https://unpkg.com/datamaps@0.5.8/dist/", "datamaps.none.min.js"),
+    HANDSONTABLE("/js/lib/", "https://unpkg.com/handsontable@0.25.1/dist/", "handsontable.full.min.js"),
+    HANDSONTABLE_CSS("/stylesheets/lib/", "https://unpkg.com/handsontable@0.25.1/dist/", "handsontable.full.min.css"),
     JQUERY("/js/lib/", "https://unpkg.com/jquery@1.12.4/dist/", "jquery.min.js"),
     JQUERY_GUILLOTINE("/js/lib/", "https://unpkg.com/guillotine@1.3.1/js/", "jquery.guillotine.min.js"),
     JQUERY_GUILLOTINE_CSS("/stylesheets/lib/", "https://unpkg.com/guillotine@1.3.1/css/", "jquery.guillotine.css"),
