@@ -16,7 +16,6 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
-import teammates.logic.core.TeamEvalResult;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {

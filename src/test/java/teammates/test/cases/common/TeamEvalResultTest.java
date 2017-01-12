@@ -1,16 +1,16 @@
-package teammates.test.cases.logic;
+package teammates.test.cases.common;
 
+import static teammates.common.datatransfer.TeamEvalResult.NA;
+import static teammates.common.datatransfer.TeamEvalResult.NSB;
+import static teammates.common.datatransfer.TeamEvalResult.NSU;
 import static teammates.common.util.Const.EOL;
-import static teammates.logic.core.TeamEvalResult.NA;
-import static teammates.logic.core.TeamEvalResult.NSB;
-import static teammates.logic.core.TeamEvalResult.NSU;
 
 import java.util.Arrays;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.logic.core.TeamEvalResult;
+import teammates.common.datatransfer.TeamEvalResult;
 import teammates.test.cases.BaseTestCase;
 
 public class TeamEvalResultTest extends BaseTestCase {
