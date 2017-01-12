@@ -12,7 +12,7 @@ public class AdminEmailImageUploadAction extends ImageUploadAction {
 
     @Override
     protected ActionResult execute() {
-        GateKeeper.inst().verifyAdminPrivileges(account);
+        new GateKeeper().verifyAdminPrivileges(account);
 
         FileUploadPageData uploadPageData = prepareData();
         AdminEmailComposePageData data = new AdminEmailComposePageData(account);

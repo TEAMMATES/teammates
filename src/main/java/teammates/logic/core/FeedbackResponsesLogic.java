@@ -28,22 +28,24 @@ import teammates.storage.entity.FeedbackResponse;
  * @see {@link FeedbackResponseAttributes}
  * @see {@link FeedbackResponsesDb}
  */
-public class FeedbackResponsesLogic {
-
+public final class FeedbackResponsesLogic {
+    
     private static final Logger log = Logger.getLogger();
-
-    private static FeedbackResponsesLogic instance;
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic
-            .inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    
+    private static FeedbackResponsesLogic instance = new FeedbackResponsesLogic();
+    
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-
+    
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    
+    private FeedbackResponsesLogic() {
+        // prevent initialization
+    }
+    
     public static FeedbackResponsesLogic inst() {
-        if (instance == null) {
-            instance = new FeedbackResponsesLogic();
-        }
         return instance;
     }
 

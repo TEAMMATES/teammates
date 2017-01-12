@@ -72,7 +72,7 @@ public class Logic {
     //TODO: remove this constant
     public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
     
-    protected static GateKeeper gateKeeper = GateKeeper.inst();
+    protected static GateKeeper gateKeeper = new GateKeeper();
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();

@@ -19,7 +19,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        GateKeeper.inst().verifyAdminPrivileges(account);
+        new GateKeeper().verifyAdminPrivileges(account);
         
         data = new AdminEmailComposePageData(account);
         BlobInfo blobInfo = extractGroupReceiverListFileKey();

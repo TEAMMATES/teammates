@@ -17,14 +17,17 @@ import com.google.appengine.api.blobstore.BlobKey;
  * @see {@link AdminEmailAttributes}
  * @see {@link AdminEmailsDb}
  */
-public class AdminEmailsLogic {
-    private static AdminEmailsLogic instance;
+public final class AdminEmailsLogic {
+    
+    private static AdminEmailsLogic instance = new AdminEmailsLogic();
+    
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
     
+    private AdminEmailsLogic() {
+        // prevent initialization
+    }
+    
     public static AdminEmailsLogic inst() {
-        if (instance == null) {
-            instance = new AdminEmailsLogic();
-        }
         return instance;
     }
 
