@@ -123,7 +123,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private void createStudentProfile(String email, String pictureKey) {
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
-        String nationality = "NationForJohnDoe";
+        String nationality = "Singaporean";
         String gender = Const.GenderTypes.MALE;
         String moreInfo = "Information for John Doe.";
         

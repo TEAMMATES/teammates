@@ -121,7 +121,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
-        spa.nationality = "test.nationality";
+        spa.nationality = "American";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
         spa.googleId = a.googleId;
@@ -201,7 +201,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         Date expectedModifiedDate = actualAccount.studentProfile.modifiedDate;
         
         String expectedNationality = actualAccount.studentProfile.nationality;
-        actualAccount.studentProfile.nationality = "New Nationality";
+        actualAccount.studentProfile.nationality = "Andorran";
         actualAccount.institute = "newer institute";
         
         accountsDb.updateAccount(actualAccount);
