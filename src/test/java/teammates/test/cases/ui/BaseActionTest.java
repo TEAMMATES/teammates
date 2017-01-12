@@ -13,6 +13,7 @@ import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
@@ -88,7 +89,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_SHORT_NAME, "short ",
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com  ",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
-                Const.ParamsNames.STUDENT_NATIONALITY, "  Switzerland ",
+                Const.ParamsNames.STUDENT_NATIONALITY, "American",
                 Const.ParamsNames.STUDENT_GENDER, "  other   ",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   "
         };
@@ -688,6 +689,18 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     protected void verifySpecifiedTasksAdded(Action action, String taskName, int taskCount) {
         Map<String, Integer> tasksAdded = action.getTaskQueuer().getNumberOfTasksAdded();
         assertEquals(taskCount, tasksAdded.get(taskName).intValue());
+    }
+
+    protected void verifyNoEmailsSent(Action action) {
+        assertTrue(getEmailsSent(action).isEmpty());
+    }
+
+    protected List<EmailWrapper> getEmailsSent(Action action) {
+        return action.getEmailSender().getEmailsSent();
+    }
+
+    protected void verifyNumberOfEmailsSent(Action action, int emailCount) {
+        assertEquals(emailCount, action.getEmailSender().getEmailsSent().size());
     }
 
 }

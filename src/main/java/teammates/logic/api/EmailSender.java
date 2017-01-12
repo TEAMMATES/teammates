@@ -1,4 +1,6 @@
-package teammates.logic.core;
+package teammates.logic.api;
+
+import java.util.List;
 
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
@@ -6,6 +8,11 @@ import teammates.common.util.Config;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.logic.core.EmailSenderService;
+import teammates.logic.core.JavamailService;
+import teammates.logic.core.MailgunService;
+import teammates.logic.core.MailjetService;
+import teammates.logic.core.SendgridService;
 
 /**
  * Handles operations related to sending emails.
@@ -56,44 +63,27 @@ public class EmailSender {
     }
     
     /**
-     * Sends the given {@code errorReport}.
+     * Sends the given {@code report}.
      */
-    public void sendErrorReport(EmailWrapper errorReport) throws EmailSendingException {
-        sendEmail(errorReport);
-        sendEmailCopyWithJavamail(errorReport);
-        log.info("Sent crash report: " + errorReport.getInfoForLogging());
-    }
-    
-    /**
-     * Reports that a system {@code error} has occurred and the {@code errorReport} that is
-     * supposed to report it has failed to sent.<br>
-     * This method can be used when the usual error report sending fails to make sure that
-     * no stack traces are lost in the process.
-     * @param error the original error to be reported in {@code errorReport}
-     * @param errorReport the report that fails to send
-     * @param e the exception which causes {@code errorReport} to fail to send
-     */
-    public void reportErrorThroughFallbackChannel(Throwable error, EmailWrapper errorReport, Exception e) {
-        log.severe("Crash report failed to send. Detailed error stack trace: "
-                   + TeammatesException.toStringWithStackTrace(error));
-        logSevereForErrorInSendingItem("crash report", errorReport, e);
-    }
-    
-    /**
-     * Sends the given {@code logReport}.
-     */
-    public void sendLogReport(EmailWrapper logReport) {
+    public void sendReport(EmailWrapper report) {
         try {
-            sendEmail(logReport);
-            sendEmailCopyWithJavamail(logReport);
+            sendEmail(report);
+            sendEmailCopyWithJavamail(report);
         } catch (Exception e) {
-            logSevereForErrorInSendingItem("log report", logReport, e);
+            log.severe("Error in sending report: " + (report == null ? "" : report.getInfoForLogging())
+                       + "\nReport content: " + report.getContent()
+                       + "\nCause: " + TeammatesException.toStringWithStackTrace(e));
         }
     }
     
-    private void logSevereForErrorInSendingItem(String itemType, EmailWrapper message, Exception e) {
-        log.severe("Error in sending " + itemType + ": " + (message == null ? "" : message.getInfoForLogging())
-                   + "\nCause: " + TeammatesException.toStringWithStackTrace(e));
+    /**
+     * Gets the emails sent.
+     * This method is used only for testing, where it is overridden.
+     * 
+     * @throws UnsupportedOperationException if used in production, where it is not meant to be
+     */
+    public List<EmailWrapper> getEmailsSent() {
+        throw new UnsupportedOperationException("Method is used only for testing");
     }
     
 }

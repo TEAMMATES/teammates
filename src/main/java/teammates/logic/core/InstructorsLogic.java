@@ -3,14 +3,12 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -239,77 +237,6 @@ public class InstructorsLogic {
         instructorsDb.updateInstructorByEmail(instructor);
     }
     
-    /**
-     * Sends a registration email to the instructor
-     * Vulnerable to eventual consistency
-     */
-    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, String instructorEmail)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to instructor [" + instructorEmail + "]");
-        }
-        
-        InstructorAttributes instructorData = getInstructorForEmail(courseId, instructorEmail);
-        if (instructorData == null) {
-            throw new EntityDoesNotExistException(
-                    "Instructor [" + instructorEmail + "] does not exist in course [" + courseId + "]");
-        }
-
-        try {
-            EmailWrapper email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructorData);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
-    /**
-     * Sends a registration email using the instructor attributes provided instead of retrieving the instructor
-     * object from the datastore
-     * @param courseId
-     * @param instructor InstructorAttributes object containing the details of the instructor
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
-     */
-    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to student [" + instructor.email + "]");
-        }
-
-        try {
-            EmailWrapper email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
-    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) {
-        
-        EmailGenerator emailGenerator = new EmailGenerator();
-
-        try {
-            EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
-            new EmailSender().sendEmail(email);
-            return emailGenerator.generateNewInstructorAccountJoinLink(instructor, institute);
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-    }
-
     public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name,
                                                               String institute, String email) {
         

@@ -28,8 +28,6 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailType;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
@@ -84,7 +82,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
 
         testValidateSections();
         testupdateStudentCascadeWithoutDocument();
-        testSendRegistrationInviteToStudent();
         testKeyGeneration();
         testEnrollLinesChecking();
         testEnrollStudents();
@@ -204,7 +201,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         expectedStudentProfile.shortName = "short";
         expectedStudentProfile.email = "personal@email.tmt";
         expectedStudentProfile.institute = "institute";
-        expectedStudentProfile.nationality = "Valid Nationality";
+        expectedStudentProfile.nationality = "Angolan";
         expectedStudentProfile.gender = "female";
         expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
         
@@ -322,45 +319,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         }
         
         // delete student from db
-        
-    }
-    
-    public void testSendRegistrationInviteToStudent() throws Exception {
-        
-        ______TS("typical case: send invite to one student");
-
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        String studentEmail = student1InCourse1.email;
-        String courseId = student1InCourse1.course;
-        String courseName = coursesLogic.getCourse(courseId).getName();
-        EmailWrapper msgToStudent = studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
-        assertEquals(studentEmail, msgToStudent.getRecipient());
-        assertEquals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), courseName, courseId),
-                     msgToStudent.getSubject());
-        
-        ______TS("invalid course id");
-        
-        String invalidCourseId = "invalidCourseId";
-        try {
-            studentsLogic.sendRegistrationInviteToStudent(invalidCourseId, studentEmail);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            String expectedMsg = "Course does not exist [" + invalidCourseId
-                    + "], trying to send invite email to student [" + studentEmail + "]";
-            assertEquals(expectedMsg, e.getMessage());
-        }
-        
-        
-        ______TS("invalid student email");
-        
-        String invalidStudentEmail = "invalidStudentEmail";
-        try {
-            studentsLogic.sendRegistrationInviteToStudent(courseId, invalidStudentEmail);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            String expectedMsg = "Student [" + invalidStudentEmail + "] does not exist in course [" + courseId + "]";
-            assertEquals(expectedMsg, e.getMessage());
-        }
         
     }
     

@@ -61,6 +61,13 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 + anotherInstructorOfCourse1.email + ")" + "</span>.<br>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
 
+        verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        
+        TaskWrapper taskAdded = remindAction.getTaskQueuer().getTasksAdded().get(0);
+        Map<String, String[]> paramMap = taskAdded.getParamMap();
+        assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
+        assertEquals(anotherInstructorOfCourse1.email, paramMap.get(ParamsNames.INSTRUCTOR_EMAIL)[0]);
+        
         ______TS("Typical case: Send email to remind a student to register for the course");
         
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -82,6 +89,13 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 + student1InCourse1.name + "<span class=\"bold\"> ("
                 + student1InCourse1.email + ")" + "</span>.<br>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
+        
+        verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        
+        taskAdded = remindAction.getTaskQueuer().getTasksAdded().get(0);
+        paramMap = taskAdded.getParamMap();
+        assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
+        assertEquals(student1InCourse1.email, paramMap.get(ParamsNames.STUDENT_EMAIL)[0]);
 
         ______TS("Masquerade mode: Send emails to all unregistered student to remind registering for the course");
         gaeSimulation.loginAsAdmin(adminUserId);
@@ -109,11 +123,11 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                      redirectResult.getStatusMessage());
         
         // 2 unregistered students, thus 2 emails queued to be sent
-        verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME, 2);
+        verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 2);
         
         List<TaskWrapper> tasksAdded = remindAction.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
-            Map<String, String[]> paramMap = task.getParamMap();
+            paramMap = task.getParamMap();
             assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
         }
         
@@ -160,8 +174,34 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         try {
             remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
             redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (EntityNotFoundException e) {
-            assertEquals("Instructor [" + invalidEmail + "] does not exist in course [" + courseId + "]", e.getMessage());
+            ignoreExpectedException();
+        }
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.STUDENT_EMAIL, invalidEmail
+        };
+        
+        try {
+            remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
+            redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (EntityNotFoundException e) {
+            ignoreExpectedException();
+        }
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, "invalidCourseId"
+        };
+        
+        try {
+            remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
+            redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (EntityNotFoundException e) {
+            ignoreExpectedException();
         }
         
     }
