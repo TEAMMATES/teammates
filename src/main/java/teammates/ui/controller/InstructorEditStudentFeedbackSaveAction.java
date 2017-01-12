@@ -15,7 +15,6 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
     
@@ -26,7 +25,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
                 
-        new GateKeeper().verifyAccessible(instructor,
+        gateKeeper.verifyAccessible(instructor,
                 session,
                 false, moderatedStudent.section,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);

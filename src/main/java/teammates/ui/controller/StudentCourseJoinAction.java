@@ -4,7 +4,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
-import teammates.logic.api.Logic;
 
 /**
  * This action handles students that attempts to join a course.
@@ -26,7 +25,7 @@ public class StudentCourseJoinAction extends Action {
                         + (account.googleId == null ? "<br>Email: " + account.email
                                                     : "<br>Google ID: " + account.googleId + "<br>Key: " + regkey);
         
-        if (logic.getCurrentUser() == null) {
+        if (gateKeeper.getCurrentUser() == null) {
             return createRedirectToAuthenticatedJoinPage(nextUrl);
         }
         
@@ -40,7 +39,7 @@ public class StudentCourseJoinAction extends Action {
                         Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(nextUrlType);
         String courseId = student.course;
         StudentCourseJoinConfirmationPageData data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl,
-                                                         Logic.getLogoutUrl(Sanitizer.sanitizeForNextUrl(confirmUrl)),
+                                                         gateKeeper.getLogoutUrl(Sanitizer.sanitizeForNextUrl(confirmUrl)),
                                                          isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
         excludeStudentDetailsFromResponseParams();
         

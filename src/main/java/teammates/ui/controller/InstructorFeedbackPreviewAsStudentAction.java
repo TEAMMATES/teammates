@@ -4,7 +4,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackPreviewAsStudentAction extends Action {
 
@@ -24,7 +23,7 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
                                                Const.ParamsNames.PREVIEWAS),
                                                previewStudentEmail);
 
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);

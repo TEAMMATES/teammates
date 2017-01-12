@@ -4,7 +4,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: Delete a course for an instructor
@@ -17,7 +16,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
         String idOfCourseToDelete = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(idOfCourseToDelete);
         
-        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId),
+        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId),
                                           logic.getCourse(idOfCourseToDelete),
                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
 

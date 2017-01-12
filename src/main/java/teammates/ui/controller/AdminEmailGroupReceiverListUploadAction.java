@@ -6,7 +6,6 @@ import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -19,7 +18,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         data = new AdminEmailComposePageData(account);
         BlobInfo blobInfo = extractGroupReceiverListFileKey();

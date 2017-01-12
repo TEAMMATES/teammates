@@ -20,7 +20,6 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -100,10 +99,10 @@ public class InstructorStudentCommentEditAction extends Action {
         String recipients = commentInDb.recipients.iterator().next();
         String unsanitizedRecipients = StringHelper.recoverFromSanitizedText(recipients);
         if (commentRecipientType == CommentParticipantType.COURSE) {
-            new GateKeeper().verifyAccessible(instructor, course,
+            gateKeeper.verifyAccessible(instructor, course,
                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentParticipantType.SECTION) {
-            new GateKeeper().verifyAccessible(instructor, course, unsanitizedRecipients,
+            gateKeeper.verifyAccessible(instructor, course, unsanitizedRecipients,
                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentParticipantType.TEAM) {
             List<StudentAttributes> students = logic.getStudentsForTeam(unsanitizedRecipients, courseId);
@@ -111,7 +110,7 @@ public class InstructorStudentCommentEditAction extends Action {
             if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
             } else {
-                new GateKeeper().verifyAccessible(instructor, course, students.get(0).section,
+                gateKeeper.verifyAccessible(instructor, course, students.get(0).section,
                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
             }
         } else { // TODO: modify this after comment for instructor is enabled
@@ -119,7 +118,7 @@ public class InstructorStudentCommentEditAction extends Action {
             if (student == null) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
             } else {
-                new GateKeeper().verifyAccessible(instructor, course, student.section,
+                gateKeeper.verifyAccessible(instructor, course, student.section,
                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
             }
         }

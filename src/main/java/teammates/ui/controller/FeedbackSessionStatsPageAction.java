@@ -5,7 +5,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class FeedbackSessionStatsPageAction extends Action {
 
@@ -23,7 +22,7 @@ public class FeedbackSessionStatsPageAction extends Action {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 instructor,
                 fsa,
                 false);

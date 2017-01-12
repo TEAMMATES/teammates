@@ -10,7 +10,6 @@ import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: showing the details page for a course of an instructor
@@ -28,7 +27,7 @@ public class InstructorCourseDetailsPageAction extends Action {
         Assumption.assertNotNull(courseId);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
         
         /* Setup page data for the "Course Details" page */
         InstructorCourseDetailsPageData data = new InstructorCourseDetailsPageData(account);

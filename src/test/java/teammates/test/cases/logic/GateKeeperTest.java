@@ -9,13 +9,13 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
+import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;
 
-public class LogicTest extends BaseComponentTestCase {
+public class GateKeeperTest extends BaseComponentTestCase {
 
-    private static final Logic logic = new Logic();
-
+    private static GateKeeper gateKeeper = new GateKeeper();
     private static DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
@@ -27,15 +27,13 @@ public class LogicTest extends BaseComponentTestCase {
     @Test
     public void testGetLoginUrl() {
         gaeSimulation.logoutUser();
-        assertEquals("/_ah/login?continue=www.abc.com",
-                Logic.getLoginUrl("www.abc.com"));
+        assertEquals("/_ah/login?continue=www.abc.com", gateKeeper.getLoginUrl("www.abc.com"));
     }
 
     @Test
     public void testGetLogoutUrl() {
         gaeSimulation.loginUser("any.user");
-        assertEquals("/_ah/logout?continue=www.def.com",
-                Logic.getLogoutUrl("www.def.com"));
+        assertEquals("/_ah/logout?continue=www.def.com", gateKeeper.getLogoutUrl("www.def.com"));
     }
     
     //TODO: test isUserLoggedIn method
@@ -52,9 +50,9 @@ public class LogicTest extends BaseComponentTestCase {
         StudentAttributes instructorAsStudent = new StudentAttributes(
                 "Section 1", "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course.getId());
         instructorAsStudent.googleId = instructor.googleId;
-        logic.createStudentWithoutDocument(instructorAsStudent);
+        new Logic().createStudentWithoutDocument(instructorAsStudent);
 
-        UserType user = logic.getCurrentUser();
+        UserType user = gateKeeper.getCurrentUser();
         assertEquals(instructor.googleId, user.id);
         assertTrue(user.isAdmin);
         assertTrue(user.isInstructor);
@@ -64,7 +62,7 @@ public class LogicTest extends BaseComponentTestCase {
 
         gaeSimulation.loginUser("unknown");
 
-        user = logic.getCurrentUser();
+        user = gateKeeper.getCurrentUser();
         assertEquals("unknown", user.id);
         assertFalse(user.isAdmin);
         assertFalse(user.isInstructor);
@@ -74,14 +72,9 @@ public class LogicTest extends BaseComponentTestCase {
 
         // check for user not logged in
         gaeSimulation.logoutUser();
-        assertEquals(null, logic.getCurrentUser());
+        assertEquals(null, gateKeeper.getCurrentUser());
     }
     
-    /* TODO: implement tests for the following :
-     * 1. getFeedbackSessionDetails()
-     * 2. getFeedbackSessionsListForInstructor()
-     */
-
     @AfterClass
     public static void classTearDown() {
         printTestClassFooter();

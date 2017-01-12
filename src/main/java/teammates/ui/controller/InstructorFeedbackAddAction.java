@@ -25,7 +25,6 @@ import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.common.util.TimeHelper;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.reflect.TypeToken;
@@ -42,7 +41,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 instructor,
                 logic.getCourse(courseId),
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);

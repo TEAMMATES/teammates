@@ -19,7 +19,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -33,7 +32,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
-        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
+        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                                           logic.getFeedbackSession(feedbackSessionName, courseId),
                                           false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 

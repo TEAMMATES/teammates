@@ -34,7 +34,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -67,12 +66,9 @@ import com.google.appengine.api.blobstore.BlobKey;
  */
 public class Logic {
     
-    //TODO: sanitizes values received from outside.
-
     //TODO: remove this constant
     public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
     
-    protected static GateKeeper gateKeeper = new GateKeeper();
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -84,41 +80,6 @@ public class Logic {
     protected static FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
     protected static AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
     protected static ProfilesLogic profilesLogic = ProfilesLogic.inst();
-
-    /**
-     * Produces the URL the user should use to login to the system
-     * 
-     * @param redirectUrl
-     *            This is the URL the user will be directed to after login.
-     */
-    public static String getLoginUrl(String redirectUrl) {
-        return gateKeeper.getLoginUrl(redirectUrl);
-    }
-
-    /**
-     * Produces the URL used to logout the user
-     * 
-     * @param redirectUrl
-     *            This is the URL the user will be directed to after logout.
-     */
-    public static String getLogoutUrl(String redirectUrl) {
-        return gateKeeper.getLogoutUrl(redirectUrl);
-    }
-
-    /**
-     * Verifies if the user is logged into his/her Google account
-     */
-    public static boolean isUserLoggedIn() {
-        return gateKeeper.isUserLoggedOn();
-    }
-
-    /**
-     * @return Returns null if the user is not logged in.
-     */
-    public UserType getCurrentUser() {
-        return gateKeeper.getCurrentUser();
-    }
-
 
     /**
      * Creates a new Account based on given values. If a profile is not given,
