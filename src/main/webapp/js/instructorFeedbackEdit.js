@@ -22,7 +22,6 @@ $(document).ready(function() {
     updateUncommonSettingsInfo();
     hideUncommonPanels();
     CustomFeedbackPaths.initializeCustomFeedbackPathsData();
-    CustomFeedbackPaths.initializeFeedbackPathsSpreadsheets();
     CustomFeedbackPaths.bindEventHandlers();
     FeedbackPath.attachEvents();
     hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
@@ -895,6 +894,11 @@ function toggleCustomFeedbackPathsDisplay(toggleLink) {
     var $toggleLink = $(toggleLink);
     var $customFeedbackPathsDisplay = $toggleLink.closest('.custom-feedback-paths-row')
                                                  .find('.custom-feedback-paths-display');
+    var $questionForm = $customFeedbackPathsDisplay.closest('.form_question');
+    if (!$customFeedbackPathsDisplay.find('.handsontable').length) {
+        CustomFeedbackPaths.generateFeedbackPathsSpreadsheet($questionForm);
+    }
+    
     if ($customFeedbackPathsDisplay.is(':visible')) {
         $customFeedbackPathsDisplay.hide();
         $toggleLink.text('Show details and further customizations');
