@@ -24,8 +24,7 @@ function handleData(err, countryCoordinates, userData) {
 
             countriesArr.push([countryName, countryTotal]);
             total += countryTotal;
-        }
-        else {
+        } else {
             date = countryName;
         }
     });
