@@ -295,7 +295,7 @@ def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
 task eslint(type: Exec) {
     def command = ["eslint"]
-    def jsDirs = ["src/main/webapp/js", "src/test/javascript"]
+    def jsDirs = ["src/main/webapp/js", "src/main/webapp/dev/*.js", "src/test/javascript"]
     def configFile = ["-c", "static-analysis/teammates-eslint.yml"]
     def ignore = ["--ignore-pattern", "lib/"]
     commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile + ignore

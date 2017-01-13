@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
  */
 public final class FrontEndLibrary {
     
+    public static final String BLANKET;
     public static final String BOOTBOX;
     public static final String BOOTSTRAP_CSS;
     public static final String BOOTSTRAP_THEME_CSS;
@@ -21,6 +22,8 @@ public final class FrontEndLibrary {
     public static final String JQUERY_UI;
     public static final String MOMENT;
     public static final String MOMENT_TIMEZONE;
+    public static final String QUNIT_CSS;
+    public static final String QUNIT;
     public static final String TINYMCE;
     public static final String TOPOJSON;
     public static final String WORLDMAP;
@@ -37,6 +40,7 @@ public final class FrontEndLibrary {
         DEPENDENCIES_CONFIG = JsonUtils.parse(dependenciesConfigString).getAsJsonObject()
                                        .get("dependencies").getAsJsonObject();
         
+        BLANKET = getLibrarySource("blanket", "dist/qunit/blanket.min.js");
         BOOTBOX = getLibrarySource("bootbox", "bootbox.min.js");
         BOOTSTRAP_CSS = getLibrarySource("bootstrap", "dist/css/bootstrap.min.css");
         BOOTSTRAP_THEME_CSS = getLibrarySource("bootstrap", "dist/css/bootstrap-theme.min.css");
@@ -51,6 +55,8 @@ public final class FrontEndLibrary {
         JQUERY_UI = getLibrarySource("jquery-ui-dist", "jquery-ui.min.js");
         MOMENT = getLibrarySource("moment", "min/moment.min.js");
         MOMENT_TIMEZONE = getLibrarySource("moment-timezone", "builds/moment-timezone-with-data-2010-2020.min.js");
+        QUNIT_CSS = getLibrarySource("qunitjs", "qunit/qunit.css");
+        QUNIT = getLibrarySource("qunitjs", "qunit/qunit.js");
         TINYMCE = getLibrarySource("tinymce", "tinymce.min.js");
         TOPOJSON = getLibrarySource("topojson", "build/topojson.min.js");
         WORLDMAP = getLibrarySource("datamaps", "src/js/data/world.hires.topo.json");

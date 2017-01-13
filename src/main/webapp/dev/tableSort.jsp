@@ -1,14 +1,16 @@
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<html>
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>TEAMMATES - Table Sorting Test Page</title>
-    <link type="text/css" href="../../../main/webapp/stylesheets/teammatesCommon.css" rel="stylesheet" />
-    <link type="text/css" href="../../../main/webapp/stylesheets/lib/bootstrap.min.css" rel="stylesheet" />
-    <link type="text/css" href="../../../main/webapp/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet" />
+    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" rel="stylesheet">
+    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" rel="stylesheet">
+    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
 
-    <script type="text/javascript" src="../../../main/webapp/js/lib/jquery.min.js"></script>
-        <script src="../../../main/webapp/js/common.js" type="text/javascript"></script>
-    <script src="../../../main/webapp/js/lib/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
 
 </head>
 
