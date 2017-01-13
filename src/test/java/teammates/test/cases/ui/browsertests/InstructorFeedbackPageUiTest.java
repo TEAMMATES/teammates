@@ -755,10 +755,13 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         valueOfStartDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
         assertEquals(sdf.format(initialCal.getTime()), valueOfStartDate);
         
+        valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(sdf.format(initialCal.getTime()), valueOfVisibleDate);
 
+        maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(sdf.format(initialCal.getTime()), maxValueOfVisibleDate);
         
+        minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
         assertEquals(sdf.format(initialCal.getTime()), minValueOfPublishDate);
         
        
@@ -767,6 +770,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         changedVisibleDate.set(2014, 1, 10, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, changedVisibleDate);
         
+        minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
         assertEquals(sdf.format(changedVisibleDate.getTime()), minValueOfPublishDate);
         
         
@@ -775,6 +779,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         changedPublishDate.set(2014, 1, 19, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
         
+        maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(sdf.format(changedPublishDate.getTime()), maxValueOfVisibleDate);
         
         
@@ -789,6 +794,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
         
         //check if maxDate is start time and not publish time
+        maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(sdf.format(initialCal.getTime()), maxValueOfVisibleDate);
         
     }
