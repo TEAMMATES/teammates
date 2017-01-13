@@ -26,7 +26,7 @@ public class ProfilesLogicTest extends BaseComponentTestCase {
         ______TS("get SP");
         StudentProfileAttributes expectedSpa =
                 new StudentProfileAttributes("id", "shortName", "personal@email.com",
-                                             "institute", "countryName", "female", "moreInfo", "");
+                                             "institute", "American", "female", "moreInfo", "");
         AccountAttributes accountWithStudentProfile =
                 new AccountAttributes("id", "name", true, "test@email.com", "dev", expectedSpa);
         

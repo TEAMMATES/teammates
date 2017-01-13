@@ -12,7 +12,7 @@ import teammates.ui.template.StudentProfileEditBox;
 import teammates.ui.template.StudentProfileUploadPhotoModal;
 
 public class StudentProfilePageDataTest extends BaseTestCase {
-    
+
     private StudentProfileAttributes spa;
     private AccountAttributes acct;
     private String isEditingPhoto;
@@ -39,7 +39,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
     }
 
     private StudentProfilePageData initializeDataWithPictureKeyAndNoNullFields() {
-        spa = new StudentProfileAttributes("valid.id.2", "short name", "e@mail2.com", "inst", "nationality",
+        spa = new StudentProfileAttributes("valid.id.2", "short name", "e@mail2.com", "inst", "American",
                                            "male", "more info", "pictureKey");
         acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
         isEditingPhoto = "false";

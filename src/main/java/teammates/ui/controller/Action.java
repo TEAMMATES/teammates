@@ -23,6 +23,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
 
@@ -47,6 +48,7 @@ public abstract class Action {
     
     protected Logic logic;
     protected TaskQueuer taskQueuer;
+    protected EmailSender emailSender;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
     protected String requestUrl;
@@ -90,6 +92,7 @@ public abstract class Action {
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
         setTaskQueuer(new TaskQueuer());
+        setEmailSender(new EmailSender());
         requestParameters = request.getParameterMap();
         session = request.getSession();
         
@@ -105,6 +108,14 @@ public abstract class Action {
         this.taskQueuer = taskQueuer;
     }
 
+    public EmailSender getEmailSender() {
+        return emailSender;
+    }
+    
+    public void setEmailSender(EmailSender emailSender) {
+        this.emailSender = emailSender;
+    }
+    
     protected void authenticateUser() {
         UserType currentUser = logic.getCurrentUser();
         loggedInUser = authenticateAndGetActualUser(currentUser);
