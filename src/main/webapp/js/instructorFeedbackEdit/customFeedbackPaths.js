@@ -407,6 +407,7 @@ var CustomFeedbackPaths = {
             CustomFeedbackPaths.appendCustomOptionsIfNecessary($questionForm);
             enableAllRows($questionForm);
             CustomFeedbackPaths.updateColumnsForFeedbackPathsSpreadsheet($questionForm);
+            getVisibilityMessage(this);
         });
     },
     
@@ -423,6 +424,7 @@ var CustomFeedbackPaths = {
             $giverSelect.find('option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
             $recipientSelect.find('option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
             hideInvalidRecipientTypeOptions($giverSelect);
+            updateVisibilityCheckboxesDiv($questionForm);
         }
     },
     
