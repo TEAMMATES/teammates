@@ -4,6 +4,11 @@ environment:
 init:
   - git config --global core.autocrlf true
 
+branches:
+  only:
+    - master
+    - release
+
 install:
   - choco install firefox -version 46.0
 
