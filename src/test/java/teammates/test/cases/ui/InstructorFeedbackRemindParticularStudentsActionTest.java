@@ -41,8 +41,15 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         
-        ______TS("Unsuccessful case: No Parameter");
-        verifyAssumptionFailure();
+        ______TS("Unsuccessful case: Not enough Parameter");
+        String[] paramsNoCourseId = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+        };
+        verifyAssumptionFailure(paramsNoCourseId);
+        String[] paramsNoFeedback = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId()
+        };
+        verifyAssumptionFailure(paramsNoFeedback);
         
         ______TS("Unsuccessful case: No UserToRemind, Warning Message generated");
         
