@@ -140,7 +140,19 @@ public final class Sanitizer {
         if (content == null) {
             return null;
         }
-        return policy.sanitize(content);
+        return policy.sanitize(sanitizeTextField(content));
+    }
+    
+    /**
+     * Sanitizes the {@link Text} with rich-text.
+     * Removes disallowed elements based on defined policy.
+     * @return A new sanitized {@link Text} or null if the input was null.
+     */
+    public static Text sanitizeForRichText(Text text) {
+        if (text == null || text.getValue() == null) {
+            return null;
+        }
+        return new Text(sanitizeForRichText(text.getValue()));
     }
 
     /**
@@ -287,7 +299,7 @@ public final class Sanitizer {
      * @return the trimmed string or null (if the parameter was null).
      */
     private static String trimIfNotNull(String string) {
-        return (string == null) ? null : string.trim();
+        return string == null ? null : string.trim();
     }
     
     /**

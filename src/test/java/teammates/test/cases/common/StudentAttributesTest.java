@@ -9,18 +9,17 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
-import teammates.storage.entity.Student;
 import teammates.test.cases.BaseTestCase;
 
 public class StudentAttributesTest extends BaseTestCase {
 
-    private class StudentAttributesWithModifiableTimestamp extends StudentAttributes {
+    private static class StudentAttributesWithModifiableTimestamp extends StudentAttributes {
         
         private void setCreatedAt(Date createdAt) {
             this.createdAt = createdAt;
@@ -58,13 +57,13 @@ public class StudentAttributesTest extends BaseTestCase {
     
     @Test
     public void testUpdateStatusEnum() {
-        assertEquals(UpdateStatus.ERROR, UpdateStatus.enumRepresentation(0));
-        assertEquals(UpdateStatus.NEW, UpdateStatus.enumRepresentation(1));
-        assertEquals(UpdateStatus.MODIFIED, UpdateStatus.enumRepresentation(2));
-        assertEquals(UpdateStatus.UNMODIFIED, UpdateStatus.enumRepresentation(3));
-        assertEquals(UpdateStatus.NOT_IN_ENROLL_LIST, UpdateStatus.enumRepresentation(4));
-        assertEquals(UpdateStatus.UNKNOWN, UpdateStatus.enumRepresentation(5));
-        assertEquals(UpdateStatus.UNKNOWN, UpdateStatus.enumRepresentation(-1));
+        assertEquals(StudentUpdateStatus.ERROR, StudentUpdateStatus.enumRepresentation(0));
+        assertEquals(StudentUpdateStatus.NEW, StudentUpdateStatus.enumRepresentation(1));
+        assertEquals(StudentUpdateStatus.MODIFIED, StudentUpdateStatus.enumRepresentation(2));
+        assertEquals(StudentUpdateStatus.UNMODIFIED, StudentUpdateStatus.enumRepresentation(3));
+        assertEquals(StudentUpdateStatus.NOT_IN_ENROLL_LIST, StudentUpdateStatus.enumRepresentation(4));
+        assertEquals(StudentUpdateStatus.UNKNOWN, StudentUpdateStatus.enumRepresentation(5));
+        assertEquals(StudentUpdateStatus.UNKNOWN, StudentUpdateStatus.enumRepresentation(-1));
     }
 
     @Test
@@ -72,7 +71,7 @@ public class StudentAttributesTest extends BaseTestCase {
         String courseId = "anyCoursId";
         StudentAttributes invalidStudent;
 
-        Student expected;
+        CourseStudent expected;
         StudentAttributes studentUnderTest;
 
         ______TS("Typical case: contains white space");
@@ -373,18 +372,18 @@ public class StudentAttributesTest extends BaseTestCase {
     public void testGetJsonString() {
         StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
                                         "comment 1", "course1");
-        assertEquals("{\n  \"name\": \"name 1\",\n  \"lastName\": \"1\",\n  \"email\": \"email@email.com\","
-                     + "\n  \"course\": \"course1\",\n  \"comments\": \"comment 1\",\n  \"team\": \"team 1\","
-                     + "\n  \"section\": \"sect 1\",\n  \"updateStatus\": \"UNKNOWN\"\n}",
+        assertEquals("{\n  \"email\": \"email@email.com\",\n  \"course\": \"course1\",\n  \"name\": \"name 1\","
+                     + "\n  \"lastName\": \"1\",\n  \"comments\": \"comment 1\",\n  \"team\": \"team 1\","
+                     + "\n  \"section\": \"sect 1\"\n}",
                      sd.getJsonString());
     }
 
-    private Student generateTypicalStudentObject() {
-        return new Student("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", "sect 1");
+    private CourseStudent generateTypicalStudentObject() {
+        return new CourseStudent("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", "sect 1");
     }
 
-    private Student generateStudentWithoutSectionObject() {
-        return new Student("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", null);
+    private CourseStudent generateStudentWithoutSectionObject() {
+        return new CourseStudent("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", null);
     }
 
     private List<StudentAttributes> generateTypicalStudentAttributesList() {
@@ -396,33 +395,20 @@ public class StudentAttributesTest extends BaseTestCase {
         return list;
     }
 
-    private void verifyStudentContent(Student expected, Student actual) {
+    private void verifyStudentContent(CourseStudent expected, CourseStudent actual) {
         assertEquals(expected.getTeamName(), actual.getTeamName());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getEmail(), actual.getEmail());
         assertEquals(expected.getComments(), actual.getComments());
     }
     
-    private void verifyStudentContent(Student expected, CourseStudent actual) {
-        assertEquals(expected.getTeamName(), actual.getTeamName());
-        assertEquals(expected.getName(), actual.getName());
-        assertEquals(expected.getEmail(), actual.getEmail());
-        assertEquals(expected.getComments(), actual.getComments());
-    }
-
-    private void verifyStudentContentIncludingId(Student expected, Student actual) {
+    private void verifyStudentContentIncludingId(CourseStudent expected, CourseStudent actual) {
         verifyStudentContent(expected, actual);
         assertEquals(expected.getGoogleId(), actual.getGoogleId());
     }
     
-    private void verifyStudentContentIncludingId(Student expected, CourseStudent actual) {
-        verifyStudentContent(expected, actual);
-        assertEquals(expected.getGoogleId(), actual.getGoogleId());
-    }
-
     private StudentAttributes generateValidStudentAttributesObject() {
-        StudentAttributes s;
-        s = new StudentAttributes();
+        StudentAttributes s = new StudentAttributes();
         s.googleId = "valid.google.id";
         s.name = "valid name";
         s.email = "valid@email.com";

@@ -2,18 +2,17 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 
 public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     /**
      * List of integers, the size of the list corresponds to the number of sub-questions
@@ -42,8 +41,8 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
         
         // Parse and extract answers
         String[] subQuestionResponses = rawResponses.split(Pattern.quote(","));
-        for (int i = 0; i < subQuestionResponses.length; i++) {
-            String[] subQuestionIndexAndChoice = subQuestionResponses[i].split(Pattern.quote("-"));
+        for (String subQuestionResponse : subQuestionResponses) {
+            String[] subQuestionIndexAndChoice = subQuestionResponse.split(Pattern.quote("-"));
             
             if (subQuestionIndexAndChoice.length != 2) {
                 // Expected length is 2.

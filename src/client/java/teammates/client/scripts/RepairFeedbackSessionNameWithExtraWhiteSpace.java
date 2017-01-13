@@ -7,17 +7,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
@@ -42,8 +39,6 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
 
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-        
         List<FeedbackSession> feedbackSessions;
         if (courseIdsToRunOn.isEmpty()) {
             feedbackSessions = getAllFeedbackSessionEntities();
@@ -86,7 +81,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
             if (!coursesAffected.isEmpty()) {
                 showAffectedCourses(coursesAffected);
             }
-        } catch (InvalidParametersException | EntityDoesNotExistException | EntityAlreadyExistsException e) {
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             e.printStackTrace();
         }
     }
@@ -115,7 +110,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
      * related questions, responses and feedback response comments.
      */
     private void fixFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         if (feedbackSessionsDb.getFeedbackSession(session.getCourseId(),
                 StringHelper.removeExtraSpace(session.getFeedbackSessionName())) != null) {
             throw new EntityAlreadyExistsException(
@@ -136,9 +131,8 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     /**
      * Removes extra space in feedbackSessionName in FeedbackResponseComments
      */
-    private void fixFeedbackResponseCommentsOfFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Query q = getPm().newQuery(FeedbackResponseComment.class);
+    private void fixFeedbackResponseCommentsOfFeedbackSession(FeedbackSession session) {
+        Query q = PM.newQuery(FeedbackResponseComment.class);
         
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
@@ -152,15 +146,14 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
             response.setFeedbackSessionName(
                     StringHelper.removeExtraSpace(response.getFeedbackSessionName()));
         }
-        getPm().close();
+        PM.close();
     }
 
     /**
      * Removes extra space in feedbackSessionName in FeedbackResponses
      */
-    private void fixFeedbackResponsesOfFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Query q = getPm().newQuery(FeedbackResponse.class);
+    private void fixFeedbackResponsesOfFeedbackSession(FeedbackSession session) {
+        Query q = PM.newQuery(FeedbackResponse.class);
         
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
@@ -173,15 +166,14 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
             response.setFeedbackSessionName(
                     StringHelper.removeExtraSpace(response.getFeedbackSessionName()));
         }
-        getPm().close();
+        PM.close();
     }
 
     /**
      * Removes extra space in feedbackSessionName in FeedbackQuestions
      */
-    private void fixFeedbackQuestionsOfFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Query q = getPm().newQuery(FeedbackQuestion.class);
+    private void fixFeedbackQuestionsOfFeedbackSession(FeedbackSession session) {
+        Query q = PM.newQuery(FeedbackQuestion.class);
         
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
@@ -194,7 +186,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
             question.setFeedbackSessionName(
                     StringHelper.removeExtraSpace(question.getFeedbackSessionName()));
         }
-        getPm().close();
+        PM.close();
     }
     
     /**
@@ -204,13 +196,9 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
         return !s.equals(StringHelper.removeExtraSpace(s));
     }
     
-    protected PersistenceManager getPm() {
-        return Datastore.getPersistenceManager();
-    }
-    
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getAllFeedbackSessionEntities() {
-        Query q = getPm().newQuery(FeedbackSession.class);
+        Query q = PM.newQuery(FeedbackSession.class);
         return (List<FeedbackSession>) q.execute();
     }
     
@@ -218,7 +206,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     private List<FeedbackSession> getFeedbackSessionEntitiesOfCourses(List<String> courseIdsToRunOn) {
         List<FeedbackSession> feedbackSessions = new ArrayList<>();
         for (String course : courseIdsToRunOn) {
-            Query q = getPm().newQuery(FeedbackSession.class);
+            Query q = PM.newQuery(FeedbackSession.class);
             q.declareParameters("String courseIdParam");
             q.setFilter("courseId == courseIdParam");
             feedbackSessions.addAll((List<FeedbackSession>) q.execute(course));

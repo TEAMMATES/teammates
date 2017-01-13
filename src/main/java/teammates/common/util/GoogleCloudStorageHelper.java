@@ -6,7 +6,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -25,7 +24,7 @@ import com.google.appengine.tools.cloudstorage.RetryParams;
 public final class GoogleCloudStorageHelper {
     
     private static final int MAX_READING_LENGTH = 900000;
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     private GoogleCloudStorageHelper() {
         // utility class

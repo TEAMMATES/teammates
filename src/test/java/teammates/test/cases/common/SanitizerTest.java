@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.util.Sanitizer;
 import teammates.test.cases.BaseTestCase;
 
@@ -111,7 +113,8 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForRichText() {
-        assertEquals(null, Sanitizer.sanitizeForRichText(null));
+        assertEquals(null, Sanitizer.sanitizeForRichText((Text) null));
+        assertEquals(null, Sanitizer.sanitizeForRichText((String) null));
         assertEquals("", Sanitizer.sanitizeForRichText(""));
         assertEquals("<p>wihtout changes</p>", Sanitizer.sanitizeForRichText("<p>wihtout changes</p>"));
         assertEquals("<p>spaces test</p>", Sanitizer.sanitizeForRichText("<p >spaces test</p >"));
@@ -135,6 +138,10 @@ public class SanitizerTest extends BaseTestCase {
                                   + "<span style=\"color:#339966\">Content</span>";
         String sanitized = Sanitizer.sanitizeForRichText(actualRichText);
         assertEquals(expectedRichText, sanitized);
+        
+        Text actualRichTextObj = new Text(actualRichText);
+        Text sanitizedTextObj = Sanitizer.sanitizeForRichText(actualRichTextObj);
+        assertEquals(expectedRichText, sanitizedTextObj.getValue());
     }
 
     @Test

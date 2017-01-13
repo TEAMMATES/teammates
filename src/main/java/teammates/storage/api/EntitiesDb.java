@@ -3,10 +3,10 @@ package teammates.storage.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -15,9 +15,8 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
@@ -44,7 +43,10 @@ public abstract class EntitiesDb {
     public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR =
             "Trying to make an non-existent account an Instructor :";
 
-    protected static final Logger log = Utils.getLogger();
+    protected static final Logger log = Logger.getLogger();
+    
+    private static final PersistenceManagerFactory PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
+    private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
     
     /**
      * Preconditions:
@@ -295,7 +297,17 @@ public abstract class EntitiesDb {
     protected abstract Object getEntity(EntityAttributes attributes);
     
     protected PersistenceManager getPm() {
-        return Datastore.getPersistenceManager();
+        PersistenceManager pm = PER_THREAD_PM.get();
+        if (pm != null && !pm.isClosed()) {
+            return pm;
+        }
+        
+        if (pm != null && pm.isClosed()) {
+            PER_THREAD_PM.remove();
+        }
+        pm = PMF.getPersistenceManager();
+        PER_THREAD_PM.set(pm);
+        return pm;
     }
     
     //the followings APIs are used by Teammates' search engine

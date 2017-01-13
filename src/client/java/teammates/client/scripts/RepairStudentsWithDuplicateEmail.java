@@ -9,7 +9,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -18,18 +17,13 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.Student;
+import teammates.storage.entity.CourseStudent;
 
 public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
 
     // TODO: This class contains lot of code copy-pasted from the Logic and
     // Storage layer. This duplication can be removed if we figure out
     // to reuse the Logic API from here.
-    
-    //TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
-    protected static final PersistenceManager pm = JDOHelper
-            .getPersistenceManagerFactory("transactions-optional")
-            .getPersistenceManager();
     
     private int duplicateEmailCount;
 
@@ -79,7 +73,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     
     private List<CourseAttributes> getAllCourses() {
         
-        Query q = pm.newQuery(Course.class);
+        Query q = PM.newQuery(Course.class);
         
         @SuppressWarnings("unchecked")
         List<Course> courseList = (List<Course>) q.execute();
@@ -95,11 +89,11 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     private List<StudentAttributes> getStudentsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<Student> studentList = getStudentEntitiesForCourse(courseId);
+        List<CourseStudent> studentList = getStudentEntitiesForCourse(courseId);
 
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 
-        for (Student s : studentList) {
+        for (CourseStudent s : studentList) {
             if (!JDOHelper.isDeleted(s)) {
                 studentDataList.add(new StudentAttributes(s));
             }
@@ -109,11 +103,11 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     }
 
     @SuppressWarnings("unchecked")
-    private List<Student> getStudentEntitiesForCourse(String courseId) {
-        Query q = pm.newQuery(Student.class);
+    private List<CourseStudent> getStudentEntitiesForCourse(String courseId) {
+        Query q = PM.newQuery(CourseStudent.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
 
-        return (List<Student>) q.execute(courseId);
+        return (List<CourseStudent>) q.execute(courseId);
     }
 }

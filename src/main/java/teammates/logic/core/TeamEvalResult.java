@@ -2,11 +2,10 @@ package teammates.logic.core;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 
 /**
  * This class represents an feedback contribution question result for a given team.
@@ -20,7 +19,7 @@ public class TeamEvalResult {
     public static final int NSU = Const.POINTS_NOT_SURE;
     /** did Not SuBmit */
     public static final int NSB = Const.POINTS_NOT_SUBMITTED;
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
 
     /** submission values originally from students of the team */
     public int[][] claimed;
@@ -231,9 +230,8 @@ public class TeamEvalResult {
                 isSanitized(doubleToInt(input)));
 
         double sum = NA;
-        for (int i = 0; i < input.length; i++) {
+        for (double value : input) {
 
-            double value = input[i];
             if (value != NA) {
                 sum = sum == NA ? value : sum + value;
             }
@@ -281,8 +279,7 @@ public class TeamEvalResult {
     private static double calculateFactor(double[] input) {
         double actualSum = 0;
         int count = 0;
-        for (int j = 0; j < input.length; j++) {
-            double value = input[j];
+        for (double value : input) {
             int valueAsInt = (int) value;
             if (isSpecialValue(valueAsInt)) {
                 continue;
@@ -297,10 +294,11 @@ public class TeamEvalResult {
         return factor;
     }
 
+    @SuppressWarnings("PMD.AvoidArrayLoops") // the arrays are of different types
     private static double[] intToDouble(int[] input) {
         double[] converted = new double[input.length];
         for (int i = 0; i < input.length; i++) {
-            converted[i] = (double) input[i];
+            converted[i] = input[i];
         }
         return converted;
     }
@@ -316,7 +314,7 @@ public class TeamEvalResult {
     private static int[] doubleToInt(double[] input) {
         int[] converted = new int[input.length];
         for (int i = 0; i < input.length; i++) {
-            converted[i] = (int) (Math.round(input[i]));
+            converted[i] = (int) Math.round(input[i]);
         }
         return converted;
     }
@@ -343,12 +341,12 @@ public class TeamEvalResult {
         return output;
     }
 
-    private static double averageColumn(double[][] array, int columnIndex) {
+    private static double averageColumn(double[][] arrayOfArrays, int columnIndex) {
         double sum = 0;
         int count = 0;
         StringBuilder values = new StringBuilder();
-        for (int j = 0; j < array.length; j++) {
-            double value = array[j][columnIndex];
+        for (double[] array : arrayOfArrays) {
+            double value = array[columnIndex];
 
             values.append(value).append(' ');
             if (value == NA) {

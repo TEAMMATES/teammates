@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
@@ -26,9 +25,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailType;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -39,9 +36,6 @@ import teammates.storage.api.StudentsDb;
 public class CommentsLogic {
     
     private static CommentsLogic instance;
-
-    @SuppressWarnings("unused") //used by test
-    private static final Logger log = Utils.getLogger();
 
     private static final CommentsDb commentsDb = new CommentsDb();
 
@@ -949,18 +943,6 @@ public class CommentsLogic {
     @SuppressWarnings("deprecation")
     public List<CommentAttributes> getAllComments() {
         return commentsDb.getAllComments();
-    }
-    
-    /**
-     * Sends notifications to students in course {@code courseId} who have received comments and not yet been notified.
-     */
-    public void sendCommentNotification(String courseId) {
-        Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(Const.ParamsNames.EMAIL_COURSE, courseId);
-        paramMap.put(Const.ParamsNames.EMAIL_TYPE, EmailType.PENDING_COMMENT_CLEARED.toString());
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(Const.SystemParams.EMAIL_TASK_QUEUE, Const.ActionURIs.EMAIL_WORKER, paramMap);
     }
     
 }

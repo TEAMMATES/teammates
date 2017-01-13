@@ -1,8 +1,8 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackRemindParticularStudentsAction extends Action {
@@ -29,8 +29,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
             return createRedirectResult(nextUrl);
         }
         
-        logic.sendReminderForFeedbackSessionParticularUsers(courseId,
-                feedbackSessionName, usersToRemind);
+        taskQueuer.scheduleFeedbackSessionRemindersForParticularUsers(courseId, feedbackSessionName, usersToRemind);
         
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
         statusToAdmin = "Email sent out to the selected user(s): ";

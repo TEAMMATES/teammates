@@ -302,6 +302,7 @@ public final class Templates {
             public static final String CONSTSUM_OPTION_VISIBILITY = "${constSumOptionVisibility}";
             public static final String CONSTSUM_OPTION_POINT = "${constSumOptionPoint}";
             public static final String CONSTSUM_OPTION_VALUE = "${constSumOptionValue}";
+            public static final String MARGIN_LEFT = "${marginLeft}";
             public static final String CONSTSUM_PARAM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
             public static final String CONSTSUM_PARAM_POINTSFOREACHOPTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}";
@@ -329,6 +330,11 @@ public final class Templates {
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
             public static final String CONSTSUM_POINTS_PER_OPTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
+            public static final String CONSTSUM_TOOLTIP_POINTS = "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
+            public static final String CONSTSUM_TOOLTIP_POINTS_PER_OPTION =
+                    "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}";
+            public static final String CONSTSUM_TOOLTIP_POINTS_PER_RECIPIENT =
+                    "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}";
             public static final String OPTION_DISPLAY = "${optionDisplay}";
             public static final String RECIPIENT_DISPLAY = "${recipientDisplay}";
             public static final String PER_OPTION_CHECKED = "${perOptionChecked}";

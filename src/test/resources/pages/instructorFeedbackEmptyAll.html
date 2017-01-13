@@ -1,50 +1,17 @@
 <html>
 <head>
-${tinymce.style}
 <title>
   TEAMMATES - Instructor
 </title>
 <link href="/favicon.png" rel="shortcut icon">
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<link href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="${lib.path}/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="${lib.path}/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
-<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
-</script>
-<script src="/js/googleAnalytics.js" type="text/javascript">
-</script>
-<script src="${lib.path}/jquery.min.js" type="text/javascript">
-</script>
-<script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
-</script>
-<script src="/js/lib/bootstrap.min.js" type="text/javascript">
-</script>
-<script src="/js/lib/bootbox.min.js" type="text/javascript">
-</script>
-<script src="/js/common.js" type="text/javascript">
-</script>
 <link href="/stylesheets/datepicker.css" media="screen" rel="stylesheet" type="text/css">
-<script src="/js/lib/tinymce.min.js" type="text/javascript">
-</script>
-<script src="/js/richTextEditor.js" type="text/javascript">
-</script>
-<script src="/js/datepicker.js" type="text/javascript">
-</script>
-<script src="/js/instructor.js" type="text/javascript">
-</script>
-<script src="/js/ajaxResponseRate.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackAjaxRemindModal.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbacksAjax.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbacks.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbacksSpecific.js" type="text/javascript">
-</script>
-<link href="${lib.path}/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
-<link href="${lib.path}/skins/lightgray/content.inline.min.css" rel="stylesheet">
+<link href="${lib.path}/skin.min.css" id="u0" rel="stylesheet" type="text/css">
+<link href="${lib.path}/content.inline.min.css" rel="stylesheet">
 </head>
 <body spellcheck="false">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -692,9 +659,9 @@ ${tinymce.style}
                 </div>
               </div>
               <div class="row radio">
-                <div class="col-xs-12" data-original-title="Select this option if you want the feedback session to never be visible. Use this option if you want to use this as a private feedback session." data-placement="top" data-toggle="tooltip" title="">
+                <div class="col-xs-12" data-original-title="Select this option if you want the feedback session to be private. A private session is never visible to anyone. Private sessions can be used to record your own comments about others, for your own reference." data-placement="top" data-toggle="tooltip" title="">
                   <label for="sessionVisibleFromButton_never">
-                    Never (this is a private session)
+                    Never
                   </label>
                   <input id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" type="radio" value="never">
                 </div>
@@ -893,7 +860,7 @@ ${tinymce.style}
       to create or unarchive a course.
     </div>
   </div>
-  <script src="/js/statusMessage.js" type="text/javascript">
+  <script defer="" src="/js/statusMessage.js" type="text/javascript">
   </script>
   <br>
   <div class="" id="sessionList">
@@ -1112,6 +1079,38 @@ ${tinymce.style}
     </div>
   </div>
 </div>
+<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
+</script>
+<script src="/js/googleAnalytics.js" type="text/javascript">
+</script>
+<script src="${lib.path}/jquery.min.js" type="text/javascript">
+</script>
+<script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
+</script>
+<script src="${lib.path}/bootstrap.min.js" type="text/javascript">
+</script>
+<script src="${lib.path}/bootbox.min.js" type="text/javascript">
+</script>
+<script src="/js/common.js" type="text/javascript">
+</script>
+<script src="${lib.path}/tinymce.min.js" type="text/javascript">
+</script>
+<script src="/js/richTextEditor.js" type="text/javascript">
+</script>
+<script src="/js/datepicker.js" type="text/javascript">
+</script>
+<script src="/js/instructor.js" type="text/javascript">
+</script>
+<script src="/js/ajaxResponseRate.js" type="text/javascript">
+</script>
+<script src="/js/instructorFeedbackAjaxRemindModal.js" type="text/javascript">
+</script>
+<script src="/js/instructorFeedbacksAjax.js" type="text/javascript">
+</script>
+<script src="/js/instructorFeedbacks.js" type="text/javascript">
+</script>
+<script src="/js/instructorFeedbacksSpecific.js" type="text/javascript">
+</script>
 <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="ui-datepicker-div">
 </div>
 </body>

@@ -63,32 +63,15 @@
           <div class="col-sm-4 col-lg-2">
             <div class="form-group">
               <div class="col-md-12">
-                <form action="/page/instructorFeedbackResultsDownload" id="download-form" method="post">
+                <form action="/page/instructorFeedbackResultsDownload" method="post">
                   <div id="feedbackDataButtons">
-                    <button class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" id="button_download" name="fruploaddownloadbtn" type="submit">
-                      Download Results
-                      <span class="caret">
-                      </span>
-                    </button>
-                    <ul class="dropdown-menu download-type-list" id="download-result-dropdown">
-                      <li data-downloadtype="csv">
-                        <a>
-                          As spreadsheet without formatting (.csv file)
-                        </a>
-                      </li>
-                      <li data-downloadtype="xlsx">
-                        <a>
-                          As normal spreadsheet (.xlsx file)
-                        </a>
-                      </li>
-                    </ul>
+                    <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results">
                   </div>
                   <input name="user" type="hidden" value="CFResultsUiT.instr">
                   <input name="fsname" type="hidden" value="Second Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
                   <input id="filterTextForDownload" name="filtertext" type="hidden">
-                  <input id="downloadType" name="frdownloadtype" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
@@ -273,8 +256,6 @@
   <br>
   <div id="statusMessagesToUser" style="display: none;">
   </div>
-  <script src="/js/statusMessage.js" type="text/javascript">
-  </script>
   <br>
   <br>
   <div class="panel panel-success">
@@ -475,10 +456,10 @@
                                       </a>
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Anonymous student ${participant.hash}'s Team
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Anonymous student ${participant.hash}
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -622,9 +603,9 @@
                                       </a>
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -648,9 +629,9 @@
                                       </a>
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 2
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -676,9 +657,9 @@
                                       </a>
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 3
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -1342,10 +1323,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1484,10 +1465,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1646,10 +1627,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1797,10 +1778,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1945,10 +1926,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -1973,10 +1954,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Benny Charles
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -2003,10 +1984,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Fred Gabriel
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -2089,10 +2070,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2126,10 +2107,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Benny Charles
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -2156,10 +2137,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Fred Gabriel
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -2324,10 +2305,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2352,10 +2333,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Benny Charles
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -2382,10 +2363,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Fred Gabriel
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -2468,10 +2449,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2498,10 +2479,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Benny Charles
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -2535,10 +2516,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Fred Gabriel
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -2632,9 +2613,9 @@
                                       </a>
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2959,10 +2940,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -2987,10 +2968,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 2
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Charlie Dávis
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -3017,10 +2998,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 2
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Danny Engrid
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -3047,10 +3028,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 2
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Drop out
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -3077,10 +3058,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 2
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Extra guy
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -3245,10 +3226,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -3273,10 +3254,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 2
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Charlie Dávis
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -3303,10 +3284,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 2
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Danny Engrid
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -3333,10 +3314,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 2
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Drop out
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -3363,10 +3344,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Team 2
                                   </td>
-                                  <td class="middlealign color_neutral">
+                                  <td class="word-wrap-break middlealign color_neutral">
                                     Extra guy
                                   </td>
                                   <td class="word-wrap-break text-preserve-space color_neutral">
@@ -3549,10 +3530,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -3633,10 +3614,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -3763,10 +3744,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -3847,10 +3828,10 @@
                                       <img alt="No Image Given" class="hidden" src="">
                                     </div>
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
-                                  <td class="middlealign">
+                                  <td class="word-wrap-break middlealign">
                                     Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="word-wrap-break text-preserve-space">
@@ -3920,8 +3901,8 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-warning">
-    <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
+  <div class="panel panel-default">
+    <div class="panel-heading ajax-response-auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="Second Session">

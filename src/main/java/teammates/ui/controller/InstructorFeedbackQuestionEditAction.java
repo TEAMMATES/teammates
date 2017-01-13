@@ -22,10 +22,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
@@ -272,8 +272,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                                                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
         
         if (numberOfEntitiesIsUserDefined(newQuestion.recipientType, nEntityTypes)) {
-            String nEntities;
-            nEntities = HttpRequestHelper.getValueFromParamMap(requestParameters,
+            String nEntities = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
             Assumption.assertNotNull(nEntities);
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(nEntities);

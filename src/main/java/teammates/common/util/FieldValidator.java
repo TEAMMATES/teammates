@@ -11,11 +11,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.joda.time.DateTimeZone;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackPathAttributes;
 
 import com.google.appengine.api.datastore.Text;
-import org.joda.time.DateTimeZone;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -169,6 +170,12 @@ public class FieldValidator {
             "The value must be one of the values from the time zone dropdown selector.";
     public static final String COURSE_TIME_ZONE_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_TIME_ZONE;
+
+    public static final String HINT_FOR_CORRECT_NATIONALITY =
+            "The value must be one of the values from the nationality dropdown selector.";
+    public static final String NATIONALITY_ERROR_MESSAGE =
+            "\"%s\" is not an accepted " + NATIONALITY_FIELD_NAME + " to TEAMMATES. "
+            + HINT_FOR_CORRECT_NATIONALITY;
 
     public static final String GENDER_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
@@ -444,15 +451,17 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if {@code nationality} is a non-null non-empty string no longer than the specified length
-     * {@code NATIONALITY_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @param nationality
+     * Checks if {@code nationality} is a non-null non-empty string contained in the {@link NationalityHelper}'s
+     * list of nationalities.
      * @return An explanation of why the {@code nationality} is not acceptable.
      *         Returns an empty string if the {@code nationality} is acceptable.
      */
     public String getInvalidityInfoForNationality(String nationality) {
-        return getValidityInfoForAllowedName(NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH,
-                                             nationality);
+        Assumption.assertNotNull("Non-null value expected", nationality);
+        if (!NationalityHelper.getNationalities().contains(nationality)) {
+            return String.format(NATIONALITY_ERROR_MESSAGE, nationality);
+        }
+        return "";
     }
 
     /**
@@ -782,7 +791,7 @@ public class FieldValidator {
     }
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
-        return (value == null) ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
+        return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
 
     private boolean isUntrimmed(String value) {

@@ -1,7 +1,23 @@
 package teammates.test.cases.common;
 
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
-import static teammates.common.util.FieldValidator.*;
+import static teammates.common.util.FieldValidator.COURSE_ID_MAX_LENGTH;
+import static teammates.common.util.FieldValidator.COURSE_NAME_FIELD_NAME;
+import static teammates.common.util.FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.EMAIL_FIELD_NAME;
+import static teammates.common.util.FieldValidator.EMAIL_MAX_LENGTH;
+import static teammates.common.util.FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH;
+import static teammates.common.util.FieldValidator.GENDER_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.GOOGLE_ID_FIELD_NAME;
+import static teammates.common.util.FieldValidator.GOOGLE_ID_MAX_LENGTH;
+import static teammates.common.util.FieldValidator.INSTITUTE_NAME_MAX_LENGTH;
+import static teammates.common.util.FieldValidator.NATIONALITY_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.REGEX_COURSE_ID;
+import static teammates.common.util.FieldValidator.REGEX_EMAIL;
+import static teammates.common.util.FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL;
+import static teammates.common.util.FieldValidator.REGEX_NAME;
+import static teammates.common.util.FieldValidator.REGEX_SAMPLE_COURSE_ID;
+import static teammates.common.util.FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,13 +28,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackPathAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FieldValidatorTest extends BaseTestCase {
 
@@ -372,11 +388,14 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidNationality = "{ Invalid Char Nationality";
         String actual = validator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
-                     "\"{ Invalid Char Nationality\" is not acceptable to TEAMMATES as a/an nationality "
-                         + "because it starts with a non-alphanumeric character. All nationality must start "
-                         + "with an alphanumeric character, and cannot contain any vertical bar (|) or "
-                         + "percent sign (%).",
-                     actual);
+                     String.format(NATIONALITY_ERROR_MESSAGE, invalidNationality), actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNationality_valid_returnEmptyString() {
+        String validNationality = "New Zealander";
+        String actual = validator.getInvalidityInfoForNationality(validNationality);
+        assertEquals("Valid nationality should return empty string", "", actual);
     }
 
     @Test

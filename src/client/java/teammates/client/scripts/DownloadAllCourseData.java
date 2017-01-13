@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
 
 public class DownloadAllCourseData extends OfflineBackup {
@@ -17,8 +16,6 @@ public class DownloadAllCourseData extends OfflineBackup {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-        
         backupFileDirectory = "Backup/" + getCurrentDateAndTime();
         createBackupDirectory(backupFileDirectory);
         retrieveEntitiesByCourse(getCoursesToBackup());
@@ -27,7 +24,7 @@ public class DownloadAllCourseData extends OfflineBackup {
     @SuppressWarnings("unchecked")
     private Set<String> getCoursesToBackup() {
         String q = "SELECT FROM " + Course.class.getName();
-        List<Course> courses = (List<Course>) Datastore.getPersistenceManager().newQuery(q).execute();
+        List<Course> courses = (List<Course>) PM.newQuery(q).execute();
         
         Set<String> allCourses = new HashSet<String>();
         

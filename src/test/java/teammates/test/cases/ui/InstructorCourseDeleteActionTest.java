@@ -110,6 +110,6 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
     }
     
     private InstructorCourseDeleteAction getAction(String... params) {
-        return (InstructorCourseDeleteAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorCourseDeleteAction) gaeSimulation.getActionObject(uri, params);
     }
 }

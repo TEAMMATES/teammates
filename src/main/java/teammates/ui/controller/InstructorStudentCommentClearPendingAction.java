@@ -7,8 +7,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.api.GateKeeper;
 
@@ -48,7 +48,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
                 log.info("Operation did not persist in time: update comments from state PENDING to SENDING");
             } else {
                 //Set up emails notification
-                logic.sendCommentNotification(courseId);
+                taskQueuer.scheduleCommentsNotificationsForCourse(courseId);
             }
         }
         
@@ -61,8 +61,8 @@ public class InstructorStudentCommentClearPendingAction extends Action {
             statusToAdmin = "Successful: " + account.googleId + " cleared pending comments for course " + courseId;
         }
         
-        return createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&"
-                                     + Const.ParamsNames.COURSE_ID + "=" + courseId);
+        return createRedirectResult(new PageData(account).getInstructorCommentsLink() + "&"
+                                    + Const.ParamsNames.COURSE_ID + "=" + courseId);
     }
     
     private int getPendingCommentsSize(String courseId) throws EntityDoesNotExistException {

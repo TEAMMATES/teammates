@@ -8,7 +8,6 @@ import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
 
 public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
 
@@ -19,7 +18,6 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize();
         Logic logic = new Logic();
         Scanner scanner = new Scanner(System.in);
         

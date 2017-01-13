@@ -454,6 +454,6 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
     }
     
     private InstructorStudentCommentAddAction getAction(String... params) {
-        return (InstructorStudentCommentAddAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorStudentCommentAddAction) gaeSimulation.getActionObject(uri, params);
     }
 }

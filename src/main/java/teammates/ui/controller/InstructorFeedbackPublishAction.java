@@ -6,8 +6,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackPublishAction extends Action {
@@ -28,7 +28,10 @@ public class InstructorFeedbackPublishAction extends Action {
                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         try {
-            logic.publishFeedbackSession(feedbackSessionName, courseId);
+            logic.publishFeedbackSession(session);
+            if (session.isPublishedEmailEnabled()) {
+                taskQueuer.scheduleFeedbackSessionPublishedEmail(session.getCourseId(), session.getFeedbackSessionName());
+            }
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> "

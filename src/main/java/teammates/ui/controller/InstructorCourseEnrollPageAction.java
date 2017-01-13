@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -13,7 +13,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorCourseEnrollPageAction extends Action {
     
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
 
@@ -33,10 +33,10 @@ public class InstructorCourseEnrollPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
     }
 
-    private void addDataLossWarningToStatusToUser(String courseId) throws EntityDoesNotExistException {
+    private void addDataLossWarningToStatusToUser(String courseId) {
         if (hasExistingResponses(courseId)) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_ENROLL_POSSIBLE_DATA_LOSS,
-                                               Const.StatusMessageColor.WARNING));
+                                               StatusMessageColor.WARNING));
         }
     }
 

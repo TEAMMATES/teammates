@@ -59,7 +59,7 @@
         </c:if>
     </div>
     <%-- do not add whitespace between the opening and closing tags --%>
-    <div id="plainCommentText${commentIndex}">${comment.commentText}</div>
+    <div id="plainCommentText${commentIndex}" style="margin-left: 15px;">${comment.commentText}</div>
     <c:if test="${comment.editDeleteEnabled}">
         <form method="post"
               action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>"
@@ -262,12 +262,11 @@
                     </table>
                 </div>
                 <div class="form-group">
-                    <%-- Do not add whitespace between the opening and closing tags--%>
-                    <textarea class="form-control"
-                              rows="3"
-                              placeholder="Your comment about this student"
-                              name="<%= Const.ParamsNames.COMMENT_TEXT %>"
-                              id="commentText${commentIndex}">${comment.commentText}</textarea>
+                    <div id="rich-text-toolbar-comment-container-${commentIndex}"></div>
+                    <div class="panel panel-default panel-body" id="commentText${commentIndex}">
+                         ${comment.commentText}
+                    </div>
+                    <input type="hidden" name="<%= Const.ParamsNames.COMMENT_TEXT %>">
                 </div>
                 <div class="col-sm-offset-5">
                     <input id="commentsave-${commentIndex}"

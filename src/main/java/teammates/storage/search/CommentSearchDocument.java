@@ -9,11 +9,11 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
-import com.google.gson.Gson;
 
 /**
  * The SearchDocument object that defines how we store {@link Document} for student comments
@@ -141,11 +141,11 @@ public class CommentSearchDocument extends SearchDocument {
                                             .setDate(comment.createdAt))
                 // attribute field is used to convert a doc back to attribute
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_ATTRIBUTE)
-                                            .setText(new Gson().toJson(comment)))
+                                            .setText(JsonUtils.toJson(comment)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_GIVER_NAME)
-                                            .setText(new Gson().toJson(displayedName)))
+                                            .setText(JsonUtils.toJson(displayedName)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME)
-                                            .setText(new Gson().toJson(commentRecipientName)))
+                                            .setText(JsonUtils.toJson(commentRecipientName)))
                 .setId(comment.getCommentId().toString())
                 .build();
         return doc;
