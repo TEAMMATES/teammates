@@ -16,20 +16,20 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
     }
 
     @Override
-    protected void appendRespondant() {
+    protected void appendRespondent() {
         try {
-            logic.addStudentRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.addStudentRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to append student respondant");
+            log.severe("Fail to append student respondent");
         }
     }
 
     @Override
-    protected void removeRespondant() {
+    protected void removeRespondent() {
         try {
-            logic.deleteStudentRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.deleteStudentRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to remove student respondant");
+            log.severe("Fail to remove student respondent");
         }
     }
 
@@ -105,7 +105,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void setAdditionalParameters() {
-        isSendEmail = true;
+        isSendSubmissionEmail = true;
     }
 
     @Override

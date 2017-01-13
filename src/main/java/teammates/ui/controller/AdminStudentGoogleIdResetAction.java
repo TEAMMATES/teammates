@@ -4,8 +4,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
@@ -33,7 +33,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
         if (studentEmail != null && studentCourseId != null) {
             try {
                 logic.resetStudentGoogleId(studentEmail, studentCourseId);
-                logic.sendRegistrationInviteToStudentAfterGoogleIdReset(studentCourseId, studentEmail);
+                taskQueuer.scheduleCourseRegistrationInviteToStudent(studentCourseId, studentEmail, true);
             } catch (InvalidParametersException e) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL,
                                                    StatusMessageColor.DANGER));

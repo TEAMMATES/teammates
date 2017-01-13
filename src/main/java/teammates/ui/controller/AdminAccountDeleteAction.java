@@ -3,8 +3,8 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class AdminAccountDeleteAction extends Action {
@@ -40,7 +40,7 @@ public class AdminAccountDeleteAction extends Action {
             //remove student from course
             StudentAttributes student = logic.getStudentForGoogleId(courseId, studentId);
             logic.deleteStudent(courseId, student.email);
-            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE,
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_DELETED,
                                                StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor <span class=\"bold\">" + instructorId
                             + "</span>'s student status in Course"

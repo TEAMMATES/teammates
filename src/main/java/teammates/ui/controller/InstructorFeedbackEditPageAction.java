@@ -43,10 +43,23 @@ public class InstructorFeedbackEditPageAction extends Action {
         }
         
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
-        Collections.sort(studentList, new StudentComparator());
+        Collections.sort(studentList, new Comparator<StudentAttributes>() {
+            @Override
+            public int compare(StudentAttributes s1, StudentAttributes s2) {
+                if (s1.team.equals(s2.team)) {
+                    return s1.name.compareToIgnoreCase(s2.name);
+                }
+                return s1.team.compareToIgnoreCase(s2.team);
+            }
+        });
         
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        Collections.sort(instructorList, new InstructorComparator());
+        Collections.sort(instructorList, new Comparator<InstructorAttributes>() {
+            @Override
+            public int compare(InstructorAttributes i1, InstructorAttributes i2) {
+                return i1.name.compareToIgnoreCase(i2.name);
+            }
+        });
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
@@ -61,20 +74,4 @@ public class InstructorFeedbackEditPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }
     
-    private class StudentComparator implements Comparator<StudentAttributes> {
-        @Override
-        public int compare(StudentAttributes s1, StudentAttributes s2) {
-            if (s1.team.equals(s2.team)) {
-                return s1.name.compareToIgnoreCase(s2.name);
-            }
-            return s1.team.compareToIgnoreCase(s2.team);
-        }
-    }
-    
-    private class InstructorComparator implements Comparator<InstructorAttributes> {
-        @Override
-        public int compare(InstructorAttributes i1, InstructorAttributes i2) {
-            return i1.name.compareToIgnoreCase(i2.name);
-        }
-    }
 }

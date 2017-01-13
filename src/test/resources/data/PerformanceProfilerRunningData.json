@@ -1,22 +1,33 @@
 {
-"instructors":{
-    "Z3_Coo0":{"id":"idOf_Z3_Coo0","name":"testingforteammates","email":"testingforteammates@gmail.tmt"}
-},
-
-"courses":{
-    "Z3_Cou0_of_Coo0":{"instructor":"idOf_Z3_Coo0","id":"idOf_Z3_Cou0_of_Coo0","name":"nameOf_Z3_Cou0_of_Coo0","timeZone": "UTC"}
-},
-
-"students":{
-    "Z3_Stu273Team1_in_Cou0_of_Coo0":{"email":"Z3_Stu273Email@gmail.tmt","name":"Student 273 in Z3_Cou0_of_Coo0","team":"Team 1","googleId":"Z3_Stu273Email","comments":"aaaa","course":"idOf_Z3_Cou0_of_Coo0"}
-},
-
-"evaluations":{
-    "idOf_Z3_Eval0_in_Cou0_of_Coo0":{"courseId":"idOf_Z3_Cou0_of_Coo0","name":"Z3_Eval0_in_Cou0_of_Coo0","instructions":{"value":"instructions for Z3_Eval0_in_Cou0_of_Coo0"},"gracePeriod":10,"p2pEnabled":true,"startTime":"2012-04-01 11:59 PM UTC","endTime":"2012-012-30 11:59 PM UTC","startTime":"2012-04-01 11:59 PM UTC","timeZone":8.0,"activated":true,"published":false}
-},
-
-"submissions":{
-    "Z3_Sub0EvalEval0_in_Cou0_of_Coo0":{"reviewer":"Z3_Stu273Email@gmail.tmt","reviewee":"Z3_Stu273Email@gmail.tmt","course":"idOf_Z3_Cou0_of_Coo0","evaluation":"Z3_Eval0_in_Cou0_of_Coo0","points":10,"justification":{"value":"justification"},"p2pFeedback":{"value":"p2p"},"team":"Team 1"}
-}
-
+  "accounts": {},
+  "courses": {
+    "Z3_Cou0_of_Coo0": {
+      "id": "idOf_Z3_Cou0_of_Coo0",
+      "name": "nameOf_Z3_Cou0_of_Coo0",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "Z3_Coo0": {
+      "name": "testingforteammates",
+      "email": "testingforteammates@gmail.tmt",
+      "isDisplayedToStudents": false
+    }
+  },
+  "students": {
+    "Z3_Stu273Team1_in_Cou0_of_Coo0": {
+      "googleId": "Z3_Stu273Email",
+      "email": "Z3_Stu273Email@gmail.tmt",
+      "course": "idOf_Z3_Cou0_of_Coo0",
+      "name": "Student 273 in Z3_Cou0_of_Coo0",
+      "comments": "aaaa",
+      "team": "Team 1"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

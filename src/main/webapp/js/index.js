@@ -1,21 +1,15 @@
-// AJAX
-var xmlhttp = getXMLObject();
-
-// OPERATIONS
-var OPERATION_INSTRUCTORINATOR_LOGIN = 'instructor_login';
-var OPERATION_STUDENT_LOGIN = 'student_login';
-
 // TESTIMONIALS
 /* eslint-disable max-len */ // testimonials are better left off as is
-var TESTIMONIALS = ['Congratulations for creating and managing such a wonderful and useful tool. I am planning to use for all the subjects I am teaching from now after getting fantastic feedback about this tool from my students. <br>- Faculty user, Australia',
- 'I just wanted to let you know that TEAMMATES has been a great success!  Students love it. <br>-Faculty user, USA',
- 'I had such a great experience with TEAMMATES in the previous semester that I am back for more! <br>-Faculty user, Pakistan',
- 'Thank you for this. I think it is brilliant. <br>-Faculty user, Canada',
- 'I found the TEAMMATES system really easy to use. On the whole a very positive experience. Using TEAMMATES certainly helps with one of the main potential problems of group-based assessments. <br>-Faculty user, Singapore',
- 'I find it really great and so simple to use. <br>-Faculty user, Austria',
- 'These peer evaluations will be perfect for classes.  I can already see that this is going to be an excellent tool as I need the teams to evaluate each other on a weekly basis.  Adding a new evaluation item and the questions/response criteria is so easy through your system. <br>-Faculty user, USA',
- 'Thank you for building such a wonderful tool. <br>-Faculty user, Canada'
- ];
+var TESTIMONIALS = [
+    'Congratulations for creating and managing such a wonderful and useful tool. I am planning to use for all the subjects I am teaching from now after getting fantastic feedback about this tool from my students. <br>- Faculty user, Australia',
+    'I just wanted to let you know that TEAMMATES has been a great success!  Students love it. <br>-Faculty user, USA',
+    'I had such a great experience with TEAMMATES in the previous semester that I am back for more! <br>-Faculty user, Pakistan',
+    'Thank you for this. I think it is brilliant. <br>-Faculty user, Canada',
+    'I found the TEAMMATES system really easy to use. On the whole a very positive experience. Using TEAMMATES certainly helps with one of the main potential problems of group-based assessments. <br>-Faculty user, Singapore',
+    'I find it really great and so simple to use. <br>-Faculty user, Austria',
+    'These peer evaluations will be perfect for classes.  I can already see that this is going to be an excellent tool as I need the teams to evaluate each other on a weekly basis.  Adding a new evaluation item and the questions/response criteria is so easy through your system. <br>-Faculty user, USA',
+    'Thank you for building such a wonderful tool. <br>-Faculty user, Canada'
+];
 /* eslint-enable max-len */
 var LOOP_INTERVAL = '5000'; // in milliseconds
 var CURRENT_TESTIMONIAL = 0;
@@ -25,57 +19,6 @@ function instructorLogin() {
     requestInstructorLogin();
     // handle response
     handleInstructorLogin();
-}
-
-function requestInstructorLogin() {
-    if (xmlhttp) {
-        xmlhttp.open('POST', '/teammates', false);
-        xmlhttp.setRequestHeader('Content-Type',
-                'application/x-www-form-urlencoded;');
-        xmlhttp.send('operation=' + OPERATION_INSTRUCTORINATOR_LOGIN);
-    }
-}
-
-function handleInstructorLogin() {
-    if (xmlhttp.status === 200) {
-        var url = xmlhttp.responseXML.getElementsByTagName('url')[0];
-        window.location = url.firstChild.nodeValue;
-    }
-}
-
-function handleStudentLogin() {
-    if (xmlhttp.status === 200) {
-        var url = xmlhttp.responseXML.getElementsByTagName('url')[0];
-        window.location = url.firstChild.nodeValue;
-    }
-}
-
-function studentLogin() {
-    if (xmlhttp) {
-        xmlhttp.open('POST', 'teammates', false);
-        xmlhttp.setRequestHeader('Content-Type',
-                'application/x-www-form-urlencoded;');
-        xmlhttp.send('operation=' + OPERATION_STUDENT_LOGIN);
-    }
-
-    handleStudentLogin();
-}
-
-function getXMLObject() {
-    var xmlHttp = false;
-    try {
-        xmlHttp = new ActiveXObject('Msxml2.XMLHTTP');
-    } catch (e) {
-        try {
-            xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
-        } catch (e2) {
-            xmlHttp = false;
-        }
-    }
-    if (!xmlHttp && typeof XMLHttpRequest !== 'undefined') {
-        xmlHttp = new XMLHttpRequest();
-    }
-    return xmlHttp;
 }
 
 function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) {
@@ -98,8 +41,8 @@ function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) 
 onload = function() {
     
     // Parameters for the estimation calculation
-    var baseDate = new Date('March 30, 2016 00:00:00');  // The date the parameters were adjusted
-    var baseCount = 3000000;     // The submission count on the above date
+    var baseDate = new Date('December 31, 2016 00:00:00');  // The date the parameters were adjusted
+    var baseCount = 5000000;     // The submission count on the above date
     var submissionPerHour = 128; // The rate at which the submission count is growing
     
     // set the submission count in the page

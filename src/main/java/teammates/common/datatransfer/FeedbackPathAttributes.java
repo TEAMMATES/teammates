@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackPath;
 
 public class FeedbackPathAttributes extends EntityAttributes {
@@ -82,7 +82,7 @@ public class FeedbackPathAttributes extends EntityAttributes {
 
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, FeedbackPathAttributes.class);
+        return JsonUtils.toJson(this, FeedbackPathAttributes.class);
     }
 
     @Override

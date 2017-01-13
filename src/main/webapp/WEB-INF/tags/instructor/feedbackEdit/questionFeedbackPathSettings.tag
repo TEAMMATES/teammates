@@ -93,7 +93,7 @@
     </div>
     <div class="col-sm-12 row numberOfEntitiesElements">
         <label class="control-label col-sm-4 small">
-            The maximum number of <span class='number-of-entities-inner-text'></span> each respondant should give feedback to:
+            The maximum number of <span class='number-of-entities-inner-text'></span> each respondent should give feedback to:
         </label>
         <div class="col-sm-8 form-control-static">
             <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">

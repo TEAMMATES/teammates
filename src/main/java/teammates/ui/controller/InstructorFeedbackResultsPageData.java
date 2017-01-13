@@ -9,9 +9,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -650,7 +650,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             sectionPanel.setDisplayingTeamStatistics(isTeamDisplayingStatistics);
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? Const.NO_SPECIFIC_RECIEPIENT
+                                                ? Const.NO_SPECIFIC_RECIPIENT
                                                 : sectionName);
             break;
         case RECIPIENT_GIVER_QUESTION:
@@ -658,7 +658,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? Const.NO_SPECIFIC_RECIEPIENT
+                                                ? Const.NO_SPECIFIC_RECIPIENT
                                                 : sectionName);
             break;
         default:
@@ -738,7 +738,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
 
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
-                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_RECIEPIENT, true);
+                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_RECIPIENT, true);
         sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
 
         for (String section : sections) {
@@ -962,8 +962,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 break;
             }
             
+            // If question specific sorting is not needed, responses are sorted
+            // by default order (first by team name, then by display name)
             if (questionDetails.isQuestionSpecificSortingRequired()) {
                 Collections.sort(responseRows, questionDetails.getResponseRowsSortOrder());
+            } else {
+                responseRows = InstructorFeedbackResultsResponseRow.sortListWithDefaultOrder(responseRows);
             }
             
         }

@@ -1,6 +1,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="contact">
-    <h1 id="caption">
+    <h1 class="caption">
         Contact Us
     </h1>
     <img src="images/contact.png" width="125px" style="padding-left: 100px;">

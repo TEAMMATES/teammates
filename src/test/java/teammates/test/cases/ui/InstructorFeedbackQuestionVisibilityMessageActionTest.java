@@ -52,7 +52,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         InstructorFeedbackQuestionVisibilityMessageAction a = getAction(typicalParams);
-        ActionResult r = (ActionResult) a.executeAndPostProcess();
+        ActionResult r = a.executeAndPostProcess();
 
         assertFalse(r.isError);
 
@@ -76,7 +76,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(customParams);
-        r = (ActionResult) a.executeAndPostProcess();
+        r = a.executeAndPostProcess();
 
         assertFalse(r.isError);
 
@@ -103,7 +103,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(customParams);
-        r = (ActionResult) a.executeAndPostProcess();
+        r = a.executeAndPostProcess();
 
         assertFalse(r.isError);
 
@@ -130,7 +130,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(customParams);
-        r = (ActionResult) a.executeAndPostProcess();
+        r = a.executeAndPostProcess();
 
         assertFalse(r.isError);
 
@@ -162,7 +162,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(privateParams);
-        r = (ActionResult) a.executeAndPostProcess();
+        r = a.executeAndPostProcess();
 
         assertFalse(r.isError);
 
@@ -186,12 +186,12 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(privateParams);
-        r = (ActionResult) a.executeAndPostProcess();
+        r = a.executeAndPostProcess();
 
         assertFalse(r.isError);
     }
 
     private InstructorFeedbackQuestionVisibilityMessageAction getAction(String... params) {
-        return (InstructorFeedbackQuestionVisibilityMessageAction) (gaeSimulation.getActionObject(uri, params));
+        return (InstructorFeedbackQuestionVisibilityMessageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

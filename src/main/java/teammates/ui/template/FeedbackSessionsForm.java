@@ -131,7 +131,7 @@ public class FeedbackSessionsForm {
         
         newFsForm.instructions = feedbackSession == null
                                ? "Please answer all the given questions."
-                               : Sanitizer.sanitizeForHtml(feedbackSession.getInstructions().getValue());
+                               : Sanitizer.sanitizeForRichText(feedbackSession.getInstructions().getValue());
         
         newFsForm.fsStartDate = feedbackSession == null
                               ? TimeHelper.formatDate(TimeHelper.getNextHour())

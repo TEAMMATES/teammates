@@ -145,10 +145,11 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public void fillTextareaToEditStudentCommentForRow(int i, String text) {
-        WebElement textarea = browser.driver.findElement(By.id("commentText" + i));
+        String editorId = "commentText" + i;
+        WebElement textarea = browser.driver.findElement(By.id(editorId));
+        waitForRichTextEditorToLoad(editorId);
         click(textarea);
-        textarea.clear();
-        textarea.sendKeys(text);
+        fillRichTextEditor(textarea.getAttribute("id"), text);
     }
     
     public void saveEditStudentCommentForRow(int i) {
@@ -165,20 +166,18 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx, String text) {
-        WebElement textarea = browser.driver.findElement(
-                By.id("responseCommentAddForm-" + sessionIdx + "-" + questionIdx + "-" + responseIdx));
+        String editorId = "responseCommentAddForm-" + sessionIdx + "-" + questionIdx + "-" + responseIdx;
+        WebElement textarea = browser.driver.findElement(By.id(editorId));
+        waitForRichTextEditorToLoad(editorId);
         click(textarea);
-        textarea.clear();
-        textarea.sendKeys(text);
+        fillRichTextEditor(textarea.getAttribute("id"), text);
     }
     
     public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx,
                                                   int commentIdx, String text) {
-        WebElement textarea = browser.driver.findElement(
-                By.id("responsecommenttext-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx));
-        click(textarea);
-        textarea.clear();
-        textarea.sendKeys(text);
+        String editorId = "responsecommenttext-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx;
+        waitForRichTextEditorToLoad(editorId);
+        fillRichTextEditor(editorId, text);
     }
 
     public void addResponseComment(int sessionIdx, int questionIdx, int responseIdx) {

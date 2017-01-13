@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,20 +17,22 @@ import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
+import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
+import teammates.logic.api.TaskQueuer;
 
 /** An 'action' to be performed by the system. If the logged in user is allowed
  * to perform the requested action, this object can talk to the back end to
  * perform that action.
  */
 public abstract class Action {
-    protected static final Logger log = Utils.getLogger();
+    protected static final Logger log = Logger.getLogger();
     
     /** This is used to ensure unregistered users don't access certain pages in the system */
     public String regkey;
@@ -46,6 +47,8 @@ public abstract class Action {
     public StudentAttributes student;
     
     protected Logic logic;
+    protected TaskQueuer taskQueuer;
+    protected EmailSender emailSender;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
     protected String requestUrl;
@@ -88,13 +91,31 @@ public abstract class Action {
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
+        setTaskQueuer(new TaskQueuer());
+        setEmailSender(new EmailSender());
         requestParameters = request.getParameterMap();
         session = request.getSession();
         
         // Set error status forwarded from the previous action
         isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
     }
+    
+    public TaskQueuer getTaskQueuer() {
+        return taskQueuer;
+    }
+    
+    public void setTaskQueuer(TaskQueuer taskQueuer) {
+        this.taskQueuer = taskQueuer;
+    }
 
+    public EmailSender getEmailSender() {
+        return emailSender;
+    }
+    
+    public void setEmailSender(EmailSender emailSender) {
+        this.emailSender = emailSender;
+    }
+    
     protected void authenticateUser() {
         UserType currentUser = logic.getCurrentUser();
         loggedInUser = authenticateAndGetActualUser(currentUser);
@@ -127,17 +148,13 @@ public abstract class Action {
         return loggedInUser;
     }
 
+    /**
+     * Retrieves registration key from the HTTP request
+     * 
+     * @return Registration key or null if key not in HTTP request
+     */
     protected String getRegkeyFromRequest() {
-        String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
-        if (regkey == null) {
-            // TODO: remove this branch on October 15th 2014.
-            String legacyRegkey = getRequestParamValue(Const.ParamsNames.REGKEY_LEGACY);
-            if (legacyRegkey != null) {
-                log.severe("TEAMMATES accessed using old join link");
-            }
-            return legacyRegkey;
-        }
-        return regkey;
+        return getRequestParamValue(Const.ParamsNames.REGKEY);
     }
 
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
@@ -490,13 +507,12 @@ public abstract class Action {
     /**
      * Generates a {@link FileDownloadResult} with the information in this object.
      */
-    public FileDownloadResult createFileDownloadResult(String fileName, String fileContent, String downloadType) {
-        Assumption.assertNotNull(fileContent);
-        if (Const.FeedbackSessionResultsDownloadTypes.XLSX.equals(downloadType)) {
-            return new XlsxFileDownloadResult("filedownload", account, statusToUser, fileName, fileContent, downloadType);
-        } else {
-            return new CsvFileDownloadResult("filedownload", account, statusToUser, fileName, fileContent, downloadType);
-        }
+    public FileDownloadResult createFileDownloadResult(String fileName, String fileContent) {
+        return new FileDownloadResult("filedownload",
+                                      account,
+                                      statusToUser,
+                                      fileName,
+                                      fileContent);
     }
 
     protected ActionResult createPleaseJoinCourseResponse(String courseId) {

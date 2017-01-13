@@ -10,9 +10,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -45,7 +45,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail);
 
         moderatedInstructor = logic.getInstructorForEmail(courseId, moderatedInstructorEmail);
-        isSendEmail = false;
+        isSendSubmissionEmail = false;
         
         // If the instructor doesn't exist
         if (moderatedInstructor == null) {
@@ -116,21 +116,21 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
     }
 
     @Override
-    protected void appendRespondant() {
+    protected void appendRespondent() {
         try {
-            logic.addInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.addInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Failed to append instructor respondant. "
+            log.severe("Failed to append instructor respondent. "
                        + "Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]");
         }
     }
     
     @Override
-    protected void removeRespondant() {
+    protected void removeRespondent() {
         try {
-            logic.deleteInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.deleteInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Failed to append instructor respondant. "
+            log.severe("Failed to append instructor respondent. "
                        + "Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]");
         }
     }

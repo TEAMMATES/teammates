@@ -10,13 +10,12 @@ import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -25,11 +24,6 @@ import com.google.appengine.api.datastore.KeyFactory;
  * Generate list of institutes and number of users per institute.
  */
 public class StatisticsPerInstitute extends RemoteApiClient {
-    
-    //TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
-    protected static final PersistenceManager pm = JDOHelper
-            .getPersistenceManagerFactory("transactions-optional")
-            .getPersistenceManager();
     
     private static final int INSTRUCTOR_INDEX = 0;
     private static final int STUDENT_INDEX = 1;
@@ -48,11 +42,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     @SuppressWarnings("unchecked")
     protected void doOperation() {
         
-        String q = "SELECT FROM " + Student.class.getName();
-        List<Student> allStudents = (List<Student>) pm.newQuery(q).execute();
+        String q = "SELECT FROM " + CourseStudent.class.getName();
+        List<CourseStudent> allStudents = (List<CourseStudent>) PM.newQuery(q).execute();
         
         q = "SELECT FROM " + Instructor.class.getName();
-        List<Instructor> allInstructors = (List<Instructor>) pm.newQuery(q).execute();
+        List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(q).execute();
         
         StatsBundle statsBundle = generateStatsPerInstitute(allStudents, allInstructors);
         List<InstituteStats> statsPerInstituteList = statsBundle.instituteStatsList;
@@ -105,7 +99,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         return result;
     }
     
-    private boolean isTestingStudentData(Student student) {
+    private boolean isTestingStudentData(CourseStudent student) {
         boolean isTestingData = false;
         
         if (student.getEmail().toLowerCase().endsWith(".tmt")) {
@@ -119,7 +113,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         return isTestingData;
     }
 
-    private StatsBundle generateStatsPerInstitute(List<Student> allStudents, List<Instructor> allInstructors) {
+    private StatsBundle generateStatsPerInstitute(
+            List<CourseStudent> allStudents, List<Instructor> allInstructors) {
         HashMap<String, HashMap<Integer, HashSet<String>>> institutes =
                 new HashMap<String, HashMap<Integer, HashSet<String>>>();
         
@@ -147,7 +142,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             updateProgressIndicator();
         }
 
-        for (Student student : allStudents) {
+        for (CourseStudent student : allStudents) {
             
             if (isTestingStudentData(student) || student.getEmail() == null) {
                 continue;
@@ -182,13 +177,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     @SuppressWarnings("unchecked")
-    private String getInstituteForStudent(Student student) {
+    private String getInstituteForStudent(CourseStudent student) {
         
         if (courseIdToInstituteMap.containsKey(student.getCourseId())) {
             return courseIdToInstituteMap.get(student.getCourseId());
         }
 
-        Query q = pm.newQuery(Instructor.class);
+        Query q = PM.newQuery(Instructor.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
         List<Instructor> instructorList = (List<Instructor>) q.execute(student.getCourseId());
@@ -234,7 +229,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         try {
             Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
-            Account account = pm.getObjectById(Account.class, key);
+            Account account = PM.getObjectById(Account.class, key);
             
             if (JDOHelper.isDeleted(account)) {
                 return null;
@@ -296,13 +291,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         }
     }
     
-    class InstituteStats {
+    private static class InstituteStats {
         String name;
         int studentTotal;
         int instructorTotal;
     }
     
-    class StatsBundle {
+    private static class StatsBundle {
         List<InstituteStats> instituteStatsList;
         int numOfUniqueStudentEmails;
         int numOfAllStudentEmails;

@@ -3,8 +3,6 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.List;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -18,10 +16,6 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
     private static final String NO_MATCHING_INSTITUTE = "No Matching Accounts Found for Institue: %s";
     private static final int PROGRESS_STEP = 100;
     private static int counter;
-
-    private static final PersistenceManager pm = JDOHelper
-                                                   .getPersistenceManagerFactory("transactions-optional")
-                                                   .getPersistenceManager();
     
     public static void main(String[] args) throws IOException {
 
@@ -31,7 +25,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
 
     @Override
     protected void doOperation() {
-        Query q = pm.newQuery(Account.class);
+        Query q = PM.newQuery(Account.class);
         q.declareParameters("String instituteName");
         q.setFilter("institute == instituteName");
         
@@ -48,7 +42,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
             System.out.printf(NO_MATCHING_INSTITUTE, fromInstitute);
         }
   
-        pm.close();
+        PM.close();
 
     }
     

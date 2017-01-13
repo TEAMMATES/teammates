@@ -3,6 +3,10 @@ var PERFORMANCE_ISSUE_MESSAGE = 'Due to performance issue, it is not allowed to 
                                 + ' students. Please deselect some courses to view student list of other courses.';
 var numStudents = 0;
 
+$(document).ready(function() {
+    $('.ajax_submit').click(seeMoreRequest);
+});
+
 function transportSectionChoices() {
     var sectionChoices = $('.section-to-be-transported');
     sectionChoices.remove();
@@ -26,7 +30,10 @@ function transportEmailChoices() {
 
 function bindPhotos(courseIdx) {
     $('td[id^="studentphoto-c' + courseIdx + '"]').each(function() {
-        bindErrorImages($(this).children('.profile-pic-icon-click'));
+        
+        $(this).children('.profile-pic-icon-click > img').each(function() {
+            bindDefaultImageIfMissing(this);
+        });
         bindStudentPhotoLink($(this).children('.profile-pic-icon-click').children('.student-profile-pic-view-link'));
     });
 }
@@ -129,7 +136,3 @@ var seeMoreRequest = function(e) {
         showStudentLimitError(courseCheck, displayIcon);
     }
 };
-
-$(document).ready(function() {
-    $('.ajax_submit').click(seeMoreRequest);
-});

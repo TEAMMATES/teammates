@@ -9,7 +9,7 @@
     <script type="text/javascript" src="/js/student.js"></script>
 </c:set>
 
-<ts:studentPage bodyTitle="Team Details for ${data.studentCourseDetailsPanel.courseId}" pageTitle="TEAMMATES - Student">
+<ts:studentPage bodyTitle="Team Details for ${data.studentCourseDetailsPanel.courseId}" pageTitle="TEAMMATES - Student" jsIncludes="${jsIncludes}">
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br>
     <div class="well well-plain">
@@ -62,15 +62,16 @@
                     ${data.studentCourseDetailsPanel.studentEmail} 
                 </jsp:body>
             </courseDetails:displayDetails>
-
-            <%-- Student Teammates --%>
-            <courseDetails:displayDetails id="<%=Const.ParamsNames.TEAMMATES%>">
-                <jsp:attribute name="heading">Your teammates:</jsp:attribute>
-                <jsp:body>
-                    <courseDetails:displayTeammates/>   
-                </jsp:body>
-            </courseDetails:displayDetails>
         </div>
+    </div>
+    <div class="form-horizontal">
+        <%-- Student Teammates --%>
+        <courseDetails:displayDetails id="<%=Const.ParamsNames.TEAMMATES%>">
+            <jsp:attribute name="heading">Your teammates:</jsp:attribute>
+            <jsp:body>
+                    <courseDetails:displayTeammates />   
+            </jsp:body>
+        </courseDetails:displayDetails>
     </div>
     <br>
     <br>

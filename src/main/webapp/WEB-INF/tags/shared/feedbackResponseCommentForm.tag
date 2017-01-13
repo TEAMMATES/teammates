@@ -189,11 +189,11 @@
         </table>
     </div>
     <div class="form-group">
-        <textarea class="form-control"
-                  rows="3"
-                  placeholder="Your comment about this response"
-                  name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>"
-                  id="${textAreaId}-${divId}">${frc.commentText}</textarea>
+        <div id="rich-text-toolbar-comment-container-${divId}"></div>
+        <div class="panel panel-default panel-body" id="${textAreaId}-${divId}">
+            ${frc.commentText}
+        </div>
+        <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>">
     </div>
     <div class="col-sm-offset-5">
         <a href="${submitLink}"

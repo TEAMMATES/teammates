@@ -73,12 +73,6 @@ var CustomFeedbackPaths = {
         CustomFeedbackPaths.allPossibleFeedbackRecipients.push('Class');
     },
     
-    initializeFeedbackPathsSpreadsheets: function() {
-        $('.form_question').each(function() {
-            CustomFeedbackPaths.generateFeedbackPathsSpreadsheet($(this));
-        });
-    },
-    
     generateFeedbackPathsSpreadsheet: function($questionForm) {
         var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
         var giverType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();

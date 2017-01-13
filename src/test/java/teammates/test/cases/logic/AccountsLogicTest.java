@@ -26,8 +26,6 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.Priority;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 public class AccountsLogicTest extends BaseComponentTestCase {
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
@@ -62,66 +60,6 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     }
  
     @Test
-    public void testStudentProfileFunctions() throws Exception {
-        
-        // 4 functions are tested together as:
-        //      => The functions are very simple (one-liners)
-        //      => They are fundamentally related and easily tested together
-        //      => It saves time during tests
-        
-        ______TS("get SP");
-        StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com",
-                "institute", "countryName", "female", "moreInfo", "");
-        AccountAttributes accountWithStudentProfile = new AccountAttributes("id", "name",
-                true, "test@email.com", "dev", expectedSpa);
-        
-        accountsLogic.createAccount(accountWithStudentProfile);
-        
-        StudentProfileAttributes actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
-        
-        ______TS("update SP");
-        
-        expectedSpa.pictureKey = "non-empty";
-        accountWithStudentProfile.studentProfile.pictureKey = expectedSpa.pictureKey;
-        accountsLogic.updateStudentProfile(accountWithStudentProfile.studentProfile);
-        
-        actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
-        
-        ______TS("update picture");
-        
-        expectedSpa.pictureKey = writeFileToGcs(expectedSpa.googleId, "src/test/resources/images/profile_pic.png");
-        accountsLogic.updateStudentProfilePicture(expectedSpa.googleId, expectedSpa.pictureKey);
-        actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
-        
-        ______TS("delete profile picture");
-        
-        accountsLogic.deleteStudentProfilePicture(expectedSpa.googleId);
-        assertFalse(doesFileExistInGcs(new BlobKey(expectedSpa.pictureKey)));
-        
-        actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        expectedSpa.pictureKey = "";
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
-        
-        // remove the account that was created
-        accountsLogic.deleteAccountCascade("id");
-    }
-    
-    @Test
-    public void testDeletePicture() throws Exception {
-        String keyString = writeFileToGcs("accountsLogicTestid", "src/test/resources/images/profile_pic.png");
-        BlobKey key = new BlobKey(keyString);
-        accountsLogic.deletePicture(key);
-        assertFalse(doesFileExistInGcs(key));
-    }
-
-    @Test
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
@@ -130,7 +68,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
-        spa.nationality = "test.nationality";
+        spa.nationality = "American";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
         
@@ -293,7 +231,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: without encryption and account already exists");
 
         StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                "ABC", "personal@gmail.com", "nus", "Singapore", "male", "", "");
+                "ABC", "personal@gmail.com", "nus", "Singaporean", "male", "", "");
         
         AccountAttributes accountData = new AccountAttributes(correctStudentId,
                 "nameABC", false, "real@gmail.com", "nus", spa);

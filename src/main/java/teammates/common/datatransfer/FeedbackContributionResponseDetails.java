@@ -2,16 +2,15 @@ package teammates.common.datatransfer;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
 
 public class FeedbackContributionResponseDetails extends FeedbackResponseDetails {
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     /**This is the claimed points from giver to recipient.
     */

@@ -8,11 +8,10 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.gson.Gson;
 
 public class FeedbackResponseAttributes extends EntityAttributes {
     public String feedbackSessionName;
@@ -24,13 +23,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     * "anonymous", etc.
     */
     public String giver;
-    public String giverSection;
     /**
      * Depending on the question recipient type, {@code recipient} may contain the recipient's email, the team
      * name, "%GENERAL%", etc.
      */
     public String recipient;
-    public String recipientSection;
     
     /** Contains the JSON formatted string that holds the information of the response details <br>
      * Don't use directly unless for storing/loading from data store <br>
@@ -39,6 +36,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * This is set to null to represent a missing response.
      */
     public Text responseMetaData;
+    public String giverSection;
+    public String recipientSection;
     protected transient Date createdAt;
     protected transient Date updatedAt;
     private String feedbackResponseId;
@@ -69,9 +68,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.feedbackQuestionId = fr.getFeedbackQuestionId();
         this.feedbackQuestionType = fr.getFeedbackQuestionType();
         this.giver = fr.getGiverEmail();
-        this.giverSection = (fr.getGiverSection() == null) ? Const.DEFAULT_SECTION : fr.getGiverSection();
+        this.giverSection = fr.getGiverSection() == null ? Const.DEFAULT_SECTION : fr.getGiverSection();
         this.recipient = fr.getRecipientEmail();
-        this.recipientSection = (fr.getRecipientSection() == null) ? Const.DEFAULT_SECTION : fr.getRecipientSection();
+        this.recipientSection = fr.getRecipientSection() == null ? Const.DEFAULT_SECTION : fr.getRecipientSection();
         this.responseMetaData = fr.getResponseMetaData();
         this.createdAt = fr.getCreatedAt();
         this.updatedAt = fr.getUpdatedAt();
@@ -101,11 +100,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     }
     
     public Date getCreatedAt() {
-        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
+        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
 
     public Date getUpdatedAt() {
-        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
+        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
     @Override
@@ -167,7 +166,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, FeedbackResponseAttributes.class);
+        return JsonUtils.toJson(this, FeedbackResponseAttributes.class);
     }
     
     @Override
@@ -179,8 +178,6 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * @param responseDetails
      */
     public void setResponseDetails(FeedbackResponseDetails responseDetails) {
-        Gson gson = Utils.getTeammatesGson();
-        
         if (responseDetails == null) {
             // There was error extracting response data from http request
             responseMetaData = new Text("");
@@ -189,7 +186,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             // This is due to legacy data in the data store before there were multiple question types
             responseMetaData = new Text(responseDetails.getAnswerString());
         } else {
-            responseMetaData = new Text(gson.toJson(responseDetails, getFeedbackResponseDetailsClass()));
+            responseMetaData = new Text(JsonUtils.toJson(responseDetails, getFeedbackResponseDetailsClass()));
         }
     }
     
@@ -209,8 +206,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             // This is due to legacy data in the data store before there are multiple question types
             return new FeedbackTextResponseDetails(responseMetaData.getValue());
         }
-        Gson gson = Utils.getTeammatesGson();
-        return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
+        return JsonUtils.fromJson(responseMetaData.getValue(), responseDetailsClass);
     }
     
     /** This method gets the appropriate class type for the Feedback*ResponseDetails object

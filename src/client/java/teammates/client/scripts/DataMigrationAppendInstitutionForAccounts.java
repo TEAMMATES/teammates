@@ -4,22 +4,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 
 public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
     
     private static final boolean isTrial = true;
-    
-    // TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
-    private static final PersistenceManager pm = JDOHelper
-            .getPersistenceManagerFactory("transactions-optional")
-            .getPersistenceManager();
     
     public static void main(String[] args) throws IOException {
         DataMigrationAppendInstitutionForAccounts migrator = new DataMigrationAppendInstitutionForAccounts();
@@ -37,7 +29,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
                 + " where isInstructor == true";
         
         @SuppressWarnings("unchecked")
-        List<Account> instructorAccounts = (List<Account>) pm.newQuery(query).execute();
+        List<Account> instructorAccounts = (List<Account>) PM.newQuery(query).execute();
         
         HashMap<String, String> instructorInstitutions = new HashMap<String, String>();
         
@@ -55,7 +47,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
         query = "select from " + Instructor.class.getName();
         
         @SuppressWarnings("unchecked")
-        List<Instructor> instructors = (List<Instructor>) pm.newQuery(query).execute();
+        List<Instructor> instructors = (List<Instructor>) PM.newQuery(query).execute();
         
         HashMap<String, String> courseInstitutions = new HashMap<String, String>();
         
@@ -67,15 +59,15 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
         
         //======================================================================
         // Given Course-Institute Pair create Student-Institute Pair
-        query = "select from " + Student.class.getName()
+        query = "select from " + CourseStudent.class.getName()
                 + " where ID != null";
         
         @SuppressWarnings("unchecked")
-        List<Student> students = (List<Student>) pm.newQuery(query).execute();
+        List<CourseStudent> students = (List<CourseStudent>) PM.newQuery(query).execute();
         
         HashMap<String, String> studentInstitutions = new HashMap<String, String>();
         
-        for (Student s : students) {
+        for (CourseStudent s : students) {
             studentInstitutions.put(s.getGoogleId(), courseInstitutions.get(s.getCourseId()));
         }
         
@@ -94,7 +86,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
                     + " where googleId == \"" + id + "\"";
             
             @SuppressWarnings("unchecked")
-            List<Account> studentAccounts = (List<Account>) pm.newQuery(query).execute();
+            List<Account> studentAccounts = (List<Account>) PM.newQuery(query).execute();
 
             if (studentAccounts.isEmpty()) {
                 continue;
@@ -105,8 +97,8 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
                 if (!isTrial) {
                     Account newA = new Account(a.getGoogleId(), a.getName(), false, a.getEmail(),
                                                studentInstitutions.get(a.getGoogleId()));
-                    pm.deletePersistent(a);
-                    pm.makePersistent(newA);
+                    PM.deletePersistent(a);
+                    PM.makePersistent(newA);
                 }
                 count++;
             }

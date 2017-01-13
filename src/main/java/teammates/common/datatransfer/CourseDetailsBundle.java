@@ -69,7 +69,7 @@ public class CourseDetailsBundle {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
             @Override
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
-                return (-1) * obj1.course.createdAt.compareTo(obj2.course.createdAt);
+                return obj2.course.createdAt.compareTo(obj1.course.createdAt);
             }
         });
     }

@@ -72,20 +72,20 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.getFsCopyToModal().clickCloseButton();
         
         ______TS("Copying fails due to fs with invalid name");
+        String invalidNameforFs = "Invalid name | for feedback session";
         feedbackEditPage.clickFsCopyButton();
         feedbackEditPage.getFsCopyToModal().waitForModalToLoad();
-        feedbackEditPage.getFsCopyToModal().fillFormWithAllCoursesSelected("Invalid name | for feedback session");
+        feedbackEditPage.getFsCopyToModal().fillFormWithAllCoursesSelected(invalidNameforFs);
         
         feedbackEditPage.getFsCopyToModal().clickSubmitButton();
         
         feedbackEditPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackEditPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
         feedbackEditPage.getFsCopyToModal().verifyStatusMessage(
-                "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as a/an "
+                "\"" + invalidNameforFs + "\" is not acceptable to TEAMMATES as a/an "
                 + "feedback session name because it contains invalid characters. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
-        
         
         feedbackEditPage.getFsCopyToModal().clickCloseButton();
         

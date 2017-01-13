@@ -11,10 +11,15 @@
 <c:set var="isRecipientTeam" value="${questionWithResponses.question.recipientTeam}"/>
 
 <c:choose>
-    <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="class=\"col-sm-12\""/></c:when>
-    <c:when test="${isNumResponsesMax}"><c:set var="divClassType" value="class=\"col-sm-10\""/></c:when>
-    <c:otherwise><c:set var="divClassType" value="class=\"col-sm-8\""/></c:otherwise>
+    <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="col-sm-12"/></c:when>
+    <c:when test="${isNumResponsesMax}"><c:set var="divClassType" value="col-sm-10"/></c:when>
+    <c:otherwise><c:set var="divClassType" value="col-sm-8"/></c:otherwise>
 </c:choose>
+
+<c:set var="autoWidth" value="" />
+<c:if test="${questionWithResponses.question.questionTypeConstsum}">
+    <c:set var="autoWidth" value="width-auto" />
+</c:if>
 
 <br>
 <div class="form-group margin-0">
@@ -33,11 +38,12 @@
                 </c:forEach>
         </select>
     </div>
-    <div ${divClassType}>
+    <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> width-auto</c:if>">
         ${response.submissionFormHtml}
         <c:if test="${response.existingResponse}">
-            <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
-                   value="<c:out value="${response.responseId}"/>">
-        </c:if>                                    
+            <input type="hidden"
+                name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
+                value="<c:out value="${response.responseId}"/>">
+        </c:if>
     </div>
 </div>
