@@ -30,7 +30,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         InstructorFeedbackRemindParticularStudentsAction action;
         RedirectResult rr;
         
-        ______TS("Unsuccessful case: Not ownwed Course/Modify Permission, authethication failure");
+        ______TS("Unsuccessful case: Not owned Course/Modify Permission, authentication failure");
         String[] paramsNotOwnedCourse = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
@@ -62,6 +62,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         
         rr = (RedirectResult) action.executeAndPostProcess();
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT));
+        verifyNoTasksAdded(action);
         
         ______TS("Successful case: Typical case");
         
