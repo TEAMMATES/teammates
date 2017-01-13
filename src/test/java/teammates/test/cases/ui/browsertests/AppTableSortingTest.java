@@ -10,7 +10,7 @@ import teammates.test.pageobjects.BrowserPool;
 
 /** Covers the table sorting functionality
  */
-public class AppPageUiTest extends BaseUiTestCase {
+public class AppTableSortingTest extends BaseUiTestCase {
     private static Browser browser;
     private static AppPage page;
 
