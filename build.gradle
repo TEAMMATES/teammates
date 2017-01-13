@@ -386,6 +386,7 @@ task staticAnalysis {
 
 def numOfTestRetries = 3
 def isTravis = System.getenv("TRAVIS") != null
+def isAppVeyor = System.getenv("APPVEYOR") != null
 def failedXmlPath = "test-output/testng-failed.xml"
 def failedXmlUrl = "https://gist.githubusercontent.com/anonymous/gist_id/raw/"
 
@@ -406,9 +407,11 @@ def afterTestClosure = { descriptor, result ->
             def process = "${diffCommand} ${expectedFileName} ${actualFileName}".execute()
             println process.getText()
             process.waitFor()
-            def deleteCommand = isWindows ? "del" : "rm"
-            "${deleteCommand} ${expectedFileName}".execute()
-            "${deleteCommand} ${actualFileName}".execute()
+            if (!isAppVeyor && !isTravis) { // CI does not allow deleting files
+                def deleteCommand = isWindows ? "del" : "rm"
+                "${deleteCommand} ${expectedFileName}".execute()
+                "${deleteCommand} ${actualFileName}".execute()
+            }
         } else {
             println "${result.exception.getClass().getName()}: ${result.exception.getMessage()}"
         }
