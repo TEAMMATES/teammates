@@ -571,6 +571,7 @@ function tallyCheckboxes(questionNum) {
  * Shows the new question div frame and scrolls to it
  */
 function showNewQuestionFrame(type) {
+    CustomFeedbackPaths.generateFeedbackPathsSpreadsheet($('form[name="form_addquestions"]'));
     $('#questiontype').val(type);
 
     copyOptions();
