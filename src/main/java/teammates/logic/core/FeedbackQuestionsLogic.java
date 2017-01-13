@@ -209,6 +209,17 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
+     * Gets questions for the given session where the student or his/her team is a custom recipient
+     * @throws EntityDoesNotExistException 
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsWithCustomFeedbackPaths(
+            String feedbackSessionName, String courseId) {
+        
+        return fqDb.getFeedbackQuestionsForGiverType(
+                feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
+    }
+    
+    /**
      * Gets a {@code List} of all questions for the given session for an
      * instructor to view/submit.
      */
