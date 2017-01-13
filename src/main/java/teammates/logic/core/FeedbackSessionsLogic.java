@@ -2645,7 +2645,7 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> questionsForInstructors =
                                         fqLogic.getFeedbackQuestionsForCreatorInstructor(session);
         for (FeedbackQuestionAttributes question : questionsForInstructors) {
-            if (frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question)) {
+            if (frLogic.isResponseOfFeedbackQuestionVisibleToStudents(question)) {
                 questionsWithVisibleResponses.add(question);
             }
         }
@@ -2672,7 +2672,19 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> questionsForInstructors =
                                         fqLogic.getFeedbackQuestionsForCreatorInstructor(session);
         for (FeedbackQuestionAttributes question : questionsForInstructors) {
-            if (frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question)) {
+            if (frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question, student)) {
+                questionsWithVisibleResponses.add(question);
+            }
+        }
+        
+        // Allow students to view the feedback session
+        // if there are any questions with custom feedback paths
+        // where the responses of the questions are visible to the student        
+        List<FeedbackQuestionAttributes> questionsWithCustomFeedbackPaths =
+                fqLogic.getFeedbackQuestionsWithCustomFeedbackPaths(
+                        session.getFeedbackSessionName(), session.getCourseId());
+        for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
+            if (frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question, student)) {
                 questionsWithVisibleResponses.add(question);
             }
         }

@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -199,7 +200,9 @@ public class FeedbackResponsesLogic {
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromStudentOrTeamForQuestion(
             FeedbackQuestionAttributes question, StudentAttributes student) {
-        if (question.giverType == FeedbackParticipantType.TEAMS) {
+        if (question.giverType == FeedbackParticipantType.TEAMS
+                || question.giverType == FeedbackParticipantType.CUSTOM
+                && question.isFeedbackPathsGiverTypeTeams()) {
             return getFeedbackResponsesFromTeamForQuestion(
                     question.getId(), question.courseId, student.team);
         }
@@ -332,7 +335,7 @@ public class FeedbackResponsesLogic {
      * Return true if the responses of the question are visible to students
      * @param question
      */
-    public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestionAttributes question) {
+    public boolean isResponseOfFeedbackQuestionVisibleToStudents(FeedbackQuestionAttributes question) {
         if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             return true;
         }
