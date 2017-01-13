@@ -409,9 +409,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 
                 String participantIdentifier = entry.getKey();
                 String name = bundle.getNameForEmail(participantIdentifier);
+                String nameEmail = name + participantIdentifier;
                 
-                identifierMap.put(name, participantIdentifier);
-                sortedOptionPoints.put(name, entry.getValue());
+                identifierMap.put(nameEmail, participantIdentifier);
+                sortedOptionPoints.put(nameEmail, entry.getValue());
                 
             } else {
                 
@@ -430,7 +431,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
             if (distributeToRecipients) {
                 String participantIdentifier = identifierMap.get(entry.getKey());
-                String name = entry.getKey();
+                String name = bundle.getNameForEmail(participantIdentifier);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
@@ -484,9 +485,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 
                 String participantIdentifier = entry.getKey();
                 String name = bundle.getNameForEmail(participantIdentifier);
+                String nameEmail = name + participantIdentifier;
                 
-                identifierMap.put(name, participantIdentifier);
-                sortedOptionPoints.put(name, entry.getValue());
+                identifierMap.put(nameEmail, participantIdentifier);
+                sortedOptionPoints.put(nameEmail, entry.getValue());
                 
             } else {
                 
@@ -501,7 +503,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             String option;
             if (distributeToRecipients) {
                 String teamName = bundle.getTeamNameForEmail(identifierMap.get(entry.getKey()));
-                String recipientName = entry.getKey();
+                String recipientName = bundle.getNameForEmail(identifierMap.get(entry.getKey()));
                 option = Sanitizer.sanitizeForCsv(teamName) + "," + Sanitizer.sanitizeForCsv(recipientName);
             } else {
                 option = Sanitizer.sanitizeForCsv(entry.getKey());
