@@ -19,13 +19,13 @@ function handleData(err, countryCoordinates, userData) {
     var total = 0;
     var date = '';
     userCountries.forEach(function(countryName) {
-        if (countryName !== 'LastUpdated') {
+        if (countryName == 'LastUpdated') {
+            date = countryName;
+        } else {
             var countryTotal = userData[countryName].length;
 
             countriesArr.push([countryName, countryTotal]);
             total += countryTotal;
-        } else {
-            date = countryName;
         }
     });
 
