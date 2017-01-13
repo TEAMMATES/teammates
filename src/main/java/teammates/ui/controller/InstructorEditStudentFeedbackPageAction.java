@@ -7,6 +7,8 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorEditStudentFeedbackPageAction extends Action {
@@ -79,6 +81,9 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                 + "Course ID: " + courseId;
         
         data.bundle.hideUnmoderatableQuestions();
+        statusToUser.add(new StatusMessage(Const.FEEDBACK_SESSION_QUESTIONS_HIDDEN,
+                StatusMessageColor.WARNING));
+        
         data.init(courseId);
         
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
