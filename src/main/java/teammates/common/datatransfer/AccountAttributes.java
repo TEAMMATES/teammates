@@ -69,6 +69,7 @@ public class AccountAttributes extends EntityAttributes {
      * Gets a deep copy of this object.
      */
     public AccountAttributes getCopy() {
+        // toEntity() requires a non-null student profile
         boolean isStudentProfileNull = this.studentProfile == null;
         if (isStudentProfileNull) {
             this.studentProfile = new StudentProfileAttributes();
