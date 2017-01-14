@@ -257,7 +257,10 @@ function bindEventsAfterAjax() {
 }
 
 function bindUncommonSettingsEvents() {
-    $('#editUncommonSettingsButton').click(showUncommonPanels);
+    $('#editUncommonSettingsSessionResponsesVisibleButton')
+        .click(showUncommonPanelsForSessionResponsesVisible);
+    $('#editUncommonSettingsSendEmailsButton')
+        .click(showUncommonPanelsForSendEmails);
 }
 
 function updateUncommonSettingsInfo() {
@@ -288,8 +291,18 @@ function isDefaultSetting() {
 }
 
 function showUncommonPanels() {
-    $('#sessionResponsesVisiblePanel, #sendEmailsForPanel').show();
-    $('#uncommonSettingsInfo').hide();
+    showUncommonPanelsForSessionResponsesVisible();
+    showUncommonPanelsForSendEmails();
+}
+
+function showUncommonPanelsForSessionResponsesVisible() {
+    $('#sessionResponsesVisiblePanel').show();
+    $('#uncommonSettingsSessionResponsesVisibleInfoText').parent().hide();
+}
+
+function showUncommonPanelsForSendEmails() {
+    $('#sendEmailsForPanel').show();
+    $('#uncommonSettingsSendEmailsInfoText').parent().hide();
 }
 
 function hideUncommonPanels() {
