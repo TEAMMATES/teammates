@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.turbomanage.basic-http-client:http-client-java:0.89">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.turbomanage.basic-http-client/http-client-java/0.89/1cd2b30199408ba52b0dbe0a7c2b19481596a763/http-client-java-0.89.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.turbomanage.basic-http-client/http-client-java/0.89/798f8436b6ec0d9fb8ff7541734a332d39096342/http-client-java-0.89-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: net.sf.jsr107cache:jsr107cache:1.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.jsr107cache/jsr107cache/1.1/193a0dca92c221ebf45c7181f00e5db967721c08/jsr107cache-1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.jsr107cache/jsr107cache/1.1/ec601a0bd0bdbead9b1b6184bd59fbc8aa4d4b79/jsr107cache-1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

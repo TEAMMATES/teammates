@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.mailjet:mailjet-client:4.0.5">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mailjet/mailjet-client/4.0.5/db8c58261baaa2c0e53b53b923c3cc3275c16eb3/mailjet-client-4.0.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mailjet/mailjet-client/4.0.5/40428b53936c26f743eb4a1dc9d39172c9ac46d6/mailjet-client-4.0.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.datanucleus:datanucleus-jpa:1.1.5">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.datanucleus/datanucleus-jpa/1.1.5/c1aab0c4378de35c77296711b8bf3d65577ecc0c/datanucleus-jpa-1.1.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.datanucleus/datanucleus-jpa/1.1.5/cc08449dc097a6839137c95bc9284557b2f5787f/datanucleus-jpa-1.1.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
