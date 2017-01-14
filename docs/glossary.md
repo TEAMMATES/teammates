@@ -21,7 +21,7 @@
         
         [0%] (did nothing at all)
 + **DevMan**: Developer manual (this document).
-+ **DevSite**: [Our developer web site](https://github.com/TEAMMATES/repo).
++ **DevSite**: [Our developer web site](https://github.com/TEAMMATES/teammates).
 + **Dev green**: All tests are passing on the dev server.
 + **Dev server**: The Development server running on your Computer.
 + **Enrollment, Enroll** (NOT enrolment, enrol).

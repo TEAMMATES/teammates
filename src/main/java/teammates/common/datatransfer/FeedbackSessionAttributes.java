@@ -12,9 +12,9 @@ import java.util.TimeZone;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackSession;
 
 import com.google.appengine.api.datastore.Text;
@@ -103,7 +103,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorId;
-        this.instructions = instructions == null ? null : new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));
+        this.instructions = Sanitizer.sanitizeForRichText(instructions);
         this.createdTime = createdTime;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -185,7 +185,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, FeedbackSessionAttributes.class);
+        return JsonUtils.toJson(this, FeedbackSessionAttributes.class);
     }
 
     @Override
@@ -459,10 +459,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public void sanitizeForSaving() {
-
-        if (instructions != null) {
-            this.instructions = new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));
-        }
+        this.instructions = Sanitizer.sanitizeForRichText(instructions);
     }
 
     @Override

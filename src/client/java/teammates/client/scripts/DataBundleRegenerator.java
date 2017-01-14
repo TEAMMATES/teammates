@@ -14,12 +14,10 @@ import org.json.JSONObject;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.test.util.FileHelper;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 public final class DataBundleRegenerator {
@@ -39,15 +37,14 @@ public final class DataBundleRegenerator {
                 continue;
             }
             String jsonString = FileHelper.readFile(file.getCanonicalPath());
-            Gson gson = Utils.getTeammatesGson();
-            DataBundle db = gson.fromJson(jsonString, DataBundle.class);
+            DataBundle db = JsonUtils.fromJson(jsonString, DataBundle.class);
             for (Map.Entry<String, FeedbackResponseAttributes> responseMap : db.feedbackResponses.entrySet()) {
                 fixResponse(responseMap.getValue());
             }
             for (Map.Entry<String, FeedbackQuestionAttributes> questionMap : db.feedbackQuestions.entrySet()) {
                 fixQuestion(questionMap.getValue());
             }
-            String regeneratedJsonString = gson.toJson(db).replace("+0000", "UTC");
+            String regeneratedJsonString = JsonUtils.toJson(db).replace("+0000", "UTC");
             saveFile(file.getCanonicalPath(), regeneratedJsonString);
         }
     }
@@ -96,20 +93,18 @@ public final class DataBundleRegenerator {
         File file = new File("./src/main/resources/feedbackSessionTeamEvaluationTemplate.json");
         regenerateGenericJson(file);
         String jsonString = FileHelper.readFile(file.getCanonicalPath());
-        Gson gson = Utils.getTeammatesGson();
         List<FeedbackQuestionAttributes> template =
-                gson.fromJson(jsonString, new TypeToken<List<FeedbackQuestionAttributes>>(){}.getType());
+                JsonUtils.fromJson(jsonString, new TypeToken<List<FeedbackQuestionAttributes>>(){}.getType());
         for (FeedbackQuestionAttributes question : template) {
             fixQuestion(question);
         }
-        String regeneratedJsonString = gson.toJson(template).replace("+0000", "UTC");
+        String regeneratedJsonString = JsonUtils.toJson(template).replace("+0000", "UTC");
         saveFile(file.getCanonicalPath(), regeneratedJsonString);
     }
     
     private static void regenerateGenericJson(File file) throws IOException {
         String jsonString = FileHelper.readFile(file.getCanonicalPath());
-        JsonParser parser = new JsonParser();
-        String regeneratedJsonString = Utils.getTeammatesGson().toJson(parser.parse(jsonString));
+        String regeneratedJsonString = JsonUtils.toJson(JsonUtils.parse(jsonString));
         saveFile(file.getCanonicalPath(), regeneratedJsonString);
     }
     

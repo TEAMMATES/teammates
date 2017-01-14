@@ -7,7 +7,7 @@
 <t:staticPage jsIncludes="${jsIncludes}" currentPage="index">
     <div id="browserMessage" style="display: none;"></div>
     <br>
-    <h1 id="caption" style="text-align: center;">
+    <h1 class="caption" style="text-align: center;">
         Student peer evaluations/feedback, shareable instructor comments, and more...
     </h1>
     <div id="contentHolder">                  
@@ -19,7 +19,7 @@
                     <td width="140px"></td>
                     <td style="vertical-align: middle; text-align: left;">
                         <h2 class="subcaption">
-                            <span id= "submissionsNumber" class="submissionsNumber">3,000,000+</span> feedback entries submitted so far ...
+                            <span id= "submissionsNumber" class="submissionsNumber">5,000,000+</span> feedback entries submitted so far ...
                         </h2>
                     </td>
                     <td style="text-align: right;">

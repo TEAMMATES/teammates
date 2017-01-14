@@ -33,7 +33,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
         if (studentEmail != null && studentCourseId != null) {
             try {
                 logic.resetStudentGoogleId(studentEmail, studentCourseId);
-                logic.sendRegistrationInviteToStudentAfterGoogleIdReset(studentCourseId, studentEmail);
+                taskQueuer.scheduleCourseRegistrationInviteToStudent(studentCourseId, studentEmail, true);
             } catch (InvalidParametersException e) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL,
                                                    StatusMessageColor.DANGER));

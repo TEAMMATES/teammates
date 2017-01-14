@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -19,14 +18,14 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.NationalityHelper;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
-import teammates.common.util.Utils;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackSessionActions;
 
@@ -34,9 +33,9 @@ import teammates.ui.template.InstructorFeedbackSessionActions;
  * Data and utility methods needed to render a specific page.
  */
 public class PageData {
-    
-    protected static final Logger log = Utils.getLogger();
-    
+
+    protected static final Logger log = Logger.getLogger();
+
     /** The user for whom the pages are displayed (i.e. the 'nominal user').
      *  May not be the logged in user (under masquerade mode) */
     public AccountAttributes account;
@@ -67,7 +66,7 @@ public class PageData {
     public boolean isUnregisteredStudent() {
         return account.googleId == null || student != null && !student.isRegistered();
     }
-    
+
     /* These util methods simply delegate the work to the matching *Helper
      * class. We keep them here so that JSP pages do not have to import
      * those *Helper classes.
@@ -131,6 +130,37 @@ public class PageData {
         }
         return result;
     }
+
+    /**
+     * Returns the nationalities as HTML code.
+     */
+    public static List<ElementTag> getNationalitiesAsElementTags(String existingNationality) {
+        List<String> nationalities = NationalityHelper.getNationalities();
+        List<ElementTag> result = new ArrayList<ElementTag>();
+
+        result.add(createOption("--- Select ---", "", !nationalities.contains(existingNationality)));
+
+        for (String nationality : nationalities) {
+            ElementTag option = createOption(nationality, nationality, nationality.equals(existingNationality));
+            result.add(option);
+        }
+
+        return result;
+    }
+
+    /**
+     * Creates and returns a String if the existing nationality is incorrect.
+     */
+    public static String getLegacyNationalityInstructions(String existingNationality) {
+        List<String> nationalities = NationalityHelper.getNationalities();
+
+        if (nationalities.contains(existingNationality) || "".equals(existingNationality)) {
+            return "";
+        }
+        return "Previously entered value was " + existingNationality + ". "
+               + "This is not a valid nationality; "
+               + "please choose a valid nationality from the dropdown list before saving.";
+    }
     
     /**
      * Returns an element tag representing a HTML option
@@ -176,11 +206,11 @@ public class PageData {
         }
         return result;
     }
-    
+
     //TODO: methods below this point should be made 'protected' and only the
     //  child classes that need them should expose them using public methods
     //  with similar name. That way, we know which child needs which method.
-    
+
     /**
      * Returns the status of the student, whether he has joined the course.
      * This is based on googleId, if it's null or empty, then we assume he
@@ -902,14 +932,6 @@ public class PageData {
      */
     public List<StatusMessage> getStatusMessagesToUser() {
         return statusMessagesToUser;
-    }
-
-    public String getjQueryFilePath() {
-        return Const.SystemParams.getjQueryFilePath(Config.isDevServer());
-    }
-
-    public String getjQueryUiFilePath() {
-        return Const.SystemParams.getjQueryUiFilePath(Config.isDevServer());
     }
 
 }

@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TimeZone;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -37,14 +35,11 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
-import teammates.common.util.EmailType;
-import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -53,7 +48,7 @@ public class FeedbackSessionsLogic {
     
     private static FeedbackSessionsLogic instance;
 
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
 
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
@@ -79,21 +74,13 @@ public class FeedbackSessionsLogic {
     private static final String ASSUMPTION_FAIL_DELETE_INSTRUCTOR = "Fail to delete instructor respondent for ";
     private static final String ASSUMPTION_FAIL_RESPONSE_ORIGIN = "Client did not indicate the origin of the response(s)";
     private static final String ERROR_NUMBER_OF_RESPONSES_EXCEEDS_RANGE = "Number of responses exceeds the limited range";
-    private static final String ERROR_SENDING_EMAILS = "Error while sending emails: ";
     private static final String ERROR_NON_EXISTENT_COURSE = "Error getting feedback session(s): Course does not exist.";
     private static final String ERROR_NON_EXISTENT_STUDENT = "Error getting feedback session(s): Student does not exist.";
     private static final String ERROR_NON_EXISTENT_FS_STRING_FORMAT = "Trying to %s a non-existent feedback session: ";
     private static final String ERROR_NON_EXISTENT_FS_GET = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "get");
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
     private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "check");
-    private static final String ERROR_NON_EXISTENT_FS_REMIND = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "remind");
-    private static final String ERROR_NON_EXISTENT_FS_CONFIRM =
-            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "confirm submission");
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
-    private static final String ERROR_NON_EXISTENT_FS_PUBLISH =
-            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
-    private static final String ERROR_NON_EXISTENT_FS_UNPUBLISH =
-            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "unpublish");
     private static final String ERROR_FS_ALREADY_PUBLISH = "Error publishing feedback session: "
                                                            + "Session has already been published.";
     private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
@@ -1150,9 +1137,7 @@ public class FeedbackSessionsLogic {
         return !allQuestions.isEmpty();
     }
 
-    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa,
-                                                       String userEmail) {
-        Assumption.assertNotNull(fsa);
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
         if (fsa.getRespondingStudentList().contains(userEmail)) {
             return true;
         }
@@ -1165,24 +1150,16 @@ public class FeedbackSessionsLogic {
         return allQuestions.isEmpty();
     }
 
-    public boolean isFeedbackSessionCompletedByInstructor(
-            String feedbackSessionName,
-            String courseId, String userEmail)
+    public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
             throws EntityDoesNotExistException {
-
-        FeedbackSessionAttributes fsa = this.getFeedbackSession(feedbackSessionName, courseId);
-        if (fsa == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
-        }
-        
         if (fsa.getRespondingInstructorList().contains(userEmail)) {
             return true;
         }
-
+        
+        String feedbackSessionName = fsa.getFeedbackSessionName();
+        String courseId = fsa.getCourseId();
         List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
-                        courseId, userEmail);
-
+                fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
         // if there is no question for instructor, session is complete
         return allQuestions.isEmpty();
     }
@@ -1445,17 +1422,8 @@ public class FeedbackSessionsLogic {
      * manually. Preconditions: * The feedback session has to be set as
      * manually/automatically published. The feedback session can't be private
      */
-    public void publishFeedbackSession(String feedbackSessionName,
-            String courseId)
+    public void publishFeedbackSession(FeedbackSessionAttributes sessionToPublish)
             throws EntityDoesNotExistException, InvalidParametersException {
-
-        FeedbackSessionAttributes sessionToPublish =
-                getFeedbackSession(feedbackSessionName, courseId);
-
-        if (sessionToPublish == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_PUBLISH + courseId + "/" + feedbackSessionName);
-        }
-
         if (sessionToPublish.isPrivateSession()) {
             throw new InvalidParametersException(ERROR_FS_PRIVATE_PUBLISH);
         }
@@ -1466,9 +1434,6 @@ public class FeedbackSessionsLogic {
 
         sessionToPublish.setResultsVisibleFromTime(currentDateTime(sessionToPublish));
         updateFeedbackSession(sessionToPublish);
-        if (sessionToPublish.isPublishedEmailEnabled()) {
-            sendFeedbackSessionPublishedEmail(sessionToPublish);
-        }
     }
 
     private Date currentDateTime(FeedbackSessionAttributes sessionToPublish) {
@@ -1481,17 +1446,8 @@ public class FeedbackSessionsLogic {
      * manually. Preconditions: * The feedback session has to be set as manually
      * published.
      */
-    public void unpublishFeedbackSession(String feedbackSessionName,
-            String courseId)
+    public void unpublishFeedbackSession(FeedbackSessionAttributes sessionToUnpublish)
             throws EntityDoesNotExistException, InvalidParametersException {
-
-        FeedbackSessionAttributes sessionToUnpublish =
-                getFeedbackSession(feedbackSessionName, courseId);
-
-        if (sessionToUnpublish == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UNPUBLISH + courseId + "/" + feedbackSessionName);
-        }
-
         if (sessionToUnpublish.isPrivateSession()) {
             throw new InvalidParametersException(ERROR_FS_PRIVATE_UNPUBLISH);
         }
@@ -1501,162 +1457,7 @@ public class FeedbackSessionsLogic {
         }
 
         sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
-
         updateFeedbackSession(sessionToUnpublish);
-        if (sessionToUnpublish.isPublishedEmailEnabled()) {
-            sendFeedbackSessionUnpublishedEmail(sessionToUnpublish);
-        }
-    }
-
-    public List<EmailWrapper> sendReminderForFeedbackSession(String courseId,
-            String feedbackSessionName) throws EntityDoesNotExistException {
-        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
-        }
-
-        FeedbackSessionAttributes session = getFeedbackSession(
-                feedbackSessionName, courseId);
-        List<StudentAttributes> studentList = studentsLogic
-                .getStudentsForCourse(courseId);
-        List<InstructorAttributes> instructorList = instructorsLogic
-                .getInstructorsForCourse(courseId);
-
-        // Filter out students who have submitted the feedback session
-        List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
-        for (StudentAttributes student : studentList) {
-            if (!isFeedbackSessionCompletedByStudent(session, student.email)) {
-                studentsToRemindList.add(student);
-            }
-        }
-
-        // Filter out instructors who have submitted the feedback session
-        List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
-        for (InstructorAttributes instructor : instructorList) {
-            if (!isFeedbackSessionCompletedByInstructor(
-                    session.getFeedbackSessionName(), session.getCourseId(),
-                    instructor.email)) {
-                instructorsToRemindList.add(instructor);
-            }
-        }
-
-        try {
-            List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
-                    session, studentsToRemindList, instructorsToRemindList, instructorList);
-            new EmailSender().sendEmails(emails);
-            return emails;
-        } catch (Exception e) {
-            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
-        }
-    }
-    
-    public List<EmailWrapper> sendReminderForFeedbackSessionParticularUsers(String courseId,
-            String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
-        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
-        }
-
-        FeedbackSessionAttributes session = getFeedbackSession(
-                feedbackSessionName, courseId);
-        
-        List<InstructorAttributes> instructorList = instructorsLogic
-                .getInstructorsForCourse(courseId);
-        List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
-        List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
-
-        for (String userEmail : usersToRemind) {
-            StudentAttributes student = studentsLogic
-                    .getStudentForEmail(courseId, userEmail);
-            if (student != null) {
-                studentsToRemindList.add(student);
-            }
-
-            InstructorAttributes instructor = instructorsLogic
-                    .getInstructorForEmail(courseId, userEmail);
-            if (instructor != null) {
-                instructorsToRemindList.add(instructor);
-            }
-        }
-
-        try {
-            List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
-                    session, studentsToRemindList, instructorsToRemindList, instructorList);
-            new EmailSender().sendEmails(emails);
-            return emails;
-        } catch (Exception e) {
-            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
-        }
-    }
-    
-    public EmailWrapper sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName,
-                                                           String userId, String unregisteredStudentEmail,
-                                                           String regKey)
-                    throws EntityDoesNotExistException {
-        
-        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CONFIRM + courseId + "/" + feedbackSessionName);
-        }
-        FeedbackSessionAttributes session = getFeedbackSession(feedbackSessionName, courseId);
-        StudentAttributes student = null;
-        InstructorAttributes instructor = null;
-        
-        if (userId != null) {
-            student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, userId);
-            instructor = instructorsLogic.getInstructorForGoogleId(courseId, userId);
-        }
-        
-        if (student == null && unregisteredStudentEmail != null) {
-            student = new StudentAttributes();
-            student.email = unregisteredStudentEmail;
-            student.name = unregisteredStudentEmail;
-            student.key = regKey;
-        }
-        
-        Assumption.assertFalse(student == null && instructor == null);
-        
-        try {
-            Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            EmailWrapper email = instructor == null
-                    ? new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session,
-                            student, timestamp)
-                    : new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
-                            instructor, timestamp);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
-        }
-    }
-
-    public void scheduleFeedbackRemindEmails(String courseId, String feedbackSessionName) {
-        
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
-        paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.FEEDBACK_REMIND_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_WORKER, paramMap);
-    }
-    
-    public void scheduleFeedbackRemindEmailsForParticularUsers(String courseId,
-            String feedbackSessionName, String[] usersToRemind) {
-    
-        HashMap<String, String[]> paramMap = new HashMap<String, String[]>();
-        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[]{feedbackSessionName});
-        paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[]{courseId});
-        paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE,
-                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER, paramMap);
-    }
-
-    public void scheduleFeedbackSessionOpeningEmails() {
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
-
-        for (FeedbackSessionAttributes session : sessions) {
-            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_OPENING);
-        }
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
@@ -1692,31 +1493,6 @@ public class FeedbackSessionsLogic {
             }
         }
         return requiredSessions;
-    }
-
-    public void scheduleFeedbackSessionClosingEmails() {
-
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsClosingWithinTimeLimit();
-
-        for (FeedbackSessionAttributes session : sessions) {
-            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_CLOSING);
-        }
-    }
-    
-    public void scheduleFeedbackSessionClosedEmails() {
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsClosedWithinThePastHour();
-
-        for (FeedbackSessionAttributes session : sessions) {
-            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_CLOSED);
-        }
-    }
-
-    public void scheduleFeedbackSessionPublishedEmails() {
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
-
-        for (FeedbackSessionAttributes session : sessions) {
-            sendFeedbackSessionPublishedEmail(session);
-        }
     }
 
     /**
@@ -2705,22 +2481,4 @@ public class FeedbackSessionsLogic {
         }
     }
 
-    private void sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
-        addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_PUBLISHED);
-    }
-    
-    public void sendFeedbackSessionUnpublishedEmail(FeedbackSessionAttributes session) {
-        addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_UNPUBLISHED);
-    }
-
-    private void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes session, EmailType emailType) {
-        Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, session.getFeedbackSessionName());
-        paramMap.put(ParamsNames.EMAIL_COURSE, session.getCourseId());
-        paramMap.put(ParamsNames.EMAIL_TYPE, emailType.toString());
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE, Const.ActionURIs.EMAIL_WORKER, paramMap);
-    }
-    
 }

@@ -42,6 +42,14 @@ $(document).ready(function() {
     
     // check submit text before submit
     $('form.form_comment').submit(function() {
+        if ($(this).find('[id^=commentedittype]').val() !== 'delete') {
+            var commentTextInput = $(this).find('.mce-content-body');
+            var commentTextId = commentTextInput.attr('id');
+            var content = tinyMCE.get(commentTextId).getContent();
+            $(this).find('input[name=' + commentTextId + ']').prop('disabled', true);
+            $(this).find('input[name=commenttext]').val(content);
+        }
+
         return checkComment(this);
     });
     
@@ -406,6 +414,16 @@ function enableComment(commentIdx) {
     $('#plainCommentText' + commentIdx).hide();
     $("div[id='commentTextEdit" + commentIdx + "']").show();
     $("textarea[id='commentText" + commentIdx + "']").val($('#plainCommentText' + commentIdx).text());
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#commentText' + commentIdx, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-comment-container-' + commentIdx
+        });
+        /* eslint-enable camelcase */
+    }
+
     $("textarea[id='commentText" + commentIdx + "']").focus();
 }
 
@@ -416,8 +434,12 @@ function disableComment(commentIdx) {
 }
 
 function checkComment(form) {
-    var formTextField = $(form).find('[name=commenttext]').val();
-    if (isBlank(formTextField)) {
+    if ($(form).find('[id^=commentedittype]').val() === 'delete') {
+        return true;
+    }
+    var formTextField = $(form).find('.mce-content-body');
+    var editor = tinymce.get(formTextField.attr('id'));
+    if (isBlank($(editor.getContent()).text())) {
         setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
         scrollToTop();
         return false;

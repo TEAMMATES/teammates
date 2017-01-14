@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CourseAttributes;
@@ -16,7 +15,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
 
 public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
@@ -80,8 +78,6 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-        
         List<CourseAttributes> allCourses = getAllCoursesWithoutTimeZone();
         for (CourseAttributes course : allCourses) {
             updateTimezoneForCourse(course);
@@ -112,10 +108,6 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
         return timeZoneDoubleToIdMapping.get(Double.toString(timeZoneDouble));
     }
     
-    private PersistenceManager getPm() {
-        return Datastore.getPersistenceManager();
-    }
-    
     private List<CourseAttributes> getAllCoursesWithoutTimeZone() {
         List<CourseAttributes> coursesWithoutTimeZone = new ArrayList<CourseAttributes>();
         List<Course> courseEntities = getAllCourseEntities();
@@ -130,7 +122,7 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
     @SuppressWarnings("unchecked")
     private List<Course> getAllCourseEntities() {
         String query = "select from " + Course.class.getName();
-        return (List<Course>) getPm().newQuery(query).execute();
+        return (List<Course>) PM.newQuery(query).execute();
     }
     
 }

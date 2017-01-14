@@ -1,12 +1,10 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
@@ -21,16 +19,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.SystemParams;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.storage.api.StudentsDb;
-
-import com.google.gson.Gson;
 
 /**
  * Handles  operations related to student roles.
@@ -288,22 +280,17 @@ public class StudentsLogic {
                                  originalStudent.googleId, originalStudent.comments, hasDocument, false);
     }
 
-    public List<StudentAttributes> enrollStudents(String enrollLines,
-            String courseId)
+    public CourseEnrollmentResult enrollStudents(String enrollLines, String courseId)
             throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
-
         return enrollStudents(enrollLines, courseId, true);
     }
 
-    public List<StudentAttributes> enrollStudentsWithoutDocument(String enrollLines,
-            String courseId)
+    public CourseEnrollmentResult enrollStudentsWithoutDocument(String enrollLines, String courseId)
             throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
-
         return enrollStudents(enrollLines, courseId, false);
     }
 
-    public List<StudentAttributes> enrollStudents(String enrollLines,
-            String courseId, boolean hasDocument)
+    private CourseEnrollmentResult enrollStudents(String enrollLines, String courseId, boolean hasDocument)
             throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
         
         if (!coursesLogic.isCoursePresent(courseId)) {
@@ -354,16 +341,6 @@ public class StudentsLogic {
             returnList.add(student);
         }
         
-        //Adjust submissions for all feedback responses within the course
-        List<FeedbackSessionAttributes> feedbackSessions = FeedbackSessionsLogic.inst()
-                .getFeedbackSessionsForCourse(courseId);
-        
-        for (FeedbackSessionAttributes session : feedbackSessions) {
-            //Schedule adjustment of submissions for feedback session in course
-            scheduleSubmissionAdjustmentForFeedbackInCourse(enrollmentList, courseId,
-                    session.getFeedbackSessionName());
-        }
-
         // add to return list students not included in the enroll list.
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
         for (StudentAttributes student : studentsInCourse) {
@@ -373,7 +350,7 @@ public class StudentsLogic {
             }
         }
 
-        return returnList;
+        return new CourseEnrollmentResult(returnList, enrollmentList);
     }
 
     private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students) throws EnrollException {
@@ -511,102 +488,6 @@ public class StudentsLogic {
         return errorMessage.toString();
     }
 
-    private void scheduleSubmissionAdjustmentForFeedbackInCourse(
-            ArrayList<StudentEnrollDetails> enrollmentList, String courseId, String sessionName) {
-        // private methods -- should I test this?
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, sessionName);
-        
-        Gson gsonBuilder = Utils.getTeammatesGson();
-        String enrollmentDetails = gsonBuilder.toJson(enrollmentList);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE,
-                Const.ActionURIs.FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER, paramMap);
-        
-    }
-    
-    private EmailWrapper scheduleRegistrationInviteToStudent(CourseAttributes course, StudentAttributes student) {
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        
-        paramMap.put(ParamsNames.COURSE_ID, course.getId());
-        paramMap.put(ParamsNames.STUDENT_EMAIL, student.getEmail());
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.COURSE_JOIN_REMIND_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.COURSE_JOIN_REMIND_EMAIL_WORKER, paramMap);
-        
-        return new EmailGenerator().generateStudentCourseJoinEmail(course, student);
-    }
-
-    public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to student [" + studentEmail + "]");
-        }
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
-        if (studentData == null) {
-            throw new EntityDoesNotExistException(
-                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
-        }
-        
-        try {
-            EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
-    public EmailWrapper sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to student [" + studentEmail + "]");
-        }
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
-        if (studentData == null) {
-            throw new EntityDoesNotExistException(
-                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
-        }
-        
-        try {
-            EmailWrapper email =
-                    new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
-    public List<EmailWrapper> sendRegistrationInviteForCourse(String courseId) {
-        List<StudentAttributes> studentDataList = getUnregisteredStudentsForCourse(courseId);
-        
-        List<EmailWrapper> emailsSent = new ArrayList<EmailWrapper>();
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        for (StudentAttributes s : studentDataList) {
-            EmailWrapper email = scheduleRegistrationInviteToStudent(course, s);
-            emailsSent.add(email);
-        }
-        return emailsSent;
-    }
-
     public void deleteStudentCascade(String courseId, String studentEmail) {
         deleteStudentCascade(courseId, studentEmail, true);
     }
@@ -657,7 +538,7 @@ public class StudentsLogic {
     }
     
     public void adjustFeedbackResponseForEnrollments(
-            ArrayList<StudentEnrollDetails> enrollmentList,
+            List<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for (StudentEnrollDetails enrollment : enrollmentList) {
             if (enrollment.updateStatus != StudentUpdateStatus.MODIFIED) {

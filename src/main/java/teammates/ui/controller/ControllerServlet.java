@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +18,12 @@ import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.common.util.Utils;
+import teammates.logic.api.EmailGenerator;
+import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
@@ -36,7 +36,7 @@ import com.google.apphosting.api.DeadlineExceededException;
 @SuppressWarnings("serial")
 public class ControllerServlet extends HttpServlet {
 
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
 
     @Override
     public final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -128,11 +128,15 @@ public class ControllerServlet extends HttpServlet {
             String requestUrl = req.getRequestURL().toString();
             String requestParams = HttpRequestHelper.printRequestParameters(req);
             UserType userType = new GateKeeper().getCurrentUser();
-            EmailWrapper email = new Logic().emailErrorReport(requestMethod, requestUserAgent, requestPath,
-                                                              requestUrl, requestParams, userType, t);
-            if (email != null) {
-                log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));
+            
+            EmailWrapper errorReport =
+                    new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
+                                                                  requestUrl, requestParams, userType, t);
+            new EmailSender().sendReport(errorReport);
+            if (errorReport != null) {
+                log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, errorReport));
             }
+            
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
         }

@@ -1,6 +1,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="about">
-    <h1 id="caption">About Us</h1>
+    <h1 class="caption">About Us</h1>
     <div id="contentHolder">
         <p class="bold">Acknowledgements:</p>
         <br>
@@ -433,6 +433,10 @@
                 <li>Kseniia Solodovnik 
                     [bug reporting/fixing, enhancements]
                 </li>
+                <li>Lee Lunn
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aleelunn"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Le Minh Khue 
                     [bug reporting/fixing, enhancements]
                 </li>
@@ -453,6 +457,10 @@
                 </li>
                 <li>Michael Limantara 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amikelimantara"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Mohamed Moanis
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amohamed-moanis"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Mohit Singh Kanwal 
@@ -641,6 +649,10 @@
                 </li>
                 <br>
                 <div style="margin: 0 auto; padding: 0 0 15px;">[One-time contributions]</div>
+                <li>Adarsh Khubchandani
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aaskhubchandani"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Alexandr Kolymago
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajusttimki"
                         target="_blank">bug reporting/fixing, enhancements</a>]
@@ -733,6 +745,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aleonardhml"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Lim Jia Yee
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajia1"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Mairieli Wessel 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amairieli"
                         target="_blank">bug reporting/fixing, enhancements</a>]
@@ -822,12 +838,20 @@
                 <li>Vaibhav Desai 
                     [bug reporting/fixing, enhancements]
                 </li>
+                <li>Vamsi Sangam
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AVamsiSangam"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Venkatesan Harish 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aharishv7"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Warren Schrader
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AwwSchrader"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Xiao Pu
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Axpdavid"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
             </ol>
