@@ -1,6 +1,6 @@
 QUnit.module('datepicker.js');
 
-Fixe
+
 QUnit.test('getMinDateForEndDate(startDate)', function(assert) {
     assert.deepEqual(getMinDateForEndDate(newDate("02 Apr 2012, 23:59")), newDate("02 Apr 2012, 23:59"), 'Return startDate input argument');
 });
