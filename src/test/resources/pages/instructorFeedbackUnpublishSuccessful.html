@@ -455,20 +455,6 @@
           </div>
         </div>
       </div>
-      <div class="row" id="uncommonSettingsInfo">
-        <div class="col-md-12 text-muted">
-          <span id="uncommonSettingsInfoText">
-            Session is visible at submission opening time, responses are only visible when you publish the results.
-            <br>
-            Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
-          </span>
-          <a data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsButton">
-            [Edit]
-          </a>
-          <br>
-          <br>
-        </div>
-      </div>
       <div class="panel panel-primary" id="sessionResponsesVisiblePanel" style="display:none;">
         <div class="panel-body">
           <div class="row">
@@ -741,6 +727,26 @@
                 <input checked="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" id="uncommonSettingsInfo">
+        <div class="col-md-12 text-muted">
+          <div class="margin-bottom-15px">
+            <span id="uncommonSettingsSessionResponsesVisibleInfoText">
+              Session is visible at submission opening time, responses are only visible when you publish the results.
+            </span>
+            <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
+              [Change]
+            </a>
+          </div>
+          <div class="margin-bottom-15px">
+            <span id="uncommonSettingsSendEmailsInfoText">
+              Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
+            </span>
+            <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
+              [Change]
+            </a>
           </div>
         </div>
       </div>
