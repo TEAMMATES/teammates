@@ -261,12 +261,22 @@ function bindUncommonSettingsEvents() {
 }
 
 function updateUncommonSettingsInfo() {
+    updateUncommonSettingsSessionVisibilityInfo();
+    updateUncommonSettingsEmailSendingInfo();
+}
+
+function updateUncommonSettingsSessionVisibilityInfo() {
     var info = 'Session is visible at submission opening time, '
-             + 'responses are only visible when you publish the results.<br>'
-             + 'Emails are sent when session opens (within 15 mins), '
+             + 'responses are only visible when you publish the results.';
+    
+    $('#uncommonSettingsSessionResponsesVisibleInfoText').html(info);
+}
+
+function updateUncommonSettingsEmailSendingInfo() {
+    var info = 'Emails are sent when session opens (within 15 mins), '
              + '24 hrs before session closes and when results are published.';
 
-    $('#uncommonSettingsInfoText').html(info);
+    $('#uncommonSettingsSendEmailsInfoText').html(info);
 }
 
 function isDefaultSetting() {

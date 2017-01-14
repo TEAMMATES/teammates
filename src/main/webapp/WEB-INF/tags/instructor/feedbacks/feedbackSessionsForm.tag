@@ -232,7 +232,9 @@
         </div>
         <div class="row" id="uncommonSettingsInfo">
             <div class="col-md-12 text-muted">
-                <span id="uncommonSettingsInfoText"></span>
+                <span id="uncommonSettingsSessionResponsesVisibleInfoText"></span>
+                <br>
+                <span id="uncommonSettingsSendEmailsInfoText"></span>
                 <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" ${fsForm.editButtonTags.attributesToString}>[Edit]</a>
                 <br><br>
             </div>
