@@ -113,6 +113,10 @@ function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
 }
 
+function isModeration() {
+    return $(document).find('.navbar').text().indexOf('Moderating') !== -1;
+}
+
 // Saves the value in the other option textbox for MCQ questions
 function updateMcqOtherOptionField() {
     var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
@@ -956,7 +960,7 @@ function updateRankMessageQn(qnNum) {
 }
 
 function showModalWarningIfSessionClosed() {
-    if (hasWarningMessage()) {
+    if (hasWarningMessage() && !isModeration()) {
         BootboxWrapper.showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), BootboxWrapper.DEFAULT_OK_TEXT,
                                       StatusType.WARNING);
     }
