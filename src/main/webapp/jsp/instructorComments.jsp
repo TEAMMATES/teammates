@@ -40,7 +40,7 @@
                 </div>
             </div>
             <c:set var="panelIdx" value="0" />
-            <c:if test="${not empty data.commentsForStudentsTables}"> <%--check student comments starts--%> 
+            <c:if test="${not empty data.commentsForStudentsTables}"> <%--check student comments starts--%>
                 <c:set var="panelIdx" value="${panelIdx + 1}" />
                 <div id="panel_display-${panelIdx}">
                     <br>
