@@ -17,10 +17,10 @@ public class StudentCommentsPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCommentsPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser(true);
     }
     

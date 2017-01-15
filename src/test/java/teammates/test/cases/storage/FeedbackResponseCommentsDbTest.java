@@ -39,7 +39,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
             new ArrayList<FeedbackResponseCommentAttributes>();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         frcDb.createEntity(frcaData);
         frcDb.createEntity(anotherFrcaData);

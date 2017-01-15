@@ -45,9 +45,9 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     private static boolean isGodModeEnabled;
     
     @BeforeClass
-    public void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         if (isGodModeEnabled) {
             System.setProperty("godmode", "true");
         }

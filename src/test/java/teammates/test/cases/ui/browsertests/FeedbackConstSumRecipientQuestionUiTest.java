@@ -24,7 +24,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackConstSumRecipientQuestionUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
