@@ -54,7 +54,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 + "?error=false"
                 + "&user=" + idOfInstructor,
                 showPageResult.getDestinationWithParams());
-        assertEquals(Const.FEEDBACK_SESSION_QUESTIONS_HIDDEN, showPageResult.getStatusMessage());
+        assertEquals("", showPageResult.getStatusMessage());
 
         AssertHelper.assertLogMessageEquals(
                 "TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage|||true|||"
@@ -98,7 +98,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 + "?error=false"
                 + "&user=" + idOfInstructor,
                 showPageResult.getDestinationWithParams());
-        assertEquals(Const.FEEDBACK_SESSION_QUESTIONS_HIDDEN, showPageResult.getStatusMessage());
+        assertEquals("", showPageResult.getStatusMessage());
         
 
         gaeSimulation.loginAsInstructor(idOfInstructor);
@@ -121,7 +121,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 + "?error=false"
                 + "&user=" + idOfInstructor,
                 showPageResult.getDestinationWithParams());
-        assertEquals(Const.FEEDBACK_SESSION_QUESTIONS_HIDDEN, showPageResult.getStatusMessage());
+        assertEquals("", showPageResult.getStatusMessage());
 
         AssertHelper.assertLogMessageEquals(
                 "TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage|||true|||"
