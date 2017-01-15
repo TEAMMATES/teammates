@@ -15,14 +15,13 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentCourseJoinAuthenticatedAction;
 
 public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
-    private static DataBundle dataBundle;
+    private static DataBundle dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         
-        dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
-        removeAndRestoreDatastoreFromJson("/StudentCourseJoinAuthenticatedTest.json");
+        removeAndRestoreDataBundle(dataBundle);
         
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED;
     }

@@ -33,7 +33,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private static InstructorCourseEnrollPage enrollPage;
     
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorSubmissionAdjustmentUiTest.json");
         
@@ -42,7 +42,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         testData.accounts.get("instructor1OfCourse1").googleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
         testData.accounts.get("instructor1OfCourse1").email = TestProperties.TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
         
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         
         browser = BrowserPool.getBrowser();
     }

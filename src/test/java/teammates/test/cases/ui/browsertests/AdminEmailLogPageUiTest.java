@@ -23,7 +23,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
     private static AdminEmailLogPage emailLogPage;
     
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }

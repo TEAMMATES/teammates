@@ -17,9 +17,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
     private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD;
     }
 
@@ -96,7 +96,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForSession1InCourse1WithNewLastName(result.getFileContent(), session);
 
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
 
         ______TS("Typical case: results within section downloadable");
 

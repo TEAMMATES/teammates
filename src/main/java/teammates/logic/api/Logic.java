@@ -2201,6 +2201,14 @@ public class Logic {
     }
     
     /**
+     * @see {@link CommentsLogic#getComment(CommentAttributes)}.
+     */
+    public CommentAttributes getComment(CommentAttributes comment) {
+        Assumption.assertNotNull(comment);
+        return commentsLogic.getComment(comment);
+    }
+    
+    /**
      * Create or update document for the given Comment
      * @param comment to be put into documents
      */
