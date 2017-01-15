@@ -29,10 +29,10 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
     private static CoursesLogic coursesLogic = new CoursesLogic();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         gaeSimulation.resetDatastore();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
     }
 
     @Test

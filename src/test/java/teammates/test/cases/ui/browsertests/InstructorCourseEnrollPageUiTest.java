@@ -28,10 +28,10 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     private static AppUrl enrollUrl;
 
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         
         browser = BrowserPool.getBrowser();
     }

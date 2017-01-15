@@ -22,7 +22,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseJoinConfirmationPageUiTest.json");
         
@@ -35,7 +35,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email =
                                         TestProperties.TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
         
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         
         browser = BrowserPool.getBrowser(true);
         browser.driver.manage().deleteAllCookies();

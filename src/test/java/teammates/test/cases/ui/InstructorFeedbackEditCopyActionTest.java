@@ -14,15 +14,14 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.InstructorFeedbackEditCopyData;
 
-public class InstructorFeedbackEditCopyActionTest extends
-        BaseActionTest {
-    private static DataBundle dataBundle;
+public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
+    
+    private static DataBundle dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
-        removeAndRestoreDatastoreFromJson("/InstructorFeedbackEditCopyTest.json");
+        removeAndRestoreDataBundle(dataBundle);
         
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
     }

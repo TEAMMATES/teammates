@@ -23,7 +23,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
         
@@ -59,7 +59,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         
         //Published time for one feedback session already set to some time in the past.
         
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser();
     }
     
