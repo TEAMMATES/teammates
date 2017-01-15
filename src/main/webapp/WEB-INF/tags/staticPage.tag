@@ -87,7 +87,7 @@
     <div id="footer">
         <div id="footerWrapper">
             <div id="footerRightCol">
-                Hosted on <a class="footer" href="https://cloud.google.com/appengine/" target="_blank">Google App Engine</a>
+                Hosted on <a class="footer" href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>
             </div>
         </div>
     </div>
