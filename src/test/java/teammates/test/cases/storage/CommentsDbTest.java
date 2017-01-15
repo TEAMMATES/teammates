@@ -37,7 +37,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     private CommentsDb commentsDb = new CommentsDb();
     
     @BeforeClass
-    public static void setupClass() {
+    public void classSetup() {
         printTestClassHeader();
     }
     

@@ -69,6 +69,10 @@ public final class CommentsLogic {
         return commentsDb.getComment(commentId);
     }
 
+    public CommentAttributes getComment(CommentAttributes comment) {
+        return commentsDb.getComment(comment);
+    }
+
     public List<CommentAttributes> getCommentsForGiver(String courseId, String giverEmail)
            throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId, "get");

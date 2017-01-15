@@ -16,7 +16,7 @@ import teammates.test.cases.BaseTestCase;
 public class TeamEvalResultTest extends BaseTestCase {
     
     @BeforeClass
-    public static void setUp() {
+    public void classSetup() {
         printTestClassHeader();
     }
 
