@@ -28,6 +28,7 @@
     <test name="sequential-ui-tests">
         <!--Theses cases need to be run sequentially to avoid state leaks between tests -->
         <classes>
+            <class name="teammates.test.cases.ui.browsertests.NonExistentUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
