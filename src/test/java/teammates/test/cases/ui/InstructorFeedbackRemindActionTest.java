@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 public class InstructorFeedbackRemindActionTest extends BaseActionTest {
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
     }

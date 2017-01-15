@@ -35,7 +35,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackRankQuestionUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;

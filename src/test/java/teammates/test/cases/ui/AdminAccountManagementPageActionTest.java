@@ -12,7 +12,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     // private static final DataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE;
         // removeAndRestoreTypicalDataInDatastore();

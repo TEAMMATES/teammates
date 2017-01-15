@@ -56,7 +56,7 @@ public final class BackDoor {
      * Removes given data. If given entities have already been deleted,
      * it fails silently.
      */
-    public static String removeDataBundleFromDb(DataBundle dataBundle) {
+    public static String removeDataBundle(DataBundle dataBundle) {
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_REMOVE_DATABUNDLE);
         params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
@@ -66,7 +66,7 @@ public final class BackDoor {
     /**
      * Removes and restores given data.
      */
-    public static String removeAndRestoreDataBundleFromDb(DataBundle dataBundle) {
+    public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_REMOVE_AND_RESTORE_DATABUNDLE);
         params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
