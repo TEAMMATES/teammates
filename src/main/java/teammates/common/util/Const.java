@@ -1367,7 +1367,7 @@ public final class Const {
                             + " to search for an exact phrase in an exact order.</li>"
                 + "</ul>";
         
-        public static final String COMMENT_ADDED = "New comment has been added";
+        public static final String COMMENT_ADDED = "New comment '%s' has been added";
         public static final String COMMENT_EDITED = "Comment edited";
         public static final String COMMENT_DELETED = "Comment deleted";
         public static final String COMMENT_CLEARED = "Notification for all pending comments have been sent to recipients";
