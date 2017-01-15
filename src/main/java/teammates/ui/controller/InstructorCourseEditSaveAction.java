@@ -23,7 +23,7 @@ public class InstructorCourseEditSaveAction extends Action {
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
         
         CourseAttributes courseToEdit = new CourseAttributes(courseId, courseName, courseTimeZone);
         

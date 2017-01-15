@@ -27,7 +27,7 @@ public class StudentFeedbackResultsPageAction extends Action {
         }
 
         gateKeeper.verifyAccessible(getCurrentStudent(courseId),
-                                          logic.getFeedbackSession(feedbackSessionName, courseId));
+                                    logic.getFeedbackSession(feedbackSessionName, courseId));
 
         StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account, student);
 

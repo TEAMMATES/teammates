@@ -33,8 +33,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
-                                          logic.getFeedbackSession(feedbackSessionName, courseId),
-                                          false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                                    logic.getFeedbackSession(feedbackSessionName, courseId),
+                                    false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         String editType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
         Assumption.assertNotNull("Null editType", editType);

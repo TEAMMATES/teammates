@@ -27,8 +27,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, account.googleId);
 
         gateKeeper.verifyAccessible(instructorDetailForCourse,
-                                          logic.getFeedbackSession(feedbackSessionName, courseId),
-                                          false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                                    logic.getFeedbackSession(feedbackSessionName, courseId),
+                                    false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters,
                                                                                   instructorDetailForCourse.email);

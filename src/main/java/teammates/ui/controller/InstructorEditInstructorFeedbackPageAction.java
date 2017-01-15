@@ -17,10 +17,9 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String instructorUnderModerationEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         
-        gateKeeper.verifyAccessible(
-                                        logic.getInstructorForGoogleId(courseId, account.googleId),
-                                        logic.getFeedbackSession(feedbackSessionName, courseId),
-                                        false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
+                                    logic.getFeedbackSession(feedbackSessionName, courseId),
+                                    false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
                                 
         InstructorAttributes instructorUnderModeration =
                 logic.getInstructorForEmail(courseId, instructorUnderModerationEmail);

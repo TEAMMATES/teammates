@@ -42,9 +42,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         gateKeeper.verifyAccessible(
-                instructor,
-                logic.getCourse(courseId),
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         FeedbackSessionAttributes fs = extractFeedbackSessionData();
 

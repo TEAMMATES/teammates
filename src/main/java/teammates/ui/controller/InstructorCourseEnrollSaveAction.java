@@ -36,7 +36,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         /* Process enrollment list and setup data for page result */
         try {

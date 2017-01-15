@@ -29,7 +29,7 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
         }
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId), student.section,
-                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
         
         String commentRecipient = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
         

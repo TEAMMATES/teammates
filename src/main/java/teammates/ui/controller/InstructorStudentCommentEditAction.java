@@ -100,10 +100,10 @@ public class InstructorStudentCommentEditAction extends Action {
         String unsanitizedRecipients = StringHelper.recoverFromSanitizedText(recipients);
         if (commentRecipientType == CommentParticipantType.COURSE) {
             gateKeeper.verifyAccessible(instructor, course,
-                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentParticipantType.SECTION) {
             gateKeeper.verifyAccessible(instructor, course, unsanitizedRecipients,
-                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentParticipantType.TEAM) {
             List<StudentAttributes> students = logic.getStudentsForTeam(unsanitizedRecipients, courseId);
 
@@ -111,7 +111,7 @@ public class InstructorStudentCommentEditAction extends Action {
                 Assumption.fail();
             } else {
                 gateKeeper.verifyAccessible(instructor, course, students.get(0).section,
-                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
             }
         } else { // TODO: modify this after comment for instructor is enabled
             StudentAttributes student = logic.getStudentForEmail(courseId, unsanitizedRecipients);
@@ -119,7 +119,7 @@ public class InstructorStudentCommentEditAction extends Action {
                 Assumption.fail();
             } else {
                 gateKeeper.verifyAccessible(instructor, course, student.section,
-                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
             }
         }
     }

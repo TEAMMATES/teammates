@@ -27,7 +27,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
         InstructorAttributes instructorToEdit =
                 extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);

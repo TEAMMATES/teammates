@@ -24,7 +24,7 @@ public class InstructorFeedbackPublishAction extends Action {
         boolean isCreatorOnly = false;
         
         gateKeeper.verifyAccessible(instructor, session, isCreatorOnly,
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         try {
             logic.publishFeedbackSession(session);
