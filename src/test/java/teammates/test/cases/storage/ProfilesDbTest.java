@@ -25,7 +25,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     private AccountsDb accountsDb = new AccountsDb();
     
     @BeforeClass
-    public static void setupClass() {
+    public void classSetup() {
         printTestClassHeader();
     }
     

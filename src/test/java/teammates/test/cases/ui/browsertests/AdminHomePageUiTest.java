@@ -47,7 +47,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
     private static InstructorCourseJoinConfirmationPage confirmationPage;
 
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();

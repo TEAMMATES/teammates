@@ -24,7 +24,7 @@ public class AllJsTests extends BaseUiTestCase {
     private static final float MIN_COVERAGE_REQUIREMENT = 25;
     
     @BeforeClass
-    public static void setUp() throws IOException {
+    public void classSetup() throws IOException {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser)

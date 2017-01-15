@@ -22,7 +22,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     private StudentsDb studentsDb = new StudentsDb();
     
     @BeforeClass
-    public static void setupClass() {
+    public void classSetup() {
         printTestClassHeader();
     }
     
