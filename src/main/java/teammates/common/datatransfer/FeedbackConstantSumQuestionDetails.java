@@ -500,9 +500,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
             String option;
             if (distributeToRecipients) {
-                String teamName = bundle.getTeamNameForEmail(identifierMap.get(entry.getKey()));
-                String recipientName = bundle.getNameForEmail(identifierMap.get(entry.getKey()));
+                
+                String participantIdentifier = identifierMap.get(entry.getKey());
+                String teamName = bundle.getTeamNameForEmail(participantIdentifier);
+                String recipientName = bundle.getNameForEmail(participantIdentifier);
+                
                 option = Sanitizer.sanitizeForCsv(teamName) + "," + Sanitizer.sanitizeForCsv(recipientName);
+                
             } else {
                 option = Sanitizer.sanitizeForCsv(entry.getKey());
             }
