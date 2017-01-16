@@ -418,7 +418,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
-                identifierMap.put(option, entry.getKey());
                 sortedOptionPoints.put(option, entry.getValue());
             }
         }
@@ -494,7 +493,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
-                identifierMap.put(option, entry.getKey());
                 sortedOptionPoints.put(option, entry.getValue());
             }
         }
