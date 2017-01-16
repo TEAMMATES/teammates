@@ -24,10 +24,10 @@ public class MashupPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/MashupPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser();
     }
 

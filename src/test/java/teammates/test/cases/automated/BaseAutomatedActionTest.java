@@ -20,9 +20,9 @@ public abstract class BaseAutomatedActionTest extends BaseComponentTestCase {
     protected abstract AutomatedAction getAction(String... submissionParams);
     
     @BeforeClass
-    public void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         loginAsAdmin();
     }
     

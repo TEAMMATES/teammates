@@ -13,7 +13,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
     // private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_HOME_PAGE;
         // removeAndRestoreTypicalDataInDatastore();

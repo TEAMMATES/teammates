@@ -24,7 +24,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
     }
     
@@ -40,7 +40,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqDb.deleteEntity(fq);
         
         fqDb.createEntity(fq);
-        verifyPresentInDatastore(fq, true);
+        verifyPresentInDatastore(fq);
         
         String feedbackSessionName = fq.feedbackSessionName;
         String courseId = fq.courseId;
@@ -88,7 +88,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqDb.deleteEntity(fqa);
         
         fqDb.createEntity(fqa);
-        verifyPresentInDatastore(fqa, true);
+        verifyPresentInDatastore(fqa);
 
         ______TS("duplicate - with same id.");
 
@@ -331,7 +331,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes modifiedQuestion = getNewFeedbackQuestionAttributes();
         fqDb.deleteEntity(modifiedQuestion);
         fqDb.createEntity(modifiedQuestion);
-        verifyPresentInDatastore(modifiedQuestion, true);
+        verifyPresentInDatastore(modifiedQuestion);
 
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
                                                     modifiedQuestion.courseId,

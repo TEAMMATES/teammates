@@ -17,7 +17,7 @@ public class TimezoneSyncerTest extends BaseUiTestCase {
     private static AppPage page;
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
         loginAdmin(browser);

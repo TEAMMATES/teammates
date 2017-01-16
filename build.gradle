@@ -424,6 +424,13 @@ def afterTestClosure = { descriptor, result ->
     }
 }
 
+def checkConfigFailureClosure = { descriptor, result ->
+    if (result.exception instanceof org.gradle.messaging.remote.internal.PlaceholderException
+            && result.exception.toString().startsWith("org.gradle.api.internal.tasks.testing.TestSuiteExecutionException")) {
+        throw new GradleException('Detected TestNG configuration failure - check src/test/testng-travis.xml')
+    }
+}
+
 task travisTests {
     description "Runs the full test suite and retries failed test up to ${numOfTestRetries} times."
     group "Test"
@@ -451,6 +458,8 @@ task travisTests {
         }
         if (isLastRetry) {
             afterTest afterTestClosure
+        } else if (isFirstTry) {
+            afterSuite checkConfigFailureClosure
         }
         finalizedBy "killFirefox${id}"
         dependsOn enhancerRun

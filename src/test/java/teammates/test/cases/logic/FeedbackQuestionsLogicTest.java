@@ -32,9 +32,9 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     private DataBundle typicalBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
     }
     
     @Test
