@@ -18,13 +18,12 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditPageAction;
 
 public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest {
-    private static DataBundle dataBundle;
+    private static DataBundle dataBundle = loadDataBundle("/StudentFeedbackSubmissionEditPageActionTest.json");
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        dataBundle = loadDataBundle("/StudentFeedbackSubmissionEditPageActionTest.json");
-        removeAndRestoreDatastoreFromJson("/StudentFeedbackSubmissionEditPageActionTest.json");
+        removeAndRestoreDataBundle(dataBundle);
         uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
     }
 
@@ -162,7 +161,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         ______TS("typical success case for unregistered student");
 
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
 
         session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
 

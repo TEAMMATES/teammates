@@ -1,35 +1,27 @@
 package teammates.test.cases.logic;
 
-import java.util.Map;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
 
 public class BackDoorLogicTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
     }
 
     @Test
     public void testPersistDataBundle() throws Exception {
 
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        
         ______TS("empty data bundle");
         String status = backDoorLogic.persistDataBundle(new DataBundle());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
@@ -70,29 +62,6 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         // should be checked at lower level methods
     }
     
-    private void verifyPresentInDatastore(DataBundle data) {
-        Map<String, AccountAttributes> accounts = data.accounts;
-        for (AccountAttributes expectedAccount : accounts.values()) {
-            verifyPresentInDatastore(expectedAccount);
-        }
-        
-        Map<String, InstructorAttributes> instructors = data.instructors;
-        for (InstructorAttributes expectedInstructor : instructors.values()) {
-            verifyPresentInDatastore(expectedInstructor);
-        }
-    
-        Map<String, CourseAttributes> courses = data.courses;
-        for (CourseAttributes expectedCourse : courses.values()) {
-            verifyPresentInDatastore(expectedCourse);
-        }
-    
-        Map<String, StudentAttributes> students = data.students;
-        for (StudentAttributes expectedStudent : students.values()) {
-            verifyPresentInDatastore(expectedStudent);
-        }
-    
-    }
-
     /*
      * Following methods are tested by the testPersistDataBundle method
         getAccountAsJson(String)

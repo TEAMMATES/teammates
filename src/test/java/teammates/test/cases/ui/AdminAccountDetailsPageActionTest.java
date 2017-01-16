@@ -15,10 +15,10 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
     private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE;
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
     }
 
     @Test

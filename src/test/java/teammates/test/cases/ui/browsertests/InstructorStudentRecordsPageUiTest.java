@@ -27,7 +27,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     private static String studentEmail;
 
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testDataNormal = loadDataBundle("/InstructorStudentRecordsPageUiTest.json");
         testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
@@ -51,7 +51,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         ______TS("content: typical case, normal student records with comments");
 
-        removeAndRestoreTestDataOnServer(testDataNormal);
+        removeAndRestoreDataBundle(testDataNormal);
 
         instructor = testDataNormal.instructors.get("teammates.test.CS2104");
         student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
@@ -101,7 +101,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         ______TS("content: multiple feedback session type student record");
 
-        removeAndRestoreTestDataOnServer(testDataQuestionType);
+        removeAndRestoreDataBundle(testDataQuestionType);
 
         instructor = testDataQuestionType.instructors.get("instructor1OfCourse1");
         student = testDataQuestionType.students.get("student1InCourse1");

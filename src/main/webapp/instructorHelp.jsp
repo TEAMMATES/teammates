@@ -32,10 +32,10 @@
                             <a href="#faq7">What to do if a student says his/her courses have disappeared from the system?</a>
                         </li>
                         <li>
-                            <a href="#faq8">What to do if a student says he cannot submit responses due to some technical glitch?</a>
+                            <a href="#faq7a">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
                         </li>
                         <li>
-                            <a href="#faq7a">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
+                            <a href="#faq8">What to do if a student says he cannot submit responses due to some technical glitch?</a>
                         </li>
                         <li>
                             <a href="#faq9">How come the actual contribution values entered by the student is different from the values shown in the results?</a>
