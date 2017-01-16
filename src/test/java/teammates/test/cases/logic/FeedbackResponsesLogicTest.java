@@ -41,15 +41,16 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private DataBundle typicalBundle = getTypicalDataBundle();
-    private DataBundle questionTypeBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+    private static DataBundle typicalBundle = getTypicalDataBundle();
+    private static DataBundle specialCharBundle = loadDataBundle("/SpecialCharacterTest.json");
+    private static DataBundle questionTypeBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
-        removeAndRestoreDatastoreFromJson("/SpecialCharacterTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreTypicalDataBundle();
+        removeAndRestoreDataBundle(specialCharBundle);
+        removeAndRestoreDataBundle(questionTypeBundle);
     }
     
     @Test
@@ -676,10 +677,13 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         FeedbackResponseAttributes response =
                                         dataBundle.feedbackResponses.get(jsonId);
         
-        int qnNumber = Integer.parseInt(response.feedbackQuestionId);
-        
-        String qnId = fqLogic.getFeedbackQuestion(
-                response.feedbackSessionName, response.courseId, qnNumber).getId();
+        String qnId;
+        try {
+            int qnNumber = Integer.parseInt(response.feedbackQuestionId);
+            qnId = fqLogic.getFeedbackQuestion(response.feedbackSessionName, response.courseId, qnNumber).getId();
+        } catch (NumberFormatException e) {
+            qnId = response.feedbackQuestionId;
+        }
         
         return frLogic.getFeedbackResponse(
                 qnId, response.giver, response.recipient);

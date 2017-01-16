@@ -21,7 +21,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     //TODO: move all the input validation/sanitization js code to server side
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
         // removeAndRestoreTypicalDataInDatastore();

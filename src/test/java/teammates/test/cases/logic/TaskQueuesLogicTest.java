@@ -11,7 +11,6 @@ import teammates.common.util.TaskWrapper;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.core.TaskQueuesLogic;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.driver.GaeSimulation;
 
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
@@ -25,8 +24,7 @@ public class TaskQueuesLogicTest extends BaseComponentTestCase {
     
     @Override
     @BeforeTest
-    public void testSetUp() {
-        gaeSimulation = GaeSimulation.inst();
+    public void testSetup() {
         gaeSimulation.setupWithTaskQueueCallbackClass(MockTaskQueueCallback.class);
     }
     

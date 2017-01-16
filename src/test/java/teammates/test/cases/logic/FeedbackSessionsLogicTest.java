@@ -46,13 +46,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private DataBundle dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
+    private static DataBundle dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         gaeSimulation.resetDatastore();
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionsLogicTest.json");
+        removeAndRestoreDataBundle(dataBundle);
     }
     
     @Test
@@ -361,7 +361,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // This file contains a session with a private session + a standard
         // session + a special session with all questions without recipients.
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionDetailsTest.json");
-        removeAndRestoreData(newDataBundle);
+        removeAndRestoreDataBundle(newDataBundle);
         
         Map<String, FeedbackSessionDetailsBundle> detailsMap =
                 new HashMap<String, FeedbackSessionDetailsBundle>();
@@ -761,7 +761,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // session which needs to have enough qn/response combinations to cover as much
         // of the SUT as possible
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
-        removeAndRestoreData(responseBundle);
+        removeAndRestoreDataBundle(responseBundle);
         
         ______TS("standard session with varied visibilities");
         
@@ -1214,8 +1214,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         ______TS("MCQ results");
         
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(newDataBundle);
         session = newDataBundle.feedbackSessions.get("mcqSession");
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
