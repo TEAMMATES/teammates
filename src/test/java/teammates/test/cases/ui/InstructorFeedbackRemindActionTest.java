@@ -28,14 +28,6 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
         InstructorFeedbackRemindAction action;
         RedirectResult rr;
         
-        ______TS("Unsuccessful case: Not owned Course/Modify Permission, authentication failure");
-        String[] paramsNotOwnedCourse = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
-        };
-        verifyUnaccessibleForInstructorsOfOtherCourses(paramsNotOwnedCourse);
-        verifyUnaccessibleWithoutModifySessionPrivilege(paramsNotOwnedCourse);
-        
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         
         ______TS("Unsuccessful case: Not enough Parameter");
