@@ -31,7 +31,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     private StudentProfilePage profilePage;
 
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
         
@@ -45,7 +45,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         testData.students.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.students.get("studentWithExistingProfile").email = student2Email;
         
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser();
     }
 

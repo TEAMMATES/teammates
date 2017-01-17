@@ -21,7 +21,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private static StudentCourseJoinConfirmationPage confirmationPage;
 
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageUiTest.json");
         
@@ -36,7 +36,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         testData.students.get("alice.tmms@SCJConfirmationUiT.CS1101").googleId = student1GoogleId;
         testData.students.get("alice.tmms@SCJConfirmationUiT.CS1101").email = student1Email;
 
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
 
         browser = BrowserPool.getBrowser(true);
         browser.driver.manage().deleteAllCookies();
@@ -144,7 +144,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
     private void testJoinConfirmation() throws Exception {
         logout(browser);
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         String expectedMsg;
         String homePageActionUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
         String joinLink;
@@ -223,7 +223,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
     @AfterClass
     public static void classTearDown() {
-        BackDoor.removeDataBundleFromDb(testData);
+        BackDoor.removeDataBundle(testData);
         BrowserPool.release(browser);
     }
 

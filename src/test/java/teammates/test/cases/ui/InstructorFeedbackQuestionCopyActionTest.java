@@ -18,15 +18,15 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     private DataBundle dataBundle;
 
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY;
     }
 
     @BeforeMethod
-    public void caseSetUp() throws Exception {
+    public void refreshTestData() {
         dataBundle = getTypicalDataBundle();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
     }
 
     @Test

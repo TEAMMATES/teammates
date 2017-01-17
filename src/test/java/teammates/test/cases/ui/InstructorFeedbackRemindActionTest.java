@@ -15,9 +15,9 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
     private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetUp() throws Exception {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
     }
     

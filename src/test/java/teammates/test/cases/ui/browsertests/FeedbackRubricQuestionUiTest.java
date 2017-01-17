@@ -30,7 +30,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackRubricQuestionUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;

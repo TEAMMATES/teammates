@@ -8,7 +8,7 @@
   <div class="well well-plain">
     <div class="row">
       <div class="col-md-12">
-        <form action="/page/instructorSearchPage?user=CHomeUiT.instructor.tmms" method="get" name="search_form">
+        <form action="/page/instructorSearchPage?user=CHomeUiT.instructor.tmms.new" method="get" name="search_form">
           <div class="input-group">
             <input class="form-control" data-original-title="Search for student's information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz, charles@gmail.com" title="" type="text">
             <span class="input-group-btn">
@@ -20,7 +20,7 @@
           <input name="searchstudents" type="hidden" value="true">
           <input name="searchcommentforstudents" type="hidden" value="false">
           <input name="searchcommentforresponses" type="hidden" value="false">
-          <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+          <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.new">
         </form>
       </div>
     </div>
@@ -67,7 +67,7 @@
               Cancel
             </button>
             <input class="btn btn-primary" type="submit" value="Remind">
-            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.new">
           </div>
         </form>
       </div>
@@ -75,7 +75,7 @@
   </div>
   <div class="row">
     <div class="col-xs-2">
-      <a class="btn btn-primary btn-md" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">
+      <a class="btn btn-primary btn-md" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms.new" id="addNewCourse">
         Add New Course
       </a>
     </div>
@@ -122,12 +122,12 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="btn-tm-actions course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=newIns.wit-demo&user=CHomeUiT.instructor.tmms" title="">
+                  <a class="btn-tm-actions course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=newIns.wit-demo&user=CHomeUiT.instructor.tmms.new" title="">
                     Enroll
                   </a>
                 </li>
                 <li>
-                  <a class="btn-tm-actions course-view-for-test" data-original-title="View, edit and send invitation emails to the students in the course" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=newIns.wit-demo&user=CHomeUiT.instructor.tmms" title="">
+                  <a class="btn-tm-actions course-view-for-test" data-original-title="View, edit and send invitation emails to the students in the course" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=newIns.wit-demo&user=CHomeUiT.instructor.tmms.new" title="">
                     View / Edit
                   </a>
                 </li>
@@ -141,7 +141,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="btn-tm-actions course-edit-for-test" data-original-title="Edit Course information and instructor list" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=newIns.wit-demo&user=CHomeUiT.instructor.tmms" title="">
+                  <a class="btn-tm-actions course-edit-for-test" data-original-title="Edit Course information and instructor list" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=newIns.wit-demo&user=CHomeUiT.instructor.tmms.new" title="">
                     View / Edit
                   </a>
                 </li>
@@ -155,7 +155,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="btn-tm-actions course-add-eval-for-test" data-original-title="Add a feedback session for the course" data-placement="left" data-toggle="tooltip" href="/page/instructorFeedbacksPage?user=CHomeUiT.instructor.tmms&courseid=newIns.wit-demo" title="">
+                  <a class="btn-tm-actions course-add-eval-for-test" data-original-title="Add a feedback session for the course" data-placement="left" data-toggle="tooltip" href="/page/instructorFeedbacksPage?user=CHomeUiT.instructor.tmms.new&courseid=newIns.wit-demo" title="">
                     Add
                   </a>
                 </li>
@@ -169,12 +169,12 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="btn-tm-actions course-archive-for-test" data-course-id="newIns.wit-demo" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=newIns.wit-demo&archive=true&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
+                  <a class="btn-tm-actions course-archive-for-test" data-course-id="newIns.wit-demo" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=newIns.wit-demo&archive=true&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.new" title="">
                     Archive
                   </a>
                 </li>
                 <li>
-                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="newIns.wit-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=newIns.wit-demo&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
+                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="newIns.wit-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=newIns.wit-demo&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.new" title="">
                     Delete
                   </a>
                 </li>
@@ -261,7 +261,7 @@
               Cancel
             </button>
             <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy">
-            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.new">
           </div>
         </form>
       </div>
