@@ -1878,12 +1878,20 @@ public class FeedbackSessionsLogic {
         }
         
         List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId,
-                params, allQuestions, relevantQuestions, section);
+                params, section);
         
         boolean isComplete = params.get(PARAM_RANGE) == null;
-        long range = Long.parseLong(params.get(PARAM_RANGE));
-        if (allResponses.size() <= range) {
-            isComplete = true;
+        
+        if (params.get(PARAM_RANGE) != null) {
+            long range = Long.parseLong(params.get(PARAM_RANGE));
+            if (allResponses.size() <= range) {
+                isComplete = true;
+            } else {
+                for (FeedbackQuestionAttributes qn : allQuestions) {
+                    relevantQuestions.put(qn.getId(), qn);
+                }
+                
+            }
         }
         
         responseStatus = section == null && isIncludeResponseStatus
@@ -1978,8 +1986,7 @@ public class FeedbackSessionsLogic {
     }
 
     private List<FeedbackResponseAttributes> getAllResponses(String feedbackSessionName, String courseId,
-            Map<String, String> params, List<FeedbackQuestionAttributes> allQuestions,
-            Map<String, FeedbackQuestionAttributes> relevantQuestions, String section) {
+            Map<String, String> params, String section) {
         boolean isInSection = Boolean.parseBoolean(params.get(PARAM_IN_SECTION));
         boolean isToSection = Boolean.parseBoolean(params.get(PARAM_TO_SECTION));
         boolean isFromSection = Boolean.parseBoolean(params.get(PARAM_FROM_SECTION));
@@ -2011,11 +2018,6 @@ public class FeedbackSessionsLogic {
                                                                                           courseId, section, range);
             } else {
                 Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
-            }
-            if (allResponses.size() > range) {
-                for (FeedbackQuestionAttributes qn : allQuestions) {
-                    relevantQuestions.put(qn.getId(), qn);
-                }
             }
         }
             
