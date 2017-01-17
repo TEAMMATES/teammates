@@ -160,7 +160,38 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
-
+        ______TS("test two 'change' links expand uncommon settings panels");
+        
+        // click uncommon settings 'send emails'
+        feedbackEditPage.clickEditUncommonSettingsSendEmailsButton();
+        feedbackEditPage.verifyEditSessionBoxIsEnabled();
+        feedbackEditPage.toggleClosingSessionEmailReminderCheckbox();
+        feedbackEditPage.clickSaveSessionButton();
+        feedbackEditPage.reloadPage();
+        // uncommon settings panel not in default will be automatically expanded
+        feedbackEditPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
+                "/instructorFeedbackEditUncommonSettingsSendEmails.html");
+        
+        // click uncommon settings 'session visibility'
+        feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
+        feedbackEditPage.verifyEditSessionBoxIsEnabled();
+        feedbackEditPage.clickDefaultPublishTimeButton();
+        // verify the UI layout
+        feedbackEditPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
+                "/instructorFeedbackEditUncommonSettingsSessionVisibility.html");
+        feedbackEditPage.clickSaveSessionButton();
+        feedbackEditPage.reloadPage();
+        // uncommon settings panel not in default will be automatically expanded
+        feedbackEditPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
+                "/instructorFeedbackEditUncommonSettings.html");
+        
+        // Restore defaults
+        feedbackEditPage.clickEditSessionButton();
+        feedbackEditPage.clickManualPublishTimeButton();
+        feedbackEditPage.toggleClosingSessionEmailReminderCheckbox();
+        feedbackEditPage.clickSaveSessionButton();
+        feedbackEditPage.reloadPage();
+        
         ______TS("test edit page not changed after manual publish");
 
         // Do a backdoor 'manual' publish.

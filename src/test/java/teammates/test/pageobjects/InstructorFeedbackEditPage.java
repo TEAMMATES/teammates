@@ -406,6 +406,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(manualResultsVisibleTimeButton);
     }
     
+    public void toggleClosingSessionEmailReminderCheckbox() {
+        click(closingSessionEmailReminderButton);
+    }
+    
     public void clickFsCopyButton() {
         waitForElementNotCovered(fscopyButton);
         click(fscopyButton);
