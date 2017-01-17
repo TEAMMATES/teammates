@@ -242,7 +242,7 @@ function readyFeedbackPage() {
     bindUnpublishButtons();
 
     updateUncommonSettingsInfo();
-    hideUncommonPanels();
+    showUncommonPanelsIfNotInDefaultValues();
 }
 
 function loadSessionsByAjax() {
@@ -282,9 +282,13 @@ function updateUncommonSettingsEmailSendingInfo() {
     $('#uncommonSettingsSendEmailsInfoText').html(info);
 }
 
-function isDefaultSetting() {
+function isDefaultSessionResponsesVisibleSetting() {
     return $('#sessionVisibleFromButton_atopen').prop('checked')
-           && $('#resultsVisibleFromButton_later').prop('checked')
+           && $('#resultsVisibleFromButton_later').prop('checked');
+}
+
+function isDefaultSendEmailsSetting() {
+    return $('#sendreminderemail_closing').prop('checked')
            && $('#sendreminderemail_open').prop('checked')
            && $('#sendreminderemail_closing').prop('checked')
            && $('#sendreminderemail_published').prop('checked');
@@ -296,21 +300,28 @@ function showUncommonPanels() {
 }
 
 function showUncommonPanelsForSessionResponsesVisible() {
-    $('#sessionResponsesVisiblePanel').show();
+    var $sessionResponsesVisiblePanel = $('#sessionResponsesVisiblePanel');
+    
+    $('#uncommonSettingsSessionResponsesVisible').after($sessionResponsesVisiblePanel);
+    $sessionResponsesVisiblePanel.show();
     $('#uncommonSettingsSessionResponsesVisibleInfoText').parent().hide();
 }
 
 function showUncommonPanelsForSendEmails() {
-    $('#sendEmailsForPanel').show();
+    var $sendEmailsForPanel = $('#sendEmailsForPanel');
+    
+    $('#uncommonSettingsSendEmails').after($sendEmailsForPanel);
+    $sendEmailsForPanel.show();
     $('#uncommonSettingsSendEmailsInfoText').parent().hide();
 }
 
-function hideUncommonPanels() {
-    // Hide panels only if they match the default values.
-    if (isDefaultSetting()) {
-        $('#sessionResponsesVisiblePanel, #sendEmailsForPanel').hide();
-    } else {
-        showUncommonPanels();
+function showUncommonPanelsIfNotInDefaultValues() {
+    if (!isDefaultSessionResponsesVisibleSetting()) {
+        showUncommonPanelsForSessionResponsesVisible();
+    }
+    
+    if (!isDefaultSendEmailsSetting()) {
+        showUncommonPanelsForSendEmails();
     }
 }
 
