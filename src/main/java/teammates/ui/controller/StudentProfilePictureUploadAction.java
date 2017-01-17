@@ -11,7 +11,6 @@ import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -32,7 +31,7 @@ public class StudentProfilePictureUploadAction extends Action {
      */
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        new GateKeeper().verifyLoggedInUserPrivileges();
+        gateKeeper.verifyLoggedInUserPrivileges();
 
         String pictureKey = "";
         BlobKey blobKey = new BlobKey("");

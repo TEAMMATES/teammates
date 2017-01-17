@@ -21,6 +21,12 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
+/**
+ * Handles CRUD operations for feedback sessions.
+ * 
+ * @see {@link FeedbackSession}
+ * @see {@link FeedbackSessionAttributes}
+ */
 public class FeedbackSessionsDb extends EntitiesDb {
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";

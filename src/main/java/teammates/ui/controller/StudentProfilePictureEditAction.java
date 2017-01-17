@@ -7,7 +7,6 @@ import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.images.CompositeTransform;
@@ -34,7 +33,7 @@ public class StudentProfilePictureEditAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        new GateKeeper().verifyLoggedInUserPrivileges();
+        gateKeeper.verifyLoggedInUserPrivileges();
         readAllPostParamterValuesToFields();
         if (!validatePostParameters()) {
             return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);

@@ -4,7 +4,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackDeleteAction extends Action {
 
@@ -22,7 +21,7 @@ public class InstructorFeedbackDeleteAction extends Action {
             nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         }
         
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false,

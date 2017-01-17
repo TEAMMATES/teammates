@@ -6,7 +6,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: Delete {@link FeedbackResponseCommentAttributes}
@@ -59,9 +58,9 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
         if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
             return;
         }
-        new GateKeeper().verifyAccessible(instructor, session, false, response.giverSection,
+        gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, false, response.recipientSection,
+        gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 

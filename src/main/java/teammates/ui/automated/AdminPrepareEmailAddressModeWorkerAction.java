@@ -7,7 +7,6 @@ import java.util.List;
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
-import teammates.logic.core.AdminEmailsLogic;
 
 /**
  * Task queue worker action: prepares admin email to be sent via task queue in address mode,
@@ -35,7 +34,7 @@ public class AdminPrepareEmailAddressModeWorkerAction extends AutomatedAction {
         String addressReceiverListString = getRequestParamValue(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
         Assumption.assertNotNull(addressReceiverListString);
         
-        AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
+        AdminEmailAttributes adminEmail = logic.getAdminEmailById(emailId);
         Assumption.assertNotNull(adminEmail);
         List<String> addressList = new ArrayList<String>();
         

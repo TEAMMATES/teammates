@@ -15,7 +15,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -43,9 +42,9 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         Assumption.assertNotNull(response);
         boolean isCreatorOnly = true;
         
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, response.giverSection,
+        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, response.recipientSection,
+        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
         InstructorFeedbackResponseCommentAjaxPageData data =
