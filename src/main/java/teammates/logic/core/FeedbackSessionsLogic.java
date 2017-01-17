@@ -1900,47 +1900,13 @@ public class FeedbackSessionsLogic {
             allQuestionsMap.put(qn.getId(), qn);
         }
         
-        boolean isInSection = Boolean.parseBoolean(params.get(PARAM_IN_SECTION));
-        boolean isToSection = Boolean.parseBoolean(params.get(PARAM_TO_SECTION));
-        boolean isFromSection = Boolean.parseBoolean(params.get(PARAM_FROM_SECTION));
-        boolean isComplete = params.get(PARAM_RANGE) == null;
+        List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId,
+                params, allQuestions, relevantQuestions, section);
         
-        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
-        if (params.get(PARAM_RANGE) == null) {
-            if (isInSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
-                                                                               courseId, section);
-            } else if (isFromSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName,
-                                                                                 courseId, section);
-            } else if (isToSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName,
-                                                                               courseId, section);
-            } else {
-                Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
-            }
-        } else {
-            long range = Long.parseLong(params.get(PARAM_RANGE));
-            if (isInSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
-                                                                                          courseId, section, range);
-            } else if (isFromSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(feedbackSessionName,
-                                                                                            courseId, section, range);
-            } else if (isToSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName,
-                                                                                          courseId, section, range);
-            } else {
-                Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
-            }
-            if (allResponses.size() <= range) {
-                isComplete = true;
-            } else {
-                for (FeedbackQuestionAttributes qn : allQuestions) {
-                    relevantQuestions.put(qn.getId(), qn);
-                }
-                
-            }
+        boolean isComplete = params.get(PARAM_RANGE) == null;
+        long range = Long.parseLong(params.get(PARAM_RANGE));
+        if (allResponses.size() <= range) {
+            isComplete = true;
         }
         
         responseStatus = section == null && isIncludeResponseStatus
@@ -2033,6 +1999,51 @@ public class FeedbackSessionsLogic {
                         visibilityTable, responseStatus, roster, responseComments, isComplete);
 
         return results;
+    }
+
+    private List<FeedbackResponseAttributes> getAllResponses(String feedbackSessionName, String courseId,
+            Map<String, String> params, List<FeedbackQuestionAttributes> allQuestions,
+            Map<String, FeedbackQuestionAttributes> relevantQuestions, String section) {
+        boolean isInSection = Boolean.parseBoolean(params.get(PARAM_IN_SECTION));
+        boolean isToSection = Boolean.parseBoolean(params.get(PARAM_TO_SECTION));
+        boolean isFromSection = Boolean.parseBoolean(params.get(PARAM_FROM_SECTION));
+        
+        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
+        if (params.get(PARAM_RANGE) == null) {
+            if (isInSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
+                                                                               courseId, section);
+            } else if (isFromSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName,
+                                                                                 courseId, section);
+            } else if (isToSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName,
+                                                                               courseId, section);
+            } else {
+                Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
+            }
+        } else {
+            long range = Long.parseLong(params.get(PARAM_RANGE));
+            if (isInSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
+                                                                                          courseId, section, range);
+            } else if (isFromSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(feedbackSessionName,
+                                                                                            courseId, section, range);
+            } else if (isToSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName,
+                                                                                          courseId, section, range);
+            } else {
+                Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
+            }
+            if (allResponses.size() > range) {
+                for (FeedbackQuestionAttributes qn : allQuestions) {
+                    relevantQuestions.put(qn.getId(), qn);
+                }
+            }
+        }
+            
+        return allResponses;
     }
 
     private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,
