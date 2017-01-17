@@ -7,7 +7,6 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.core.AdminEmailsLogic;
 
 /**
  * Task queue worker action: sends queued admin email.
@@ -37,7 +36,7 @@ public class AdminSendEmailWorkerAction extends AutomatedAction {
             Assumption.assertNotNull(emailId);
             
             log.info("Sending large email. Going to retrieve email content and subject from datastore.");
-            AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
+            AdminEmailAttributes adminEmail = logic.getAdminEmailById(emailId);
             Assumption.assertNotNull(adminEmail);
             
             emailContent = adminEmail.getContent().getValue();

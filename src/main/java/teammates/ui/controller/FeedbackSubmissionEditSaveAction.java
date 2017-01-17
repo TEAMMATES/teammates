@@ -30,7 +30,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -311,7 +310,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE) {
             response.recipientSection = Const.DEFAULT_SECTION;
         } else if (recipientType == FeedbackParticipantType.TEAMS) {
-            response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipient);
+            response.recipientSection = logic.getSectionForTeam(courseId, response.recipient);
         } else if (recipientType == FeedbackParticipantType.STUDENTS) {
             StudentAttributes student = logic.getStudentForEmail(courseId, response.recipient);
             response.recipientSection = student == null ? Const.DEFAULT_SECTION : student.section;

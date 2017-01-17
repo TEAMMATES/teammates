@@ -25,9 +25,10 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 /**
- * Handles CRUD Operations for accounts.
- * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
+ * Handles CRUD operations for accounts.
  * 
+ * @see {@link Account}
+ * @see {@link AccountAttributes}
  */
 public class AccountsDb extends EntitiesDb {
     

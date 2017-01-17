@@ -13,7 +13,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentListAjaxPageAction extends Action {
 
@@ -26,12 +25,12 @@ public class InstructorStudentListAjaxPageAction extends Action {
         String courseIndexString = getRequestParamValue(Const.ParamsNames.COURSE_INDEX);
         Assumption.assertNotNull("null course index", courseIndexString);
 
-        new GateKeeper().verifyInstructorPrivileges(account);
+        gateKeeper.verifyInstructorPrivileges(account);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes course = logic.getCourse(courseId);
 
-        new GateKeeper().verifyAccessible(instructor, course);
+        gateKeeper.verifyAccessible(instructor, course);
 
         List<SectionDetailsBundle> courseSectionDetails = logic.getSectionsForCourse(courseId);
         int courseIndex = Integer.parseInt(courseIndexString);

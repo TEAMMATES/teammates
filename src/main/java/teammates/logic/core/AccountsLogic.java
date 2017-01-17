@@ -18,23 +18,28 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
 /**
- * Handles the logic related to accounts.
+ * Handles operations related to accounts.
+ * 
+ * @see {@link AccountAttributes}
+ * @see {@link AccountsDb}
  */
-public class AccountsLogic {
-    //The API of this class doesn't have header comments because it sits behind
-    //  the API of the logic class. Those who use this class is expected to be
-    //  familiar with the its code and Logic's code. Hence, no need for header
-    //  comments.
-        
-    private static AccountsLogic instance;
-    private static final AccountsDb accountsDb = new AccountsDb();
+public final class AccountsLogic {
     
     private static final Logger log = Logger.getLogger();
     
+    private static AccountsLogic instance = new AccountsLogic();
+    
+    private static final AccountsDb accountsDb = new AccountsDb();
+    
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    
+    private AccountsLogic() {
+        // prevent initialization
+    }
+    
     public static AccountsLogic inst() {
-        if (instance == null) {
-            instance = new AccountsLogic();
-        }
         return instance;
     }
 
@@ -73,9 +78,9 @@ public class AccountsLogic {
     }
     
     public String getCourseInstitute(String courseId) {
-        CourseAttributes cd = new CoursesLogic().getCourse(courseId);
+        CourseAttributes cd = coursesLogic.getCourse(courseId);
         Assumption.assertNotNull("Trying to getCourseInstitute for inexistent course with id " + courseId, cd);
-        List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(cd.getId());
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(cd.getId());
         
         Assumption.assertTrue("Course has no instructors: " + cd.getId(), !instructorList.isEmpty());
         // Retrieve institute field from one of the instructors of the course
@@ -110,12 +115,12 @@ public class AccountsLogic {
         
         verifyStudentJoinCourseRequest(registrationKey, googleId);
         
-        StudentAttributes student = StudentsLogic.inst().getStudentForRegistrationKey(registrationKey);
+        StudentAttributes student = studentsLogic.getStudentForRegistrationKey(registrationKey);
         
         //register the student
         student.googleId = googleId;
         try {
-            StudentsLogic.inst().updateStudentCascade(student.email, student);
+            studentsLogic.updateStudentCascade(student.email, student);
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("Student disappered while trying to register " + TeammatesException.toStringWithStackTrace(e));
         }
@@ -154,7 +159,7 @@ public class AccountsLogic {
 
         confirmValidJoinCourseRequest(encryptedKey, googleId);
 
-        InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+        InstructorAttributes instructor = instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
         AccountAttributes account = accountsDb.getAccount(googleId);
         String instituteToSave = institute == null ? getCourseInstitute(instructor.courseId) : institute;
         
@@ -169,13 +174,13 @@ public class AccountsLogic {
         }
                   
         instructor.googleId = googleId;
-        InstructorsLogic.inst().updateInstructorByEmail(instructor.email, instructor);
+        instructorsLogic.updateInstructorByEmail(instructor.email, instructor);
         
         //Update the goolgeId of the student entity for the instructor which was created from sampleData.
-        StudentAttributes student = StudentsLogic.inst().getStudentForEmail(instructor.courseId, instructor.email);
+        StudentAttributes student = studentsLogic.getStudentForEmail(instructor.courseId, instructor.email);
         if (student != null) {
             student.googleId = googleId;
-            StudentsLogic.inst().updateStudentCascade(instructor.email, student);
+            studentsLogic.updateStudentCascade(instructor.email, student);
         }
         
     }
@@ -189,7 +194,7 @@ public class AccountsLogic {
         //The order in which these confirmations are done is important. Reorder with care.
         confirmValidKey(encryptedKey);
         
-        InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+        InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
         
         confirmNotAlreadyJoinedAsInstructor(instructorForKey, googleId);
         confirmUnusedKey(instructorForKey, googleId);
@@ -210,7 +215,7 @@ public class AccountsLogic {
         
         //check if this Google ID has already joined this course
         InstructorAttributes existingInstructor =
-                InstructorsLogic.inst().getInstructorForGoogleId(instructorForKey.courseId, googleId);
+                instructorsLogic.getInstructorForGoogleId(instructorForKey.courseId, googleId);
         
         if (existingInstructor != null) {
             throw new JoinCourseException(
@@ -242,7 +247,7 @@ public class AccountsLogic {
      *    Instructor entity.
      */
     private void confirmValidKey(String encryptedKey) throws JoinCourseException {
-        InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+        InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
         
         if (instructorForKey == null) {
             String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?key=" + encryptedKey;
@@ -272,7 +277,7 @@ public class AccountsLogic {
     private void verifyStudentJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {
         
-        StudentAttributes studentRole = StudentsLogic.inst().getStudentForRegistrationKey(encryptedKey);
+        StudentAttributes studentRole = studentsLogic.getStudentForRegistrationKey(encryptedKey);
         
         if (studentRole == null) {
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
@@ -289,7 +294,7 @@ public class AccountsLogic {
         }
     
         StudentAttributes existingStudent =
-                StudentsLogic.inst().getStudentForCourseIdAndGoogleId(studentRole.course, googleId);
+                studentsLogic.getStudentForCourseIdAndGoogleId(studentRole.course, googleId);
         
         if (existingStudent != null) {
             throw new JoinCourseException(
@@ -299,7 +304,7 @@ public class AccountsLogic {
     }
 
     public void downgradeInstructorToStudentCascade(String googleId) {
-        InstructorsLogic.inst().deleteInstructorsForGoogleIdAndCascade(googleId);
+        instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
         makeAccountNonInstructor(googleId);
     }
 
@@ -336,8 +341,8 @@ public class AccountsLogic {
     }
 
     public void deleteAccountCascade(String googleId) {
-        InstructorsLogic.inst().deleteInstructorsForGoogleIdAndCascade(googleId);
-        StudentsLogic.inst().deleteStudentsForGoogleIdAndCascade(googleId);
+        instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
+        studentsLogic.deleteStudentsForGoogleIdAndCascade(googleId);
         accountsDb.deleteAccount(googleId);
         //TODO: deal with orphan courses, submissions etc.
     }

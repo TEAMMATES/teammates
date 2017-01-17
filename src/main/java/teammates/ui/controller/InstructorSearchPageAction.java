@@ -20,7 +20,6 @@ import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: Showing the InstructorSearchPage for an instructor
@@ -29,7 +28,7 @@ public class InstructorSearchPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        new GateKeeper().verifyInstructorPrivileges(account);
+        gateKeeper.verifyInstructorPrivileges(account);
         String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         if (searchKey == null) {
             searchKey = "";

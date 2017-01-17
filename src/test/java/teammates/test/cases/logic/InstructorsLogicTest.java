@@ -24,9 +24,9 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
     private static DataBundle dataBundle = getTypicalDataBundle();
 
-    private static InstructorsLogic instructorsLogic = new InstructorsLogic();
+    private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static InstructorsDb instructorsDb = new InstructorsDb();
-    private static CoursesLogic coursesLogic = new CoursesLogic();
+    private static CoursesLogic coursesLogic = CoursesLogic.inst();
     
     @BeforeClass
     public void classSetup() {

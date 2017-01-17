@@ -34,7 +34,7 @@ import teammates.test.driver.AssertHelper;
 
 public class CoursesLogicTest extends BaseComponentTestCase {
  
-    private static final CoursesLogic coursesLogic = new CoursesLogic();
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
