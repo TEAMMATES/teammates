@@ -3,6 +3,7 @@
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="currentPage" %>
 <!DOCTYPE html>
+<html>
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <meta name="application-name" content="TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects">
