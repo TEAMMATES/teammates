@@ -126,17 +126,20 @@ function bindModerationHintButton() {
     
     var expandText = '[More]';
     var closeText = '[Less]';
-    $('#moderationHintButton').text(expandText);
+    var $moderationHintButton = $('#moderationHintButton');
+    var $moderationHint = $('#moderationHint');
     
-    $('#moderationHintButton').click(function(event) {
+    $moderationHintButton.text(expandText);
+    
+    $moderationHintButton.click(function(event) {
         event.preventDefault();
         
-        if ($('#moderationHint').hasClass('hidden')) {
-            $('#moderationHintButton').text(closeText);
-            $('#moderationHint').removeClass('hidden');
+        if ($moderationHint.hasClass('hidden')) {
+            $moderationHintButton.text(closeText);
+            $moderationHint.removeClass('hidden');
         } else {
-            $('#moderationHintButton').text(expandText);
-            $('#moderationHint').addClass('hidden');
+            $moderationHintButton.text(expandText);
+            $moderationHint.addClass('hidden');
         }
     });
 }
