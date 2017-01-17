@@ -27,8 +27,6 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes studentNotSubmitFeedback = dataBundle.students.get("student5InCourse1");
-        InstructorFeedbackRemindParticularStudentsAction action;
-        RedirectResult rr;
         
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         
@@ -49,9 +47,9 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
         };
         
-        action = getAction(paramsNoUserToRemind);
+        InstructorFeedbackRemindParticularStudentsAction action = getAction(paramsNoUserToRemind);
         
-        rr = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult rr = (RedirectResult) action.executeAndPostProcess();
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT));
         verifyNoTasksAdded(action);
         

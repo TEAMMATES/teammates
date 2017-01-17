@@ -25,8 +25,6 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        InstructorFeedbackRemindAction action;
-        RedirectResult rr;
         
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         
@@ -48,9 +46,9 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
         };
         
-        action = getAction(paramsTypical);
+        InstructorFeedbackRemindAction action = getAction(paramsTypical);
         
-        rr = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult rr = (RedirectResult) action.executeAndPostProcess();
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT));
         
         verifySpecifiedTasksAdded(action,
