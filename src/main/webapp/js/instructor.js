@@ -156,7 +156,7 @@ function bindStudentPhotoLink(elements) {
             var actualLink = $(this).parent().attr('data-link');
             var resolvedLink = $(this).attr('src');
             
-            $loadingPlaceholder.addClass('hidden');
+            $loadingPlaceholder.remove();
             
             $(this).removeClass('hidden')
                 .parent().attr('data-link', '')
