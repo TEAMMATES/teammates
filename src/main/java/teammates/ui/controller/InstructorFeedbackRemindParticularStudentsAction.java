@@ -21,7 +21,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
-        String[] usersToRemind = getRequestParamValues("usersToRemind");
+        String[] usersToRemind = getRequestParamValues(Const.ParamsNames.SUBMISSION_REMIND_USERLIST);
         if (usersToRemind == null || usersToRemind.length == 0) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT,
                                                StatusMessageColor.DANGER));
