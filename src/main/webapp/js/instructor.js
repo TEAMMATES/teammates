@@ -188,7 +188,7 @@ function bindStudentPhotoLink(elements) {
         });
         
         var $parentDiv = $(this).parent();
-        $(this).remove();    
+        $(this).remove();
         $parentDiv.append($loadingPlaceholder);
         
     });
