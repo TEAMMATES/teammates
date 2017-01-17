@@ -480,16 +480,6 @@ public final class CoursesLogic {
         return teamNameList.size();
     }
 
-    public int getTotalEnrolledInCourse(String courseId) throws EntityDoesNotExistException {
-        verifyCourseIsPresent(courseId);
-        return studentsLogic.getStudentsForCourse(courseId).size();
-    }
-
-    public int getTotalUnregisteredInCourse(String courseId) throws EntityDoesNotExistException {
-        verifyCourseIsPresent(courseId);
-        return studentsLogic.getUnregisteredStudentsForCourse(courseId).size();
-    }
-
     /**
      * @param cd
      * @return the {@link CourseDetailsBundle course details} for a course using {@link CourseAttributes}
