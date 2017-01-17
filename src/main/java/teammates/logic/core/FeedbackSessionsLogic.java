@@ -1877,7 +1877,6 @@ public class FeedbackSessionsLogic {
                                 addVisibilityToTable(visibilityTable, question,
                                         response, userEmail, role, roster);
                             }
-                            isVisibleResponse = false;
                         }
                     }
                 }
@@ -1951,7 +1950,6 @@ public class FeedbackSessionsLogic {
                     addVisibilityToTable(visibilityTable, relatedQuestion,
                             response, userEmail, role, roster);
                 }
-                isVisibleResponse = false;
             }
         }
 
