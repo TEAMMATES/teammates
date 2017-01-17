@@ -169,6 +169,22 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public void testAddAction() throws Exception {
         
         // TODO: possibly remove some of the test cases below in the future
+        ______TS("ui test case: test two 'change' links");
+        feedbackPage.clickEditUncommonSettingsSendEmailsButton();
+        feedbackPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
+                                      "/instructorFeedbackUncommonSettingsSendEmails.html");
+        feedbackPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
+        feedbackPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
+                "/instructorFeedbackUncommonSettings.html");
+        
+        feedbackPage.reloadPage();
+        
+        feedbackPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
+        feedbackPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
+                                      "/instructorFeedbackUncommonSettingsSessionResponsesVisibility.html");
+        feedbackPage.clickEditUncommonSettingsSendEmailsButton();
+        feedbackPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
+                "/instructorFeedbackUncommonSettings.html");
         
         ______TS("success case: defaults: visible when open, manual publish");
         
