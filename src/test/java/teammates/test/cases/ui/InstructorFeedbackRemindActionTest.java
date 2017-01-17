@@ -30,7 +30,7 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
         
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         
-        ______TS("Unsuccessful case: Not enough Parameter");
+        ______TS("Unsuccessful case: Not enough parameters");
         verifyAssumptionFailure();
         String[] paramsNoCourseId = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
