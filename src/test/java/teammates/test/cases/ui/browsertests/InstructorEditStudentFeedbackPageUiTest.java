@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -35,11 +36,23 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     
     @Test
     public void testAll() throws Exception {
+        testModerationHint();
         testEditResponse();
         testAddResponse();
         testDeleteResponse();
     }
     
+    private void testModerationHint() throws Exception {
+        ______TS("verify moderation hint");
+        
+        submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt",
+                "session1InIESFPTCourse");
+        
+        submitPage.verifyHtmlPart(By.className("navbar"), "/instructorEditStudentFeedbackHintLess.html");
+        submitPage.click(By.id("moderationHintButton"));
+        submitPage.verifyHtmlPart(By.className("navbar"), "/instructorEditStudentFeedbackHintMore.html");
+    }
+
     public void testEditResponse() throws Exception {
         ______TS("edit responses");
         
