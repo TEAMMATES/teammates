@@ -6,7 +6,6 @@ import java.util.Map;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
-import teammates.logic.core.TeamEvalResult;
 
 public class FeedbackContributionResponseDetails extends FeedbackResponseDetails {
     

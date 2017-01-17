@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.Logic;
+import teammates.logic.api.GateKeeper;
 
 /**
  * Servlet to handle Logout
@@ -29,7 +29,7 @@ public class LogoutServlet extends HttpServlet {
         }
         String expectedId = req.getParameter(Const.ParamsNames.HINT);
         String actualId = req.getParameter(Const.ParamsNames.USER_ID);
-        String logoutUrl = Logic.getLogoutUrl(nextUrl);
+        String logoutUrl = new GateKeeper().getLogoutUrl(nextUrl);
         if (expectedId == null || actualId == null) {
             resp.sendRedirect(logoutUrl);
             return;

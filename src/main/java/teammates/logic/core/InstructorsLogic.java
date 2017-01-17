@@ -15,28 +15,30 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.InstructorsDb;
 
 /**
- * Handles  operations related to instructor roles.
+ * Handles operations related to instructors.
+ * 
+ * @see {@link InstructorAttributes}
+ * @see {@link InstructorsDb}
  */
-public class InstructorsLogic {
-    //The API of this class doesn't have header comments because it sits behind
-    //  the API of the logic class. Those who use this class is expected to be
-    //  familiar with the its code and Logic's code. Hence, no need for header
-    //  comments.
-    
-    private static final InstructorsDb instructorsDb = new InstructorsDb();
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+public final class InstructorsLogic {
     
     private static final Logger log = Logger.getLogger();
     
-    private static InstructorsLogic instance;
+    private static InstructorsLogic instance = new InstructorsLogic();
+    
+    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    
+    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    
+    private InstructorsLogic() {
+        // prevent initialization
+    }
     
     public static InstructorsLogic inst() {
-        if (instance == null) {
-            instance = new InstructorsLogic();
-        }
         return instance;
     }
     
@@ -214,7 +216,7 @@ public class InstructorsLogic {
         // cascade comments
         if (!instructorInDb.email.equals(instructor.email)) {
             commentsLogic.updateInstructorEmail(instructor.courseId, instructorInDb.email, instructor.email);
-            FeedbackResponseCommentsLogic.inst().updateFeedbackResponseCommentsEmails(
+            frcLogic.updateFeedbackResponseCommentsEmails(
                     instructor.courseId, instructorInDb.email, instructor.email);
         }
     }

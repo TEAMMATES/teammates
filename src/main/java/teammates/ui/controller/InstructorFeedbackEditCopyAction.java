@@ -15,7 +15,6 @@ import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackEditCopyAction extends Action {
 
@@ -42,12 +41,9 @@ public class InstructorFeedbackEditCopyAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(originalCourseId, account.googleId);
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(originalFeedbackSessionName, originalCourseId);
         
-        GateKeeper gk = new GateKeeper();
-        gk.verifyAccessible(
-                instructor,
-                logic.getCourse(originalCourseId),
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        gk.verifyAccessible(instructor, fsa, false);
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(originalCourseId),
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(instructor, fsa, false);
         
         try {
             // Check if there are no conflicting feedback sessions in all the courses
@@ -69,10 +65,8 @@ public class InstructorFeedbackEditCopyAction extends Action {
             for (String courseIdToCopyTo : coursesIdToCopyTo) {
                 InstructorAttributes instructorForCourse =
                         logic.getInstructorForGoogleId(courseIdToCopyTo, account.googleId);
-                gk.verifyAccessible(
-                        instructorForCourse,
-                        logic.getCourse(courseIdToCopyTo),
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                gateKeeper.verifyAccessible(instructorForCourse, logic.getCourse(courseIdToCopyTo),
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
                 
                 fs = logic.copyFeedbackSession(newFeedbackSessionName, courseIdToCopyTo,
                         originalFeedbackSessionName, originalCourseId, instructor.email);

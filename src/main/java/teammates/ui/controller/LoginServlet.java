@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Const;
-import teammates.logic.api.Logic;
+import teammates.logic.api.GateKeeper;
 
 @SuppressWarnings("serial")
 /**
@@ -23,8 +23,8 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Logic server = new Logic();
-        UserType user = server.getCurrentUser();
+        GateKeeper gateKeeper = new GateKeeper();
+        UserType user = gateKeeper.getCurrentUser();
         boolean isInstructor = req.getParameter(Const.ParamsNames.LOGIN_INSTRUCTOR) != null;
         boolean isStudent = req.getParameter(Const.ParamsNames.LOGIN_STUDENT) != null;
         boolean isAdmin = req.getParameter(Const.ParamsNames.LOGIN_ADMIN) != null;
@@ -33,20 +33,20 @@ public class LoginServlet extends HttpServlet {
             if (isMasqueradeMode(user)) {
                 resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
             } else {
-                resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+                resp.sendRedirect(gateKeeper.getLoginUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
             }
         } else if (isStudent) {
             if (isMasqueradeMode(user)) {
                 resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE);
             } else {
-                resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
+                resp.sendRedirect(gateKeeper.getLoginUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
             }
         //TODO: do we need this branch?
         } else if (isAdmin) {
             if (isMasqueradeMode(user)) {
                 resp.sendRedirect(Const.ActionURIs.ADMIN_HOME_PAGE);
             } else {
-                resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
+                resp.sendRedirect(gateKeeper.getLoginUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
             }
         } else {
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);

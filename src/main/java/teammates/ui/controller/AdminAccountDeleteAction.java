@@ -5,14 +5,13 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 public class AdminAccountDeleteAction extends Action {
 
     @Override
     protected ActionResult execute() {
         
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);

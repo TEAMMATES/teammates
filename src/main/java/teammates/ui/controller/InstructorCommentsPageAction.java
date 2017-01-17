@@ -17,7 +17,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: Showing the InstructorCommentsPage for an instructor
@@ -89,10 +88,10 @@ public class InstructorCommentsPageAction extends Action {
         isViewingDraft = courseId == null;
         if (isViewingDraft) {
             courseId = "";
-            new GateKeeper().verifyInstructorPrivileges(account);
+            gateKeeper.verifyInstructorPrivileges(account);
         } else { //view by Course
             instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-            new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
         }
         isViewingDraft = false; //TODO: handle the draft page
     }

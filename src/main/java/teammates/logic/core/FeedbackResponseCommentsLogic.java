@@ -23,23 +23,27 @@ import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
- * Handles the logic related to {@link FeedbackResponseCommentAttributes}.
+ * Handles operations related to feedback response comments.
+ * 
+ * @see {@link FeedbackResponseCommentAttributes}
+ * @see {@link FeedbackResponseCommentsDb}
  */
-public class FeedbackResponseCommentsLogic {
+public final class FeedbackResponseCommentsLogic {
     
-    private static FeedbackResponseCommentsLogic instance;
-
+    private static FeedbackResponseCommentsLogic instance = new FeedbackResponseCommentsLogic();
+    
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
     
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    
+    private FeedbackResponseCommentsLogic() {
+        // prevent initialization
+    }
+    
     public static FeedbackResponseCommentsLogic inst() {
-        if (instance == null) {
-            instance = new FeedbackResponseCommentsLogic();
-        }
         return instance;
     }
 

@@ -24,6 +24,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailSender;
+import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
 
@@ -47,6 +48,7 @@ public abstract class Action {
     public StudentAttributes student;
     
     protected Logic logic;
+    protected GateKeeper gateKeeper;
     protected TaskQueuer taskQueuer;
     protected EmailSender emailSender;
     
@@ -91,6 +93,7 @@ public abstract class Action {
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
+        gateKeeper = new GateKeeper();
         setTaskQueuer(new TaskQueuer());
         setEmailSender(new EmailSender());
         requestParameters = request.getParameterMap();
@@ -117,7 +120,7 @@ public abstract class Action {
     }
     
     protected void authenticateUser() {
-        UserType currentUser = logic.getCurrentUser();
+        UserType currentUser = gateKeeper.getCurrentUser();
         loggedInUser = authenticateAndGetActualUser(currentUser);
         if (isValidUser()) {
             account = authenticateAndGetNominalUser(currentUser);
@@ -177,7 +180,7 @@ public abstract class Action {
                 expectedId = StringHelper.encrypt(expectedId);
                 String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
                                           .withUserId(StringHelper.encrypt(loggedInUserId))
-                                          .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
+                                          .withParam(Const.ParamsNames.NEXT_URL, gateKeeper.getLoginUrl(requestUrl))
                                           .withParam(Const.ParamsNames.HINT, expectedId)
                                           .toString();
                 
@@ -201,7 +204,7 @@ public abstract class Action {
         if (isUnknownKey) {
             throw new UnauthorizedAccessException("Unknown Registration Key " + regkey);
         } else if (isARegisteredUser) {
-            setRedirectPage(Logic.getLoginUrl(requestUrl));
+            setRedirectPage(gateKeeper.getLoginUrl(requestUrl));
             return null;
         } else if (isNotLegacyLink() && isMissingAdditionalAuthenticationInfo) {
             throw new UnauthorizedAccessException("Insufficient information to authenticate user");
@@ -227,7 +230,7 @@ public abstract class Action {
         boolean noRegkeyGiven = getRegkeyFromRequest() == null;
         
         if (userIsNotLoggedIn && (userNeedsGoogleAccountForPage || noRegkeyGiven)) {
-            setRedirectPage(Logic.getLoginUrl(requestUrl));
+            setRedirectPage(gateKeeper.getLoginUrl(requestUrl));
             return true;
         }
         
@@ -367,7 +370,7 @@ public abstract class Action {
         response.isError = isError;
         
         // Set the common parameters for the response
-        if (logic.getCurrentUser() != null) {
+        if (gateKeeper.getCurrentUser() != null) {
             response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
         }
         
@@ -428,7 +431,7 @@ public abstract class Action {
      *   the 'activity log' for the Admin.
      */
     public String getLogMessage() {
-        UserType currentUser = logic.getCurrentUser();
+        UserType currentUser = gateKeeper.getCurrentUser();
         
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(account,
                                                                  isInMasqueradeMode(),

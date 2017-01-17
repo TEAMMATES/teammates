@@ -20,7 +20,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: Showing the StudentCommentsPage for a student
@@ -89,7 +88,7 @@ public class StudentCommentsPageAction extends Action {
     }
     
     private void verifyBasicAccessibility() {
-        new GateKeeper().verifyLoggedInUserPrivileges();
+        gateKeeper.verifyLoggedInUserPrivileges();
         if (regkey != null) {
             // unregistered users cannot view the page
             throw new UnauthorizedAccessException("User is not registered");
@@ -97,7 +96,7 @@ public class StudentCommentsPageAction extends Action {
     }
     
     private void verifyAccessible() {
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 logic.getStudentForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
     }

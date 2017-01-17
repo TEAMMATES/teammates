@@ -28,9 +28,10 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 /**
- * Handles CRUD Operations for instructor roles.
- * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
+ * Handles CRUD operations for instructors.
  * 
+ * @see {@link Instructor}
+ * @see {@link InstructorAttributes}
  */
 public class InstructorsDb extends EntitiesDb {
     
