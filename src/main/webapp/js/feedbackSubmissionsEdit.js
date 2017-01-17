@@ -124,8 +124,8 @@ function bindModerationHintButton() {
         return;
     }
     
-    var expandText = '[Show more]';
-    var closeText = '[Show less]';
+    var expandText = '[More]';
+    var closeText = '[Less]';
     $('#moderationHintButton').text(expandText);
     
     $('#moderationHintButton').click(function(event) {
