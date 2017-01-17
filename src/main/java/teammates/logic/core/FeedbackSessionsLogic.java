@@ -2066,22 +2066,20 @@ public class FeedbackSessionsLogic {
                 || response.giver.equals(userEmail)
                 || role == UserRole.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
-        } else if (studentsEmailInTeam != null) {
-            if (role == UserRole.STUDENT) {
-                if (relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
-                        && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                        && response.recipient.equals(student.team)) {
-                    isVisibleResponse = true;
-                } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
-                           && studentsEmailInTeam.contains(response.giver)) {
-                    isVisibleResponse = true;
-                } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                           && studentsEmailInTeam.contains(response.giver)) {
-                    isVisibleResponse = true;
-                } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                           && studentsEmailInTeam.contains(response.recipient)) {
-                    isVisibleResponse = true;
-                }
+        } else if (studentsEmailInTeam != null && role == UserRole.STUDENT) {
+            if (relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+                    && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                    && response.recipient.equals(student.team)) {
+                isVisibleResponse = true;
+            } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
+                       && studentsEmailInTeam.contains(response.giver)) {
+                isVisibleResponse = true;
+            } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                       && studentsEmailInTeam.contains(response.giver)) {
+                isVisibleResponse = true;
+            } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                       && studentsEmailInTeam.contains(response.recipient)) {
+                isVisibleResponse = true;
             }
         }
         if (isVisibleResponse && instructor != null) {
