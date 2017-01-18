@@ -406,16 +406,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             
             if (distributeToRecipients) {
-                
                 String participantIdentifier = entry.getKey();
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String nameEmail = name + participantIdentifier;
                 
                 identifierMap.put(nameEmail, participantIdentifier);
                 sortedOptionPoints.put(nameEmail, entry.getValue());
-                
             } else {
-                
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
                 sortedOptionPoints.put(option, entry.getValue());
@@ -481,16 +478,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             
             if (distributeToRecipients) {
-                
                 String participantIdentifier = entry.getKey();
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String nameEmail = name + participantIdentifier;
                 
                 identifierMap.put(nameEmail, participantIdentifier);
                 sortedOptionPoints.put(nameEmail, entry.getValue());
-                
             } else {
-                
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
                 sortedOptionPoints.put(option, entry.getValue());
