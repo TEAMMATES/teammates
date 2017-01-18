@@ -12,7 +12,7 @@
 
     <test name="smoke-tests">
         <classes>
-            <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
+            <class name="teammates.test.cases.browsertests.MashupPageUiTest" />
         </classes>
     </test>
 </suite>
