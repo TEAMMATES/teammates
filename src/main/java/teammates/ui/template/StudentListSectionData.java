@@ -19,7 +19,7 @@ public class StudentListSectionData {
     public StudentListSectionData(SectionDetailsBundle section, boolean isAllowedToViewStudentInSection,
                                   boolean isAllowedToModifyStudent, boolean isAllowedToGiveCommentInSection,
                                   Map<String, String> emailPhotoUrlMapping, String googleId) {
-        this.sectionName = Sanitizer.sanitizeForHtml(section.name);
+        this.sectionName = section.name;
         this.allowedToViewStudentInSection = isAllowedToViewStudentInSection;
         this.allowedToModifyStudent = isAllowedToModifyStudent;
         this.allowedToGiveCommentInSection = isAllowedToGiveCommentInSection;
