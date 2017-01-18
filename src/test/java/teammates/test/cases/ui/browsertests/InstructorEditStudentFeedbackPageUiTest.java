@@ -51,6 +51,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlPart(By.className("navbar"), "/instructorEditStudentFeedbackHintLess.html");
         submitPage.click(By.id("moderationHintButton"));
         submitPage.verifyHtmlPart(By.className("navbar"), "/instructorEditStudentFeedbackHintMore.html");
+        submitPage.click(By.id("moderationHintButton"));
+        submitPage.verifyHtmlPart(By.className("navbar"), "/instructorEditStudentFeedbackHintLess.html");
     }
 
     public void testEditResponse() throws Exception {
