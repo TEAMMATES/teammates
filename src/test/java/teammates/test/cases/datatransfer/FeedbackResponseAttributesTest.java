@@ -1,4 +1,4 @@
-package teammates.test.cases.common;
+package teammates.test.cases.datatransfer;
 
 import java.util.Date;
 

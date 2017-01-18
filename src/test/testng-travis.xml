@@ -10,7 +10,8 @@
         <packages>
             <package name="teammates.test.cases.storage" />
             <package name="teammates.test.cases.automated" />
-            <package name="teammates.test.cases.common" />
+            <package name="teammates.test.cases.datatransfer" />
+            <package name="teammates.test.cases.util" />
             <package name="teammates.test.cases.logic" />
             <package name="teammates.test.cases.pagedata" />
             <package name="teammates.test.cases.action" />

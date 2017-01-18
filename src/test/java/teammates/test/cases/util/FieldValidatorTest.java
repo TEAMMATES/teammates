@@ -1,4 +1,4 @@
-package teammates.test.cases.common;
+package teammates.test.cases.util;
 
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
