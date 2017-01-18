@@ -167,6 +167,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyEditSessionBoxIsEnabled();
         feedbackEditPage.toggleClosingSessionEmailReminderCheckbox();
         feedbackEditPage.clickSaveSessionButton();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         feedbackEditPage.reloadPage();
         // uncommon settings panel not in default will be automatically expanded
         feedbackEditPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
@@ -179,6 +180,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
                 "/instructorFeedbackEditUncommonSettingsSessionVisibility.html");
         feedbackEditPage.clickSaveSessionButton();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         
         // test expanded uncommon settings section
         feedbackEditPage.reloadPage();
