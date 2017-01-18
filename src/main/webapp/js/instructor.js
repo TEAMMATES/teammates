@@ -362,10 +362,16 @@ function bindUnpublishButtons() {
 function loadProfilePictureForHoverEvent(obj) {
     obj.children('img')[0].src = obj.attr('data-link');
     
+    var $loadingPlaceholder = $('<img>')
+                              .attr('src', '/images/ajax-loader.gif')
+                              .addClass('profile-pic-icon-click-ajax-loading-img');
+    
     // load the pictures in all similar links
     obj.children('img').load(function() {
         var actualLink = $(this).parent().attr('data-link');
         var resolvedLink = $(this).attr('src');
+        
+        $loadingPlaceholder.remove();
 
         updateHoverShowPictureEvents(actualLink, resolvedLink);
         
@@ -378,6 +384,16 @@ function loadProfilePictureForHoverEvent(obj) {
                 $(this).siblings('.profile-pic-icon-hover').popover('hide');
             });
     });
+    
+    obj.popover('destroy').popover({
+        html: true,
+        trigger: 'manual',
+        placement: 'top',
+        content: function() {
+            return $loadingPlaceholder.get(0).outerHTML;
+        }
+    });
+    obj.popover('show');
 }
 
 /**
