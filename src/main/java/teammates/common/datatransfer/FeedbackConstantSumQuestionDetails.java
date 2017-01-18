@@ -379,7 +379,27 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.ADDITIONAL_INFO_ID, additionalInfoId,
                 Slots.QUESTION_ADDITIONAL_INFO, additionalInfo.toString());
     }
-
+    
+    private void sortForRecipient(Map.Entry<String,List<Integer>> entry,
+            Map<String, String> identityMap,
+            Map<String, List<Integer>> sortedStorageMap,
+            FeedbackSessionResultsBundle bundle) { 
+        String participantIdentifier = entry.getKey();
+        String name = bundle.getNameForEmail(participantIdentifier);
+        String nameEmail = name + participantIdentifier;
+        
+        identityMap.put(nameEmail, participantIdentifier);
+        sortedStorageMap.put(nameEmail, entry.getValue());
+    }
+    
+    private void sortForOption(Map.Entry<String,List<Integer>> entry,
+            List<String> optionList,
+            Map<String, List<Integer>> sortedStorageMap) {
+        String option = optionList.get(Integer.parseInt(entry.getKey()));
+        
+        sortedStorageMap.put(option, entry.getValue());
+    }
+    
     @Override
     public String getQuestionResultStatisticsHtml(
             List<FeedbackResponseAttributes> responses,
@@ -406,16 +426,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             
             if (distributeToRecipients) {
-                String participantIdentifier = entry.getKey();
-                String name = bundle.getNameForEmail(participantIdentifier);
-                String nameEmail = name + participantIdentifier;
-                
-                identifierMap.put(nameEmail, participantIdentifier);
-                sortedOptionPoints.put(nameEmail, entry.getValue());
+                sortForRecipient(entry, identifierMap, sortedOptionPoints, bundle);
             } else {
-                String option = options.get(Integer.parseInt(entry.getKey()));
-                
-                sortedOptionPoints.put(option, entry.getValue());
+                sortForOption(entry, options, sortedOptionPoints);
             }
         }
         
@@ -435,7 +448,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Slots.TEAM, Sanitizer.sanitizeForHtml(teamName),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
-            
             } else {
                 String option = entry.getKey();
                 
@@ -478,29 +490,33 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             
             if (distributeToRecipients) {
+                sortForRecipient(entry, identifierMap, sortedOptionPoints, bundle);
+                /*
                 String participantIdentifier = entry.getKey();
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String nameEmail = name + participantIdentifier;
                 
                 identifierMap.put(nameEmail, participantIdentifier);
                 sortedOptionPoints.put(nameEmail, entry.getValue());
+                */
             } else {
+                sortForOption(entry, options, sortedOptionPoints);
+                /*
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
                 sortedOptionPoints.put(option, entry.getValue());
+                */
             }
         }
         
         for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
             String option;
             if (distributeToRecipients) {
-                
                 String participantIdentifier = identifierMap.get(entry.getKey());
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 String recipientName = bundle.getNameForEmail(participantIdentifier);
                 
                 option = Sanitizer.sanitizeForCsv(teamName) + "," + Sanitizer.sanitizeForCsv(recipientName);
-                
             } else {
                 option = Sanitizer.sanitizeForCsv(entry.getKey());
             }
