@@ -380,10 +380,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.QUESTION_ADDITIONAL_INFO, additionalInfo.toString());
     }
     
-    private void sortForRecipient(Map.Entry<String,List<Integer>> entry,
+    private void sortForRecipient(Map.Entry<String, List<Integer>> entry,
             Map<String, String> identityMap,
             Map<String, List<Integer>> sortedStorageMap,
-            FeedbackSessionResultsBundle bundle) { 
+            FeedbackSessionResultsBundle bundle) {
         String participantIdentifier = entry.getKey();
         String name = bundle.getNameForEmail(participantIdentifier);
         String nameEmail = name + participantIdentifier;
@@ -392,7 +392,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         sortedStorageMap.put(nameEmail, entry.getValue());
     }
     
-    private void sortForOption(Map.Entry<String,List<Integer>> entry,
+    private void sortForOption(Map.Entry<String, List<Integer>> entry,
             List<String> optionList,
             Map<String, List<Integer>> sortedStorageMap) {
         String option = optionList.get(Integer.parseInt(entry.getKey()));
