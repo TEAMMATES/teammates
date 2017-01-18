@@ -14,13 +14,11 @@ function handleData(err, countryCoordinates, userData) {
         handleError();
         return;
     }
-    var userCountries = userData.institutes;
     var countriesArr = [];
     var total = 0;
     var countryTotal = 0;
-    var countriesTotal = 0;
     var date = userData.lastUpdated;
-    for(key in userData.institutes) {
+    for (key in userData.institutes) {
         var array = userData.institutes[key];
         total += array.length;
         countryTotal += 1;
