@@ -491,21 +491,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
             if (distributeToRecipients) {
                 sortForRecipient(entry, identifierMap, sortedOptionPoints, bundle);
-                /*
-                String participantIdentifier = entry.getKey();
-                String name = bundle.getNameForEmail(participantIdentifier);
-                String nameEmail = name + participantIdentifier;
-                
-                identifierMap.put(nameEmail, participantIdentifier);
-                sortedOptionPoints.put(nameEmail, entry.getValue());
-                */
             } else {
                 sortForOption(entry, options, sortedOptionPoints);
-                /*
-                String option = options.get(Integer.parseInt(entry.getKey()));
-                
-                sortedOptionPoints.put(option, entry.getValue());
-                */
             }
         }
         
