@@ -9,7 +9,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -21,7 +20,7 @@ public class AdminEmailComposeSaveAction extends Action {
     @Override
     protected ActionResult execute() {
         
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         AdminEmailComposePageData data = new AdminEmailComposePageData(account);
         
         String emailContent = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_CONTENT);

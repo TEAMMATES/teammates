@@ -8,13 +8,12 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class AdminAccountManagementPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         String instructorGoogleId = this.getRequestParamValue("googleId");
         if (instructorGoogleId == null) {

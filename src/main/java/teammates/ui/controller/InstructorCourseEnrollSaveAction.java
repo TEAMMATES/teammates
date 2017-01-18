@@ -19,7 +19,6 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: saving the list of enrolled students for a course of an instructor
@@ -36,8 +35,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId),
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         /* Process enrollment list and setup data for page result */
         try {

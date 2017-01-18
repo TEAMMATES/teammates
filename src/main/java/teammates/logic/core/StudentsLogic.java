@@ -25,30 +25,31 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 
 /**
- * Handles  operations related to student roles.
+ * Handles operations related to students.
+ * 
+ * @see {@link StudentAttributes}
+ * @see {@link StudentsDb}
  */
-public class StudentsLogic {
-    //The API of this class doesn't have header comments because it sits behind
-    //  the API of the logic class. Those who use this class is expected to be
-    //  familiar with the its code and Logic's code. Hence, no need for header
-    //  comments.
+public final class StudentsLogic {
     
     private static final int SECTION_SIZE_LIMIT = 100;
     private static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
-    private static StudentsLogic instance;
-    private StudentsDb studentsDb = new StudentsDb();
+    private static StudentsLogic instance = new StudentsLogic();
     
-    private CoursesLogic coursesLogic = CoursesLogic.inst();
-    private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private ProfilesLogic profilesLogic = ProfilesLogic.inst();
-    private CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final StudentsDb studentsDb = new StudentsDb();
+    
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    
+    private StudentsLogic() {
+        // prevent initialization
+    }
     
     public static StudentsLogic inst() {
-        if (instance == null) {
-            instance = new StudentsLogic();
-        }
         return instance;
     }
 

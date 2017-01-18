@@ -8,7 +8,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackPublishAction extends Action {
     
@@ -24,8 +23,8 @@ public class InstructorFeedbackPublishAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = false;
         
-        new GateKeeper().verifyAccessible(instructor, session, isCreatorOnly,
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(instructor, session, isCreatorOnly,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         try {
             logic.publishFeedbackSession(session);
