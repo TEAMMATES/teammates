@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li<c:if test="${fn:contains(data.class,'StudentHelp')}"> class="active"</c:if>>
-                    <a id="studentHelpLink" class="nav" href="/studentHelp.jsp" target="_blank">Help</a>
+                    <a id="studentHelpLink" class="nav" href="/studentHelp.jsp" target="_blank" rel="noopener noreferrer">Help</a>
                 </li>
             </ul>
             <c:if test="${not empty data.account && not empty data.account.googleId}">

@@ -110,7 +110,7 @@
                                            <c:otherwise>
                                               title="<%= Const.Tooltips.COURSE_STUDENT_DETAILS %>"
                                               href="${student.courseStudentDetailsLink}"
-                                              target="_blank"
+                                              target="_blank" rel="noopener noreferrer"
                                            </c:otherwise>
                                        </c:choose>
                                        data-toggle="tooltip"
@@ -127,7 +127,7 @@
                                            <c:otherwise>
                                               title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
                                               href="${student.courseStudentEditLink}"
-                                              target="_blank"
+                                              target="_blank" rel="noopener noreferrer"
                                            </c:otherwise>
                                        </c:choose>
                                        data-toggle="tooltip"
@@ -172,7 +172,7 @@
                                     <a class="btn btn-default btn-xs"
                                        href="${student.courseStudentRecordsLink}"
                                        title="<%= Const.Tooltips.COURSE_STUDENT_RECORDS %>"
-                                       target="_blank"
+                                       target="_blank" rel="noopener noreferrer"
                                        data-toggle="tooltip"
                                        data-placement="top">
                                         All Records
@@ -202,7 +202,7 @@
                                         </a>
                                         <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
                                             <li role="presentation">
-                                                <a target="_blank"
+                                                <a target="_blank" rel="noopener noreferrer"
                                                    role="menuitem"
                                                    tabindex="-1"
                                                    href="${student.courseStudentDetailsLink}&addComment=student">
@@ -210,7 +210,7 @@
                                                 </a>
                                             </li>
                                             <li role="presentation">
-                                                <a target="_blank"
+                                                <a target="_blank" rel="noopener noreferrer"
                                                    role="menuitem"
                                                    tabindex="-1"
                                                    href="${student.courseStudentDetailsLink}&addComment=team">
@@ -219,7 +219,7 @@
                                             </li>
                                             <c:if test="${hasSection}">
                                                 <li role="presentation">
-                                                    <a target="_blank"
+                                                    <a target="_blank" rel="noopener noreferrer"
                                                        role="menuitem"
                                                        tabindex="-1"
                                                        href="${student.courseStudentDetailsLink}&addComment=section">
