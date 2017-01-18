@@ -148,15 +148,15 @@ function bindStudentPhotoLink(elements) {
         }
         
         var actualLink = $(this).parent().attr('data-link');
-        var $loadingPlaceholder = $('<img>')
+        var $loadingImage = $('<img>')
                                   .attr('src', '/images/ajax-loader.gif')
-                                  .addClass('profile-pic-icon-click-ajax-loading-img');
+                                  .addClass('center-block margin-top-7px');
         
         $(this).siblings('img').attr('src', actualLink).load(function() {
             var actualLink = $(this).parent().attr('data-link');
             var resolvedLink = $(this).attr('src');
             
-            $loadingPlaceholder.remove();
+            $loadingImage.remove();
             
             $(this).removeClass('hidden')
                 .parent().attr('data-link', '')
@@ -187,9 +187,9 @@ function bindStudentPhotoLink(elements) {
             updateHoverShowPictureEvents(actualLink, resolvedLink);
         });
         
-        var $parentDiv = $(this).parent();
+        var $parentTd = $(this).parent().parent();
         $(this).remove();
-        $parentDiv.append($loadingPlaceholder);
+        $parentTd.append($loadingImage);
         
     });
 }

@@ -720,10 +720,6 @@ Apply to thead to make headers not bold.
     height: 40px;
 }
 
-.profile-pic-icon-click-ajax-loading-img {
-    height: auto !important;
-}
-
 .profile-pic-icon-hidden {
     display: none;
 }
