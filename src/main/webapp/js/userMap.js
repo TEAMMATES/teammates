@@ -14,20 +14,25 @@ function handleData(err, countryCoordinates, userData) {
         handleError();
         return;
     }
-    var userCountries = Object.keys(userData);
+    var userCountries = userData.institutes;
     var countriesArr = [];
     var total = 0;
-    userCountries.forEach(function(countryName) {
-        var countryTotal = userData[countryName].length;
-
-        countriesArr.push([countryName, countryTotal]);
-        total += countryTotal;
-    });
-
+    var countryTotal = 0;
+    var countriesTotal = 0;
+    var date = userData.lastUpdated;
+    for(key in userData.institutes) {
+        var array = userData.institutes[key];
+        total += array.length;
+        countryTotal += 1;
+        countriesArr.push([key, array.length]);
+    }
+    
+    // set the last updated date in the page
+    document.getElementById('lastUpdateDate').innerHTML = date;
     // set the institution count in the page
     document.getElementById('totalUserCount').innerHTML = total;
     // set the country count in the page
-    document.getElementById('totalCountryCount').innerHTML = userCountries.length;
+    document.getElementById('totalCountryCount').innerHTML = countryTotal;
     
     // Data format example
     // var series = [
