@@ -169,7 +169,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public void testAddAction() throws Exception {
         
         // TODO: possibly remove some of the test cases below in the future
-        ______TS("ui test case: test two 'change' links");
+        ______TS("ui test case: test two 'change' links for uncommon settings section");
         feedbackPage.clickEditUncommonSettingsSendEmailsButton();
         feedbackPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
                                       "/instructorFeedbackUncommonSettingsSendEmails.html");

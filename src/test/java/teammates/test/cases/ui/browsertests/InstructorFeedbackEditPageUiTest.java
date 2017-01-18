@@ -160,9 +160,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
-        ______TS("test two 'change' links expand uncommon settings panels");
+        ______TS("test two 'change' links' functionality to expand uncommon settings panels");
         
-        // click uncommon settings 'send emails'
+        // test uncommon settings for 'send emails'
         feedbackEditPage.clickEditUncommonSettingsSendEmailsButton();
         feedbackEditPage.verifyEditSessionBoxIsEnabled();
         feedbackEditPage.toggleClosingSessionEmailReminderCheckbox();
@@ -172,14 +172,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
                 "/instructorFeedbackEditUncommonSettingsSendEmails.html");
         
-        // click uncommon settings 'session visibility'
+        // test uncommon settings for 'session responses visibility'
         feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
         feedbackEditPage.verifyEditSessionBoxIsEnabled();
         feedbackEditPage.clickDefaultPublishTimeButton();
-        // verify the UI layout
         feedbackEditPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
                 "/instructorFeedbackEditUncommonSettingsSessionVisibility.html");
         feedbackEditPage.clickSaveSessionButton();
+        
+        // test expanded uncommon settings section
         feedbackEditPage.reloadPage();
         // uncommon settings panel not in default will be automatically expanded
         feedbackEditPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
