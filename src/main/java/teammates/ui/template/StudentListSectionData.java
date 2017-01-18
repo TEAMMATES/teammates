@@ -6,7 +6,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.util.Sanitizer;
 
 public class StudentListSectionData {
 
