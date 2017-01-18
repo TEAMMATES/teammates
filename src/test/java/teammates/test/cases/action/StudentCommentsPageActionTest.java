@@ -7,7 +7,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.Priority;
+import teammates.test.driver.Priority;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCommentsPageAction;
 import teammates.ui.controller.StudentCommentsPageData;

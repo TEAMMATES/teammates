@@ -12,10 +12,10 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorSearchPage;
-import teammates.test.util.FileHelper;
 
 public class InstructorSearchPageUiTest extends BaseUiTestCase {
     private static Browser browser;

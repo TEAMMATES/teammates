@@ -11,6 +11,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
@@ -22,7 +23,6 @@ import teammates.test.pageobjects.NotFoundPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.pageobjects.StudentProfilePicturePage;
-import teammates.test.util.Priority;
 
 @Priority(-3)
 public class StudentProfilePageUiTest extends BaseUiTestCase {

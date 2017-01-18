@@ -10,10 +10,10 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.test.driver.Priority;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.GenericAppPage;
-import teammates.test.util.Priority;
 
 /** This is considered a UI test case because it uses a Browser */
 @Priority(5)

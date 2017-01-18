@@ -43,9 +43,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.FileHelper;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and

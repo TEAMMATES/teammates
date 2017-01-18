@@ -13,6 +13,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
@@ -32,7 +33,6 @@ import teammates.test.pageobjects.StudentCourseDetailsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
-import teammates.test.util.Priority;
 
 import com.google.appengine.api.datastore.Text;
 

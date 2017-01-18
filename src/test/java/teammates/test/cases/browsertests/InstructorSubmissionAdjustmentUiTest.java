@@ -17,11 +17,11 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
-import teammates.test.util.Priority;
 
 /**
  * Covers Ui aspect of submission adjustment for evaluations and feedbacks

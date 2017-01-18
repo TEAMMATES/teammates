@@ -11,7 +11,7 @@ import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.Priority;
+import teammates.test.driver.Priority;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentHomePageAction;
 import teammates.ui.controller.StudentHomePageData;

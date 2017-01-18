@@ -24,7 +24,7 @@ import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.Priority;
+import teammates.test.driver.Priority;
 
 public class AccountsLogicTest extends BaseComponentTestCase {
 

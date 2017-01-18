@@ -10,6 +10,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
@@ -18,7 +19,6 @@ import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.NotAuthorizedPage;
 import teammates.test.pageobjects.NotFoundPage;
-import teammates.test.util.Priority;
 
 /**
  * We do not test all access control at UI level. This class contains a few

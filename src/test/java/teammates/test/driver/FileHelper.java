@@ -1,4 +1,4 @@
-package teammates.test.util;
+package teammates.test.driver;
 
 import java.io.BufferedReader;
 import java.io.File;

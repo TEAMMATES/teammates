@@ -15,13 +15,13 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.FileHelper;
+import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
-import teammates.test.util.FileHelper;
-import teammates.test.util.Priority;
 
 /**
  * Tests 'Feedback Results' view of instructors.
