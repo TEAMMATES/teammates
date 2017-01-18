@@ -288,8 +288,7 @@ function isDefaultSessionResponsesVisibleSetting() {
 }
 
 function isDefaultSendEmailsSetting() {
-    return $('#sendreminderemail_closing').prop('checked')
-           && $('#sendreminderemail_open').prop('checked')
+    return $('#sendreminderemail_open').prop('checked')
            && $('#sendreminderemail_closing').prop('checked')
            && $('#sendreminderemail_published').prop('checked');
 }
