@@ -19,10 +19,12 @@ function handleData(err, countryCoordinates, userData) {
     var countryTotal = 0;
     var date = userData.lastUpdated;
     for (key in userData.institutes) {
-        var array = userData.institutes[key];
-        total += array.length;
-        countryTotal += 1;
-        countriesArr.push([key, array.length]);
+        if (userData.institutes.hasOwnProperty(key)) {
+            var array = userData.institutes[key];
+            total += array.length;
+            countryTotal += 1;
+            countriesArr.push([key, array.length]);
+        }    
     }
     
     // set the last updated date in the page
