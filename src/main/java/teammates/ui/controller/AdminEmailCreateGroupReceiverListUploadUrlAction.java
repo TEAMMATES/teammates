@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
@@ -11,7 +10,7 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
     @Override
     protected ActionResult execute() {
         
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData data =
                 new AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData(account);

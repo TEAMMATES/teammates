@@ -4,7 +4,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseArchiveAction extends Action {
 
@@ -17,8 +16,8 @@ public class InstructorCourseArchiveAction extends Action {
         Assumption.assertNotNull(archiveStatus);
         boolean isArchive = Boolean.parseBoolean(archiveStatus);
         
-        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToArchive, account.googleId),
-                                          logic.getCourse(idOfCourseToArchive));
+        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToArchive, account.googleId),
+                                    logic.getCourse(idOfCourseToArchive));
         
         try {
             

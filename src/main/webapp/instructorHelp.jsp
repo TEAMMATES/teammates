@@ -6585,7 +6585,7 @@
                                                     </div>
                                                     <div class="col-sm-3 pull-right">
                                                         [
-                                                        <a href="#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
+                                                        <a href="#faq7a" target="_blank" rel="noopener noreferrer" id="interpret_help_link">How do I interpret/use these values?</a>]
                                                     </div>
                                                 </div>
                                                 <div class="row">

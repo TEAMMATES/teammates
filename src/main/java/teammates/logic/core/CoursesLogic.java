@@ -33,18 +33,15 @@ import teammates.storage.api.CoursesDb;
 
 /**
  * Handles operations related to courses.
+ * 
+ * @see {@link CourseAttributes}
+ * @see {@link CoursesDb}
  */
-public class CoursesLogic {
-    /* Explanation: Most methods in the API of this class doesn't have header
-     *  comments because it sits behind the API of the logic class.
-     *  Those who use this class is expected to be familiar with the its code
-     *  and Logic's code. Hence, no need for header comments.
-     */
-    
-    //TODO: There's no need for this class to be a Singleton.
-    private static CoursesLogic instance;
+public final class CoursesLogic {
     
     private static final Logger log = Logger.getLogger();
+    
+    private static CoursesLogic instance = new CoursesLogic();
     
     /* Explanation: This class depends on CoursesDb class but no other *Db classes.
      * That is because reading/writing entities from/to the datastore is the
@@ -56,16 +53,17 @@ public class CoursesLogic {
 
     private static final CoursesDb coursesDb = new CoursesDb();
     
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
+    private CoursesLogic() {
+        // prevent initialization
+    }
+    
     public static CoursesLogic inst() {
-        if (instance == null) {
-            instance = new CoursesLogic();
-        }
         return instance;
     }
 

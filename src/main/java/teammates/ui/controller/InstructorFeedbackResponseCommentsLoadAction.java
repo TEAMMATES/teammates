@@ -16,7 +16,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackResponseCommentsLoadAction extends Action {
 
@@ -42,7 +41,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         
         instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
         
         CourseRoster roster = new CourseRoster(logic.getStudentsForCourse(courseId),
                                                logic.getInstructorsForCourse(courseId));

@@ -13,7 +13,9 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 
 /**
  * Email sender service provided by Mailgun.
- * Reference: https://cloud.google.com/appengine/docs/java/mail/mailgun
+ * 
+ * @see <a href="https://cloud.google.com/appengine/docs/java/mail/mailgun">https://cloud.google.com/appengine/docs/java/mail/mailgun</a>
+ * @see {@link FormDataMultiPart}
  */
 public class MailgunService extends EmailSenderService {
     

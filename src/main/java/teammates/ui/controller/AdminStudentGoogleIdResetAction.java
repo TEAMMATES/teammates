@@ -6,8 +6,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 
 /**
  * This Action is used in AdminSearchPage to reset the google id of a
@@ -21,8 +19,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         
-        Logic logic = new Logic();
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String studentCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -84,8 +81,6 @@ public class AdminStudentGoogleIdResetAction extends Action {
     }
 
     private void deleteAccountIfNeeded(String wrongGoogleId) {
-        Logic logic = new Logic();
-        
         if (logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
                 && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
             logic.deleteAccount(wrongGoogleId);

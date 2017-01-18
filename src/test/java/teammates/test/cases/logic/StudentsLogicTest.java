@@ -49,9 +49,9 @@ import com.google.appengine.api.datastore.Text;
 
 public class StudentsLogicTest extends BaseComponentTestCase {
     
-    protected static StudentsLogic studentsLogic = StudentsLogic.inst();
-    protected static AccountsLogic accountsLogic = AccountsLogic.inst();
-    protected static CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass

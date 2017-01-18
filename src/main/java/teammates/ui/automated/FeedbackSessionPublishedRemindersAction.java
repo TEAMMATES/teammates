@@ -3,7 +3,6 @@ package teammates.ui.automated;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.logic.core.FeedbackSessionsLogic;
 
 /**
  * Cron job: schedules feedback session published emails to be sent.
@@ -23,7 +22,7 @@ public class FeedbackSessionPublishedRemindersAction extends AutomatedAction {
     @Override
     public void execute() {
         List<FeedbackSessionAttributes> sessions =
-                FeedbackSessionsLogic.inst().getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+                logic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
         for (FeedbackSessionAttributes session : sessions) {
             taskQueuer.scheduleFeedbackSessionPublishedEmail(session.getCourseId(), session.getFeedbackSessionName());
         }

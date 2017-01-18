@@ -158,7 +158,7 @@
         <img src="images/raised-edge.png" width="600px">         
         
         <br><br>
-        For more details about these features, visit the <a href="instructorHelp.jsp" target="_blank">Instructor Help</a> page or <a href="contact.jsp">email us</a>.
+        For more details about these features, visit the <a href="instructorHelp.jsp" target="_blank" rel="noopener noreferrer">Instructor Help</a> page or <a href="contact.jsp">email us</a>.
         <br><br><br><br>
     </div>
 </t:staticPage>
