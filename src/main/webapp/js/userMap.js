@@ -24,7 +24,7 @@ function handleData(err, countryCoordinates, userData) {
             total += array.length;
             countryTotal += 1;
             countriesArr.push([key, array.length]);
-        }    
+        }
     }
     
     // set the last updated date in the page
