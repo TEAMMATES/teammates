@@ -13,7 +13,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentEditAction;
 import teammates.ui.controller.RedirectResult;
@@ -21,12 +20,11 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    private final BackDoorLogic backDoorLogic = new BackDoorLogic();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT;
     }
 

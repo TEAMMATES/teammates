@@ -15,7 +15,7 @@ public class AppPageUiTest extends BaseUiTestCase {
     private static AppPage page;
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/appPage0.html"));

@@ -29,9 +29,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
     }
 
@@ -320,9 +320,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessMcq() throws Exception {
+    public void testExecuteAndPostProcessMcq() {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -486,9 +486,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessMsq() throws Exception {
+    public void testExecuteAndPostProcessMsq() {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -653,9 +653,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessNumScale() throws Exception {
+    public void testExecuteAndPostProcessNumScale() {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -743,9 +743,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessConstSumOption() throws Exception {
+    public void testExecuteAndPostProcessConstSumOption() {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -840,9 +840,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessConstSumRecipient() throws Exception {
+    public void testExecuteAndPostProcessConstSumRecipient() {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -939,9 +939,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessContributionQuestion() throws Exception {
+    public void testExecuteAndPostProcessContributionQuestion() {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -1027,9 +1027,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessRubricQuestion() throws Exception {
+    public void testExecuteAndPostProcessRubricQuestion() {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -1234,7 +1234,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // Restore responses
         FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
 
         fs = dataBundle.feedbackSessions.get("rubricSession");
         fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
@@ -1292,7 +1293,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessResponseRate() throws Exception {
         
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
 

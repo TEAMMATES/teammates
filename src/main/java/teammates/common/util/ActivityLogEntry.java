@@ -131,7 +131,7 @@ public class ActivityLogEntry {
             name = "Unknown";
             email = "Unknown";
             
-            UserType userType = GateKeeper.inst().getCurrentUser();
+            UserType userType = new GateKeeper().getCurrentUser();
             googleId = userType == null ? "Unknown" : userType.id;
         
         } else {

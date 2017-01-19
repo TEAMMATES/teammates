@@ -26,9 +26,9 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     private final StudentAttributes student = dataBundle.students.get("student1InCourse1");
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.STUDENT_PROFILE_PICTURE;
     }
 

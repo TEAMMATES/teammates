@@ -6,7 +6,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.core.FeedbackSessionsLogic;
 
 /**
  * Cron job: schedules feedback session closed emails to be sent.
@@ -25,15 +24,14 @@ public class FeedbackSessionClosedRemindersAction extends AutomatedAction {
     
     @Override
     public void execute() {
-        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-        List<FeedbackSessionAttributes> sessions = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsClosedWithinThePastHour();
         
         for (FeedbackSessionAttributes session : sessions) {
             List<EmailWrapper> emailsToBeSent = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 session.setSentClosedEmail(true);
-                fsLogic.updateFeedbackSession(session);
+                logic.updateFeedbackSession(session);
             } catch (Exception e) {
                 log.severe("Unexpected error: " + TeammatesException.toStringWithStackTrace(e));
             }

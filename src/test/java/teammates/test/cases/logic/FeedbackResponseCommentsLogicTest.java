@@ -28,13 +28,13 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public void setupClass() {
+    public void classSetup() {
         printTestClassHeader();
     }
     
     @BeforeMethod
-    public void refreshTestData() throws Exception {
-        removeAndRestoreTypicalDataInDatastore();
+    public void refreshTestData() {
+        removeAndRestoreTypicalDataBundle();
     }
     
     @Test

@@ -13,7 +13,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 /**
  * The {@code InstructorEditInstructorFeedbackSaveAction} class handles incoming requests to
@@ -30,10 +29,8 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
 
-        new GateKeeper().verifyAccessible(instructor,
-                session,
-                false,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(
+                instructor, session, false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
     }
     
     /**

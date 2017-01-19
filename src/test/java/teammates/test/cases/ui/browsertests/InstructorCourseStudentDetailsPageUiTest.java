@@ -24,10 +24,10 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
     private static String courseId;
 
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseStudentDetailsPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser();
         instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
         courseId = testData.courses.get("CCSDetailsUiT.CS2104").getId();

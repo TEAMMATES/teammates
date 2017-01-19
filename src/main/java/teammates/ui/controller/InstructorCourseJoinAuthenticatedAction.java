@@ -7,7 +7,6 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 /**
  * This action handles instructors who attempt to join a course after
@@ -24,7 +23,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
       
         
-        new GateKeeper().verifyLoggedInUserPrivileges();
+        gateKeeper.verifyLoggedInUserPrivileges();
         
         /* Process authentication for the instructor to join course */
         try {

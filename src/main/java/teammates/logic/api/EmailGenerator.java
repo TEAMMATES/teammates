@@ -32,9 +32,10 @@ import com.google.appengine.api.log.AppLogLine;
 
 /**
  * Handles operations related to generating emails to be sent from provided templates.
- * @see EmailTemplates
- * @see EmailType
- * @see EmailWrapper
+ * 
+ * @see {@link EmailTemplates}
+ * @see {@link EmailType}
+ * @see {@link EmailWrapper}
  */
 public class EmailGenerator {
     

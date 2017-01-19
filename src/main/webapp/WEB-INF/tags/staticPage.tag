@@ -3,6 +3,7 @@
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="currentPage" %>
 <!DOCTYPE html>
+<html>
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <meta name="application-name" content="TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects">
@@ -87,7 +88,7 @@
     <div id="footer">
         <div id="footerWrapper">
             <div id="footerRightCol">
-                Hosted on <a class="footer" href="https://cloud.google.com/appengine/" target="_blank">Google App Engine</a>
+                Hosted on <a class="footer" href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>
             </div>
         </div>
     </div>

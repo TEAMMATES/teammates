@@ -13,7 +13,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackEditPageAction extends Action {
 
@@ -26,7 +25,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         Assumption.assertNotNull(feedbackSessionName);
         
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 feedbackSession,
                 false,

@@ -40,10 +40,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;
 
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackSubmitPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser();
     }
 
