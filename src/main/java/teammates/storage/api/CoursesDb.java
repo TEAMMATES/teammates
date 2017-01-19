@@ -16,8 +16,10 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 
 /**
- * Handles CRUD Operations for course entities.
- * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
+ * Handles CRUD operations for courses.
+ * 
+ * @see {@link Course}
+ * @see {@link CourseAttributes}
  */
 public class CoursesDb extends EntitiesDb {
     

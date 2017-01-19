@@ -49,7 +49,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         /* Explanation: These two lines persist the test data on the server. */
         testData = loadDataBundle("/InstructorCoursesPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         
         /* Explanation: Ideally, there should not be 'state leaks' between
          * tests. i.e. Changes to data done by one test should not affect

@@ -20,9 +20,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
     private final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED;
     }
     

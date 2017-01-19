@@ -39,8 +39,8 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();
-    private FeedbackResponsesLogic responsesLogic = new FeedbackResponsesLogic();
-    private CommentsLogic commentsLogic = new CommentsLogic();
+    private FeedbackResponsesLogic responsesLogic = FeedbackResponsesLogic.inst();
+    private CommentsLogic commentsLogic = CommentsLogic.inst();
 
     public static void main(String[] args) throws IOException {
         RepairTeamNameInStudentResponseAndCommentAttributes migrator =

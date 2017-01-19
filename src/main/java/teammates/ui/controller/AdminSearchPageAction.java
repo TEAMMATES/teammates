@@ -16,8 +16,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
-import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 
 public class AdminSearchPageAction extends Action {
 
@@ -27,7 +25,7 @@ public class AdminSearchPageAction extends Action {
     @Override
     protected ActionResult execute() {
         
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
            
         String searchKey = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
         String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);
@@ -84,9 +82,6 @@ public class AdminSearchPageAction extends Action {
     private AdminSearchPageData putCourseNameIntoMap(List<StudentAttributes> students,
                                                      List<InstructorAttributes> instructors,
                                                      AdminSearchPageData data) {
-        
-        Logic logic = new Logic();
-        
         for (StudentAttributes student : students) {
             if (student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)) {
                 CourseAttributes course = logic.getCourse(student.course);
@@ -130,7 +125,6 @@ public class AdminSearchPageAction extends Action {
     
     private AdminSearchPageData putInstructorInsitituteIntoMap(List<InstructorAttributes> instructors,
                                                                AdminSearchPageData data) {
-        Logic logic = new Logic();
         for (InstructorAttributes instructor : instructors) {
             
             if (tempCourseIdToInstituteMap.get(instructor.courseId) != null) {
@@ -175,9 +169,6 @@ public class AdminSearchPageAction extends Action {
     }
 
     private AdminSearchPageData putStudentInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
-        
-        Logic logic = new Logic();
-        
         for (StudentAttributes student : students) {
             
             if (tempCourseIdToInstituteMap.get(student.course) != null) {
@@ -291,7 +282,6 @@ public class AdminSearchPageAction extends Action {
     private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students,
                                                               AdminSearchPageData rawData) {
         
-        Logic logic = new Logic();
         AdminSearchPageData processedData = rawData;
         
         for (StudentAttributes student : students) {

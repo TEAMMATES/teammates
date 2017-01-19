@@ -28,7 +28,6 @@ import teammates.common.util.Templates;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
 
 public class AdminInstructorAccountAddAction extends Action {
@@ -36,7 +35,7 @@ public class AdminInstructorAccountAddAction extends Action {
     @Override
     protected ActionResult execute() {
 
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
 
         AdminHomePageData data = new AdminHomePageData(account);
 

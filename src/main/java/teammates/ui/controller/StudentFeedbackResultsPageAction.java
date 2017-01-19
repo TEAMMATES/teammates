@@ -11,7 +11,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 public class StudentFeedbackResultsPageAction extends Action {
     @Override
@@ -27,8 +26,8 @@ public class StudentFeedbackResultsPageAction extends Action {
             return createPleaseJoinCourseResponse(courseId);
         }
 
-        new GateKeeper().verifyAccessible(getCurrentStudent(courseId),
-                                          logic.getFeedbackSession(feedbackSessionName, courseId));
+        gateKeeper.verifyAccessible(getCurrentStudent(courseId),
+                                    logic.getFeedbackSession(feedbackSessionName, courseId));
 
         StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account, student);
 

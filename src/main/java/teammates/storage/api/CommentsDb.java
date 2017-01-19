@@ -30,8 +30,10 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 /**
- * Handles CRUD Operations for {@link Comment}.
- * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
+ * Handles CRUD operations for student comments.
+ * 
+ * @see {@link Comment}
+ * @see {@link CommentAttributes}
  */
 public class CommentsDb extends EntitiesDb {
     

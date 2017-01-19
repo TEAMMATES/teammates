@@ -17,7 +17,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: remind instructor or student to register for a course by sending reminder emails
@@ -42,15 +41,15 @@ public class InstructorCourseRemindAction extends Action {
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
         if (isSendingToStudent) {
-            new GateKeeper().verifyAccessible(
+            gateKeeper.verifyAccessible(
                     instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         } else if (isSendingToInstructor) {
-            new GateKeeper().verifyAccessible(
+            gateKeeper.verifyAccessible(
                     instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
         } else {
             // this is sending registration emails to all students in the course and we will check if the instructor
             // canmodifystudent for course level since for modifystudent privilege there is only course level setting for now
-            new GateKeeper().verifyAccessible(
+            gateKeeper.verifyAccessible(
                     instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         }
         

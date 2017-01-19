@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.common.datatransfer;
 
 import java.util.Arrays;
 import java.util.List;

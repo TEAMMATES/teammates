@@ -17,6 +17,12 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackResponse;
 
+/**
+ * Handles CRUD operations for feedback responses.
+ * 
+ * @see {@link FeedbackResponse}
+ * @see {@link FeedbackResponseAttributes}
+ */
 public class FeedbackResponsesDb extends EntitiesDb {
 
     public void createFeedbackResponses(Collection<FeedbackResponseAttributes> responsesToAdd)

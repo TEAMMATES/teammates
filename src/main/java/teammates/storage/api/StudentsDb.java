@@ -31,9 +31,10 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 /**
- * Handles CRUD Operations for student entities.
- * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
+ * Handles CRUD operations for students.
  * 
+ * @see {@link CourseStudent}
+ * @see {@link StudentAttributes}
  */
 public class StudentsDb extends EntitiesDb {
 

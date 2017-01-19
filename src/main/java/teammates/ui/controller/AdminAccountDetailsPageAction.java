@@ -8,14 +8,13 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class AdminAccountDetailsPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
         
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         String googleId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         AccountAttributes accountInformation = logic.getAccount(googleId);

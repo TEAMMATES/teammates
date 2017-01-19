@@ -43,7 +43,7 @@ public class PublicImageServlet extends PublicResourcesServlet {
                 String url = req.getRequestURL().toString() + "?blob-key=" + blobKey;
           
                 String message = "Public image request with URL: <br>"
-                               + "<a href=\"" + url + "\" target=blank>"
+                               + "<a href=\"" + url + "\" target=\"_blank\" rel=\"noopener noreferrer\" >"
                                + url + "</a>";
                 logMessage(req, message);
             }

@@ -17,9 +17,9 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD;
     }
     
@@ -99,7 +99,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals(StringUtils.join(expected, Const.EOL), fileContent);
         assertEquals("", r.getStatusMessage());
         
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         
         
         ______TS("Typical case: student list downloaded successfully with special team name");

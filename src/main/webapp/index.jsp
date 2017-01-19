@@ -83,7 +83,7 @@
             <div class="overviewByteData">
                 <h2 class="overviewByteHeading">Powered by Google Infrastructure:</h2>
                 <p>
-                    TEAMMATES runs on the <a href="https://cloud.google.com/products/" target="blank">Google App Engine</a>,
+                    TEAMMATES runs on the <a href="https://cloud.google.com/products/" target="_blank" rel="noopener noreferrer">Google App Engine</a>,
                     using cutting edge cloud technologies and benefiting from the same systems and infrastructure that power Google's applications.
                 </p>
             </div>
@@ -127,10 +127,10 @@
                 <h2 class="overviewByteHeading">Well Received by the Academic Community:</h2>
                 <p>
                     TEAMMATES has been presented, and well-received, in education-related conferences such as the 
-                    <a href="http://conferences.computer.org/cseet/2011/CSEET_2011/Index.html" target="blank">International Conference on Software Engineering Education and Training (CSEET)</a>,
-                    the <a href="http://www.cdtl.nus.edu.sg/Tlhe/tlhe2011/default.htm" target="blank">International Conference on Teaching and Learning in Higher Education (TLHE)</a>,
-                    the <a href="https://iated.org/edulearn13/" target="blank">EDULEARN13 Conference (Spain)</a>,
-                    and the <a href="http://cdtl.nus.edu.sg/tel2013/" target="blank">Tel2013 Symposium (Singapore)</a>.
+                    <a href="http://conferences.computer.org/cseet/2011/CSEET_2011/Index.html" target="_blank" rel="noopener noreferrer">International Conference on Software Engineering Education and Training (CSEET)</a>,
+                    the <a href="http://www.cdtl.nus.edu.sg/Tlhe/tlhe2011/default.htm" target="_blank" rel="noopener noreferrer">International Conference on Teaching and Learning in Higher Education (TLHE)</a>,
+                    the <a href="https://iated.org/edulearn13/" target="_blank" rel="noopener noreferrer">EDULEARN13 Conference (Spain)</a>,
+                    and the <a href="http://cdtl.nus.edu.sg/tel2013/" target="_blank" rel="noopener noreferrer">Tel2013 Symposium (Singapore)</a>.
                 </p>
             </div>
             <div style="clear: both;"></div>

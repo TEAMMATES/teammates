@@ -33,7 +33,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     private static String courseId;
 
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseDetailsPageUiTest.json");
         
@@ -52,7 +52,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103").email = student1Email;
         testData.students.get("charlie.tmms@CCDetailsUiT.CS2103").email = student2Email;
         
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser(true);
     }
     
@@ -259,7 +259,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
     @AfterClass
     public static void classTearDown() {
-        BackDoor.removeDataBundleFromDb(testData);
+        BackDoor.removeDataBundle(testData);
         BrowserPool.release(browser);
     }
 }
