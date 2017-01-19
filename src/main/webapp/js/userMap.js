@@ -16,23 +16,21 @@ function handleData(err, countryCoordinates, userData) {
     }
     var countriesArr = [];
     var total = 0;
-    var countryTotal = 0;
     var date = userData.lastUpdated;
     for (key in userData.institutes) {
         if (userData.institutes.hasOwnProperty(key)) {
             var array = userData.institutes[key];
             total += array.length;
-            countryTotal += 1;
             countriesArr.push([key, array.length]);
-        }
+        }  
     }
     
     // set the last updated date in the page
-    document.getElementById('lastUpdateDate').innerHTML = date;
+    document.getElementById('lastUpdate').innerHTML = date;
     // set the institution count in the page
     document.getElementById('totalUserCount').innerHTML = total;
     // set the country count in the page
-    document.getElementById('totalCountryCount').innerHTML = countryTotal;
+    document.getElementById('totalCountryCount').innerHTML = countriesArr.length;
     
     // Data format example
     // var series = [
