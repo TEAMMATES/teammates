@@ -41,22 +41,15 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.storage.api.InstructorsDb;
-import teammates.storage.api.StudentsDb;
 
-public class FeedbackSessionsLogic {
+/**
+ * Handles operations related to feedback sessions.
+ * 
+ * @see {@link FeedbackSessionAttributes}
+ * @see {@link FeedbackSessionsDb}
+ */
+public final class FeedbackSessionsLogic {
     
-    private static FeedbackSessionsLogic instance;
-
-    private static final Logger log = Logger.getLogger();
-
-    private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final String QUESTION_ID_FOR_RESPONSE_RATE = "-1";
     private static final int EMAIL_NAME_PAIR = 0;
     private static final int EMAIL_LASTNAME_PAIR = 1;
@@ -89,11 +82,25 @@ public class FeedbackSessionsLogic {
                                                            + "Session is private and can't be published.";
     private static final String ERROR_FS_PRIVATE_UNPUBLISH = "Error unpublishing feedback session: "
                                                              + "Session is private and can't be unpublished.";
-
+    
+    private static final Logger log = Logger.getLogger();
+    
+    private static FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
+    
+    private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+    
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    
+    private FeedbackSessionsLogic() {
+        // prevent initialization
+    }
+    
     public static FeedbackSessionsLogic inst() {
-        if (instance == null) {
-            instance = new FeedbackSessionsLogic();
-        }
         return instance;
     }
 
@@ -539,10 +546,7 @@ public class FeedbackSessionsLogic {
      *         to students in the course specified by {@code courseId}
      */
     private Set<String> getHiddenInstructorEmails(String courseId) {
-
-        InstructorsLogic instructorLogic = InstructorsLogic.inst();
-
-        List<InstructorAttributes> instructors = instructorLogic.getInstructorsForCourse(courseId);
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
         Set<String> hiddenInstructorEmails = new HashSet<>();
 
         for (InstructorAttributes instructor : instructors) {
@@ -567,8 +571,8 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
                         courseId);
         
-        CourseRoster roster = new CourseRoster(new StudentsDb().getStudentsForCourse(courseId),
-                                               new InstructorsDb().getInstructorsForCourse(courseId));
+        CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
+                                               instructorsLogic.getInstructorsForCourse(courseId));
         return getFeedbackSessionResponseStatus(session, roster, allQuestions);
     }
 
@@ -585,8 +589,8 @@ public class FeedbackSessionsLogic {
         // methods
         // (rather than loading them many times).
         CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
@@ -610,8 +614,8 @@ public class FeedbackSessionsLogic {
                                         throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "true");
@@ -645,8 +649,8 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
         
         CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "true");
@@ -671,8 +675,8 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
         
         CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
@@ -695,8 +699,8 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
         
         CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
@@ -730,8 +734,8 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
         
         CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "true");
@@ -752,8 +756,8 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "false");
         params.put(PARAM_IN_SECTION, "false");
@@ -774,8 +778,8 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
@@ -1607,8 +1611,8 @@ public class FeedbackSessionsLogic {
         // methods
         // (rather than loading them many times).
         CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
         
         return getFeedbackSessionResultsForUserInSectionByQuestions(
                 feedbackSessionName, courseId, userEmail, role, section, roster);
@@ -2126,7 +2130,8 @@ public class FeedbackSessionsLogic {
         });
     }
 
-    protected void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
+    @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive by PMD
+    private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,
             String userEmail,

@@ -8,7 +8,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDetailsPageAction extends Action {
     
@@ -29,8 +28,8 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), student.section,
-                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId), student.section,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
         
         String commentRecipient = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
         

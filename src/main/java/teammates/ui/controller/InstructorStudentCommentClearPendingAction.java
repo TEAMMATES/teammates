@@ -10,7 +10,6 @@ import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.ThreadHelper;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: Clear pending {@link CommentAttributes} and {@link FeedbackResponseCommentAttributes},
@@ -23,7 +22,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
         

@@ -8,7 +8,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseEditSaveAction extends Action {
     @Override
@@ -23,8 +22,8 @@ public class InstructorCourseEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId),
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
         
         CourseAttributes courseToEdit = new CourseAttributes(courseId, courseName, courseTimeZone);
         

@@ -15,7 +15,6 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.logic.core.TeamEvalResult;
 
 /**
  * Represents detailed results for an feedback session.

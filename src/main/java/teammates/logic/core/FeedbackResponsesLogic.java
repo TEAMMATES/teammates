@@ -22,22 +22,30 @@ import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
 
-public class FeedbackResponsesLogic {
-
+/**
+ * Handles operations related to feedback responses.
+ * 
+ * @see {@link FeedbackResponseAttributes}
+ * @see {@link FeedbackResponsesDb}
+ */
+public final class FeedbackResponsesLogic {
+    
     private static final Logger log = Logger.getLogger();
-
-    private static FeedbackResponsesLogic instance;
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic
-            .inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    
+    private static FeedbackResponsesLogic instance = new FeedbackResponsesLogic();
+    
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-
+    
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    
+    private FeedbackResponsesLogic() {
+        // prevent initialization
+    }
+    
     public static FeedbackResponsesLogic inst() {
-        if (instance == null) {
-            instance = new FeedbackResponsesLogic();
-        }
         return instance;
     }
 

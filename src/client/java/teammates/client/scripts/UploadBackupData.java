@@ -73,7 +73,7 @@ public class UploadBackupData extends RemoteApiClient {
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
-    private static final FeedbackQuestionsLogic feedbackQuestionsLogic = new FeedbackQuestionsLogic();
+    private static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     
     public static void main(String[] args) throws Exception {
         UploadBackupData uploadBackupData = new UploadBackupData();

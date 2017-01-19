@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentListDownloadAction extends Action {
 
@@ -12,7 +11,7 @@ public class InstructorCourseStudentListDownloadAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
         

@@ -12,7 +12,7 @@
                 <c:if test="${not empty data.account.institute}">[for <span class="highlight-white">${data.account.institute}</span>]</c:if>
             </div>
             <div class="col-md-2">
-                <span>[Send <a class="link" href="/contact.jsp" target="_blank">Feedback</a>]</span>
+                <span>[Send <a class="link" href="/contact.jsp" target="_blank" rel="noopener noreferrer">Feedback</a>]</span>
             </div>
         </div>
     </div>

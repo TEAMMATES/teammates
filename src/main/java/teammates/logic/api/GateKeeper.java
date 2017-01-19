@@ -19,16 +19,12 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 public class GateKeeper {
+    
     private static UserService userService = UserServiceFactory.getUserService();
-
-    private static GateKeeper instance;
-
-    public static GateKeeper inst() {
-        if (instance == null) {
-            instance = new GateKeeper();
-        }
-        return instance;
-    }
+    
+    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     public boolean isUserLoggedOn() {
         return userService.getCurrentUser() != null;
@@ -326,19 +322,19 @@ public class GateKeeper {
     private boolean isInstructor() {
         User user = userService.getCurrentUser();
         Assumption.assertNotNull(user);
-        return AccountsLogic.inst().isAccountAnInstructor(user.getNickname());
+        return accountsLogic.isAccountAnInstructor(user.getNickname());
     }
 
     private boolean isStudent() {
         User user = userService.getCurrentUser();
         Assumption.assertNotNull(user);
 
-        return StudentsLogic.inst().isStudentInAnyCourse(user.getNickname());
+        return studentsLogic.isStudentInAnyCourse(user.getNickname());
     }
 
     public void verifyAccessibleForCurrentUserAsInstructorOrTeamMember(AccountAttributes account, String courseId,
             String section, String email) {
-        InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForGoogleId(courseId, account.googleId);
+        InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, account.googleId);
         if (instructor != null) {
             if (!instructor.isAllowedForPrivilege(section,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
@@ -347,9 +343,9 @@ public class GateKeeper {
             return;
         }
         
-        StudentAttributes student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, account.googleId);
+        StudentAttributes student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, account.googleId);
         if (student != null) {
-            if (!StudentsLogic.inst().isStudentsInSameTeam(courseId, email, student.email)) {
+            if (!studentsLogic.isStudentsInSameTeam(courseId, email, student.email)) {
                 throw new UnauthorizedAccessException("Student does not have enough privileges to view the photo");
             }
             return;

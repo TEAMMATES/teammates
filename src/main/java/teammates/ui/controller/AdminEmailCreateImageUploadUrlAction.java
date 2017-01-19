@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: creates a URL for uploading an image in admin email
@@ -16,7 +15,7 @@ public class AdminEmailCreateImageUploadUrlAction extends CreateImageUploadUrlAc
     }
 
     private void verifyPrivileges() {
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
     }
 
     @Override

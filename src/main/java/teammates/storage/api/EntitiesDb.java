@@ -26,6 +26,9 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
 
+/**
+ * Base class for all classes performing CRUD operations against the Datastore.
+ */
 public abstract class EntitiesDb {
 
     public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create a %s that exists: ";

@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.logic.api.Logic;
+import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
 import teammates.ui.automated.AutomatedActionFactory;
 import teammates.ui.controller.Action;
@@ -103,9 +103,9 @@ public class GaeSimulation {
      */
     public void loginAsInstructor(String userId) {
         loginUser(userId);
-        Logic logic = new Logic();
-        assertTrue(logic.getCurrentUser().isInstructor);
-        assertFalse(logic.getCurrentUser().isAdmin);
+        GateKeeper gateKeeper = new GateKeeper();
+        assertTrue(gateKeeper.getCurrentUser().isInstructor);
+        assertFalse(gateKeeper.getCurrentUser().isAdmin);
     }
 
     /**Logs in the user to the GAE simulation environment as a student
@@ -113,10 +113,10 @@ public class GaeSimulation {
      */
     public void loginAsStudent(String userId) {
         loginUser(userId);
-        Logic logic = new Logic();
-        assertTrue(logic.getCurrentUser().isStudent);
-        assertFalse(logic.getCurrentUser().isInstructor);
-        assertFalse(logic.getCurrentUser().isAdmin);
+        GateKeeper gateKeeper = new GateKeeper();
+        assertTrue(gateKeeper.getCurrentUser().isStudent);
+        assertFalse(gateKeeper.getCurrentUser().isInstructor);
+        assertFalse(gateKeeper.getCurrentUser().isAdmin);
     }
     
     /** 

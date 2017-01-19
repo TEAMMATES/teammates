@@ -7,7 +7,6 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorEditStudentFeedbackPageAction extends Action {
 
@@ -39,7 +38,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         
-        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
+        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, studentUnderModeration.section,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);

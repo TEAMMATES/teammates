@@ -11,7 +11,6 @@ import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -34,7 +33,7 @@ public class AdminEmailLogPageAction extends Action {
     @Override
     protected ActionResult execute() {
         
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         String timeOffset = getRequestParamValue("offset");
         Long endTimeToSearch;
         if (timeOffset == null || timeOffset.isEmpty()) {

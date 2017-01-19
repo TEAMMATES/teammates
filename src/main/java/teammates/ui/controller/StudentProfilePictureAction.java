@@ -6,7 +6,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: serves a profile picture that is stored in Google Cloud Storage
@@ -48,7 +47,7 @@ public class StudentProfilePictureAction extends Action {
         log.info("email: " + email + ", course: " + courseId);
 
         StudentAttributes student = getStudentForGivenParameters(courseId, email);
-        new GateKeeper().verifyAccessibleForCurrentUserAsInstructorOrTeamMember(account, courseId, student.section, email);
+        gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMember(account, courseId, student.section, email);
 
         return createImageResult(getPictureKeyForStudent(student));
     }

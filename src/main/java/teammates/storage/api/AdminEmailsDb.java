@@ -21,6 +21,12 @@ import teammates.storage.entity.AdminEmail;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
+/**
+ * Handles CRUD operations for emails sent by the admin.
+ * 
+ * @see {@link AdminEmail}
+ * @see {@link AdminEmailAttributes}
+ */
 public class AdminEmailsDb extends EntitiesDb {
     
     public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
