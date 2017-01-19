@@ -22,7 +22,7 @@ function handleData(err, countryCoordinates, userData) {
             var array = userData.institutes[key];
             total += array.length;
             countriesArr.push([key, array.length]);
-        }  
+        }
     }
     
     // set the last updated date in the page
