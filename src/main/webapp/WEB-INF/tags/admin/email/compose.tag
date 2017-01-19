@@ -2,7 +2,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.Config" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ attribute name="emailToEdit" required="true" type="teammates.common.datatransfer.AdminEmailAttributes" %>
+<%@ attribute name="emailToEdit" required="true" type="teammates.common.datatransfer.attributes.AdminEmailAttributes" %>
 
 <div id="adminEmailCompose">
     <form id="adminEmailMainForm" action="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_SEND%>" method="post">
