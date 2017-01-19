@@ -1,4 +1,4 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.StudentResultSummary;
+import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -422,7 +428,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     /**
      * @return A Map with student email as key and StudentResultSummary as value for the specified question.
      */
-    Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle,
+    public Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
         
         List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
@@ -445,7 +451,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     /**
      * @return A Map with student email as key and TeamEvalResult as value for the specified question.
      */
-    Map<String, TeamEvalResult> getTeamEvalResults(FeedbackSessionResultsBundle bundle,
+    public Map<String, TeamEvalResult> getTeamEvalResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
         
         List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
@@ -759,7 +765,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return errorMsg;
     }
 
-    static String getPerceivedContributionInEqualShareFormatHtml(int i) {
+    public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
         return "<span>&nbsp;&nbsp;["
                 + "Perceived Contribution: "
                 + convertToEqualShareFormatHtml(i)
@@ -867,7 +873,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @param i
      * @return points in text form "Equal Share..."
      */
-    static String convertToEqualShareFormat(int i) {
+    public static String convertToEqualShareFormat(int i) {
         if (i > 100) {
             return "Equal share + " + (i - 100) + "%"; // Do more
         } else if (i == 100) {
@@ -888,7 +894,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @param i
      * @return points in text form "Equal Share..." with html formatting for colors.
      */
-    static String convertToEqualShareFormatHtml(int i) {
+    public static String convertToEqualShareFormatHtml(int i) {
         if (i == Const.INT_UNINITIALIZED) {
             return "<span class=\"color_neutral\">N/A</span>";
         } else if (i == Const.POINTS_NOT_SUBMITTED) {

@@ -12,7 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 
 import com.google.appengine.api.datastore.Text;

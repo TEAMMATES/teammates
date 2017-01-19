@@ -1,6 +1,10 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.questions;
 
 import java.util.Map;
+
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 
 
 /** A class holding the details for the response of a specific question type.

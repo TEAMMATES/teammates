@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.util.Sanitizer;
 
 public class FeedbackResponseRow {
