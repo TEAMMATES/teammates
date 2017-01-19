@@ -403,15 +403,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         Map<String, String> identifierMap = new HashMap<String, String>();
         
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
-            
-            if (distributeToRecipients) {
-                sortForRecipient(entry, identifierMap, sortedOptionPoints, bundle);
-            } else {
-                sortForOption(entry, options, sortedOptionPoints);
-            }
+        if (distributeToRecipients) {
+            sortForRecipient(optionPoints, identifierMap, sortedOptionPoints, bundle);
+        } else {
+            sortForOption(optionPoints, options, sortedOptionPoints);
         }
-        
+
         for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
             
             List<Integer> points = entry.getValue();
@@ -467,15 +464,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         Map<String, String> identifierMap = new HashMap<String, String>();
         
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
-            
-            if (distributeToRecipients) {
-                sortForRecipient(entry, identifierMap, sortedOptionPoints, bundle);
-            } else {
-                sortForOption(entry, options, sortedOptionPoints);
-            }
+        if (distributeToRecipients) {
+            sortForRecipient(optionPoints, identifierMap, sortedOptionPoints, bundle);
+        } else {
+            sortForOption(optionPoints, options, sortedOptionPoints);
         }
-        
+
         for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
             String option;
             if (distributeToRecipients) {
@@ -502,27 +496,28 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     /**
      * Used as helper method to put recipient entries from an unsorted map to a sorted map
      */
-    private void sortForRecipient(Map.Entry<String, List<Integer>> entry,
-            Map<String, String> identityMap,
-            Map<String, List<Integer>> sortedStorageMap,
-            FeedbackSessionResultsBundle bundle) {
-        String participantIdentifier = entry.getKey();
-        String name = bundle.getNameForEmail(participantIdentifier);
-        String nameEmail = name + participantIdentifier;
-        
-        identityMap.put(nameEmail, participantIdentifier);
-        sortedStorageMap.put(nameEmail, entry.getValue());
+    private void sortForRecipient(Map<String, List<Integer>> recipientMapping, Map<String, String> identifierMap,
+            Map<String, List<Integer>> sortedOptionPoints, FeedbackSessionResultsBundle bundle) {
+        for(Entry<String, List<Integer>> entry : recipientMapping.entrySet()) {
+            String participantIdentifier = entry.getKey();
+            String name = bundle.getNameForEmail(participantIdentifier);
+            String nameEmail = name + participantIdentifier;
+            
+            identifierMap.put(nameEmail, participantIdentifier);
+            sortedOptionPoints.put(nameEmail, entry.getValue());
+        }
     }
     
     /**
      * Used as helper method to put option entries from an unsorted map to a sorted map
      */
-    private void sortForOption(Map.Entry<String, List<Integer>> entry,
-            List<String> optionList,
-            Map<String, List<Integer>> sortedStorageMap) {
-        String option = optionList.get(Integer.parseInt(entry.getKey()));
-        
-        sortedStorageMap.put(option, entry.getValue());
+    private void sortForOption(Map<String, List<Integer>> optionPoints, List<String> optionList,
+            Map<String, List<Integer>> sortedOptionPoints) {
+        for(Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+            String option = optionList.get(Integer.parseInt(entry.getKey()));
+            
+            sortedOptionPoints.put(option, entry.getValue());
+        }
     }
 
     /**
