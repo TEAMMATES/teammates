@@ -1,6 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -48,11 +47,12 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt",
                 "session1InIESFPTCourse");
         
-        submitPage.verifyHtmlPart(By.className("navbar"), "/instructorEditStudentFeedbackHintLess.html");
-        submitPage.click(By.id("moderationHintButton"));
-        submitPage.verifyHtmlPart(By.className("navbar"), "/instructorEditStudentFeedbackHintMore.html");
-        submitPage.click(By.id("moderationHintButton"));
-        submitPage.verifyHtmlPart(By.className("navbar"), "/instructorEditStudentFeedbackHintLess.html");
+        submitPage.verifyModerationHeaderHtml("/instructorEditStudentFeedbackHint.html");
+        assertEquals("[More]", submitPage.getModerationHintButtonText());
+        assertTrue(submitPage.clickModerationHintButton());
+        assertEquals("[Less]", submitPage.getModerationHintButtonText());
+        assertFalse(submitPage.clickModerationHintButton());
+        assertEquals("[More]", submitPage.getModerationHintButtonText());
     }
 
     public void testEditResponse() throws Exception {

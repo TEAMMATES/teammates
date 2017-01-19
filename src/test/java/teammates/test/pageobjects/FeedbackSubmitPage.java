@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import java.io.IOException;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -195,5 +197,23 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement element = browser.driver.findElement(
                 By.cssSelector("input[id$='OptionText-" + qnNumber + "-" + responseNumber + "']"));
         waitForElementToBeClickable(element);
+    }
+    
+    // ------------- For InstructorEditStudentFeedbackPage -------------
+    
+    public boolean clickModerationHintButton() {
+        click(By.id("moderationHintButton"));
+        // Check if links toggle properly.
+        WebElement moderationHint = browser.driver.findElement(By.id("moderationHint"));
+        return moderationHint.isDisplayed();
+    }
+    
+    public void verifyModerationHeaderHtml(String filePathParam) throws IOException {
+        verifyHtmlPart(By.className("navbar"), filePathParam);
+    }
+    
+    public String getModerationHintButtonText() {
+        WebElement moderatorionHintButton = browser.driver.findElement(By.id("moderationHintButton"));
+        return moderatorionHintButton.getText();
     }
 }
