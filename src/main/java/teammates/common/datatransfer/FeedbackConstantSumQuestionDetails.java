@@ -498,7 +498,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
      */
     private void sortForRecipient(Map<String, List<Integer>> recipientMapping, Map<String, String> identifierMap,
             Map<String, List<Integer>> sortedOptionPoints, FeedbackSessionResultsBundle bundle) {
-        for(Entry<String, List<Integer>> entry : recipientMapping.entrySet()) {
+        for (Entry<String, List<Integer>> entry : recipientMapping.entrySet()) {
             String participantIdentifier = entry.getKey();
             String name = bundle.getNameForEmail(participantIdentifier);
             String nameEmail = name + participantIdentifier;
@@ -513,7 +513,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
      */
     private void sortForOption(Map<String, List<Integer>> optionPoints, List<String> optionList,
             Map<String, List<Integer>> sortedOptionPoints) {
-        for(Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             String option = optionList.get(Integer.parseInt(entry.getKey()));
             
             sortedOptionPoints.put(option, entry.getValue());
