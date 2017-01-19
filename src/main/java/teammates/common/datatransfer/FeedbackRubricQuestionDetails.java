@@ -530,9 +530,23 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
 
+        List<FeedbackResponseAttributes> responsesForStatistics = responses;
+
+        if ("student".equals(view)) {
+            //retain only received responses for students
+            List<FeedbackResponseAttributes> receivedResponses = new ArrayList<>();
+            for (FeedbackResponseAttributes response : responses) {
+                boolean isReceivedResponse = response.recipient.equalsIgnoreCase(studentEmail);
+                if (isReceivedResponse) {
+                    receivedResponses.add(response);
+                }
+            }
+            responsesForStatistics = receivedResponses;
+        }
+
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
-        int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
-        float[][] rubricStats = calculateRubricStats(responses, question);
+        int[][] responseFrequency = calculateResponseFrequency(responsesForStatistics, fqd);
+        float[][] rubricStats = calculateRubricStats(responsesForStatistics, question);
         DecimalFormat weightFormat = new DecimalFormat("#.##");
         
         // Create table row header fragments
@@ -597,7 +611,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         return Templates.populateTemplate(
                 FormTemplates.RUBRIC_RESULT_STATS,
-                Slots.STATS_TITLE, "student".equals(view) ? "Response Summary (of visible responses)" : "Response Summary",
+                Slots.STATS_TITLE, "student".equals(view) ? "Response Summary (of received responses)" : "Response Summary",
                 Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString());
     }
