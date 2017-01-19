@@ -1,6 +1,6 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 
 public class AdminStudentGoogleIdResetPageData extends PageData {
     /*

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+
 /**
  * Contains a list of students and instructors in a course. Useful for caching
  * a copy of student and instructor details of a course instead of reading

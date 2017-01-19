@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
 public class InstructorFeedbackResultsQuestionTable {
 

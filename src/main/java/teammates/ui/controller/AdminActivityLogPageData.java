@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;

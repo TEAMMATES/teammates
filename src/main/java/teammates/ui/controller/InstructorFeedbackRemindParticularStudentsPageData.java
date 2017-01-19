@@ -1,7 +1,7 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 
 public class InstructorFeedbackRemindParticularStudentsPageData extends PageData {
     private FeedbackSessionResponseStatus responseStatus;

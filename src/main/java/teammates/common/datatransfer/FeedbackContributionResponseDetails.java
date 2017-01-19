@@ -3,6 +3,8 @@ package teammates.common.datatransfer;
 import java.util.HashMap;
 import java.util.Map;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;

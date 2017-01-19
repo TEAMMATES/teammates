@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.logic.api.Logic;
 
 public class DataMigrationForSearchableInstructors extends RemoteApiClient {

@@ -2,8 +2,8 @@ package teammates.test.cases.logic;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.ProfilesLogic;
 import teammates.test.cases.BaseComponentTestCase;
