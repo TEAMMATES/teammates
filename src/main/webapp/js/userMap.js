@@ -17,13 +17,12 @@ function handleData(err, countryCoordinates, userData) {
     var countriesArr = [];
     var total = 0;
     var date = userData.lastUpdated;
-    for (key in userData.institutes) {
-        if (userData.institutes.hasOwnProperty(key)) {
-            var array = userData.institutes[key];
-            total += array.length;
-            countriesArr.push([key, array.length]);
-        }
-    }
+    var userCountries = Object.keys(userData.institutes);
+    userCountries.forEach(function(countryName) {
+        var countryTotal = userData.institutes[countryName].length;
+        countriesArr.push([countryName, countryTotal]);
+        total += countryTotal;
+    });
     
     // set the last updated date in the page
     document.getElementById('lastUpdate').innerHTML = date;
