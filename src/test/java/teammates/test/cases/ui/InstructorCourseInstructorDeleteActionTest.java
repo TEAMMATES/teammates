@@ -17,9 +17,9 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
     }
     

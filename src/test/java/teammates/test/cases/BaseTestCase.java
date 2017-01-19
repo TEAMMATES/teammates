@@ -8,8 +8,7 @@ import org.testng.AssertJUnit;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Utils;
-import teammates.logic.backdoor.BackDoorLogic;
+import teammates.common.util.JsonUtils;
 import teammates.test.driver.TestProperties;
 import teammates.test.util.FileHelper;
 
@@ -60,48 +59,10 @@ public class BaseTestCase {
             String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
                                   + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
-            return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+            return JsonUtils.fromJson(jsonString, DataBundle.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Creates in the datastore a fresh copy of data in typicalDataBundle.json
-     */
-    protected static void restoreTypicalDataInDatastore() throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        DataBundle dataBundle = getTypicalDataBundle();
-        backDoorLogic.persistDataBundle(dataBundle);
-    }
-
-    protected static void removeAndRestoreTypicalDataInDatastore() throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        DataBundle dataBundle = getTypicalDataBundle();
-        backDoorLogic.deleteExistingData(dataBundle);
-        backDoorLogic.persistDataBundle(dataBundle);
-    }
-    
-    protected static void removeTypicalDataInDatastore() {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        DataBundle dataBundle = getTypicalDataBundle();
-        backDoorLogic.deleteExistingData(dataBundle);
-    }
-    
-    /**
-     * Creates in the datastore a fresh copy of data in the given json file
-     */
-    protected static void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        DataBundle dataBundle = loadDataBundle(pathToJsonFile);
-        backDoorLogic.persistDataBundle(dataBundle);
-    }
-
-    protected static void removeAndRestoreDatastoreFromJson(String pathToJsonFile) throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        DataBundle dataBundle = loadDataBundle(pathToJsonFile);
-        backDoorLogic.deleteExistingData(dataBundle);
-        backDoorLogic.persistDataBundle(dataBundle);
     }
 
     protected void signalFailureToDetectException(String... messages) {

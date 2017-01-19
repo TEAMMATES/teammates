@@ -5,10 +5,9 @@ import java.io.IOException;
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.storage.datastore.Datastore;
 import teammates.test.driver.TestProperties;
 import teammates.test.util.FileHelper;
 
@@ -21,7 +20,6 @@ public class GenerateLargeScaledData extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize(); //TODO: push to parent class
         Logic logic = new Logic();
         DataBundle largeScaleBundle = loadDataBundle("/largeScaleTest.json");
         
@@ -69,7 +67,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
             String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
                                   + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
-            return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+            return JsonUtils.fromJson(jsonString, DataBundle.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

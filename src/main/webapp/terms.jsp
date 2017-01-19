@@ -1,6 +1,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="terms">
-    <h1 id="caption">
+    <h1 class="caption">
         Terms of Use
     </h1>
     <img src="images/terms.png" width="125px" style="padding-left: 100px;">

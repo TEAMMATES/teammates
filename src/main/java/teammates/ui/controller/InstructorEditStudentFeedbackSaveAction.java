@@ -11,11 +11,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
     
@@ -26,9 +25,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
                 
-        new GateKeeper().verifyAccessible(instructor,
-                session,
-                false, moderatedStudent.section,
+        gateKeeper.verifyAccessible(instructor, session, false, moderatedStudent.section,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
     
@@ -38,7 +35,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail);
 
         moderatedStudent = logic.getStudentForEmail(courseId, moderatedStudentEmail);
-        isSendEmail = false;
+        isSendSubmissionEmail = false;
     }
 
     @Override

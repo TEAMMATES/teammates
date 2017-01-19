@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 public class AdminSearchPageActionTest extends BaseActionTest {
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
     }
     

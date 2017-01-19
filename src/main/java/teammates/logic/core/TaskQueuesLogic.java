@@ -2,46 +2,40 @@ package teammates.logic.core;
 
 import java.util.Map;
 
+import teammates.common.util.TaskWrapper;
+
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 
 /**
- * Handles  operations related to Task Queues.
+ * Handles operations related to task queues.
  */
 public class TaskQueuesLogic {
-
-    private static TaskQueuesLogic instance;
     
-    public static TaskQueuesLogic inst() {
-        if (instance == null) {
-            instance = new TaskQueuesLogic();
-        }
-        return instance;
+    /**
+     * Adds the given task to the specified queue.
+     * 
+     * @param task the task object containing the details of task to be added
+     */
+    public void addTask(TaskWrapper task) {
+        addDeferredTask(task, 0);
     }
     
-    public void createAndAddTask(String queueName,
-            String workerUrl, Map<String, String> paramMap) {
-        Queue requiredQueue = QueueFactory.getQueue(queueName);
-        TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
-        
-        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-            String name = entry.getKey();
-            String value = entry.getValue();
-            
-            taskToBeAdded = taskToBeAdded.param(name, value);
+    /**
+     * Adds the given task, to be run after the specified time, to the specified queue.
+     * 
+     * @param task the task object containing the details of task to be added
+     * @param countdownTime the time delay for the task to be executed
+     */
+    public void addDeferredTask(TaskWrapper task, long countdownTime) {
+        Queue requiredQueue = QueueFactory.getQueue(task.getQueueName());
+        TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(task.getWorkerUrl());
+        if (countdownTime > 0) {
+            taskToBeAdded.countdownMillis(countdownTime);
         }
         
-        requiredQueue.add(taskToBeAdded);
-    }
-    
-    // TODO Combine this and createAndAddTask and modify task schedulers accordingly?
-    public void createAndAddTaskMultisetParam(String queueName,
-            String workerUrl, Map<String, String[]> paramMap) {
-        Queue requiredQueue = QueueFactory.getQueue(queueName);
-        TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
-        
-        for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+        for (Map.Entry<String, String[]> entry : task.getParamMap().entrySet()) {
             String name = entry.getKey();
             String[] values = entry.getValue();
             
@@ -53,19 +47,4 @@ public class TaskQueuesLogic {
         requiredQueue.add(taskToBeAdded);
     }
     
-    public void createAndAddDeferredTask(String queueName,
-            String workerUrl, Map<String, String> paramMap, long countdownTime) {
-        Queue requiredQueue = QueueFactory.getQueue(queueName);
-        TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
-        taskToBeAdded.countdownMillis(countdownTime);
-        
-        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-            String name = entry.getKey();
-            String value = entry.getValue();
-            
-            taskToBeAdded = taskToBeAdded.param(name, value);
-        }
-        
-        requiredQueue.add(taskToBeAdded);
-    }
 }

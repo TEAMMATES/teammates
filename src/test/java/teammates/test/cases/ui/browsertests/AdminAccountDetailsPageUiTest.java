@@ -25,10 +25,10 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/AdminAccountDetailsPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser();
     }
     
@@ -66,7 +66,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
         
         courseId = "AAMgtUiT.CS1101";
         detailsPage.clickRemoveStudentFromCourse(courseId)
-            .verifyStatus(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
+            .verifyStatus(Const.StatusMessages.STUDENT_DELETED);
         assertNull(BackDoor.getStudent(courseId, "AAMgtUiT.instr2@gmail.com"));
         detailsPage.verifyHtmlMainContent("/adminAccountDetailsRemoveStudent.html");
     }

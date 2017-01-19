@@ -21,9 +21,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Handles CRUD Operations for profiles.
- * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
+ * Handles CRUD operations for student profiles.
  * 
+ * @see {@link StudentProfile}
+ * @see {@link StudentProfileAttributes}
  */
 public class ProfilesDb extends EntitiesDb {
     

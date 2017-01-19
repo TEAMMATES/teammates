@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -23,26 +22,34 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackQuestionsDb;
 
-public class FeedbackQuestionsLogic {
+/**
+ * Handles operations related to feedback questions.
+ * 
+ * @see {@link FeedbackQuestionAttributes}
+ * @see {@link FeedbackQuestionsDb}
+ */
+public final class FeedbackQuestionsLogic {
     
-    private static final Logger log = Utils.getLogger();
-
-    private static FeedbackQuestionsLogic instance;
+    private static final Logger log = Logger.getLogger();
+    
+    private static FeedbackQuestionsLogic instance = new FeedbackQuestionsLogic();
     
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    
+    private FeedbackQuestionsLogic() {
+        // prevent initialization
+    }
     
     public static FeedbackQuestionsLogic inst() {
-        if (instance == null) {
-            instance = new FeedbackQuestionsLogic();
-        }
         return instance;
     }
     

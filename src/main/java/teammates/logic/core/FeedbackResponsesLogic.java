@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -14,31 +13,39 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.UserRole;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
 
-public class FeedbackResponsesLogic {
-
-    private static final Logger log = Utils.getLogger();
-
-    private static FeedbackResponsesLogic instance;
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic
-            .inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+/**
+ * Handles operations related to feedback responses.
+ * 
+ * @see {@link FeedbackResponseAttributes}
+ * @see {@link FeedbackResponsesDb}
+ */
+public final class FeedbackResponsesLogic {
+    
+    private static final Logger log = Logger.getLogger();
+    
+    private static FeedbackResponsesLogic instance = new FeedbackResponsesLogic();
+    
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-
+    
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    
+    private FeedbackResponsesLogic() {
+        // prevent initialization
+    }
+    
     public static FeedbackResponsesLogic inst() {
-        if (instance == null) {
-            instance = new FeedbackResponsesLogic();
-        }
         return instance;
     }
 
@@ -208,7 +215,7 @@ public class FeedbackResponsesLogic {
 
     public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestionInSection(
             FeedbackQuestionAttributes question, String userEmail,
-            UserType.Role role, String section) {
+            UserRole role, String section) {
 
         List<FeedbackResponseAttributes> viewableResponses =
                 new ArrayList<FeedbackResponseAttributes>();
@@ -252,7 +259,7 @@ public class FeedbackResponsesLogic {
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,
             String userEmail,
-            UserType.Role role, boolean isGiverName, CourseRoster roster) {
+            UserRole role, boolean isGiverName, CourseRoster roster) {
 
         if (question == null) {
             return false;
@@ -276,7 +283,7 @@ public class FeedbackResponsesLogic {
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:
-                if (roster.getInstructorForEmail(userEmail) != null && role == UserType.Role.INSTRUCTOR) {
+                if (roster.getInstructorForEmail(userEmail) != null && role == UserRole.INSTRUCTOR) {
                     return true;
                 }
                 break;

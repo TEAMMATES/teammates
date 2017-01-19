@@ -1,9 +1,8 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.StatusMessageColor;
 
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
@@ -12,7 +11,7 @@ public class AdminEmailTrashDeleteAction extends Action {
     @Override
     protected ActionResult execute() {
         
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         boolean emptyTrashBin = getRequestParamAsBoolean(Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN);
         

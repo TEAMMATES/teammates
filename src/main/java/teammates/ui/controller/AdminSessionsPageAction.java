@@ -11,11 +11,10 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
-import teammates.logic.api.GateKeeper;
 
 public class AdminSessionsPageAction extends Action {
     
@@ -38,7 +37,7 @@ public class AdminSessionsPageAction extends Action {
     @Override
     protected ActionResult execute() {
 
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         data = new AdminSessionsPageData(account);
         
         isShowAll = getRequestParamAsBoolean("all");

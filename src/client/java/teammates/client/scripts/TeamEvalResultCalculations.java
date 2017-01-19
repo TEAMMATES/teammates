@@ -1,8 +1,8 @@
 package teammates.client.scripts;
 
-import static teammates.logic.core.TeamEvalResult.NSB;
-import static teammates.logic.core.TeamEvalResult.NSU;
-import teammates.logic.core.TeamEvalResult;
+import static teammates.common.datatransfer.TeamEvalResult.NSB;
+import static teammates.common.datatransfer.TeamEvalResult.NSU;
+import teammates.common.datatransfer.TeamEvalResult;
 
 /**
  * Displays the step-by-step calculations for contribution question results.

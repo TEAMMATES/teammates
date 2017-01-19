@@ -1,19 +1,17 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -21,42 +19,37 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.Const.SystemParams;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.storage.api.StudentsDb;
 
-import com.google.gson.Gson;
-
 /**
- * Handles  operations related to student roles.
+ * Handles operations related to students.
+ * 
+ * @see {@link StudentAttributes}
+ * @see {@link StudentsDb}
  */
-public class StudentsLogic {
-    //The API of this class doesn't have header comments because it sits behind
-    //  the API of the logic class. Those who use this class is expected to be
-    //  familiar with the its code and Logic's code. Hence, no need for header
-    //  comments.
+public final class StudentsLogic {
     
     private static final int SECTION_SIZE_LIMIT = 100;
     private static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
-    private static StudentsLogic instance;
-    private StudentsDb studentsDb = new StudentsDb();
+    private static StudentsLogic instance = new StudentsLogic();
     
-    private CoursesLogic coursesLogic = CoursesLogic.inst();
-    private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private AccountsLogic accLogic = AccountsLogic.inst();
-    private CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final StudentsDb studentsDb = new StudentsDb();
+    
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    
+    private StudentsLogic() {
+        // prevent initialization
+    }
     
     public static StudentsLogic inst() {
-        if (instance == null) {
-            instance = new StudentsLogic();
-        }
         return instance;
     }
 
@@ -144,7 +137,7 @@ public class StudentsLogic {
     public StudentProfileAttributes getStudentProfile(String googleId) {
         Assumption.assertNotNull(googleId);
         
-        return accLogic.getStudentProfile(googleId);
+        return profilesLogic.getStudentProfile(googleId);
     }
     
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
@@ -288,22 +281,17 @@ public class StudentsLogic {
                                  originalStudent.googleId, originalStudent.comments, hasDocument, false);
     }
 
-    public List<StudentAttributes> enrollStudents(String enrollLines,
-            String courseId)
+    public CourseEnrollmentResult enrollStudents(String enrollLines, String courseId)
             throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
-
         return enrollStudents(enrollLines, courseId, true);
     }
 
-    public List<StudentAttributes> enrollStudentsWithoutDocument(String enrollLines,
-            String courseId)
+    public CourseEnrollmentResult enrollStudentsWithoutDocument(String enrollLines, String courseId)
             throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
-
         return enrollStudents(enrollLines, courseId, false);
     }
 
-    public List<StudentAttributes> enrollStudents(String enrollLines,
-            String courseId, boolean hasDocument)
+    private CourseEnrollmentResult enrollStudents(String enrollLines, String courseId, boolean hasDocument)
             throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
         
         if (!coursesLogic.isCoursePresent(courseId)) {
@@ -354,26 +342,16 @@ public class StudentsLogic {
             returnList.add(student);
         }
         
-        //Adjust submissions for all feedback responses within the course
-        List<FeedbackSessionAttributes> feedbackSessions = FeedbackSessionsLogic.inst()
-                .getFeedbackSessionsForCourse(courseId);
-        
-        for (FeedbackSessionAttributes session : feedbackSessions) {
-            //Schedule adjustment of submissions for feedback session in course
-            scheduleSubmissionAdjustmentForFeedbackInCourse(enrollmentList, courseId,
-                    session.getFeedbackSessionName());
-        }
-
         // add to return list students not included in the enroll list.
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
         for (StudentAttributes student : studentsInCourse) {
             if (!isInEnrollList(student, returnList)) {
-                student.updateStatus = StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST;
+                student.updateStatus = StudentUpdateStatus.NOT_IN_ENROLL_LIST;
                 returnList.add(student);
             }
         }
 
-        return returnList;
+        return new CourseEnrollmentResult(returnList, enrollmentList);
     }
 
     private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students) throws EnrollException {
@@ -511,102 +489,6 @@ public class StudentsLogic {
         return errorMessage.toString();
     }
 
-    private void scheduleSubmissionAdjustmentForFeedbackInCourse(
-            ArrayList<StudentEnrollDetails> enrollmentList, String courseId, String sessionName) {
-        // private methods -- should I test this?
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, sessionName);
-        
-        Gson gsonBuilder = Utils.getTeammatesGson();
-        String enrollmentDetails = gsonBuilder.toJson(enrollmentList);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE,
-                Const.ActionURIs.FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER, paramMap);
-        
-    }
-    
-    private EmailWrapper scheduleRegistrationInviteToStudent(CourseAttributes course, StudentAttributes student) {
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        
-        paramMap.put(ParamsNames.COURSE_ID, course.getId());
-        paramMap.put(ParamsNames.STUDENT_EMAIL, student.getEmail());
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.COURSE_JOIN_REMIND_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.COURSE_JOIN_REMIND_EMAIL_WORKER, paramMap);
-        
-        return new EmailGenerator().generateStudentCourseJoinEmail(course, student);
-    }
-
-    public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to student [" + studentEmail + "]");
-        }
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
-        if (studentData == null) {
-            throw new EntityDoesNotExistException(
-                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
-        }
-        
-        try {
-            EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
-    public EmailWrapper sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to student [" + studentEmail + "]");
-        }
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
-        if (studentData == null) {
-            throw new EntityDoesNotExistException(
-                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
-        }
-        
-        try {
-            EmailWrapper email =
-                    new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
-    public List<EmailWrapper> sendRegistrationInviteForCourse(String courseId) {
-        List<StudentAttributes> studentDataList = getUnregisteredStudentsForCourse(courseId);
-        
-        List<EmailWrapper> emailsSent = new ArrayList<EmailWrapper>();
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        for (StudentAttributes s : studentDataList) {
-            EmailWrapper email = scheduleRegistrationInviteToStudent(course, s);
-            emailsSent.add(email);
-        }
-        return emailsSent;
-    }
-
     public void deleteStudentCascade(String courseId, String studentEmail) {
         deleteStudentCascade(courseId, studentEmail, true);
     }
@@ -657,10 +539,10 @@ public class StudentsLogic {
     }
     
     public void adjustFeedbackResponseForEnrollments(
-            ArrayList<StudentEnrollDetails> enrollmentList,
+            List<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for (StudentEnrollDetails enrollment : enrollmentList) {
-            if (enrollment.updateStatus != UpdateStatus.MODIFIED) {
+            if (enrollment.updateStatus != StudentUpdateStatus.MODIFIED) {
                 continue;
             }
 
@@ -692,11 +574,11 @@ public class StudentsLogic {
 
         boolean isModifyingExistingStudent = originalStudentAttributes != null;
         if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
-            enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
+            enrollmentDetails.updateStatus = StudentUpdateStatus.UNMODIFIED;
         } else if (isModifyingExistingStudent) {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email,
                                                                   validStudentAttributes, true);
-            enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
+            enrollmentDetails.updateStatus = StudentUpdateStatus.MODIFIED;
             
             if (!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
                 enrollmentDetails.oldTeam = originalStudentAttributes.team;
@@ -706,7 +588,7 @@ public class StudentsLogic {
             }
         } else {
             createStudentCascade(validStudentAttributes, hasDocument);
-            enrollmentDetails.updateStatus = UpdateStatus.NEW;
+            enrollmentDetails.updateStatus = StudentUpdateStatus.NEW;
         }
 
         return enrollmentDetails;

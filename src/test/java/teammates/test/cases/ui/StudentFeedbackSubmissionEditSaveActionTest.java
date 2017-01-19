@@ -16,8 +16,11 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -27,12 +30,13 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditSaveAction;
 
 public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
     private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
 
@@ -116,6 +120,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
+        // submission confirmation email not sent if parameter does not exist
+        verifyNoEmailsSent(a);
+
         ______TS("new response");
 
         submissionParams = new String[]{
@@ -125,7 +132,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "New " + fr.getResponseDetails().getAnswerString()
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "New " + fr.getResponseDetails().getAnswerString(),
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on"
         };
 
         a = getAction(submissionParams);
@@ -136,6 +144,16 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("/page/studentHomePage?error=" + r.isError + "&user=student1InCourse1",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
+        
+        // submission confirmation email sent
+        verifyNumberOfEmailsSent(a, 1);
+        
+        EmailWrapper email = getEmailsSent(a).get(0);
+        String courseName = coursesLogic.getCourse(fr.courseId).getName();
+        assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
+                                   fr.feedbackSessionName),
+                     email.getSubject());
+        assertEquals(student1InCourse1.email, email.getRecipient());
 
         ______TS("edit response, did not specify recipient");
 
@@ -155,7 +173,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-2", fr.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-2", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", "Edited" + fr.getResponseDetails().getAnswerString()
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", "Edited" + fr.getResponseDetails().getAnswerString(),
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on"
         };
 
         a = getAction(submissionParams);
@@ -167,6 +186,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                      + "&courseid=idOfTypicalCourse1" + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
 
+        // submission confirmation email not sent if the action is an error, even with submission parameter "on"
+        verifyNoEmailsSent(a);
+        
         ______TS("edit response, empty answer");
 
         submissionParams = new String[]{
@@ -177,7 +199,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-2", fr.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", fr.recipient,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-2", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", ""
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", "",
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "off"
         };
 
         a = getAction(submissionParams);
@@ -189,6 +212,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
+        // submission confirmation email not sent if parameter is not "on"
+        verifyNoEmailsSent(a);
 
         ______TS("new response, did not specify recipient");
 
@@ -199,7 +224,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-2", fr.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-2", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", "Edited" + fr.getResponseDetails().getAnswerString()
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", "Edited" + fr.getResponseDetails().getAnswerString(),
         };
 
         a = getAction(submissionParams);
@@ -215,7 +240,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         ______TS("mcq");
 
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
 
         fq = fqDb.getFeedbackQuestion("MCQ Session", "FSQTT.idOfTypicalCourse1", 1);
         assertNotNull("Feedback question not found in database", fq);
@@ -779,7 +804,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.getMinScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0", StringHelper.toDecimalFormatString(fqd.getStep())
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
+                        StringHelper.toDecimalFormatString(fqd.getStep()),
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on"
         };
 
         StudentFeedbackSubmissionEditSaveAction submissionAction = getAction(validSubmissionParams);
@@ -794,6 +821,16 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();
 
+        // submission confirmation email sent also for unregistered student
+        verifyNumberOfEmailsSent(submissionAction, 1);
+        
+        email = getEmailsSent(submissionAction).get(0);
+        courseName = coursesLogic.getCourse(fr.courseId).getName();
+        assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
+                                   fr.feedbackSessionName),
+                     email.getSubject());
+        assertEquals(unregisteredStudent.email, email.getRecipient());
+        
         ______TS("Unregistered student with invalid submission of response remains at submission page");
 
         // Setting uri for unregistered student which contains the key of the student

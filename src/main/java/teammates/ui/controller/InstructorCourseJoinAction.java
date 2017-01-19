@@ -4,7 +4,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-import teammates.logic.api.GateKeeper;
 
 /**
  * This action handles instructors that attempts to join a course.
@@ -24,7 +23,7 @@ public class InstructorCourseJoinAction extends Action {
         
         Assumption.assertNotNull(regkey);
 
-        new GateKeeper().verifyLoggedInUserPrivileges();
+        gateKeeper.verifyLoggedInUserPrivileges();
         
         /* Process confirmation for instructor if needed and setup status to be shown to admin */
         statusToAdmin = "Action Instructor Clicked Join Link"

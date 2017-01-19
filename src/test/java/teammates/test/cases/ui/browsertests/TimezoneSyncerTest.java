@@ -17,10 +17,11 @@ public class TimezoneSyncerTest extends BaseUiTestCase {
     private static AppPage page;
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
-        page = AppPage.getNewPageInstance(browser).navigateTo(createUrl("/timezone.jsp"));
+        loginAdmin(browser);
+        page = AppPage.getNewPageInstance(browser).navigateTo(createUrl(Const.ViewURIs.TIMEZONE));
     }
     
     @Test

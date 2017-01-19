@@ -46,7 +46,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes newSession;
     
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         
         newSession = new FeedbackSessionAttributes();
@@ -74,7 +74,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     @BeforeMethod
     public void refreshTestData() {
         testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
     }
@@ -355,7 +355,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
 
-        newSession.setInstructions(new Text("<p>cannot see responses</p>\r\n\r\n<p>$^/&#61;?</p>"));
+        newSession.setInstructions(new Text("<p>cannot see responses$^/&#61;?</p>"));
 
         assertEquals(newSession.toString(), savedSession.toString());
 

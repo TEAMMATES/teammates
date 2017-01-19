@@ -16,10 +16,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -99,27 +99,27 @@ public class InstructorStudentCommentEditAction extends Action {
         String recipients = commentInDb.recipients.iterator().next();
         String unsanitizedRecipients = StringHelper.recoverFromSanitizedText(recipients);
         if (commentRecipientType == CommentParticipantType.COURSE) {
-            new GateKeeper().verifyAccessible(instructor, course,
-                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+            gateKeeper.verifyAccessible(instructor, course,
+                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentParticipantType.SECTION) {
-            new GateKeeper().verifyAccessible(instructor, course, unsanitizedRecipients,
-                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+            gateKeeper.verifyAccessible(instructor, course, unsanitizedRecipients,
+                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentParticipantType.TEAM) {
             List<StudentAttributes> students = logic.getStudentsForTeam(unsanitizedRecipients, courseId);
 
             if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
             } else {
-                new GateKeeper().verifyAccessible(instructor, course, students.get(0).section,
-                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+                gateKeeper.verifyAccessible(instructor, course, students.get(0).section,
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
             }
         } else { // TODO: modify this after comment for instructor is enabled
             StudentAttributes student = logic.getStudentForEmail(courseId, unsanitizedRecipients);
             if (student == null) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
             } else {
-                new GateKeeper().verifyAccessible(instructor, course, student.section,
-                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+                gateKeeper.verifyAccessible(instructor, course, student.section,
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
             }
         }
     }
@@ -127,6 +127,8 @@ public class InstructorStudentCommentEditAction extends Action {
     private CommentAttributes extractCommentData() {
         CommentAttributes comment = new CommentAttributes();
         
+        String editType = getRequestParamValue(Const.ParamsNames.COMMENT_EDITTYPE);
+
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
@@ -137,8 +139,10 @@ public class InstructorStudentCommentEditAction extends Action {
         String showRecipientTo = getRequestParamValue(Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO);
 
         String commentTextString = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT);
-        Assumption.assertNotNull(commentTextString);
-        Assumption.assertNotEmpty(commentTextString);
+        if (!"delete".equals(editType)) {
+            Assumption.assertNotNull(commentTextString);
+            Assumption.assertNotEmpty(commentTextString);
+        }
         
         Text commentText = new Text(commentTextString);
         
@@ -195,7 +199,7 @@ public class InstructorStudentCommentEditAction extends Action {
         if (isCommentPublicToRecipient(comment)) {
             comment.sendingState = CommentSendingState.PENDING;
         }
-        comment.commentText = commentText;
+        comment.commentText = Sanitizer.sanitizeForRichText(commentText);
         comment.createdAt = new Date();
         
         return comment;
