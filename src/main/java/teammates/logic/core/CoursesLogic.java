@@ -253,42 +253,6 @@ public final class CoursesLogic {
 
         return sectionNameList;
     }
-
-    public SectionDetailsBundle getSectionForCourse(String section, String courseId)
-            throws EntityDoesNotExistException {
-
-        verifyCourseIsPresent(courseId);
-        
-        List<StudentAttributes> students = studentsLogic.getStudentsForSection(section, courseId);
-        StudentAttributes.sortByTeamName(students);
-
-        SectionDetailsBundle sectionDetails = new SectionDetailsBundle();
-        TeamDetailsBundle team = null;
-        sectionDetails.name = section;
-        for (int i = 0; i < students.size(); i++) {
-            StudentAttributes s = students.get(i);
-    
-            // first student of first team
-            if (team == null) {
-                team = new TeamDetailsBundle();
-                team.name = s.team;
-                team.students.add(s);
-            } else if (s.team.equals(team.name)) { // student in the same team as the previous student
-                team.students.add(s);
-            } else { // first student of subsequent teams (not the first team)
-                sectionDetails.teams.add(team);
-                team = new TeamDetailsBundle();
-                team.name = s.team;
-                team.students.add(s);
-            }
-    
-            // if last iteration
-            if (i == students.size() - 1) {
-                sectionDetails.teams.add(team);
-            }
-        }
-        return sectionDetails;
-    }
     
     /**
      * @param course {@link CourseAttributes}
@@ -458,36 +422,6 @@ public final class CoursesLogic {
         }
     
         return teams;
-    }
-
-    public int getNumberOfSections(String courseId) throws EntityDoesNotExistException {
-        List<String> sectionNameList = getSectionsNameForCourse(courseId);
-        return sectionNameList.size();
-    }
-
-    public int getNumberOfTeams(String courseId) throws EntityDoesNotExistException {
-        verifyCourseIsPresent(courseId);
-        List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
-
-        List<String> teamNameList = new ArrayList<String>();
-
-        for (StudentAttributes sd : studentDataList) {
-            if (!teamNameList.contains(sd.team)) {
-                teamNameList.add(sd.team);
-            }
-        }
-
-        return teamNameList.size();
-    }
-
-    public int getTotalEnrolledInCourse(String courseId) throws EntityDoesNotExistException {
-        verifyCourseIsPresent(courseId);
-        return studentsLogic.getStudentsForCourse(courseId).size();
-    }
-
-    public int getTotalUnregisteredInCourse(String courseId) throws EntityDoesNotExistException {
-        verifyCourseIsPresent(courseId);
-        return studentsLogic.getUnregisteredStudentsForCourse(courseId).size();
     }
 
     /**
@@ -678,35 +612,6 @@ public final class CoursesLogic {
         
         return courseSummaryList;
     }
- 
-    /**
-     * Returns course details list for instructor.<br>
-     * Omits archived courses if omitArchived == true<br>
-     * 
-     * @param instructorId - Google Id of instructor
-     * @return HashMap with courseId as key, and CourseDetailsBundle as value.
-     **/
-    public HashMap<String, CourseDetailsBundle> getCoursesDetailsListForInstructor(String instructorId,
-                                                                                   boolean omitArchived)
-           throws EntityDoesNotExistException {
-        
-        HashMap<String, CourseDetailsBundle> courseList =
-                getCourseSummariesForInstructor(instructorId, omitArchived);
-        
-        // TODO: remove need for lower level functions to make repeated db calls
-        // getFeedbackSessionDetailsForInstructor
-        // The above functions make repeated calls to get InstructorAttributes
-        List<FeedbackSessionDetailsBundle> feedbackSessionList =
-                feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(instructorId, omitArchived);
-        
-        for (FeedbackSessionDetailsBundle fsb : feedbackSessionList) {
-            CourseDetailsBundle courseSummary = courseList.get(fsb.feedbackSession.getCourseId());
-            if (courseSummary != null) {
-                courseSummary.feedbackSessions.add(fsb);
-            }
-        }
-        return courseList;
-    }
     
     /**
      * @param instructorId
@@ -722,34 +627,6 @@ public final class CoursesLogic {
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId,
                                                                                                omitArchived);
         return getCourseSummaryWithoutStatsForInstructor(instructorList);
-    }
-    
-    // TODO: batch retrieve courses?
-    /**
-     * @param googleId The Google ID of the instructor
-     * @return a list of {@link CourseAttributes} for all archived courses mapped to an instructor
-     * @throws EntityDoesNotExistException
-     */
-    public List<CourseAttributes> getArchivedCoursesForInstructor(String googleId) {
-        
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
-        
-        ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
-
-        for (InstructorAttributes instructor : instructorList) {
-            CourseAttributes course = coursesDb.getCourse(instructor.courseId);
-            
-            if (course == null) {
-                log.warning("Course was deleted but the Instructor still exists: " + Const.EOL
-                            + instructor.toString());
-            } else {
-                if (instructor.isArchived) {
-                    courseList.add(course);
-                }
-            }
-        }
-        
-        return courseList;
     }
     
     /**
@@ -866,23 +743,6 @@ public final class CoursesLogic {
             }
         }
         return false;
-    }
-    
-    /**
-     * Maps sections to relevant course id.
-     * @param courses
-     * @return a hash map containing a list of sections as the value and relevant courseId as the key.
-     * @throws EntityDoesNotExistException
-     */
-    public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses)
-                                    throws EntityDoesNotExistException {
-        Map<String, List<String>> courseIdToSectionName = new HashMap<String, List<String>>();
-        for (CourseAttributes course : courses) {
-            List<String> sections = getSectionsNameForCourse(course);
-            courseIdToSectionName.put(course.getId(), sections);
-        }
-        
-        return courseIdToSectionName;
     }
     
     /**
