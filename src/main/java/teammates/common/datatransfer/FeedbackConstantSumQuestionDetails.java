@@ -404,9 +404,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Map<String, String> identifierMap = new HashMap<String, String>();
         
         if (distributeToRecipients) {
-            transferRecipientsToSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
+            putRecipientsInSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
         } else {
-            transferOptionsToSortedMap(optionPoints, options, sortedOptionPoints);
+            putOptionsInSortedMap(optionPoints, options, sortedOptionPoints);
         }
 
         for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
@@ -465,9 +465,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Map<String, String> identifierMap = new HashMap<String, String>();
         
         if (distributeToRecipients) {
-            transferRecipientsToSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
+            putRecipientsInSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
         } else {
-            transferOptionsToSortedMap(optionPoints, options, sortedOptionPoints);
+            putOptionsInSortedMap(optionPoints, options, sortedOptionPoints);
         }
 
         for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
@@ -501,7 +501,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
      * @param sortedOptionPoints    Sorted map to contain recipient info, recipient concatenated with email used as key
      * @param bundle
      */
-    private void transferRecipientsToSortedMap(Map<String, List<Integer>> recipientMapping, Map<String, String> identifierMap,
+    private void putRecipientsInSortedMap(Map<String, List<Integer>> recipientMapping, Map<String, String> identifierMap,
             Map<String, List<Integer>> sortedOptionPoints, FeedbackSessionResultsBundle bundle) {
         for (Entry<String, List<Integer>> entry : recipientMapping.entrySet()) {
             String participantIdentifier = entry.getKey();
@@ -520,7 +520,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
      * @param optionList            List of options in question
      * @param sortedOptionPoints    Sorted map of option points
      */
-    private void transferOptionsToSortedMap(Map<String, List<Integer>> optionPoints, List<String> optionList,
+    private void putOptionsInSortedMap(Map<String, List<Integer>> optionPoints, List<String> optionList,
             Map<String, List<Integer>> sortedOptionPoints) {
         for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             String option = optionList.get(Integer.parseInt(entry.getKey()));
