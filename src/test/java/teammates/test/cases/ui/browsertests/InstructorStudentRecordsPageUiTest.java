@@ -179,7 +179,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         ______TS("add comment: success");
 
         viewPage.addComment("New comment from teammates.test for Benny C")
-                .verifyStatus("New comment has been added");
+                .verifyStatus(String.format(Const.StatusMessages.COMMENT_ADDED,
+                                            "New comment from teammates.test for Benny C"));
 
         ______TS("add comment with custom visibility: success");
         
