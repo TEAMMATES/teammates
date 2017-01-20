@@ -143,12 +143,17 @@ function addInstructorFromSecondFormByAjax() {
     $('#addInstructorResultPanel').show();    // show the hidden panel
     isInputFromFirstPanel = false;
     
-    var instructorDetails = $('#instructorName').val() + '|' + $('#instructorEmail').val()
+    var instructorEmail = $('#instructorEmail').val();
+    var instructorEmailHead = instructorEmail.split('@')[0];
+    var instructorEmailTail = instructorEmail.split('@')[1];
+    var sanitisedInstructorEmail = encodeURIComponent(instructorEmailHead) + instructorEmailTail;
+    
+    var instructorDetails = $('#instructorName').val() + '|' + sanitisedInstructorEmail
                             + '|' + $('#instructorInstitution').val();
     instructorDetailsList = [instructorDetails];
     var params = 'instructorshortname=' + $('#instructorShortName').val()
                + '&instructorname=' + $('#instructorName').val()
-               + '&instructoremail=' + $('#instructorEmail').val()
+               + '&instructoremail=' + sanitisedInstructorEmail
                + '&instructorinstitution=' + $('#instructorInstitution').val();
     paramsList = [params];
     
