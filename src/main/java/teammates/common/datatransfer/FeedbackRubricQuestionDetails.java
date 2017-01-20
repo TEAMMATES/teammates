@@ -525,13 +525,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question,
-            String studentEmail,
-            FeedbackSessionResultsBundle bundle,
-            String view) {
+            FeedbackQuestionAttributes question, String studentEmail,
+            FeedbackSessionResultsBundle bundle, String view) {
 
         List<FeedbackResponseAttributes> responsesForStatistics =
-                filterResponsesForStatistics(responses, question, studentEmail, view);
+                filterResponsesForStatistics(responses, question, studentEmail, bundle, view);
 
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
         int[][] responseFrequency = calculateResponseFrequency(responsesForStatistics, fqd);
@@ -615,41 +613,54 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString());
     }
 
+    /**
+     * Returns a list of FeedbackResponseAttributes filtered according to view, question recipient type
+     * for the Statistics Table
+     */
     private List<FeedbackResponseAttributes> filterResponsesForStatistics(List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question, String studentEmail, String view) {
+            FeedbackQuestionAttributes question, String studentEmail,
+            FeedbackSessionResultsBundle bundle, String view) {
 
-        List<FeedbackResponseAttributes> responsesForStatistics = responses;
 
         boolean isViewedByStudent = "student".equals(view);
-        boolean toFilter = false;
+        if (!isViewedByStudent) {
+            return responses;
+        }
 
-        if (isViewedByStudent) {
-            // check question recipientType to see if filtering should be skipped
-            toFilter = true;
-            FeedbackParticipantType[] typesToSkipFiltering = {FeedbackParticipantType.INSTRUCTORS,
-                    FeedbackParticipantType.NONE};
-            for (FeedbackParticipantType type : typesToSkipFiltering) {
-                if (question.getRecipientType().equals(type)) {
-                    toFilter = false;
-                }
+        FeedbackParticipantType[] typesToSkipFiltering = {FeedbackParticipantType.INSTRUCTORS,
+                FeedbackParticipantType.NONE};
+        FeedbackParticipantType recipientType = question.getRecipientType();
+
+        for (FeedbackParticipantType skipType : typesToSkipFiltering) {
+            if (recipientType.equals(skipType)) {
+                return responses;
             }
         }
 
-        if (toFilter) {
-            // retain only received responses if they exists
-            List<FeedbackResponseAttributes> receivedResponses = new ArrayList<>();
-            for (FeedbackResponseAttributes response : responses) {
-                boolean isReceivedResponse = response.recipient.equalsIgnoreCase(studentEmail);
-                if (isReceivedResponse) {
-                    receivedResponses.add(response);
-                }
-            }
-            if (!receivedResponses.isEmpty()) {
-                responsesForStatistics = receivedResponses;
+        FeedbackParticipantType[] typesToFilterByTeams = {FeedbackParticipantType.OWN_TEAM,
+                FeedbackParticipantType.TEAMS};
+        boolean toFilterByTeams = false;
+
+        for (FeedbackParticipantType teamType : typesToFilterByTeams) {
+            if (recipientType.equals(teamType)) {
+                toFilterByTeams = true;
             }
         }
 
-        return responsesForStatistics;
+        List<FeedbackResponseAttributes> receivedResponses = new ArrayList<>();
+        String recipientString = toFilterByTeams ? bundle.getTeamNameForEmail(studentEmail) : studentEmail;
+
+        for (FeedbackResponseAttributes response : responses) {
+            boolean isReceivedResponse = response.recipient.equals(recipientString);
+            if (isReceivedResponse) {
+                receivedResponses.add(response);
+            }
+        }
+        if (receivedResponses.isEmpty()) {
+            return responses;
+        }
+
+        return receivedResponses;
     }
     
     /**
