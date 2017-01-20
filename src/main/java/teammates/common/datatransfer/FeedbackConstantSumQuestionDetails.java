@@ -404,9 +404,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Map<String, String> identifierMap = new HashMap<String, String>();
         
         if (distributeToRecipients) {
-            sortForRecipient(optionPoints, identifierMap, sortedOptionPoints, bundle);
+            transferRecipientsToSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
         } else {
-            sortForOption(optionPoints, options, sortedOptionPoints);
+            transferOptionsToSortedMap(optionPoints, options, sortedOptionPoints);
         }
 
         for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
@@ -465,9 +465,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Map<String, String> identifierMap = new HashMap<String, String>();
         
         if (distributeToRecipients) {
-            sortForRecipient(optionPoints, identifierMap, sortedOptionPoints, bundle);
+            transferRecipientsToSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
         } else {
-            sortForOption(optionPoints, options, sortedOptionPoints);
+            transferOptionsToSortedMap(optionPoints, options, sortedOptionPoints);
         }
 
         for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
@@ -494,9 +494,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
     
     /**
-     * Used as helper method to put recipient entries from an unsorted map to a sorted map
+     * Puts recipients from an unsorted map to a sorted map
+     * 
+     * @param recipientMapping      Original map containing recipients
+     * @param identifierMap         Helper map to retrieve email from name concatenated with email string
+     * @param sortedOptionPoints    Sorted map to contain recipient info, recipient concatenated with email used as key
+     * @param bundle
      */
-    private void sortForRecipient(Map<String, List<Integer>> recipientMapping, Map<String, String> identifierMap,
+    private void transferRecipientsToSortedMap(Map<String, List<Integer>> recipientMapping, Map<String, String> identifierMap,
             Map<String, List<Integer>> sortedOptionPoints, FeedbackSessionResultsBundle bundle) {
         for (Entry<String, List<Integer>> entry : recipientMapping.entrySet()) {
             String participantIdentifier = entry.getKey();
@@ -509,9 +514,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
     
     /**
-     * Used as helper method to put option entries from an unsorted map to a sorted map
+     * Puts options from an unsorted map to a sorted map
+     * 
+     * @param optionPoints          Original mapping of option points
+     * @param optionList            List of options in question
+     * @param sortedOptionPoints    Sorted map of option points
      */
-    private void sortForOption(Map<String, List<Integer>> optionPoints, List<String> optionList,
+    private void transferOptionsToSortedMap(Map<String, List<Integer>> optionPoints, List<String> optionList,
             Map<String, List<Integer>> sortedOptionPoints) {
         for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             String option = optionList.get(Integer.parseInt(entry.getKey()));
