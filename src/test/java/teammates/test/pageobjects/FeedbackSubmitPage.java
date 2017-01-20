@@ -201,11 +201,12 @@ public class FeedbackSubmitPage extends AppPage {
     
     // ------------- For InstructorEditStudentFeedbackPage -------------
     
-    public boolean clickModerationHintButton() {
+    public void clickModerationHintButton() {
         click(By.id("moderationHintButton"));
-        // Check if links toggle properly.
-        WebElement moderationHint = browser.driver.findElement(By.id("moderationHint"));
-        return moderationHint.isDisplayed();
+    }
+    
+    public boolean isModerationHintVisible() {
+        return isElementVisible("moderationHint");
     }
     
     public void verifyModerationHeaderHtml(String filePathParam) throws IOException {

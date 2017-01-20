@@ -48,10 +48,13 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 "session1InIESFPTCourse");
         
         submitPage.verifyModerationHeaderHtml("/instructorEditStudentFeedbackHint.html");
-        assertEquals("[More]", submitPage.getModerationHintButtonText());
-        assertTrue(submitPage.clickModerationHintButton());
+        
+        submitPage.clickModerationHintButton();
+        assertTrue(submitPage.isModerationHintVisible());
         assertEquals("[Less]", submitPage.getModerationHintButtonText());
-        assertFalse(submitPage.clickModerationHintButton());
+        
+        submitPage.clickModerationHintButton();
+        assertFalse(submitPage.isModerationHintVisible());
         assertEquals("[More]", submitPage.getModerationHintButtonText());
     }
 
