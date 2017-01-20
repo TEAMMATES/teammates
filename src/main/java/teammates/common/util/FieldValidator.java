@@ -752,9 +752,8 @@ public class FieldValidator {
         return StringHelper.isMatching(email, REGEX_EMAIL);
     }
     
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static boolean areElementsUnique(Collection elements) {
-        Set uniqueElements = new HashSet(elements);
+    public static <T> boolean areElementsUnique(Collection<T> elements) {
+        Set<T> uniqueElements = new HashSet<T>(elements);
         return uniqueElements.size() == elements.size();
     }
 
