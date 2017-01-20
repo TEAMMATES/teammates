@@ -148,10 +148,14 @@ function bindStudentPhotoLink(elements) {
         }
         
         var actualLink = $(this).parent().attr('data-link');
+        var $loadingImage = $('<img>').attr('src', '/images/ajax-loader.gif')
+                                      .addClass('center-block margin-top-7px');
         
         $(this).siblings('img').attr('src', actualLink).load(function() {
             var actualLink = $(this).parent().attr('data-link');
             var resolvedLink = $(this).attr('src');
+            
+            $loadingImage.remove();
             
             $(this).removeClass('hidden')
                 .parent().attr('data-link', '')
@@ -182,7 +186,10 @@ function bindStudentPhotoLink(elements) {
             updateHoverShowPictureEvents(actualLink, resolvedLink);
         });
         
+        var $imageCell = $(this).closest('td');
         $(this).remove();
+        $imageCell.append($loadingImage);
+        
     });
 }
 
@@ -354,10 +361,14 @@ function bindUnpublishButtons() {
 function loadProfilePictureForHoverEvent(obj) {
     obj.children('img')[0].src = obj.attr('data-link');
     
+    var $loadingImage = $('<img>').attr('src', '/images/ajax-loader.gif');
+    
     // load the pictures in all similar links
     obj.children('img').load(function() {
         var actualLink = $(this).parent().attr('data-link');
         var resolvedLink = $(this).attr('src');
+        
+        $loadingImage.remove();
 
         updateHoverShowPictureEvents(actualLink, resolvedLink);
         
@@ -370,6 +381,16 @@ function loadProfilePictureForHoverEvent(obj) {
                 $(this).siblings('.profile-pic-icon-hover').popover('hide');
             });
     });
+    
+    obj.popover('destroy').popover({
+        html: true,
+        trigger: 'manual',
+        placement: 'top',
+        content: function() {
+            return $loadingImage.get(0).outerHTML;
+        }
+    });
+    obj.popover('show');
 }
 
 /**
