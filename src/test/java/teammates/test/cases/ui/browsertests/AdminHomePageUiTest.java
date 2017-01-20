@@ -77,9 +77,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         String shortName = "Instrúctör";
         instructor.name = "AHPUiT Instrúctör";
-        instructor.email = "AHPUiT.instr1@gmail.tmt";
+        instructor.email = "AHPUiT.instr1!@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
-        String demoCourseId = "AHPUiT.instr1.gma-demo";
+        String demoCourseId = "AHPUiT.instr1_.gma-demo";
         
         String instructorDetails = instructor.name + " | " + instructor.email + "\n"
                                  + instructor.name + " | " + instructor.email + " | " + institute;
@@ -196,18 +196,18 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         ______TS("new instructor can view feedbackSession result of sample course");
         coursesPage.loadInstructorHomeTab();
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        instructorHomePage.clickFeedbackSessionViewResultsLink("AHPUiT.instr1.gma-demo", "Second team feedback session")
+        instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Second team feedback session")
                           .waitForPageToLoad();
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
         
         ______TS("new instructor can edit feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
         InstructorFeedbackEditPage feedbackEditPage =
-                instructorHomePage.clickFeedbackSessionEditLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
+                instructorHomePage.clickFeedbackSessionEditLink(demoCourseId, "Second team feedback session");
         
         feedbackEditPage.clickEditSessionButton();
         
-        FeedbackSessionAttributes feedbackSession = BackDoor.getFeedbackSession("AHPUiT.instr1.gma-demo",
+        FeedbackSessionAttributes feedbackSession = BackDoor.getFeedbackSession(demoCourseId,
                                                                                 "Second team feedback session");
         feedbackEditPage.editFeedbackSession(feedbackSession.getStartTime(),
                                              feedbackSession.getEndTime(),
@@ -218,24 +218,24 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         ______TS("new instructor can click submit button of sample feedbackSession");
         instructorHomePage.loadInstructorHomeTab();
-        FeedbackSubmitPage fbsp = instructorHomePage.clickFeedbackSessionSubmitLink("AHPUiT.instr1.gma-demo",
+        FeedbackSubmitPage fbsp = instructorHomePage.clickFeedbackSessionSubmitLink(demoCourseId,
                                                                                     "Second team feedback session");
         fbsp.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSubmissionEditPage.html");
         
         ______TS("new instructor can send reminder of sample course");
         instructorHomePage.loadInstructorHomeTab();
-        instructorHomePage.clickFeedbackSessionRemindLink("AHPUiT.instr1.gma-demo",
+        instructorHomePage.clickFeedbackSessionRemindLink(demoCourseId,
                                                           "Second team feedback session");
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionRemind.html");
         
         ______TS("new instructor can unpublish feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
-        instructorHomePage.clickFeedbackSessionUnpublishLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
+        instructorHomePage.clickFeedbackSessionUnpublishLink(demoCourseId, "Second team feedback session");
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionUnpublished.html");
         
         ______TS("new instructor can publish feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
-        instructorHomePage.clickFeedbackSessionPublishLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
+        instructorHomePage.clickFeedbackSessionPublishLink(demoCourseId, "Second team feedback session");
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionPublished.html");
         
         feedbacksPage.logout();
