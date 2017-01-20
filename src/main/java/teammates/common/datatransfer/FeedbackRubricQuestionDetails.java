@@ -530,19 +530,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
 
-        List<FeedbackResponseAttributes> responsesForStatistics = responses;
-
-        if ("student".equals(view)) {
-            //retain only received responses for students
-            List<FeedbackResponseAttributes> receivedResponses = new ArrayList<>();
-            for (FeedbackResponseAttributes response : responses) {
-                boolean isReceivedResponse = response.recipient.equalsIgnoreCase(studentEmail);
-                if (isReceivedResponse) {
-                    receivedResponses.add(response);
-                }
-            }
-            responsesForStatistics = receivedResponses;
-        }
+        List<FeedbackResponseAttributes> responsesForStatistics =
+                filterResponsesForStatistics(responses, question, studentEmail, view);
 
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
         int[][] responseFrequency = calculateResponseFrequency(responsesForStatistics, fqd);
@@ -607,13 +596,60 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
+
+        String statsTitle = "Response Summary";
+
+        if ("student".equals(view)) {
+            if (responses.size() == responsesForStatistics.size()) {
+                statsTitle = "Response Summary (of visible responses)";
+            } else {
+                statsTitle = "Response Summary (of received responses)";
+            }
+        }
         
         
         return Templates.populateTemplate(
                 FormTemplates.RUBRIC_RESULT_STATS,
-                Slots.STATS_TITLE, "student".equals(view) ? "Response Summary (of received responses)" : "Response Summary",
+                Slots.STATS_TITLE, statsTitle,
                 Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString());
+    }
+
+    private List<FeedbackResponseAttributes> filterResponsesForStatistics(List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question, String studentEmail, String view) {
+
+        List<FeedbackResponseAttributes> responsesForStatistics = responses;
+
+        boolean isViewedByStudent = "student".equals(view);
+        boolean toFilter = false;
+
+        if (isViewedByStudent) {
+            // check question recipientType to see if filtering should be skipped
+            toFilter = true;
+            FeedbackParticipantType[] typesToSkipFiltering = {FeedbackParticipantType.INSTRUCTORS,
+                    FeedbackParticipantType.NONE};
+            for (FeedbackParticipantType type : typesToSkipFiltering) {
+                if (question.getRecipientType().equals(type)) {
+                    toFilter = false;
+                }
+            }
+        }
+
+        if (toFilter) {
+            // retain only received responses if they exists
+            List<FeedbackResponseAttributes> receivedResponses = new ArrayList<>();
+            for (FeedbackResponseAttributes response : responses) {
+                boolean isReceivedResponse = response.recipient.equalsIgnoreCase(studentEmail);
+                if (isReceivedResponse) {
+                    receivedResponses.add(response);
+                }
+            }
+            if (!receivedResponses.isEmpty()) {
+                responsesForStatistics = receivedResponses;
+            }
+        }
+
+        return responsesForStatistics;
     }
     
     /**
