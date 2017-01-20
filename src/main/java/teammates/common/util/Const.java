@@ -477,6 +477,7 @@ public final class Const {
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS =
                 "Too little options for " + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION
                 + ". Minimum number of options is: ";
+        public static final String CONST_SUM_ERROR_DUPLICATE_OPTIONS = "Duplicate options are not allowed.";
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_POINTS =
                 "Too little points for " + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT
                 + ". Minimum number of points is: ";

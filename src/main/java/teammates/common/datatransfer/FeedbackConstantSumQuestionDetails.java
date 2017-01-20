@@ -608,6 +608,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                        + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS + ".");
         }
         
+        Set<String> constSumOptionsSet = new HashSet<>(constSumOptions);
+        if (constSumOptionsSet.size() < numOfConstSumOptions) {
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+        }
+
         return errors;
     }
 
