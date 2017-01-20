@@ -6,7 +6,7 @@
 .moreInfoPointTitle {
     display: block;
     font-weight: bold;
-    margin: 10px 0px;
+    margin: 10px 0;
 }
 
 .moreInfoPointDetails {
@@ -27,5 +27,4 @@
     display: inline-block;
     border: thin solid grey;
     padding: 20px 40px;
-    pointer: default;
 }

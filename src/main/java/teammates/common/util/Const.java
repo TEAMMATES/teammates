@@ -50,7 +50,7 @@ public final class Const {
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String NO_SPECIFIC_RECIEPIENT = "No specific recipient";
+    public static final String NO_SPECIFIC_RECIPIENT = "No specific recipient";
     
     public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT = "Anonymous";
@@ -108,21 +108,10 @@ public final class Const {
         TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
     }
     
-    public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
-    public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
-    
     /* 
      * Other Constants
      */
     
-    public enum AdminEmailPageState {
-        COMPOSE, SENT, TRASH, DRAFT
-    }
-    
-    public enum StatusMessageColor {
-        INFO, SUCCESS, WARNING, DANGER
-    }
-
     private Const() {
         // Utility class containing constants
     }
@@ -151,21 +140,6 @@ public final class Const {
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
         
-        public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
-        public static final String ADMIN_EMAIL_TASK_QUEUE = "admin-send-email-queue";
-        public static final String ADMIN_PREPARE_EMAIL_TASK_QUEUE = "admin-prepare-email-task-queue";
-        
-        public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
-                                "feedback-submission-adjust-queue";
-        
-        public static final String COURSE_JOIN_REMIND_EMAIL_TASK_QUEUE = "course-join-remind-email-queue";
-        
-        public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
-        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE =
-                "feedback-remind-email-particular-users-queue";
-        public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
-        
-        public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
@@ -189,42 +163,12 @@ public final class Const {
         
         public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
         
-        private SystemParams() {
-            // utility class
-        }
-        
-        /**
-         * @return The file source for jquery.min.js used in application pages,
-         * chosen based on the build's environment.<br>
-         * <ul>
-         * <li>Local files are used on development to enable purely offline testing</li>
-         * <li>CDN files are used on production to reduce the load on appspot's server</li>
-         * </ul>
-         */
-        public static final String getjQueryFilePath(boolean isDevServer) {
-            return isDevServer ? "/js/lib/jquery.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
-        }
-        
-        /**
-         * @return The file source for jquery-ui.min.js used in application pages,
-         * chosen based on the build's environment.<br>
-         * <ul>
-         * <li>Local files are used on development to enable purely offline testing</li>
-         * <li>CDN files are used on production to reduce the load on appspot's server</li>
-         * </ul>
-         */
-        public static final String getjQueryUiFilePath(boolean isDevServer) {
-            return isDevServer ? "/js/lib/jquery-ui.min.js"
-                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js";
-        }
-        
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
      * the UI.
      */
-    public class Tooltips {
+    public static class Tooltips {
     
         public static final String COURSE_ENROLL = "Enroll student into the course";
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
@@ -318,8 +262,9 @@ public final class Const {
                 "Select this option to have the feedback session become visible "
                 + "when it is open for submissions (as selected above).";
         public static final String FEEDBACK_SESSION_SESSIONVISIBLENEVER =
-                "Select this option if you want the feedback session to never be visible. "
-                + "Use this option if you want to use this as a private feedback session.";
+                "Select this option if you want the feedback session to be private. "
+                + "A private session is never visible to anyone. "
+                + "Private sessions can be used to record your own comments about others, for your own reference.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELABEL =
                 "Please select when the responses for the feedback session will be visible to the designated recipients."
                 + "<br>You can select the response visibility for each type of user and question later.";
@@ -399,6 +344,22 @@ public final class Const {
                 "Cancel adding new question. No new question will be added to the feedback session.";
         public static final String FEEDBACK_QUESTION_INPUT_DESCRIPTION =
                 "Please enter the description of the question.";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_OPTION =
+                "Respondents will have to distribute the total points specified here among the options, "
+                + "e.g. if you specify 100 points here and there are 3 options, "
+                + "respondents will have to distribute 100 points among 3 options.";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_RECIPIENT =
+                "Respondents will have to distribute the total points specified here among the recipients, "
+                + "e.g. if you specify 100 points here and there are 3 recipients, "
+                + "respondents will have to distribute 100 points among 3 recipients.";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION =
+                "The number of points to distribute will vary based on the number of options, "
+                + "e.g. if you specify 100 points here and there are 3 options, "
+                + "the total number of points to distribute among 3 options will be 300 (i.e. 100 x 3).";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT =
+                "The number of points to distribute will vary based on the number of recipients, "
+                + "e.g. if you specify 100 points here and there are 3 recipients, "
+                + "the total number of points to distribute among 3 recipients will be 300 (i.e. 100 x 3).";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
@@ -543,7 +504,7 @@ public final class Const {
                 + " must be valid numbers with precision up to 2 decimal places.";
     }
 
-    public class FeedbackQuestionTypeNames {
+    public static class FeedbackQuestionTypeNames {
         public static final String TEXT = "Essay question";
         public static final String MCQ = "Multiple-choice (single answer) question";
         public static final String MSQ = "Multiple-choice (multiple answers) question";
@@ -556,7 +517,7 @@ public final class Const {
         public static final String RUBRIC = "Rubric question";
     }
     
-    public class FeedbackSessionResults {
+    public static class FeedbackSessionResults {
         public static final String QUESTION_SORT_TYPE = "question";
         public static final String GRQ_SORT_TYPE = "giver-recipient-question";
         public static final String RGQ_SORT_TYPE = "recipient-giver-question";
@@ -564,7 +525,7 @@ public final class Const {
         public static final String RQG_SORT_TYPE = "recipient-question-giver";
     }
 
-    public class InstructorPermissionRoleNames {
+    public static class InstructorPermissionRoleNames {
         public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
         public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
         public static final String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
@@ -572,15 +533,16 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
     
-    public class GenderTypes {
+    public static class GenderTypes {
         public static final String MALE = "male";
         public static final String FEMALE = "female";
         public static final String OTHER = "other";
     }
 
-    public class ParamsNames {
+    public static class ParamsNames {
         
         public static final String IS_USING_AJAX = "isusingAjax";
+        public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
         
         public static final String BLOB_KEY = "blob-key";
         
@@ -630,7 +592,9 @@ public final class Const {
         public static final String COURSE_TO_LOAD = "coursetoload";
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
-        
+
+        public static final String IMAGE_TO_UPLOAD = "imagetoupload";
+
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
         
@@ -638,7 +602,6 @@ public final class Const {
         public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
         public static final String ADMIN_EMAIL_RECEIVER = "emailreceiver";
         public static final String ADMIN_EMAIL_ADDRESS_RECEIVERS = "adminemailaddressreceivers";
-        public static final String ADMIN_EMAIL_TASK_QUEUE_MODE = "adminemailtaskqueuemode";
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY = "adminemailgroupreceiverlistfilekey";
         public static final String ADMIN_EMAIL_IMAGE_TO_UPLOAD = "emailimagetoupload";
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD = "emailgroupreceiverlisttoupload";
@@ -749,7 +712,6 @@ public final class Const {
         public static final String STUDENT_ID = "googleid";
         
         public static final String REGKEY = "key";
-        public static final String REGKEY_LEGACY = "regkey";
         public static final String STUDENT_EMAIL = "studentemail";
         public static final String FROM_COMMENTS_PAGE = "commentpage";
         public static final String FROM_COURSE_DETAILS_PAGE = "coursedetailspage";
@@ -835,14 +797,14 @@ public final class Const {
         public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
     }
     
-    public class SearchIndex {
+    public static class SearchIndex {
         public static final String COMMENT = "comment";
         public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";
     }
     
-    public class SearchDocumentField {
+    public static class SearchDocumentField {
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
         public static final String STUDENT_ATTRIBUTE = "studentAttribute";
         public static final String INSTRUCTOR_ATTRIBUTE = "instructorAttribute";
@@ -868,7 +830,7 @@ public final class Const {
         public static final String IS_VISIBLE_TO_GIVER = "isVisibleToGiver";
     }
 
-    public class ActionURIs {
+    public static class ActionURIs {
         
         /* _PAGE/Page in the Action URI name means 'show page' */
     
@@ -951,7 +913,10 @@ public final class Const {
         
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
-        
+
+        public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
+        public static final String IMAGE_UPLOAD = "/page/imageUpload";
+
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
         public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
@@ -995,57 +960,84 @@ public final class Const {
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD = "/admin/adminEmailGroupReceiverListUpload";
         public static final String ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL =
                 "/admin/adminEmailCreateGroupReceiverListUploadUrl";
-        
+
+        public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
-        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/feedbackSessionOpeningReminders";
-        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/feedbackSessionClosingReminders";
-        public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/feedbackSessionPublishedReminders";
+        public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
+        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/auto/feedbackSessionOpeningReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "/auto/feedbackSessionClosedReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/auto/feedbackSessionClosingReminders";
+        public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/auto/feedbackSessionPublishedReminders";
         
         public static final String BACKDOOR = "/backdoor";
         
-        //Task Queue Worker Servlets URI
-        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER = "/courseJoinRemindEmailWorker";
-        public static final String EMAIL_WORKER = "/emailWorker";
-        public static final String ADMIN_EMAIL_WORKER = "/adminEmailWorker";
-        public static final String ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER = "/adminEmailPrepareTaskQueueWorker";
-        public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER =
-                                    "/feedbackSubmissionAdjustmentWorker";
-        public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
-        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER =
-                                    "/feedbackRemindEmailParticularUsersWorker";
-        public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
     
-    public class AutomatedActionNames {
-        //real servlet names to be logged for automated actions, not for url pattern recognition
-        public static final String AUTOMATED_LOG_COMPILATION = "logCompilation";
-        public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_CLOSED_MAIL_ACTION = "feedbackSessionClosedMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
-        public static final String AUTOMATED_FEEDBACKSESSION_UNPUBLISHED_MAIL_ACTION =
-                                                                "feedbackSessionUnpublishedMailAction";
-        public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
-        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
-        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
-        public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "feedbackSessionClosedReminders";
-        public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
+    /**
+     * Configurations for task queue.
+     */
+    public static class TaskQueue {
+        
+        public static final String ADMIN_PREPARE_EMAIL_ADDRESS_MODE_QUEUE_NAME = "admin-prepare-email-address-mode-queue";
+        public static final String ADMIN_PREPARE_EMAIL_ADDRESS_MODE_WORKER_URL = "/worker/adminPrepareEmailAddressMode";
+        
+        public static final String ADMIN_PREPARE_EMAIL_GROUP_MODE_QUEUE_NAME = "admin-prepare-email-group-mode-queue";
+        public static final String ADMIN_PREPARE_EMAIL_GROUP_MODE_WORKER_URL = "/worker/adminPrepareEmailGroupMode";
+        
+        public static final String ADMIN_SEND_EMAIL_QUEUE_NAME = "admin-send-email-queue";
+        public static final String ADMIN_SEND_EMAIL_WORKER_URL = "/worker/adminSendEmail";
+        
+        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
+        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
+        
+        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME =
+                "feedback-session-published-email-queue";
+        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionPublishedEmail";
+        
+        public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
+        public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = "/worker/feedbackSessionRemindEmail";
+        
+        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME =
+                "feedback-session-remind-particular-users-email-queue";
+        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionRemindParticularUsersEmail";
+        
+        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME =
+                "feedback-session-unpublished-email-queue";
+        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionUnpublishedEmail";
+        
+        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
+        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/instructorCourseJoinEmail";
+        
+        public static final String PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME =
+                "pending-comment-cleared-email-queue";
+        public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
+                "/worker/pendingCommentClearedEmail";
+        
+        public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
+        public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
+        
+        public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
+        public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/studentCourseJoinEmail";
+        
     }
     
-    public class PublicActionNames {
+    public static class PublicActionNames {
         public static final String PUBLIC_IMAGE_SERVE_ACTION = "publicImageServeAction";
     }
     
-    public class PageNames {
+    public static class PageNames {
         public static final String INSTRUCTOR_HOME_PAGE = "instructorHomePage";
         public static final String INSTRUCTOR_FEEDBACKS_PAGE = "instructorFeedbacksPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "instructorFeedbackEditPage";
         public static final String INSTRUCTOR_FEEDBACK_COPY = "instructorFeedbackCopy";
     }
     
-    public class ViewURIs {
+    public static class ViewURIs {
         
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
     
@@ -1119,8 +1111,8 @@ public final class Const {
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp";
         
-        public static final String MASHUP = "/mashup.jsp";
-    
+        public static final String MASHUP = "/dev/mashup.jsp";
+        public static final String TIMEZONE = "/dev/timezone.jsp";
     }
 
     /* These are status messages that may be shown to the user */
@@ -1443,7 +1435,7 @@ public final class Const {
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
-    public class StatusCodes {
+    public static class StatusCodes {
     
         // Backdoor responses
         public static final String BACKDOOR_STATUS_SUCCESS = "[BACKDOOR_STATUS_SUCCESS]";
@@ -1458,14 +1450,11 @@ public final class Const {
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null\n";
     
-        // Task Queue Response Success code
-        public static final int TASK_QUEUE_RESPONSE_OK = 200;
-        
         // POST parameter null message
         public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
     }
 
-    public class PlaceholderText {
+    public static class PlaceholderText {
         public static final String FEEDBACK_QUESTION = "A concise version of the question e.g. "
                 + "&quot;How well did the team member communicate?&quot;";
         public static final String FEEDBACK_QUESTION_DESCRIPTION = "More details about the question e.g. &quot;In answering "

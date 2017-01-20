@@ -24,6 +24,7 @@ var richTextEditorBuilder = {
                 
             relative_urls: false,
             convert_urls: false,
+            remove_linebreaks: false,
             plugins: [
                 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
                 'searchreplace wordcount visualblocks visualchars code fullscreen',
@@ -64,4 +65,17 @@ function initEditorCallback(editor) {
     editor.on('selectionchange', function() {
         setPlaceholderText(editor);
     });
+}
+
+/**
+ * Destroys an instance of TinyMCE rich-text editor.
+ */
+function destroyEditor(id) {
+    if (typeof tinyMCE === 'undefined') {
+        return;
+    }
+    var currentEditor = tinyMCE.get(id);
+    if (currentEditor) {
+        currentEditor.destroy();
+    }
 }

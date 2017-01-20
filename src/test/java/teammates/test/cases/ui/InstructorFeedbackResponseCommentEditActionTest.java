@@ -8,6 +8,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -22,9 +23,9 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
     private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT;
     }
     
@@ -285,8 +286,11 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
-        FeedbackSessionsLogic.inst().publishFeedbackSession(feedbackResponseComment.feedbackSessionName,
-                                                            feedbackResponseComment.courseId);
+        FeedbackSessionAttributes fs =
+                FeedbackSessionsLogic.inst().getFeedbackSession(feedbackResponseComment.feedbackSessionName,
+                                                                feedbackResponseComment.courseId);
+        FeedbackSessionsLogic.inst().publishFeedbackSession(fs);
+        
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,

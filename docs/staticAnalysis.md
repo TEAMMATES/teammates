@@ -115,6 +115,20 @@ An example to suppress the `camelcase` rule is as follows:
 /* eslint-enable camelcase */
 ```
 
+### Stylelint
+
+[Stylelint](http://stylelint.io) functions both to enforce coding standard and also to find potential bugs and sub-optimal practices in stylesheets (CSS, SCSS).
+The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-stylelint.yml).
+Stylelint is a node.js package, currently not supported for Eclipse Java EE project.
+To set it up, [install node.js](https://nodejs.org/en/download/) if necessary and then install the Stylelint package:
+```
+./gradlew installStylelint
+
+# Alternatively, if you want to install the Stylelint module globally, use the install command manually
+# Remember to use the correct tool version
+npm install -g stylelint@{version}
+```
+
 ### blanket.js
 
 [blanket.js](http://blanketjs.org) measures code coverage for JavaScript test run.
@@ -157,6 +171,12 @@ The violations caught, if any, will be printed to the console itself.
 To run ESLint analysis on all JavaScript source files, run the following command:
 ```
 ./gradlew eslint
+```
+The violations caught, if any, will be printed to the console itself.
+
+To run Stylelint analysis on all CSS source files, run the following command:
+```
+./gradlew stylelint
 ```
 The violations caught, if any, will be printed to the console itself.
 

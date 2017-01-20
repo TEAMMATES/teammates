@@ -5,7 +5,6 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionEditPageAction {
     @Override
@@ -18,7 +17,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
 
     @Override
     protected void verifyAccesibleForSpecificUser(FeedbackSessionAttributes fsa) {
-        new GateKeeper().verifyAccessible(getStudent(), fsa);
+        gateKeeper.verifyAccessible(getStudent(), fsa);
     }
 
     @Override

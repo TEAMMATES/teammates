@@ -97,9 +97,9 @@ function setupFsCopyModal() {
     $('#instructorCopyModalForm').submit(
         function(e) {
             e.preventDefault();
-            $this = $(this);
+            var $this = $(this);
             
-            $copyModalStatusMessage = $('#feedback-copy-modal-status');
+            var $copyModalStatusMessage = $('#feedback-copy-modal-status');
             
             $.ajax({
                 type: 'POST',
@@ -148,10 +148,14 @@ function bindStudentPhotoLink(elements) {
         }
         
         var actualLink = $(this).parent().attr('data-link');
+        var $loadingImage = $('<img>').attr('src', '/images/ajax-loader.gif')
+                                      .addClass('center-block margin-top-7px');
         
         $(this).siblings('img').attr('src', actualLink).load(function() {
             var actualLink = $(this).parent().attr('data-link');
             var resolvedLink = $(this).attr('src');
+            
+            $loadingImage.remove();
             
             $(this).removeClass('hidden')
                 .parent().attr('data-link', '')
@@ -182,7 +186,10 @@ function bindStudentPhotoLink(elements) {
             updateHoverShowPictureEvents(actualLink, resolvedLink);
         });
         
+        var $imageCell = $(this).closest('td');
         $(this).remove();
+        $imageCell.append($loadingImage);
+        
     });
 }
 
@@ -247,7 +254,7 @@ function bindCourseDeleteLinks() {
     $('body').on('click', '.course-delete-link', function(event) {
         event.preventDefault();
 
-        $clickedLink = $(event.target);
+        var $clickedLink = $(event.target);
         var messageText = 'Are you sure you want to delete the course: ' + $clickedLink.data('courseId') + '? '
                           + 'This operation will delete all students and sessions in this course. '
                           + 'All instructors of this course will not be able to access it hereafter as well.';
@@ -296,7 +303,7 @@ function bindRemindButtons() {
     $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', function(event) {
         event.preventDefault();
 
-        $button = $(event.target);
+        var $button = $(event.target);
         var messageText = 'Send e-mails to remind students who have not submitted their feedback for '
                           + $button.data('fsname') + '?';
         var okCallback = function() {
@@ -334,7 +341,7 @@ function bindUnpublishButtons() {
     $('body').on('click', '.session-unpublish-for-test', function(event) {
         event.preventDefault();
 
-        $button = $(event.target);
+        var $button = $(event.target);
         var messageText = 'Are you sure you want to unpublish the session ' + $button.data('fsname') + '?';
         var okCallback = function() {
             window.location = $button.attr('href');
@@ -354,10 +361,14 @@ function bindUnpublishButtons() {
 function loadProfilePictureForHoverEvent(obj) {
     obj.children('img')[0].src = obj.attr('data-link');
     
+    var $loadingImage = $('<img>').attr('src', '/images/ajax-loader.gif');
+    
     // load the pictures in all similar links
     obj.children('img').load(function() {
         var actualLink = $(this).parent().attr('data-link');
         var resolvedLink = $(this).attr('src');
+        
+        $loadingImage.remove();
 
         updateHoverShowPictureEvents(actualLink, resolvedLink);
         
@@ -370,6 +381,16 @@ function loadProfilePictureForHoverEvent(obj) {
                 $(this).siblings('.profile-pic-icon-hover').popover('hide');
             });
     });
+    
+    obj.popover('destroy').popover({
+        html: true,
+        trigger: 'manual',
+        placement: 'top',
+        content: function() {
+            return $loadingImage.get(0).outerHTML;
+        }
+    });
+    obj.popover('show');
 }
 
 /**

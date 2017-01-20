@@ -1,6 +1,7 @@
 package teammates.test.cases.ui;
 
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -9,9 +10,12 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.TaskWrapper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
@@ -26,9 +30,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
     }
     
@@ -72,32 +76,41 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
+        // there are 6 sessions in this course
+        verifySpecifiedTasksAdded(enrollAction, Const.TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME, 6);
+        
+        List<TaskWrapper> tasksAdded = enrollAction.getTaskQueuer().getTasksAdded();
+        for (TaskWrapper task : tasksAdded) {
+            Map<String, String[]> paramMap = task.getParamMap();
+            assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
+        }
+        
         InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
         
         StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
                                                              "Exchange student", courseId, "Team 1", "Section 3");
-        newStudent.updateStatus = StudentAttributes.UpdateStatus.NEW;
+        newStudent.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudent, pageData.getEnrollResultPanelList());
 
         StudentAttributes newStudentWithExtraSpaces = new StudentAttributes("student",
                 "studentWithExtraSpaces@gmail.tmt", "student with extra spaces", "", courseId, "Team 1", "Section 3");
-        newStudentWithExtraSpaces.updateStatus = StudentAttributes.UpdateStatus.NEW;
+        newStudentWithExtraSpaces.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
         
         StudentAttributes modifiedStudent = dataBundle.students.get("student1InCourse1");
         modifiedStudent.comments = "New comment added";
         modifiedStudent.section = "Section 2";
         modifiedStudent.team = "Team 1.3";
-        modifiedStudent.updateStatus = StudentAttributes.UpdateStatus.MODIFIED;
+        modifiedStudent.updateStatus = StudentUpdateStatus.MODIFIED;
         verifyStudentEnrollmentStatus(modifiedStudent, pageData.getEnrollResultPanelList());
         
         StudentAttributes unmodifiedStudent = dataBundle.students.get("student2InCourse1");
-        unmodifiedStudent.updateStatus = StudentAttributes.UpdateStatus.UNMODIFIED;
+        unmodifiedStudent.updateStatus = StudentUpdateStatus.UNMODIFIED;
         verifyStudentEnrollmentStatus(unmodifiedStudent, pageData.getEnrollResultPanelList());
         
         StudentAttributes unmodifiedStudentWithExtraSpaces = dataBundle.students.get("student3InCourse1");
-        unmodifiedStudentWithExtraSpaces.updateStatus = StudentAttributes.UpdateStatus.UNMODIFIED;
+        unmodifiedStudentWithExtraSpaces.updateStatus = StudentUpdateStatus.UNMODIFIED;
         verifyStudentEnrollmentStatus(unmodifiedStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
 
         String expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]"
@@ -132,18 +145,19 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
+        verifyNoTasksAdded(enrollAction);
         
         pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
 
         StudentAttributes student1 = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
                                                            "Exchange student", courseId, "Team 1", "None");
-        student1.updateStatus = StudentAttributes.UpdateStatus.NEW;
+        student1.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student1, pageData.getEnrollResultPanelList());
         
         StudentAttributes student2 = new StudentAttributes("james", "james@email.tmt", "James Tan", "",
                                                            courseId, "Team 2", "None");
-        student2.updateStatus = StudentAttributes.UpdateStatus.NEW;
+        student2.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student2, pageData.getEnrollResultPanelList());
         
         expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]:</span>"
@@ -200,6 +214,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                                             + "</span>"
                                         + "</p>";
         assertEquals(expectedStatusMessage, pageResult.getStatusMessage());
+        verifyNoTasksAdded(enrollAction);
         
         InstructorCourseEnrollPageData enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, enrollPageData.getCourseId());
@@ -229,6 +244,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageResult = getShowPageResult(enrollAction);
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
+        verifyNoTasksAdded(enrollAction);
         
         //fail to enroll, if exceed the range
         enrollStringBuilder.append(Const.EOL).append("section" + sizeLimitBoundary + "\tteam" + sizeLimitBoundary
@@ -243,6 +259,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
         assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED, pageResult.getStatusMessage());
+        verifyNoTasksAdded(enrollAction);
         
         ______TS("Failure case: empty input");
 
@@ -259,6 +276,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());
+        verifyNoTasksAdded(enrollAction);
         
         enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, enrollPageData.getCourseId());
@@ -276,7 +294,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     private void verifyStudentEnrollmentStatus(StudentAttributes student, List<EnrollResultPanel> panelList) {
         boolean result = false;
         
-        StudentAttributes.UpdateStatus status = student.updateStatus;
+        StudentUpdateStatus status = student.updateStatus;
         for (StudentAttributes s : panelList.get(status.numericRepresentation).getStudentList()) {
             if (s.isEnrollInfoSameAs(student)) {
                 result = true;

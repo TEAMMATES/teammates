@@ -6,9 +6,9 @@ import java.util.List;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
 
@@ -63,6 +63,23 @@ public class AccountAttributes extends EntityAttributes {
         this.institute = Sanitizer.sanitizeTitle(institute);
         this.studentProfile = new StudentProfileAttributes();
         this.studentProfile.googleId = this.googleId;
+    }
+    
+    /**
+     * Gets a deep copy of this object.
+     */
+    public AccountAttributes getCopy() {
+        // toEntity() requires a non-null student profile
+        boolean isStudentProfileNull = this.studentProfile == null;
+        if (isStudentProfileNull) {
+            this.studentProfile = new StudentProfileAttributes();
+        }
+        AccountAttributes copy = new AccountAttributes(this.toEntity());
+        if (isStudentProfileNull) {
+            copy.studentProfile = null;
+            this.studentProfile = null;
+        }
+        return copy;
     }
     
     public boolean isInstructor() {
@@ -133,7 +150,7 @@ public class AccountAttributes extends EntityAttributes {
     
     @Override
     public String toString() {
-        return Utils.getTeammatesGson().toJson(this, AccountAttributes.class);
+        return JsonUtils.toJson(this, AccountAttributes.class);
     }
 
     @Override
@@ -153,7 +170,7 @@ public class AccountAttributes extends EntityAttributes {
     
     @Override
     public String getJsonString() {
-        return Utils.getTeammatesGson().toJson(this, AccountAttributes.class);
+        return JsonUtils.toJson(this, AccountAttributes.class);
     }
     
     @Override

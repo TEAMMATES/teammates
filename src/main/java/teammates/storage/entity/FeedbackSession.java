@@ -276,7 +276,7 @@ public class FeedbackSession {
         if (sentClosingEmail == null) {
             return false;
         }
-        return sentClosedEmail;
+        return sentClosingEmail;
     }
 
     public void setSentClosingEmail(boolean sentClosingEmail) {

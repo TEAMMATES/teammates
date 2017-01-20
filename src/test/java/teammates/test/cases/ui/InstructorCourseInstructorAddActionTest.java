@@ -1,5 +1,7 @@
 package teammates.test.cases.ui;
 
+import java.util.Map;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -7,6 +9,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.TaskWrapper;
+import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
@@ -19,9 +23,9 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD;
     }
     
@@ -74,6 +78,13 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 + " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
         AssertHelper.assertContains(expectedLogSegment, addAction.getLogMessage());
         
+        verifySpecifiedTasksAdded(addAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        
+        TaskWrapper taskAdded = addAction.getTaskQueuer().getTasksAdded().get(0);
+        Map<String, String[]> paramMap = taskAdded.getParamMap();
+        assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
+        assertEquals(instructorAdded.email, paramMap.get(ParamsNames.INSTRUCTOR_EMAIL)[0]);
+        
         ______TS("Error: try to add an existing instructor");
         
         addAction = getAction(submissionParams);
@@ -91,6 +102,8 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 + "idOfTypicalCourse1/ICIAAT.newInstructor@email.tmt"
                 + "|||/page/instructorCourseInstructorAdd";
         AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
+        
+        verifyNoTasksAdded(addAction);
         
         ______TS("Error: try to add an instructor with invalid email");
         String newInvalidInstructorEmail = "ICIAAT.newInvalidInstructor.email.tmt";
@@ -124,6 +137,8 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                      FieldValidator.EMAIL_MAX_LENGTH)
                + "|||/page/instructorCourseInstructorAdd";
         AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
+        
+        verifyNoTasksAdded(addAction);
         
         ______TS("Masquerade mode: add an instructor");
         
@@ -163,6 +178,14 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         expectedLogSegment = "New instructor (<span class=\"bold\"> " + newInstructorEmail + "</span>)"
                 + " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
         AssertHelper.assertContains(expectedLogSegment, addAction.getLogMessage());
+        
+        verifySpecifiedTasksAdded(addAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        
+        taskAdded = addAction.getTaskQueuer().getTasksAdded().get(0);
+        paramMap = taskAdded.getParamMap();
+        assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
+        assertEquals(instructorAdded.email, paramMap.get(ParamsNames.INSTRUCTOR_EMAIL)[0]);
+        
     }
     
     private InstructorCourseInstructorAddAction getAction(String... parameters) {

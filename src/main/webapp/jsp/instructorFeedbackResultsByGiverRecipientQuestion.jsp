@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
-<c:set var="jsIncludes">    
+<c:set var="jsIncludes">
+    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByGRQ.js"></script>
 </c:set>

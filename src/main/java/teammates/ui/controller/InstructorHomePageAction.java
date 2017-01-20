@@ -10,10 +10,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Const.StatusMessages;
 import teammates.common.util.StatusMessage;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.StatusMessageColor;
 
 public class InstructorHomePageAction extends Action {
     @Override
@@ -27,7 +26,7 @@ public class InstructorHomePageAction extends Action {
             return response;
         }
         
-        new GateKeeper().verifyInstructorPrivileges(account);
+        gateKeeper.verifyInstructorPrivileges(account);
         
         String courseToLoad = getRequestParamValue(Const.ParamsNames.COURSE_TO_LOAD);
         return courseToLoad == null ? loadPage() : loadCourse(courseToLoad);

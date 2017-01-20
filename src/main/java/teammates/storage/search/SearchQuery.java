@@ -2,11 +2,10 @@ package teammates.storage.search;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Query;
@@ -21,7 +20,7 @@ public class SearchQuery {
     protected static final String OR = " OR ";
     protected static final String NOT = " NOT ";
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     //to be defined by the inherited class
     protected String visibilityQueryString;

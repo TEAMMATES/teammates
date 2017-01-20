@@ -32,10 +32,10 @@
                             <a href="#faq7">What to do if a student says his/her courses have disappeared from the system?</a>
                         </li>
                         <li>
-                            <a href="#faq8">What to do if a student says he cannot submit responses due to some technical glitch?</a>
+                            <a href="#faq7a">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
                         </li>
                         <li>
-                            <a href="#faq7a">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
+                            <a href="#faq8">What to do if a student says he cannot submit responses due to some technical glitch?</a>
                         </li>
                         <li>
                             <a href="#faq9">How come the actual contribution values entered by the student is different from the values shown in the results?</a>
@@ -797,7 +797,7 @@
                     <div class="bs-example">
                         <div class="panel panel-primary" id="panelAddInstructor" style="">
                             <div class="panel-heading">
-                                <strong>Instructors 2:</strong>
+                                <strong>Instructor 2:</strong>
                             </div>
 
                             <div class="panel-body fill-plain">
@@ -1319,6 +1319,18 @@
                                     </ul>
                                 </span>
                             </li>
+                            <li>
+                                <b>Private session</b>
+                                <span class="text-muted">
+                                    <ul>
+                                        <li>
+                                            A private session is a session that is never visible to others.
+                                            This is for you to record your feedback about students, only you can see this session.
+                                            If you want to create a private session then set the "Session visible from" to Never.
+                                        </li>
+                                    </ul>
+                                </span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -1619,7 +1631,7 @@
                                                 </div>
                                                 <div class="row radio">
                                                     <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Select this option if you want the feedback session to never be visible. Use this option if you want to use this as a private feedback session.">
-                                                        <label for="sessionVisibleFromButton_never">Never (this is a private session)</label>
+                                                        <label for="sessionVisibleFromButton_never">Never</label>
                                                         <input type="radio" name="sessionVisibleFromButton" id="sessionVisibleFromButton_never" value="never">
                                                     </div>
                                                 </div>
@@ -6573,7 +6585,7 @@
                                                     </div>
                                                     <div class="col-sm-3 pull-right">
                                                         [
-                                                        <a href="#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
+                                                        <a href="#faq7a" target="_blank" rel="noopener noreferrer" id="interpret_help_link">How do I interpret/use these values?</a>]
                                                     </div>
                                                 </div>
                                                 <div class="row">

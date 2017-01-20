@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -19,14 +18,14 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.NationalityHelper;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
-import teammates.common.util.Utils;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackSessionActions;
 
@@ -34,9 +33,9 @@ import teammates.ui.template.InstructorFeedbackSessionActions;
  * Data and utility methods needed to render a specific page.
  */
 public class PageData {
-    
-    protected static final Logger log = Utils.getLogger();
-    
+
+    protected static final Logger log = Logger.getLogger();
+
     /** The user for whom the pages are displayed (i.e. the 'nominal user').
      *  May not be the logged in user (under masquerade mode) */
     public AccountAttributes account;
@@ -67,7 +66,7 @@ public class PageData {
     public boolean isUnregisteredStudent() {
         return account.googleId == null || student != null && !student.isRegistered();
     }
-    
+
     /* These util methods simply delegate the work to the matching *Helper
      * class. We keep them here so that JSP pages do not have to import
      * those *Helper classes.
@@ -90,67 +89,6 @@ public class PageData {
     
     public String addUserIdToUrl(String link) {
         return Url.addParamToUrl(link, Const.ParamsNames.USER_ID, account.googleId);
-    }
-    
-    /**
-     * Method to color the points by adding <code>span</code> tag with appropriate
-     * class (posDiff and negDiff).
-     * Positive points will be green, negative will be red, 0 will be black.
-     * This will also put N/A or Not Sure for respective points representation.
-     * The output will be Equal Share + x% for positive points,
-     * Equal Share - x% for negative points,
-     * and just Equal Share for equal share.
-     * Zero contribution will be printed as 0%
-     * @see #colorizePoints
-     * @param points
-     *         In terms of full percentage, so equal share will be 100, 20% more
-     *         from equal share will be 120, etc.
-     * @param inline
-     *         Whether or not the "Equal Share" and the percentage will be
-     *         displayed in one line.
-     */
-    protected static String getPointsInEqualShareFormatAsHtml(int points, boolean inline) {
-        int delta = 0;
-        if (points == Const.POINTS_NOT_SUBMITTED || points == Const.INT_UNINITIALIZED) {
-            return "<span class=\"badge background-color-white color_neutral\">N/A</span>";
-        } else if (points == Const.POINTS_NOT_SURE) {
-            return "<span class=\"badge background-color-white color-negative\">Not sure</span>";
-        } else if (points == 0) {
-            return "<span class=\"badge background-color-white color-negative\">0%</span>";
-        } else if (points > 100) {
-            delta = points - 100;
-            return inline
-                   ? "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>"
-                   : "Equal Share<br><span class=\"badge background-color-white color-positive\"> + "
-                     + delta + "%</span>";
-        } else if (points < 100) {
-            delta = 100 - points;
-            return inline
-                   ? "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>"
-                   : "Equal Share<br><span class=\"badge background-color-white color-negative\"> - "
-                     + delta + "%</span>";
-        } else {
-            return "<span class=\"badge background-color-white color-positive\"> E </span>";
-        }
-    }
-    
-    /**
-     * Formats P2P feedback.
-     * Make the headings bold, and converts newlines to html line breaks.
-     */
-    protected static String getP2pFeedbackAsHtml(String str, boolean enabled) {
-        if (!enabled) {
-            return "<span style=\"font-style: italic;\">Disabled</span>";
-        }
-        if (str == null || str.isEmpty()) {
-            return "N/A";
-        }
-        return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:",
-                           "<strong>What I appreciate about you as a team member:</strong>")
-                  .replace("&lt;&lt;Areas you can improve further&gt;&gt;:",
-                           "<strong class=\"bold\">Areas you can improve further:</strong>")
-                  .replace("&lt;&lt;Other comments&gt;&gt;:", "<strong>Other comments:</strong>")
-                  .replace("&#010;", "<br>");
     }
     
     /**
@@ -192,6 +130,37 @@ public class PageData {
         }
         return result;
     }
+
+    /**
+     * Returns the nationalities as HTML code.
+     */
+    public static List<ElementTag> getNationalitiesAsElementTags(String existingNationality) {
+        List<String> nationalities = NationalityHelper.getNationalities();
+        List<ElementTag> result = new ArrayList<ElementTag>();
+
+        result.add(createOption("--- Select ---", "", !nationalities.contains(existingNationality)));
+
+        for (String nationality : nationalities) {
+            ElementTag option = createOption(nationality, nationality, nationality.equals(existingNationality));
+            result.add(option);
+        }
+
+        return result;
+    }
+
+    /**
+     * Creates and returns a String if the existing nationality is incorrect.
+     */
+    public static String getLegacyNationalityInstructions(String existingNationality) {
+        List<String> nationalities = NationalityHelper.getNationalities();
+
+        if (nationalities.contains(existingNationality) || "".equals(existingNationality)) {
+            return "";
+        }
+        return "Previously entered value was " + existingNationality + ". "
+               + "This is not a valid nationality; "
+               + "please choose a valid nationality from the dropdown list before saving.";
+    }
     
     /**
      * Returns an element tag representing a HTML option
@@ -213,16 +182,6 @@ public class PageData {
     /**
      * Returns the grace period options as HTML code.
      */
-    protected ArrayList<String> getGracePeriodOptionsAsHtml(int existingGracePeriod) {
-        ArrayList<String> result = new ArrayList<String>();
-        for (int i = 0; i <= 30; i += 5) {
-            result.add("<option value=\"" + i + "\""
-                       + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected" : "")
-                       + ">" + i + " mins</option>");
-        }
-        return result;
-    }
-    
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for (int i = 0; i <= 30; i += 5) {
@@ -238,16 +197,6 @@ public class PageData {
      * By default the selected one is the last one.
      * @param timeToShowAsSelected
      */
-    public ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected) {
-        ArrayList<String> result = new ArrayList<String>();
-        for (int i = 1; i <= 24; i++) {
-            result.add("<option value=\"" + i + "\""
-                       + (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected" : "") + ">"
-                       + String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)) + "</option>");
-        }
-        return result;
-    }
-    
     public static ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for (int i = 1; i <= 24; i++) {
@@ -257,11 +206,11 @@ public class PageData {
         }
         return result;
     }
-    
+
     //TODO: methods below this point should be made 'protected' and only the
     //  child classes that need them should expose them using public methods
     //  with similar name. That way, we know which child needs which method.
-    
+
     /**
      * Returns the status of the student, whether he has joined the course.
      * This is based on googleId, if it's null or empty, then we assume he
@@ -906,27 +855,6 @@ public class PageData {
         return true;
     }
     
-    public boolean isResponseCommentVisibleTo(FeedbackResponseCommentAttributes frComment,
-                                              FeedbackQuestionAttributes qn,
-                                              FeedbackParticipantType viewerType) {
-        if (frComment.isVisibilityFollowingFeedbackQuestion && viewerType == FeedbackParticipantType.GIVER) {
-            return true;
-        } else if (frComment.isVisibilityFollowingFeedbackQuestion) {
-            return qn.isResponseVisibleTo(viewerType);
-        } else {
-            return frComment.isVisibleTo(viewerType);
-        }
-    }
-    
-    public boolean isResponseCommentGiverNameVisibleTo(FeedbackResponseCommentAttributes frComment,
-                                                       FeedbackQuestionAttributes qn,
-                                                       FeedbackParticipantType viewerType) {
-        if (frComment.isVisibilityFollowingFeedbackQuestion) {
-            return true;
-        }
-        return frComment.showGiverNameTo.contains(viewerType);
-    }
-    
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
         String visibilityString = StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
         return StringHelper.isWhiteSpace(visibilityString) ? "GIVER" : "GIVER, " + visibilityString;
@@ -1004,14 +932,6 @@ public class PageData {
      */
     public List<StatusMessage> getStatusMessagesToUser() {
         return statusMessagesToUser;
-    }
-
-    public String getjQueryFilePath() {
-        return Const.SystemParams.getjQueryFilePath(Config.isDevServer());
-    }
-
-    public String getjQueryUiFilePath() {
-        return Const.SystemParams.getjQueryUiFilePath(Config.isDevServer());
     }
 
 }

@@ -2,12 +2,19 @@ package teammates.client.remoteapi;
 
 import java.io.IOException;
 
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+
 import teammates.test.driver.TestProperties;
 
 import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
 import com.google.appengine.tools.remoteapi.RemoteApiOptions;
 
 public abstract class RemoteApiClient {
+    
+    protected static final PersistenceManager PM =
+            JDOHelper.getPersistenceManagerFactory("transactions-optional").getPersistenceManager();
+    
     private static final String LOCALHOST = "localhost";
     
     protected void doOperationRemotely() throws IOException {

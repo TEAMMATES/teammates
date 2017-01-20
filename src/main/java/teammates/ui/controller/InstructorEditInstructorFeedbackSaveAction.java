@@ -10,10 +10,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.StatusMessageColor;
 
 /**
  * The {@code InstructorEditInstructorFeedbackSaveAction} class handles incoming requests to
@@ -30,10 +29,8 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
 
-        new GateKeeper().verifyAccessible(instructor,
-                session,
-                false,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(
+                instructor, session, false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
     }
     
     /**
@@ -45,7 +42,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail);
 
         moderatedInstructor = logic.getInstructorForEmail(courseId, moderatedInstructorEmail);
-        isSendEmail = false;
+        isSendSubmissionEmail = false;
         
         // If the instructor doesn't exist
         if (moderatedInstructor == null) {

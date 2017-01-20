@@ -23,7 +23,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
         
@@ -37,21 +37,29 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         testData.accounts.get("instructorWithEvals").email = Config.SUPPORT_EMAIL;
         testData.instructors.get("AutSessRem.instructor").email = Config.SUPPORT_EMAIL;
         testData.students.get("alice.tmms@AutSessRem.course").email = Config.SUPPORT_EMAIL;
+        testData.feedbackSessions.get("closedSession").setCreatorEmail(Config.SUPPORT_EMAIL);
         testData.feedbackSessions.get("closingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
         testData.feedbackSessions.get("openingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
         testData.feedbackSessions.get("publishedSession").setCreatorEmail(Config.SUPPORT_EMAIL);
-        testData.feedbackQuestions.get("question").creatorEmail = Config.SUPPORT_EMAIL;
+        testData.feedbackQuestions.get("questionForOpeningSession").creatorEmail = Config.SUPPORT_EMAIL;
+        testData.feedbackQuestions.get("questionForClosingSession").creatorEmail = Config.SUPPORT_EMAIL;
+        testData.feedbackQuestions.get("questionForPublishedSession").creatorEmail = Config.SUPPORT_EMAIL;
         
-        //Set closing time of one feedback session in 23+ hours ahead of now.
+        // Set closing time of one feedback session to tomorrow
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
-        int numMillisecondsIn23Hours59Minutes = (60 * 23 + 59) * 60 * 1000;
-        closingFeedbackSession.setEndTime(TimeHelper.getMsOffsetToCurrentTime(numMillisecondsIn23Hours59Minutes));
+        closingFeedbackSession.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
 
-        //Opening time for one feedback session already set to some time in the past.
+        // Set closing time of one feedback session to 30 mins ago
+        FeedbackSessionAttributes closedFeedbackSession = testData.feedbackSessions.get("closedSession");
+        closedFeedbackSession.setEndTime(TimeHelper.getMsOffsetToCurrentTime(-1000 * 60 * 30));
+
+        // Set opening time for one feedback session to yesterday
+        FeedbackSessionAttributes openingFeedbackSession = testData.feedbackSessions.get("openingSession");
+        openingFeedbackSession.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
         
         //Published time for one feedback session already set to some time in the past.
         
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         browser = BrowserPool.getBrowser();
     }
     
@@ -62,9 +70,15 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testFeedbackSesssionClosingReminders() {
+    public void testFeedbackSessionClosingReminders() {
         AppUrl closingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
         loginAdminToPage(browser, closingRemindersUrl, GenericAppPage.class);
+    }
+    
+    @Test
+    public void testFeedbackSessionClosedReminders() {
+        AppUrl closedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
+        loginAdminToPage(browser, closedRemindersUrl, GenericAppPage.class);
     }
     
     @Test

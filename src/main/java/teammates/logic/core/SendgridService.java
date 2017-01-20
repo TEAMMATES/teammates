@@ -12,9 +12,9 @@ import com.sendgrid.SendGridException;
 
 /**
  * Email sender service provided by SendGrid.
- * Reference: https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid
  * 
- * @see SendGrid
+ * @see <a href="https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid">https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid</a>
+ * @see {@link SendGrid}
  */
 public class SendgridService extends EmailSenderService {
     

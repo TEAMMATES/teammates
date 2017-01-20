@@ -5,7 +5,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Const;
 import teammates.ui.template.EnrollResultPanel;
 
@@ -30,10 +30,10 @@ public class InstructorCourseEnrollResultPageData extends PageData {
         this.enrollStudents = enrollStudents;
         enrollResultPanelList = new ArrayList<EnrollResultPanel>();
         
-        for (int i = 0; i < UpdateStatus.STATUS_COUNT; i++) {
+        for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
             String panelClass = "";
             
-            switch (UpdateStatus.enumRepresentation(i)) {
+            switch (StudentUpdateStatus.enumRepresentation(i)) {
             case ERROR :
                 panelClass = "panel-danger";
                 break;
@@ -81,27 +81,27 @@ public class InstructorCourseEnrollResultPageData extends PageData {
     
     private String getMessageForEnrollmentStatus(int enrollmentStatus) {
 
-        UpdateStatus status = UpdateStatus.enumRepresentation(enrollmentStatus);
+        StudentUpdateStatus status = StudentUpdateStatus.enumRepresentation(enrollmentStatus);
 
         switch (status) {
         case ERROR:
             return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_ERROR,
-                    students[UpdateStatus.ERROR.numericRepresentation].size());
+                    students[StudentUpdateStatus.ERROR.numericRepresentation].size());
         case NEW:
             return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_ADDED,
-                    students[UpdateStatus.NEW.numericRepresentation].size());
+                    students[StudentUpdateStatus.NEW.numericRepresentation].size());
         case MODIFIED:
             return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_MODIFIED,
-                    students[UpdateStatus.MODIFIED.numericRepresentation].size());
+                    students[StudentUpdateStatus.MODIFIED.numericRepresentation].size());
         case UNMODIFIED:
             return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_UNMODIFIED,
-                    students[UpdateStatus.UNMODIFIED.numericRepresentation].size());
+                    students[StudentUpdateStatus.UNMODIFIED.numericRepresentation].size());
         case NOT_IN_ENROLL_LIST:
             return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_NOT_IN_LIST,
-                    students[UpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation].size());
+                    students[StudentUpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation].size());
         case UNKNOWN:
             return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_UNKNOWN,
-                    students[UpdateStatus.UNKNOWN.numericRepresentation].size());
+                    students[StudentUpdateStatus.UNKNOWN.numericRepresentation].size());
         default:
             log.severe("Unknown Enrollment status " + enrollmentStatus);
             return "There are students:";

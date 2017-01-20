@@ -6,7 +6,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackRemindParticularStudentsPageAction extends Action {
 
@@ -20,7 +19,7 @@ public class InstructorFeedbackRemindParticularStudentsPageAction extends Action
         
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(feedbackSessionName, courseId);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, fsa, false);
+        gateKeeper.verifyAccessible(instructor, fsa, false);
         
         FeedbackSessionResponseStatus fsResponseStatus =
                 logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);

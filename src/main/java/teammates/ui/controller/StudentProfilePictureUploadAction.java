@@ -8,10 +8,9 @@ import java.util.Map;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StatusMessage;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.StatusMessageColor;
 
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -32,7 +31,7 @@ public class StudentProfilePictureUploadAction extends Action {
      */
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        new GateKeeper().verifyLoggedInUserPrivileges();
+        gateKeeper.verifyLoggedInUserPrivileges();
 
         String pictureKey = "";
         BlobKey blobKey = new BlobKey("");

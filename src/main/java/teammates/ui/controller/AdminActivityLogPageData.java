@@ -24,8 +24,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     private static String[] excludedLogRequestURIs = {
             Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,
-            // this servlet name is set in CompileLogsServlet
-            Const.AutomatedActionNames.AUTOMATED_LOG_COMPILATION
+            Const.ActionURIs.AUTOMATED_LOG_COMPILATION
     };
     
     private String filterQuery;
@@ -403,7 +402,7 @@ public class AdminActivityLogPageData extends PageData {
      * The boolean variables determine if the specific label was within the query
      * The XXValue variables hold the data linked to the label in the query
      */
-    private class QueryParameters {
+    private static class QueryParameters {
                 
         public boolean isRequestInQuery;
         public String[] requestValues;

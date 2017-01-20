@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -17,7 +18,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
-import com.google.gson.Gson;
 
 /**
  * The search result bundle for {@link FeedbackResponseCommentAttributes}.
@@ -72,7 +72,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for (ScoredDocument doc : filteredResults) {
             //get FeedbackResponseComment from results
-            FeedbackResponseCommentAttributes comment = new Gson().fromJson(
+            FeedbackResponseCommentAttributes comment = JsonUtils.fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(),
                     FeedbackResponseCommentAttributes.class);
             if (frcLogic.getFeedbackResponseComment(comment.getId()) == null) {
@@ -88,7 +88,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             commentList.add(comment);
             
             //get related response from results
-            FeedbackResponseAttributes response = new Gson().fromJson(
+            FeedbackResponseAttributes response = JsonUtils.fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(),
                     FeedbackResponseAttributes.class);
             if (frLogic.getFeedbackResponse(response.getId()) == null) {
@@ -106,7 +106,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             }
             
             //get related question from results
-            FeedbackQuestionAttributes question = new Gson().fromJson(
+            FeedbackQuestionAttributes question = JsonUtils.fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).getText(),
                     FeedbackQuestionAttributes.class);
             if (fqLogic.getFeedbackQuestion(question.getId()) == null) {
@@ -124,7 +124,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             }
             
             //get related session from results
-            FeedbackSessionAttributes session = new Gson().fromJson(
+            FeedbackSessionAttributes session = JsonUtils.fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(),
                     FeedbackSessionAttributes.class);
             if (fsLogic.getFeedbackSession(session.getSessionName(), session.getCourseId()) == null) {

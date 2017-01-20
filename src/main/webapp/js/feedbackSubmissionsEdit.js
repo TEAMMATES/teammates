@@ -6,24 +6,37 @@ var WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
 // text displayed to user
 var SESSION_NOT_OPEN = 'Feedback Session Not Open';
 
-function isPreview() {
-    return $(document).find('.navbar').text().indexOf('Preview') !== -1;
-}
-
 $(document).ready(function() {
 
-    /**
-     * Handles input on Text question to display response length
-     */
-    $('textarea[id^="responsetext-"]').on('input', function() {
-        updateTextQuestionWordsCount(this.id, $(this).data('length-text-id'), $(this).data('recommended-text'));
-    });
-    
-    /**
-     * Triggering input event for all text question type textfields, to call
-     * function that finds out input length.
-     */
-    $('textarea[id^="responsetext-"]').trigger('input');
+    var textFields = $('div[id^="responsetext-"]');
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        $.each(textFields, function(i, textField) {
+            var id = $(textField).attr('id');
+            var idSuffix = id.match(/^responsetext(.*)$/)[1];
+
+            /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+            richTextEditorBuilder.initEditor('#' + id, {
+                inline: true,
+                fixed_toolbar_container: '#rich-text-toolbar-response-text-container' + idSuffix,
+                setup: function(ed) {
+                    ed.on('keyup', function() {
+                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                    });
+                    ed.on('keydown', function() {
+                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                    });
+                    ed.on('init', function() {
+                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                    });
+                    ed.on('change', function() {
+                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                    });
+                }
+            });
+            /* eslint-enable camelcase */
+        });
+    }
 
     $('form[name="form_submit_response"]').submit(function() {
         formatRubricQuestions();
@@ -95,6 +108,10 @@ $(document).ready(function() {
 
     showModalWarningIfSessionClosed();
 });
+
+function isPreview() {
+    return $(document).find('.navbar').text().indexOf('Preview') !== -1;
+}
 
 // Saves the value in the other option textbox for MCQ questions
 function updateMcqOtherOptionField() {
@@ -956,17 +973,21 @@ function getWarningMessage() {
 /**
  * Updates the length of the textArea
  * @param textAreaId - Id of text area for which char are to be counted
- * @param charCountId - Id of Label to display length of text area
+ * @param wordsCountId - Id of Label to display length of text area
  */
 function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLength) {
-
-    var response = $('#' + textAreaId).val();
+    var editor = tinymce.get(textAreaId);
+    if (!editor) {
+        return;
+    }
+    
+    var response = $(editor.getContent()).text();
     var $wordsCountElement = $('#' + wordsCountId);
 
     var wordsCount = response.split(/\s/g).filter(function(item) {
         return item.match(/\w/);
     }).length;
-
+    
     $wordsCountElement.text(wordsCount);
 
     var upperLimit = recommendedLength + recommendedLength * 0.1;

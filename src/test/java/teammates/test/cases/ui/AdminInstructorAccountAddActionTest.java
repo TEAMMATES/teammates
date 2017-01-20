@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.CommentsLogic;
@@ -19,7 +21,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     //TODO: move all the input validation/sanitization js code to server side
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
         // removeAndRestoreTypicalDataInDatastore();
@@ -74,6 +76,13 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         AjaxResult r = (AjaxResult) a.executeAndPostProcess();
         assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
         
+        verifyNumberOfEmailsSent(a, 1);
+        
+        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), newInstructorShortName),
+                     emailSent.getSubject());
+        assertEquals(email, emailSent.getRecipient());
+        
         ______TS("Error: invalid parameter");
         
         final String anotherNewInstructorShortName = "Bond";
@@ -98,6 +107,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals(institute, pageData.instructorInstitution);
         assertEquals(invalidName, pageData.instructorName);
         
+        verifyNoEmailsSent(a);
+        
         ______TS("Normal case: importing demo couse");
         
         a = getAction(
@@ -108,6 +119,13 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         
         r = (AjaxResult) a.executeAndPostProcess();
         assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
+        
+        verifyNumberOfEmailsSent(a, 1);
+        
+        emailSent = a.getEmailSender().getEmailsSent().get(0);
+        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), anotherNewInstructorShortName),
+                     emailSent.getSubject());
+        assertEquals(email, emailSent.getRecipient());
         
         // delete the comment that was created
         CommentAttributes comment =

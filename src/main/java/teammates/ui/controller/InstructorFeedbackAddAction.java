@@ -17,18 +17,16 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.EmailType;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
@@ -43,10 +41,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        new GateKeeper().verifyAccessible(
-                instructor,
-                logic.getCourse(courseId),
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(
+                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         FeedbackSessionAttributes fs = extractFeedbackSessionData();
 
@@ -143,9 +139,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                     "${feedbackSessionName}", feedbackSessionName,
                     "${creatorEmail}", creatorEmail);
             
-            Gson gson = Utils.getTeammatesGson();
             Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>(){}.getType();
-            return gson.fromJson(jsonString, listType);
+            return JsonUtils.fromJson(jsonString, listType);
         }
         
         return new ArrayList<FeedbackQuestionAttributes>();

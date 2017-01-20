@@ -24,9 +24,9 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
     private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
     }
     
@@ -231,7 +231,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         ______TS("typical successful case for published session");
         
-        FeedbackSessionsLogic.inst().publishFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
+        FeedbackSessionsLogic.inst().publishFeedbackSession(session);
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),

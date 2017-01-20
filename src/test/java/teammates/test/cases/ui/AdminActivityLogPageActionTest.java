@@ -10,7 +10,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     // private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE;
         // removeAndRestoreTypicalDataInDatastore();

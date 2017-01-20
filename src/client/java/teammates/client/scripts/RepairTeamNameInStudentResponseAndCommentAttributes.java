@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -28,7 +27,6 @@ import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 
@@ -41,8 +39,8 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();
-    private FeedbackResponsesLogic responsesLogic = new FeedbackResponsesLogic();
-    private CommentsLogic commentsLogic = new CommentsLogic();
+    private FeedbackResponsesLogic responsesLogic = FeedbackResponsesLogic.inst();
+    private CommentsLogic commentsLogic = CommentsLogic.inst();
 
     public static void main(String[] args) throws IOException {
         RepairTeamNameInStudentResponseAndCommentAttributes migrator =
@@ -52,7 +50,6 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
 
     @Override
     protected void doOperation() {
-        Datastore.initialize();
         List<CourseAttributes> courseList = getCoursesWithinOneYear();
         List<CourseStudent> allStudents = getStudentsFromCourses(courseList);
         int totalNumberOfStudents = allStudents.size();
@@ -107,7 +104,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     private List<CourseAttributes> getCoursesWithinOneYear() {
         List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         
-        Query q = getPm().newQuery(Course.class);
+        Query q = PM.newQuery(Course.class);
         q.declareParameters("java.util.Date startTime");
         q.setFilter("createdAt >= startTime");
         
@@ -267,10 +264,6 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
      */
     private boolean hasExtraSpaces(String s) {
         return !s.equals(StringHelper.removeExtraSpace(s));
-    }
-    
-    protected PersistenceManager getPm() {
-        return Datastore.getPersistenceManager();
     }
     
     public void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,

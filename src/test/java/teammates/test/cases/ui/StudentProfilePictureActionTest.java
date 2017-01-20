@@ -26,9 +26,9 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     private final StudentAttributes student = dataBundle.students.get("student1InCourse1");
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.STUDENT_PROFILE_PICTURE;
     }
 
@@ -113,7 +113,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithEmailAndCourseSuccessTypical(instructor);
         testActionWithEmailAndCourseNoStudent();
         testActionWithEmailAndCourseForUnregStudent();
-        testActionWithEmailAndCourseUnauthorisedInstructor();
+        testActionWithEmailAndCourseUnauthorisedInstructorOrStudent();
+        testActionWithEmailAndCourseUnauthorisedInstructorOrStudentMasquerade();
     }
 
     protected void testActionWithEmailAndCourseSuccessTypical(AccountAttributes instructor) {
@@ -189,22 +190,118 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         assertEquals("", result.blobKey);
     }
 
-    protected void testActionWithEmailAndCourseUnauthorisedInstructor() {
-        ______TS("Failure case: instructor not from same course");
-        AccountAttributes unauthInstructor = dataBundle.accounts.get("instructor1OfCourse2");
-        gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
-
+    protected void testActionWithEmailAndCourseUnauthorisedInstructorOrStudent() {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(student.email),
                 Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
         };
+        
+        ______TS("Failure case: instructor not from same course");
+        AccountAttributes unauthInstructor = dataBundle.accounts.get("instructor1OfCourse2");
+        gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
 
         action = getAction(submissionParams);
         try {
             action.executeAndPostProcess();
             signalFailureToDetectException("Unauthorised Access");
         } catch (UnauthorizedAccessException uae) {
-            assertEquals("User is not instructor of the course that student belongs to", uae.getMessage());
+            assertEquals("User is not in the course that student belongs to", uae.getMessage());
+        }
+        
+        ______TS("Failure case: instructor from same course with no 'viewing student' privilege");
+        unauthInstructor = dataBundle.accounts.get("helperOfCourse1");
+        gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
+
+        action = getAction(submissionParams);
+        try {
+            action.executeAndPostProcess();
+            signalFailureToDetectException("Unauthorised Access");
+        } catch (UnauthorizedAccessException uae) {
+            assertEquals("Instructor does not have enough privileges to view the photo", uae.getMessage());
+        }
+        
+        ______TS("Failure case: student not from same course");
+        AccountAttributes unauthStudent = dataBundle.accounts.get("student1InArchivedCourse");
+        gaeSimulation.loginAsStudent(unauthStudent.googleId);
+
+        action = getAction(submissionParams);
+        try {
+            action.executeAndPostProcess();
+            signalFailureToDetectException("Unauthorised Access");
+        } catch (UnauthorizedAccessException uae) {
+            assertEquals("User is not in the course that student belongs to", uae.getMessage());
+        }
+        
+        ______TS("Failure case: student not from same team");
+        
+        StudentAttributes studentFromDifferentTeam = dataBundle.students.get("student5InCourse1");
+        gaeSimulation.loginAsStudent(studentFromDifferentTeam.googleId);
+
+        action = getAction(submissionParams);
+        try {
+            action.executeAndPostProcess();
+            signalFailureToDetectException("Unauthorised Access");
+        } catch (UnauthorizedAccessException uae) {
+            assertEquals("Student does not have enough privileges to view the photo", uae.getMessage());
+        }
+    }
+    
+    protected void testActionWithEmailAndCourseUnauthorisedInstructorOrStudentMasquerade() {
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(student.email),
+                Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
+        };
+        
+        ______TS("Failure case: unauthorised student masqueraded as a student from same team");
+        AccountAttributes unauthStudent = dataBundle.accounts.get("student1InArchivedCourse");
+        gaeSimulation.loginAsStudent(unauthStudent.googleId);
+        try {
+            action = getAction(addUserIdToParams(student.googleId, submissionParams));
+            signalFailureToDetectException();
+        } catch (UnauthorizedAccessException uae) {
+            assertEquals("User student1InArchivedCourse is trying to masquerade as"
+                    + " student1InCourse1 without admin permission.", uae.getMessage());
+        }
+        
+        ______TS("Failure case: unauthorised instructor masqueraded as an authorised instructor");
+        AccountAttributes unauthInstructor = dataBundle.accounts.get("instructor1OfCourse2");
+        AccountAttributes instructor = dataBundle.accounts.get("instructor1OfCourse1");
+        gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
+        try {
+            action = getAction(addUserIdToParams(instructor.googleId, submissionParams));
+            signalFailureToDetectException();
+        } catch (UnauthorizedAccessException uae) {
+            assertEquals("User idOfInstructor1OfCourse2 is trying to masquerade as"
+                    + " idOfInstructor1OfCourse1 without admin permission.", uae.getMessage());
+        }
+        
+        gaeSimulation.loginAsAdmin("admin.user");
+        ______TS("Failure case: masqueraded instructor not from same course");
+        action = getAction(addUserIdToParams(unauthInstructor.googleId, submissionParams));
+        try {
+            action.executeAndPostProcess();
+            signalFailureToDetectException("Unauthorised Access");
+        } catch (UnauthorizedAccessException uae) {
+            assertEquals("User is not in the course that student belongs to", uae.getMessage());
+        }
+        
+        ______TS("Failure case: masqueraded student not from same course");
+        action = getAction(addUserIdToParams(unauthStudent.googleId, submissionParams));
+        try {
+            action.executeAndPostProcess();
+            signalFailureToDetectException("Unauthorised Access");
+        } catch (UnauthorizedAccessException uae) {
+            assertEquals("User is not in the course that student belongs to", uae.getMessage());
+        }
+        
+        ______TS("Failure case: masqueraded student not from same team");
+        StudentAttributes studentFromDifferentTeam = dataBundle.students.get("student5InCourse1");
+        action = getAction(addUserIdToParams(studentFromDifferentTeam.googleId, submissionParams));
+        try {
+            action.executeAndPostProcess();
+            signalFailureToDetectException("Unauthorised Access");
+        } catch (UnauthorizedAccessException uae) {
+            assertEquals("Student does not have enough privileges to view the photo", uae.getMessage());
         }
     }
 
