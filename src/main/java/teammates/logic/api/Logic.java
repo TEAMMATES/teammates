@@ -629,20 +629,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         return coursesLogic.getCoursesSummaryWithoutStatsForInstructor(googleId, omitArchived);
     }
-
-    /**
-     * Omits archived courses if omitArchived == true<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return A more detailed version of courses for this instructor.
-     *   Returns an empty list if none found.\
-     */
-    public HashMap<String, CourseDetailsBundle> getCourseDetailsListForInstructor(
-            String instructorId, boolean omitArchived) throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-        return coursesLogic.getCoursesDetailsListForInstructor(instructorId, omitArchived);
-    }
     
     /**
      * Preconditions: <br>
@@ -667,17 +653,6 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorList);
         return coursesLogic.getCourseSummariesForInstructor(instructorList);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return All archived courses for this instructor.
-     */
-    public List<CourseAttributes> getArchivedCoursesForInstructor(String googleId) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-        return coursesLogic.getArchivedCoursesForInstructor(googleId);
     }
     
     /**
@@ -936,30 +911,6 @@ public class Logic {
     public List<String> getSectionNamesForCourse(CourseAttributes course) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
         return coursesLogic.getSectionsNameForCourse(course);
-    }
-    
-    /** 
-     * Preconditions: <br>
-     * * All parameters are non-null
-     * @throws EntityDoesNotExistException
-     */
-    public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses)
-            throws EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courses);
-        return coursesLogic.getCourseIdToSectionNamesMap(courses);
-    }
-
-    /** 
-     * Preconditions: <br>
-     * * All parameters are non-null
-     */
-    public SectionDetailsBundle getSectionForCourse(String section, String courseId)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        
-        return coursesLogic.getSectionForCourse(section, courseId);
     }
     
     /** 
