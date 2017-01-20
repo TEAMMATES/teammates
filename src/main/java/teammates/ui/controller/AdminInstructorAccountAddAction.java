@@ -273,7 +273,13 @@ public class AdminInstructorAccountAddAction extends Action {
     */
     private String getDemoCourseIdRoot(String instructorEmail) {
         final String[] splitedEmail = instructorEmail.split("@");
-        final String head = splitedEmail[0];
+        
+        // To ensure a valid course ID is generated, replace all characters
+        // in the email address that are considered illegal in a course ID with _.
+        // Required as valid email addresses can contain special characters (such as +)
+        // that are considered illegal in a course ID
+        final String head = splitedEmail[0].replaceAll(FieldValidator.REGEX_COURSE_ID_ILLEGAL, "_");
+        
         final String emailAbbreviation = splitedEmail[1].substring(0, 3);
         return head + "." + emailAbbreviation
                 + "-demo";
