@@ -701,8 +701,8 @@ function copyOptions() {
 
     // Number of recipient setup
     formatNumberBox($currRecipient.val(), NEW_QUESTION);
-    var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
-    var $currRadioButtons = $('table[class~="questionTable"]').last().find('input[name="numofrecipientstype"]');
+    var $prevRadioButtons = $('div[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
+    var $currRadioButtons = $('div[class~="questionTable"]').last().find('input[name="numofrecipientstype"]');
     
     $currRadioButtons.each(function(index) {
         $(this).prop('checked', $prevRadioButtons.eq(index).prop('checked'));
