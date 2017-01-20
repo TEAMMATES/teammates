@@ -214,7 +214,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
     
     public String getModerationHintButtonText() {
-        WebElement moderatorionHintButton = browser.driver.findElement(By.id("moderationHintButton"));
-        return moderatorionHintButton.getText();
+        WebElement moderationHintButton = browser.driver.findElement(By.id("moderationHintButton"));
+        return moderationHintButton.getText();
     }
 }
