@@ -1,9 +1,12 @@
 package teammates.common.util;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTimeZone;
 
@@ -747,6 +750,12 @@ public class FieldValidator {
      */
     public static boolean isValidEmailAddress(String email) {
         return StringHelper.isMatching(email, REGEX_EMAIL);
+    }
+    
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public static boolean areElementsUnique(Collection elements) {
+        Set uniqueElements = new HashSet(elements);
+        return uniqueElements.size() == elements.size();
     }
 
     private static String getPopulatedErrorMessage(
