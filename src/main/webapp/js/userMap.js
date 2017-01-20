@@ -29,7 +29,7 @@ function handleData(err, countryCoordinates, userData) {
     // set the institution count in the page
     document.getElementById('totalUserCount').innerHTML = total;
     // set the country count in the page
-    document.getElementById('totalCountryCount').innerHTML = countriesArr.length;
+    document.getElementById('totalCountryCount').innerHTML = userCountries.length;
     
     // Data format example
     // var series = [
