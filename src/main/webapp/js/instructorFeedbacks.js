@@ -49,6 +49,30 @@ function checkFeedbackQuestion(form) {
         setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER, form);
         return false;
     }
+    if ($(form).find('[name=' + FEEDBACK_QUESTION_TYPE + ']').val() === 'CONSTSUM') {
+        function getOptionList() {
+            return $(form).find('[name^="constSumOption"]');
+        }
+        function checkForDuplicates(optionList) {
+            var encounteredOptionStrings = [];
+            var isDuplicateEncountered = false;
+            optionList.each(function() {
+                var currentString = $(this).val();
+                if ($.inArray(currentString, encounteredOptionStrings) >= 0) {
+                    isDuplicateEncountered = true;
+                } else {
+                    encounteredOptionStrings.push(currentString);
+                }
+            });
+            return isDuplicateEncountered;
+        }
+        var optionList = getOptionList();
+        var hasDuplicates = checkForDuplicates(optionList);
+        if (hasDuplicates) {
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_CONSTSUM_OPTIONSDUPLICATED, StatusType.DANGER, form);
+            return false;
+        }
+    }
     return true;
 }
 
