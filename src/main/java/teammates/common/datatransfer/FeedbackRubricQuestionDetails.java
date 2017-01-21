@@ -628,7 +628,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         FeedbackParticipantType[] typesToSkipFiltering = {FeedbackParticipantType.INSTRUCTORS,
-                FeedbackParticipantType.NONE};
+                FeedbackParticipantType.NONE, FeedbackParticipantType.SELF};
         FeedbackParticipantType recipientType = question.getRecipientType();
 
         for (FeedbackParticipantType skipType : typesToSkipFiltering) {
