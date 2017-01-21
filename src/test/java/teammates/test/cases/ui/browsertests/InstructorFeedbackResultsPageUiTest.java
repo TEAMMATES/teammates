@@ -29,9 +29,6 @@ import teammates.test.util.Priority;
  */
 @Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
-    private static final String TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE = "collapse";
-    private static final String TEST_QUESTION_ADDITIONAL_INFO_EXPAND = "expand";
-    
     private static DataBundle testData;
     private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
@@ -191,10 +188,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         String additionalInfoId = "section-1-giver-1-recipient-1";
         int qnNumber = 8;
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_EXPAND,
-                                                   qnNumber, additionalInfoId);
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE,
-                                                   qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
 
@@ -205,10 +200,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         additionalInfoId = "section-1-giver-1-recipient-0";
         qnNumber = 8;
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_EXPAND,
-                                                   qnNumber, additionalInfoId);
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE,
-                                                   qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("test sort by giver > question > recipient");
 
@@ -252,10 +245,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         additionalInfoId = "";
         qnNumber = 8;
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_EXPAND,
-                                                   qnNumber, additionalInfoId);
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE,
-                                                   qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("Typical case: test in-table sort");
 
@@ -792,19 +783,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         }
     }
     
-    private void verifyQuestionAdditionalInfoCollapseExpand(String operation,
-                                                            int qnNumber, String additionalInfoId) {
-        if (TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE.equals(operation)) {
-            resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
-            assertFalse(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
-            assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
-        } else if (TEST_QUESTION_ADDITIONAL_INFO_EXPAND.equals(operation)) {
-            resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
-            assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
-            assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
-        } else {
-            fail("Unsupported operation");
-        }
+    private void verifyQuestionAdditionalInfoCollapse(int qnNumber, String additionalInfoId) {
+        resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+        assertFalse(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
+    }
+    
+    private void verifyQuestionAdditionalInfoExpand(int qnNumber, String additionalInfoId) {
+        resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+        assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
     }
 
 }

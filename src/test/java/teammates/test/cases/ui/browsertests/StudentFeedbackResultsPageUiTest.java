@@ -23,9 +23,6 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
  * SUT: {@link StudentFeedbackResultsPage}.
  */
 public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
-    private static final String TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE = "collapse";
-    private static final String TEST_QUESTION_ADDITIONAL_INFO_EXPAND = "expand";
-    
     private static DataBundle testData;
     private static Browser browser;
     private StudentFeedbackResultsPage resultsPage;
@@ -82,17 +79,13 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         String additionalInfoId = "";
         int qnNumber = 4;
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_EXPAND,
-                                                   qnNumber, additionalInfoId);
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE,
-                                                   qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         additionalInfoId = "";
         qnNumber = 5;
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_EXPAND,
-                                                   qnNumber, additionalInfoId);
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE,
-                                                   qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("MSQ session results");
 
@@ -101,17 +94,13 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         additionalInfoId = "";
         qnNumber = 4;
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_EXPAND,
-                                                   qnNumber, additionalInfoId);
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE,
-                                                   qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         additionalInfoId = "";
         qnNumber = 5;
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_EXPAND,
-                                                   qnNumber, additionalInfoId);
-        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE,
-                                                   qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("NUMSCALE session results");
 
@@ -188,21 +177,16 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         return AppPage.getNewPageInstance(browser, submitUrl, typeOfPage);
     }
     
-    private void verifyQuestionAdditionalInfoCollapseExpand(String operation,
-                                                            int qnNumber, String additionalInfoId) {
-        if (TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE.equals(operation)) {
-            resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
-            assertFalse(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
-            assertEquals("[more]",
-                    resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
-        } else if (TEST_QUESTION_ADDITIONAL_INFO_EXPAND.equals(operation)) {
-            resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
-            assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
-            assertEquals("[less]",
-                    resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
-        } else {
-            fail("Unsupported operation");
-        }
+    private void verifyQuestionAdditionalInfoCollapse(int qnNumber, String additionalInfoId) {
+        resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+        assertFalse(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
+    }
+    
+    private void verifyQuestionAdditionalInfoExpand(int qnNumber, String additionalInfoId) {
+        resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+        assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
     }
 
 }
