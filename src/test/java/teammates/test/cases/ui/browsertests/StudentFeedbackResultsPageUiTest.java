@@ -23,8 +23,12 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
  * SUT: {@link StudentFeedbackResultsPage}.
  */
 public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
+    private static final String TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE = "collapse";
+    private static final String TEST_QUESTION_ADDITIONAL_INFO_EXPAND = "expand";
+    
     private static DataBundle testData;
     private static Browser browser;
+    private StudentFeedbackResultsPage resultsPage;
 
     @BeforeClass
     public void classSetup() {
@@ -43,8 +47,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // Open Session
         StudentAttributes unreg = testData.students.get("DropOut");
-        StudentFeedbackResultsPage resultsPage =
-                loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
+        resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
         resultsPage.verifyHtmlMainContent("/unregisteredStudentFeedbackResultsPageOpen.html");
 
         // Mcq Session
@@ -77,34 +80,38 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "MCQ Session");
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageMCQ.html");
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
+        String additionalInfoId = "";
+        int qnNumber = 4;
+        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_EXPAND,
+                                                   qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE,
+                                                   qnNumber, additionalInfoId);
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
+        additionalInfoId = "";
+        qnNumber = 5;
+        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_EXPAND,
+                                                   qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE,
+                                                   qnNumber, additionalInfoId);
 
         ______TS("MSQ session results");
 
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "MSQ Session");
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageMSQ.html");
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
+        additionalInfoId = "";
+        qnNumber = 4;
+        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_EXPAND,
+                                                   qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE,
+                                                   qnNumber, additionalInfoId);
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
+        additionalInfoId = "";
+        qnNumber = 5;
+        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_EXPAND,
+                                                   qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapseExpand(TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE,
+                                                   qnNumber, additionalInfoId);
 
         ______TS("NUMSCALE session results");
 
@@ -180,4 +187,26 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
                                             .withRegistrationKey(BackDoor.getEncryptedKeyForStudent(s.course, s.email));
         return AppPage.getNewPageInstance(browser, submitUrl, typeOfPage);
     }
+    
+    private void verifyQuestionAdditionalInfoCollapseExpand(String operation,
+                                                            int qnNumber, String additionalInfoId) {
+        if (TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE.equals(operation)) {
+            assertEquals("[less]",
+                    resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
+            resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+            assertFalse(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+            assertEquals("[more]",
+                    resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
+        } else if (TEST_QUESTION_ADDITIONAL_INFO_EXPAND.equals(operation)) {
+            assertEquals("[more]",
+                    resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
+            resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+            assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+            assertEquals("[less]",
+                    resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
+        } else {
+            fail("Unsupported operation");
+        }
+    }
+
 }
