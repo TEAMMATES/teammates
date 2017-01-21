@@ -81,8 +81,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
             
             List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
-            String questionId = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters,
+            String questionId = getRequestParamValue(
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             if (questionAttributes == null) {
@@ -278,30 +277,25 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 requestParameters,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-" + responseIndx));
                 
-        response.feedbackSessionName = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
+        response.feedbackSessionName = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("Null feedback session name", response.feedbackSessionName);
         
-        response.courseId = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
+        response.courseId = getRequestParamValue(
                 Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("Null feedback courseId", response.courseId);
         
-        response.feedbackQuestionId = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
+        response.feedbackQuestionId = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
         Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
         Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(),
                                 response.feedbackQuestionId);
         
-        response.recipient = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
+        response.recipient = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-" + responseIndx);
         Assumption.assertNotNull("Null feedback recipientEmail", response.recipient);
         
-        String feedbackQuestionType = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
+        String feedbackQuestionType = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx);
         Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
         response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
