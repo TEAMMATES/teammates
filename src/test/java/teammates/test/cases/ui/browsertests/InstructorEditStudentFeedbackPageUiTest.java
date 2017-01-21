@@ -12,7 +12,7 @@ import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.FeedbackSubmitPage;
+import teammates.test.pageobjects.InstructorEditStudentFeedbackPage;
 
 /**
  * Tests Edit(Moderate) Student's Feedback Page of instructors.
@@ -22,7 +22,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
     private static DataBundle testData;
     private static Browser browser;
-    private FeedbackSubmitPage submitPage;
+    private InstructorEditStudentFeedbackPage submitPage;
     
     @BeforeClass
     public void classSetup() {
@@ -128,7 +128,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         assertNull(fr);
     }
     
-    private FeedbackSubmitPage loginToInstructorEditStudentFeedbackPage(
+    private InstructorEditStudentFeedbackPage loginToInstructorEditStudentFeedbackPage(
             String instructorName, String moderatedStudentEmail, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE)
                 .withUserId(testData.instructors.get(instructorName).googleId)
@@ -136,7 +136,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail);
         
-        return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPage(browser, editUrl, InstructorEditStudentFeedbackPage.class);
     }
 
     @AfterClass
