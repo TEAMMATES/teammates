@@ -133,8 +133,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         // Select table cell
 
-        submitPage.clickRubricRadio(1, 0, 0, 0);
-        submitPage.clickRubricRadio(1, 0, 0, 0);
+        submitPage.clickRubricRadio(1, 0, 0, 1);
 
         submitPage.clickRubricRadio(1, 1, 0, 1);
         submitPage.clickRubricRadio(1, 1, 1, 0);
