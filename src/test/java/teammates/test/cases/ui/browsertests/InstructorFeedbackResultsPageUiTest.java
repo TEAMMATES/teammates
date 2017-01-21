@@ -795,12 +795,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     private void verifyQuestionAdditionalInfoCollapseExpand(String operation,
                                                             int qnNumber, String additionalInfoId) {
         if (TEST_QUESTION_ADDITIONAL_INFO_COLLAPSE.equals(operation)) {
-            assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
             resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
             assertFalse(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
             assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
         } else if (TEST_QUESTION_ADDITIONAL_INFO_EXPAND.equals(operation)) {
-            assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
             resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
             assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
             assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
