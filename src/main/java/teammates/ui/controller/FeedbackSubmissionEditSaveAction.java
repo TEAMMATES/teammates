@@ -73,16 +73,16 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-            String totalResponsesForQuestion =
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-" + questionIndx);
+            String totalResponsesForQuestion = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL
+                    + "-" + questionIndx);
             
             if (totalResponsesForQuestion == null) {
                 continue; // question has been skipped (not displayed).
             }
             
             List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
-            String questionId = getRequestParamValue(
-                    Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
+            String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-"
+                    + questionIndx);
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             if (questionAttributes == null) {
                 statusToUser.add(new StatusMessage("The feedback session or questions may have changed "
@@ -273,30 +273,27 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         FeedbackResponseAttributes response = new FeedbackResponseAttributes();
         
         // This field can be null if the response is new
-        response.setId(HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-" + responseIndx));
+        response.setId(getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-"
+                + responseIndx));
                 
-        response.feedbackSessionName = getRequestParamValue(
-                Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        response.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("Null feedback session name", response.feedbackSessionName);
         
-        response.courseId = getRequestParamValue(
-                Const.ParamsNames.COURSE_ID);
+        response.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("Null feedback courseId", response.courseId);
         
-        response.feedbackQuestionId = getRequestParamValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
+        response.feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-"
+                + questionIndx);
         Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
         Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(),
                                 response.feedbackQuestionId);
         
-        response.recipient = getRequestParamValue(
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-" + responseIndx);
+        response.recipient = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-"
+                + questionIndx + "-" + responseIndx);
         Assumption.assertNotNull("Null feedback recipientEmail", response.recipient);
         
-        String feedbackQuestionType = getRequestParamValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx);
+        String feedbackQuestionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-"
+                + questionIndx);
         Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
         response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
         
