@@ -43,11 +43,18 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     private void testStudentResultsPage() throws Exception {
-        ______TS("test rubric question student results page");
+        ______TS("test rubric question simple student results page");
 
-        StudentFeedbackResultsPage studentResultsPage =
+        StudentFeedbackResultsPage simpleResultsPage =
                                         loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
-        studentResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
+        simpleResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
+
+        ______TS("test rubric question extended student results page");
+
+        StudentFeedbackResultsPage extendedResultsPage =
+                loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession4");
+        extendedResultsPage.verifyHtmlMainContent("/studentExtendedFeedbackResultsPageRubric.html");
+
     }
     
     private void testInstructorResultsPage() throws Exception {
@@ -125,9 +132,12 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                                                     + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
         
         // Select table cell
+
+        submitPage.clickRubricRadio(1, 0, 0, 0);
+        submitPage.clickRubricRadio(1, 0, 0, 0);
+
         submitPage.clickRubricRadio(1, 1, 0, 1);
         submitPage.clickRubricRadio(1, 1, 1, 0);
-        submitPage.clickRubricRadio(1, 1, 0, 0);
 
         // Submit
         submitPage.clickSubmitButton();
@@ -146,6 +156,13 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         submitPage.clickRubricRadio(1, 1, 0, 0);
         submitPage.clickRubricRadio(1, 1, 1, 0);
+
+        submitPage.clickSubmitButton();
+
+        submitPage = loginToStudentFeedbackSubmitPage("colin.tmms@FRubricQnUiT.CS2104", "openSession2");
+
+        submitPage.clickRubricRadio(1, 0, 0, 1);
+        submitPage.clickRubricRadio(1, 0, 1, 0);
 
         submitPage.clickSubmitButton();
     }
