@@ -29,10 +29,11 @@ import teammates.test.util.Priority;
  */
 @Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
+
     private static DataBundle testData;
     private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
-    
+
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
