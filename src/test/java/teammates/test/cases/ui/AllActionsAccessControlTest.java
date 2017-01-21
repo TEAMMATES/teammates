@@ -50,9 +50,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     private String[] submissionParams = new String[]{};
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         addUnregStudentToCourse1();
     }
     
@@ -988,8 +988,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
-        FeedbackSessionsLogic.inst().publishFeedbackSession(
-                session1InCourse1.getSessionName(), session1InCourse1.getCourseId());
+        FeedbackSessionsLogic.inst().publishFeedbackSession(session1InCourse1);
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),

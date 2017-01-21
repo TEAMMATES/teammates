@@ -298,11 +298,14 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidNationality = "{ Invalid Char Nationality";
         String actual = validator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
-                     "\"{ Invalid Char Nationality\" is not acceptable to TEAMMATES as a/an nationality "
-                         + "because it starts with a non-alphanumeric character. All nationality must start "
-                         + "with an alphanumeric character, and cannot contain any vertical bar (|) or "
-                         + "percent sign (%).",
-                     actual);
+                     String.format(NATIONALITY_ERROR_MESSAGE, invalidNationality), actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNationality_valid_returnEmptyString() {
+        String validNationality = "New Zealander";
+        String actual = validator.getInvalidityInfoForNationality(validNationality);
+        assertEquals("Valid nationality should return empty string", "", actual);
     }
 
     @Test

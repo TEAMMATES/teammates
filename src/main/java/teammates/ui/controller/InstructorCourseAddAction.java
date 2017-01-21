@@ -11,11 +11,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: adding a course for an instructor
@@ -33,7 +32,7 @@ public class InstructorCourseAddAction extends Action {
         Assumption.assertNotNull(newCourseTimeZone);
 
         /* Check if user has the right to execute the action */
-        new GateKeeper().verifyInstructorPrivileges(account);
+        gateKeeper.verifyInstructorPrivileges(account);
 
         /* Create a new course in the database */
         data = new InstructorCoursesPageData(account);

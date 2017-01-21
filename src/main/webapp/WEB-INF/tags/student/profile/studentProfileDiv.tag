@@ -88,13 +88,22 @@
             <label for="studentNationality">
                 Nationality
             </label>
-            <input id="studentNationality"
-                   name="<%= Const.ParamsNames.STUDENT_NATIONALITY %>"
-                   class="form-control"
-                   type="text"
-                   data-actual-value="${profile.nationality}"
-                   value="${profile.nationality}"
-                   placeholder="Nationality">
+            <select id="studentNationality"
+                    name="<%=Const.ParamsNames.STUDENT_NATIONALITY%>"
+                    class="form-control" style="width: 300px">
+                <c:forEach items="${profile.nationalitySelectField}"
+                           var="option">
+                    <option ${option.attributesToString}>
+                        ${option.content}
+                    </option>
+                </c:forEach>
+            </select>
+            <input type="hidden" name="existingNationality" value="${profile.nationality}">
+            <c:if test="${not empty profile.legacyNationalityInstructions}">
+                <div class="text-color-red">
+                    ${profile.legacyNationalityInstructions}
+                </div>
+            </c:if>
         </div>
         <div class="form-group">
             <label for="studentGender">

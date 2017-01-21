@@ -156,8 +156,9 @@ public final class TimeHelper {
     }
 
     public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
-        time.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
-        return time; // for chaining
+        Calendar newTime = (Calendar) time.clone();
+        newTime.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
+        return newTime; // for chaining
     }
 
     /**

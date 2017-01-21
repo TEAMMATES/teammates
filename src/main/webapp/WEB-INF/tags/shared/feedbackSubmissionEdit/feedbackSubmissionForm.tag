@@ -23,14 +23,6 @@
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <tsfse:feedbackSessionDetailsPanel feedbackSession="${data.bundle.feedbackSession}"/>
     
-    <c:if test="${data.moderation}">
-        <div class="row">
-            <span class="help-block align-center">
-                <%= Const.FEEDBACK_SESSION_QUESTIONS_HIDDEN %>
-            </span>
-        </div>
-    </c:if>
-    
     <c:forEach items="${data.questionsWithResponses}" var="questionWithResponses">
         <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}" 
                                      isShowRealQuestionNumber="${data.showRealQuestionNumber}" 

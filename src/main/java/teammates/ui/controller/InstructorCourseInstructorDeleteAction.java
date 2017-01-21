@@ -5,9 +5,8 @@ import java.util.List;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.StatusMessageColor;
 
 /**
  * Action: deleting an instructor for a course by another instructor
@@ -23,7 +22,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         Assumption.assertNotNull(instructorEmail);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
         /* Process deleting an instructor and setup status to be shown to user and admin */

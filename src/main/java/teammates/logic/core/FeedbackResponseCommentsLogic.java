@@ -15,8 +15,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.UserType;
-import teammates.common.datatransfer.UserType.Role;
+import teammates.common.datatransfer.UserRole;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -24,23 +23,27 @@ import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
- * Handles the logic related to {@link FeedbackResponseCommentAttributes}.
+ * Handles operations related to feedback response comments.
+ * 
+ * @see {@link FeedbackResponseCommentAttributes}
+ * @see {@link FeedbackResponseCommentsDb}
  */
-public class FeedbackResponseCommentsLogic {
+public final class FeedbackResponseCommentsLogic {
     
-    private static FeedbackResponseCommentsLogic instance;
-
+    private static FeedbackResponseCommentsLogic instance = new FeedbackResponseCommentsLogic();
+    
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
     
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    
+    private FeedbackResponseCommentsLogic() {
+        // prevent initialization
+    }
+    
     public static FeedbackResponseCommentsLogic inst() {
-        if (instance == null) {
-            instance = new FeedbackResponseCommentsLogic();
-        }
         return instance;
     }
 
@@ -260,7 +263,7 @@ public class FeedbackResponseCommentsLogic {
      * Verify whether the comment is visible to certain user
      * @return true/false
      */
-    public boolean isResponseCommentVisibleForUser(String userEmail, String courseId, UserType.Role role,
+    public boolean isResponseCommentVisibleForUser(String userEmail, String courseId, UserRole role,
             String section, StudentAttributes student, Set<String> studentsEmailInTeam,
             FeedbackResponseAttributes response, FeedbackQuestionAttributes relatedQuestion,
             FeedbackResponseCommentAttributes relatedComment, InstructorAttributes instructor) {
@@ -275,8 +278,8 @@ public class FeedbackResponseCommentsLogic {
         boolean isVisibleResponseComment = false;
         
         
-        boolean userIsInstructor = role == Role.INSTRUCTOR;
-        boolean userIsStudent = role == Role.STUDENT;
+        boolean userIsInstructor = role == UserRole.INSTRUCTOR;
+        boolean userIsStudent = role == UserRole.STUDENT;
         
         boolean userIsInstructorAndRelatedResponseCommentIsVisibleToInstructors =
                 userIsInstructor && isResponseCommentVisibleTo(relatedQuestion, relatedComment,

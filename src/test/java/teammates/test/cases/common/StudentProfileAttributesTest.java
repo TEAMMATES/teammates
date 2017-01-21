@@ -31,7 +31,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         profile.shortName = "shor";
         profile.institute = "institute";
         profile.email = "valid@email.com";
-        profile.nationality = "nationality";
+        profile.nationality = "Lebanese";
         profile.gender = "female";
         profile.moreInfo = "moreInfo can have a lot more than this...";
         profile.pictureKey = "profile Pic Key";
@@ -59,7 +59,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         spa.modifiedDate = sdf.parse("2015-05-21 8:34:00");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
-                     + "\n  \"nationality\": \"nationality\",\n  \"gender\": \"female\","
+                     + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"female\","
                      + "\n  \"moreInfo\": \"moreInfo can have a lot more than this...\","
                      + "\n  \"pictureKey\": \"profile Pic Key\","
                      /*
@@ -201,12 +201,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, profile.institute,
                     FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                     FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
-        expectedErrorMessages.add(
-                getPopulatedErrorMessage(
-                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, profile.nationality,
-                    FieldValidator.NATIONALITY_FIELD_NAME,
-                    FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                    FieldValidator.NATIONALITY_MAX_LENGTH));
+        expectedErrorMessages.add(String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, profile.nationality));
         expectedErrorMessages.add(String.format(FieldValidator.GENDER_ERROR_MESSAGE, profile.gender));
         return expectedErrorMessages;
     }

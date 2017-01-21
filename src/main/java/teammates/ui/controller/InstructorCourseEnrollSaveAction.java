@@ -5,18 +5,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import teammates.common.datatransfer.CourseEnrollmentResult;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.StatusMessageColor;
 
 /**
  * Action: saving the list of enrolled students for a course of an instructor
@@ -33,8 +35,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId),
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         /* Process enrollment list and setup data for page result */
         try {
@@ -86,7 +88,17 @@ public class InstructorCourseEnrollSaveAction extends Action {
 
     private List<StudentAttributes>[] enrollAndProcessResultForDisplay(String studentsInfo, String courseId)
             throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        List<StudentAttributes> students = logic.enrollStudents(studentsInfo, courseId);
+        CourseEnrollmentResult enrollResult = logic.enrollStudents(studentsInfo, courseId);
+        List<StudentAttributes> students = enrollResult.studentList;
+        
+        // Adjust submissions for all feedback responses within the course
+        List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+        for (FeedbackSessionAttributes session : feedbackSessions) {
+            // Schedule adjustment of submissions for feedback session in course
+            taskQueuer.scheduleFeedbackResponseAdjustmentForCourse(
+                    courseId, session.getFeedbackSessionName(), enrollResult.enrollmentList);
+        }
+        
         Collections.sort(students, new Comparator<StudentAttributes>() {
             @Override
             public int compare(StudentAttributes o1, StudentAttributes o2) {
@@ -107,8 +119,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
     @SuppressWarnings("unchecked")
     private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {
     
-        ArrayList<StudentAttributes>[] lists = new ArrayList[StudentAttributes.UpdateStatus.STATUS_COUNT];
-        for (int i = 0; i < StudentAttributes.UpdateStatus.STATUS_COUNT; i++) {
+        ArrayList<StudentAttributes>[] lists = new ArrayList[StudentUpdateStatus.STATUS_COUNT];
+        for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
             lists[i] = new ArrayList<StudentAttributes>();
         }
         
@@ -116,7 +128,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
             lists[student.updateStatus.numericRepresentation].add(student);
         }
         
-        for (int i = 0; i < StudentAttributes.UpdateStatus.STATUS_COUNT; i++) {
+        for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
             StudentAttributes.sortByNameAndThenByEmail(lists[i]);
         }
         

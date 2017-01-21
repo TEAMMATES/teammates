@@ -5,23 +5,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
-import teammates.common.util.Utils;
 
 /**
  * The result of executing an {@link Action}.
  */
 public abstract class ActionResult {
-    protected static final Logger log = Utils.getLogger();
+    protected static final Logger log = Logger.getLogger();
     
     /** The URI that represents the result.
      * e.g., "/page/instructorHome" "/jsp/instructorHome.jsp"

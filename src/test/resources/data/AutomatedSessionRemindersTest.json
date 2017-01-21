@@ -100,6 +100,29 @@
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true
     },
+    "closedSession": {
+      "feedbackSessionName": "AutSessRem Closed Session",
+      "courseId": "AutSessRem.course",
+      "creatorEmail": "${value.injected.in.testfile}",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2017-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2017-05-01 11:59 PM UTC",
+      "timeZone": 0.0,
+      "gracePeriod": 15,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
     "publishedSession": {
       "feedbackSessionName": "AutSessRem Published Session",
       "courseId": "AutSessRem.course",
@@ -125,12 +148,56 @@
     }
   },
   "feedbackQuestions": {
-    "question": {
+    "questionForOpeningSession": {
+      "feedbackSessionName": "AutSessRem Opening Session",
+      "courseId": "AutSessRem.course",
+      "creatorEmail": "${value.injected.in.testfile}",
+      "questionMetaData": {
+        "value": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "questionForClosingSession": {
       "feedbackSessionName": "AutSessRem Closing Session",
       "courseId": "AutSessRem.course",
       "creatorEmail": "${value.injected.in.testfile}",
       "questionMetaData": {
         "value": "This question is so that closing reminders will be sent to students as it is unanswered."
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "questionForPublishedSession": {
+      "feedbackSessionName": "AutSessRem Published Session",
+      "courseId": "AutSessRem.course",
+      "creatorEmail": "${value.injected.in.testfile}",
+      "questionMetaData": {
+        "value": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
       },
       "questionNumber": 1,
       "questionType": "TEXT",

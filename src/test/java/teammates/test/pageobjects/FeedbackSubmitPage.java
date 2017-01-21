@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import java.io.IOException;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -39,10 +41,19 @@ public class FeedbackSubmitPage extends AppPage {
         selectElement.selectByVisibleText(recipientName);
     }
     
+    public void fillResponseRichTextEditor(int qnNumber, int responseNumber, String text) {
+        String id = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
+                + "-" + qnNumber + "-" + responseNumber;
+        fillRichTextEditor(id, text);
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("  if (typeof tinyMCE !== 'undefined') {"
+                                 + "    tinyMCE.get('" + id + "').fire('change');"
+                                 + "}");
+    }
+
     public void fillResponseTextBox(int qnNumber, int responseNumber, String text) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
-        click(element);
         fillTextBox(element, text);
         // Fire the change event using javascript since firefox with selenium
         // might be buggy and fail to trigger.
@@ -54,7 +65,6 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement element = browser.driver.findElement(
                 By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                       + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
-        click(element);
         fillTextBox(element, text);
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("$(arguments[0]).change();", element);
@@ -187,5 +197,24 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement element = browser.driver.findElement(
                 By.cssSelector("input[id$='OptionText-" + qnNumber + "-" + responseNumber + "']"));
         waitForElementToBeClickable(element);
+    }
+    
+    // ------------- For InstructorEditStudentFeedbackPage -------------
+    
+    public void clickModerationHintButton() {
+        click(By.id("moderationHintButton"));
+    }
+    
+    public boolean isModerationHintVisible() {
+        return isElementVisible("moderationHint");
+    }
+    
+    public void verifyModerationHeaderHtml(String filePathParam) throws IOException {
+        verifyHtmlPart(By.className("navbar"), filePathParam);
+    }
+    
+    public String getModerationHintButtonText() {
+        WebElement moderationHintButton = browser.driver.findElement(By.id("moderationHintButton"));
+        return moderationHintButton.getText();
     }
 }

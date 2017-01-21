@@ -25,21 +25,39 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;
     
     @BeforeClass
-    public static void classSetup() {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         
         browser = BrowserPool.getBrowser();
     }
     
     @Test
     public void testAll() throws Exception {
+        testModerationHint();
         testEditResponse();
         testAddResponse();
         testDeleteResponse();
     }
     
+    private void testModerationHint() throws Exception {
+        ______TS("verify moderation hint");
+        
+        submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt",
+                "session1InIESFPTCourse");
+        
+        submitPage.verifyModerationHeaderHtml("/instructorEditStudentFeedbackHint.html");
+        
+        submitPage.clickModerationHintButton();
+        assertTrue(submitPage.isModerationHintVisible());
+        assertEquals("[Less]", submitPage.getModerationHintButtonText());
+        
+        submitPage.clickModerationHintButton();
+        assertFalse(submitPage.isModerationHintVisible());
+        assertEquals("[More]", submitPage.getModerationHintButtonText());
+    }
+
     public void testEditResponse() throws Exception {
         ______TS("edit responses");
         
@@ -56,7 +74,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageOpen.html");
         
-        submitPage.fillResponseTextBox(1, 0, "Good design");
+        submitPage.fillResponseRichTextEditor(1, 0, "Good design");
+
         submitPage.clickSubmitButton();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         
@@ -66,7 +85,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                           "student1InIESFPTCourse@gmail.tmt",
                                           "student1InIESFPTCourse@gmail.tmt");
         
-        assertEquals("Good design", fr.getResponseDetails().getAnswerString());
+        assertEquals("<p>Good design</p>", fr.getResponseDetails().getAnswerString());
     }
     
     private void testAddResponse() throws Exception {

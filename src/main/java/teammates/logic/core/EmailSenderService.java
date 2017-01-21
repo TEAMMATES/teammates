@@ -1,10 +1,8 @@
 package teammates.logic.core;
 
-import java.util.logging.Logger;
-
 import teammates.common.exception.EmailSendingException;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 
 /**
  * An email sender interface used by services for sending emails.
@@ -13,7 +11,7 @@ public abstract class EmailSenderService {
     
     protected static final int SUCCESS_CODE = 200;
     
-    protected static final Logger log = Utils.getLogger();
+    protected static final Logger log = Logger.getLogger();
     
     /**
      * Parses the {@code wrapper} email object to specific implementations of email object
