@@ -82,14 +82,14 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGQRView.html");
         
-        // Recipient Giver Question View
+        // Recipient Question Giver View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "recipient-question-giver");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRQGView.html");
         
-        // Recipient Question Giver View
+        // Recipient Giver Question View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "recipient-giver-question");
