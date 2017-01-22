@@ -14,16 +14,17 @@ function handleData(err, countryCoordinates, userData) {
         handleError();
         return;
     }
+    var userCountries = Object.keys(userData.institutes);
     var countriesArr = [];
     var total = 0;
     var date = userData.lastUpdated;
-    var userCountries = Object.keys(userData.institutes);
     userCountries.forEach(function(countryName) {
         var countryTotal = userData.institutes[countryName].length;
+
         countriesArr.push([countryName, countryTotal]);
         total += countryTotal;
     });
-    
+
     // set the last updated date in the page
     document.getElementById('lastUpdate').innerHTML = date;
     // set the institution count in the page
