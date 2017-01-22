@@ -30,41 +30,6 @@ function createRowForResultTable(shortName, name, email, institution, isSuccess,
     return result;
 }
 
-/**
- * Fully encodes a string of instructor details in the form
- * [name] | [email] | [institution]
- *
- * e.g. 'Test Instructor | test.instructor@gmail.com | Random Institution'
- *
- * @param {String} detailsString is the string of details as above
- * @returns {String} the encoded form of detailsString
- */
-function encodeInstructorDetails(detailsString) {
-    return encodeURIComponent(detailsString);
-}
-
-/**
- * Fully encodes an arbitrary query string, but skips the
- * = and & characters used to define and separate parameters.
- *
- * e.g.
- * 'instructorname=Test Instructor&instructoremail=test.instructor@gmail.com'
- * becomes
- * 'instructorname=Test%20Instructor&instructoremail=test.instructor%40gmail.com'
- *
- * @param queryString
- * @returns the encoded query string
- */
-function encodeQueryString(queryString) {
-    return queryString.split('&')
-                      .map(function(param) {
-                          return param.split('=')
-                                      .map(encodeURIComponent)
-                                      .join('=');
-                      })
-                      .join('&');
-}
-
 var paramsCounter = 0;
 var paramsList = [];    // list of parameter strings that will be sent via ajax
 var instructorDetailsList = [];
@@ -159,7 +124,7 @@ function addInstructorFromFirstFormByAjax() {
         paramsList = [];
         for (var i = 0; i < instructorDetailsList.length; i++) {
             instructorDetailsList[i] = instructorDetailsList[i].replace(/\t/g, '|');
-            paramsList[i] = 'instructordetailssingleline=' + encodeInstructorDetails(instructorDetailsList[i]);
+            paramsList[i] = 'instructordetailssingleline=' + encodeURIComponent(instructorDetailsList[i]);
         }
     }
     paramsCounter = 0;
@@ -178,14 +143,16 @@ function addInstructorFromSecondFormByAjax() {
     $('#addInstructorResultPanel').show();    // show the hidden panel
     isInputFromFirstPanel = false;
     
-    var instructorDetails = $('#instructorName').val() + '|' + $('#instructorEmail').val()
-                            + '|' + $('#instructorInstitution').val();
-    instructorDetailsList = [encodeInstructorDetails(instructorDetails)];
-    var params = 'instructorshortname=' + $('#instructorShortName').val()
-               + '&instructorname=' + $('#instructorName').val()
-               + '&instructoremail=' + $('#instructorEmail').val()
-               + '&instructorinstitution=' + $('#instructorInstitution').val();
-    paramsList = [encodeQueryString(params)];
+    var instructorDetails = encodeURIComponent($('#instructorName').val() + '|' + $('#instructorEmail').val()
+                            + '|' + $('#instructorInstitution').val());
+    instructorDetailsList = [instructorDetails];
+    var params = $.param({
+        instructorshortname: $('#instructorShortName').val(),
+        instructorname: $('#instructorName').val(),
+        instructoremail: $('#instructorEmail').val(),
+        instructorinstitution: $('#instructorInstitution').val()
+    });
+    paramsList = [params];
     
     paramsCounter = 0;
     $('#addInstructorResultTable tbody').html('');    // clear table
