@@ -20,8 +20,8 @@
                 </allow>
                 <allow>
                     <!-- allow dependency from Feedback*QuestionUiTest to FeedbackQuestionUiTest -->
-                    <from class="${testCasesPackage}.ui.browsertests.Feedback*QuestionUiTest" />
-                    <to class="${testCasesPackage}.ui.browsertests.FeedbackQuestionUiTest" />
+                    <from class="${testCasesPackage}.browsertests.Feedback*QuestionUiTest" />
+                    <to class="${testCasesPackage}.browsertests.FeedbackQuestionUiTest" />
                 </allow>
             </deny>
         </access-rule>
@@ -37,7 +37,7 @@
                 </allow>
                 <allow>
                     <!-- allow dependency from UI tests -->
-                    <from class="teammates.test.cases.ui.browsertests.*" />
+                    <from class="teammates.test.cases.browsertests.*" />
                 </allow>
             </deny>
         </access-rule>
