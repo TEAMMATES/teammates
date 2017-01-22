@@ -176,7 +176,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
 
-        feedbackEditPage.clickEditUncommonSettingsButton();
+        feedbackEditPage.clickEditUncommonSettingsSendEmailsButton();
+        feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
         feedbackEditPage.clickSaveSessionButton();
         

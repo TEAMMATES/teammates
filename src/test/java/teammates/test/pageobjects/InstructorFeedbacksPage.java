@@ -46,8 +46,11 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "graceperiod")
     private WebElement gracePeriodDropdown;
 
-    @FindBy(id = "editUncommonSettingsButton")
-    private WebElement uncommonSettingsButton;
+    @FindBy(id = "editUncommonSettingsSessionResponsesVisibleButton")
+    private WebElement uncommonSettingsSessionResponsesVisibleButton;
+    
+    @FindBy(id = "editUncommonSettingsSendEmailsButton")
+    private WebElement uncommonSettingsSendEmailsButton;
     
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
     private WebElement customSessionVisibleTimeButton;
@@ -137,10 +140,14 @@ public class InstructorFeedbacksPage extends AppPage {
         waitForPageToLoad();
     }
     
-    public void clickEditUncommonSettingsButton() {
-        click(uncommonSettingsButton);
+    public void clickEditUncommonSettingsSessionResponsesVisibleButton() {
+        click(uncommonSettingsSessionResponsesVisibleButton);
     }
     
+    public void clickEditUncommonSettingsSendEmailsButton() {
+        click(uncommonSettingsSendEmailsButton);
+    }
+   
     public void clickCustomVisibleTimeButton() {
         click(customSessionVisibleTimeButton);
     }
