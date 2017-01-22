@@ -3,10 +3,10 @@
 
 **Environment**
 **Type (dev/staging/live):**
-**Version:**
+**Version or Branch, Commit Hash:**
 
 
-**What You Did**
+**Steps to Reproduce**
 
 
 **Expected Behaviour**

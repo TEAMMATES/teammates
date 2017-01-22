@@ -1,16 +1,6 @@
 <!-- Before opening a new issue, please check that no existing issue covers the same topic
 
-This is the template for a feature request.
-For bug reports, refer to: docs/template-bugReport.md
-For new contributor introduction, refer to: docs/template-contributorIntro.md
+Contributing guidelines: https://github.com/TEAMMATES/teammates/.github/CONTRIBUTING.md)
+
+Our contributing guidelines (link given above) contain some templates to be used when posting a new issue. We encourage you to use them as appropriate.
 -->
-**Feature / Enhancement Request**
-
-
-**Version:**
-
-
-**Proposed Feature / Enhancement**
-
-
-**Problem it solves**
