@@ -4,19 +4,26 @@ import java.io.IOException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class InstructorEditStudentFeedbackPage extends FeedbackSubmitPage {
-
+    
+    @FindBy(id = "moderationHintButton")
+    protected WebElement moderationHintButton;
+    
+    @FindBy(id = "moderationHint")
+    protected WebElement moderationHint;
+       
     public InstructorEditStudentFeedbackPage(Browser browser) {
         super(browser);
     }
     
     public void clickModerationHintButton() {
-        click(By.id("moderationHintButton"));
+        click(moderationHintButton);
     }
     
     public boolean isModerationHintVisible() {
-        return isElementVisible("moderationHint");
+        return moderationHint.isDisplayed();
     }
     
     public void verifyModerationHeaderHtml(String filePathParam) throws IOException {
@@ -24,7 +31,6 @@ public class InstructorEditStudentFeedbackPage extends FeedbackSubmitPage {
     }
     
     public String getModerationHintButtonText() {
-        WebElement moderationHintButton = browser.driver.findElement(By.id("moderationHintButton"));
         return moderationHintButton.getText();
     }
 
