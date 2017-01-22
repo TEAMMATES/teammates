@@ -161,32 +161,40 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
         ______TS("test two 'change' links' functionality to expand uncommon settings panels");
+        By uncommonSettingsSection = By.id("uncommonSettingsSection");
         
         // test uncommon settings for 'send emails'
         feedbackEditPage.clickEditUncommonSettingsSendEmailsButton();
         feedbackEditPage.verifyEditSessionBoxIsEnabled();
         feedbackEditPage.toggleClosingSessionEmailReminderCheckbox();
         feedbackEditPage.clickSaveSessionButton();
+        
+        // The statement below is a 'dummy' but valid statement to wait for the data in back-end to be persistent
+        // TODO: to implement a more sophisticated method to wait for the persistence of data
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+        
         feedbackEditPage.reloadPage();
         // uncommon settings panel not in default will be automatically expanded
-        feedbackEditPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
-                "/instructorFeedbackEditUncommonSettingsSendEmails.html");
+        feedbackEditPage.verifyHtmlPart(uncommonSettingsSection,
+                                        "/instructorFeedbackEditUncommonSettingsSendEmails.html");
         
         // test uncommon settings for 'session responses visibility'
         feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
         feedbackEditPage.verifyEditSessionBoxIsEnabled();
         feedbackEditPage.clickDefaultPublishTimeButton();
-        feedbackEditPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
-                "/instructorFeedbackEditUncommonSettingsSessionVisibility.html");
+        feedbackEditPage.verifyHtmlPart(uncommonSettingsSection,
+                                        "/instructorFeedbackEditUncommonSettingsSessionVisibility.html");
         feedbackEditPage.clickSaveSessionButton();
+        
+        // The statement below is a 'dummy' but valid statement to wait for the data in back-end to be persistent
+        // TODO: to implement a more sophisticated method to wait for the persistence of data
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         
         // test expanded uncommon settings section
         feedbackEditPage.reloadPage();
         // uncommon settings panel not in default will be automatically expanded
-        feedbackEditPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
-                "/instructorFeedbackEditUncommonSettings.html");
+        feedbackEditPage.isElementVisible("sessionResponsesVisiblePanel");
+        feedbackEditPage.isElementVisible("sendEmailsForPanel");
         
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
