@@ -1,4 +1,4 @@
-package teammates.logic.publicresource;
+package teammates.ui.controller;
 
 import java.util.Map;
 
