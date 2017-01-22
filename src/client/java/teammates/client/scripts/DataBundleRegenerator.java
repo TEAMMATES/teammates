@@ -15,7 +15,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.util.JsonUtils;
-import teammates.test.util.FileHelper;
+import teammates.test.driver.FileHelper;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.reflect.TypeToken;
