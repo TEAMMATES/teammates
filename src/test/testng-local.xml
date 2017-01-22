@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="local-tests" parallel="tests" thread-count="2">
     <listeners>
-        <listener class-name="teammates.test.util.PriorityInterceptor" />
+        <listener class-name="teammates.test.driver.PriorityInterceptor" />
     </listeners>
 
     <test name="unstable-tests">
@@ -12,7 +12,7 @@
 
     <test name="smoke-tests">
         <classes>
-            <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
+            <class name="teammates.test.cases.browsertests.MashupPageUiTest" />
         </classes>
     </test>
 </suite>
