@@ -16,7 +16,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
     private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;

@@ -35,11 +35,29 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     
     @Test
     public void testAll() throws Exception {
+        testModerationHint();
         testEditResponse();
         testAddResponse();
         testDeleteResponse();
     }
     
+    private void testModerationHint() throws Exception {
+        ______TS("verify moderation hint");
+        
+        submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt",
+                "session1InIESFPTCourse");
+        
+        submitPage.verifyModerationHeaderHtml("/instructorEditStudentFeedbackHint.html");
+        
+        submitPage.clickModerationHintButton();
+        assertTrue(submitPage.isModerationHintVisible());
+        assertEquals("[Less]", submitPage.getModerationHintButtonText());
+        
+        submitPage.clickModerationHintButton();
+        assertFalse(submitPage.isModerationHintVisible());
+        assertEquals("[More]", submitPage.getModerationHintButtonText());
+    }
+
     public void testEditResponse() throws Exception {
         ______TS("edit responses");
         
