@@ -26,7 +26,7 @@
         <c:if test="${comment.withLinkToCommentsPage}">
             <a type="button"
                href="${comment.linkToCommentsPage}"
-               target="_blank"
+               target="_blank" rel="noopener noreferrer"
                class="btn btn-default btn-xs icon-button pull-right"
                data-toggle="tooltip"
                data-placement="top"
