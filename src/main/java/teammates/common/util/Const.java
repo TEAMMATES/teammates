@@ -1397,7 +1397,8 @@ public final class Const {
         public static final String STUDENT_UPDATE_PROFILE_NATIONALITY =
                 "Meanwhile, you can provide your nationality "
                 + "<a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
-        
+        public static final String DELETED_STUDENT_ATTEMPTING_TO_JOIN = 
+                "You can no longer join the course, as you you have been unenrolled from the course by an instructor.";
         // Messages that are templates only
         /** Template String. Parameters: Student's name, Course ID */
         public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course %s.";

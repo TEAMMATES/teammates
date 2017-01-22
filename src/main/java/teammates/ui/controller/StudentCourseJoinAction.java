@@ -4,7 +4,11 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+<<<<<<< dccb667c67bb26167a7e9b0f7c37bf660043032c
 import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
+=======
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 
 /**
  * This action handles students that attempts to join a course.
@@ -25,6 +29,13 @@ public class StudentCourseJoinAction extends Action {
         statusToAdmin = "Action Student Clicked Join Link"
                         + (account.googleId == null ? "<br>Email: " + account.email
                                                     : "<br>Google ID: " + account.googleId + "<br>Key: " + regkey);
+        
+        if (student == null) {
+            statusToAdmin += "<br>Student course join failed due to being deleted by instructor.";
+            statusToUser.add(new StatusMessage(Const.StatusMessages.DELETED_STUDENT_ATTEMPTING_TO_JOIN,
+                    StatusMessageColor.WARNING));
+            return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+        }
         
         if (gateKeeper.getCurrentUser() == null) {
             return createRedirectToAuthenticatedJoinPage(nextUrl);
