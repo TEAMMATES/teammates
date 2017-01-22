@@ -255,7 +255,7 @@ public final class FeedbackResponsesLogic {
         return viewableResponses;
     }
 
-    public boolean isNameVisibleTo(
+    public boolean shouldNameBeVisibleToUser(
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,
             String userEmail,
@@ -277,10 +277,12 @@ public final class FeedbackResponsesLogic {
             }
         }
         
-        return isVisibleToFeedbackParticipants(question, response, userEmail, role, isGiverName, roster);
+        return shouldFeedbackParticipantNameBeVisibleToUser(question, response, 
+                userEmail, role, isGiverName, roster);
     }
 
-    private boolean isVisibleToFeedbackParticipants(FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
+    private boolean shouldFeedbackParticipantNameBeVisibleToUser(
+            FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
             String userEmail, UserRole role, boolean isGiverName, CourseRoster roster) {
         List<FeedbackParticipantType> showNameTo = isGiverName
                                                  ? question.showGiverNameTo
@@ -443,6 +445,11 @@ public final class FeedbackResponsesLogic {
         }
     }
 
+    /**
+     * Copy values that cannot be changed to defensively avoid invalid parameters.
+     * @param newResponse  values are copied from oldResponse
+     * @param oldResponse  values are copied to newResponse
+     */
     private void copyFromOldToNew(FeedbackResponseAttributes newResponse,
             FeedbackResponseAttributes oldResponse) {
         newResponse.courseId = oldResponse.courseId;
