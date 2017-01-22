@@ -888,7 +888,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             sectionPanel.setDetailedResponsesHeaderText("Detailed Responses");
             break;
         case RECIPIENT_QUESTION_GIVER:
-            sectionPanel.setStatisticsHeaderText("Received Responses Statistics");
+            sectionPanel.setStatisticsHeaderText("Statistics for Received Responses");
             sectionPanel.setDetailedResponsesHeaderText("Detailed Responses");
             break;
         default:

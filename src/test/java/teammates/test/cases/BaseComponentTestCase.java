@@ -19,8 +19,8 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.GaeSimulation;
-import teammates.test.util.FileHelper;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
