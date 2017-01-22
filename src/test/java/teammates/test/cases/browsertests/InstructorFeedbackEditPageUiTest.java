@@ -161,6 +161,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
         ______TS("test two 'change' links' functionality to expand uncommon settings panels");
+        
         By uncommonSettingsSection = By.id("uncommonSettingsSection");
         
         // test uncommon settings for 'send emails'

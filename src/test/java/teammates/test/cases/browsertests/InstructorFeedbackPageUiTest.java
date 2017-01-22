@@ -170,21 +170,24 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         // TODO: possibly remove some of the test cases below in the future
         ______TS("ui test case: test two 'change' links for uncommon settings section");
+        
+        By uncommonSettingsSection = By.id("uncommonSettingsSection");
+        
         feedbackPage.clickEditUncommonSettingsSendEmailsButton();
-        feedbackPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
-                                      "/instructorFeedbackUncommonSettingsSendEmails.html");
+        feedbackPage.verifyHtmlPart(uncommonSettingsSection,
+                                    "/instructorFeedbackUncommonSettingsSendEmails.html");
         feedbackPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
-        feedbackPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
-                "/instructorFeedbackUncommonSettings.html");
+        feedbackPage.verifyHtmlPart(uncommonSettingsSection,
+                                    "/instructorFeedbackUncommonSettings.html");
         
         feedbackPage.reloadPage();
         
         feedbackPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
-        feedbackPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
-                                      "/instructorFeedbackUncommonSettingsSessionResponsesVisibility.html");
+        feedbackPage.verifyHtmlPart(uncommonSettingsSection,
+                                    "/instructorFeedbackUncommonSettingsSessionResponsesVisibility.html");
         feedbackPage.clickEditUncommonSettingsSendEmailsButton();
-        feedbackPage.verifyHtmlPart(By.id("uncommonSettingsSection"),
-                "/instructorFeedbackUncommonSettings.html");
+        feedbackPage.verifyHtmlPart(uncommonSettingsSection,
+                                    "/instructorFeedbackUncommonSettings.html");
         
         ______TS("success case: defaults: visible when open, manual publish");
         
