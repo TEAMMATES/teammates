@@ -30,6 +30,19 @@ function createRowForResultTable(shortName, name, email, institution, isSuccess,
     return result;
 }
 
+function encodeInstructorDetails(detailsString) {
+    return encodeURIComponent(detailsString);
+}
+function encodeQueryString(queryString) {
+    return queryString.split('&')
+                      .map(function(param) {
+                          return param.split('=')
+                                      .map(encodeURIComponent)
+                                      .join('=');
+                      })
+                      .join('&');
+}
+
 var paramsCounter = 0;
 var paramsList = [];    // list of parameter strings that will be sent via ajax
 var instructorDetailsList = [];
@@ -124,7 +137,7 @@ function addInstructorFromFirstFormByAjax() {
         paramsList = [];
         for (var i = 0; i < instructorDetailsList.length; i++) {
             instructorDetailsList[i] = instructorDetailsList[i].replace(/\t/g, '|');
-            paramsList[i] = 'instructordetailssingleline=' + instructorDetailsList[i];
+            paramsList[i] = 'instructordetailssingleline=' + encodeInstructorDetails(instructorDetailsList[i]);
         }
     }
     paramsCounter = 0;
@@ -143,19 +156,14 @@ function addInstructorFromSecondFormByAjax() {
     $('#addInstructorResultPanel').show();    // show the hidden panel
     isInputFromFirstPanel = false;
     
-    var instructorEmail = $('#instructorEmail').val();
-    var instructorEmailHead = instructorEmail.split('@')[0];
-    var instructorEmailTail = instructorEmail.split('@')[1];
-    var sanitisedInstructorEmail = encodeURIComponent(instructorEmailHead) + instructorEmailTail;
-    
-    var instructorDetails = $('#instructorName').val() + '|' + sanitisedInstructorEmail
+    var instructorDetails = $('#instructorName').val() + '|' + $('#instructorEmail').val()
                             + '|' + $('#instructorInstitution').val();
-    instructorDetailsList = [instructorDetails];
+    instructorDetailsList = [encodeInstructorDetails(instructorDetails)];
     var params = 'instructorshortname=' + $('#instructorShortName').val()
                + '&instructorname=' + $('#instructorName').val()
-               + '&instructoremail=' + sanitisedInstructorEmail
+               + '&instructoremail=' + $('#instructorEmail').val()
                + '&instructorinstitution=' + $('#instructorInstitution').val();
-    paramsList = [params];
+    paramsList = [encodeQueryString(params)];
     
     paramsCounter = 0;
     $('#addInstructorResultTable tbody').html('');    // clear table
