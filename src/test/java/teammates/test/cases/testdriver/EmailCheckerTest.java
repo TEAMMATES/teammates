@@ -6,8 +6,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Config;
 import teammates.test.driver.EmailChecker;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.FileHelper;
 
 /**
  * SUT: {@link EmailChecker}
