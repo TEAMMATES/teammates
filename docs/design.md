@@ -197,17 +197,19 @@ This component automates the testing of TEAMMATES.
 ![Test Driver Component](images/TestDriverComponent.png)
 
 Package overview:
-+ **`test.driver`**: Contains infrastructure need for running the test driver.
++ **`test.driver`**: Contains infrastructure and helpers needed for running the tests.
 + **`test.pageobjects`**: Contains abstractions of the pages as the appear on a Browser (i.e. SUTs).
-+ **`test.util`**: Contains helper methods.
-+ **`test.cases`**:   Contains test cases.  
++ **`test.cases`**: Contains test cases.  
   Sub packages:  
- - **`.cases.driver`**: Component test cases for testing test driver infrastructure.
- - **`.cases.automated`**: Component test cases for testing some automated tasks.
- - **`.cases.common`**: Component test cases for testing the `Common` component.
+ - **`.cases.testdriver`**: Component test cases for testing the test driver infrastructure and helpers.
+ - **`.cases.datatransfer`**: Component test cases for testing the datatransfer objects from the `Common` component.
+ - **`.cases.util`**: Component test cases for testing the utility classes from the `Common` component.
  - **`.cases.logic`**: Component test cases for testing the `Logic` component.
  - **`.cases.storage`**: Component test cases for testing the `Storage` component.
- - **`.cases.ui`**: System test cases for testing the UI.
+ - **`.cases.pagedata`**: Component test cases for testing the UI view model.
+ - **`.cases.automated`**: System test cases for testing the system-automated actions (manually invoked during testing).
+ - **`.cases.action`**: System test cases for testing the user-invoked actions.
+ - **`.cases.browsertests`**: Black-box system test cases for testing the application as a whole via the web browser.
 
 Notes:
 + Component tests: Some of these are pure unit tests (i.e., test one component in isolation) while others are integration tests that tests units as well as integration of units with each other.
@@ -217,8 +219,8 @@ This is how TEAMMATES testing maps to standard types of testing.
 
 ```
 Normal
-|---------acceptance tests----|---system tests----|-----integration tests-----|------unit tests---------|
-|-------------manual testing-------------|----automated UI tests----|-----automated component tests-----|
+|-----acceptance tests-----|-------------------system tests-------------------|-----integration tests-----|-----unit tests-----|
+|----------manual testing----------|-----automated browser tests-----|----------------automated component tests----------------|
 TEAMMATES
 ```
 
