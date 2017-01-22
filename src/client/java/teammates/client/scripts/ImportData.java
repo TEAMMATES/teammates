@@ -11,8 +11,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.FileHelper;
 
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
