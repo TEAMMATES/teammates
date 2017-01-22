@@ -277,7 +277,7 @@ public final class FeedbackResponsesLogic {
             }
         }
         
-        return shouldFeedbackParticipantNameBeVisibleToUser(question, response, 
+        return shouldFeedbackParticipantNameBeVisibleToUser(question, response,
                 userEmail, role, isGiverName, roster);
     }
 
