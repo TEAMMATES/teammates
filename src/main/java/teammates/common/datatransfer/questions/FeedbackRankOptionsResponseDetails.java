@@ -1,4 +1,4 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +32,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
             }
         }
         FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
-        this.setRankResponseDetails(rankAnswer, rankQuestion.options);
+        this.setRankResponseDetails(rankAnswer, rankQuestion.getOptions());
     }
 
     /**
@@ -98,7 +98,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         
         StringBuilder csvBuilder = new StringBuilder();
         
-        for (int rank = 1; rank <= rankQuestion.options.size(); rank++) {
+        for (int rank = 1; rank <= rankQuestion.getOptions().size(); rank++) {
             if (!orderedOptions.containsKey(rank)) {
                 csvBuilder.append(',');
                 continue;
@@ -118,7 +118,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
                                     FeedbackRankOptionsQuestionDetails rankQuestion) {
         SortedMap<Integer, List<String>> orderedOptions = new TreeMap<>();
         for (int i = 0; i < answers.size(); i++) {
-            String option = rankQuestion.options.get(i);
+            String option = rankQuestion.getOptions().get(i);
             Integer answer = answers.get(i);
             
             if (!orderedOptions.containsKey(answer)) {
