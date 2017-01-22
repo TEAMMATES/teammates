@@ -14,11 +14,12 @@ function handleData(err, countryCoordinates, userData) {
         handleError();
         return;
     }
-    var userCountries = Object.keys(userData);
+    var userCountries = Object.keys(userData.institutes);
     var countriesArr = [];
     var total = 0;
+    var lastUpdatedDate = userData.lastUpdatedDate;
     userCountries.forEach(function(countryName) {
-        var countryTotal = userData[countryName].length;
+        var countryTotal = userData.institutes[countryName].length;
 
         countriesArr.push([countryName, countryTotal]);
         total += countryTotal;
@@ -28,7 +29,8 @@ function handleData(err, countryCoordinates, userData) {
     document.getElementById('totalUserCount').innerHTML = total;
     // set the country count in the page
     document.getElementById('totalCountryCount').innerHTML = userCountries.length;
-    
+    // set the last updated date in the page
+    document.getElementById('lastUpdatedDate').innerHTML = lastUpdatedDate;
     // Data format example
     // var series = [
     //     ['United States', 1], ['Bulgaria', 1], ['Russia', 1], ['France', 1], ['Singapore', 1]
