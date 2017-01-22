@@ -24,7 +24,6 @@ public class StudentCourseJoinAction extends Action {
     @Override
     public ActionResult execute() {
         Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
-        String nextUrl = getNextUrl();
         
         statusToAdmin = "Action Student Clicked Join Link"
                         + (account.googleId == null ? "<br>Email: " + account.email
@@ -37,6 +36,7 @@ public class StudentCourseJoinAction extends Action {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         }
         
+        String nextUrl = getNextUrl();
         if (gateKeeper.getCurrentUser() == null) {
             return createRedirectToAuthenticatedJoinPage(nextUrl);
         }
