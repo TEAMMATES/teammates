@@ -139,7 +139,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "error=false",
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("New comment has been added", r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
+                     r.getStatusMessage());
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
@@ -172,7 +173,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "error=false",
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("New comment has been added", r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
+                     r.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
@@ -206,7 +208,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "error=false",
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("New comment has been added", r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
+                     r.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
@@ -239,7 +242,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "error=false",
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("New comment has been added", r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
+                     r.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
@@ -272,7 +276,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "error=false",
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("New comment has been added", r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
+                     r.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
@@ -305,7 +310,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "error=false",
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("New comment has been added", r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
+                     r.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
@@ -338,7 +344,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "error=false",
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("New comment has been added", r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
+                     r.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
@@ -371,7 +378,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "error=false",
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("New comment has been added", r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
+                     r.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
@@ -405,7 +413,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "error=false",
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("New comment has been added", r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
+                     r.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
@@ -439,7 +448,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "error=false",
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("New comment has been added", r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
+                     r.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
