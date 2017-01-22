@@ -30,9 +30,31 @@ function createRowForResultTable(shortName, name, email, institution, isSuccess,
     return result;
 }
 
+/**
+ * Fully encodes a string of instructor details in the form
+ * [name] | [email] | [institution]
+ *
+ * e.g. 'Test Instructor | test.instructor@gmail.com | Random Institution'
+ *
+ * @param {String} detailsString is the string of details as above
+ * @returns {String} the encoded form of detailsString
+ */
 function encodeInstructorDetails(detailsString) {
     return encodeURIComponent(detailsString);
 }
+
+/**
+ * Fully encodes an arbitrary query string, but skips the
+ * = and & characters used to define and separate parameters.
+ *
+ * e.g.
+ * 'instructorname=Test Instructor&instructoremail=test.instructor@gmail.com'
+ * becomes
+ * 'instructorname=Test%20Instructor&instructoremail=test.instructor%40gmail.com'
+ *
+ * @param queryString
+ * @returns the encoded query string
+ */
 function encodeQueryString(queryString) {
     return queryString.split('&')
                       .map(function(param) {
