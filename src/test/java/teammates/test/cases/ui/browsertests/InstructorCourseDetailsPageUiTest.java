@@ -110,8 +110,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.clickAddCommentToCourseButton();
         
         ______TS("comment to whole course: any comment");
-        detailsPage.submitCommentToCourse("this is a comment");
-        detailsPage.verifyStatus(Const.StatusMessages.COMMENT_ADDED);
+        String commentText = "this is a comment";
+        detailsPage.submitCommentToCourse(commentText);
+        detailsPage.verifyStatus(String.format(Const.StatusMessages.COMMENT_ADDED, commentText));
     }
 
     private void testTableSort() {
