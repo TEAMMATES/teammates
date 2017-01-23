@@ -1,6 +1,5 @@
 <!-- Before opening a new issue, please check that no existing issue covers the same topic
 
-Contributing guidelines: https://github.com/TEAMMATES/teammates/.github/CONTRIBUTING.md)
 
 Our contributing guidelines (link given above) contain some templates to be used when posting a new issue. We encourage you to use them as appropriate.
 -->
