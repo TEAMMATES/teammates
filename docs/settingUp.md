@@ -24,7 +24,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
    git remote add upstream https://github.com/TEAMMATES/teammates.git
    ```
   
- **Verification** : Use this command `git remote -v` and the output will be something like this :
+ **Verification** : Use this command `git remote -v` and the following lines should be part of the output:
 
   `upstream        https://github.com/TEAMMATES/teammates.git (fetch)`
 
@@ -41,16 +41,14 @@ More information can be found at [this documentation](https://help.github.com/ar
    ./gradlew appengineDownloadSdk
    ```
    
- **Verification** : Check the gradle folder for the existence of the SDK.The folder path will be like this : 
- 
- `C:\Users\username\.gradle\appengine-sdk`
+ **Verification** : Check your Gradle folder (the directory can be found with the command ./gradlew printUserHomeDir). A folder        appengine-sdk should be present.
 
 1. Run this command to create the main config files (these are not under revision control because their contents vary from developer to developer):
    ```sh
    ./gradlew setup
    ```
 
- **Verification** : The file named `.project` will be added to the project root directory.
+ **Verification** : The file named `.project` should be added to the project root directory.
 
 1. Modify the following config files:
    * `gradle.properties`<br>
@@ -71,8 +69,7 @@ Eclipse IDE is our preferred development environment. Support requests related t
      Be careful to omit other plugins shown on the screen (e.g Google App Engine Tools for Android, GWT plugin).
    * The latest stable [TestNG Eclipse plugin](http://testng.org/doc/download.html).
    
-   **Verification** : You can check if the plugin's were installed successfully : Go to Help → Eclipse Installation Details .
-    Make sure that you have installed a specified version of the plugins not the latest version. 
+   **Verification** :  You can check if the plugins were installed successfully by going to `Help → Eclipse Installation Details`.
 
 1. Configure Eclipse as follows (if you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES):
    * Google App Engine: Go to `Eclipse → Preferences → Google → App Engine`, click the `Add` button, and point it to where Gradle keeps the downloaded SDK.<br>
@@ -82,7 +79,7 @@ Eclipse IDE is our preferred development environment. Support requests related t
    * JRE: Go to `Eclipse → Preferences → Java → Installed JRE` and ensure a JDK (not a JRE) is selected (use **JDK 1.7**, as recommended by GAE).
      One of the items in the [troubleshooting guide](troubleshooting-guide.md) explains how to do this.
      
-   **Verification** : After this the make sure when you go to `Window`→`Preferences`→`Java`→`Installed Jre` and click on the JDK and choose edit which looks something like this :
+   **Verification** : Go to Eclipse → Preferences → Java → Installed JREs, select the JDK 1.7 entry, and choose Edit. It should result in something like this:
       ![devverification-guide-1.png](images/devverification-guide-1.png)
      
    * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
@@ -101,7 +98,7 @@ Eclipse IDE is our preferred development environment. Support requests related t
    ```
    This command can be run again whenever the dependencies need to be updated.
   
- **Verification** : After this the `.classpath` folder is added in the project root directory.
+ **Verification** : The file named .classpath should be added to the project root directory..
 
 1. Import the project to your Eclipse instance.
    * Start Eclipse and go to `File → Import...`.
