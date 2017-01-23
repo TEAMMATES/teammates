@@ -906,7 +906,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     // For existing question edit frame
-    public void fillConstSumOption(int optionIndex, String optionText , int qnIndex) {
+    public void fillConstSumOption(int optionIndex, String optionText, int qnIndex) {
         String idSuffix = getIdSuffix(qnIndex);
         
         WebElement optionBox = browser.driver.findElement(By.id("constSumOption-" + optionIndex + idSuffix));
