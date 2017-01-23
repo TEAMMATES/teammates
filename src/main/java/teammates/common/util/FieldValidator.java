@@ -1,9 +1,12 @@
 package teammates.common.util;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTimeZone;
 
@@ -747,6 +750,16 @@ public class FieldValidator {
      */
     public static boolean isValidEmailAddress(String email) {
         return StringHelper.isMatching(email, REGEX_EMAIL);
+    }
+    
+    /**
+     * Checks whether all the elements in a Collection are unique.
+     * @param elements The Collection of elements to be checked.
+     * @return true if all elements are unique, else false.
+     */
+    public static <T> boolean areElementsUnique(Collection<T> elements) {
+        Set<T> uniqueElements = new HashSet<T>(elements);
+        return uniqueElements.size() == elements.size();
     }
 
     private static String getPopulatedErrorMessage(

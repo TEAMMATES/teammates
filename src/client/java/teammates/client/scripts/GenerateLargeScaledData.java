@@ -8,8 +8,8 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.FileHelper;
 
 public class GenerateLargeScaledData extends RemoteApiClient {
     
