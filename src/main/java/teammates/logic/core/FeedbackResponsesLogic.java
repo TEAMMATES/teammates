@@ -430,7 +430,7 @@ public final class FeedbackResponsesLogic {
 
         // Copy values that cannot be changed to defensively avoid invalid
         // parameters.
-        copyFromOldToNew(newResponse, oldResponse);
+        copyFixedValuesFromOldToNew(newResponse, oldResponse);
     
         if (newResponse.recipient.equals(oldResponse.recipient)
                 && newResponse.giver.equals(oldResponse.giver)) {
@@ -450,7 +450,7 @@ public final class FeedbackResponsesLogic {
      * @param newResponse  values are copied from oldResponse
      * @param oldResponse  values are copied to newResponse
      */
-    private void copyFromOldToNew(FeedbackResponseAttributes newResponse,
+    private void copyFixedValuesFromOldToNew(FeedbackResponseAttributes newResponse,
             FeedbackResponseAttributes oldResponse) {
         newResponse.courseId = oldResponse.courseId;
         newResponse.feedbackSessionName = oldResponse.feedbackSessionName;
