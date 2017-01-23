@@ -25,6 +25,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionPublishButton;
@@ -84,40 +85,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     // TODO multiple page data classes inheriting this for each view type,
     // rather than an enum determining behavior in many methods
-    private ViewType viewType;
+    private InstructorFeedbackResultsPageViewType viewType;
     
-    public enum ViewType {
-        QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER, RECIPIENT_GIVER_QUESTION, GIVER_RECIPIENT_QUESTION;
-        
-        @Override
-        public String toString() {
-            // replace _ to - to keep it consistent with old behavior
-            return name().toLowerCase().replaceAll("_", "-");
-        }
-        
-        public boolean isPrimaryGroupingOfGiverType() {
-            return this == GIVER_QUESTION_RECIPIENT || this == GIVER_RECIPIENT_QUESTION;
-        }
-        
-        public boolean isSecondaryGroupingOfParticipantType() {
-            return this == RECIPIENT_GIVER_QUESTION || this == GIVER_RECIPIENT_QUESTION;
-        }
-        
-        public String additionalInfoId() {
-            switch (this) {
-            case GIVER_QUESTION_RECIPIENT:
-                return "giver-%s-question-%s";
-            case RECIPIENT_QUESTION_GIVER:
-                return "recipient-%s-question-%s";
-            case GIVER_RECIPIENT_QUESTION:
-            case RECIPIENT_GIVER_QUESTION:
-                return "giver-%s-recipient-%s";
-            default:
-                return "";
-            }
-        }
-    }
-
     public InstructorFeedbackResultsPageData(AccountAttributes account) {
         super(account);
     }
@@ -130,8 +99,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public void initForViewByQuestion(InstructorAttributes instructor,
                                       String selectedSection, String showStats,
                                       String groupByTeam, boolean isMissingResponsesShown) {
-        this.viewType = ViewType.QUESTION;
-        this.sortType = ViewType.QUESTION.toString();
+        this.viewType = InstructorFeedbackResultsPageViewType.QUESTION;
+        this.sortType = InstructorFeedbackResultsPageViewType.QUESTION.toString();
         initCommonVariables(instructor, selectedSection, showStats, groupByTeam, isMissingResponsesShown);
         
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap =
@@ -205,7 +174,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
      */
     public void initForSectionPanelViews(InstructorAttributes instructor,
                                     String selectedSection, String showStats,
-                                    String groupByTeam, ViewType view,
+                                    String groupByTeam, InstructorFeedbackResultsPageViewType view,
                                     boolean isMissingResponsesShown) {
         Assumption.assertNotNull(bundle);
         this.viewType = view;
@@ -984,7 +953,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                         responseRows, question,
                                                                         questionText, additionalInfoText,
                                                                         columnTags, isSortable);
-        if (viewType == ViewType.QUESTION) {
+        if (viewType == InstructorFeedbackResultsPageViewType.QUESTION) {
             // setup classes, for loading responses by ajax
             // ajax_submit: user needs to click on the panel to load
             // ajax_auto: responses are loaded automatically
@@ -1755,8 +1724,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isLargeNumberOfResponses() {
-        return viewType == ViewType.QUESTION && isLargeNumberOfRespondents() && isAllSectionsSelected()
-             || !bundle.isComplete;
+        boolean isQuestionViewType = viewType == InstructorFeedbackResultsPageViewType.QUESTION;
+        return isQuestionViewType && isLargeNumberOfRespondents() && isAllSectionsSelected()
+                || !bundle.isComplete;
     }
     
     public boolean isLargeNumberOfRespondents() {
