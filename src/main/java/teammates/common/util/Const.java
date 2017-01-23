@@ -31,7 +31,6 @@ public final class Const {
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
     public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
     
-    public static final String FEEDBACK_SESSION_QUESTIONS_HIDDEN = "Some questions may be hidden due to visibility options";
     public static final String NONE_OF_THE_ABOVE = "None of the above";
 
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
@@ -477,6 +476,7 @@ public final class Const {
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS =
                 "Too little options for " + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION
                 + ". Minimum number of options is: ";
+        public static final String CONST_SUM_ERROR_DUPLICATE_OPTIONS = "Duplicate options are not allowed.";
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_POINTS =
                 "Too little points for " + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT
                 + ". Minimum number of points is: ";
@@ -1367,7 +1367,7 @@ public final class Const {
                             + " to search for an exact phrase in an exact order.</li>"
                 + "</ul>";
         
-        public static final String COMMENT_ADDED = "New comment has been added";
+        public static final String COMMENT_ADDED = "Added new comment: %s";
         public static final String COMMENT_EDITED = "Comment edited";
         public static final String COMMENT_DELETED = "Comment deleted";
         public static final String COMMENT_CLEARED = "Notification for all pending comments have been sent to recipients";

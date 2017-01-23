@@ -1795,8 +1795,8 @@ public final class FeedbackSessionsLogic {
         
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
 
-        boolean isPrivateSessionNotCreatedByThisUser = session
-                .isPrivateSession() && !session.isCreator(userEmail);
+        boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession()
+                                                         && !session.isCreator(userEmail);
         if (isPrivateSessionNotCreatedByThisUser) {
             // return empty result set
             return new FeedbackSessionResultsBundle(
@@ -1838,37 +1838,15 @@ public final class FeedbackSessionsLogic {
                     boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
                     if (thisQuestionHasResponses) {
                         for (FeedbackResponseAttributes response : responsesForThisQn) {
-                            boolean isVisibleResponse = false;
-                            if (response.giver.equals(userEmail)
-                                    || response.recipient.equals(userEmail)
-                                            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                                    || role == UserRole.INSTRUCTOR
-                                            && question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                                    || role == UserRole.STUDENT
-                                            && question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
-                                isVisibleResponse = true;
-                            }
                             InstructorAttributes instructor = null;
                             if (role == UserRole.INSTRUCTOR) {
                                 instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
                             }
-                            if (isVisibleResponse && instructor != null) {
-                                boolean isGiverSectionRestricted =
-                                        !instructor.isAllowedForPrivilege(
-                                                response.giverSection, response.feedbackSessionName,
-                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
-                                // If instructors are not restricted to view the giver's section,
-                                // they are allowed to view responses to GENERAL, subject to visibility options
-                                boolean isRecipientSectionRestricted =
-                                        question.recipientType != FeedbackParticipantType.NONE
-                                        && !instructor.isAllowedForPrivilege(
-                                                   response.recipientSection, response.feedbackSessionName,
-                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
-                                boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
-                                if (isNotAllowedForInstructor) {
-                                    isVisibleResponse = false;
-                                }
-                            }
+                            StudentAttributes student = null;
+                            Set<String> studentsEmailInTeam = null;
+                            boolean isVisibleResponse = isResponseVisibleForUser(userEmail,
+                                    role, student, studentsEmailInTeam, response,
+                                    question, instructor);
                             if (isVisibleResponse) {
                                 responses.add(response);
                                 addEmailNamePairsToTable(emailNameTable, response,
@@ -1881,7 +1859,6 @@ public final class FeedbackSessionsLogic {
                                 addVisibilityToTable(visibilityTable, question,
                                         response, userEmail, role, roster);
                             }
-                            isVisibleResponse = false;
                         }
                     }
                 }
@@ -1898,45 +1875,19 @@ public final class FeedbackSessionsLogic {
 
             return results;
         }
-        
+
         Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<String, FeedbackQuestionAttributes>();
         for (FeedbackQuestionAttributes qn : allQuestions) {
             allQuestionsMap.put(qn.getId(), qn);
         }
         
-        boolean isInSection = Boolean.parseBoolean(params.get(PARAM_IN_SECTION));
-        boolean isToSection = Boolean.parseBoolean(params.get(PARAM_TO_SECTION));
-        boolean isFromSection = Boolean.parseBoolean(params.get(PARAM_FROM_SECTION));
+        List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId,
+                params, section);
+        
         boolean isComplete = params.get(PARAM_RANGE) == null;
         
-        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
-        if (params.get(PARAM_RANGE) == null) {
-            if (isInSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
-                                                                               courseId, section);
-            } else if (isFromSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName,
-                                                                                 courseId, section);
-            } else if (isToSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName,
-                                                                               courseId, section);
-            } else {
-                Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
-            }
-        } else {
+        if (params.get(PARAM_RANGE) != null) {
             long range = Long.parseLong(params.get(PARAM_RANGE));
-            if (isInSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
-                                                                                          courseId, section, range);
-            } else if (isFromSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(feedbackSessionName,
-                                                                                            courseId, section, range);
-            } else if (isToSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName,
-                                                                                          courseId, section, range);
-            } else {
-                Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
-            }
             if (allResponses.size() <= range) {
                 isComplete = true;
             } else {
@@ -1989,7 +1940,6 @@ public final class FeedbackSessionsLogic {
                     addVisibilityToTable(visibilityTable, relatedQuestion,
                             response, userEmail, role, roster);
                 }
-                isVisibleResponse = false;
             }
         }
 
@@ -2039,6 +1989,45 @@ public final class FeedbackSessionsLogic {
         return results;
     }
 
+    private List<FeedbackResponseAttributes> getAllResponses(String feedbackSessionName, String courseId,
+            Map<String, String> params, String section) {
+        boolean isInSection = Boolean.parseBoolean(params.get(PARAM_IN_SECTION));
+        boolean isToSection = Boolean.parseBoolean(params.get(PARAM_TO_SECTION));
+        boolean isFromSection = Boolean.parseBoolean(params.get(PARAM_FROM_SECTION));
+        
+        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
+        if (params.get(PARAM_RANGE) == null) {
+            if (isInSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
+                                                                               courseId, section);
+            } else if (isFromSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName,
+                                                                                 courseId, section);
+            } else if (isToSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName,
+                                                                               courseId, section);
+            } else {
+                Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
+            }
+        } else {
+            long range = Long.parseLong(params.get(PARAM_RANGE));
+            if (isInSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
+                                                                                          courseId, section, range);
+            } else if (isFromSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(feedbackSessionName,
+                                                                                            courseId, section, range);
+            } else if (isToSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName,
+                                                                                          courseId, section, range);
+            } else {
+                Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
+            }
+        }
+            
+        return allResponses;
+    }
+
     private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,
                                     CourseRoster roster, String courseId, String userEmail, UserRole role,
                                     String feedbackSessionName, String sectionToView) {
@@ -2083,7 +2072,7 @@ public final class FeedbackSessionsLogic {
                 || response.giver.equals(userEmail)
                 || role == UserRole.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
-        } else if (role == UserRole.STUDENT) {
+        } else if (studentsEmailInTeam != null && role == UserRole.STUDENT) {
             if (relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                     && response.recipient.equals(student.team)) {
