@@ -20,6 +20,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
+import teammates.common.util.FieldValidator;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
@@ -669,6 +670,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                        + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS + ".");
         }
         
+        if (!FieldValidator.areElementsUnique(constSumOptions)) {
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+        }
+
         return errors;
     }
 
