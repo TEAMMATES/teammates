@@ -79,7 +79,7 @@ Eclipse IDE is our preferred development environment. Support requests related t
    * JRE: Go to `Eclipse → Preferences → Java → Installed JRE` and ensure a JDK (not a JRE) is selected (use **JDK 1.7**, as recommended by GAE).
      One of the items in the [troubleshooting guide](troubleshooting-guide.md) explains how to do this.
      
-   **Verification** : Go to Eclipse → Preferences → Java → Installed JREs, select the JDK 1.7 entry, and choose Edit. It should result in something like this:
+   **Verification** : Go to `Eclipse → Preferences → Java → Installed JREs`, select the JDK 1.7 entry, and choose Edit. It should result in something like this:
       ![devverification-guide-1.png](images/devverification-guide-1.png)
      
    * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
