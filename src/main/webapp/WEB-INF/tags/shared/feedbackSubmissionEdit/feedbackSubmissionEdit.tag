@@ -23,7 +23,23 @@
                     <h3 class="text-center">Previewing Session as ${isInstructor ? "Instructor" : "Student"} ${moderatedPersonName} (${moderatedPersonEmail})</h3>
                 </c:when>
                 <c:when test="${data.moderation}">
-                    <h3 class="text-center">Moderating Responses for ${isInstructor ? "Instructor" : "Student"} ${moderatedPersonName} (${moderatedPersonEmail})</h3>
+                    <div class="container">
+                        <div class="col-md-12">
+                            <h3 class="text-center">
+                                You are moderating responses for ${isInstructor ? "instructor" : "student"} ${moderatedPersonName} (${moderatedPersonEmail})
+                                <small><a href="#" id="moderationHintButton"></a></small>
+                            </h3>
+                            <ul id="moderationHint" class="hidden">
+                                <li>
+                                    The page below resembles the submission page as seen by the respondent ${moderatedPersonName} (${moderatedPersonEmail}). 
+                                    You can use it to moderate responses submitted by the respondent or submit responses on behalf of the respondent.
+                                </li>
+                                <li>
+                                    Note that due to visibility settings, questions that are not supposed to show responses to instructors (i.e you) are not shown in the page below.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </c:when>
             </c:choose>
         </nav>

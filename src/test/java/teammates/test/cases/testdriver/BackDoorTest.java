@@ -15,7 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
 import teammates.test.driver.BackDoor;
-import teammates.test.util.Priority;
+import teammates.test.driver.Priority;
 
 import com.google.appengine.api.datastore.Text;
 
