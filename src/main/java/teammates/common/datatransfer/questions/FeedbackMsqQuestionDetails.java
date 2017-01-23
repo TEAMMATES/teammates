@@ -1,4 +1,4 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -19,6 +22,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -27,86 +31,78 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
-public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
-    private int numOfMcqChoices;
-    private List<String> mcqChoices;
+public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
+    private int numOfMsqChoices;
+    private List<String> msqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
-
-    public FeedbackMcqQuestionDetails() {
-        super(FeedbackQuestionType.MCQ);
+    
+    public FeedbackMsqQuestionDetails() {
+        super(FeedbackQuestionType.MSQ);
         
-        this.numOfMcqChoices = 0;
-        this.mcqChoices = new ArrayList<String>();
+        this.numOfMsqChoices = 0;
+        this.msqChoices = new ArrayList<String>();
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
-    }
-
-    public int getNumOfMcqChoices() {
-        return numOfMcqChoices;
-    }
-
-    public List<String> getMcqChoices() {
-        return mcqChoices;
-    }
-
-    public FeedbackParticipantType getGenerateOptionsFor() {
-        return generateOptionsFor;
     }
 
     @Override
     public boolean extractQuestionDetails(
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
+        int numOfMsqChoices = 0;
+        List<String> msqChoices = new LinkedList<String>();
+        boolean msqOtherEnabled = false;
         
-        int numOfMcqChoices = 0;
-        List<String> mcqChoices = new LinkedList<String>();
-        boolean mcqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
+        String otherOptionFlag =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
         
-        if ("on".equals(HttpRequestHelper.getValueFromParamMap(
-                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG))) {
-            mcqOtherEnabled = true;
+        if ("on".equals(otherOptionFlag)) {
+            msqOtherEnabled = true;
         }
-        
-        String generatedMcqOptions =
+            
+        String generatedMsqOptions =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
-        
-        if (generatedMcqOptions.equals(FeedbackParticipantType.NONE.toString())) {
-            String numMcqChoicesCreatedString =
+        if (generatedMsqOptions.equals(FeedbackParticipantType.NONE.toString())) {
+            String numMsqChoicesCreatedString =
                     HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                            Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
-            Assumption.assertNotNull("Null number of choice for MCQ", numMcqChoicesCreatedString);
-            int numMcqChoicesCreated = Integer.parseInt(numMcqChoicesCreatedString);
+            Assumption.assertNotNull("Null number of choice for MSQ", numMsqChoicesCreatedString);
+            int numMsqChoicesCreated = Integer.parseInt(numMsqChoicesCreatedString);
             
-            for (int i = 0; i < numMcqChoicesCreated; i++) {
-                String paramName = Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i;
-                String mcqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
-                if (mcqChoice != null && !mcqChoice.trim().isEmpty()) {
-                    mcqChoices.add(mcqChoice);
-                    numOfMcqChoices++;
+            for (int i = 0; i < numMsqChoicesCreated; i++) {
+                String msqChoice =
+                        HttpRequestHelper.getValueFromParamMap(
+                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
+                if (msqChoice != null && !msqChoice.trim().isEmpty()) {
+                    msqChoices.add(msqChoice);
+                    numOfMsqChoices++;
                 }
             }
-            
-            setMcqQuestionDetails(numOfMcqChoices, mcqChoices, mcqOtherEnabled);
+        
+            setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled);
         } else {
-            setMcqQuestionDetails(FeedbackParticipantType.valueOf(generatedMcqOptions));
+            setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions));
         }
         return true;
     }
 
-    private void setMcqQuestionDetails(int numOfMcqChoices,
-            List<String> mcqChoices,
+    private void setMsqQuestionDetails(int numOfMsqChoices,
+            List<String> msqChoices,
             boolean otherEnabled) {
-        this.numOfMcqChoices = numOfMcqChoices;
-        this.mcqChoices = mcqChoices;
+        
+        this.numOfMsqChoices = numOfMsqChoices;
+        this.msqChoices = msqChoices;
         this.otherEnabled = otherEnabled;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
     
-    private void setMcqQuestionDetails(FeedbackParticipantType generateOptionsFor) {
-        this.numOfMcqChoices = 0;
-        this.mcqChoices = new ArrayList<String>();
+    private void setMsqQuestionDetails(FeedbackParticipantType generateOptionsFor) {
+        
+        this.numOfMsqChoices = 0;
+        this.msqChoices = new ArrayList<String>();
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
         Assumption.assertTrue("Can only generate students, teams or instructors",
@@ -117,7 +113,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeDisplayName() {
-        return Const.FeedbackQuestionTypeNames.MCQ;
+        return Const.FeedbackQuestionTypeNames.MSQ;
     }
     
     public boolean getOtherEnabled() {
@@ -126,30 +122,31 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     
     @Override
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
-        FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
+        FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
 
-        if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices
-                || !this.mcqChoices.containsAll(newMcqDetails.mcqChoices)
-                || !newMcqDetails.mcqChoices.containsAll(this.mcqChoices)) {
+        if (this.numOfMsqChoices != newMsqDetails.numOfMsqChoices
+                || !this.msqChoices.containsAll(newMsqDetails.msqChoices)
+                || !newMsqDetails.msqChoices.containsAll(this.msqChoices)) {
             return true;
         }
         
-        if (this.generateOptionsFor != newMcqDetails.generateOptionsFor) {
+        if (this.generateOptionsFor != newMsqDetails.generateOptionsFor) {
             return true;
         }
         
-        return this.otherEnabled != newMcqDetails.otherEnabled;
+        return this.otherEnabled != newMsqDetails.otherEnabled;
     }
 
     @Override
-    public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
-        FeedbackMcqResponseDetails existingMcqResponse = (FeedbackMcqResponseDetails) existingResponseDetails;
+    public String getQuestionWithExistingResponseSubmissionFormHtml(
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
+            int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
+        FeedbackMsqResponseDetails existingMsqResponse = (FeedbackMsqResponseDetails) existingResponseDetails;
         List<String> choices = generateOptionList(courseId);
         
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FormTemplates.MCQ_SUBMISSION_FORM_OPTIONFRAGMENT;
-        Boolean isOtherSelected = existingMcqResponse.isOtherOptionAnswer();
+        String optionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
+        Boolean isOtherSelected = existingMsqResponse.isOtherOptionAnswer();
         
         for (int i = 0; i < choices.size(); i++) {
             String optionFragment =
@@ -157,14 +154,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                             Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Slots.CHECKED,
-                                    existingMcqResponse.getAnswerString().equals(choices.get(i)) ? "checked" : "",
+                            Slots.CHECKED, existingMsqResponse.contains(choices.get(i)) ? "checked" : "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(choices.get(i)));
+                            Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(choices.get(i)),
+                            Slots.MSQ_CHOICE_TEXT, Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
+        
         if (otherEnabled) {
-            String otherOptionFragmentTemplate = FormTemplates.MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
+            String otherOptionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment =
                     Templates.populateTemplate(otherOptionFragmentTemplate,
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -173,25 +171,37 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.TEXT_DISABLED, sessionIsOpen && isOtherSelected ? "" : "disabled",
                             Slots.CHECKED, isOtherSelected ? "checked" : "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER,
-                                    Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
-                            Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
-                            Slots.MCQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0");
+                            Slots.MSQ_PARAM_IS_OTHER_OPTION_ANSWER,
+                                    Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
+                            Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
+                            Slots.MSQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
         }
+        
+        // additional checkbox for user to submit a blank response ("None of the above")
+        String optionFragment =
+                Templates.populateTemplate(optionFragmentTemplate,
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Slots.CHECKED, existingMsqResponse.contains("") ? "checked" : "",
+                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Slots.MSQ_CHOICE_VALUE, "",
+                        Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+        optionListHtml.append(optionFragment).append(Const.EOL);
+        
         return Templates.populateTemplate(
-                FormTemplates.MCQ_SUBMISSION_FORM,
-                Slots.MCQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString());
+                FormTemplates.MSQ_SUBMISSION_FORM,
+                Slots.MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString());
     }
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         List<String> choices = generateOptionList(courseId);
-        
+                
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FormTemplates.MCQ_SUBMISSION_FORM_OPTIONFRAGMENT;
-        
+        String optionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
         for (int i = 0; i < choices.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
@@ -200,12 +210,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                             Slots.CHECKED, "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(choices.get(i)));
-            optionListHtml.append(optionFragment).append(Const.EOL);
+                            Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(choices.get(i)),
+                            Slots.MSQ_CHOICE_TEXT, Sanitizer.sanitizeForHtml(choices.get(i)));
+            optionListHtml.append(optionFragment);
+            optionListHtml.append(Const.EOL);
         }
         
         if (otherEnabled) {
-            String otherOptionFragmentTemplate = FormTemplates.MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
+            String otherOptionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment =
                        Templates.populateTemplate(otherOptionFragmentTemplate,
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -214,27 +226,40 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.TEXT_DISABLED, "disabled",
                             Slots.CHECKED, "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER,
-                                    Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
-                            Slots.MCQ_CHOICE_VALUE, "",
-                            Slots.MCQ_OTHER_OPTION_ANSWER, "0");
+                            Slots.MSQ_PARAM_IS_OTHER_OPTION_ANSWER,
+                                    Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
+                            Slots.MSQ_CHOICE_VALUE, "",
+                            Slots.MSQ_OTHER_OPTION_ANSWER, "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
         }
         
-        return Templates.populateTemplate(
-                FormTemplates.MCQ_SUBMISSION_FORM,
-                Slots.MCQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString());
-    }
+        // additional checkbox for user to submit a blank response ("None of the above")
+        String optionFragment =
+                Templates.populateTemplate(optionFragmentTemplate,
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Slots.CHECKED, "",
+                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Slots.MSQ_CHOICE_VALUE, "",
+                        Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+        optionListHtml.append(optionFragment).append(Const.EOL);
 
+        return Templates.populateTemplate(
+                FormTemplates.MSQ_SUBMISSION_FORM,
+                Slots.MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString());
+    }
+    
     private List<String> generateOptionList(String courseId) {
         List<String> optionList = new ArrayList<String>();
 
         switch (generateOptionsFor) {
         case NONE:
-            optionList = mcqChoices;
+            optionList = msqChoices;
             break;
         case STUDENTS:
-            List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
+            List<StudentAttributes> studentList =
+                    StudentsLogic.inst().getStudentsForCourse(courseId);
 
             for (StudentAttributes student : studentList) {
                 optionList.add(student.name + " (" + student.team + ")");
@@ -244,7 +269,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             break;
         case TEAMS:
             try {
-                List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
+                List<TeamDetailsBundle> teamList =
+                        CoursesLogic.inst().getTeamsForCourse(courseId);
                 
                 for (TeamDetailsBundle team : teamList) {
                     optionList.add(team.name);
@@ -257,7 +283,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             break;
         case INSTRUCTORS:
             List<InstructorAttributes> instructorList =
-                    InstructorsLogic.inst().getInstructorsForCourse(courseId);
+                    InstructorsLogic.inst().getInstructorsForCourse(
+                            courseId);
 
             for (InstructorAttributes instructor : instructorList) {
                 optionList.add(instructor.name);
@@ -276,28 +303,27 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FormTemplates.MCQ_EDIT_FORM_OPTIONFRAGMENT;
-        
-        for (int i = 0; i < numOfMcqChoices; i++) {
+        String optionFragmentTemplate = FormTemplates.MSQ_EDIT_FORM_OPTIONFRAGMENT;
+        for (int i = 0; i < numOfMsqChoices; i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.ITERATOR, Integer.toString(i),
-                            Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(mcqChoices.get(i)),
-                            Slots.MCQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE);
+                            Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(msqChoices.get(i)),
+                            Slots.MSQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
         return Templates.populateTemplate(
-                FormTemplates.MCQ_EDIT_FORM,
-                Slots.MCQ_EDIT_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
+                FormTemplates.MSQ_EDIT_FORM,
+                Slots.MSQ_EDIT_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
                 Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
                 Slots.NUMBER_OF_CHOICE_CREATED, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
-                Slots.MCQ_NUM_OF_MCQ_CHOICES, Integer.toString(numOfMcqChoices),
+                Slots.MSQ_NUMBER_OF_CHOICES, Integer.toString(numOfMsqChoices),
                 Slots.CHECKED_OTHER_OPTION_ENABLED, otherEnabled ? "checked" : "",
-                Slots.MCQ_PARAM_OTHER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION,
-                Slots.MCQ_PARAM_OTHER_OPTION_FLAG, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
-                Slots.MCQ_CHECKED_GENERATED_OPTION, generateOptionsFor == FeedbackParticipantType.NONE ? "" : "checked",
+                Slots.MSQ_PARAM_OTHER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION,
+                Slots.MSQ_PARAM_OTHER_OPTION_FLAG, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
+                Slots.MSQ_CHECKED_GENERATED_OPTIONS, generateOptionsFor == FeedbackParticipantType.NONE ? "" : "checked",
                 Slots.GENERATED_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 Slots.GENERATE_OPTIONS_FOR_VALUE, generateOptionsFor.toString(),
                 Slots.STUDENT_SELECTED, generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected" : "",
@@ -307,15 +333,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
                 Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString());
     }
-
+    
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Add two empty options by default
-        numOfMcqChoices = 2;
-        mcqChoices.add("");
-        mcqChoices.add("");
+        numOfMsqChoices = 2;
+        msqChoices.add("");
+        msqChoices.add("");
         
-        return "<div id=\"mcqForm\">"
+        return "<div id=\"msqForm\">"
                   + getQuestionSpecificEditFormHtml(-1)
              + "</div>";
     }
@@ -323,7 +349,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder(200);
-        String optionFragmentTemplate = FormTemplates.MCQ_ADDITIONAL_INFO_FRAGMENT;
+        String optionFragmentTemplate = FormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         
         if (generateOptionsFor != FeedbackParticipantType.NONE) {
             String optionHelpText = String.format(
@@ -332,27 +358,29 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionHelpText);
         }
         
-        if (numOfMcqChoices > 0) {
+        if (numOfMsqChoices > 0) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
-            for (int i = 0; i < numOfMcqChoices; i++) {
+            for (int i = 0; i < numOfMsqChoices; i++) {
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
-                                Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(mcqChoices.get(i)));
-
+                                Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(msqChoices.get(i)));
+                
                 optionListHtml.append(optionFragment);
             }
+            
+            if (otherEnabled) {
+                String optionFragment =
+                        Templates.populateTemplate(optionFragmentTemplate, Slots.MSQ_CHOICE_VALUE, "Other");
+                optionListHtml.append(optionFragment);
+            }
+            
+            optionListHtml.append("</ul>");
         }
-        if (otherEnabled) {
-            String optionFragment =
-                    Templates.populateTemplate(optionFragmentTemplate, Slots.MCQ_CHOICE_VALUE, "Others");
-            optionListHtml.append(optionFragment);
-        }
-        optionListHtml.append("</ul>");
         
         String additionalInfo = Templates.populateTemplate(
-                FormTemplates.MCQ_ADDITIONAL_INFO,
+                FormTemplates.MSQ_ADDITIONAL_INFO,
                 Slots.QUESTION_TYPE_NAME, this.getQuestionTypeDisplayName(),
-                Slots.MCQ_ADDITIONAL_INFO_FRAGMENTS, optionListHtml.toString());
+                Slots.MSQ_ADDITIONAL_INFO_FRAGMENTS, optionListHtml.toString());
         
         return Templates.populateTemplate(
                 FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
@@ -362,7 +390,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.ADDITIONAL_INFO_ID, additionalInfoId,
                 Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
     }
-    
+
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
@@ -374,10 +402,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         
-        StringBuilder fragments = new StringBuilder();
+        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
+
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
         
-        for (String option : mcqChoices) {
+        for (String option : msqChoices) {
             answerFrequency.put(option, 0);
         }
         
@@ -385,35 +414,63 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             answerFrequency.put("Other", 0);
         }
         
+        int numChoicesSelected = 0;
         for (FeedbackResponseAttributes response : responses) {
-            String answerString = response.getResponseDetails().getAnswerString();
+            List<String> answerStrings =
+                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
             boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
+                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
+            String otherAnswer = "";
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
                     answerFrequency.put("Other", 0);
                 }
+                
                 answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-            } else {
+                
+                numChoicesSelected++;
+                // remove other answer temporarily to calculate stats for other options
+                otherAnswer = answerStrings.get(answerStrings.size() - 1);
+                answerStrings.remove(otherAnswer);
+            }
+            
+            for (String answerString : answerStrings) {
+                if (answerString.isEmpty()) {
+                    continue;
+                }
+                
+                isContainsNonEmptyResponse = true;
+                numChoicesSelected++;
+                
                 if (!answerFrequency.containsKey(answerString)) {
                     answerFrequency.put(answerString, 0);
                 }
                 answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
             }
+            
+            // restore other answer if any
+            if (isOtherOptionAnswer) {
+                answerStrings.add(otherAnswer);
+            }
+        }
+        
+        if (!isContainsNonEmptyResponse) {
+            return "";
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
         
+        StringBuilder fragments = new StringBuilder();
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                    Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(entry.getKey()),
-                    Slots.COUNT, entry.getValue().toString(),
-                    Slots.PERCENTAGE, df.format(100 * (double) entry.getValue() / responses.size())));
+                                Slots.MCQ_CHOICE_VALUE, entry.getKey(),
+                                Slots.COUNT, entry.getValue().toString(),
+                                Slots.PERCENTAGE, df.format(100 * (double) entry.getValue() / numChoicesSelected)));
+
         }
-        
-        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
-                Slots.FRAGMENTS, fragments.toString());
+        //Use same template as MCQ for now, until they need to be different.
+        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
     }
 
     @Override
@@ -424,11 +481,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         if (responses.isEmpty()) {
             return "";
         }
-        
-        StringBuilder fragments = new StringBuilder();
+
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
+        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         
-        for (String option : mcqChoices) {
+        for (String option : msqChoices) {
             answerFrequency.put(option, 0);
         }
         
@@ -436,75 +493,113 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             answerFrequency.put("Other", 0);
         }
         
+        int numChoicesSelected = 0;
+        
         for (FeedbackResponseAttributes response : responses) {
-            String answerString = response.getResponseDetails().getAnswerString();
+            List<String> answerStrings =
+                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
             boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
+                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
+            String otherAnswer = "";
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
                     answerFrequency.put("Other", 0);
                 }
                 answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-            } else {
+                
+                numChoicesSelected++;
+                // remove other answer temporarily to calculate stats for other options
+                otherAnswer = answerStrings.get(answerStrings.size() - 1);
+                answerStrings.remove(otherAnswer);
+            }
+            
+            for (String answerString : answerStrings) {
+                if (answerString.isEmpty()) {
+                    continue;
+                }
+                isContainsNonEmptyResponse = true;
+                numChoicesSelected++;
                 if (!answerFrequency.containsKey(answerString)) {
                     answerFrequency.put(answerString, 0);
                 }
                 answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+                
+            }
+            
+            // restore other answer if any
+            if (isOtherOptionAnswer) {
+                answerStrings.add(otherAnswer);
             }
         }
         
-        DecimalFormat df = new DecimalFormat("#.##");
-        
-        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments.append(Sanitizer.sanitizeForCsv(entry.getKey())).append(',')
-                     .append(entry.getValue().toString()).append(',')
-                     .append(df.format(100 * (double) entry.getValue() / responses.size())).append(Const.EOL);
+        if (!isContainsNonEmptyResponse) {
+            return "";
         }
         
+        DecimalFormat df = new DecimalFormat("#.##");
+        StringBuilder fragments = new StringBuilder();
+        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
+            fragments.append(Sanitizer.sanitizeForCsv(entry.getKey()) + ','
+                             + entry.getValue().toString() + ','
+                             + df.format(100 * (double) entry.getValue() / numChoicesSelected) + Const.EOL);
+        }
+
+        
         return "Choice, Response Count, Percentage" + Const.EOL
-               + fragments.toString();
-    }
-    
-    @Override
-    public String getCsvHeader() {
-        return "Feedback";
+               + fragments + Const.EOL;
     }
 
     @Override
+    public String getCsvHeader() {
+        List<String> sanitizedChoices = Sanitizer.sanitizeListForCsv(msqChoices);
+        return "Feedbacks:," + StringHelper.toString(sanitizedChoices, ",");
+    }
+    
+    @Override
     public String getQuestionTypeChoiceOption() {
-        return "<li data-questiontype = \"MCQ\"><a href=\"javascript:;\"> "
-               + Const.FeedbackQuestionTypeNames.MCQ + "</a></li>";
+        return "<li data-questiontype = \"MSQ\"><a href=\"javascript:;\">"
+               + Const.FeedbackQuestionTypeNames.MSQ + "</a></li>";
     }
 
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         if (generateOptionsFor == FeedbackParticipantType.NONE
-                && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
-            errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES
-                       + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
+                && numOfMsqChoices < Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES) {
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES
+                       + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES + ".");
         }
-        //TODO: check that mcq options do not repeat. needed?
+        //TODO: check that msq options do not repeat. needed?
         
         return errors;
     }
-
+    
     @Override
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
         List<String> errors = new ArrayList<String>();
-        
         for (FeedbackResponseAttributes response : responses) {
-            FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
-            
-            if (!otherEnabled && generateOptionsFor == FeedbackParticipantType.NONE
-                    && !mcqChoices.contains(frd.getAnswerString())) {
-                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
+            FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
+            if (!otherEnabled) {
+                List<String> validChoices = msqChoices;
+                validChoices.add("");
+                if (!validChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE) {
+                    errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
+                }
             }
         }
         return errors;
+    }
+    
+    /**
+     * Checks if the question has been skipped.
+     * MSQ allows a blank response, as that represents "None of the above"
+     */
+    @Override
+    public boolean isQuestionSkipped(String[] answer) {
+        return answer == null;
     }
 
     @Override
@@ -516,4 +611,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
+
+    public int getNumOfMsqChoices() {
+        return numOfMsqChoices;
+    }
+
+    public List<String> getMsqChoices() {
+        return msqChoices;
+    }
+
 }

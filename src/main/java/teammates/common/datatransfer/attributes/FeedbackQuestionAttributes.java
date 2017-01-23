@@ -8,9 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;

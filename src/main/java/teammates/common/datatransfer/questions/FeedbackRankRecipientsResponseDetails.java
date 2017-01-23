@@ -1,4 +1,4 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.questions;
 
 public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseDetails {
     public int answer;

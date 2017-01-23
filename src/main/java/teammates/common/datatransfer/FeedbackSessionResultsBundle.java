@@ -17,6 +17,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackSessionResponseStatus;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;

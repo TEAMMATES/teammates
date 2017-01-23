@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CommentAttributes;
@@ -23,6 +22,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackSessionResponseStatus;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;

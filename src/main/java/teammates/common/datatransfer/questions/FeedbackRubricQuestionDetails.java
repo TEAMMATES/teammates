@@ -1,4 +1,4 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;

@@ -1,7 +1,8 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.questions;
 
 import java.util.Map;
 
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 

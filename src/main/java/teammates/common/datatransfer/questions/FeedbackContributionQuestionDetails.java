@@ -1,4 +1,4 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.StudentResultSummary;
+import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Assumption;
