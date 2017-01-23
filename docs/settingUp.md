@@ -98,7 +98,7 @@ Eclipse IDE is our preferred development environment. Support requests related t
    ```
    This command can be run again whenever the dependencies need to be updated.
   
- **Verification** : The file named `.classpath` should be added to the project root directory..
+ **Verification** : The file named `.classpath` should be added to the project root directory.
 
 1. Import the project to your Eclipse instance.
    * Start Eclipse and go to `File → Import...`.
