@@ -10,18 +10,18 @@ import org.openqa.selenium.support.FindBy;
  * InstructorEditStudentFeedbackPage is a page object to represent the page seen by a instructor
  * when moderating feedback.
  * <p>
- * Note that it inherits the methods and attributes from {@link FeedbackSubmitPage} as the page is
+ * It inherits the methods and attributes from {@link FeedbackSubmitPage} as the page is
  * built upon the feedback submission page seen by students/instructors.
  * 
- * @see FeedbackSubmitPage
+ * @see {@link FeedbackSubmitPage}
  */
 public class InstructorEditStudentFeedbackPage extends FeedbackSubmitPage {
     
     @FindBy(id = "moderationHintButton")
-    protected WebElement moderationHintButton;
+    private WebElement moderationHintButton;
     
     @FindBy(id = "moderationHint")
-    protected WebElement moderationHint;
+    private WebElement moderationHint;
        
     public InstructorEditStudentFeedbackPage(Browser browser) {
         super(browser);
