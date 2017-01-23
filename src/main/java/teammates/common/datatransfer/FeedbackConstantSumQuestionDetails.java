@@ -499,11 +499,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
      * @param recipientMapping      Original map containing recipients
      * @param identifierMap         Helper map to retrieve email from name concatenated with email string
      * @param sortedOptionPoints    Sorted map to contain recipient info, recipient concatenated with email used as key
-     * @param bundle
      */
     private void putRecipientsInSortedMap(
             Map<String, List<Integer>> recipientMapping, Map<String, String> identifierMap,
             Map<String, List<Integer>> sortedOptionPoints, FeedbackSessionResultsBundle bundle) {
+        
         for (Entry<String, List<Integer>> entry : recipientMapping.entrySet()) {
             String participantIdentifier = entry.getKey();
             String name = bundle.getNameForEmail(participantIdentifier);
@@ -524,6 +524,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private void putOptionsInSortedMap(
             Map<String, List<Integer>> optionPoints, List<String> optionList,
             Map<String, List<Integer>> sortedOptionPoints) {
+        
         for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             String option = optionList.get(Integer.parseInt(entry.getKey()));
             
