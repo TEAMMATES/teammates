@@ -7,12 +7,10 @@ import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
-import teammates.logic.api.Logic;
 import teammates.ui.template.AdminFeedbackSessionRow;
 import teammates.ui.template.AdminFilter;
 import teammates.ui.template.InstitutionPanel;
@@ -99,17 +97,7 @@ public class AdminSessionsPageData extends PageData {
         return institutionPanels;
     }
     
-    public String getInstructorHomePageViewLink(String email) {
-
-        Logic logic = new Logic();
-        List<InstructorAttributes> instructors = logic
-                .getInstructorsForEmail(email);
-
-        if (instructors == null || instructors.isEmpty()) {
-            return "";
-        }
-        
-        String googleId = logic.getInstructorsForEmail(email).get(0).googleId;
+    private String getInstructorHomePageViewLink(String googleId) {
         String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
         return "href=\"" + link + "\"";
@@ -193,7 +181,7 @@ public class AdminSessionsPageData extends PageData {
                                                     googleId),
                                             TimeHelper.formatTime12H(feedbackSession.getSessionStartTime()),
                                             TimeHelper.formatTime12H(feedbackSession.getSessionEndTime()),
-                                            getInstructorHomePageViewLink(feedbackSession.getCreatorEmail()),
+                                            getInstructorHomePageViewLink(googleId),
                                             feedbackSession.getCreatorEmail(),
                                             feedbackSession.getCourseId(),
                                             feedbackSession.getFeedbackSessionName()));
