@@ -41,7 +41,9 @@ More information can be found at [this documentation](https://help.github.com/ar
    ./gradlew appengineDownloadSdk
    ```
    
- **Verification** : Check the gradle folder for the existence of the SDK.
+ **Verification** : Check the gradle folder for the existence of the SDK.The folder path will be like this : 
+ 
+ `C:\Users\username\.gradle\appengine-sdk`
 
 1. Run this command to create the main config files (these are not under revision control because their contents vary from developer to developer):
    ```sh
