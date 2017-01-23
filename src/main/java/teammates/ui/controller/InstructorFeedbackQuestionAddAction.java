@@ -15,6 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.PageData;
 
 import com.google.appengine.api.datastore.Text;
 

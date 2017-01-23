@@ -10,7 +10,8 @@ import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.ui.controller.InstructorFeedbackResultsPageData.ViewType;
+import teammates.ui.pagedata.InstructorFeedbackResultsPageData;
+import teammates.ui.pagedata.InstructorFeedbackResultsPageData.ViewType;
 
 public class InstructorFeedbackResultsPageAction extends Action {
 

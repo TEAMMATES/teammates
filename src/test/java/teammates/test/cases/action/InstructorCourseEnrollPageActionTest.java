@@ -8,8 +8,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseEnrollPageAction;
-import teammates.ui.controller.InstructorCourseEnrollPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 
 public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
 

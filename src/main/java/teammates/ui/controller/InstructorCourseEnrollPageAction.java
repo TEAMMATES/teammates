@@ -5,6 +5,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 
 /**
  * Action: showing page to enroll students into a course for an instructor

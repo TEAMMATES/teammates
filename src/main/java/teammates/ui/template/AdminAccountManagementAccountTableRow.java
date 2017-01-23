@@ -4,7 +4,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.ui.controller.AdminAccountManagementPageData;
+import teammates.ui.pagedata.AdminAccountManagementPageData;
 
 public class AdminAccountManagementAccountTableRow {
     private AccountAttributes account;

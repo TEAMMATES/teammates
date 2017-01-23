@@ -29,6 +29,7 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.ui.pagedata.AdminHomePageData;
 
 public class AdminInstructorAccountAddAction extends Action {
     

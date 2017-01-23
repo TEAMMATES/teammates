@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.ui.pagedata.StudentProfileCreateFormUrlAjaxPageData;
 
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 

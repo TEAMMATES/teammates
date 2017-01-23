@@ -4,7 +4,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.StringHelper;
-import teammates.ui.controller.PageData;
+import teammates.ui.pagedata.PageData;
 
 public class StudentProfileEditBox {
 

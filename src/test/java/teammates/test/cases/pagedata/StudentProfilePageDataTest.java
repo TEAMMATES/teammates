@@ -7,7 +7,7 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.StudentProfilePageData;
+import teammates.ui.pagedata.StudentProfilePageData;
 import teammates.ui.template.StudentProfileEditBox;
 import teammates.ui.template.StudentProfileUploadPhotoModal;
 

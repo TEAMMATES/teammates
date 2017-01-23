@@ -12,7 +12,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorCourseEditPageData;
+import teammates.ui.pagedata.InstructorCourseEditPageData;
 import teammates.ui.template.CourseEditInstructorPanel;
 import teammates.ui.template.CourseEditSectionRow;
 

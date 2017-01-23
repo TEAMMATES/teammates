@@ -18,9 +18,9 @@ import teammates.logic.api.Logic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentRecordsPageAction;
-import teammates.ui.controller.InstructorStudentRecordsPageData;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorStudentRecordsPageData;
 
 public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 

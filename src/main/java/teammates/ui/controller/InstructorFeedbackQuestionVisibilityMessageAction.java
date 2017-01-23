@@ -10,6 +10,7 @@ import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.ui.pagedata.InstructorFeedbackQuestionVisibilityMessagePageData;
 
 public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
     @Override
