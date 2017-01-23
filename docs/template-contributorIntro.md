@@ -4,16 +4,16 @@
 
 **Link to your app:**
 
-Add the link to your TEAMMATES staging site here, e.g. `https://teammates-username.appspot.com`
+>Add the link to your TEAMMATES staging site here, e.g. `https://teammates-username.appspot.com`
 
 **Link to your fork:**
 
-Add the link to your TEAMMATES fork here, e.g. `https://github.com/username/teammates`
+>Add the link to your TEAMMATES fork here, e.g. `https://github.com/username/teammates`
 
 **Screenshot of change**
 
-Post the screenshot of changes you did (as seen on the UI).
+>Post the screenshot of changes you did (as seen on the UI).
 
 **Real name and a short self-introduction**
 
-Tell us your real name and give a short self-introduction, e.g. your education background, why you want to contribute to TEAMMATES, etc.
+>Tell us your real name and give a short self-introduction, e.g. your education background, why you want to contribute to TEAMMATES, etc.

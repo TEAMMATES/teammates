@@ -7,9 +7,13 @@
 Search [the issue tracker][issue tracker] to ensure that there is no open issue addressing the bug.
 If that is the case, [open a new issue][new issue]. Make sure to include a clear title, description, and as much relevant information as possible.
 
-For feature requests, refer here [here](../docs/template-featureRequest.md)
+For feature requests, refer  [here](../docs/template-featureRequest.md)
+
 For bug reports, refer [here](../docs/template-bugReport.md)
+
 For new contributor introduction, refer [here](../docs/template-contributorIntro.md)
+
+For help requests, refer  [here](../docs/template-helpRequest.md)
 
 [issue tracker]: https://github.com/TEAMMATES/teammates/issues
 [new issue]: https://github.com/TEAMMATES/teammates/issues/new
