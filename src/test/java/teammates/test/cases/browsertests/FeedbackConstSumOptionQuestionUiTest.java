@@ -109,7 +109,6 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillConstSumOption(1, "duplicate option");
 
         feedbackEditPage.clickAddQuestionButton();
-
         feedbackEditPage.verifyStatus(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
     }
 
@@ -179,6 +178,15 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumOptionQuestionEditSuccess.html");
+
+        ______TS("CONST SUM: edit question failure due to duplicate options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.fillConstSumOption(0, "duplicate option", 1);
+        feedbackEditPage.fillConstSumOption(1, "duplicate option", 1);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
     }
     
     @Override

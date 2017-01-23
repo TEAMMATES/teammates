@@ -752,6 +752,11 @@ public class FieldValidator {
         return StringHelper.isMatching(email, REGEX_EMAIL);
     }
     
+    /**
+     * Checks whether all the elements in a Collection are unique.
+     * @param elements The Collection of elements to be checked.
+     * @return true if all elements are unique, else false.
+     */
     public static <T> boolean areElementsUnique(Collection<T> elements) {
         Set<T> uniqueElements = new HashSet<T>(elements);
         return uniqueElements.size() == elements.size();
