@@ -35,6 +35,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         

@@ -26,6 +26,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         String instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1").googleId;

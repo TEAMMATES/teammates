@@ -38,6 +38,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         //TODO: find a way to test status message from session

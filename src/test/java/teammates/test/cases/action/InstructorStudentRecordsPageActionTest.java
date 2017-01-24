@@ -38,6 +38,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");

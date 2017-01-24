@@ -25,6 +25,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         String[] submissionParams = new String[]{};

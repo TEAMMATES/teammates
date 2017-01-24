@@ -33,6 +33,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String unregUserId = "unreg.user";

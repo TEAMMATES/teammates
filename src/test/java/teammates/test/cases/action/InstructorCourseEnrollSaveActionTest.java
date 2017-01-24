@@ -40,6 +40,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String enrollString = "";

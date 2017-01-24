@@ -25,6 +25,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         

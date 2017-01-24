@@ -30,6 +30,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");

@@ -29,6 +29,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends BaseActionTest {
         removeAndRestoreDataBundle(dataBundle);
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");

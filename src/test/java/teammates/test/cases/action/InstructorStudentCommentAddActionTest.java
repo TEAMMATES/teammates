@@ -28,6 +28,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");

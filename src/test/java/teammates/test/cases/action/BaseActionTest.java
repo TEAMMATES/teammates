@@ -35,6 +35,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     
     protected abstract Action getAction(String... params);
     
+    public abstract void testExecuteAndPostProcess() throws Exception;
+    
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
      */

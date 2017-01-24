@@ -21,6 +21,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // removeAndRestoreTypicalDataInDatastore();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         

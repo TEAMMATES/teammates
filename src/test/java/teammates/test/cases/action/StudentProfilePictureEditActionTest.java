@@ -25,6 +25,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
 

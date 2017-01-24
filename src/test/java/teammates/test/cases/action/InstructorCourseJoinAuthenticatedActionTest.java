@@ -31,6 +31,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
     }
     
     @SuppressWarnings("deprecation")
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");

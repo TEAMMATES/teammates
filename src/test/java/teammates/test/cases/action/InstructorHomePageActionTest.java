@@ -26,6 +26,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String[] submissionParams = new String[]{

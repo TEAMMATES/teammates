@@ -27,6 +27,7 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         

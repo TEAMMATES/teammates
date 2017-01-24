@@ -69,6 +69,11 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         return null; // method not used
     }
     
+    @Override
+    public void testExecuteAndPostProcess() {
+        // method not used
+    }
+    
     @AfterClass
     public static void classTearDown() {
         StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");

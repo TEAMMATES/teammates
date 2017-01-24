@@ -26,6 +26,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         FeedbackSessionsDb fsDb = new FeedbackSessionsDb();

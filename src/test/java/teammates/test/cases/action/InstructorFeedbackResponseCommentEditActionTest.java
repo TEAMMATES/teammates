@@ -33,8 +33,9 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
-    public void testExcecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() throws Exception {
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();

@@ -27,6 +27,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;

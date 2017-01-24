@@ -27,6 +27,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         removeAndRestoreDataBundle(dataBundle);
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("IEIFPTCourseinstr");

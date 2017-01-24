@@ -26,6 +26,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         visitEnrollPage_withInvalidRequestParams_throwsException();

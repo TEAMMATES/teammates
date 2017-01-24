@@ -28,6 +28,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         removeAndRestoreDataBundle(dataBundle);
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         StudentsDb studentsDb = new StudentsDb();

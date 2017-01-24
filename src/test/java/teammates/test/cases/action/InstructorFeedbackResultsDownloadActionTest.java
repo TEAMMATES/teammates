@@ -27,6 +27,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);

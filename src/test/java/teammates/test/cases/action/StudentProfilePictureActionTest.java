@@ -36,6 +36,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         testActionWithNoParams();

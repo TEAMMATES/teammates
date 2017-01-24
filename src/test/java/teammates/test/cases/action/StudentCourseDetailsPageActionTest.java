@@ -37,6 +37,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
 

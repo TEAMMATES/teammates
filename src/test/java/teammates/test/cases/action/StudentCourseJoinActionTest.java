@@ -29,6 +29,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         

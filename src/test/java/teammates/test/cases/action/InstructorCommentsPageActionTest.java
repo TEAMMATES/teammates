@@ -31,6 +31,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         String[] submissionParams = new String[]{};

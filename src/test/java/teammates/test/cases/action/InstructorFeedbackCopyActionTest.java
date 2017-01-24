@@ -46,6 +46,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         verifyUnaccessibleWithoutModifyCoursePrivilege(params);
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         //TODO: find a way to test status message from session

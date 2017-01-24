@@ -28,6 +28,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");

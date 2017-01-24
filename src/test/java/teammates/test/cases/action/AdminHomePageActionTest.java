@@ -23,6 +23,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
         // removeAndRestoreTypicalDataInDatastore();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         

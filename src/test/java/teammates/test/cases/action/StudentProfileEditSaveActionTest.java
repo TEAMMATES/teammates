@@ -31,6 +31,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");

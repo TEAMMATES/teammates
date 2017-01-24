@@ -37,6 +37,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         testGenerateNextDemoCourseIdForLengthLimit(20);
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         final String newInstructorShortName = "James";

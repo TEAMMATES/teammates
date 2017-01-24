@@ -18,6 +18,7 @@ public class AdminSearchPageActionTest extends BaseActionTest {
         printTestClassHeader();
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         // Test is done as a browser test,
