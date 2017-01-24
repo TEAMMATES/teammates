@@ -230,15 +230,24 @@
                 </div>
             </div>
         </div>
-        <div class="row" id="uncommonSettingsInfo">
-            <div class="col-md-12 text-muted">
-                <span id="uncommonSettingsInfoText"></span>
-                <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" ${fsForm.editButtonTags.attributesToString}>[Edit]</a>
-                <br><br>
+        
+        <div id="uncommonSettingsSection">
+            <feedbacks:feedbackSessionsFormAdditionalSettings additionalSettings="${fsForm.additionalSettings}"/>
+            
+            <div id="uncommonSettingsSessionResponsesVisible" class="margin-bottom-15px text-muted">
+                <span id="uncommonSettingsSessionResponsesVisibleInfoText"></span>
+                <a class="editUncommonSettingsButton" 
+                   id="editUncommonSettingsSessionResponsesVisibleButton" 
+                   data-edit="[Edit]" data-done="[Done]" ${fsForm.editButtonTags.attributesToString}>[Change]</a>
+            </div>
+            
+            <div id="uncommonSettingsSendEmails" class="margin-bottom-15px text-muted">
+                <span id="uncommonSettingsSendEmailsInfoText"></span>
+                <a class="editUncommonSettingsButton" 
+                   id="editUncommonSettingsSendEmailsButton" 
+                   data-edit="[Edit]" data-done="[Done]" ${fsForm.editButtonTags.attributesToString}>[Change]</a>
             </div>
         </div>
-        
-        <feedbacks:feedbackSessionsFormAdditionalSettings additionalSettings="${fsForm.additionalSettings}"/>
         
         <div class="form-group">
             <div class="row">
