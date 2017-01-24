@@ -67,37 +67,37 @@ public abstract class AppPage {
     
     /** These are elements common to most pages in our app */
     @FindBy(id = "statusMessagesToUser")
-    protected WebElement statusMessage;
+    private WebElement statusMessage;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
-    protected WebElement instructorHomeTab;
+    private WebElement instructorHomeTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[2]/a")
-    protected WebElement instructorCoursesTab;
+    private WebElement instructorCoursesTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
-    protected WebElement instructorStudentsTab;
+    private WebElement instructorStudentsTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")
-    protected WebElement instructorCommentsTab;
+    private WebElement instructorCommentsTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
-    protected WebElement instructorHelpTab;
+    private WebElement instructorHelpTab;
     
     @FindBy(id = "studentHomeNavLink")
-    protected WebElement studentHomeTab;
+    private WebElement studentHomeTab;
     
     @FindBy(id = "studentProfileNavLink")
-    protected WebElement studentProfileTab;
+    private WebElement studentProfileTab;
     
     @FindBy(id = "studentCommentsNavLink")
-    protected WebElement studentCommentsTab;
+    private WebElement studentCommentsTab;
     
     @FindBy(id = "studentHelpLink")
-    protected WebElement studentHelpTab;
+    private WebElement studentHelpTab;
     
     @FindBy(id = "btnLogout")
-    protected WebElement logoutButton;
+    private WebElement logoutButton;
     
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the

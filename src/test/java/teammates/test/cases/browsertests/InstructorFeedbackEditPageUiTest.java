@@ -144,8 +144,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 editedSession.getCourseId(), editedSession.getFeedbackSessionName());
         editedSession.setInstructions(new Text("<p>" + editedSession.getInstructionsString() + "</p>"));
         assertEquals(editedSession.toString(), savedSession.toString());
-        assertEquals("overflow-auto alert alert-success statusMessage",
-                feedbackEditPage.getStatusMessage().findElement(By.className("statusMessage")).getAttribute("class"));
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
