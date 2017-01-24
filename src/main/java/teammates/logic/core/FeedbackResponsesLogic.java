@@ -446,7 +446,7 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Copy values that cannot be changed to defensively avoid invalid parameters.
+     * Copies values that cannot be changed to defensively avoid invalid parameters.
      * @param newResponse  values are copied from oldResponse
      * @param oldResponse  values are copied to newResponse
      */
