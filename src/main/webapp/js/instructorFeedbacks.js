@@ -242,7 +242,7 @@ function readyFeedbackPage() {
     bindUnpublishButtons();
 
     updateUncommonSettingsInfo();
-    hideUncommonPanels();
+    showUncommonPanelsIfNotInDefaultValues();
 }
 
 function loadSessionsByAjax() {
@@ -257,37 +257,70 @@ function bindEventsAfterAjax() {
 }
 
 function bindUncommonSettingsEvents() {
-    $('#editUncommonSettingsButton').click(showUncommonPanels);
+    $('#editUncommonSettingsSessionResponsesVisibleButton')
+        .click(showUncommonPanelsForSessionResponsesVisible);
+    $('#editUncommonSettingsSendEmailsButton')
+        .click(showUncommonPanelsForSendEmails);
 }
 
 function updateUncommonSettingsInfo() {
-    var info = 'Session is visible at submission opening time, '
-             + 'responses are only visible when you publish the results.<br>'
-             + 'Emails are sent when session opens (within 15 mins), '
-             + '24 hrs before session closes and when results are published.';
-
-    $('#uncommonSettingsInfoText').html(info);
+    updateUncommonSettingsSessionVisibilityInfo();
+    updateUncommonSettingsEmailSendingInfo();
 }
 
-function isDefaultSetting() {
+function updateUncommonSettingsSessionVisibilityInfo() {
+    var info = 'Session is visible at submission opening time, '
+             + 'responses are only visible when you publish the results.';
+    
+    $('#uncommonSettingsSessionResponsesVisibleInfoText').html(info);
+}
+
+function updateUncommonSettingsEmailSendingInfo() {
+    var info = 'Emails are sent when session opens (within 15 mins), '
+             + '24 hrs before session closes and when results are published.';
+
+    $('#uncommonSettingsSendEmailsInfoText').html(info);
+}
+
+function isDefaultSessionResponsesVisibleSetting() {
     return $('#sessionVisibleFromButton_atopen').prop('checked')
-           && $('#resultsVisibleFromButton_later').prop('checked')
-           && $('#sendreminderemail_open').prop('checked')
+           && $('#resultsVisibleFromButton_later').prop('checked');
+}
+
+function isDefaultSendEmailsSetting() {
+    return $('#sendreminderemail_open').prop('checked')
            && $('#sendreminderemail_closing').prop('checked')
            && $('#sendreminderemail_published').prop('checked');
 }
 
 function showUncommonPanels() {
-    $('#sessionResponsesVisiblePanel, #sendEmailsForPanel').show();
-    $('#uncommonSettingsInfo').hide();
+    showUncommonPanelsForSessionResponsesVisible();
+    showUncommonPanelsForSendEmails();
 }
 
-function hideUncommonPanels() {
-    // Hide panels only if they match the default values.
-    if (isDefaultSetting()) {
-        $('#sessionResponsesVisiblePanel, #sendEmailsForPanel').hide();
-    } else {
-        showUncommonPanels();
+function showUncommonPanelsForSessionResponsesVisible() {
+    var $sessionResponsesVisiblePanel = $('#sessionResponsesVisiblePanel');
+    
+    $('#uncommonSettingsSessionResponsesVisible').after($sessionResponsesVisiblePanel);
+    $sessionResponsesVisiblePanel.show();
+    $('#uncommonSettingsSessionResponsesVisibleInfoText').parent().hide();
+}
+
+function showUncommonPanelsForSendEmails() {
+    var $sendEmailsForPanel = $('#sendEmailsForPanel');
+    
+    $('#uncommonSettingsSendEmails').after($sendEmailsForPanel);
+    $sendEmailsForPanel.show();
+    $('#uncommonSettingsSendEmailsInfoText').parent().hide();
+}
+
+function showUncommonPanelsIfNotInDefaultValues() {
+    if (!isDefaultSessionResponsesVisibleSetting()) {
+        showUncommonPanelsForSessionResponsesVisible();
+    }
+    
+    if (!isDefaultSendEmailsSetting()) {
+        showUncommonPanelsForSendEmails();
     }
 }
 
