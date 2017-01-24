@@ -186,13 +186,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
+        
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
 
         String additionalInfoId = "section-1-giver-1-recipient-1";
         int qnNumber = 8;
         verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
         verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
-        
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
 
         ______TS("test sort by recipient > giver > question");
 
