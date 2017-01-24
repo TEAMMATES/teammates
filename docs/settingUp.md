@@ -40,8 +40,8 @@ More information can be found at [this documentation](https://help.github.com/ar
    ./gradlew appengineDownloadSdk
    ```
    
- **Verification:** Check your Gradle folder with the command `./gradlew printUserHomeDir`. A folder named `appengine-sdk` should be present.
-
+ **Verification:** Check your Gradle folder (the directory can be found with the command ./gradlew printUserHomeDir).
+ 
 1. Run this command to create the main config files (these are not under revision control because their contents vary from developer to developer):
    ```sh
    ./gradlew setup
