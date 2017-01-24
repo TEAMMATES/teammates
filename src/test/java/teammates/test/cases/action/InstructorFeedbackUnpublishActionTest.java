@@ -43,7 +43,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         makeFeedbackSessionPublished(session);
 
         InstructorFeedbackUnpublishAction unpublishAction = getAction(paramsNormal);
-        RedirectResult result = (RedirectResult) unpublishAction.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(unpublishAction);
 
         String expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?error=false"
                                      + "&user=idOfInstructor1OfCourse1";
@@ -91,7 +91,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         makeFeedbackSessionUnpublished(session);
 
         unpublishAction = getAction(paramsNormal);
-        result = (RedirectResult) unpublishAction.executeAndPostProcess();
+        result = getRedirectResult(unpublishAction);
 
         expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?error=true"
                               + "&user=idOfInstructor1OfCourse1";

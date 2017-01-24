@@ -32,7 +32,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         };
         
         InstructorCourseStudentDeleteAction action = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult redirectResult = getRedirectResult(action);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);

@@ -44,7 +44,7 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
         
         InstructorFeedbackRemindAction action = getAction(paramsTypical);
         
-        RedirectResult rr = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult rr = getRedirectResult(action);
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT));
         
         verifySpecifiedTasksAdded(action,

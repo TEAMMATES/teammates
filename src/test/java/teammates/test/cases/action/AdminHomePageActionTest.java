@@ -28,7 +28,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
         final AdminHomePageAction a = getAction();
         
-        final ShowPageResult result = (ShowPageResult) a.executeAndPostProcess();
+        final ShowPageResult result = getShowPageResult(a);
         assertEquals(Const.ViewURIs.ADMIN_HOME, result.destination);
         final AdminHomePageData startingPageData = (AdminHomePageData) result.data;
         assertEquals("", startingPageData.instructorDetailsSingleLine);

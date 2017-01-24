@@ -32,7 +32,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
         
         AdminAccountDeleteAction deleteAction = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) deleteAction.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(deleteAction);
          
         assertNull(AccountsLogic.inst().getAccount(instructor1OfCourse1.googleId));
         assertEquals(Const.StatusMessages.INSTRUCTOR_ACCOUNT_DELETED, result.getStatusMessage());

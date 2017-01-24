@@ -40,7 +40,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         };
         
         instructorFeedbackEditPageAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(instructorFeedbackEditPageAction);
         
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT
                          + "?error=false&user=" + instructor1OfCourse1.googleId;
@@ -67,7 +67,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         
         instructorFeedbackEditPageAction = getAction(submissionParams);
         try {
-            showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
+            showPageResult = getShowPageResult(instructorFeedbackEditPageAction);
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",

@@ -33,7 +33,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         
         InstructorFeedbackDeleteAction a = getAction(submissionParams);
-        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
+        RedirectResult r = getRedirectResult(a);
         
         assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE

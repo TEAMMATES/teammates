@@ -6,7 +6,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorCourseInstructorDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -39,8 +38,8 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
         };
         
-        Action deleteAction = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
+        InstructorCourseInstructorDeleteAction deleteAction = getAction(submissionParams);
+        RedirectResult redirectResult = getRedirectResult(deleteAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                          + "?error=false&user=idOfInstructor1OfCourse1&courseid=idOfTypicalCourse1",
@@ -64,7 +63,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         };
         
         deleteAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(deleteAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
                         redirectResult.getDestinationWithParams());
@@ -91,7 +90,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         };
         
         deleteAction = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
-        redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(deleteAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                              + "?error=true&user=idOfInstructor4&courseid=idOfCourseNoEvals",

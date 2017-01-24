@@ -40,7 +40,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         expectedProfile.googleId = student.googleId;
         
         StudentProfileEditSaveAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
         
         assertTrue(result.isError);
         AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE
@@ -76,7 +76,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         ______TS("Typical case");
         
         StudentProfileEditSaveAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
         expectedProfile.googleId = student.googleId;
         
         assertFalse(result.isError);
@@ -97,7 +97,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         expectedProfile.googleId = student.googleId;
         
         StudentProfileEditSaveAction action = getAction(addUserIdToParams(student.googleId, submissionParams));
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
         
         assertFalse(result.isError);
         assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, result.getStatusMessage());

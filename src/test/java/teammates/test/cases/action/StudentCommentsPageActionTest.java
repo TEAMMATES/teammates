@@ -33,7 +33,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         
         gaeSimulation.loginUser(studentId);
         StudentCommentsPageAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
         AssertHelper.assertContainsRegex(Const.ViewURIs.STUDENT_COMMENTS, result.getDestinationWithParams());
         assertFalse(result.isError);
         
@@ -53,7 +53,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         studentId = dataBundle.students.get("student2InCourse2").googleId;
         
         action = getAction(addUserIdToParams(studentId, submissionParams));
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         AssertHelper.assertContainsRegex(Const.ViewURIs.STUDENT_COMMENTS, result.getDestinationWithParams());
         assertFalse(result.isError);
         

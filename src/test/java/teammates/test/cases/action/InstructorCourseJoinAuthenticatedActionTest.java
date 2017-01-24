@@ -38,7 +38,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         };
         
         InstructorCourseJoinAuthenticatedAction joinAction = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
+        RedirectResult redirectResult = getRedirectResult(joinAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?error=true&user=idOfInstructor1OfCourse1"
@@ -62,7 +62,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         };
         
         joinAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(joinAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=" + instructor.courseId
@@ -87,7 +87,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         };
         
         joinAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(joinAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=" + instructor2.courseId
@@ -120,7 +120,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         };
         
         joinAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(joinAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=idOfTypicalCourse1"
@@ -156,7 +156,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         };
         
         joinAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(joinAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=idOfTypicalCourse1"

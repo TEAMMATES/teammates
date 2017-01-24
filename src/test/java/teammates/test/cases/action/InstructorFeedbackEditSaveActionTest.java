@@ -42,7 +42,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                                                                 session.getFeedbackSessionName());
         
         InstructorFeedbackEditSaveAction a = getAction(params);
-        AjaxResult ar = (AjaxResult) a.executeAndPostProcess();
+        AjaxResult ar = getAjaxResult(a);
         InstructorFeedbackEditPageData pageData = (InstructorFeedbackEditPageData) ar.data;
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
@@ -68,7 +68,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         params[15] = "01/03/2012";
         
         a = getAction(params);
-        ar = (AjaxResult) a.executeAndPostProcess();
+        ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
         
         expectedString = "The start time for this feedback session cannot be "
@@ -87,7 +87,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         //remove instructions, grace period, start time to test null conditions
         
         a = getAction(params);
-        ar = (AjaxResult) a.executeAndPostProcess();
+        ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
@@ -120,7 +120,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         params = ArrayUtils.remove(params, 24);
         
         a = getAction(params);
-        ar = (AjaxResult) a.executeAndPostProcess();
+        ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
@@ -154,7 +154,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
         
         a = getAction(params);
-        ar = (AjaxResult) a.executeAndPostProcess();
+        ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());

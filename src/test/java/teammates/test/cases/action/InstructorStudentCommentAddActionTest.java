@@ -39,7 +39,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -55,7 +55,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
 
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -71,7 +71,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
   
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -90,7 +90,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
   
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that team does not exist.");
         } catch (AssertionError e) {
             assertEquals("null", e.getMessage());
@@ -108,7 +108,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
   
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that student does not exist.");
         } catch (AssertionError e) {
             assertEquals("null", e.getMessage());

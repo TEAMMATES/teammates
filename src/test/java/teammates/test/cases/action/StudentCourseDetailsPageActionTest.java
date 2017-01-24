@@ -13,7 +13,6 @@ import teammates.common.util.StringHelper;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.Action;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCourseDetailsPageAction;
@@ -91,7 +90,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse2"
         };
         
-        Action redirectAction = getAction(submissionParams);
+        StudentCourseDetailsPageAction redirectAction = getAction(submissionParams);
         RedirectResult redirectResult = this.getRedirectResult(redirectAction);
 
         assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE + "?error=true&user=student1InCourse1",
@@ -121,7 +120,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         
         // adding profile picture for student1InCourse1
         StudentProfileEditSaveAction action = getStudentProfileEditSaveAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
         expectedProfile.googleId = student.googleId;
         assertFalse(result.isError);
         

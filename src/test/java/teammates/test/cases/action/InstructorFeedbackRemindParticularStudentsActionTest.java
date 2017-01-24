@@ -45,7 +45,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         
         InstructorFeedbackRemindParticularStudentsAction action = getAction(paramsNoUserToRemind);
         
-        RedirectResult rr = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult rr = getRedirectResult(action);
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT));
         verifyNoTasksAdded(action);
         
@@ -59,7 +59,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         
         action = getAction(paramsTypical);
         
-        rr = (RedirectResult) action.executeAndPostProcess();
+        rr = getRedirectResult(action);
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT));
         
         verifySpecifiedTasksAdded(action,

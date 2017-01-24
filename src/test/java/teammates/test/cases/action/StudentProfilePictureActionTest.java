@@ -77,7 +77,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                 Const.ParamsNames.BLOB_KEY, account.studentProfile.pictureKey
         };
         StudentProfilePictureAction action = getAction(submissionParams);
-        ImageResult result = (ImageResult) action.executeAndPostProcess();
+        ImageResult result = getImageResult(action);
 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -94,7 +94,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                 Const.ParamsNames.BLOB_KEY, account.studentProfile.pictureKey
         };
         StudentProfilePictureAction action = getAction(addUserIdToParams(account.googleId, submissionParams));
-        ImageResult result = (ImageResult) action.executeAndPostProcess();
+        ImageResult result = getImageResult(action);
 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -128,7 +128,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         };
 
         StudentProfilePictureAction action = getAction(submissionParams);
-        ImageResult result = (ImageResult) action.executeAndPostProcess();
+        ImageResult result = getImageResult(action);
 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -186,7 +186,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         };
 
         StudentProfilePictureAction action = getAction(submissionParams);
-        ImageResult result = (ImageResult) action.executeAndPostProcess();
+        ImageResult result = getImageResult(action);
 
         assertEquals("", result.blobKey);
     }

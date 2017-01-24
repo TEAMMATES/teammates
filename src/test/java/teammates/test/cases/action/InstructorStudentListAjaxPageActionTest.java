@@ -40,7 +40,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
         };
 
         InstructorStudentListAjaxPageAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
         InstructorStudentListAjaxPageData data = (InstructorStudentListAjaxPageData) result.data;
         assertEquals(2, data.getSections().size());
         assertTrue(data.isHasSection());

@@ -35,7 +35,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course", "UTC");
         gaeSimulation.loginAsInstructor(instructorId);
         InstructorFeedbacksPageAction a = getAction(submissionParams);
-        ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
+        ShowPageResult r = getShowPageResult(a);
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
                      r.getDestinationWithParams());
@@ -62,7 +62,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId,
                                         Const.ParamsNames.IS_USING_AJAX, "true"};
         a = getAction(addUserIdToParams(instructorId, submissionParams));
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = getShowPageResult(a);
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
                      r.getDestinationWithParams());
@@ -91,7 +91,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
         a = getAction(addUserIdToParams(instructorId, submissionParams));
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = getShowPageResult(a);
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
                      r.getDestinationWithParams());

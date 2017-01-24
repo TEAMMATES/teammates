@@ -31,7 +31,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         String[] submissionParams = new String[] {};
         gaeSimulation.loginAsStudent(student.googleId);
         StudentProfileCreateFormUrlAction action = getAction(submissionParams);
-        AjaxResult result = (AjaxResult) action.executeAndPostProcess();
+        AjaxResult result = getAjaxResult(action);
 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -49,7 +49,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
 
         StudentProfileCreateFormUrlAction action = getAction(addUserIdToParams(student.googleId,
                                                                                submissionParams));
-        AjaxResult result = (AjaxResult) action.executeAndPostProcess();
+        AjaxResult result = getAjaxResult(action);
 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());

@@ -14,7 +14,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorCourseRemindAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -42,8 +41,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email
         };
         
-        Action remindAction = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+        InstructorCourseRemindAction remindAction = getAction(submissionParams);
+        RedirectResult redirectResult = getRedirectResult(remindAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
@@ -72,7 +71,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         };
         
         remindAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(remindAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
@@ -111,7 +110,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(remindAction);
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT,
@@ -147,7 +146,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(remindAction);
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_REMINDERS_SENT, redirectResult.getStatusMessage());
@@ -168,7 +167,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         
         try {
             remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-            redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+            redirectResult = getRedirectResult(remindAction);
             signalFailureToDetectException();
         } catch (EntityNotFoundException e) {
             ignoreExpectedException();
@@ -181,7 +180,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         
         try {
             remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-            redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+            redirectResult = getRedirectResult(remindAction);
             signalFailureToDetectException();
         } catch (EntityNotFoundException e) {
             ignoreExpectedException();
@@ -193,7 +192,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         
         try {
             remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-            redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+            redirectResult = getRedirectResult(remindAction);
             signalFailureToDetectException();
         } catch (EntityNotFoundException e) {
             ignoreExpectedException();

@@ -72,7 +72,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         };
         
         InstructorFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
-        AjaxResult result = (AjaxResult) action.executeAndPostProcess();
+        AjaxResult result = getAjaxResult(action);
         
         InstructorFeedbackResponseCommentAjaxPageData data =
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
@@ -94,7 +94,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         };
         
         action = getAction(submissionParams);
-        result = (AjaxResult) action.executeAndPostProcess();
+        result = getAjaxResult(action);
         
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         
@@ -128,7 +128,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         };
         
         action = getAction(submissionParams);
-        result = (AjaxResult) action.executeAndPostProcess();
+        result = getAjaxResult(action);
         
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         

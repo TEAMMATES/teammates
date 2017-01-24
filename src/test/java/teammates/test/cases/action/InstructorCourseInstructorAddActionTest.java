@@ -11,7 +11,6 @@ import teammates.common.util.TaskWrapper;
 import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorCourseInstructorAddAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -55,8 +54,8 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
         };
         
-        Action addAction = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) addAction.executeAndPostProcess();
+        InstructorCourseInstructorAddAction addAction = getAction(submissionParams);
+        RedirectResult redirectResult = getRedirectResult(addAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
@@ -83,7 +82,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         ______TS("Error: try to add an existing instructor");
         
         addAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) addAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(addAction);
         
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
@@ -112,7 +111,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         };
         
         addAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) addAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(addAction);
         
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
@@ -157,7 +156,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
         };
         addAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        redirectResult = (RedirectResult) addAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(addAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);

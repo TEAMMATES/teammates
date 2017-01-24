@@ -49,7 +49,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 
         try {
             a = getAction(submissionParams);
-            r = (ShowPageResult) a.executeAndPostProcess();
+            r = getShowPageResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -65,7 +65,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 
         try {
             a = getAction(submissionParams);
-            r = (ShowPageResult) a.executeAndPostProcess();
+            r = getShowPageResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -85,7 +85,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 
         try {
             a = getAction(submissionParams);
-            r = (ShowPageResult) a.executeAndPostProcess();
+            r = getShowPageResult(a);
             signalFailureToDetectException("Did not detect insufficient authorization.");
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor "
@@ -104,7 +104,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
+        RedirectResult rr = getRedirectResult(a);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false"
                      + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
@@ -122,7 +122,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         };
 
         a = getAction(params);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = getShowPageResult(a);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
                      + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
@@ -135,7 +135,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         gaeSimulation.loginAsAdmin("admin.user");
 
         a = getAction(params);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = getShowPageResult(a);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
                      + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
@@ -156,7 +156,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         };
 
         a = getAction(params);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = getShowPageResult(a);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
                      + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
@@ -177,7 +177,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         };
 
         a = getAction(params);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = getShowPageResult(a);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
                      + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,

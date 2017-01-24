@@ -35,7 +35,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         
         ______TS("Typical case: student list downloaded successfully");
         InstructorCourseStudentListDownloadAction a = getAction(submissionParams);
-        FileDownloadResult r = (FileDownloadResult) a.executeAndPostProcess();
+        FileDownloadResult r = getFileDownloadResult(a);
         
         String expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());
@@ -68,7 +68,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         StudentsLogic.inst().updateStudentCascade(student1InCourse1.email, student1InCourse1);
         
         a = getAction(submissionParams);
-        r = (FileDownloadResult) a.executeAndPostProcess();
+        r = getFileDownloadResult(a);
         
         expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());
@@ -104,7 +104,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         StudentsLogic.inst().updateStudentCascade("student1InCourse1@gmail.tmt", student1InCourse1);
         
         a = getAction(submissionParams);
-        r = (FileDownloadResult) a.executeAndPostProcess();
+        r = getFileDownloadResult(a);
         
         expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());

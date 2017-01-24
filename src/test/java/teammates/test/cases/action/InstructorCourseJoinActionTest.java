@@ -40,7 +40,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         };
         
         InstructorCourseJoinAction confirmAction = getAction(submissionParams);
-        ShowPageResult pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
+        ShowPageResult pageResult = getShowPageResult(confirmAction);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
                 + "?error=false&user=idOfInstructor1OfCourse1"
@@ -60,7 +60,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         };
         
         confirmAction = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) confirmAction.executeAndPostProcess();
+        RedirectResult redirectResult = getRedirectResult(confirmAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
                         + "?key=" + StringHelper.encrypt(instructor.key)
@@ -93,7 +93,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         };
         
         confirmAction = getAction(submissionParams);
-        pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
+        pageResult = getShowPageResult(confirmAction);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
                      + "?error=false&user=ICJAT.instr"

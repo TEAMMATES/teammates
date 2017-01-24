@@ -31,7 +31,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
 
         AdminAccountDetailsPageAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
 
         assertEquals("", result.getStatusMessage());
         assertEquals("/jsp/adminAccountDetails.jsp?error=false&user=admin.user",

@@ -71,7 +71,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         };
         
         InstructorFeedbackCopyAction a = getAction(params);
-        RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
+        RedirectResult rr = getRedirectResult(a);
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?courseid=" + instructor1ofCourse1.courseId
@@ -105,7 +105,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        RedirectResult pageResult = (RedirectResult) a.executeAndPostProcess();
+        RedirectResult pageResult = getRedirectResult(a);
         
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                            .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
@@ -134,7 +134,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        pageResult = (RedirectResult) a.executeAndPostProcess();
+        pageResult = getRedirectResult(a);
         
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                            .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
@@ -166,7 +166,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        rr = getRedirectResult(a);
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?courseid=" + instructor1ofCourse1.courseId

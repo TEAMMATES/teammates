@@ -18,7 +18,6 @@ import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.InstructorFeedbackSubmissionEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -53,7 +52,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -69,7 +68,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -103,7 +102,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -129,7 +128,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -161,7 +160,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -185,7 +184,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -215,7 +214,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -236,7 +235,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -266,7 +265,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -289,7 +288,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertTrue(r.isError);
         assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
@@ -327,7 +326,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -348,7 +347,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -381,7 +380,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -402,7 +401,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -440,7 +439,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -465,7 +464,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -512,7 +511,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -535,7 +534,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -569,7 +568,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertFalse(fs.isInGracePeriod());
 
         InstructorFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
-        ActionResult r = a.executeAndPostProcess();
+        RedirectResult r = getRedirectResult(a);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=instructor1InCourse1",
                      r.getDestinationWithParams());
@@ -585,7 +584,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertTrue(fs.isInGracePeriod());
 
         a = getAction(submissionParams);
-        r = a.executeAndPostProcess();
+        r = getRedirectResult(a);
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=instructor1InCourse1",
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -600,7 +599,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertFalse(fs.isInGracePeriod());
 
         a = getAction(submissionParams);
-        r = a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
     }

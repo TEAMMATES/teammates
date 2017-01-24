@@ -42,7 +42,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
         };
 
         InstructorFeedbackPreviewAsStudentAction paia = getAction(submissionParams);
-        ShowPageResult showPageResult = (ShowPageResult) paia.executeAndPostProcess();
+        ShowPageResult showPageResult = getShowPageResult(paia);
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
                      + "?error=false"
@@ -74,7 +74,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
         
         try {
             paia = getAction(submissionParams);
-            showPageResult = (ShowPageResult) paia.executeAndPostProcess();
+            showPageResult = getShowPageResult(paia);
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                          + instructorHelper.email + "] for privilege [canmodifysession]", e.getMessage());
@@ -94,7 +94,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
 
         try {
             paia = getAction(submissionParams);
-            showPageResult = (ShowPageResult) paia.executeAndPostProcess();
+            showPageResult = getShowPageResult(paia);
             signalFailureToDetectException();
         } catch (EntityNotFoundException enfe) {
             assertEquals("Student Email " + previewAsEmail + " does not exist in " + courseId + ".",

@@ -24,6 +24,8 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.AjaxResult;
+import teammates.ui.controller.FileDownloadResult;
+import teammates.ui.controller.ImageResult;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
@@ -67,15 +69,28 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * Assumption: The action returns a RedirectResult.
      */
     protected RedirectResult getRedirectResult(Action a) {
-        //TODO: check existing code to use this method instead of casting independently
         return (RedirectResult) a.executeAndPostProcess();
     }
     
     /** Executes the action and returns the result.
-     * Assumption: The action returns a AjaxResult.
+     * Assumption: The action returns an AjaxResult.
      */
     protected AjaxResult getAjaxResult(Action a) {
         return (AjaxResult) a.executeAndPostProcess();
+    }
+    
+    /** Executes the action and returns the result.
+     * Assumption: The action returns a FileDownloadResult.
+     */
+    protected FileDownloadResult getFileDownloadResult(Action a) {
+        return (FileDownloadResult) a.executeAndPostProcess();
+    }
+    
+    /** Executes the action and returns the result.
+     * Assumption: The action returns an ImageResult.
+     */
+    protected ImageResult getImageResult(Action a) {
+        return (ImageResult) a.executeAndPostProcess();
     }
 
     /**
@@ -699,7 +714,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      */
     protected void verifyRedirectTo(String expectedRedirectUrl, String... params) {
         Action c = gaeSimulation.getActionObject(getActionUri(), params);
-        RedirectResult r = (RedirectResult) c.executeAndPostProcess();
+        RedirectResult r = getRedirectResult(c);
         AssertHelper.assertContains(expectedRedirectUrl, r.destination);
     }
 

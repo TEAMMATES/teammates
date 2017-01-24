@@ -78,7 +78,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         };
 
         InstructorFeedbackQuestionCopyAction a = getAction(params);
-        RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
+        RedirectResult rr = getRedirectResult(a);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
@@ -109,7 +109,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         };
 
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        rr = getRedirectResult(a);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
@@ -140,7 +140,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
 
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        rr = getRedirectResult(a);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",

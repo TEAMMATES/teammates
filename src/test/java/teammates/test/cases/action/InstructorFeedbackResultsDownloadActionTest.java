@@ -62,7 +62,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         ______TS("Typical case: results downloadable");
 
         InstructorFeedbackResultsDownloadAction action = getAction(paramsNormal);
-        FileDownloadResult result = (FileDownloadResult) action.executeAndPostProcess();
+        FileDownloadResult result = getFileDownloadResult(action);
         
         String expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
@@ -81,7 +81,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         studentsLogic.updateStudentCascade(student1InCourse1.email, student1InCourse1);
 
         action = getAction(paramsNormal);
-        result = (FileDownloadResult) action.executeAndPostProcess();
+        result = getFileDownloadResult(action);
 
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
@@ -97,7 +97,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         ______TS("Typical case: results within section downloadable");
 
         action = getAction(paramsNormalWithinSection);
-        result = (FileDownloadResult) action.executeAndPostProcess();
+        result = getFileDownloadResult(action);
 
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
@@ -111,7 +111,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         try {
             action = getAction(paramsWithNullCourseId);
-            result = (FileDownloadResult) action.executeAndPostProcess();
+            result = getFileDownloadResult(action);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -123,7 +123,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         try {
             action = getAction(paramsWithNullFeedbackSessionName);
-            result = (FileDownloadResult) action.executeAndPostProcess();
+            result = getFileDownloadResult(action);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -133,7 +133,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         ______TS("Typical case: results with a filter text");
 
         action = getAction(paramsWithFilterText);
-        result = (FileDownloadResult) action.executeAndPostProcess();
+        result = getFileDownloadResult(action);
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
@@ -144,7 +144,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         ______TS("Typical case: results with missing responses shown");
         action = getAction(paramsWithMissingResponsesShown);
-        result = (FileDownloadResult) action.executeAndPostProcess();
+        result = getFileDownloadResult(action);
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
@@ -155,7 +155,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         ______TS("Typical case: results with missing responses hidden");
         action = getAction(paramsWithMissingResponsesHidden);
-        result = (FileDownloadResult) action.executeAndPostProcess();
+        result = getFileDownloadResult(action);
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);

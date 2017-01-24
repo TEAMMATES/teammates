@@ -48,7 +48,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         };
 
         InstructorEditStudentFeedbackPageAction editPageAction = getAction(submissionParams);
-        ShowPageResult showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+        ShowPageResult showPageResult = getShowPageResult(editPageAction);
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
                 + "?error=false"
@@ -77,7 +77,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         };
 
         editPageAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(editPageAction);
         
         ______TS("success case: closed session");
 
@@ -92,7 +92,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         };
 
         editPageAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(editPageAction);
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
                 + "?error=false"
@@ -115,7 +115,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         };
 
         editPageAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(editPageAction);
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
                 + "?error=false"
@@ -147,7 +147,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         
         try {
             editPageAction = getAction(submissionParams);
-            showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+            showPageResult = getShowPageResult(editPageAction);
         } catch (UnauthorizedAccessException e) {
             assertEquals(
                     "Feedback session [First feedback session] is not accessible to instructor ["
@@ -171,7 +171,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         try {
             editPageAction = getAction(submissionParams);
-            showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+            showPageResult = getShowPageResult(editPageAction);
             signalFailureToDetectException();
         } catch (EntityNotFoundException enfe) {
             assertEquals("An entity with the identifier "

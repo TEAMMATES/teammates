@@ -73,7 +73,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, instituteWithSpaces);
         
-        AjaxResult r = (AjaxResult) a.executeAndPostProcess();
+        AjaxResult r = getAjaxResult(a);
         assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
         
         verifyNumberOfEmailsSent(a, 1);
@@ -98,7 +98,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 + "it contains invalid characters. All person name must start with an "
                 + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
         
-        AjaxResult rInvalidParam = (AjaxResult) a.executeAndPostProcess();
+        AjaxResult rInvalidParam = getAjaxResult(a);
         assertEquals(expectedError, rInvalidParam.getStatusMessage());
         
         AdminHomePageData pageData = (AdminHomePageData) rInvalidParam.data;
@@ -117,7 +117,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         
-        r = (AjaxResult) a.executeAndPostProcess();
+        r = getAjaxResult(a);
         assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
         
         verifyNumberOfEmailsSent(a, 1);

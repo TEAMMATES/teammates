@@ -69,7 +69,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         };
         
         InstructorFeedbackResponseCommentAddAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
         InstructorFeedbackResponseCommentAjaxPageData data =
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
@@ -90,7 +90,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -109,7 +109,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -127,7 +127,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -145,7 +145,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -163,7 +163,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -181,7 +181,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -199,7 +199,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -217,7 +217,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -239,7 +239,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -258,7 +258,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         };
         
         action = getAction(submissionParams);
-        AjaxResult ajaxResult = (AjaxResult) action.executeAndPostProcess();
+        AjaxResult ajaxResult = getAjaxResult(action);
         assertEquals("", ajaxResult.getStatusMessage());
         data = (InstructorFeedbackResponseCommentAjaxPageData) ajaxResult.data;
         assertTrue(data.isError);

@@ -68,7 +68,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
         try {
             pageAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) pageAction.executeAndPostProcess();
+            redirectResult = getRedirectResult(pageAction);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -84,7 +84,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
         try {
             pageAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) pageAction.executeAndPostProcess();
+            redirectResult = getRedirectResult(pageAction);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,

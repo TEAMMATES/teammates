@@ -7,7 +7,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.ui.controller.ActionResult;
+import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackQuestionVisibilityMessageAction;
 
 public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseActionTest {
@@ -48,7 +48,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         InstructorFeedbackQuestionVisibilityMessageAction a = getAction(typicalParams);
-        ActionResult r = a.executeAndPostProcess();
+        AjaxResult r = getAjaxResult(a);
 
         assertFalse(r.isError);
 
@@ -72,7 +72,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(customParams);
-        r = a.executeAndPostProcess();
+        r = getAjaxResult(a);
 
         assertFalse(r.isError);
 
@@ -99,7 +99,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(customParams);
-        r = a.executeAndPostProcess();
+        r = getAjaxResult(a);
 
         assertFalse(r.isError);
 
@@ -126,7 +126,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(customParams);
-        r = a.executeAndPostProcess();
+        r = getAjaxResult(a);
 
         assertFalse(r.isError);
 
@@ -158,7 +158,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(privateParams);
-        r = a.executeAndPostProcess();
+        r = getAjaxResult(a);
 
         assertFalse(r.isError);
 
@@ -182,7 +182,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(privateParams);
-        r = a.executeAndPostProcess();
+        r = getAjaxResult(a);
 
         assertFalse(r.isError);
     }

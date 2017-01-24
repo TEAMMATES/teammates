@@ -29,7 +29,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         ______TS("instructor with no courses");
         gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
         InstructorCommentsPageAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
         
         AssertHelper.assertContainsRegex(Const.ViewURIs.INSTRUCTOR_COMMENTS, result.getDestinationWithParams());
         AssertHelper.assertLogMessageEquals(
@@ -55,7 +55,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         AccountAttributes instructorWithCoursesAndComments = dataBundle.accounts.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructorWithCoursesAndComments.googleId);
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         
         AssertHelper.assertContainsRegex(Const.ViewURIs.INSTRUCTOR_COMMENTS, result.getDestinationWithParams());
         AssertHelper.assertLogMessageEquals(
@@ -82,7 +82,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         ______TS("instructor with courses but without comments");
         gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructor2OfCourse1").googleId);
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         
         AssertHelper.assertContainsRegex(Const.ViewURIs.INSTRUCTOR_COMMENTS, result.getDestinationWithParams());
         AssertHelper.assertLogMessageEquals(

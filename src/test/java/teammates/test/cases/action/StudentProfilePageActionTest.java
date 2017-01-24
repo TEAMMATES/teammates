@@ -29,7 +29,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         ______TS("Typical case");
         String[] submissionParams = new String[] {};
         StudentProfilePageAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
 
         AssertHelper.assertContains("/jsp/studentProfilePage.jsp?error=false&user="
                                     + student.googleId, result.getDestinationWithParams());
@@ -50,7 +50,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
 
         StudentProfilePageAction action = getAction(addUserIdToParams(
                 student.googleId, submissionParams));
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
 
         AssertHelper.assertContains(Const.ViewURIs.STUDENT_PROFILE_PAGE
                                     + "?error=false&user=" + student.googleId,

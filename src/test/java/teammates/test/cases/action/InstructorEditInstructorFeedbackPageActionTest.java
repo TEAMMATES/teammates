@@ -47,7 +47,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         };
         
         editInstructorFpAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) editInstructorFpAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(editInstructorFpAction);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
@@ -69,7 +69,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         };
         
         editInstructorFpAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) editInstructorFpAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(editInstructorFpAction);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
