@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ attribute name="courseDetails" type="teammates.common.datatransfer.CourseDetailsBundle" required="true" %>
+<%@ attribute name="courseDetails" type="teammates.common.datatransfer.attributes.CourseDetailsBundle" required="true" %>
 <%@ attribute name="courseRemindButton" type="teammates.ui.template.ElementTag" required="true" %>
 
 <div class="form-group">

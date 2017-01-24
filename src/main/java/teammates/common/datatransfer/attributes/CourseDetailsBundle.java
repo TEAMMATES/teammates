@@ -1,13 +1,11 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.CourseStats;
 
 /**
  * Represents details of a course, including its students and feedback sessions.

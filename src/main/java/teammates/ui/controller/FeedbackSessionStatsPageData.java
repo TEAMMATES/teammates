@@ -1,7 +1,7 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionDetailsBundle;
 
 public class FeedbackSessionStatsPageData extends PageData {
     public FeedbackSessionDetailsBundle sessionDetails;

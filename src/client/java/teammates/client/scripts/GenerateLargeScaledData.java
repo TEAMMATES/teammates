@@ -3,7 +3,7 @@ package teammates.client.scripts;
 import java.io.IOException;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;

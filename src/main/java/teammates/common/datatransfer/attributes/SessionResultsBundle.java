@@ -1,4 +1,4 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.attributes;
 
 /**
  * Interface for SessionResults, to be used for grouping

@@ -1,4 +1,4 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.CommentParticipantType;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.logic.core.CommentsLogic;

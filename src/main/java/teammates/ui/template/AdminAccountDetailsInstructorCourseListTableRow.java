@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.attributes.CourseDetailsBundle;
 import teammates.ui.controller.AdminAccountDetailsPageData;
 
 public class AdminAccountDetailsInstructorCourseListTableRow {

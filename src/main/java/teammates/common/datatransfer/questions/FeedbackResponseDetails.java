@@ -2,9 +2,9 @@ package teammates.common.datatransfer.questions;
 
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionResultsBundle;
 
 
 /** A class holding the details for the response of a specific question type.

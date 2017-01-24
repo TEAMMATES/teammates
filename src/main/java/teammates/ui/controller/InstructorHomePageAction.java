@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.CommentSendingState;
-import teammates.common.datatransfer.CourseSummaryBundle;
+import teammates.common.datatransfer.attributes.CourseSummaryBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;

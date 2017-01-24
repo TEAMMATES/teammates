@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.SectionDetailsBundle;
+import teammates.common.datatransfer.attributes.TeamDetailsBundle;
+import teammates.common.util.Sanitizer;
 
 public class StudentListSectionData {
 
@@ -18,7 +19,7 @@ public class StudentListSectionData {
     public StudentListSectionData(SectionDetailsBundle section, boolean isAllowedToViewStudentInSection,
                                   boolean isAllowedToModifyStudent, boolean isAllowedToGiveCommentInSection,
                                   Map<String, String> emailPhotoUrlMapping, String googleId) {
-        this.sectionName = section.name;
+        this.sectionName = Sanitizer.sanitizeForHtml(section.name);
         this.allowedToViewStudentInSection = isAllowedToViewStudentInSection;
         this.allowedToModifyStudent = isAllowedToModifyStudent;
         this.allowedToGiveCommentInSection = isAllowedToGiveCommentInSection;

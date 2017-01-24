@@ -5,7 +5,7 @@ import static teammates.ui.controller.StudentCourseJoinAction.getPageTypeOfUrl;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.DataBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;

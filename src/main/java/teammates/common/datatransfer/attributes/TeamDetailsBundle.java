@@ -1,9 +1,7 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /** 
  * Represents details of students in a team.

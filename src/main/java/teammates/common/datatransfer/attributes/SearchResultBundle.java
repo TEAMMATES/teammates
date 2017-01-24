@@ -1,11 +1,10 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 
 import com.google.appengine.api.search.Results;

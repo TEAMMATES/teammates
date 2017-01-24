@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.TaskQueue;
+import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
