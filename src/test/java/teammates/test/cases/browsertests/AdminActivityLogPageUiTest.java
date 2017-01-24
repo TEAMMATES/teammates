@@ -3,26 +3,20 @@ package teammates.test.cases.browsertests;
 import java.util.Calendar;
 
 import org.openqa.selenium.NoSuchElementException;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.pageobjects.AdminActivityLogPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     
-    private static Browser browser;
     private static AdminActivityLogPage logPage;
        
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        browser = BrowserPool.getBrowser();
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
     }
     
     @Test
@@ -52,7 +46,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         ______TS("content: typical page");
         
         AppUrl logPageUrl = createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE);
-        logPage = loginAdminToPage(browser, logPageUrl, AdminActivityLogPage.class);
+        logPage = loginAdminToPage(logPageUrl, AdminActivityLogPage.class);
         logPage.verifyIsCorrectPage();
         
         ______TS("content: navigate to other pages to get some logs");
@@ -123,11 +117,6 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         
         assertTrue(logPage.getStatus().contains("Total Logs gone through in last search:"));
         
-    }
-
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
     }
     
     private void assertEqualsIfQueryStringNotEmpty(String expected, String actual) {

@@ -1,30 +1,21 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.Priority;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.GenericAppPage;
 
 /** This is considered a UI test case because it uses a Browser */
 @Priority(5)
 public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     
-    private static Browser browser;
-    private static DataBundle testData;
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
         
         /* 
@@ -60,36 +51,30 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         //Published time for one feedback session already set to some time in the past.
         
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
     }
     
     @Test
     public void testFeedbackSessionOpeningReminders() {
         AppUrl openingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
-        loginAdminToPage(browser, openingRemindersUrl, GenericAppPage.class);
+        loginAdminToPage(openingRemindersUrl, GenericAppPage.class);
     }
     
     @Test
     public void testFeedbackSessionClosingReminders() {
         AppUrl closingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
-        loginAdminToPage(browser, closingRemindersUrl, GenericAppPage.class);
+        loginAdminToPage(closingRemindersUrl, GenericAppPage.class);
     }
     
     @Test
     public void testFeedbackSessionClosedReminders() {
         AppUrl closedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
-        loginAdminToPage(browser, closedRemindersUrl, GenericAppPage.class);
+        loginAdminToPage(closedRemindersUrl, GenericAppPage.class);
     }
     
     @Test
     public void testFeedbackSessionPublishedReminders() {
         AppUrl publishedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
-        loginAdminToPage(browser, publishedRemindersUrl, GenericAppPage.class);
+        loginAdminToPage(publishedRemindersUrl, GenericAppPage.class);
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
-
 }
