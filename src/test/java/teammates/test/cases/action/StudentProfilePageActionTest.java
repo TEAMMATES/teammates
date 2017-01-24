@@ -15,11 +15,15 @@ public class StudentProfilePageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_PROFILE_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_PROFILE_PAGE;
     }
 
     @Test
@@ -91,7 +95,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     }
 
     private StudentProfilePageAction getAction(String... params) {
-        return (StudentProfilePageAction) gaeSimulation.getActionObject(uri, params);
+        return (StudentProfilePageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

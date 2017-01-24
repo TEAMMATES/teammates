@@ -28,11 +28,15 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
     }
 
     @Test
@@ -1405,6 +1409,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     private InstructorFeedbackQuestionEditAction getAction(String... submissionParams) {
-        return (InstructorFeedbackQuestionEditAction) gaeSimulation.getActionObject(uri, submissionParams);
+        return (InstructorFeedbackQuestionEditAction) gaeSimulation.getActionObject(getActionUri(), submissionParams);
     }
 }

@@ -15,11 +15,15 @@ import teammates.ui.controller.FeedbackSessionStatsPageData;
 public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
     }
     
     @Test
@@ -73,6 +77,6 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     }
     
     private FeedbackSessionStatsPageAction getAction(String... params) {
-        return (FeedbackSessionStatsPageAction) gaeSimulation.getActionObject(uri, params);
+        return (FeedbackSessionStatsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

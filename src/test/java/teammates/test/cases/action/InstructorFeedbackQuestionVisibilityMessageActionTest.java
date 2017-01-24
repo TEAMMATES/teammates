@@ -15,11 +15,15 @@ import teammates.ui.controller.InstructorFeedbackQuestionVisibilityMessageAction
 public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE;
     }
 
     @Test
@@ -192,6 +196,6 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
     }
 
     private InstructorFeedbackQuestionVisibilityMessageAction getAction(String... params) {
-        return (InstructorFeedbackQuestionVisibilityMessageAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackQuestionVisibilityMessageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

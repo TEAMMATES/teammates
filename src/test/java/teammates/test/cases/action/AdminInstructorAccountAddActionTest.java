@@ -20,10 +20,14 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     // private final DataBundle dataBundle = getTypicalDataBundle();
     //TODO: move all the input validation/sanitization js code to server side
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
-        uri = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
         // removeAndRestoreTypicalDataInDatastore();
     }
 
@@ -179,7 +183,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
 
     private AdminInstructorAccountAddAction getAction(String... parameters) {
-        return (AdminInstructorAccountAddAction) gaeSimulation.getActionObject(uri, parameters);
+        return (AdminInstructorAccountAddAction) gaeSimulation.getActionObject(getActionUri(), parameters);
     }
 
     private String getDemoCourseIdRoot(String instructorEmail) {

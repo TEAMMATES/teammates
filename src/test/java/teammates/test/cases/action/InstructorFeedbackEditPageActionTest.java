@@ -16,11 +16,15 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
     
     private final DataBundle dataBundle = getTypicalDataBundle();
         
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
     }
     
     @Test
@@ -81,6 +85,6 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
     }
     
     private InstructorFeedbackEditPageAction getAction(String... params) {
-        return (InstructorFeedbackEditPageAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

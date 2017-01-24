@@ -19,11 +19,15 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     private final DataBundle dataBundle = getTypicalDataBundle();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
     }
     
     @Test
@@ -241,6 +245,6 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     }
     
     private Action getAction(String... parameters) {
-        return gaeSimulation.getActionObject(uri, parameters);
+        return gaeSimulation.getActionObject(getActionUri(), parameters);
     }
 }

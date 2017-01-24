@@ -24,11 +24,15 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
     }
     
     @Test
@@ -207,7 +211,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
     }
 
     private InstructorCourseRemindAction getAction(String... parameters) {
-        return (InstructorCourseRemindAction) gaeSimulation.getActionObject(uri, parameters);
+        return (InstructorCourseRemindAction) gaeSimulation.getActionObject(getActionUri(), parameters);
     }
 
 }

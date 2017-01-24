@@ -17,11 +17,15 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD;
     }
 
     @Test
@@ -464,6 +468,6 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
     }
     
     private InstructorStudentCommentAddAction getAction(String... params) {
-        return (InstructorStudentCommentAddAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorStudentCommentAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

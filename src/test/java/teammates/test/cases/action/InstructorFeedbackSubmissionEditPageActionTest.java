@@ -16,11 +16,15 @@ import teammates.ui.controller.ShowPageResult;
 public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE;
     }
 
     @Test
@@ -191,6 +195,6 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
     }
 
     private InstructorFeedbackSubmissionEditPageAction getAction(String... params) {
-        return (InstructorFeedbackSubmissionEditPageAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackSubmissionEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

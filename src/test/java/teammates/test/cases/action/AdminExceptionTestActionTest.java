@@ -9,10 +9,14 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
 
     // private final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.ADMIN_EXCEPTION_TEST;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
-        uri = Const.ActionURIs.ADMIN_EXCEPTION_TEST;
         // removeAndRestoreTypicalDataInDatastore();
     }
     

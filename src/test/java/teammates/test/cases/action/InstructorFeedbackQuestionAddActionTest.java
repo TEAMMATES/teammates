@@ -21,11 +21,15 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     private static final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
     }
 
     @AfterClass
@@ -682,7 +686,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "ABC");
 
         try {
-            Action c = gaeSimulation.getActionObject(uri, params);
+            Action c = gaeSimulation.getActionObject(getActionUri(), params);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (NumberFormatException e) {
@@ -695,7 +699,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, "NON_EXISTENT_ENUMERATION");
 
         try {
-            Action c = gaeSimulation.getActionObject(uri, params);
+            Action c = gaeSimulation.getActionObject(getActionUri(), params);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (IllegalArgumentException e) {
@@ -706,7 +710,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, "NON_EXISTENT_ENUMERATION");
 
         try {
-            Action c = gaeSimulation.getActionObject(uri, params);
+            Action c = gaeSimulation.getActionObject(getActionUri(), params);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (IllegalArgumentException e) {
@@ -717,7 +721,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "NON_EXISTENT_ENUMERATION");
 
         try {
-            Action c = gaeSimulation.getActionObject(uri, params);
+            Action c = gaeSimulation.getActionObject(getActionUri(), params);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (IllegalArgumentException e) {
@@ -903,6 +907,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     private InstructorFeedbackQuestionAddAction getAction(String... params) {
-        return (InstructorFeedbackQuestionAddAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackQuestionAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

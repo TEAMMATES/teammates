@@ -16,11 +16,15 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
 
     private final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD;
     }
     
     @Test
@@ -138,6 +142,6 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     }
     
     private InstructorCourseStudentListDownloadAction getAction(String... params) {
-        return (InstructorCourseStudentListDownloadAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorCourseStudentListDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

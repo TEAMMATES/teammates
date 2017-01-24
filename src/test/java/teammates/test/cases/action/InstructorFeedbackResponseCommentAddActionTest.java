@@ -23,11 +23,15 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
 
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
     }
     
     @Test
@@ -274,6 +278,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
     }
     
     private InstructorFeedbackResponseCommentAddAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentAddAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackResponseCommentAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

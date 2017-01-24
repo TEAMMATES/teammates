@@ -27,11 +27,15 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
     private final Logic logic = new Logic();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
     }
 
     @Test
@@ -177,7 +181,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     }
 
     private InstructorStudentRecordsPageAction getAction(String... params) {
-        return (InstructorStudentRecordsPageAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorStudentRecordsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

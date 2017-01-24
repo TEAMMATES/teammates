@@ -14,14 +14,16 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCoursesPageActionTest extends BaseActionTest {
 
-    /* Explanation: The parent class has method for @BeforeTest and @AfterTest
-     */
-    
     /* Explanation: we obtain an object, containing the typical data,
      * to be used as a quick access to the values that are expected to be
      * found in the database. We specify final so that multiple tests, if any,
      * can use these values without fear of dependency caused by modification */
     private final DataBundle dataBundle = getTypicalDataBundle();
+    
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
+    }
     
     @BeforeClass
     public void classSetup() {
@@ -29,11 +31,6 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         /* Explanation: This is just to display the test class name in the console */
         printTestClassHeader();
         
-        /* Explanation: we set the Action URI once as a static variable, to avoid passing
-         * it as a parameter multiple times. This is for convenience. Any other
-         * test code can pick up the URI from this variable.
-         */
-        uri = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
         /* Explanation: Before every test-class, we put a standard set of test data into the
          * simulated GAE datastore. A replica of this can be found in the 'dataBundle' variable
          * declared above
@@ -125,7 +122,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
     }
 
     private InstructorCoursesPageAction getAction(String... params) {
-        return (InstructorCoursesPageAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorCoursesPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
     
 }

@@ -29,10 +29,9 @@ import teammates.ui.controller.ShowPageResult;
  */
 public abstract class BaseActionTest extends BaseComponentTestCase {
     
-    /**URI that matches with the action being tested */
-    protected static String uri;
-
     private DataBundle data = getTypicalDataBundle();
+    
+    protected abstract String getActionUri();
     
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
@@ -232,7 +231,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      */
     protected void verifyAssumptionFailure(String... parameters) {
         try {
-            Action c = gaeSimulation.getActionObject(uri, parameters);
+            Action c = gaeSimulation.getActionObject(getActionUri(), parameters);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (AssertionError | NullPostParameterException e) {
@@ -422,7 +421,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     private void verifyRedirectToLoginOrUnauthorisedException(String... params) {
         try {
-            Action c = gaeSimulation.getActionObject(uri, params);
+            Action c = gaeSimulation.getActionObject(getActionUri(), params);
             assertFalse(c.isValidUser());
         } catch (UnauthorizedAccessException ue) {
             ignoreExpectedException();
@@ -620,7 +619,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * accessible to the logged in user.
      */
     protected void verifyCanAccess(String... params) {
-        Action c = gaeSimulation.getActionObject(uri, params);
+        Action c = gaeSimulation.getActionObject(getActionUri(), params);
         assertTrue(c.isValidUser());
         c.executeAndPostProcess();
     }
@@ -630,7 +629,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * accessible to the logged in user masquerading as another user.
      */
     protected void verifyCanMasquerade(String... params) {
-        Action c = gaeSimulation.getActionObject(uri, params);
+        Action c = gaeSimulation.getActionObject(getActionUri(), params);
         assertTrue(c.isValidUser());
         c.executeAndPostProcess();
     }
@@ -644,7 +643,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      */
     protected void verifyCannotAccess(String... params) {
         try {
-            Action c = gaeSimulation.getActionObject(uri, params);
+            Action c = gaeSimulation.getActionObject(getActionUri(), params);
             ActionResult result = c.executeAndPostProcess();
             
             String classNameOfResult = result.getClass().getName();
@@ -661,7 +660,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      */
     protected void verifyCannotMasquerade(String... params) {
         try {
-            Action c = gaeSimulation.getActionObject(uri, params);
+            Action c = gaeSimulation.getActionObject(getActionUri(), params);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
@@ -676,7 +675,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * matches "/page/studentHome?user=abc".
      */
     protected void verifyRedirectTo(String expectedRedirectUrl, String... params) {
-        Action c = gaeSimulation.getActionObject(uri, params);
+        Action c = gaeSimulation.getActionObject(getActionUri(), params);
         RedirectResult r = (RedirectResult) c.executeAndPostProcess();
         AssertHelper.assertContains(expectedRedirectUrl, r.destination);
     }

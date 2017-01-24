@@ -47,6 +47,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     private final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
     
+    private String uri;
+    
     private String[] submissionParams = new String[]{};
     
     @BeforeClass
@@ -54,6 +56,11 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
         addUnregStudentToCourse1();
+    }
+    
+    @Override
+    protected String getActionUri() {
+        return uri;
     }
     
     @AfterClass

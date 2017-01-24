@@ -18,12 +18,15 @@ public class InstructorFeedbackEditCopyPageActionTest extends BaseActionTest {
     
     private static DataBundle dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreDataBundle(dataBundle);
-        
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE;
     }
     
     @Test
@@ -67,6 +70,6 @@ public class InstructorFeedbackEditCopyPageActionTest extends BaseActionTest {
     }
     
     private InstructorFeedbackEditCopyPageAction getAction(String... params) {
-        return (InstructorFeedbackEditCopyPageAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackEditCopyPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -20,11 +20,15 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
 
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE;
     }
     
     @Test
@@ -144,6 +148,6 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
     }
     
     private InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -14,10 +14,14 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
 
     private static final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
-        uri = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
         removeAndRestoreTypicalDataBundle();
     }
 
@@ -47,6 +51,6 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
     }
 
     private AdminAccountDeleteAction getAction(String... params) {
-        return (AdminAccountDeleteAction) gaeSimulation.getActionObject(uri, params);
+        return (AdminAccountDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

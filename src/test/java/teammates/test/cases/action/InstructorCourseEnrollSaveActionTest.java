@@ -29,11 +29,15 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
     }
     
     @Test
@@ -306,7 +310,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     }
     
     private InstructorCourseEnrollSaveAction getAction(String... params) {
-        return (InstructorCourseEnrollSaveAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorCourseEnrollSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

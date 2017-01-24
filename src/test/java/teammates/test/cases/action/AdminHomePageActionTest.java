@@ -12,10 +12,14 @@ public class AdminHomePageActionTest extends BaseActionTest {
 
     // private final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.ADMIN_HOME_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
-        uri = Const.ActionURIs.ADMIN_HOME_PAGE;
         // removeAndRestoreTypicalDataInDatastore();
     }
     
@@ -40,7 +44,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
     }
     
     private AdminHomePageAction getAction(String... parameters) {
-        return (AdminHomePageAction) gaeSimulation.getActionObject(uri, parameters);
+        return (AdminHomePageAction) gaeSimulation.getActionObject(getActionUri(), parameters);
     }
 
 }

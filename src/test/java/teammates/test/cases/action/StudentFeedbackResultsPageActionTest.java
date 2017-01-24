@@ -22,11 +22,15 @@ import teammates.ui.controller.StudentFeedbackResultsPageData;
 public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
     }
 
     @Test
@@ -211,6 +215,6 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     }
 
     private StudentFeedbackResultsPageAction getAction(String... params) {
-        return (StudentFeedbackResultsPageAction) gaeSimulation.getActionObject(uri, params);
+        return (StudentFeedbackResultsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

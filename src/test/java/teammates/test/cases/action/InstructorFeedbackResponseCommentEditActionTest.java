@@ -22,11 +22,15 @@ import teammates.ui.controller.InstructorFeedbackResponseCommentEditAction;
 public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT;
     }
     
     @Test
@@ -331,6 +335,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
     }
     
     private InstructorFeedbackResponseCommentEditAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentEditAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackResponseCommentEditAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

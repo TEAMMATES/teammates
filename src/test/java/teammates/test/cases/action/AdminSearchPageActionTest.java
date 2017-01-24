@@ -3,7 +3,14 @@ package teammates.test.cases.action;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.util.Const;
+
 public class AdminSearchPageActionTest extends BaseActionTest {
+    
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.ADMIN_SEARCH_PAGE;
+    }
     
     @BeforeClass
     public void classSetup() {

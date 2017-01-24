@@ -15,11 +15,15 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
     }
     
     @Test
@@ -37,7 +41,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         
         assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         
-        Action a = gaeSimulation.getActionObject(uri, submissionParams);
+        Action a = gaeSimulation.getActionObject(getActionUri(), submissionParams);
         RedirectResult r = (RedirectResult) a.executeAndPostProcess();
         
         assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));

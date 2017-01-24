@@ -14,10 +14,14 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
 
     private static final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
-        uri = Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE;
         removeAndRestoreTypicalDataBundle();
     }
 
@@ -49,7 +53,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
     }
 
     private AdminAccountDetailsPageAction getAction(String... params) {
-        return (AdminAccountDetailsPageAction) gaeSimulation.getActionObject(uri, params);
+        return (AdminAccountDetailsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

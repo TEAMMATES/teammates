@@ -17,13 +17,15 @@ import teammates.ui.controller.StudentCourseJoinAuthenticatedAction;
 public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     private static DataBundle dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
-        
         removeAndRestoreDataBundle(dataBundle);
-        
-        uri = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED;
     }
 
     @Test
@@ -273,6 +275,6 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     }
 
     private StudentCourseJoinAuthenticatedAction getAction(String... params) {
-        return (StudentCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(uri, params);
+        return (StudentCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

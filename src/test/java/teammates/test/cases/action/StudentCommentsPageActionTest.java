@@ -19,11 +19,15 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_COMMENTS_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
     }
 
     @Test
@@ -74,6 +78,6 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
     }
     
     private StudentCommentsPageAction getAction(String... params) {
-        return (StudentCommentsPageAction) gaeSimulation.getActionObject(uri, params);
+        return (StudentCommentsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

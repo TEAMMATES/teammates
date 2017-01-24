@@ -20,11 +20,15 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE;
     }
     
     @Test
@@ -144,7 +148,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     }
 
     private StudentProfileEditSaveAction getAction(String[] submissionParams) {
-        return (StudentProfileEditSaveAction) gaeSimulation.getActionObject(uri, submissionParams);
+        return (StudentProfileEditSaveAction) gaeSimulation.getActionObject(getActionUri(), submissionParams);
     }
 
 }

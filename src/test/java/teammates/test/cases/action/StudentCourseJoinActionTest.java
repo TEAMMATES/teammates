@@ -18,11 +18,15 @@ import teammates.ui.controller.StudentCourseJoinConfirmationPageData;
 public class StudentCourseJoinActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
     }
 
     @Test
@@ -126,7 +130,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
     }
 
     private StudentCourseJoinAction getAction(String... params) {
-        return (StudentCourseJoinAction) gaeSimulation.getActionObject(uri, params);
+        return (StudentCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

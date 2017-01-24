@@ -16,11 +16,15 @@ import teammates.ui.controller.InstructorFeedbackResultsDownloadAction;
 public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD;
     }
 
     @Test
@@ -323,7 +327,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
     }
 
     private InstructorFeedbackResultsDownloadAction getAction(String[] params) {
-        return (InstructorFeedbackResultsDownloadAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackResultsDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

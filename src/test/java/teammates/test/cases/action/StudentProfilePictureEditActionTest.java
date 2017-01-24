@@ -14,11 +14,15 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
     }
 
     @Test
@@ -223,7 +227,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     }
 
     private StudentProfilePictureEditAction getAction(String... params) {
-        return (StudentProfilePictureEditAction) gaeSimulation.getActionObject(uri, params);
+        return (StudentProfilePictureEditAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

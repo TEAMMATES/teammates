@@ -21,11 +21,15 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
     }
     
     @Test
@@ -128,7 +132,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
     }
     
     private InstructorCourseEditPageAction getAction(String... params) {
-        return (InstructorCourseEditPageAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorCourseEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
     
     private void verifySameInstructorList(List<InstructorAttributes> list1, List<CourseEditInstructorPanel> list2) {

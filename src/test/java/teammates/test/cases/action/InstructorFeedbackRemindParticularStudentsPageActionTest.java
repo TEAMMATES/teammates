@@ -16,11 +16,15 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE;
     }
     
     @Test
@@ -66,6 +70,6 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
     }
     
     private InstructorFeedbackRemindParticularStudentsPageAction getAction(String... params) {
-        return (InstructorFeedbackRemindParticularStudentsPageAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackRemindParticularStudentsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

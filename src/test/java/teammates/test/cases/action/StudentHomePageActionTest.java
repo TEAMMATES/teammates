@@ -22,11 +22,15 @@ import teammates.ui.controller.StudentHomePageData;
 public class StudentHomePageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_HOME_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_HOME_PAGE;
     }
     
     @Test
@@ -168,7 +172,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
     }
 
     private StudentHomePageAction getAction(String... params) {
-        return (StudentHomePageAction) gaeSimulation.getActionObject(uri, params);
+        return (StudentHomePageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
     
 }

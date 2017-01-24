@@ -16,11 +16,15 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
     }
     
     @Test
@@ -111,6 +115,6 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     }
     
     private Action getAction(String... params) {
-        return gaeSimulation.getActionObject(uri, params);
+        return gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

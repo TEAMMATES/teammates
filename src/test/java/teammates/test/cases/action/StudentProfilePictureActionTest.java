@@ -25,11 +25,15 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     private final AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
     private final StudentAttributes student = dataBundle.students.get("student1InCourse1");
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_PROFILE_PICTURE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_PROFILE_PICTURE;
     }
 
     @Test
@@ -328,7 +332,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     }
 
     private StudentProfilePictureAction getAction(String... params) {
-        return (StudentProfilePictureAction) gaeSimulation.getActionObject(uri, params);
+        return (StudentProfilePictureAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

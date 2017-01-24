@@ -15,11 +15,15 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE;
     }
 
     @Test
@@ -74,7 +78,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
     }
 
     private InstructorStudentRecordsAjaxPageAction getAction(String... params) {
-        return (InstructorStudentRecordsAjaxPageAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorStudentRecordsAjaxPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

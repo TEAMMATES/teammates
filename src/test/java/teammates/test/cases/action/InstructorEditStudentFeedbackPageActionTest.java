@@ -16,12 +16,15 @@ import teammates.ui.controller.ShowPageResult;
 public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest {
     private static DataBundle dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreDataBundle(dataBundle);
-        
-        uri = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
     }
     
     @Test
@@ -182,6 +185,6 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
     }
             
     private InstructorEditStudentFeedbackPageAction getAction(String... params) {
-        return (InstructorEditStudentFeedbackPageAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorEditStudentFeedbackPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -15,11 +15,15 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL;
     }
 
     @Test
@@ -72,7 +76,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
     }
 
     private StudentProfileCreateFormUrlAction getAction(String... params) {
-        return (StudentProfileCreateFormUrlAction) gaeSimulation.getActionObject(uri, params);
+        return (StudentProfileCreateFormUrlAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

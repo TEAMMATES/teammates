@@ -17,10 +17,14 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     private DataBundle dataBundle;
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY;
     }
 
     @BeforeMethod
@@ -158,6 +162,6 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     }
 
     private InstructorFeedbackQuestionCopyAction getAction(String... params) {
-        return (InstructorFeedbackQuestionCopyAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackQuestionCopyAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -20,11 +20,15 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
     private final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
     }
     
     @SuppressWarnings("deprecation")
@@ -113,6 +117,6 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     }
     
     private InstructorCourseJoinAction getAction(String... params) {
-        return (InstructorCourseJoinAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

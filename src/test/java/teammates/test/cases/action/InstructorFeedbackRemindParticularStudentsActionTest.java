@@ -15,11 +15,15 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseActionTest {
     private static final DataBundle dataBundle = getTypicalDataBundle();
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
     }
     
     @Test
@@ -72,6 +76,6 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
     }
     
     private InstructorFeedbackRemindParticularStudentsAction getAction(String... params) {
-        return (InstructorFeedbackRemindParticularStudentsAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackRemindParticularStudentsAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

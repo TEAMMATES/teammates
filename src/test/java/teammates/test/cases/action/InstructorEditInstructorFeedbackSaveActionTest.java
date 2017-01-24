@@ -19,12 +19,15 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
     private static DataBundle dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
     
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreDataBundle(dataBundle);
-        
-        uri = Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE;
     }
 
     @Test
@@ -425,6 +428,6 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     }
     
     private InstructorEditInstructorFeedbackSaveAction getAction(String... params) {
-        return (InstructorEditInstructorFeedbackSaveAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorEditInstructorFeedbackSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

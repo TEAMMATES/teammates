@@ -14,7 +14,6 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -33,11 +32,15 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
 
     @Test
@@ -782,15 +785,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         fsa = fsDb.getFeedbackSession(unregisteredStudent.course, fsa.getFeedbackSessionName());
         assertNotNull("Feedback session not found in database", fsa);
 
-        // Setting uri for unregistered student which contains the key of the student
         String studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course,
                                                                            unregisteredStudent.email);
-        uri = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
-                                          .withCourseId(unregisteredStudent.course)
-                                          .withSessionName(fsa.getFeedbackSessionName())
-                                          .withRegistrationKey(studentKey)
-                                          .withStudentEmail(unregisteredStudent.email)
-                                          .toString();
 
         // Valid response from unregistered student
         String[] validSubmissionParams = new String[]{
@@ -806,7 +802,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
                         StringHelper.toDecimalFormatString(fqd.getStep()),
-                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on"
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on",
+                
+                Const.ParamsNames.REGKEY, studentKey,
+                Const.ParamsNames.STUDENT_EMAIL, unregisteredStudent.email
         };
 
         StudentFeedbackSubmissionEditSaveAction submissionAction = getAction(validSubmissionParams);
@@ -833,14 +832,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         ______TS("Unregistered student with invalid submission of response remains at submission page");
 
-        // Setting uri for unregistered student which contains the key of the student
         studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
-        uri = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
-                                          .withCourseId(unregisteredStudent.course)
-                                          .withSessionName(fsa.getFeedbackSessionName())
-                                          .withRegistrationKey(studentKey)
-                                          .withStudentEmail(unregisteredStudent.email)
-                                          .toString();
 
         // Invalid response from unregistered student
         String[] invalidSubmissionParams = new String[]{
@@ -854,7 +846,11 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "100",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.getMinScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0", StringHelper.toDecimalFormatString(fqd.getStep())
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
+                        StringHelper.toDecimalFormatString(fqd.getStep()),
+                
+                Const.ParamsNames.REGKEY, studentKey,
+                Const.ParamsNames.STUDENT_EMAIL, unregisteredStudent.email
         };
 
         submissionAction = getAction(invalidSubmissionParams);
@@ -869,9 +865,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("100 is out of the range for Numerical-scale question.(min=1, max=5)",
                      redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();
-
-        // reset uri to normal submission page uri as it might be used by other testing methods
-        uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
 
     @Test
@@ -932,6 +925,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
 
     private StudentFeedbackSubmissionEditSaveAction getAction(String... params) {
-        return (StudentFeedbackSubmissionEditSaveAction) gaeSimulation.getActionObject(uri, params);
+        return (StudentFeedbackSubmissionEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

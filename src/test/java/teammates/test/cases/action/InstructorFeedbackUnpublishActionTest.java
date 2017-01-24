@@ -21,11 +21,15 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
     private static final boolean UNPUBLISHED = false;
     private final DataBundle dataBundle = getTypicalDataBundle();
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
+    }
+    
     @BeforeClass
     public void classSetup() {
         printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
     }
 
     @Test
@@ -142,6 +146,6 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
     }
 
     private InstructorFeedbackUnpublishAction getAction(String[] params) {
-        return (InstructorFeedbackUnpublishAction) gaeSimulation.getActionObject(uri, params);
+        return (InstructorFeedbackUnpublishAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }
