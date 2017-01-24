@@ -3,8 +3,11 @@ package teammates.test.cases.browsertests;
 import java.io.File;
 import java.io.IOException;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
@@ -13,6 +16,7 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 
@@ -21,6 +25,9 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
     /** indicates if the test-run is to use GodMode */
     protected static boolean isGodModeEnabled;
 
+    protected Browser browser;
+    protected DataBundle testData;
+    
     /**
      * Checks if the current test-run should use godmode,
      * if yes, enables GodMode
@@ -30,6 +37,25 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
         if (isGodModeEnabled) {
             System.setProperty("godmode", "true");
         }
+    }
+    
+    @BeforeClass
+    public void baseClassSetup() throws Exception {
+        printTestClassHeader();
+        prepareTestData();
+        browser = BrowserPool.getBrowser();
+    }
+    
+    protected abstract void prepareTestData() throws Exception;
+    
+    @AfterClass
+    public void baseClassTearDown() {
+        releaseBrowser();
+        printTestClassFooter();
+    }
+    
+    protected void releaseBrowser() {
+        BrowserPool.release(browser);
     }
 
     /**
@@ -54,7 +80,7 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
     /**
      * Logs in a page using admin credentials (i.e. in masquerade mode).
      */
-    protected static <T extends AppPage> T loginAdminToPage(Browser browser, AppUrl url, Class<T> typeOfPage) {
+    protected <T extends AppPage> T loginAdminToPage(AppUrl url, Class<T> typeOfPage) {
         
         if (browser.isAdminLoggedIn) {
             browser.driver.get(url.toAbsoluteString());
@@ -68,7 +94,7 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
         
         //logout and attempt to load the requested URL. This will be
         //  redirected to a dev-server/google login page
-        logout(browser);
+        logout();
         browser.driver.get(url.toAbsoluteString());
         
         String adminUsername = TestProperties.TEST_ADMIN_ACCOUNT;
@@ -93,21 +119,21 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
      * Navigates to the application's home page (as defined in test.properties)
      * and gives the {@link HomePage} instance based on it.
      */
-    protected static HomePage getHomePage(Browser browser) {
+    protected HomePage getHomePage() {
         return AppPage.getNewPageInstance(browser, createUrl(""), HomePage.class);
     }
 
     /**
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
-    protected static void logout(Browser currentBrowser) {
-        currentBrowser.driver.get(createUrl(Const.ActionURIs.LOGOUT).toAbsoluteString());
-        AppPage.getNewPageInstance(currentBrowser).waitForPageToLoad();
-        currentBrowser.isAdminLoggedIn = false;
+    protected void logout() {
+        browser.driver.get(createUrl(Const.ActionURIs.LOGOUT).toAbsoluteString());
+        AppPage.getNewPageInstance(browser).waitForPageToLoad();
+        browser.isAdminLoggedIn = false;
     }
     
-    protected static AdminHomePage loginAdmin(Browser currentBrowser) {
-        return loginAdminToPage(currentBrowser, createUrl(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
+    protected AdminHomePage loginAdmin() {
+        return loginAdminToPage(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
     }
 
 }
