@@ -283,8 +283,8 @@ public final class FeedbackQuestionsLogic {
     }
     
     /**
-     * Gets a {@code List} of all questions for the list of questions that an
-     * instructor can view/submit
+     * Filters through the given list of questions and returns a {@code List} of
+     * questions that an instructor can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
             List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
@@ -327,8 +327,8 @@ public final class FeedbackQuestionsLogic {
     
     
     /**
-     * Gets a {@code List} of all questions from the given list of questions
-     * that students can view/submit
+     * Filters through the given list of questions and returns a {@code List} of
+     * questions that students can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
             List<FeedbackQuestionAttributes> allQuestions) {
@@ -364,17 +364,7 @@ public final class FeedbackQuestionsLogic {
         
         FeedbackParticipantType recipientType = question.recipientType;
         
-        String giverTeam = null;
-        
-        boolean isStudentGiver = studentGiver != null;
-        boolean isInstructorGiver = instructorGiver != null;
-        if (isStudentGiver) {
-            giverTeam = studentGiver.team;
-        } else if (isInstructorGiver) {
-            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-        } else {
-            giverTeam = giver;
-        }
+        String giverTeam = getGiverTeam(giver, instructorGiver, studentGiver);
         
         switch (recipientType) {
         case SELF:
@@ -438,8 +428,23 @@ public final class FeedbackQuestionsLogic {
         }
         return recipients;
     }
+
+    private String getGiverTeam(String giver, InstructorAttributes instructorGiver,
+            StudentAttributes studentGiver) {
+        String giverTeam;
+        boolean isStudentGiver = studentGiver != null;
+        boolean isInstructorGiver = instructorGiver != null;
+        if (isStudentGiver) {
+            giverTeam = studentGiver.team;
+        } else if (isInstructorGiver) {
+            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+        } else {
+            giverTeam = giver;
+        }
+        return giverTeam;
+    }
     
-    public boolean isQuestionHasResponses(String feedbackQuestionId) {
+    public boolean doesQuestionHaveResponses(String feedbackQuestionId) {
         return !frLogic.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, 1)
                        .isEmpty();
     }
@@ -456,7 +461,7 @@ public final class FeedbackQuestionsLogic {
             numberOfResponsesNeeded = getRecipientsForQuestion(question, email).size();
         }
         
-        return numberOfResponsesGiven >= numberOfResponsesNeeded ? true : false;
+        return numberOfResponsesGiven >= numberOfResponsesNeeded;
     }
 
     /**
@@ -488,7 +493,7 @@ public final class FeedbackQuestionsLogic {
                 }
             }
         }
-        return numberOfResponsesNeeded <= 0 ? true : false;
+        return numberOfResponsesNeeded <= 0;
     }
     
     
@@ -533,31 +538,24 @@ public final class FeedbackQuestionsLogic {
      */
     private void adjustQuestionNumbers(int oldQuestionNumber,
             int newQuestionNumber, List<FeedbackQuestionAttributes> questions) {
-        
-        if (oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1) {
-            for (int i = oldQuestionNumber - 1; i >= newQuestionNumber; i--) {
-                FeedbackQuestionAttributes question = questions.get(i - 1);
-                question.questionNumber += 1;
-                try {
+        try {
+            if (oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1) {
+                for (int i = oldQuestionNumber - 1; i >= newQuestionNumber; i--) {
+                    FeedbackQuestionAttributes question = questions.get(i - 1);
+                    question.questionNumber += 1;
                     updateFeedbackQuestionWithoutResponseRateUpdate(question);
-                } catch (InvalidParametersException e) {
-                    Assumption.fail("Invalid question.");
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared.");
+                }
+            } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()) {
+                for (int i = oldQuestionNumber + 1; i <= newQuestionNumber; i++) {
+                    FeedbackQuestionAttributes question = questions.get(i - 1);
+                    question.questionNumber -= 1;
+                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
                 }
             }
-        } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()) {
-            for (int i = oldQuestionNumber + 1; i <= newQuestionNumber; i++) {
-                FeedbackQuestionAttributes question = questions.get(i - 1);
-                question.questionNumber -= 1;
-                try {
-                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
-                } catch (InvalidParametersException e) {
-                    Assumption.fail("Invalid question.");
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared.");
-                }
-            }
+        } catch (InvalidParametersException e) {
+            Assumption.fail("Invalid question.");
+        } catch (EntityDoesNotExistException e) {
+            Assumption.fail("Question disappeared.");
         }
     }
 
@@ -608,7 +606,7 @@ public final class FeedbackQuestionsLogic {
                     "Trying to update a feedback question that does not exist.");
         }
         
-        if (oldQuestion.isChangesRequiresResponseDeletion(newAttributes)) {
+        if (oldQuestion.doChangesRequireResponseDeletion(newAttributes)) {
             frLogic.deleteFeedbackResponsesForQuestionAndCascade(oldQuestion.getId(), hasResponseRateUpdate);
         }
         

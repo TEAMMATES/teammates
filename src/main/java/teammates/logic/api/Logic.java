@@ -1592,7 +1592,7 @@ public class Logic {
      */
     
     public boolean isQuestionHasResponses(String feedbackQuestionId) {
-        return feedbackQuestionsLogic.isQuestionHasResponses(feedbackQuestionId);
+        return feedbackQuestionsLogic.doesQuestionHaveResponses(feedbackQuestionId);
     }
     
     /**
