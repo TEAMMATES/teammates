@@ -43,7 +43,8 @@ public class AdminHomePageActionTest extends BaseActionTest {
         
     }
     
-    private AdminHomePageAction getAction(String... parameters) {
+    @Override
+    protected AdminHomePageAction getAction(String... parameters) {
         return (AdminHomePageAction) gaeSimulation.getActionObject(getActionUri(), parameters);
     }
 

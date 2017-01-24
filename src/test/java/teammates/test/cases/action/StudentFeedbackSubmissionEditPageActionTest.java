@@ -219,7 +219,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
                      redirectResult.getStatusMessage());
     }
 
-    private StudentFeedbackSubmissionEditPageAction getAction(String... params) {
+    @Override
+    protected StudentFeedbackSubmissionEditPageAction getAction(String... params) {
         return (StudentFeedbackSubmissionEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

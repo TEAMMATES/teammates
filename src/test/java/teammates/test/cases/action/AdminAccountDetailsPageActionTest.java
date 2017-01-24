@@ -52,7 +52,8 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
                 
     }
 
-    private AdminAccountDetailsPageAction getAction(String... params) {
+    @Override
+    protected AdminAccountDetailsPageAction getAction(String... params) {
         return (AdminAccountDetailsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 

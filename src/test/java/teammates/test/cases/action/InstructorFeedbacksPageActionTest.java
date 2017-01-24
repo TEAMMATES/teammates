@@ -123,7 +123,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
-    private InstructorFeedbacksPageAction getAction(String... params) {
+    @Override
+    protected InstructorFeedbacksPageAction getAction(String... params) {
         return (InstructorFeedbacksPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 

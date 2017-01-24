@@ -164,7 +164,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
                      redirectResult.getDestinationWithParams());
     }
 
-    private InstructorCourseEditSaveAction getAction(String... params) {
+    @Override
+    protected InstructorCourseEditSaveAction getAction(String... params) {
         return (InstructorCourseEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -87,7 +87,8 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
 
     }
     
-    private InstructorCourseStudentDetailsEditPageAction getAction(String... params) {
+    @Override
+    protected InstructorCourseStudentDetailsEditPageAction getAction(String... params) {
         return (InstructorCourseStudentDetailsEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 

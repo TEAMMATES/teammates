@@ -85,7 +85,8 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
         }
     }
     
-    private InstructorFeedbackQuestionCopyPageAction getAction(String... params) {
+    @Override
+    protected InstructorFeedbackQuestionCopyPageAction getAction(String... params) {
         return (InstructorFeedbackQuestionCopyPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

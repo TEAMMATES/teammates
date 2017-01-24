@@ -12,6 +12,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
+import teammates.ui.controller.InstructorCourseInstructorEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest {
@@ -244,7 +245,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         }
     }
     
-    private Action getAction(String... parameters) {
-        return gaeSimulation.getActionObject(getActionUri(), parameters);
+    @Override
+    protected InstructorCourseInstructorEditSaveAction getAction(String... parameters) {
+        return (InstructorCourseInstructorEditSaveAction) gaeSimulation.getActionObject(getActionUri(), parameters);
     }
 }

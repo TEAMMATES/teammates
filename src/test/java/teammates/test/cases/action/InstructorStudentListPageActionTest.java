@@ -134,7 +134,8 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
     }
 
-    private InstructorStudentListPageAction getAction(String... params) {
+    @Override
+    protected InstructorStudentListPageAction getAction(String... params) {
         return (InstructorStudentListPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 

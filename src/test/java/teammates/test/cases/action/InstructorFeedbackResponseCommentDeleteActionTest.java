@@ -147,7 +147,8 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         assertEquals("", result.getStatusMessage());
     }
     
-    private InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
+    @Override
+    protected InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

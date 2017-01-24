@@ -175,7 +175,8 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                      pageData.getStudentListHtmlTableAsString());
     }
 
-    private InstructorCourseDetailsPageAction getAction(String... params) {
+    @Override
+    protected InstructorCourseDetailsPageAction getAction(String... params) {
         return (InstructorCourseDetailsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

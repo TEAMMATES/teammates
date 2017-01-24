@@ -161,7 +161,8 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
-    private InstructorFeedbackQuestionCopyAction getAction(String... params) {
+    @Override
+    protected InstructorFeedbackQuestionCopyAction getAction(String... params) {
         return (InstructorFeedbackQuestionCopyAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

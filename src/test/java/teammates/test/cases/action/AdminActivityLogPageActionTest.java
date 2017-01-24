@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.ui.controller.AdminActivityLogPageAction;
 
 public class AdminActivityLogPageActionTest extends BaseActionTest {
 
@@ -26,4 +27,9 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         //TODO: implement this
     }
 
+    @Override
+    protected AdminActivityLogPageAction getAction(String... params) {
+        return (AdminActivityLogPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+    
 }

@@ -331,7 +331,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private StudentProfilePictureAction getAction(String... params) {
+    @Override
+    protected StudentProfilePictureAction getAction(String... params) {
         return (StudentProfilePictureAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 

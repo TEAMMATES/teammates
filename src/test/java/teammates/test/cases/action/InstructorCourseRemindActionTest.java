@@ -210,7 +210,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         
     }
 
-    private InstructorCourseRemindAction getAction(String... parameters) {
+    @Override
+    protected InstructorCourseRemindAction getAction(String... parameters) {
         return (InstructorCourseRemindAction) gaeSimulation.getActionObject(getActionUri(), parameters);
     }
 

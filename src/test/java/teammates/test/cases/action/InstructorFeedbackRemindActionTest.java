@@ -60,7 +60,8 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
         
     }
     
-    private InstructorFeedbackRemindAction getAction(String... params) {
+    @Override
+    protected InstructorFeedbackRemindAction getAction(String... params) {
         return (InstructorFeedbackRemindAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

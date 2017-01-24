@@ -171,7 +171,8 @@ public class StudentHomePageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade("typicalCourse2");
     }
 
-    private StudentHomePageAction getAction(String... params) {
+    @Override
+    protected StudentHomePageAction getAction(String... params) {
         return (StudentHomePageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
     

@@ -43,7 +43,8 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
                 
     }
 
-    private AdminAccountManagementPageAction getAction(String... params) {
+    @Override
+    protected AdminAccountManagementPageAction getAction(String... params) {
         return (AdminAccountManagementPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
     

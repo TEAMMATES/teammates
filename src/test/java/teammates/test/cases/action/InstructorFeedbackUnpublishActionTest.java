@@ -145,7 +145,8 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         modifyFeedbackSessionPublishState(session, UNPUBLISHED);
     }
 
-    private InstructorFeedbackUnpublishAction getAction(String[] params) {
+    @Override
+    protected InstructorFeedbackUnpublishAction getAction(String... params) {
         return (InstructorFeedbackUnpublishAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -8,7 +8,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.ui.controller.Action;
+import teammates.ui.controller.InstructorFeedbackDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
@@ -41,7 +41,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         
         assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         
-        Action a = gaeSimulation.getActionObject(getActionUri(), submissionParams);
+        InstructorFeedbackDeleteAction a = getAction(submissionParams);
         RedirectResult r = (RedirectResult) a.executeAndPostProcess();
         
         assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
@@ -50,5 +50,10 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED, r.getStatusMessage());
         assertFalse(r.isError);
+    }
+    
+    @Override
+    protected InstructorFeedbackDeleteAction getAction(String... params) {
+        return (InstructorFeedbackDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

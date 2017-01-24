@@ -127,7 +127,8 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
     }
 
-    private InstructorCourseEnrollPageAction getAction(String... params) {
+    @Override
+    protected InstructorCourseEnrollPageAction getAction(String... params) {
         return (InstructorCourseEnrollPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

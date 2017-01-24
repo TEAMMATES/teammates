@@ -924,7 +924,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
     }
 
-    private StudentFeedbackSubmissionEditSaveAction getAction(String... params) {
+    @Override
+    protected StudentFeedbackSubmissionEditSaveAction getAction(String... params) {
         return (StudentFeedbackSubmissionEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

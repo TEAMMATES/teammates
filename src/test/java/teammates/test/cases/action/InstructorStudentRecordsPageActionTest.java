@@ -180,7 +180,8 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         return student;
     }
 
-    private InstructorStudentRecordsPageAction getAction(String... params) {
+    @Override
+    protected InstructorStudentRecordsPageAction getAction(String... params) {
         return (InstructorStudentRecordsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 

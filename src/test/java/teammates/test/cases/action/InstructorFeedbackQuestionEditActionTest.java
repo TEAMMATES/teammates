@@ -1408,7 +1408,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(totalStudents + 1, details.stats.expectedTotal);
     }
 
-    private InstructorFeedbackQuestionEditAction getAction(String... submissionParams) {
+    @Override
+    protected InstructorFeedbackQuestionEditAction getAction(String... submissionParams) {
         return (InstructorFeedbackQuestionEditAction) gaeSimulation.getActionObject(getActionUri(), submissionParams);
     }
 }

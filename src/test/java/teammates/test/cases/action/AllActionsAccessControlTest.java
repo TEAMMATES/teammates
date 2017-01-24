@@ -33,6 +33,7 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.ui.controller.Action;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -61,6 +62,11 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     @Override
     protected String getActionUri() {
         return uri;
+    }
+    
+    @Override
+    protected Action getAction(String... params) {
+        return null; // method not used
     }
     
     @AfterClass

@@ -77,7 +77,8 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         
     }
 
-    private InstructorStudentRecordsAjaxPageAction getAction(String... params) {
+    @Override
+    protected InstructorStudentRecordsAjaxPageAction getAction(String... params) {
         return (InstructorStudentRecordsAjaxPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 

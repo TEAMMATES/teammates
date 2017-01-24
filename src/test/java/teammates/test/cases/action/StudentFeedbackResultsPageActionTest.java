@@ -214,7 +214,8 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals(student1InCourse1.getIdentificationString(), pageData.student.getIdentificationString());
     }
 
-    private StudentFeedbackResultsPageAction getAction(String... params) {
+    @Override
+    protected StudentFeedbackResultsPageAction getAction(String... params) {
         return (StudentFeedbackResultsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

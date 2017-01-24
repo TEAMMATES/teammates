@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.ui.controller.AdminExceptionTestAction;
 
 public class AdminExceptionTestActionTest extends BaseActionTest {
 
@@ -26,4 +27,9 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
         //TODO: implement this
     }
 
+    @Override
+    protected AdminExceptionTestAction getAction(String... params) {
+        return (AdminExceptionTestAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+    
 }

@@ -182,7 +182,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                                      a, new Object[] { instructorEmailOrProposedCourseId, maximumIdLength });
     }
 
-    private AdminInstructorAccountAddAction getAction(String... parameters) {
+    @Override
+    protected AdminInstructorAccountAddAction getAction(String... parameters) {
         return (AdminInstructorAccountAddAction) gaeSimulation.getActionObject(getActionUri(), parameters);
     }
 

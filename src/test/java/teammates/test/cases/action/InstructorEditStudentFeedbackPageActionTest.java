@@ -184,7 +184,8 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         }
     }
             
-    private InstructorEditStudentFeedbackPageAction getAction(String... params) {
+    @Override
+    protected InstructorEditStudentFeedbackPageAction getAction(String... params) {
         return (InstructorEditStudentFeedbackPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

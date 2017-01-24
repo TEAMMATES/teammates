@@ -76,7 +76,8 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         assertEquals("", r.getStatusMessage());
     }
     
-    private FeedbackSessionStatsPageAction getAction(String... params) {
+    @Override
+    protected FeedbackSessionStatsPageAction getAction(String... params) {
         return (FeedbackSessionStatsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

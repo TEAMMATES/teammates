@@ -69,7 +69,8 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         assertTrue(pageData.getResponseStatus().noResponse.contains("helper@course1.tmt"));
     }
     
-    private InstructorFeedbackRemindParticularStudentsPageAction getAction(String... params) {
+    @Override
+    protected InstructorFeedbackRemindParticularStudentsPageAction getAction(String... params) {
         return (InstructorFeedbackRemindParticularStudentsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

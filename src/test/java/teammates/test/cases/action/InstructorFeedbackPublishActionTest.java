@@ -150,7 +150,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         modifyFeedbackSessionPublishState(session, PUBLISHED);
     }
     
-    private InstructorFeedbackPublishAction getAction(String[] params) {
+    @Override
+    protected InstructorFeedbackPublishAction getAction(String... params) {
         return (InstructorFeedbackPublishAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -182,7 +182,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         assertEquals(expected, pageResult.getStatusMessage());
     }
     
-    private InstructorCourseAddAction getAction(String... parameters) {
+    @Override
+    protected InstructorCourseAddAction getAction(String... parameters) {
         return (InstructorCourseAddAction) gaeSimulation.getActionObject(getActionUri(), parameters);
     }
 }

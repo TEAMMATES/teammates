@@ -686,7 +686,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "ABC");
 
         try {
-            Action c = gaeSimulation.getActionObject(getActionUri(), params);
+            Action c = getAction(params);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (NumberFormatException e) {
@@ -699,7 +699,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, "NON_EXISTENT_ENUMERATION");
 
         try {
-            Action c = gaeSimulation.getActionObject(getActionUri(), params);
+            Action c = getAction(params);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (IllegalArgumentException e) {
@@ -710,7 +710,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, "NON_EXISTENT_ENUMERATION");
 
         try {
-            Action c = gaeSimulation.getActionObject(getActionUri(), params);
+            Action c = getAction(params);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (IllegalArgumentException e) {
@@ -721,7 +721,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "NON_EXISTENT_ENUMERATION");
 
         try {
-            Action c = gaeSimulation.getActionObject(getActionUri(), params);
+            Action c = getAction(params);
             c.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (IllegalArgumentException e) {
@@ -906,7 +906,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private InstructorFeedbackQuestionAddAction getAction(String... params) {
+    @Override
+    protected InstructorFeedbackQuestionAddAction getAction(String... params) {
         return (InstructorFeedbackQuestionAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

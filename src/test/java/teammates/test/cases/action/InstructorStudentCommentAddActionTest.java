@@ -467,7 +467,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
     
-    private InstructorStudentCommentAddAction getAction(String... params) {
+    @Override
+    protected InstructorStudentCommentAddAction getAction(String... params) {
         return (InstructorStudentCommentAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

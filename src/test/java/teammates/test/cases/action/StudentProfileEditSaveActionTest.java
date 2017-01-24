@@ -147,7 +147,8 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         return spa;
     }
 
-    private StudentProfileEditSaveAction getAction(String[] submissionParams) {
+    @Override
+    protected StudentProfileEditSaveAction getAction(String... submissionParams) {
         return (StudentProfileEditSaveAction) gaeSimulation.getActionObject(getActionUri(), submissionParams);
     }
 

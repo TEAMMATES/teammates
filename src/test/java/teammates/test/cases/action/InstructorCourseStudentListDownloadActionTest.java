@@ -141,7 +141,8 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         
     }
     
-    private InstructorCourseStudentListDownloadAction getAction(String... params) {
+    @Override
+    protected InstructorCourseStudentListDownloadAction getAction(String... params) {
         return (InstructorCourseStudentListDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

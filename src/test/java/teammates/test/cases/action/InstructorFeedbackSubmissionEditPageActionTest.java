@@ -194,7 +194,8 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         assertEquals("", r.getStatusMessage());
     }
 
-    private InstructorFeedbackSubmissionEditPageAction getAction(String... params) {
+    @Override
+    protected InstructorFeedbackSubmissionEditPageAction getAction(String... params) {
         return (InstructorFeedbackSubmissionEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

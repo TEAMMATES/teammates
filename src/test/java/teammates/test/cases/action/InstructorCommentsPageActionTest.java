@@ -114,7 +114,8 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         assertEquals(0, data.getCommentsForStudentsTables().size());
     }
     
-    private InstructorCommentsPageAction getAction(String... params) {
+    @Override
+    protected InstructorCommentsPageAction getAction(String... params) {
         return (InstructorCommentsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -33,6 +33,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     
     protected abstract String getActionUri();
     
+    protected abstract Action getAction(String... params);
+    
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
      */

@@ -123,7 +123,8 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         }
     }
 
-    private InstructorEditInstructorFeedbackPageAction getAction(String... params) {
+    @Override
+    protected InstructorEditInstructorFeedbackPageAction getAction(String... params) {
         return (InstructorEditInstructorFeedbackPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

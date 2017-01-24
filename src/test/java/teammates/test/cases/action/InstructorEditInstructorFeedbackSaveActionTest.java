@@ -427,7 +427,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
     
-    private InstructorEditInstructorFeedbackSaveAction getAction(String... params) {
+    @Override
+    protected InstructorEditInstructorFeedbackSaveAction getAction(String... params) {
         return (InstructorEditInstructorFeedbackSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

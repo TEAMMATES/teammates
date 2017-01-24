@@ -9,6 +9,7 @@ import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
+import teammates.ui.controller.InstructorCourseInstructorDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
@@ -114,7 +115,8 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, deleteAction.getLogMessage());
     }
     
-    private Action getAction(String... params) {
-        return gaeSimulation.getActionObject(getActionUri(), params);
+    @Override
+    protected InstructorCourseInstructorDeleteAction getAction(String... params) {
+        return (InstructorCourseInstructorDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

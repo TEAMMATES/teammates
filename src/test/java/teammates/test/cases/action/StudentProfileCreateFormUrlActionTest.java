@@ -75,7 +75,8 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private StudentProfileCreateFormUrlAction getAction(String... params) {
+    @Override
+    protected StudentProfileCreateFormUrlAction getAction(String... params) {
         return (StudentProfileCreateFormUrlAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 

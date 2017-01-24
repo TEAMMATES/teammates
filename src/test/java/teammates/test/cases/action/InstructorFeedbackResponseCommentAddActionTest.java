@@ -277,7 +277,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
     }
     
-    private InstructorFeedbackResponseCommentAddAction getAction(String... params) {
+    @Override
+    protected InstructorFeedbackResponseCommentAddAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }
