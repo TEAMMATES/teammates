@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -12,7 +11,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
@@ -30,8 +28,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                                     logic.getFeedbackSession(feedbackSessionName, courseId),
                                     false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters,
-                                                                                  instructorDetailForCourse.email);
+        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(instructorDetailForCourse.email);
         List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
         
         List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
@@ -78,44 +75,37 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         return InstructorFeedbackQuestionEditAction.validateQuestionGiverRecipientVisibility(feedbackQuestion);
     }
 
-    private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters,
-                                                                          String creatorEmail) {
+    private FeedbackQuestionAttributes extractFeedbackQuestionData(String creatorEmail) {
         FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
 
         newQuestion.creatorEmail = creatorEmail;
 
-        newQuestion.courseId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.COURSE_ID);
+        newQuestion.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("Null course id", newQuestion.courseId);
 
-        newQuestion.feedbackSessionName = HttpRequestHelper.getValueFromParamMap(
-                                            requestParameters, Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        newQuestion.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("Null feedback session name", newQuestion.feedbackSessionName);
 
-        String feedbackQuestionGiverType = HttpRequestHelper.getValueFromParamMap(
-                                            requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
+        String feedbackQuestionGiverType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
         Assumption.assertNotNull("Null giver type", feedbackQuestionGiverType);
         newQuestion.giverType = FeedbackParticipantType.valueOf(feedbackQuestionGiverType);
 
-        String feedbackQuestionRecipientType = HttpRequestHelper.getValueFromParamMap(
-                                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
+        String feedbackQuestionRecipientType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
         Assumption.assertNotNull("Null recipient type", feedbackQuestionRecipientType);
         newQuestion.recipientType = FeedbackParticipantType.valueOf(feedbackQuestionRecipientType);
 
-        String feedbackQuestionNumber = HttpRequestHelper.getValueFromParamMap(
-                                            requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+        String feedbackQuestionNumber = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         Assumption.assertNotNull("Null question number", feedbackQuestionNumber);
         newQuestion.questionNumber = Integer.parseInt(feedbackQuestionNumber);
         Assumption.assertTrue("Invalid question number", newQuestion.questionNumber >= 1);
 
-        String numberOfEntityTypes = HttpRequestHelper.getValueFromParamMap(
-                                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
+        String numberOfEntityTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
         Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);
 
         if ("custom".equals(numberOfEntityTypes)
                 && (newQuestion.recipientType == FeedbackParticipantType.STUDENTS
                         || newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
-            String numberOfEntities = HttpRequestHelper.getValueFromParamMap(
-                                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
+            String numberOfEntities = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
             Assumption.assertNotNull("Null number of entities for custom entity number", numberOfEntities);
 
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(numberOfEntities);
@@ -124,17 +114,13 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         }
 
         newQuestion.showResponsesTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
         newQuestion.showGiverNameTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
         newQuestion.showRecipientNameTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
 
-        String questionType = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                                     Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
+        String questionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
         Assumption.assertNotNull("Null question type", questionType);
         questionType = FeedbackQuestionType.standardizeIfConstSum(questionType);
         newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
@@ -143,8 +129,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                 requestParameters, newQuestion.questionType);
         newQuestion.setQuestionDetails(questionDetails);
 
-        String questionDescription = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION);
+        String questionDescription = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION);
         newQuestion.setQuestionDescription(new Text(questionDescription));
 
         return newQuestion;
