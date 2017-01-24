@@ -97,6 +97,19 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus("Too little options for Distribute points (among options) question. "
                                       + "Minimum number of options is: 2.");
+
+        ______TS("duplicate options");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.fillNewQuestionBox("Test duplicate options");
+        feedbackEditPage.fillNewQuestionDescription("more details");
+
+        feedbackEditPage.fillConstSumOption(0, "duplicate option");
+        feedbackEditPage.fillConstSumOption(1, "duplicate option");
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.verifyStatus(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
     }
 
     @Override
@@ -165,6 +178,15 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumOptionQuestionEditSuccess.html");
+
+        ______TS("CONST SUM: edit question failure due to duplicate options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.fillConstSumOption(0, "duplicate option", 1);
+        feedbackEditPage.fillConstSumOption(1, "duplicate option", 1);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
     }
     
     @Override

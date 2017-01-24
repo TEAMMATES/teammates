@@ -43,9 +43,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "graceperiod")
     private WebElement gracePeriodDropdown;
 
-    @FindBy(id = "editUncommonSettingsButton")
-    private WebElement uncommonSettingsButton;
+    @FindBy(id = "editUncommonSettingsSessionResponsesVisibleButton")
+    private WebElement uncommonSettingsSessionResponsesVisibleButton;
     
+    @FindBy(id = "editUncommonSettingsSendEmailsButton")
+    private WebElement uncommonSettingsSendEmailsButton;
+
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
     private WebElement customSessionVisibleTimeButton;
     
@@ -383,8 +386,12 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(customNumOfRecipients);
     }
     
-    public void clickEditUncommonSettingsButton() {
-        click(uncommonSettingsButton);
+    public void clickEditUncommonSettingsSessionResponsesVisibleButton() {
+        click(uncommonSettingsSessionResponsesVisibleButton);
+    }
+    
+    public void clickEditUncommonSettingsSendEmailsButton() {
+        click(uncommonSettingsSendEmailsButton);
     }
     
     public void clickDefaultVisibleTimeButton() {
@@ -397,6 +404,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickManualPublishTimeButton() {
         click(manualResultsVisibleTimeButton);
+    }
+    
+    public void toggleClosingSessionEmailReminderCheckbox() {
+        click(closingSessionEmailReminderButton);
     }
     
     public void clickFsCopyButton() {
@@ -899,8 +910,17 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(removeOptionLink);
     }
     
+    // For new question frame
     public void fillConstSumOption(int optionIndex, String optionText) {
         WebElement optionBox = browser.driver.findElement(By.id("constSumOption-" + optionIndex + "--1"));
+        fillTextBox(optionBox, optionText);
+    }
+    
+    // For existing question edit frame
+    public void fillConstSumOption(int optionIndex, String optionText, int qnIndex) {
+        String idSuffix = getIdSuffix(qnIndex);
+        
+        WebElement optionBox = browser.driver.findElement(By.id("constSumOption-" + optionIndex + idSuffix));
         fillTextBox(optionBox, optionText);
     }
     
