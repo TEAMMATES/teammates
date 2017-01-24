@@ -2,10 +2,8 @@ package teammates.test.cases.action;
 
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -18,18 +16,10 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.template.CourseEditInstructorPanel;
 
 public class InstructorCourseEditPageActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
-    }
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
     }
     
     @Override

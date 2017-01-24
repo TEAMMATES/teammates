@@ -1,6 +1,5 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -9,17 +8,14 @@ import teammates.ui.controller.ShowPageResult;
 
 public class AdminAccountManagementPageActionTest extends BaseActionTest {
 
-    // private static final DataBundle = getTypicalDataBundle();
-    
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        // removeAndRestoreTypicalDataInDatastore();
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
     }
     
     @Override

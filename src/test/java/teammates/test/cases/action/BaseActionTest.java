@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -29,13 +32,29 @@ import teammates.ui.controller.ShowPageResult;
  */
 public abstract class BaseActionTest extends BaseComponentTestCase {
     
-    private DataBundle data = getTypicalDataBundle();
+    protected DataBundle dataBundle;
     
     protected abstract String getActionUri();
     
     protected abstract Action getAction(String... params);
     
     public abstract void testExecuteAndPostProcess() throws Exception;
+    
+    @BeforeClass
+    public void baseClassSetup() {
+        printTestClassHeader();
+        prepareTestData();
+    }
+    
+    protected void prepareTestData() {
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreTypicalDataBundle();
+    }
+    
+    @AfterClass
+    public void baseClassTearDown() {
+        printTestClassFooter();
+    }
     
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
@@ -313,8 +332,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         String unregUserId = "unreg1.user";
         
-        InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         gaeSimulation.loginUser(unregUserId);
         verifyCanAccess(submissionParams);
@@ -326,8 +345,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("students of the same course can access");
         
-        InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         verifyCanAccess(submissionParams);
@@ -339,9 +358,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("students can access");
         
-        InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
-        StudentAttributes otherStudent = data.students.get("student1InCourse2");
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes otherStudent = dataBundle.students.get("student1InCourse2");
         
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
@@ -360,9 +379,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("course instructor can access");
         
-        InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
-        InstructorAttributes otherInstructor = data.instructors.get("instructor1OfCourse2");
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        InstructorAttributes otherInstructor = dataBundle.instructors.get("instructor1OfCourse2");
         
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         verifyCanAccess(submissionParams);
@@ -376,7 +395,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("other course instructor can access");
     
-        InstructorAttributes otherInstructor = data.instructors.get("instructor1OfCourse2");
+        InstructorAttributes otherInstructor = dataBundle.instructors.get("instructor1OfCourse2");
         
         gaeSimulation.loginAsInstructor(otherInstructor.googleId);
         verifyCanAccess(submissionParams);
@@ -386,7 +405,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("admin can access");
         
-        InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         
         gaeSimulation.loginAsAdmin("admin.user");
         //not checking for non-masquerade mode because admin may not be an instructor
@@ -398,7 +417,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("admin can access");
         
-        StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         gaeSimulation.loginAsAdmin("admin.user");
         //not checking for non-masquerade mode because admin may not be a student
@@ -410,8 +429,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("not-logged-in users cannot access");
         
-        InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         gaeSimulation.logoutUser();
         verifyRedirectToLoginOrUnauthorisedException(submissionParams);
@@ -438,8 +457,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         String unregUserId = "unreg.user";
         
-        InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         gaeSimulation.loginUser(unregUserId);
         verifyCannotAccess(submissionParams);
@@ -452,7 +471,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("without Modify-Course privilege cannot access");
         
-        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
         
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -462,7 +481,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("without Modify-Instructor privilege cannot access");
         
-        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
         
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -472,7 +491,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
         ______TS("without Modify-Session privilege cannot access");
         
-        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
         
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -482,7 +501,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("without Modify-Student privilege cannot access");
         
-        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
         
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -492,7 +511,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("without View-Student-In-Sections privilege cannot access");
         
-        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
         
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -502,7 +521,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("without Give-Comment-In-Sections privilege cannot access");
         
-        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
         
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -512,7 +531,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("without Modify-Comment-In-Sections privilege cannot access");
         
-        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
         
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -522,7 +541,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("without View-Student-In-Sections privilege cannot access");
         
-        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
         
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -532,7 +551,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("without Modify-Session-In-Sections privilege cannot access");
         
-        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
         
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -542,7 +561,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("without Submit-Session-In-Sections privilege cannot access");
         
-        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
         
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -552,7 +571,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("without Modify-Session-Comment-In-Sections privilege cannot access");
         
-        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
         
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -562,8 +581,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("students cannot access");
         
-        InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -575,7 +594,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("students of other courses cannot access");
     
-        StudentAttributes studentInOtherCourse = data.students.get("student1InCourse2");
+        StudentAttributes studentInOtherCourse = dataBundle.students.get("student1InCourse2");
         
         gaeSimulation.loginAsStudent(studentInOtherCourse.googleId);
         verifyCannotAccess(submissionParams);
@@ -585,7 +604,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("other students of the same course cannot access");
     
-        StudentAttributes differentStudentInSameCourse = data.students.get("student2InCourse1");
+        StudentAttributes differentStudentInSameCourse = dataBundle.students.get("student2InCourse1");
         
         gaeSimulation.loginAsStudent(differentStudentInSameCourse.googleId);
         verifyCannotAccess(submissionParams);
@@ -595,8 +614,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("instructors cannot access");
         
-        InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         verifyCannotAccess(submissionParams);
@@ -608,7 +627,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("other course instructor cannot access");
     
-        InstructorAttributes otherInstructor = data.instructors.get("instructor1OfCourse2");
+        InstructorAttributes otherInstructor = dataBundle.instructors.get("instructor1OfCourse2");
         
         gaeSimulation.loginAsInstructor(otherInstructor.googleId);
         verifyCannotAccess(submissionParams);

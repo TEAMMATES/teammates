@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -22,7 +21,6 @@ import teammates.ui.automated.FeedbackSessionRemindParticularUsersEmailWorkerAct
 public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest extends BaseAutomatedActionTest {
     
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @Override
     protected String getActionUri() {

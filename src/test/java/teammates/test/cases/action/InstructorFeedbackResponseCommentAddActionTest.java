@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CommentSendingState;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -18,20 +16,11 @@ import teammates.ui.controller.InstructorFeedbackResponseCommentAddAction;
 import teammates.ui.controller.InstructorFeedbackResponseCommentAjaxPageData;
 import teammates.ui.controller.ShowPageResult;
 
-public class InstructorFeedbackResponseCommentAddActionTest extends
-        BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
+public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
-    }
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
     }
     
     @Override

@@ -1,9 +1,7 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
@@ -13,17 +11,9 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE;
-    }
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
     }
     
     @Override

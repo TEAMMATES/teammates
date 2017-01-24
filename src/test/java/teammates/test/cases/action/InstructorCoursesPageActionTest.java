@@ -1,9 +1,7 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
@@ -14,28 +12,9 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCoursesPageActionTest extends BaseActionTest {
 
-    /* Explanation: we obtain an object, containing the typical data,
-     * to be used as a quick access to the values that are expected to be
-     * found in the database. We specify final so that multiple tests, if any,
-     * can use these values without fear of dependency caused by modification */
-    private final DataBundle dataBundle = getTypicalDataBundle();
-    
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
-    }
-    
-    @BeforeClass
-    public void classSetup() {
-        
-        /* Explanation: This is just to display the test class name in the console */
-        printTestClassHeader();
-        
-        /* Explanation: Before every test-class, we put a standard set of test data into the
-         * simulated GAE datastore. A replica of this can be found in the 'dataBundle' variable
-         * declared above
-         */
-        removeAndRestoreTypicalDataBundle();
     }
     
     @Override

@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -15,16 +13,15 @@ import teammates.ui.controller.InstructorFeedbackQuestionCopyAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
-    private DataBundle dataBundle;
 
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
+        // test data is refreshed before each test case
     }
 
     @BeforeMethod

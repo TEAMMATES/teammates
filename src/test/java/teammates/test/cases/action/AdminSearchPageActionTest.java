@@ -1,6 +1,5 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -13,9 +12,9 @@ public class AdminSearchPageActionTest extends BaseActionTest {
         return Const.ActionURIs.ADMIN_SEARCH_PAGE;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
     }
     
     @Override

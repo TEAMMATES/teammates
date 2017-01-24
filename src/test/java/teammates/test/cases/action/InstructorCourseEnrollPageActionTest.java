@@ -1,9 +1,7 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
@@ -12,18 +10,10 @@ import teammates.ui.controller.InstructorCourseEnrollPageData;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE;
-    }
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
     }
     
     @Override

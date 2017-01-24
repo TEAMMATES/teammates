@@ -3,7 +3,6 @@ package teammates.test.cases.automated;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -15,8 +14,6 @@ import teammates.ui.automated.StudentCourseJoinEmailWorkerAction;
  * SUT: {@link StudentCourseJoinEmailWorkerAction}.
  */
 public class StudentCourseJoinEmailWorkerActionTest extends BaseAutomatedActionTest {
-    
-    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @Override
     protected String getActionUri() {

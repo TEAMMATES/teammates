@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
@@ -39,7 +38,6 @@ import com.google.appengine.api.datastore.Text;
 
 public class AllActionsAccessControlTest extends BaseActionTest {
     
-    private static final DataBundle dataBundle = getTypicalDataBundle();
     private static String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     private final CommentsDb commentsDb = new CommentsDb();
@@ -54,8 +52,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     
     @BeforeClass
     public void classSetup() throws Exception {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
         addUnregStudentToCourse1();
     }
     

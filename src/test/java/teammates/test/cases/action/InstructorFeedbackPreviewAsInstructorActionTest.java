@@ -1,9 +1,7 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -13,17 +11,10 @@ import teammates.ui.controller.InstructorFeedbackPreviewAsInstructorAction;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR;
-    }
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
     }
     
     @Override

@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -16,16 +14,14 @@ import teammates.ui.controller.InstructorFeedbackEditCopyData;
 
 public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
     
-    private static DataBundle dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
-    
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
     

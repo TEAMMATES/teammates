@@ -3,10 +3,8 @@ package teammates.test.cases.action;
 import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -19,21 +17,14 @@ import teammates.ui.controller.InstructorFeedbackQuestionAddAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
-    private static final DataBundle dataBundle = getTypicalDataBundle();
 
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-    }
-
     @AfterClass
-    public static void classTearDown() {
+    public void classTearDown() {
         // delete entire session to clean the database
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());

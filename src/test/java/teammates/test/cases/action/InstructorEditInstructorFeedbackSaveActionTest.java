@@ -1,9 +1,7 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -16,17 +14,15 @@ import teammates.ui.controller.InstructorEditInstructorFeedbackSaveAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTest {
-
-    private static DataBundle dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
     
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
 

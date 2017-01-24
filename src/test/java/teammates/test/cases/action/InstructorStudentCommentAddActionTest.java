@@ -1,9 +1,7 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
@@ -15,19 +13,11 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorStudentCommentAddActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-    }
-
     @Override
     @Test
     public void testExecuteAndPostProcess() {

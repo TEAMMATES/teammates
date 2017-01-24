@@ -2,10 +2,8 @@ package teammates.test.cases.action;
 
 import static teammates.ui.controller.StudentCourseJoinAction.getPageTypeOfUrl;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -16,19 +14,12 @@ import teammates.ui.controller.StudentCourseJoinAction;
 import teammates.ui.controller.StudentCourseJoinConfirmationPageData;
 
 public class StudentCourseJoinActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-    }
-
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {

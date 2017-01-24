@@ -3,10 +3,8 @@ package teammates.test.cases.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
@@ -24,7 +22,6 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
     private final Logic logic = new Logic();
 
     @Override
@@ -32,12 +29,6 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         return Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-    }
-
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {

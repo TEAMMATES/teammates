@@ -3,7 +3,6 @@ package teammates.test.cases.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -30,19 +29,12 @@ import teammates.ui.controller.StudentFeedbackSubmissionEditSaveAction;
 
 public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-    }
-
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {

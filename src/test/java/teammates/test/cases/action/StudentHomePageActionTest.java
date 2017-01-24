@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
@@ -20,17 +18,10 @@ import teammates.ui.controller.StudentHomePageData;
 // StudentHomePageActionTest, and StudentCommentsPageActionTest.
 @Priority(-2)
 public class StudentHomePageActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_HOME_PAGE;
-    }
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
     }
     
     @Override

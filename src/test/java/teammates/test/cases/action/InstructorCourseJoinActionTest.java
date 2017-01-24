@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -17,18 +15,10 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseJoinActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
-    private final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-    }
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
     }
     
     @SuppressWarnings("deprecation")
@@ -39,6 +29,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         InstructorsDb instrDb = new InstructorsDb();
         // Reassign to let "key" variable in "instructor" not to be null
         instructor = instrDb.getInstructorForGoogleId(instructor.courseId, instructor.googleId);
+        String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
         

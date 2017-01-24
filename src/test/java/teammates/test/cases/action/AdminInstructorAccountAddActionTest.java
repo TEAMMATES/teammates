@@ -1,6 +1,5 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CommentAttributes;
@@ -17,18 +16,14 @@ import teammates.ui.controller.AjaxResult;
 
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
-    // private final DataBundle dataBundle = getTypicalDataBundle();
-    //TODO: move all the input validation/sanitization js code to server side
-    
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        // removeAndRestoreTypicalDataInDatastore();
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
     }
 
     @Test

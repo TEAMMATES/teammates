@@ -3,10 +3,8 @@ package teammates.test.cases.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.StudentAttributes;
@@ -20,19 +18,12 @@ import teammates.ui.controller.StudentFeedbackResultsPageAction;
 import teammates.ui.controller.StudentFeedbackResultsPageData;
 
 public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-    }
-
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {

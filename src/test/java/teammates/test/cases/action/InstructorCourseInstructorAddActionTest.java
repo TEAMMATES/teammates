@@ -2,10 +2,8 @@ package teammates.test.cases.action;
 
 import java.util.Map;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -18,19 +16,11 @@ import teammates.ui.controller.InstructorCourseInstructorAddAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD;
-    }
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
     }
     
     @Override

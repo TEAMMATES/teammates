@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -29,7 +28,6 @@ public class FeedbackResponseAdjustmentWorkerActionTest extends BaseAutomatedAct
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @Override
     protected String getActionUri() {

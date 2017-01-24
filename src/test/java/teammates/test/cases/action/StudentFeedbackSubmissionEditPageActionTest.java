@@ -1,9 +1,7 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
@@ -18,16 +16,15 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditPageAction;
 
 public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest {
-    private static DataBundle dataBundle = loadDataBundle("/StudentFeedbackSubmissionEditPageActionTest.json");
 
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
     }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/StudentFeedbackSubmissionEditPageActionTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
 
