@@ -192,9 +192,12 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
         
-        newQuestion.showResponsesTo = getParticipantListFromParams(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
-        newQuestion.showGiverNameTo = getParticipantListFromParams(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
-        newQuestion.showRecipientNameTo = getParticipantListFromParams(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
+        newQuestion.showResponsesTo = getParticipantListFromParams(getRequestParamValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
+        newQuestion.showGiverNameTo = getParticipantListFromParams(getRequestParamValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
+        newQuestion.showRecipientNameTo = getParticipantListFromParams(getRequestParamValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
         
         String questionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
         Assumption.assertNotNull(questionType);
