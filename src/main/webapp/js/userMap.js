@@ -14,16 +14,19 @@ function handleData(err, countryCoordinates, userData) {
         handleError();
         return;
     }
-    var userCountries = Object.keys(userData);
+    var userCountries = Object.keys(userData.institutes);
     var countriesArr = [];
     var total = 0;
+    var date = userData.lastUpdated;
     userCountries.forEach(function(countryName) {
-        var countryTotal = userData[countryName].length;
+        var countryTotal = userData.institutes[countryName].length;
 
         countriesArr.push([countryName, countryTotal]);
         total += countryTotal;
     });
 
+    // set the last updated date in the page
+    document.getElementById('lastUpdate').innerHTML = date;
     // set the institution count in the page
     document.getElementById('totalUserCount').innerHTML = total;
     // set the country count in the page
