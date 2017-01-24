@@ -21,6 +21,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
@@ -272,17 +273,13 @@ public class AdminInstructorAccountAddAction extends Action {
     * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
     */
     private String getDemoCourseIdRoot(String instructorEmail) {
-        final String[] splitedEmail = instructorEmail.split("@");
+        final String[] emailSplit = instructorEmail.split("@");
         
-        // To ensure a valid course ID is generated, replace all characters
-        // in the email address that are considered illegal in a course ID with _.
-        // Required as valid email addresses can contain special characters (such as +)
-        // that are considered illegal in a course ID
-        final String head = splitedEmail[0].replaceAll(FieldValidator.REGEX_COURSE_ID_ILLEGAL, "_");
+        final String username = emailSplit[0];
+        final String host = emailSplit[1];
         
-        final String emailAbbreviation = splitedEmail[1].substring(0, 3);
-        return head + "." + emailAbbreviation
-                + "-demo";
+        final String hostAbbreviation = host.substring(0, 3);
+        return Sanitizer.sanitizeForCourseId(username + "." + hostAbbreviation + "-demo");
     }
     
     /** 
