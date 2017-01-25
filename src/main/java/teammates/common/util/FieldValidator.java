@@ -10,9 +10,9 @@ import java.util.Set;
 
 import org.joda.time.DateTimeZone;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
-
 import com.google.appengine.api.datastore.Text;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.

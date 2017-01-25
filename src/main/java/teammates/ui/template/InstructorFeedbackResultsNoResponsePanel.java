@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackSessionResponseStatus;
+import teammates.common.datatransfer.questions.FeedbackSessionResponseStatus;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 

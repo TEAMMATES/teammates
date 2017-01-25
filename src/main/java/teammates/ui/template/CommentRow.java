@@ -1,7 +1,7 @@
 package teammates.ui.template;
 
-import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 

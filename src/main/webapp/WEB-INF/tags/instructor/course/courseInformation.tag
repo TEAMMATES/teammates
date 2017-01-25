@@ -1,7 +1,7 @@
 <%@ tag description="instructorCourseDetails - Course Information" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ attribute name="courseDetails" type="teammates.common.datatransfer.CourseDetailsBundle" required="true" %>
+<%@ attribute name="courseDetails" type="teammates.common.datatransfer.attributes.CourseDetailsBundle" required="true" %>
 <%@ attribute name="instructors" type="java.util.Collection" required="true" %>
 
 <div class="form-group">

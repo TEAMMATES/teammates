@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.Sanitizer;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorStudentListPageData;

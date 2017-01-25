@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import org.testng.AssertJUnit;
 
-import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.DataBundle;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.FileHelper;

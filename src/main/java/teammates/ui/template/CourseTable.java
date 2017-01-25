@@ -2,7 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.Sanitizer;
 
 public class CourseTable {
