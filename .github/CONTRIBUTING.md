@@ -14,7 +14,7 @@ For feature requests, refer  [here](../docs/template-featureRequest.md)
 
 For bug reports, refer [here](../docs/template-bugReport.md)
 
-For new contributor introduction, refer [here](../docs/template-contributorIntro.md)
+For new contributor introduction, refer [here](../docs/template-newContributorIntro.md)
 
 For help requests, refer  [here](../docs/template-helpRequest.md)
 
