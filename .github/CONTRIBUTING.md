@@ -10,7 +10,6 @@ If that is the case, [open a new issue][new issue]. Make sure to include a clear
 [issue tracker]: https://github.com/TEAMMATES/teammates/issues
 [new issue]: https://github.com/TEAMMATES/teammates/issues/new
 
-
 ### Submitting a pull request
 Make sure that the pull request addresses an open issue in the issue tracker.
 Remember to follow the [TEAMMATES Development Process][dev]. In particular, make sure you follow the naming
@@ -21,3 +20,4 @@ conventions for pull request titles and branch names.
 For a comprehensive directory of resources, including **style guides** and **best practices**, please refer [here][readme].
 
 [readme]: ../docs/README.md
+
