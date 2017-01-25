@@ -117,10 +117,9 @@ QUnit.test('getPointValue(s, ditchZero)', function(assert) {
 
 QUnit.test('sortByPoint(a, b)', function(assert) {
     assert.ok(sortByPoint('N/S', 'N/A') < 0, 'Case N/S less than N/A');
-    assert.ok(sortByPoint('N/S', '3%') > 0, 'N/S is the biggest (with Case X%)');
-    assert.ok(sortByPoint('N/S', 'E +1%') > 0, 'N/S is the biggest (with Case E +(-)X%)');
-    assert.ok(sortByPoint('N/S', '3') > 0, 'N/S is the biggest (with Case Integer)');
-    assert.ok(sortByPoint('N/S', '1.223') > 0, 'N/S is the biggest (with Case Float)');
+    assert.ok(sortByPoint('N/S', 'E') > 0, 'N/S more than E');
+    assert.ok(sortByPoint('N/A', 'E +1%') > 0, 'N/A more than E +(-)X%');
+    assert.ok(sortByPoint('N/S', 'E -1%') > 0, 'N/S more than E +(-)X%');
     
     assert.ok(sortByPoint('0%', '0%') === 0, 'Case 0% equal 0%');
     assert.ok(sortByPoint('-1%', '0%') > 0, 'Case 0% less than every X%');
