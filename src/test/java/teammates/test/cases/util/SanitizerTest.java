@@ -50,14 +50,6 @@ public class SanitizerTest extends BaseTestCase {
     }
     
     @Test
-    public void testSanitizeForCourseId() {
-        assertEquals("lebron.gma-demo", Sanitizer.sanitizeForCourseId("lebron.gma-demo"));
-        assertEquals("lebron_1.gma-demo", Sanitizer.sanitizeForCourseId("lebron+1.gma-demo"));
-        assertEquals("lebron.gma-demo", Sanitizer.sanitizeForCourseId("lebron.gma-demo", "a"));
-        assertEquals("lebrona1.gma-demo", Sanitizer.sanitizeForCourseId("lebron!1.gma-demo", "a"));
-    }
-    
-    @Test
     public void testSanitizeForJs() {
         sanitizeJs_receivesNull_returnsNull();
         sanitizeJs_receivesUnsanitized_returnsSanitized();

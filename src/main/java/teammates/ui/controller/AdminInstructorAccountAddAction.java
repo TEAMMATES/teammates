@@ -21,7 +21,6 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
@@ -278,8 +277,10 @@ public class AdminInstructorAccountAddAction extends Action {
         final String username = emailSplit[0];
         final String host = emailSplit[1];
         
+        final String head = StringHelper.replaceIllegalChars(username, FieldValidator.REGEX_COURSE_ID, '_');
         final String hostAbbreviation = host.substring(0, 3);
-        return Sanitizer.sanitizeForCourseId(username + "." + hostAbbreviation + "-demo");
+        
+        return head + "." + hostAbbreviation + "-demo";
     }
     
     /** 

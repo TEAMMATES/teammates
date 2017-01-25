@@ -199,11 +199,6 @@ public class FieldValidator {
     public static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
 
     /**
-     * Matches characters considered illegal in a course ID (inverse of above).
-     */
-    public static final String REGEX_COURSE_ID_ILLEGAL_CHARS = "[^a-zA-Z0-9_.$-]+";
-
-    /**
      * A normal course ID followed by the word '-demo' and then followed any amount of digits.
      */
     public static final String REGEX_SAMPLE_COURSE_ID = REGEX_COURSE_ID + "-demo\\d*";

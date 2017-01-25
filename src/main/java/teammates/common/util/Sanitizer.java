@@ -115,29 +115,6 @@ public final class Sanitizer {
     }
 
     /**
-     * Sanitizes the string for use as a course ID by replacing illegal
-     * characters with _.
-     * 
-     * @param str String to be sanitized for use as a course ID.
-     * @return Sanitized string, a valid course ID.
-     */
-    public static String sanitizeForCourseId(String str) {
-        return sanitizeForCourseId(str, "_");
-    }
-
-    /**
-     * Sanitizes the string for use as a course ID by replacing illegal
-     * characters with another specified string.
-     * 
-     * @param str String to be sanitized for use as a course ID.
-     * @param replacement String illegal characters should be replaced with.
-     * @return Sanitized string, a valid course ID.
-     */
-    public static String sanitizeForCourseId(String str, String replacement) {
-        return str.replaceAll(FieldValidator.REGEX_COURSE_ID_ILLEGAL_CHARS, replacement);
-    }
-
-    /**
      * Escape the string for inserting into javascript code.
      * This automatically calls {@link #sanitizeForHtml} so make it safe for HTML too.
      *

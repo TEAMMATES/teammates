@@ -202,6 +202,22 @@ public class StringHelperTest extends BaseTestCase {
         str = Sanitizer.sanitizeForHtml("<text><div> 'param' &&& \\//\\");
         assertEquals("<text><div> 'param' &&& \\//\\", StringHelper.recoverFromSanitizedText(str));
     }
+    
+    @Test
+    public void testReplaceIllegalChars() {
+        String str = null;
+        assertEquals(null, StringHelper.replaceIllegalChars(str, FieldValidator.REGEX_COURSE_ID, '_'));
+        
+        str = "";
+        assertEquals("", StringHelper.replaceIllegalChars(str, FieldValidator.REGEX_COURSE_ID, '_'));
+        
+        str = "abc";
+        assertEquals("abc", StringHelper.replaceIllegalChars(str, FieldValidator.REGEX_COURSE_ID, '_'));
+        
+        str = "illegal!?Chars+1";
+        assertEquals("illegal__Chars_1", StringHelper.replaceIllegalChars(str, FieldValidator.REGEX_COURSE_ID, '_'));
+        assertEquals("illegal..Chars.1", StringHelper.replaceIllegalChars(str, FieldValidator.REGEX_COURSE_ID, '.'));
+    }
 
     @Test
     public void testCountEmptyStrings() {
