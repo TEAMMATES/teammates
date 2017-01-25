@@ -12,7 +12,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Assumption;
 
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.users.User;
