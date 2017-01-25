@@ -19,7 +19,7 @@ $(document).ready(function() {
     bindUncommonSettingsEvents();
     bindParticipantSelectChangeEvents();
     updateUncommonSettingsInfo();
-    hideUncommonPanels();
+    showUncommonPanelsIfNotInDefaultValues();
     FeedbackPath.attachEvents();
     hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
     attachVisibilityDropdownEvent();

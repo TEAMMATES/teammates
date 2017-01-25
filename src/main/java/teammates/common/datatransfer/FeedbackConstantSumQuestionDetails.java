@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -19,6 +20,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
+import teammates.common.util.FieldValidator;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
@@ -378,7 +380,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.ADDITIONAL_INFO_ID, additionalInfoId,
                 Slots.QUESTION_ADDITIONAL_INFO, additionalInfo.toString());
     }
-
+    
     @Override
     public String getQuestionResultStatisticsHtml(
             List<FeedbackResponseAttributes> responses,
@@ -398,14 +400,24 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>();
+        
+        Map<String, String> identifierMap = new HashMap<String, String>();
+        
+        if (distributeToRecipients) {
+            putRecipientsInSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
+        } else {
+            putOptionsInSortedMap(optionPoints, options, sortedOptionPoints);
+        }
+
+        for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
             
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
             String pointsReceived = getListOfPointsAsString(points);
             
             if (distributeToRecipients) {
-                String participantIdentifier = entry.getKey();
+                String participantIdentifier = identifierMap.get(entry.getKey());
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
@@ -414,9 +426,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Slots.TEAM, Sanitizer.sanitizeForHtml(teamName),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
-            
             } else {
-                String option = options.get(Integer.parseInt(entry.getKey()));
+                String option = entry.getKey();
                 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                         Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(option),
@@ -450,14 +461,26 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>();
+        
+        Map<String, String> identifierMap = new HashMap<String, String>();
+        
+        if (distributeToRecipients) {
+            putRecipientsInSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
+        } else {
+            putOptionsInSortedMap(optionPoints, options, sortedOptionPoints);
+        }
+
+        for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
             String option;
             if (distributeToRecipients) {
-                String teamName = bundle.getTeamNameForEmail(entry.getKey());
-                String recipientName = bundle.getNameForEmail(entry.getKey());
+                String participantIdentifier = identifierMap.get(entry.getKey());
+                String teamName = bundle.getTeamNameForEmail(participantIdentifier);
+                String recipientName = bundle.getNameForEmail(participantIdentifier);
+                
                 option = Sanitizer.sanitizeForCsv(teamName) + "," + Sanitizer.sanitizeForCsv(recipientName);
             } else {
-                option = Sanitizer.sanitizeForCsv(options.get(Integer.parseInt(entry.getKey())));
+                option = Sanitizer.sanitizeForCsv(entry.getKey());
             }
             
             List<Integer> points = entry.getValue();
@@ -469,6 +492,45 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return (distributeToRecipients ? "Team, Recipient" : "Option")
                + ", Average Points" + Const.EOL
                + fragments + Const.EOL;
+    }
+    
+    /**
+     * Puts recipients from an unsorted map to a sorted map
+     * 
+     * @param recipientMapping      Original map containing recipients
+     * @param identifierMap         Helper map to retrieve email from name concatenated with email string
+     * @param sortedOptionPoints    Sorted map to contain recipient info, recipient concatenated with email used as key
+     */
+    private void putRecipientsInSortedMap(
+            Map<String, List<Integer>> recipientMapping, Map<String, String> identifierMap,
+            Map<String, List<Integer>> sortedOptionPoints, FeedbackSessionResultsBundle bundle) {
+        
+        for (Entry<String, List<Integer>> entry : recipientMapping.entrySet()) {
+            String participantIdentifier = entry.getKey();
+            String name = bundle.getNameForEmail(participantIdentifier);
+            String nameEmail = name + participantIdentifier;
+            
+            identifierMap.put(nameEmail, participantIdentifier);
+            sortedOptionPoints.put(nameEmail, entry.getValue());
+        }
+    }
+    
+    /**
+     * Puts options from an unsorted map to a sorted map
+     * 
+     * @param optionPoints          Original mapping of option points
+     * @param optionList            List of options in question
+     * @param sortedOptionPoints    Sorted map of option points
+     */
+    private void putOptionsInSortedMap(
+            Map<String, List<Integer>> optionPoints, List<String> optionList,
+            Map<String, List<Integer>> sortedOptionPoints) {
+        
+        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+            String option = optionList.get(Integer.parseInt(entry.getKey()));
+            
+            sortedOptionPoints.put(option, entry.getValue());
+        }
     }
 
     /**
@@ -608,6 +670,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                        + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS + ".");
         }
         
+        if (!FieldValidator.areElementsUnique(constSumOptions)) {
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+        }
+
         return errors;
     }
 
