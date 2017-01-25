@@ -23,5 +23,5 @@ Indicate what you expected to happen after the steps detailed above. For example
 
 ## Actual Behaviour
 
-Tell us what actually happened
+Tell us what actually happened. For instance :
 * Course couldn't be added
