@@ -476,7 +476,7 @@ function getPointValue(s, ditchZero) {
         return 100; // Case E
     }
     
-    return 100 + parseInt(s0); // Other typical cases
+    return 100 + parseFloat(s0); // Other typical cases
 }
 
 /** -----------------------UI Related Helper Functions-----------------------* */
