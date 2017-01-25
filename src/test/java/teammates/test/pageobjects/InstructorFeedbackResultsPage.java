@@ -154,14 +154,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return editPage;
     }
 
-    public boolean clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
-        WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-"
-                                                                             + qnNumber + "-" + additionalInfoId));
-        click(qnAdditionalInfoButton);
-        // Check if links toggle properly.
-        WebElement qnAdditionalInfo = browser.driver.findElement(By.id("questionAdditionalInfo-"
-                                                                       + qnNumber + "-" + additionalInfoId));
-        return qnAdditionalInfo.isDisplayed();
+    public void clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
+        click(By.id("questionAdditionalInfoButton-" + qnNumber + "-" + additionalInfoId));
+    }
+    
+    public boolean isQuestionAdditionalInfoVisible(int qnNumber, String additionalInfoId) {
+        return isElementVisible("questionAdditionalInfo-" + qnNumber + "-" + additionalInfoId);
     }
 
     public String getQuestionAdditionalInfoButtonText(int qnNumber, String additionalInfoId) {
