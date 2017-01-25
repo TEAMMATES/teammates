@@ -186,25 +186,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
-
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-1"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-1"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
+
+        String additionalInfoId = "section-1-giver-1-recipient-1";
+        int qnNumber = 8;
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("test sort by recipient > giver > question");
 
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestionTeam.html");
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-0"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-0"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
+        additionalInfoId = "section-1-giver-1-recipient-0";
+        qnNumber = 8;
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("test sort by giver > question > recipient");
 
@@ -246,12 +244,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionTeam.html");
         
-
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(7, ""));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(7, ""));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
+        additionalInfoId = "";
+        qnNumber = 8;
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("Typical case: test in-table sort");
 
@@ -786,6 +782,18 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
             resultsPage.verifyModerateResponseButtonBelongsTo(
                     resultsPage.getModerateResponseButtonInQuestionView(qnNumber, i), emails[i - 1]);
         }
+    }
+    
+    private void verifyQuestionAdditionalInfoCollapse(int qnNumber, String additionalInfoId) {
+        resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+        assertFalse(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
+    }
+    
+    private void verifyQuestionAdditionalInfoExpand(int qnNumber, String additionalInfoId) {
+        resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+        assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
     }
 
 }
