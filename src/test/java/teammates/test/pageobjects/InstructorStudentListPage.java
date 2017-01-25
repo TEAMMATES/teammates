@@ -3,6 +3,7 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -104,6 +105,8 @@ public class InstructorStudentListPage extends AppPage {
                                                     .getAttribute("src"));
         WebElement photo = browser.driver.findElement(By.id("studentphoto-c" + rowId))
                                          .findElement(By.cssSelector(".profile-pic-icon-click > img"));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -100);", photo);
         Actions action = new Actions(browser.driver);
         action.click(photo).build().perform();
         assertEquals(profilePhotoSrc, browser.driver.findElement(By.id("studentphoto-c" + rowId))
