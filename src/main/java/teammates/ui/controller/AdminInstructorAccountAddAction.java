@@ -272,11 +272,15 @@ public class AdminInstructorAccountAddAction extends Action {
     * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
     */
     private String getDemoCourseIdRoot(String instructorEmail) {
-        final String[] splitedEmail = instructorEmail.split("@");
-        final String head = splitedEmail[0];
-        final String emailAbbreviation = splitedEmail[1].substring(0, 3);
-        return head + "." + emailAbbreviation
-                + "-demo";
+        String[] emailSplit = instructorEmail.split("@");
+        
+        String username = emailSplit[0];
+        String host = emailSplit[1];
+        
+        String head = StringHelper.replaceIllegalChars(username, FieldValidator.REGEX_COURSE_ID, '_');
+        String hostAbbreviation = host.substring(0, 3);
+        
+        return head + "." + hostAbbreviation + "-demo";
     }
     
     /** 
