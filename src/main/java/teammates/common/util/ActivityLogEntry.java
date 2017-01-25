@@ -14,9 +14,6 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
 
 import com.google.appengine.api.log.AppLogLine;
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 
 /** A log entry to describe an action carried out by the app */
 public class ActivityLogEntry {
@@ -42,7 +39,6 @@ public class ActivityLogEntry {
     
     private static final Logger log = Logger.getLogger();
 
-    private static UserService userService = UserServiceFactory.getUserService();
     
     private long time;
     private String servletName;
@@ -55,6 +51,7 @@ public class ActivityLogEntry {
     private String message;
     private String url;
     private Long timeTaken;
+    private static UserType userType;
     
     // id can be in the form of <googleId>%<time> e.g. bamboo3250%20151103170618465
     // or <studentemail>%<courseId>%<time> (for unregistered students)
@@ -112,17 +109,17 @@ public class ActivityLogEntry {
      * Used in the various servlets in the application
      */
     public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link) {
-        this(servlet, act, acc, params, link, null, null);
+        this(servlet, act, acc, params, link, null, null, null);
     }
 
     /**
      * Constructs a ActivityLogEntry.
-     * The googleId in the log will be based on the {@code acc} passed in
+     * The googleId in the log will be based on the {@code acc} passed in, otherwise will be obtained from {@code userType}
      * For the log id, if the googleId is unknown, the {@code unregisteredUserCourse} and {@code unregisteredUserEmail}
      * will be used to construct the id.
      */
     public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link,
-                            String unregisteredUserCourse, String unregisteredUserEmail) {
+                            String unregisteredUserCourse, String unregisteredUserEmail,UserType userType) {
         time = System.currentTimeMillis();
         servletName = servlet;
         action = act;
@@ -134,10 +131,8 @@ public class ActivityLogEntry {
             role = "Unknown";
             name = "Unknown";
             email = "Unknown";
-            
-	        User user = getCurrentGoogleUser();
            
-            googleId = user == null ? "Unknown" : user.getNickname();
+            googleId = userType == null ? "Unknown" : userType.id;
         
         } else {
             role = acc.isInstructor ? "Instructor" : "Student";
@@ -511,7 +506,7 @@ public class ActivityLogEntry {
         String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
         ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message,
-                                                             url, courseId, studentEmail);
+                                                             url, courseId, studentEmail, userType);
         
         return exceptionLog.generateLogMessage();
     }
@@ -545,7 +540,7 @@ public class ActivityLogEntry {
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
         
         ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null,
-                                                               message, url, courseId, studentEmail);
+                                                               message, url, courseId, studentEmail, userType);
         
         return emailReportLog.generateLogMessage();
     }
@@ -634,10 +629,6 @@ public class ActivityLogEntry {
     public boolean isTestingData() {
         return email.endsWith(".tmt");
 
-    }
-
-    private User getCurrentGoogleUser() {
-        return userService.getCurrentUser();
     }
 
 }
