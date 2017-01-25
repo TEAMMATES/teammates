@@ -39,7 +39,7 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
-import teammates.test.util.FileHelper;
+import teammates.test.driver.FileHelper;
 
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with

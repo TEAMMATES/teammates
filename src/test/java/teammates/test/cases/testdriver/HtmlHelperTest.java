@@ -7,9 +7,9 @@ import java.io.IOException;
 import org.testng.annotations.Test;
 
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.FileHelper;
 
 public class HtmlHelperTest extends BaseTestCase {
     
