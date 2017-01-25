@@ -2127,9 +2127,9 @@ public final class FeedbackSessionsLogic {
             UserRole role,
             CourseRoster roster) {
         boolean[] visibility = new boolean[2];
-        visibility[Const.VISIBILITY_TABLE_GIVER] = frLogic.isNameVisibleTo(
+        visibility[Const.VISIBILITY_TABLE_GIVER] = frLogic.shouldNameBeVisibleToUser(
                 question, response, userEmail, role, true, roster);
-        visibility[Const.VISIBILITY_TABLE_RECIPIENT] = frLogic.isNameVisibleTo(
+        visibility[Const.VISIBILITY_TABLE_RECIPIENT] = frLogic.shouldNameBeVisibleToUser(
                 question, response, userEmail, role, false, roster);
         visibilityTable.put(response.getId(), visibility);
     }
