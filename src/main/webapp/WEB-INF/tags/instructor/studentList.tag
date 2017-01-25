@@ -85,7 +85,7 @@
                                 </td>
                                 <td id="studentsection-c${courseIndex}.${sectionIndex}"
                                     <c:if test="${not hasSection}">class="hidden"</c:if>>
-                                    ${section.sectionName}
+                                    <c:out value="${section.sectionName}"/>
                                 </td>
                                 <td id="studentteam-c${courseIndex}.${sectionIndex}.${teamIndex}">
                                     <c:out value="${team.teamName}"/>
