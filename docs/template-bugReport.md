@@ -20,7 +20,8 @@ Provide the steps to reproduce the bug on our end so we can help in fixing them.
 
 Indicate what you expected to happen after the steps detailed above. For example :
 * Course should be added into the instructors account
+
 ## Actual Behaviour
 
-Tell us what actually.
+Tell us what actually happened
 * Course couldn't be added
