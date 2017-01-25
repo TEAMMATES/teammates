@@ -429,7 +429,7 @@ public final class FeedbackQuestionsLogic {
         return recipients;
     }
 
-    private String getGiverTeam(String giver, InstructorAttributes instructorGiver,
+    private String getGiverTeam(String defaultTeam, InstructorAttributes instructorGiver,
             StudentAttributes studentGiver) {
         String giverTeam;
         boolean isStudentGiver = studentGiver != null;
@@ -439,7 +439,7 @@ public final class FeedbackQuestionsLogic {
         } else if (isInstructorGiver) {
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         } else {
-            giverTeam = giver;
+            giverTeam = defaultTeam;
         }
         return giverTeam;
     }
