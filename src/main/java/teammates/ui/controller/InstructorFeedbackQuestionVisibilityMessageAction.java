@@ -2,20 +2,17 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 
 public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
     @Override
     protected ActionResult execute() {
-        FeedbackQuestionAttributes feedbackQuestion =
-                extractFeedbackQuestionData(requestParameters, account.email);
+        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(account.email);
 
         List<String> message = feedbackQuestion.getVisibilityMessage();
 
@@ -26,40 +23,31 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
         return createAjaxResult(data);
     }
 
-    private static FeedbackQuestionAttributes extractFeedbackQuestionData(
-                           Map<String, String[]> requestParameters, String creatorEmail) {
+    private FeedbackQuestionAttributes extractFeedbackQuestionData(String creatorEmail) {
         FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
 
         newQuestion.creatorEmail = creatorEmail;
 
-        String feedbackQuestionGiverType =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
+        String feedbackQuestionGiverType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
 
         Assumption.assertNotNull("Null giver type", feedbackQuestionGiverType);
 
         newQuestion.giverType = FeedbackParticipantType.valueOf(feedbackQuestionGiverType);
 
-        String feedbackQuestionRecipientType =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
+        String feedbackQuestionRecipientType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
 
         Assumption.assertNotNull("Null recipient type", feedbackQuestionRecipientType);
 
         newQuestion.recipientType = FeedbackParticipantType.valueOf(feedbackQuestionRecipientType);
 
-        String numberOfEntityTypes =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
+        String numberOfEntityTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
 
         Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);
 
         if ("custom".equals(numberOfEntityTypes)
                 && (newQuestion.recipientType == FeedbackParticipantType.STUDENTS
                         || newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
-            String numberOfEntities =
-                    HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                           Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
+            String numberOfEntities = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
 
             Assumption.assertNotNull("Null number of entities for custom entity number", numberOfEntities);
 
@@ -69,18 +57,13 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
         }
 
         newQuestion.showResponsesTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
         newQuestion.showGiverNameTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
         newQuestion.showRecipientNameTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
 
-        String questionType = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                                     Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
-
+        String questionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
         Assumption.assertNotNull("Null question type", questionType);
         questionType = FeedbackQuestionType.standardizeIfConstSum(questionType);
 
