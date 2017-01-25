@@ -457,7 +457,7 @@ function getPointValue(s, ditchZero) {
     
     if (s0.indexOf('/') !== -1) {
         if (s0.indexOf('S') !== -1) {
-            return 999; // Case N/S
+            return 999; // Case N/S (feedback contribution not sure)
         }
         
         return 1000; // Case N/A
@@ -470,7 +470,7 @@ function getPointValue(s, ditchZero) {
         return 100;
     }
     
-    s0 = s0.replace('E', '').replace('%', '');
+    s0 = s0.replace('E', '').replace('%', ''); // Case E +(-)X%
     
     if (s0 === '') {
         return 100; // Case E
