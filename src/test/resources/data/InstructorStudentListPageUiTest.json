@@ -227,10 +227,10 @@
       "googleId": "CCSDetailsUiT.alice.tmms",
       "email": "CCSDetailsUiT.alice.tmms@gmail.tmt",
       "course": "course2",
-      "name": "Alice Betsy</option></td></div>'\"",
-      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
-      "team": "Team 1</td></div>'\"",
-      "section": "Section A"
+      "name": "Alice</option></td>tags and char here</div>&'\"",
+      "comments": "This student's name is Alice</option></td>tags and char here</div>&'\"",
+      "team": "Team 1</td>tags and char here</div>&'\"",
+      "section": "Section A</option></td>tags and char here</div>&'\""
     },
     "Student2Course2": {
       "googleId": "",
@@ -272,9 +272,9 @@
       "googleId": "CCSDetailsUiT.alice.tmms",
       "email": "CCSDetailsUiT.alice.tmms@gmail.tmt",
       "course": "course3",
-      "name": "Alice Betsy</option></td></div>'\"",
-      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "name": "Alice</option></td>tags and char here</div>&'\"",
+      "comments": "This student's name is Alice</option></td>tags and char here</div>&'\"",
+      "team": "Team 1</td>tags and char here</div>&'\""
     },
     "Student2Course3": {
       "googleId": "",
@@ -282,7 +282,7 @@
       "course": "course3",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td>tags and char here</div>&'\""
     },
     "Student3Course3": {
       "googleId": "CCSDetailsUiT.charlie.tmms",
@@ -306,7 +306,7 @@
       "course": "course4",
       "name": "Ann",
       "comments": "This student's name is Ann",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td>tags and char here</div>&'\""
     }
   },
   "feedbackSessions": {},
