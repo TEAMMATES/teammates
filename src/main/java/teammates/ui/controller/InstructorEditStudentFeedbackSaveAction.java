@@ -47,8 +47,8 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
         
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-            String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-"
-                    + questionIndx);
+            String questionId = getRequestParamValue(
+                    Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             
             if (questionId == null) {
                 // we do not throw an error if the question was not present on the page for instructors to edit
