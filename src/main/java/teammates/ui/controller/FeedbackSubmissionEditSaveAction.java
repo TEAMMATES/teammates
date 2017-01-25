@@ -25,7 +25,6 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
@@ -311,7 +310,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         // This field can be null if the question is skipped
         String paramName = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx;
-        String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, paramName);
+        String[] answer = getRequestParamValues(paramName);
         
         if (questionDetails.isQuestionSkipped(answer)) {
             response.responseMetaData = new Text("");
