@@ -13,6 +13,7 @@
 **Steps to Reproduce**
 
 > Help us to reproduce the bug on our end so we can fix it, e.g.
+> 
 > 1. Login as an student on the mobile website.
 > 1. Click 'Comments' in the menu.
 

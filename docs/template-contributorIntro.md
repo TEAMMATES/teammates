@@ -1,12 +1,12 @@
 **New Contributor Introduction**
 
-**Issue Title:** New Contributor Self-Intro [your real name]
+**Issue Title:** New Contributor Self-Intro [my real name]
 
-**Link to your app:**
+**Link to my app:**
 
 >Add the link to your TEAMMATES staging site here, e.g. `https://teammates-username.appspot.com`
 
-**Link to your fork:**
+**Link to my fork:**
 
 >Add the link to your TEAMMATES fork here, e.g. `https://github.com/username/teammates`
 
