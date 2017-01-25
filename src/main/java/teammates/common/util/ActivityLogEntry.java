@@ -12,9 +12,12 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.Assumption;
 
 import com.google.appengine.api.log.AppLogLine;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 /** A log entry to describe an action carried out by the app */
 public class ActivityLogEntry {
@@ -39,6 +42,8 @@ public class ActivityLogEntry {
     private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
     
     private static final Logger log = Logger.getLogger();
+
+    private static UserService userService = UserServiceFactory.getUserService();
     
     private long time;
     private String servletName;
@@ -113,7 +118,7 @@ public class ActivityLogEntry {
 
     /**
      * Constructs a ActivityLogEntry.
-     * The googleId in the log will be based on the {@code acc} passed in, otherwise it is obtained from the GateKeeper.
+     * The googleId in the log will be based on the {@code acc} passed in
      * For the log id, if the googleId is unknown, the {@code unregisteredUserCourse} and {@code unregisteredUserEmail}
      * will be used to construct the id.
      */
@@ -131,8 +136,9 @@ public class ActivityLogEntry {
             name = "Unknown";
             email = "Unknown";
             
-            UserType userType = new GateKeeper().getCurrentUser();
-            googleId = userType == null ? "Unknown" : userType.id;
+	    User user = getCurrentGoogleUser();
+           
+            googleId = user == null ? "Unknown" : user.getNickname();
         
         } else {
             role = acc.isInstructor ? "Instructor" : "Student";
@@ -630,4 +636,9 @@ public class ActivityLogEntry {
         return email.endsWith(".tmt");
 
     }
+
+    private User getCurrentGoogleUser() {
+        return userService.getCurrentUser();
+    }
+
 }
