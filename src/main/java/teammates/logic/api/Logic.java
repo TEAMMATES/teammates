@@ -1930,8 +1930,8 @@ public class Logic {
         return feedbackResponsesLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
     }
     
-    public boolean isCourseHasResponses(String courseId) {
-        return feedbackResponsesLogic.isCourseHasResponses(courseId);
+    public boolean hasResponsesForCourse(String courseId) {
+        return feedbackResponsesLogic.hasResponsesForCourse(courseId);
     }
     
     /**
