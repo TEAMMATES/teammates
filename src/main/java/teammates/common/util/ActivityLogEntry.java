@@ -135,7 +135,7 @@ public class ActivityLogEntry {
             name = "Unknown";
             email = "Unknown";
             
-	    User user = getCurrentGoogleUser();
+	        User user = getCurrentGoogleUser();
            
             googleId = user == null ? "Unknown" : user.getNickname();
         
