@@ -20,4 +20,3 @@ conventions for pull request titles and branch names.
 For a comprehensive directory of resources, including **style guides** and **best practices**, please refer [here][readme].
 
 [readme]: ../docs/README.md
-
