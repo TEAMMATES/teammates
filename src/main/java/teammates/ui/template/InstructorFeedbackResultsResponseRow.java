@@ -165,5 +165,23 @@ public class InstructorFeedbackResultsResponseRow {
         });
         return responseRows;
     }
+    
+    public static List<InstructorFeedbackResultsResponseRow> sortListByRecipientNameThenDefaultOrder(
+            List<InstructorFeedbackResultsResponseRow> responseRows) {
+        Collections.sort(responseRows, new Comparator<InstructorFeedbackResultsResponseRow>() {
+            @Override
+            public int compare(InstructorFeedbackResultsResponseRow a1,
+                    InstructorFeedbackResultsResponseRow a2) {
+                return ComparisonChain.start()
+                        .compare(a1.getRecipientDisplayableIdentifier(),
+                                a2.getRecipientDisplayableIdentifier())
+                        .compare(a1.getGiverTeam(), a2.getGiverTeam())
+                        .compare(a1.getGiverDisplayableIdentifier(),
+                                a2.getGiverDisplayableIdentifier())
+                        .result();
+            }
+        });
+        return responseRows;
+    }
 
 }
