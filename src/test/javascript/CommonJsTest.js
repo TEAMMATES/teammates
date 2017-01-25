@@ -115,6 +115,34 @@ QUnit.test('getPointValue(s, ditchZero)', function(assert) {
     assert.ok(isCloseEnough(getPointValue('-3.833333', false), 96.166667), 'Float -3.833333');
 });
 
+QUnit.test('sortByPoint(a, b)', function(assert) {
+    assert.ok(sortByPoint("N/S", "N/A") < 0, "Case N/S less than N/A");
+    assert.ok(sortByPoint("N/S", "3%") > 0, "N/S is the biggest (with Case X%)");
+    assert.ok(sortByPoint("N/S", "E +1%") > 0, "N/S is the biggest (with Case E +(-)X%)");
+    assert.ok(sortByPoint("N/S", "3") > 0, "N/S is the biggest (with Case Integer)");
+    assert.ok(sortByPoint("N/S", "1.223") > 0, "N/S is the biggest (with Case Float)");
+    
+    assert.ok(sortByPoint("0%", "0%") === 0, "Case 0% equal 0%");
+    assert.ok(sortByPoint("-1%", "0%") > 0, "Case 0% less than every X%");
+    assert.ok(sortByPoint("1%", "0%") > 0, "Case 0% less than every X%");
+    assert.ok(sortByPoint("3%", "-2%") > 0, "Case 3% more than -2%");
+    
+    assert.ok(sortByPoint("E +1%", "E") > 0, "Case E +1% more than E");
+    assert.ok(sortByPoint("E -1%", "E") < 0, "Case E -1% less than E");
+    assert.ok(sortByPoint("E +33%", "E -23%") > 0, "Case E +33% more than E -23%");
+    
+    assert.ok(sortByPoint("0", "-1") > 0, "Case Integer 0 more than -1");
+    assert.ok(sortByPoint("1", "0") > 0, "Case Integer 1 more than 0");
+    assert.ok(sortByPoint("2", "-3") > 0, "Case Integer 2 more than -3");
+    
+    assert.ok(sortByPoint("0.0", "1.0") < 0, "Case Float 0.0 less than 1.0");
+    assert.ok(sortByPoint("0.3", "-1.1") > 0, "Case Float 0.3 more than -1.1");
+    assert.ok(sortByPoint("0.3", "0.33338") < 0, "Case Float 0.3 less than 0.33338");
+    assert.ok(sortByPoint("-4.33333", "-4.5") > 0, "Case Float -4.33333 more than -4.5");
+    
+    assert.ok(sortByPoint("NotNumber", "Random") === 0, "Equality for NaN");
+});
+
 QUnit.test('setStatusMessage(message,status)', function(assert) {
     $('body').append('<div id="statusMessagesToUser"></div>');
     var message = 'Status Message';
