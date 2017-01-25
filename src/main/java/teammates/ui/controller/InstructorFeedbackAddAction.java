@@ -25,6 +25,7 @@ import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.common.util.TimeHelper;
+import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.reflect.TypeToken;
@@ -41,8 +42,10 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        new GateKeeper().verifyAccessible(
+                instructor,
+                logic.getCourse(courseId),
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         FeedbackSessionAttributes fs = extractFeedbackSessionData();
 
@@ -146,33 +149,54 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         return new ArrayList<FeedbackQuestionAttributes>();
     }
 
-    private FeedbackSessionAttributes extractFeedbackSessionData() {
+    public FeedbackSessionAttributes extractFeedbackSessionData() {
         //TODO assert parameters are not null then update test
         //TODO make this method stateless
-        
+      
         FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
         newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
         newSession.setFeedbackSessionName(Sanitizer.sanitizeTitle(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         
-        newSession.setCreatedTime(new Date());
+        // getting the class name from which it's being called 
+        String className = new Exception().getStackTrace()[1].getClassName();
+        
+        if (className == "InstructorFeedbackEditSaveAction") {
+            newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
+        } else {
+            newSession.setCreatedTime(new Date());            
+        }
+        
         newSession.setStartTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
         newSession.setEndTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
-        String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
+        
+        // adding try and catch block instead of having if-else conditions
+        String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE); 
         if (paramTimeZone != null) {
-            newSession.setTimeZone(Double.parseDouble(paramTimeZone));
-        }
-        String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
-        if (paramGracePeriod != null) {
-            newSession.setGracePeriod(Integer.parseInt(paramGracePeriod));
+            try {
+                newSession.setTimeZone(Double.parseDouble(paramTimeZone));
+            } catch (NumberFormatException nfe) {
+                log.warning("Failed to parse time zone parameter: " + paramTimeZone);
+            }
         }
         
-        newSession.setSentOpenEmail(false);
-        newSession.setSentPublishedEmail(false);
+        String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
+        try {
+            newSession.setGracePeriod(Integer.parseInt(paramGracePeriod));
+        } catch (NumberFormatException nfe) {
+            log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
+        }
+        
+        if (className == "InstructorFeedbackEditSaveAction") {
+
+        } else {
+            newSession.setSentOpenEmail(false);
+            newSession.setSentPublishedEmail(false);
+        }
         
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         newSession.setInstructions(new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
@@ -198,6 +222,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             break;
         }
         
+        // handle session visible after results visible to avoid having a
+        // results visible date when session is private (session not visible)
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
@@ -224,6 +250,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         List<String> sendReminderEmailsList =
                 sendReminderEmailsArray == null ? new ArrayList<String>()
                                                 : Arrays.asList(sendReminderEmailsArray);
+        if (className == "InstructorFeedbackEditSaveAction") {
+            newSession.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString()));
+        }
         newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
         newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
         
