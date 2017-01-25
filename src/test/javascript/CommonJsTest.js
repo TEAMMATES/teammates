@@ -81,10 +81,10 @@ QUnit.test('sortDate(x, y)', function(assert) {
 QUnit.test('getPointValue(s, ditchZero)', function(assert) {
     // getPointValue() is used by the application itself, thus
     // the inputs are always valid.
-    assert.equal(getPointValue('N/S', false), 999,
+    assert.equal(getPointValue('N/S', false), 201,
             'Case N/S (feedback contribution not sure)');
     
-    assert.equal(getPointValue('N/A', false), 1000, 'Case N/A');
+    assert.equal(getPointValue('N/A', false), 202, 'Case N/A');
     
     assert.equal(getPointValue('0%', true), 0, 'Case 0% ditchZero true');
     assert.equal(getPointValue('0%', false), 100, 'Case 0% ditchZero false');
