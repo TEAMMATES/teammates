@@ -11,9 +11,13 @@ If that is the case, [open a new issue][new issue]. Make sure to include a clear
 [new issue]: https://github.com/TEAMMATES/teammates/issues/new
 
 For feature requests, refer  [here](../docs/template-featureRequest.md)
+
 For bug reports, refer [here](../docs/template-bugReport.md)
+
 For new contributor introduction, refer [here](../docs/template-contributorIntro.md)
+
 For help requests, refer  [here](../docs/template-helpRequest.md)
+
 
 ### Submitting a pull request
 Make sure that the pull request addresses an open issue in the issue tracker.
