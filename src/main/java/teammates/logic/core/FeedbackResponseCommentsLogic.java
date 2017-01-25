@@ -214,7 +214,7 @@ public final class FeedbackResponseCommentsLogic {
      * @param roster
      * @return true/false
      */
-    public boolean isNameVisibleTo(FeedbackResponseCommentAttributes comment, FeedbackResponseAttributes response,
+    public boolean isNameVisibleToUser(FeedbackResponseCommentAttributes comment, FeedbackResponseAttributes response,
                                    String userEmail, CourseRoster roster) {
         List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
         //in the old ver, name is always visible
@@ -227,6 +227,11 @@ public final class FeedbackResponseCommentsLogic {
             return true;
         }
         
+        return isFeedbackParticipantNameVisibleToUser(response, userEmail, roster, showNameTo);
+    }
+
+    private boolean isFeedbackParticipantNameVisibleToUser(FeedbackResponseAttributes response,
+            String userEmail, CourseRoster roster, List<FeedbackParticipantType> showNameTo) {
         String responseGiverTeam = "giverTeam";
         if (roster.getStudentForEmail(response.giver) != null) {
             responseGiverTeam = roster.getStudentForEmail(response.giver).team;
@@ -239,21 +244,40 @@ public final class FeedbackResponseCommentsLogic {
         if (roster.getStudentForEmail(userEmail) != null) {
             currentUserTeam = roster.getStudentForEmail(userEmail).team;
         }
-        
         for (FeedbackParticipantType type : showNameTo) {
-            if (type == FeedbackParticipantType.GIVER && userEmail.equals(response.giver)) {
-                return true;
-            } else if (type == FeedbackParticipantType.INSTRUCTORS && roster.getInstructorForEmail(userEmail) != null) {
-                return true;
-            } else if (type == FeedbackParticipantType.RECEIVER && userEmail.equals(response.recipient)) {
-                return true;
-            } else if (type == FeedbackParticipantType.OWN_TEAM_MEMBERS && responseGiverTeam.equals(currentUserTeam)) {
-                return true;
-            } else if (type == FeedbackParticipantType.RECEIVER_TEAM_MEMBERS
-                    && responseRecipientTeam.equals(currentUserTeam)) {
-                return true;
-            } else if (type == FeedbackParticipantType.STUDENTS && roster.getStudentForEmail(userEmail) != null) {
-                return true;
+            switch (type) {
+            case INSTRUCTORS:
+                if (roster.getInstructorForEmail(userEmail) != null) {
+                    return true;
+                }
+                break;
+            case OWN_TEAM_MEMBERS:
+                if (responseGiverTeam.equals(currentUserTeam)) {
+                    return true;
+                }
+                break;
+            case RECEIVER:
+                if (userEmail.equals(response.recipient)) {
+                    return true;
+                }
+                break;
+            case RECEIVER_TEAM_MEMBERS:
+                if (responseRecipientTeam.equals(currentUserTeam)) {
+                    return true;
+                }
+                break;
+            case STUDENTS:
+                if (roster.getStudentForEmail(userEmail) != null) {
+                    return true;
+                }
+                break;
+            case GIVER:
+                if (userEmail.equals(response.giver)) {
+                    return true;
+                }
+                break;
+            default:
+                break;
             }
         }
         return false;
