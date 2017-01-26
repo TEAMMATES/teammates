@@ -1,13 +1,19 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -17,14 +23,15 @@ import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.logic.api.EmailSender;
-import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
 
@@ -48,7 +55,6 @@ public abstract class Action {
     public StudentAttributes student;
     
     protected Logic logic;
-    protected GateKeeper gateKeeper;
     protected TaskQueuer taskQueuer;
     protected EmailSender emailSender;
     
@@ -93,7 +99,6 @@ public abstract class Action {
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
-        gateKeeper = new GateKeeper();
         setTaskQueuer(new TaskQueuer());
         setEmailSender(new EmailSender());
         requestParameters = request.getParameterMap();
@@ -120,7 +125,7 @@ public abstract class Action {
     }
     
     protected void authenticateUser() {
-        UserType currentUser = gateKeeper.getCurrentUser();
+        UserType currentUser = logic.getCurrentUser();
         loggedInUser = authenticateAndGetActualUser(currentUser);
         if (isValidUser()) {
             account = authenticateAndGetNominalUser(currentUser);
@@ -180,7 +185,7 @@ public abstract class Action {
                 expectedId = StringHelper.encrypt(expectedId);
                 String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
                                           .withUserId(StringHelper.encrypt(loggedInUserId))
-                                          .withParam(Const.ParamsNames.NEXT_URL, gateKeeper.getLoginUrl(requestUrl))
+                                          .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
                                           .withParam(Const.ParamsNames.HINT, expectedId)
                                           .toString();
                 
@@ -204,7 +209,7 @@ public abstract class Action {
         if (isUnknownKey) {
             throw new UnauthorizedAccessException("Unknown Registration Key " + regkey);
         } else if (isARegisteredUser) {
-            setRedirectPage(gateKeeper.getLoginUrl(requestUrl));
+            setRedirectPage(Logic.getLoginUrl(requestUrl));
             return null;
         } else if (isNotLegacyLink() && isMissingAdditionalAuthenticationInfo) {
             throw new UnauthorizedAccessException("Insufficient information to authenticate user");
@@ -230,7 +235,7 @@ public abstract class Action {
         boolean noRegkeyGiven = getRegkeyFromRequest() == null;
         
         if (userIsNotLoggedIn && (userNeedsGoogleAccountForPage || noRegkeyGiven)) {
-            setRedirectPage(gateKeeper.getLoginUrl(requestUrl));
+            setRedirectPage(Logic.getLoginUrl(requestUrl));
             return true;
         }
         
@@ -370,7 +375,7 @@ public abstract class Action {
         response.isError = isError;
         
         // Set the common parameters for the response
-        if (gateKeeper.getCurrentUser() != null) {
+        if (logic.getCurrentUser() != null) {
             response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
         }
         
@@ -431,7 +436,7 @@ public abstract class Action {
      *   the 'activity log' for the Admin.
      */
     public String getLogMessage() {
-        UserType currentUser = gateKeeper.getCurrentUser();
+        UserType currentUser = logic.getCurrentUser();
         
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(account,
                                                                  isInMasqueradeMode(),
@@ -574,6 +579,120 @@ public abstract class Action {
                && !"null".equals(requestedUserId.trim())
                && loggedInUser.googleId != null
                && !loggedInUser.googleId.equals(requestedUserId);
+    }
+    
+    /**
+     * common method to get feedback data for InstructorFeedbackAddAction and InstructorFeedbackEditSaveAction classes 
+     * 
+     */
+
+    protected FeedbackSessionAttributes extractFeedbackSessionData(){
+        
+        FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
+        
+        newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
+        newSession.setFeedbackSessionName(Sanitizer.sanitizeTitle(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
+        
+        // getting the class name from which it's being called 
+        String className = new Exception().getStackTrace()[1].getClassName();
+        
+        if (className.equals("InstructorFeedbackEditSaveAction")) {
+            newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
+        } else {
+            newSession.setCreatedTime(new Date());            
+        }
+        
+        newSession.setStartTime(TimeHelper.combineDateTime(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
+        newSession.setEndTime(TimeHelper.combineDateTime(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
+        
+        // adding try and catch block instead of having if-else conditions
+        String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE); 
+        if (paramTimeZone != null) {
+            try {
+                newSession.setTimeZone(Double.parseDouble(paramTimeZone));
+            } catch (NumberFormatException nfe) {
+                log.warning("Failed to parse time zone parameter: " + paramTimeZone);
+            }
+        }
+        
+        String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
+        try {
+            newSession.setGracePeriod(Integer.parseInt(paramGracePeriod));
+        } catch (NumberFormatException nfe) {
+            log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
+        }
+        
+        if (className.equals("InstructorFeedbackEditSaveAction")) {
+            newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
+            newSession.setInstructions(new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
+        } else {
+            newSession.setSentOpenEmail(false);
+            newSession.setSentPublishedEmail(false);
+            newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
+            newSession.setInstructions(new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
+        }
+        
+        String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+        switch (type) {
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
+            newSession.setResultsVisibleFromTime(TimeHelper.combineDateTime(
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME)));
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            break;
+        default:
+            log.severe("Invalid resultsVisibleFrom setting in creating" + newSession.getIdentificationString());
+            break;
+        }
+        
+        // handle session visible after results visible to avoid having a
+        // results visible date when session is private (session not visible)
+        type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+        switch (type) {
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
+            newSession.setSessionVisibleFromTime(TimeHelper.combineDateTime(
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME)));
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
+            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
+            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            // overwrite if private
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
+            break;
+        default:
+            log.severe("Invalid sessionVisibleFrom setting in creating " + newSession.getIdentificationString());
+            break;
+        }
+        
+        String[] sendReminderEmailsArray =
+                getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
+        List<String> sendReminderEmailsList =
+                sendReminderEmailsArray == null ? new ArrayList<String>()
+                                                : Arrays.asList(sendReminderEmailsArray);
+        if (className.equals("InstructorFeedbackEditSaveAction")) {
+            newSession.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString()));
+        }
+        newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
+        newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
+
+        return newSession;
     }
     
     // ===================== Utility methods used by some child classes========
