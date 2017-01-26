@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "30 November 2016",
+  "lastUpdated": "31 December 2016",
   "institutes": {
      "Argentina": [
        "Southworks"
@@ -60,10 +60,12 @@
       "Western Sydney University"
     ],
     "Austria": [
-      "IMC University of Applied Sciences Krems"
+      "IMC University of Applied Sciences Krems",
+      "Wirtschaftsuniversität Wien"
     ],
     "Belgium": [
       "Annuntia",
+      "AP hogeschool Antwerpen",
       "Arteveldehogeschool",
       "Artevelde University College Ghent",
       "BA Stassart",
@@ -134,6 +136,7 @@
       "Cooksville Creek P.S.",
       "Dalhousie University",
       "Ecole Cardinal Leger School",
+      "Ecole de technologie superieure",
       "Edgemont School",
       "EDUCSA",
       "Fanshawe College",
@@ -148,6 +151,7 @@
       "McMaster University",
       "Memorial University of Newfoundland",
       "Mohawk College",
+      "Moncton High School",
       "Multicultural Association of the Greater Moncton Area",
       "MyPlanet Digital",
       "Queen's University",
@@ -166,6 +170,7 @@
       "St. Lawrence College",
       "St. Mary's High School",
       "The King's University",
+      "Thompson Rivers University",
       "Trinity Western University",
       "Universite Laval",
       "University of Alberta",
@@ -181,14 +186,17 @@
       "University of Toronto",
       "University of Waterloo",
       "University of Windsor",
+      "University of Winnipeg",
       "UOIT",
       "UQAC-NAD",
+      "Valley View Public School",
       "Western University",
       "Wilfrid Laurier University",
       "York University"
     ],
     "Chile": [
-      "Universidad De Chile"
+      "Universidad De Chile",
+      "Pontificia Universidad Católica de Chile"
     ],
     "China": [
       "Clark University",
@@ -250,7 +258,8 @@
       "Lille 1 University",
       "Sciences Po",
       "SKEMA Business School",
-      "Telecom Paris Tech"
+      "Telecom Paris Tech",
+      "University of Lyon"
     ],
     "Germany": [
       "Brackweder Realschule",
@@ -282,6 +291,7 @@
     ],
     "Hong Kong": [
       "CCC Rotary Secondary School",
+      "HKU",
       "HKU SPACE Community College",
       "Queen Elizabeth School",
       "The Hong Kong Polytechnic University",
@@ -320,6 +330,7 @@
       "P S Senior Secondary School",
       "Pearl Academy",
       "Rajalakshmi School of Business",
+      "Swami Ram Ahimalayan University",
       "Tech Mahindra",
       "USICT, New Delhi",
       "VIT University Vellore"
@@ -378,7 +389,8 @@
       "Spire"
     ],
     "Latvia": [
-      "BA School of Banking"
+      "BA School of Banking",
+      "University of Latvia"
     ],
     "Lebanon": [
       "Lebanese American University"
@@ -392,6 +404,7 @@
     ],
     "Malaysia": [
       "Help University",
+      "International Islamic University  Malaysia",
       "Kolej PolyTech Mara",
       "Sekolah Menengah Kebangsaan Bukit Jalor",
       "Sunway University",
@@ -399,6 +412,7 @@
       "Tunku Abdul Rahman University",
       "UCSI University",
       "Universiti Kebangsaan Malaysia",
+      "Universiti Kuala Lumpur",
       "Universiti Malaysia Sarawak",
       "Universiti Putra Malaysia",
       "Universiti Sains Malaysia",
@@ -461,6 +475,7 @@
       "The School of Life",
       "TIAS Business School",
       "TU Delft",
+      "University of Amsterdam",
       "University of Groningen",
       "University of Inholland",
       "University of Twente",
@@ -472,6 +487,7 @@
     "New Zealand": [
       "Auckland University of Technology",
       "Manukau Institute of Technology",
+      "Otago Polytechnic",
       "Unitec Institute of Technology",
       "University of Auckland",
       "University of Canterbury",
@@ -500,8 +516,10 @@
       "Ateneo de Manila University",
       "Ateneo School of Medicine & Public Health",
       "Batangas State University",
+      "Corazon Locsin Montelibano Memorial Regional Hospital",
       "De La Salle Health Sciences Institute",
       "De La Salle University",
+      "dr. filemon c. aguilar information technology",
       "EKindling",
       "Holy Cross of Davao College",
       "La Salle University",
@@ -663,7 +681,8 @@
     "Thailand": [
       "Chulalongkorn University",
       "Harrow International School",
-      "Mahidol University"
+      "Mahidol University",
+      "PSED"
     ],
     "Tunisia": [
       "National School of Computer Sciences"
@@ -710,6 +729,7 @@
       "Queen Margaret University",
       "Robert Gordon University",
       "Royal Holloway University of London",
+      "Scotland’s Rural College",
       "SECAmb TtP",
       "Southampton Solent University",
       "Southampton University",
@@ -769,11 +789,13 @@
       "Bearden High School",
       "Bedford North Lawrence High School",
       "Bellarmine Preparatory School",
+      "Bellevue University",
       "Benedictine College",
       "Benjamin Bosse High School",
       "Benjamin Stoddert Middle School",
       "Bessemer City High School",
       "Bethany High School",
+      "Binghamton University",
       "Black Hawk College",
       "Bloomfield College",
       "Bluffton High School",
@@ -845,6 +867,7 @@
       "Columbia Basin College",
       "Columbia Middle School",
       "Columbia University",
+      "Columbus College of Art and Design",
       "Columbus State Community College",
       "Connally High School",
       "Cornell University",
@@ -933,6 +956,7 @@
       "Harper College",
       "Harrisburg Area Community College",
       "Harris Road Middle School",
+      "Harvard Medical School",
       "Hialeah Gardens High School",
       "High School of Commerce",
       "Hillgrove High School",
@@ -946,6 +970,7 @@
       "Howard Payne University",
       "Hudson County Community College",
       "Hult International Business School",
+      "Humboldt State University",
       "Hurricane High School",
       "Hyde Leadership Charter School",
       "iFOSS",
@@ -961,6 +986,7 @@
       "Ithaca College",
       "ITT Technical Institute",
       "IU-PUI",
+      "Jacksonville State University",
       "James Madison University",
       "Jenae Leles Softball Academy",
       "JN Fries Magnet School",
@@ -979,6 +1005,7 @@
       "Kent State University",
       "Kingston University ",
       "KIPP Ujima Village Academy",
+      "Kit Carson World School",
       "Knox High School",
       "Lakeridge Junior High",
       "Lamar Consolidated Independent School District",
@@ -990,10 +1017,12 @@
       "Lehigh University",
       "Lehman College",
       "Liberty High School",
+      "Liberty North High School",
       "Liberty University",
       "Limestone College",
       "Lincoln-King Academy",
       "Lincoln Memorial University",
+      "London Middle School",
       "Los Alamitos High School Science",
       "Louisiana State University",
       "Louis Pasteur Middle School 67",
@@ -1049,9 +1078,11 @@
       "NC A&T State University",
       "NC State University",
       "New Fairfield High School",
+      "New Jersey Institute of Technology",
       "New Mexico State University",
       "New Prairie United School Corporation",
       "New Tech Odessa High School",
+      "New York University",
       "Newbury Park High School",
       "Newport News Schools",
       "Newton Conover City Schools",
@@ -1113,6 +1144,7 @@
       "Riverwood International Charter School",
       "Rochester Institute of Technology",
       "Rockdale High School",
+      "Rockingham County Public Schools",
       "Rowan College at Gloucester County",
       "Rowan University",
       "Roz Hussin",
@@ -1172,6 +1204,7 @@
       "Sun Valley High School",
       "SUNY Buffalo",
       "SUNY Jefferson Community College",
+      "SUNY Sullivan",
       "Syracuse University",
       "TAMC 6B2",
       "Tarleton State University",
@@ -1204,6 +1237,7 @@
       "UC San Diego",
       "UNC Pembroke",
       "Union Mine High School",
+      "United States Military Academy Preparatory School",
       "Univeristy of North Georgia",
       "University at Buffalo",
       "University of Akron",
@@ -1214,6 +1248,7 @@
       "University at Albany",
       "University of Arizona",
       "University of Arizona South",
+      "University of Arkansas",
       "University of California",
       "University of California Davis",
       "University of California Los Angeles",
@@ -1253,6 +1288,7 @@
       "University of Memphis",
       "University of Michigan",
       "University of Minnesota",
+      "University of Minnesota, Twin Cities",
       "University of Mississippi",
       "University of Missouri",
       "University of Nebraska",
@@ -1299,6 +1335,7 @@
       "University of Virginia",
       "University of Washington",
       "University of Wisconsin",
+      "University of Wisconsin, Green Bay",
       "University of Wisconsin, La Crosse",
       "University of Wisconsin Oshkosh",
       "University of Wisconsin School of Business",
@@ -1311,6 +1348,7 @@
       "UT Tyler",
       "Utah Valley University",
       "Valparaiso University",
+      "Vandegrift HS, Leander ISD",
       "Virginia Commonwealth University",
       "Virginia State University",
       "Walden University",
@@ -1326,6 +1364,7 @@
       "Weber State University",
       "Webster University",
       "Wells College",
+      "Wesleyan University",
       "West Boca Raton High School",
       "West Shore Career Technical District",
       "West Virginia Department of Education",
@@ -1365,7 +1404,9 @@
     "Vietnam": [
       "Dong Nai University",
       "Eastern International University",
-      "SSIS"
+      "International University - Vietnam National Uni. HCMC",
+      "SSIS",
+      "Ton Duc Thang University"
     ]
   }
 }
