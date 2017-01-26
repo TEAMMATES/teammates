@@ -39,7 +39,6 @@ public class ActivityLogEntry {
     
     private static final Logger log = Logger.getLogger();
 
-    
     private long time;
     private String servletName;
     private String action; //TODO: remove if not needed (and rename servletName to action)
@@ -51,7 +50,7 @@ public class ActivityLogEntry {
     private String message;
     private String url;
     private Long timeTaken;
-    private static UserType userType;
+    private UserType userType;
     
     // id can be in the form of <googleId>%<time> e.g. bamboo3250%20151103170618465
     // or <studentemail>%<courseId>%<time> (for unregistered students)
@@ -146,7 +145,7 @@ public class ActivityLogEntry {
     }
     
     public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage,
-                            String requestUrl, StudentAttributes unregisteredStudent, UserType userType) {
+                            String requestUrl, StudentAttributes unregisteredStudent) {
         time = System.currentTimeMillis();
         try {
             servletName = getActionName(requestUrl);
@@ -506,7 +505,7 @@ public class ActivityLogEntry {
         String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
         ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message,
-                                                             url, courseId, studentEmail, userType);
+                                                             url, courseId, studentEmail, null);
         
         return exceptionLog.generateLogMessage();
     }
@@ -540,7 +539,7 @@ public class ActivityLogEntry {
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
         
         ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null,
-                                                               message, url, courseId, studentEmail, userType);
+                                                               message, url, courseId, studentEmail, null);
         
         return emailReportLog.generateLogMessage();
     }
@@ -628,7 +627,6 @@ public class ActivityLogEntry {
     
     public boolean isTestingData() {
         return email.endsWith(".tmt");
-
     }
 
 }
