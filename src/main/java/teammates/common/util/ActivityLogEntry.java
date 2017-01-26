@@ -508,8 +508,8 @@ public class ActivityLogEntry {
         return exceptionLog.generateLogMessage();
     }
 
-    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, 
-                                                            EmailWrapper errorEmail, UserType userType) {
+    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail,
+                                                            UserType userType) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if (actionTaken.length > 0) {
