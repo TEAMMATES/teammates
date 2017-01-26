@@ -29,7 +29,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false,
@@ -64,8 +64,10 @@ public class InstructorFeedbackEditSaveAction extends Action {
         return createAjaxResult(data);
     }
     
-    private FeedbackSessionAttributes extractFeedbackSessionData() {
-        InstructorFeedbackAddAction feedbackData = new InstructorFeedbackAddAction();
-        return feedbackData.extractFeedbackSessionData();
+    protected FeedbackSessionAttributes extractFeedbackSessionData() {
+        //TODO make this method stateless
+
+        // call the super method in the Action class        
+       return super.extractFeedbackSessionData();
     }
 }
