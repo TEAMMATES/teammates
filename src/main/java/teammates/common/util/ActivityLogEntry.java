@@ -105,7 +105,8 @@ public class ActivityLogEntry {
      * Constructor that creates an ActivityLog object from scratch
      * Used in the various servlets in the application
      */
-    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link, UserType userType) {
+    public ActivityLogEntry(String servlet, String act, 
+                            AccountAttributes acc, String params, String link, UserType userType) {
         this(servlet, act, acc, params, link, null, null, userType);
     }
 
@@ -507,7 +508,8 @@ public class ActivityLogEntry {
         return exceptionLog.generateLogMessage();
     }
 
-    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail, UserType userType) {
+    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, 
+                                                             EmailWrapper errorEmail, UserType userType) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if (actionTaken.length > 0) {
