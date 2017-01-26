@@ -2,14 +2,13 @@ package teammates.test.cases.logic;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.log.AppLogLine;
-import com.google.appengine.api.log.LogService.LogLevel;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -17,15 +16,20 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.StringHelper;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.EmailChecker;
+
+import com.google.appengine.api.log.AppLogLine;
+import com.google.appengine.api.log.LogService.LogLevel;
 
 /**
  * SUT: {@link EmailGenerator}
@@ -41,9 +45,9 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     private static boolean isGodModeEnabled;
     
     @BeforeClass
-    public void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
         if (isGodModeEnabled) {
             System.setProperty("godmode", "true");
         }
@@ -135,6 +139,28 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         assertTrue(hasStudent1ReceivedEmail);
         assertTrue(hasInstructor1ReceivedEmail);
         
+        ______TS("feedback session closed alerts");
+        
+        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
+        assertEquals(10, emails.size());
+        
+        subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
+                                course.getName(), session.getFeedbackSessionName());
+        
+        hasStudent1ReceivedEmail = false;
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionClosedEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionClosedEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
+        
         ______TS("feedback session published alerts");
         
         emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(session);
@@ -157,6 +183,54 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         assertTrue(hasStudent1ReceivedEmail);
         assertTrue(hasInstructor1ReceivedEmail);
         
+        ______TS("feedback session unpublished alerts");
+        
+        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(session);
+        assertEquals(10, emails.size());
+        
+        subject = String.format(EmailType.FEEDBACK_UNPUBLISHED.getSubject(),
+                                course.getName(), session.getFeedbackSessionName());
+        
+        hasStudent1ReceivedEmail = false;
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionUnpublishedEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionUnpublishedEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
+        
+        ______TS("feedback session submission email");
+
+        Calendar time = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        time.set(Calendar.DATE, 4);
+        time.set(Calendar.MONTH, 8);
+        time.set(Calendar.HOUR_OF_DAY, 5);
+        time.set(Calendar.MINUTE, 30);
+        time.set(Calendar.YEAR, 2016);
+        EmailWrapper email = new EmailGenerator()
+                .generateFeedbackSubmissionConfirmationEmailForStudent(session, student1, time);
+        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
+                                session.getFeedbackSessionName());
+        verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailPositiveTimeZone.html");
+
+        session.setTimeZone(-9.5);
+        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
+        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
+                                session.getFeedbackSessionName());
+        verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailNegativeTimeZone.html");
+
+        session.setTimeZone(0.0);
+        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
+        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
+                                session.getFeedbackSessionName());
+        verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailZeroTimeZone.html");
+
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
         
         FeedbackSessionAttributes privateSession =
@@ -168,7 +242,13 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         emails = new EmailGenerator().generateFeedbackSessionClosingEmails(privateSession);
         assertTrue(emails.isEmpty());
         
+        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
         emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
+        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(privateSession);
         assertTrue(emails.isEmpty());
         
     }
@@ -178,23 +258,28 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("instructor new account email");
         
+        String instructorEmail = "instructor@email.tmt";
+        String shortName = "Instr";
+        String regkey = "skxxxxxxxxxks";
         @SuppressWarnings("deprecation")
         InstructorAttributes instructor =
-                new InstructorAttributes("googleId", "courseId", "Instructor Name", "instructor@email.tmt");
-        instructor.key = "skxxxxxxxxxks";
-        String shortName = "Instr";
-        String institute = "Test Institute";
+                new InstructorAttributes("googleId", "courseId", "Instructor Name", instructorEmail);
+        instructor.key = regkey;
+        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                .withRegistrationKey(StringHelper.encrypt(regkey))
+                                .withInstructorInstitution("Test Institute")
+                                .toAbsoluteString();
         
         EmailWrapper email = new EmailGenerator()
-                .generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
+                .generateNewInstructorAccountJoinEmail(instructorEmail, shortName, joinLink);
         String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), shortName);
         
-        verifyEmail(email, instructor.email, subject, "/instructorNewAccountEmail.html");
+        verifyEmail(email, instructorEmail, subject, "/instructorNewAccountEmail.html");
         assertEquals(email.getBcc(), Config.SUPPORT_EMAIL);
         
         ______TS("instructor course join email");
         
-        CourseAttributes course = new CourseAttributes("course-id", "Course Name");
+        CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
         
         email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
@@ -208,7 +293,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("student course join email");
         
-        CourseAttributes course = new CourseAttributes("course-id", "Course Name");
+        CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
         
         StudentAttributes student = new StudentAttributes();
         student.name = "Student Name";
@@ -250,7 +335,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         // The stack trace is different depending on the environment in which the test is run at.
         // As a workaround, after the last common line, change all the stack trace to "..."
         String lastCommonLineRegex =
-                "(?s)(at org\\.testng\\.TestRunner\\.run\\(TestRunner\\.java:617\\)\\s*)at.*?(\\s*</code>)";
+                "(?s)(at org\\.testng\\.TestRunner\\.run\\(TestRunner\\.java:621\\)\\s*)at.*?(\\s*</code>)";
         String modifiedContent = email.getContent().replaceAll(lastCommonLineRegex, "$1...$2");
         email.setContent(modifiedContent);
         

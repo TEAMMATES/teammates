@@ -31,7 +31,7 @@
                     <tr class="accountEntry">
                         <td>
                             <span class="bold">Google ID: </span>
-                            <a href="${row.instructorHomePageViewLink}" target="blank">${row.account.googleId}</a>
+                            <a href="${row.instructorHomePageViewLink}" target="_blank" rel="noopener noreferrer">${row.account.googleId}</a>
                             <br>
                             <span class="bold">Name: </span>${row.account.name}
                             <br>
@@ -54,7 +54,7 @@
                         <td id="${row.account.googleId}_createAt">${row.createdAt}</td>
                         <td>
                             <a class="btn btn-link btn-xs" id="${row.account.googleId}_details"
-                                href="${row.adminViewAccountDetailsLink}" target="blank">
+                                href="${row.adminViewAccountDetailsLink}" target="_blank" rel="noopener noreferrer">
                                 <span class="glyphicon glyphicon-info-sign"></span> View Details
                             </a>
                             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -62,13 +62,12 @@
                                 href="${row.adminDeleteInstructorStatusLink}" role="button">
                                 <span class="glyphicon glyphicon-remove"></span> Delete Instructor Status
                             </a>
-                            <a class="btn btn-link btn-xs" id="${row.account.googleId}_deleteAccount"
-                                href="${row.adminDeleteAccountLink}"
-                                onclick="return toggleDeleteAccountConfirmation('${row.account.googleId}')"> 
+                            <a class="admin-delete-account-link btn btn-link btn-xs" id="${row.account.googleId}_deleteAccount"
+                                href="${row.adminDeleteAccountLink}" data-google-id="${row.account.googleId}">
                                 <span class="glyphicon glyphicon-trash"></span> Delete Entire Account
                             </a>
 
-                            <form method="post" target="blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
+                            <form method="post" target="_blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
                                 <button type="submit"  id="${row.account.googleId}_recentActions" class="btn btn-link btn-xs">
                                     <span class="glyphicon glyphicon-zoom-in"></span>
                                     View Recent Actions

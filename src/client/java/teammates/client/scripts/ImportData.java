@@ -1,7 +1,7 @@
 package teammates.client.scripts;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -9,12 +9,10 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.FileHelper;
-
-import com.google.gson.Gson;
 
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
@@ -36,7 +34,6 @@ public final class ImportData {
     private static final int WAIT_TIME_BETWEEN_REQUEST = 1000; //ms
     
     private static DataBundle data;
-    private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
     
     private ImportData() {
@@ -45,7 +42,7 @@ public final class ImportData {
 
     public static void main(String[] args) throws Exception {
         jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + SOURCE_FILE_NAME);
-        data = gson.fromJson(jsonString, DataBundle.class);
+        data = JsonUtils.fromJson(jsonString, DataBundle.class);
         
         String status = "";
         do {
@@ -89,17 +86,15 @@ public final class ImportData {
      * @param map - HashMap which has data to persist
      * @return status of the Backdoor operation
      */
-    private static String persist(@SuppressWarnings("rawtypes") HashMap map) {
+    private static String persist(Map<String, ?> map) {
         DataBundle bundle = new DataBundle();
         int count = 0;
-        @SuppressWarnings("unchecked")
         Set<String> set = map.keySet();
-        @SuppressWarnings("rawtypes")
-        Iterator itr = set.iterator();
+        Iterator<String> itr = set.iterator();
         
         String type = "";
         while (itr.hasNext()) {
-            String key = (String) itr.next();
+            String key = itr.next();
             Object obj = map.get(key);
             
             if (obj instanceof AccountAttributes) {
@@ -129,7 +124,7 @@ public final class ImportData {
         }
         System.out.print(count + " entities of type " + type + " left " + map.size() + " \n");
         
-        String status = BackDoor.persistNewDataBundle(gson.toJson(bundle));
+        String status = BackDoor.restoreDataBundle(bundle);
         
         // wait a few seconds to allow data to persist completedly
         try {

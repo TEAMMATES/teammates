@@ -23,7 +23,7 @@
             </div>
             <div class="col-xs-1">
                 <h5>
-                    <a href="/instructorHelp.jsp#fbSetupSession" target="_blank">
+                    <a href="/instructorHelp.jsp#fbSetupSession" target="_blank" rel="noopener noreferrer">
                         <span class="glyphicon glyphicon-info-sign"></span>
                     </a>
                 </h5>
@@ -50,7 +50,8 @@
                     Save Changes
                 </button>
                 <a href="${fsForm.fsDeleteLink}"
-                    onclick="return toggleDeleteFeedbackSessionConfirmation('${fsForm.courseId}','${fsForm.fsName}');"
+                    data-course-id="${fsForm.courseId}"
+                    data-feedback-session-name="${fsForm.fsName}"
                     title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
                     data-toggle="tooltip" data-placement="top"
                     class="btn btn-primary btn-sm" id="fsDeleteLink">

@@ -15,7 +15,6 @@ import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -24,8 +23,8 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -40,10 +39,6 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private enum StudentStatus { REG, UNREG, ALL }
     
     private enum InstructorStatus { REG, UNREG, ALL }
-    
-    private static final PersistenceManager pm = JDOHelper
-                                                   .getPersistenceManagerFactory("transactions-optional")
-                                                   .getPersistenceManager();
     
     private int iterationCounter;
     
@@ -198,11 +193,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private HashSet<String> addInstructorEmailIntoSet(HashSet<String> instructorEmailSet) {
         String q = "SELECT FROM " + Instructor.class.getName();
-        List<?> allInstructors = (List<?>) pm.newQuery(q).execute();
+        @SuppressWarnings("unchecked")
+        List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(q).execute();
         
-        for (Object object : allInstructors) {
-            Instructor instructor = (Instructor) object;
-            // intended casting of ? to remove unchecked casting
+        for (Instructor instructor : allInstructors) {
             if ((instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG
                         || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG
                         || emailListConfig.instructorStatus == InstructorStatus.ALL)
@@ -216,14 +210,13 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
     
     private HashSet<String> addStudentEmailIntoSet(HashSet<String> studentEmailSet) {
-        String q = "SELECT FROM " + Student.class.getName();
-        List<?> allStudents = (List<?>) pm.newQuery(q).execute();
+        String q = "SELECT FROM " + CourseStudent.class.getName();
+        @SuppressWarnings("unchecked")
+        List<CourseStudent> allStudents = (List<CourseStudent>) PM.newQuery(q).execute();
 
-        for (Object object : allStudents) {
-            Student student = (Student) object;
-            // intended casting from ? due to unchecked casting
-            if ((student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG
-                        || !student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG
+        for (CourseStudent student : allStudents) {
+            if ((isRegistered(student) && emailListConfig.studentStatus == StudentStatus.REG
+                        || !isRegistered(student) && emailListConfig.studentStatus == StudentStatus.UNREG
                         || emailListConfig.studentStatus == StudentStatus.ALL)
                     && isStudentCreatedInRange(student)) {
                 studentEmailSet.add(student.getEmail());
@@ -233,6 +226,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         return studentEmailSet;
     }
     
+    private boolean isRegistered(CourseStudent student) {
+        return student.getGoogleId() != null && !student.getGoogleId().isEmpty();
+    }
+
     private void writeEmailsIntoTextFile(HashSet<String> studentEmailSet,
                                          HashSet<String> instructorEmailSet) {
         
@@ -330,7 +327,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
     }
 
-    private boolean isStudentCreatedInRange(Student student) {
+    private boolean isStudentCreatedInRange(CourseStudent student) {
         
         Date studentCreatedAt = getStudentCreatedDate(student);
 
@@ -362,7 +359,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
     }
     
-    private Date getStudentCreatedDate(Student student) {
+    private Date getStudentCreatedDate(CourseStudent student) {
         if (student.getGoogleId() != null && !student.getGoogleId().isEmpty()) {
             Account account = getAccountEntity(student.getGoogleId());
             if (account != null) {
@@ -387,7 +384,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private Course getCourseEntity(String courseId) {
         
-        Query q = pm.newQuery(Course.class);
+        Query q = PM.newQuery(Course.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("ID == courseIdParam");
         
@@ -405,7 +402,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
         try {
             Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
-            Account account = pm.getObjectById(Account.class, key);
+            Account account = PM.getObjectById(Account.class, key);
             
             if (JDOHelper.isDeleted(account)) {
                 return null;
@@ -483,7 +480,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
     }
     
-    class EmailListConfig {
+    private static class EmailListConfig {
         public boolean student;
         public boolean instructor;
         public StudentStatus studentStatus = StudentStatus.ALL;

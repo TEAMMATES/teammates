@@ -10,13 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
-import teammates.logic.core.TeamEvalResult;
 
 /**
  * Represents detailed results for an feedback session.
@@ -26,7 +24,7 @@ import teammates.logic.core.TeamEvalResult;
  */
 public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     public FeedbackSessionAttributes feedbackSession;
     public List<FeedbackResponseAttributes> responses;
@@ -995,7 +993,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * Get the displayable section name from an email.
      * If the email is not an email of someone in the class roster, an empty string is returned.
      * 
-     * If the email of an instructor or "%GENERAL%" is passed in, "Not in a section" is returned.
+     * If the email of an instructor or "%GENERAL%" is passed in, "No specific recipient" is returned.
      * @param participantIdentifier
      */
     public String getSectionFromRoster(String participantIdentifier) {
@@ -1007,7 +1005,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             return roster.getStudentForEmail(participantIdentifier)
                          .section;
         } else if (isInstructor || participantIsGeneral) {
-            return Const.USER_NOT_IN_A_SECTION;
+            return Const.NO_SPECIFIC_RECIPIENT;
         } else {
             return "";
         }

@@ -30,8 +30,10 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 /**
- * Handles CRUD Operations for {@link Comment}.
- * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
+ * Handles CRUD operations for student comments.
+ * 
+ * @see {@link Comment}
+ * @see {@link CommentAttributes}
  */
 public class CommentsDb extends EntitiesDb {
     
@@ -353,20 +355,6 @@ public class CommentsDb extends EntitiesDb {
         }
         log.info("updating last editor email from: " + oldInstrEmail + " to: " + updatedInstrEmail
                  + " for student comments in the course: " + courseId);
-        getPm().close();
-    }
-    
-    // for now, this method is not being used as instructor cannot be receiver
-    @SuppressWarnings("unused")
-    private void updateInstructorEmailAsRecipient(String courseId, String oldInstrEmail, String updatedInstrEmail) {
-        List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId,
-                                                       CommentParticipantType.INSTRUCTOR, oldInstrEmail);
-        
-        for (Comment recipientComment : recipientComments) {
-            recipientComment.setGiverEmail(updatedInstrEmail);
-        }
-        
-        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPm().close();
     }
     

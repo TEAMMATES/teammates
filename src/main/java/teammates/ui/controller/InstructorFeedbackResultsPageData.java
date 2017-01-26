@@ -9,9 +9,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -42,8 +42,6 @@ import teammates.ui.template.InstructorFeedbackResultsSectionPanel;
 import teammates.ui.template.InstructorFeedbackResultsSessionPanel;
 
 public class InstructorFeedbackResultsPageData extends PageData {
-    private static final String DISPLAY_NAME_FOR_DEFAULT_SECTION = "Not in a section";
-
     private static final String MODERATE_RESPONSES_FOR_GIVER = "Moderate Responses";
     private static final String MODERATE_SINGLE_RESPONSE = "Moderate Response";
     
@@ -652,7 +650,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             sectionPanel.setDisplayingTeamStatistics(isTeamDisplayingStatistics);
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? DISPLAY_NAME_FOR_DEFAULT_SECTION
+                                                ? Const.NO_SPECIFIC_RECIPIENT
                                                 : sectionName);
             break;
         case RECIPIENT_GIVER_QUESTION:
@@ -660,7 +658,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? DISPLAY_NAME_FOR_DEFAULT_SECTION
+                                                ? Const.NO_SPECIFIC_RECIPIENT
                                                 : sectionName);
             break;
         default:
@@ -740,7 +738,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
 
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
-                Const.DEFAULT_SECTION, DISPLAY_NAME_FOR_DEFAULT_SECTION, true);
+                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_RECIPIENT, true);
         sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
 
         for (String section : sections) {
@@ -890,7 +888,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             sectionPanel.setDetailedResponsesHeaderText("Detailed Responses");
             break;
         case RECIPIENT_QUESTION_GIVER:
-            sectionPanel.setStatisticsHeaderText("Received Responses Statistics");
+            sectionPanel.setStatisticsHeaderText("Statistics for Received Responses");
             sectionPanel.setDetailedResponsesHeaderText("Detailed Responses");
             break;
         default:
@@ -964,8 +962,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 break;
             }
             
+            // If question specific sorting is not needed, responses are sorted
+            // by default order (first by team name, then by display name)
             if (questionDetails.isQuestionSpecificSortingRequired()) {
                 Collections.sort(responseRows, questionDetails.getResponseRowsSortOrder());
+            } else {
+                responseRows = InstructorFeedbackResultsResponseRow.sortListWithDefaultOrder(responseRows);
             }
             
         }
@@ -1000,20 +1002,21 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                        Map<String, Boolean> isSortable) {
         ElementTag giverTeamElement =
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+                               "toggleSort(this)", "style", "width: 10%; min-width: 67px;");
         ElementTag giverElement =
                 new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 65px;");
+                               "toggleSort(this)", "style", "width: 10%; min-width: 65px;");
         ElementTag recipientTeamElement =
                 new ElementTag("Team", "id", "button_sortToTeam", "class", "button-sort-ascending", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+                               "toggleSort(this)", "style", "width: 10%; min-width: 67px;");
         ElementTag recipientElement =
                 new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 90px;");
+                               "toggleSort(this)", "style", "width: 10%; min-width: 90px;");
         ElementTag responseElement =
                 new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "min-width: 95px;");
-        ElementTag actionElement = new ElementTag("Actions", "class", "action-header");
+                               "toggleSort(this)", "style", "width: 45%; min-width: 95px;");
+        ElementTag actionElement = new ElementTag("Actions", "class", "action-header",
+                                                  "style", "width: 15%; min-width: 75px;");
 
         columnTags.add(giverTeamElement);
         columnTags.add(giverElement);

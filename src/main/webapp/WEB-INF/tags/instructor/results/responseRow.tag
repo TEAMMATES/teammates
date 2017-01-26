@@ -30,8 +30,8 @@
              </c:choose>
                 </td>
         </c:if>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.giverTeam)}</td>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
+        <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.giverTeam)}</td>
+        <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
             <c:when test="${not empty responseRow.giverProfilePictureLink && !responseRow.giverProfilePictureAColumn}">
                 <div class="profile-pic-icon-hover" data-link="${responseRow.giverProfilePictureLink}">
@@ -67,8 +67,8 @@
                 </c:choose>
             </td>
         </c:if>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.recipientTeam)}</td>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
+        <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.recipientTeam)}</td>
+        <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
             <c:when test="${not empty responseRow.recipientProfilePictureLink && !responseRow.recipientProfilePictureAColumn}">
                 <div class="profile-pic-icon-hover" data-link="${responseRow.recipientProfilePictureLink}">
@@ -83,7 +83,7 @@
         </td>
     </c:if>
     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-    <td class="text-preserve-space<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.displayableResponse}</td>
+    <td class="word-wrap-break text-preserve-space<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.displayableResponse}</td>
     <c:if test="${responseRow.actionsDisplayed}">
         <td>
             <c:if test="${not empty responseRow.moderationButton}">

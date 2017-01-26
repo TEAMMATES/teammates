@@ -11,6 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.Sanitizer;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -98,14 +99,14 @@ public class FeedbackResponseComment {
         this.feedbackResponseId = feedbackResponseId;
         this.sendingState = sendingState;
         this.createdAt = createdAt;
-        this.commentText = commentText;
+        this.commentText = Sanitizer.sanitizeForRichText(commentText);
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;
         this.isVisibilityFollowingFeedbackQuestion = false;
-        this.lastEditorEmail = (lastEditorEmail == null) ? giverEmail : lastEditorEmail;
-        this.lastEditedAt = (lastEditedAt == null) ? createdAt : lastEditedAt;
+        this.lastEditorEmail = lastEditorEmail == null ? giverEmail : lastEditorEmail;
+        this.lastEditedAt = lastEditedAt == null ? createdAt : lastEditedAt;
     }
 
     /** Use only if the comment already persisted

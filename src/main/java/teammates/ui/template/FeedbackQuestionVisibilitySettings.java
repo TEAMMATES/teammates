@@ -8,15 +8,18 @@ public class FeedbackQuestionVisibilitySettings {
     private Map<String, Boolean> giverNameVisibleFor;
     private Map<String, Boolean> recipientNameVisibleFor;
     private Map<String, Boolean> responseVisibleFor;
+    private String dropdownMenuLabel;
     
     public FeedbackQuestionVisibilitySettings(List<String> visibilityMessages,
                                               Map<String, Boolean> responseVisibleFor,
                                               Map<String, Boolean> giverNameVisibleFor,
-                                              Map<String, Boolean> recipientNameVisibleFor) {
+                                              Map<String, Boolean> recipientNameVisibleFor,
+                                              String dropdownMenuLabel) {
         this.visibilityMessages = visibilityMessages;
         this.giverNameVisibleFor = giverNameVisibleFor;
         this.recipientNameVisibleFor = recipientNameVisibleFor;
         this.responseVisibleFor = responseVisibleFor;
+        this.setDropdownMenuLabel(dropdownMenuLabel);
     }
 
     public List<String> getVisibilityMessages() {
@@ -49,5 +52,13 @@ public class FeedbackQuestionVisibilitySettings {
 
     public void setResponseVisibleFor(Map<String, Boolean> isResponseVisible) {
         this.responseVisibleFor = isResponseVisible;
+    }
+
+    public String getDropdownMenuLabel() {
+        return dropdownMenuLabel;
+    }
+
+    public void setDropdownMenuLabel(String dropdownMenuLabel) {
+        this.dropdownMenuLabel = dropdownMenuLabel;
     }
 }

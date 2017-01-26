@@ -1,9 +1,14 @@
 package teammates.common.util;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
+import org.joda.time.DateTimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -78,6 +83,7 @@ public class FieldValidator {
 
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
+    public static final String COURSE_TIME_ZONE_FIELD_NAME = "course time zone";
     
     public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
@@ -101,6 +107,7 @@ public class FieldValidator {
     public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
     public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
     public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR = "starts with a non-alphanumeric character";
+    public static final String REASON_UNAVAILABLE_AS_CHOICE = "not available as a choice";
 
     // error message components
     public static final String ERROR_INFO =
@@ -149,6 +156,17 @@ public class FieldValidator {
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String GOOGLE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
+
+    public static final String HINT_FOR_CORRECT_COURSE_TIME_ZONE =
+            "The value must be one of the values from the time zone dropdown selector.";
+    public static final String COURSE_TIME_ZONE_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_TIME_ZONE;
+
+    public static final String HINT_FOR_CORRECT_NATIONALITY =
+            "The value must be one of the values from the nationality dropdown selector.";
+    public static final String NATIONALITY_ERROR_MESSAGE =
+            "\"%s\" is not an accepted " + NATIONALITY_FIELD_NAME + " to TEAMMATES. "
+            + HINT_FOR_CORRECT_NATIONALITY;
 
     public static final String GENDER_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
@@ -423,15 +441,17 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if {@code nationality} is a non-null non-empty string no longer than the specified length
-     * {@code NATIONALITY_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @param nationality
+     * Checks if {@code nationality} is a non-null non-empty string contained in the {@link NationalityHelper}'s
+     * list of nationalities.
      * @return An explanation of why the {@code nationality} is not acceptable.
      *         Returns an empty string if the {@code nationality} is acceptable.
      */
     public String getInvalidityInfoForNationality(String nationality) {
-        return getValidityInfoForAllowedName(NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH,
-                                             nationality);
+        Assumption.assertNotNull("Non-null value expected", nationality);
+        if (!NationalityHelper.getNationalities().contains(nationality)) {
+            return String.format(NATIONALITY_ERROR_MESSAGE, nationality);
+        }
+        return "";
     }
 
     /**
@@ -455,6 +475,22 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForPersonName(String personName) {
         return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
+    }
+    
+    /**
+     * Checks if the given string is a non-null string contained in {@link DateTimeZone}'s
+     * list of time zone IDs.
+     * @param timeZoneValue
+     * @return An explanation of why the {@code timeZoneValue} is not acceptable.
+     *         Returns an empty string if the {@code timeZoneValue} is acceptable.
+     */
+    public String getInvalidityInfoForCourseTimeZone(String timeZoneValue) {
+        Assumption.assertTrue("Non-null value expected", timeZoneValue != null);
+        if (!DateTimeZone.getAvailableIDs().contains(timeZoneValue)) {
+            return getPopulatedErrorMessage(COURSE_TIME_ZONE_ERROR_MESSAGE, timeZoneValue, COURSE_TIME_ZONE_FIELD_NAME,
+                                            REASON_UNAVAILABLE_AS_CHOICE);
+        }
+        return "";
     }
 
     /**
@@ -700,7 +736,7 @@ public class FieldValidator {
     }
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
-        return (value == null) ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
+        return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
 
     private boolean isUntrimmed(String value) {
@@ -714,6 +750,16 @@ public class FieldValidator {
      */
     public static boolean isValidEmailAddress(String email) {
         return StringHelper.isMatching(email, REGEX_EMAIL);
+    }
+    
+    /**
+     * Checks whether all the elements in a Collection are unique.
+     * @param elements The Collection of elements to be checked.
+     * @return true if all elements are unique, else false.
+     */
+    public static <T> boolean areElementsUnique(Collection<T> elements) {
+        Set<T> uniqueElements = new HashSet<T>(elements);
+        return uniqueElements.size() == elements.size();
     }
 
     private static String getPopulatedErrorMessage(

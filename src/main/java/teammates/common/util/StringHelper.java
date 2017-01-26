@@ -149,29 +149,30 @@ public final class StringHelper {
     }
     
     /**
-     * Concatenates a list of strings to a single string, separated by line breaks.
+     * Converts and concatenates a list of objects to a single string, separated by line breaks.
+     * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
      * @return Concatenated string.
      */
-    public static String toString(List<String> strings) {
-        return toString(strings, Const.EOL);
+    public static <T> String toString(List<T> list) {
+        return toString(list, Const.EOL);
     }
 
     /**
-     * Concatenates a list of strings to a single string, separated by the given delimiter.
+     * Converts and concatenates a list of objects to a single string, separated by the given delimiter.
+     * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
      * @return Concatenated string.
      */
-    public static String toString(List<String> strings, String delimiter) {
-        if (strings.isEmpty()) {
+    public static <T> String toString(List<T> list, String delimiter) {
+        if (list.isEmpty()) {
             return "";
         }
         
         StringBuilder returnValue = new StringBuilder();
-        for (int i = 0; i < strings.size() - 1; i++) {
-            String s = strings.get(i);
-            returnValue.append(s).append(delimiter);
+        for (int i = 0; i < list.size() - 1; i++) {
+            returnValue.append(list.get(i)).append(delimiter);
         }
         //append the last item
-        returnValue.append(strings.get(strings.size() - 1));
+        returnValue.append(list.get(list.size() - 1));
         
         return returnValue.toString();
     }
@@ -306,11 +307,36 @@ public final class StringHelper {
         }
         return result;
     }
+
+    /**
+     * Replaces every character in {@code str} that does not match
+     * {@code regex} with the character {@code replacement}.
+     * 
+     * @param str String to be replaced.
+     * @param regex Pattern that every character is to be matched against.
+     * @param replacement Character unmatching characters should be replaced with.
+     * @return String with all unmatching characters replaced; null if input is null.
+     */
+    public static String replaceIllegalChars(String str, String regex, char replacement) {
+        if (str == null) {
+            return null;
+        }
+        
+        char[] charArray = str.toCharArray();
+        
+        for (int i = 0; i < charArray.length; i++) {
+            if (!isMatching(Character.toString(charArray[i]), regex)) {
+                charArray[i] = replacement;
+            }
+        }
+        
+        return String.valueOf(charArray);
+    }
     
-    private static String byteArrayToHexString(byte[] b) {
-        StringBuilder sb = new StringBuilder(b.length * 2);
-        for (int i = 0; i < b.length; i++) {
-            int v = b[i] & 0xff;
+    private static String byteArrayToHexString(byte[] bytes) {
+        StringBuilder sb = new StringBuilder(bytes.length * 2);
+        for (byte b : bytes) {
+            int v = b & 0xff;
             if (v < 16) {
                 sb.append('0');
             }
@@ -376,9 +402,9 @@ public final class StringHelper {
 
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < lines.length; i++) {
+        for (String line : lines) {
             
-            List<String> rowData = getTableData(lines[i]);
+            List<String> rowData = getTableData(line);
             
             if (checkIfEmptyRow(rowData)) {
                 continue;
@@ -402,15 +428,15 @@ public final class StringHelper {
 
         boolean inquote = false;
 
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == '"') {
+        for (char c : chars) {
+            if (c == '"') {
                 inquote = !inquote;
             }
 
-            if (chars[i] == '\n' && inquote) {
+            if (c == '\n' && inquote) {
                 buffer.append("<br>");
             } else {
-                buffer.append(chars[i]);
+                buffer.append(c);
             }
         }
 
@@ -524,7 +550,7 @@ public final class StringHelper {
      * @return empty string if null, the string itself otherwise
      */
     public static String convertToEmptyStringIfNull(String str) {
-        return (str == null) ? "" : str;
+        return str == null ? "" : str;
     }
     
     /**

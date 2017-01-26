@@ -31,6 +31,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "collapse-panels-button-team-0")
     public WebElement instructorPanelCollapseStudentsButton;
 
+    @FindBy(id = "collapse-panels-button-section-0")
+    public WebElement sectionCollapseStudentsButton;
+
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
     
@@ -151,14 +154,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return editPage;
     }
 
-    public boolean clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
-        WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-"
-                                                                             + qnNumber + "-" + additionalInfoId));
-        click(qnAdditionalInfoButton);
-        // Check if links toggle properly.
-        WebElement qnAdditionalInfo = browser.driver.findElement(By.id("questionAdditionalInfo-"
-                                                                       + qnNumber + "-" + additionalInfoId));
-        return qnAdditionalInfo.isDisplayed();
+    public void clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
+        click(By.id("questionAdditionalInfoButton-" + qnNumber + "-" + additionalInfoId));
+    }
+    
+    public boolean isQuestionAdditionalInfoVisible(int qnNumber, String additionalInfoId) {
+        return isElementVisible("questionAdditionalInfo-" + qnNumber + "-" + additionalInfoId);
     }
 
     public String getQuestionAdditionalInfoButtonText(int qnNumber, String additionalInfoId) {
@@ -172,12 +173,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
         WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
         click(showResponseCommentAddFormButton);
-        waitForElementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea")));
-        fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
+        WebElement editorElement = addResponseCommentForm.findElement(By.className("mce-content-body"));
+        waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
+        fillRichTextEditor(editorElement.getAttribute("id"), commentText);
         click(addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
         if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
-            waitForElementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea")));
+            waitForElementToBeClickable(editorElement);
         } else {
             // non-empty comment: wait until the add comment form disappears
             waitForElementToDisappear(By.id(addResponseCommentId));
@@ -189,7 +191,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(commentRow.findElements(By.tagName("a")).get(1));
 
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
-        fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
+        fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
         click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
         ThreadHelper.waitFor(1000);
     }
@@ -296,6 +298,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentTable" + commentTableIdSuffix));
+        waitForElementPresence(
+                By.cssSelector("#responseCommentTable" + commentTableIdSuffix + " .col-sm-offset-5 #errorMessage"));
         assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5"))
                                              .findElement(By.tagName("span")).getText());
     }
@@ -317,7 +321,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void clickAjaxNoResponsePanel() {
-        WebElement ajaxPanels = browser.driver.findElement(By.cssSelector(".ajax_response_rate_submit"));
+        WebElement ajaxPanels = browser.driver.findElement(By.cssSelector(".ajax-response-submit"));
         click(ajaxPanels);
     }
 
@@ -444,12 +448,22 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(instructorPanelCollapseStudentsButton);
     }
 
+    public void clickSectionCollapseStudentsButton() {
+        click(sectionCollapseStudentsButton);
+    }
+
     public void waitForInstructorPanelStudentPanelsToCollapse() {
         List<WebElement> studentPanels = browser.driver.findElements(
                 By.cssSelector("#panelBodyCollapse-0-1 .panel-collapse"));
         waitForElementsToDisappear(studentPanels);
     }
-    
+
+    public void waitForSectionStudentPanelsToCollapse() {
+        List<WebElement> studentPanels = browser.driver.findElements(
+                By.cssSelector("#panelBodyCollapse-section-0-1 .panel-collapse"));
+        waitForElementsToDisappear(studentPanels);
+    }
+
     public void verifyPanelForParticipantIsDisplayed(String participantIdentifier) {
         WebElement panel = browser.driver.findElement(
                 By.xpath("//div[contains(@class, 'panel-primary') or contains(@class, 'panel-default')]"
@@ -485,7 +499,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void changeFsNameInNoResponsePanelForm(String newFsName) {
         
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('.ajax_response_rate_submit [name=\"fsname\"]').val('" + newFsName + "')");
+        js.executeScript("$('.ajax-response-submit [name=\"fsname\"]').val('" + newFsName + "')");
     }
     
     public void waitForAjaxError(int indexOfForm) {
@@ -497,7 +511,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void waitForAjaxErrorOnNoResponsePanel() {
-        By ajaxErrorSelector = By.cssSelector(".ajax_response_rate_submit .ajax-error");
+        By ajaxErrorSelector = By.cssSelector(".ajax-response-submit .ajax-error");
         waitForElementPresence(ajaxErrorSelector);
         
         waitForTextContainedInElementPresence(ajaxErrorSelector, "[ Failed to load. Click here to retry. ]");

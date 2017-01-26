@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,8 +156,9 @@ public final class TimeHelper {
     }
 
     public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
-        time.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
-        return time; // for chaining
+        Calendar newTime = (Calendar) time.clone();
+        newTime.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
+        return newTime; // for chaining
     }
 
     /**
@@ -293,7 +293,7 @@ public final class TimeHelper {
      * Example: If now is 1055, this will return 1100
      */
     public static Date getNextHour() {
-        Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.add(Calendar.HOUR_OF_DAY, 1);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
@@ -327,6 +327,33 @@ public final class TimeHelper {
         differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000 * 60 * 60 * 24));
         
         return differenceInDays > 365;
+    }
+    
+    /**
+     * Returns true if the {@code time} falls within the last hour.
+     * That is exactly one hour or less from the current time but earlier than current time.
+     * Precision is at millisecond level.
+     */
+    public static boolean isWithinPastHourFromNow(Date time) {
+        return isWithinPastHour(time, new Date());
+    }
+    
+    /**
+     * Returns true if the {@code time1} falls within past 1 hour of {@code time2}.
+     * That is exactly one hour or less from time2 but earlier than time2.
+     * Precision is at millisecond level.
+     */
+    public static boolean isWithinPastHour(Date time1, Date time2) {
+        Calendar calendarTime1 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendarTime1.setTime(time1);
+
+        Calendar calendarTime2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendarTime2.setTime(time2);
+
+        long time1Millis = calendarTime1.getTimeInMillis();
+        long time2Millis = calendarTime2.getTimeInMillis();
+        long differenceBetweenNowAndCal = (time2Millis - time1Millis) / (60 * 60 * 1000);
+        return differenceBetweenNowAndCal == 0 && calendarTime2.after(calendarTime1);
     }
     
     /**

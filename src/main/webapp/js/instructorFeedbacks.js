@@ -1,6 +1,20 @@
 // TODO: Move constants from Common.js into appropriate files if not shared.
 var TIMEZONE_SELECT_UNINITIALISED = '-9999';
 
+$(document).ready(function() {
+    var isEdit = typeof readyFeedbackEditPage === 'function';
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: isEdit,
+            fixed_toolbar_container: '#richtext-toolbar-container'
+        });
+        /* eslint-enable camelcase */
+    }
+});
+
 /**
  * Check whether the feedback question input is valid
  * @param form
@@ -13,26 +27,26 @@ function checkFeedbackQuestion(form) {
     if (recipientType === 'STUDENTS' || recipientType === 'TEAMS') {
         if ($(form).find('[name|=' + FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE + ']:checked').val() === 'custom'
                 && !$(form).find('.numberOfEntitiesBox').val()) {
-            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER, form);
             return false;
         }
     }
     if (!$(form).find('[name=' + FEEDBACK_QUESTION_TEXT + ']').val()) {
-        setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER);
+        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER, form);
         return false;
     }
     if ($(form).find('[name=' + FEEDBACK_QUESTION_TYPE + ']').val() === 'NUMSCALE') {
         if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val()
                 || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val()
                 || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
-            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER, form);
             return false;
         }
         var qnNum = getQuestionNumFromEditForm(form);
         if (updateNumScalePossibleValues(qnNum)) {
             return true;
         }
-        setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER);
+        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER, form);
         return false;
     }
     return true;
@@ -52,13 +66,13 @@ function extractQuestionNumFromEditFormId(id) {
 function checkEditFeedbackSession(form) {
     if (form.visibledate.getAttribute('disabled')) {
         if (!form.visibledate.value) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, StatusType.DANGER);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, StatusType.DANGER, form);
             return false;
         }
     }
     if (form.publishdate.getAttribute('disabled')) {
         if (!form.publishdate.value) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, StatusType.DANGER);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, StatusType.DANGER, form);
             return false;
         }
     }
@@ -173,7 +187,14 @@ function bindCopyButton() {
 
     $('#button_copy_submit').on('click', function(e) {
         e.preventDefault();
-        $('#copyModalForm').submit();
+        var $newSessionName = $('#modalCopiedSessionName');
+        if ($newSessionName.val()) {
+            addLoadingIndicator($('#button_copy_submit'), 'Copying ');
+            $('#copyModalForm').submit();
+        } else {
+            $newSessionName.addClass('text-box-error');
+            $('#copyModal').animate({ scrollTop: $newSessionName.offset().top }, 500);
+        }
         return false;
     });
 }
@@ -221,7 +242,7 @@ function readyFeedbackPage() {
     bindUnpublishButtons();
 
     updateUncommonSettingsInfo();
-    hideUncommonPanels();
+    showUncommonPanelsIfNotInDefaultValues();
 }
 
 function loadSessionsByAjax() {
@@ -236,37 +257,70 @@ function bindEventsAfterAjax() {
 }
 
 function bindUncommonSettingsEvents() {
-    $('#editUncommonSettingsButton').click(showUncommonPanels);
+    $('#editUncommonSettingsSessionResponsesVisibleButton')
+        .click(showUncommonPanelsForSessionResponsesVisible);
+    $('#editUncommonSettingsSendEmailsButton')
+        .click(showUncommonPanelsForSendEmails);
 }
 
 function updateUncommonSettingsInfo() {
-    var info = 'Session is visible at submission opening time, '
-             + 'responses are only visible when you publish the results.<br>'
-             + 'Emails are sent when session opens (within 15 mins), '
-             + '24 hrs before session closes and when results are published.';
-
-    $('#uncommonSettingsInfoText').html(info);
+    updateUncommonSettingsSessionVisibilityInfo();
+    updateUncommonSettingsEmailSendingInfo();
 }
 
-function isDefaultSetting() {
+function updateUncommonSettingsSessionVisibilityInfo() {
+    var info = 'Session is visible at submission opening time, '
+             + 'responses are only visible when you publish the results.';
+    
+    $('#uncommonSettingsSessionResponsesVisibleInfoText').html(info);
+}
+
+function updateUncommonSettingsEmailSendingInfo() {
+    var info = 'Emails are sent when session opens (within 15 mins), '
+             + '24 hrs before session closes and when results are published.';
+
+    $('#uncommonSettingsSendEmailsInfoText').html(info);
+}
+
+function isDefaultSessionResponsesVisibleSetting() {
     return $('#sessionVisibleFromButton_atopen').prop('checked')
-           && $('#resultsVisibleFromButton_later').prop('checked')
-           && $('#sendreminderemail_open').prop('checked')
+           && $('#resultsVisibleFromButton_later').prop('checked');
+}
+
+function isDefaultSendEmailsSetting() {
+    return $('#sendreminderemail_open').prop('checked')
            && $('#sendreminderemail_closing').prop('checked')
            && $('#sendreminderemail_published').prop('checked');
 }
 
 function showUncommonPanels() {
-    $('#sessionResponsesVisiblePanel, #sendEmailsForPanel').show();
-    $('#uncommonSettingsInfo').hide();
+    showUncommonPanelsForSessionResponsesVisible();
+    showUncommonPanelsForSendEmails();
 }
 
-function hideUncommonPanels() {
-    // Hide panels only if they match the default values.
-    if (isDefaultSetting()) {
-        $('#sessionResponsesVisiblePanel, #sendEmailsForPanel').hide();
-    } else {
-        showUncommonPanels();
+function showUncommonPanelsForSessionResponsesVisible() {
+    var $sessionResponsesVisiblePanel = $('#sessionResponsesVisiblePanel');
+    
+    $('#uncommonSettingsSessionResponsesVisible').after($sessionResponsesVisiblePanel);
+    $sessionResponsesVisiblePanel.show();
+    $('#uncommonSettingsSessionResponsesVisibleInfoText').parent().hide();
+}
+
+function showUncommonPanelsForSendEmails() {
+    var $sendEmailsForPanel = $('#sendEmailsForPanel');
+    
+    $('#uncommonSettingsSendEmails').after($sendEmailsForPanel);
+    $sendEmailsForPanel.show();
+    $('#uncommonSettingsSendEmailsInfoText').parent().hide();
+}
+
+function showUncommonPanelsIfNotInDefaultValues() {
+    if (!isDefaultSessionResponsesVisibleSetting()) {
+        showUncommonPanelsForSessionResponsesVisible();
+    }
+    
+    if (!isDefaultSendEmailsSetting()) {
+        showUncommonPanelsForSendEmails();
     }
 }
 
@@ -330,17 +384,3 @@ function collapseIfPrivateSession() {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
     }
 }
-
-$(document).ready(function() {
-    var isEdit = typeof readyFeedbackEditPage === 'function';
-
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-            readonly: isEdit,
-            fixed_toolbar_container: '#richtext-toolbar-container'
-        });
-        /* eslint-enable camelcase */
-    }
-});

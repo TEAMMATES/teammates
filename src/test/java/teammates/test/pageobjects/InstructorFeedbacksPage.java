@@ -46,8 +46,11 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "graceperiod")
     private WebElement gracePeriodDropdown;
 
-    @FindBy(id = "editUncommonSettingsButton")
-    private WebElement uncommonSettingsButton;
+    @FindBy(id = "editUncommonSettingsSessionResponsesVisibleButton")
+    private WebElement uncommonSettingsSessionResponsesVisibleButton;
+    
+    @FindBy(id = "editUncommonSettingsSendEmailsButton")
+    private WebElement uncommonSettingsSendEmailsButton;
     
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
     private WebElement customSessionVisibleTimeButton;
@@ -137,8 +140,17 @@ public class InstructorFeedbacksPage extends AppPage {
         waitForPageToLoad();
     }
     
-    public void clickEditUncommonSettingsButton() {
-        click(uncommonSettingsButton);
+    public void clickEditUncommonSettingsButtons() {
+        clickEditUncommonSettingsSessionResponsesVisibleButton();
+        clickEditUncommonSettingsSendEmailsButton();
+    }
+    
+    public void clickEditUncommonSettingsSessionResponsesVisibleButton() {
+        click(uncommonSettingsSessionResponsesVisibleButton);
+    }
+    
+    public void clickEditUncommonSettingsSendEmailsButton() {
+        click(uncommonSettingsSendEmailsButton);
     }
     
     public void clickCustomVisibleTimeButton() {
@@ -218,6 +230,7 @@ public class InstructorFeedbacksPage extends AppPage {
         
         selectDropdownByActualValue(timezoneDropdown, timeZoneString);
         
+        waitForElementVisibility(courseIdDropdown);
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
         
         // fill in time values
@@ -358,6 +371,10 @@ public class InstructorFeedbacksPage extends AppPage {
         return timezoneDropdown.getAttribute("value");
     }
     
+    public String getInstructions() {
+        return getRichTextEditorContent("instructions");
+    }
+
     public boolean isRowSelected(int rowIndex) {
         WebElement row = browser.driver.findElement(By.id("copyTableModal"))
                                         .findElements(By.tagName("tr"))
@@ -393,14 +410,14 @@ public class InstructorFeedbacksPage extends AppPage {
     public WebElement getViewResponseLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return browser.driver.findElement(
-                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]/td[contains(@class,'session-response-for-test')]/a"));
     }
     
     public String getResponseValue(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return browser.driver.findElement(
-                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]/td[contains(@class,'session-response-for-test')]")).getText();
     }
     
@@ -485,7 +502,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-view-for-test";
         return goToLinkInRow(
-                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]//a[contains(@class,'" + className + "')]"),
                 InstructorFeedbackResultsPage.class);
     }
@@ -494,7 +511,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-submit-for-test";
         return goToLinkInRow(
-                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]//a[contains(@class,'" + className + "')]"),
                 FeedbackSubmitPage.class);
     }
@@ -503,7 +520,7 @@ public class InstructorFeedbacksPage extends AppPage {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-edit-for-test";
         return goToLinkInRow(
-                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]//a[contains(@class,'" + className + "')]"),
                 InstructorFeedbackEditPage.class);
     }
@@ -515,7 +532,7 @@ public class InstructorFeedbacksPage extends AppPage {
     private WebElement getLinkAtTableRow(String className, int rowIndex) {
         return browser.driver.findElement(
                 By.xpath("//table[contains(@id,'table-sessions')]//tbody/tr["
-                + (int) (rowIndex + 1) + "]//a[contains(@class,'" + className + "')]"));
+                + (rowIndex + 1) + "]//a[contains(@class,'" + className + "')]"));
     }
 
     private int getFeedbackSessionRowId(String courseId, String sessionName) {

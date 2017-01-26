@@ -42,6 +42,14 @@ $(document).ready(function() {
     
     // check submit text before submit
     $('form.form_comment').submit(function() {
+        if ($(this).find('[id^=commentedittype]').val() !== 'delete') {
+            var commentTextInput = $(this).find('.mce-content-body');
+            var commentTextId = commentTextInput.attr('id');
+            var content = tinyMCE.get(commentTextId).getContent();
+            $(this).find('input[name=' + commentTextId + ']').prop('disabled', true);
+            $(this).find('input[name=commenttext]').val(content);
+        }
+
         return checkComment(this);
     });
     
@@ -220,7 +228,7 @@ $(document).ready(function() {
         
         // to show student comments (only works for Giver filter)
         if (commentToShow.hasClass('student-record-comments')) {
-            var studentCommentPanelBody = commentToShow.closest('.student-comments-panel').parent();
+            var studentCommentPanelBody = commentToShow.closest('.panel-body');
             studentCommentPanelBody.show();
         } else { // to show feedback question + feedback session panel
             var commentListRegionForFeedbackResponse = commentToShow.closest('tr');
@@ -245,7 +253,7 @@ $(document).ready(function() {
         // to hide student comments
         if (commentToHide.hasClass('student-record-comments')) {
             var studentCommentPanel = commentToHide.closest('.student-comments-panel');
-            var studentCommentPanelBody = commentToHide.parent();
+            var studentCommentPanelBody = commentToHide.closest('.panel-body');
             // if all student comments are hidden, then hide the student comments panel
             var allStudentCommentsAreHidden =
                     studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length
@@ -385,10 +393,14 @@ function submitCommentForm(commentIdx) {
 }
 
 function deleteComment(commentIdx) {
-    if (confirm('Are you sure you want to delete this comment?')) {
+    var messageText = 'Are you sure you want to delete this comment?';
+    var okCallback = function() {
         document.getElementById('commentedittype-' + commentIdx).value = 'delete';
         return submitCommentForm(commentIdx);
-    }
+    };
+    BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
+                                         BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                                         StatusType.WARNING);
     return false;
 }
 
@@ -402,6 +414,16 @@ function enableComment(commentIdx) {
     $('#plainCommentText' + commentIdx).hide();
     $("div[id='commentTextEdit" + commentIdx + "']").show();
     $("textarea[id='commentText" + commentIdx + "']").val($('#plainCommentText' + commentIdx).text());
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#commentText' + commentIdx, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-comment-container-' + commentIdx
+        });
+        /* eslint-enable camelcase */
+    }
+
     $("textarea[id='commentText" + commentIdx + "']").focus();
 }
 
@@ -412,8 +434,12 @@ function disableComment(commentIdx) {
 }
 
 function checkComment(form) {
-    var formTextField = $(form).find('[name=commenttext]').val();
-    if (isBlank(formTextField)) {
+    if ($(form).find('[id^=commentedittype]').val() === 'delete') {
+        return true;
+    }
+    var formTextField = $(form).find('.mce-content-body');
+    var editor = tinymce.get(formTextField.attr('id'));
+    if (isBlank($(editor.getContent()).text())) {
         setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
         scrollToTop();
         return false;

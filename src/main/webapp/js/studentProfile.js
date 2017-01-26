@@ -1,8 +1,16 @@
-$(function() {
+$(document).ready(function() {
     $('.form-control').on('click', function() {
         if ($(this).val() === $(this).attr('data-actual-value')) {
             $(this).select();
         }
+    });
+    
+    $('#profileUploadPictureSubmit').on('click', function() {
+        finaliseUploadPictureForm();
+    });
+    
+    $('#profileEditPictureSubmit').on('click', function() {
+        finaliseEditPictureForm();
     });
     
     $(window).load(function() {
@@ -90,7 +98,7 @@ function finaliseUploadPictureForm() {
         return;
     }
 
-    initialSubmitMessage = $('#profileUploadPictureSubmit').html();
+    var initialSubmitMessage = $('#profileUploadPictureSubmit').html();
     $.ajax({
         url: '/page/studentProfileCreateFormUrl?user=' + $("input[name='user']").val(),
         beforeSend: function() {

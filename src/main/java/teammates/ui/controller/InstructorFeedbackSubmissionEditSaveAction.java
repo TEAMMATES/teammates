@@ -7,7 +7,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissionEditSaveAction {
 
@@ -16,7 +15,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean creatorOnly = false;
-        new GateKeeper().verifyAccessible(instructor, session, creatorOnly);
+        gateKeeper.verifyAccessible(instructor, session, creatorOnly);
         boolean shouldEnableSubmit =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
@@ -33,20 +32,20 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
     }
 
     @Override
-    protected void appendRespondant() {
+    protected void appendRespondent() {
         try {
-            logic.addInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.addInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to append instructor respondant");
+            log.severe("Fail to append instructor respondent");
         }
     }
 
     @Override
-    protected void removeRespondant() {
+    protected void removeRespondent() {
         try {
-            logic.deleteInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.deleteInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to remove instructor respondant");
+            log.severe("Fail to remove instructor respondent");
         }
     }
 
@@ -90,7 +89,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
 
     @Override
     protected void setAdditionalParameters() {
-        // no additional parameters to set for the standard instructor submit page
+        isSendSubmissionEmail = true;
     }
 
     @Override

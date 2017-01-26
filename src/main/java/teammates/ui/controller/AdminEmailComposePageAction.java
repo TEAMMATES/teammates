@@ -1,16 +1,15 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.StatusMessageColor;
 
 public class AdminEmailComposePageAction extends Action {
     
     @Override
     protected ActionResult execute() {
         
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         AdminEmailComposePageData data = new AdminEmailComposePageData(account);
         
         String idOfEmailToEdit = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);

@@ -5,8 +5,6 @@ import java.io.IOException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -19,13 +17,15 @@ import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 public class ProfilesDbTest extends BaseComponentTestCase {
     
     private ProfilesDb profilesDb = new ProfilesDb();
     private AccountsDb accountsDb = new AccountsDb();
     
     @BeforeClass
-    public static void setupClass() {
+    public void classSetup() {
         printTestClassHeader();
     }
     

@@ -16,8 +16,10 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 
 /**
- * Handles CRUD Operations for course entities.
- * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
+ * Handles CRUD operations for courses.
+ * 
+ * @see {@link Course}
+ * @see {@link CourseAttributes}
  */
 public class CoursesDb extends EntitiesDb {
     
@@ -121,7 +123,7 @@ public class CoursesDb extends EntitiesDb {
         }
         
         courseEntityToUpdate.setName(courseToUpdate.getName());
-        courseEntityToUpdate.setArchiveStatus(Boolean.valueOf(courseToUpdate.isArchived));
+        courseEntityToUpdate.setTimeZone(courseToUpdate.getTimeZone());
         
         log.info(courseToUpdate.getBackupIdentifier());
         getPm().close();
@@ -138,7 +140,8 @@ public class CoursesDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        CourseAttributes entityToDelete = new CourseAttributes(courseId, "Non-existent course");
+        // only the courseId is important here, everything else are placeholders
+        CourseAttributes entityToDelete = new CourseAttributes(courseId, "Non-existent course", "UTC");
         
         deleteEntity(entityToDelete);
     }

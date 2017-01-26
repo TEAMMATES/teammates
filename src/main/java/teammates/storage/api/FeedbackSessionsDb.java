@@ -21,6 +21,12 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
+/**
+ * Handles CRUD operations for feedback sessions.
+ * 
+ * @see {@link FeedbackSession}
+ * @see {@link FeedbackSessionAttributes}
+ */
 public class FeedbackSessionsDb extends EntitiesDb {
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
@@ -152,24 +158,6 @@ public class FeedbackSessionsDb extends EntitiesDb {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @return An empty list if no non-private sessions are found.
-     */
-    public List<FeedbackSessionAttributes> getNonPrivateFeedbackSessions() {
-        
-        List<FeedbackSession> fsList = getNonPrivateFeedbackSessionEntities();
-        List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
-        
-        for (FeedbackSession fs : fsList) {
-            if (!JDOHelper.isDeleted(fs)) {
-                fsaList.add(new FeedbackSessionAttributes(fs));
-            }
-        }
-        return fsaList;
-    }
-        
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
      * @return An empty list if no sessions are found for the given course.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
@@ -186,15 +174,13 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
         return fsaList;
     }
-    
+        
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
      * @return An empty list if no sessions are found that have unsent open emails.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWithUnsentOpenEmail() {
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpenEmail() {
                 
-        List<FeedbackSession> fsList = getFeedbackSessionEntitiesWithUnsentOpenEmail();
+        List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingOpenEmail();
         List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
         
         for (FeedbackSession fs : fsList) {
@@ -206,14 +192,43 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
     
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
+     * @return An empty list if no sessions are found that have unsent closing emails.
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosingEmail() {
+                
+        List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingClosingEmail();
+        List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
+        
+        for (FeedbackSession fs : fsList) {
+            if (!JDOHelper.isDeleted(fs)) {
+                fsaList.add(new FeedbackSessionAttributes(fs));
+            }
+        }
+        return fsaList;
+    }
+    
+    /**
+     * @return An empty list if no sessions are found that have unsent closed emails.
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosedEmail() {
+                
+        List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingClosedEmail();
+        List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
+        
+        for (FeedbackSession fs : fsList) {
+            if (!JDOHelper.isDeleted(fs)) {
+                fsaList.add(new FeedbackSessionAttributes(fs));
+            }
+        }
+        return fsaList;
+    }
+    
+    /**
      * @return An empty list if no sessions are found that have unsent published emails.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWithUnsentPublishedEmail() {
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingPublishedEmail() {
         
-        
-        List<FeedbackSession> fsList = getFeedbackSessionEntitiesWithUnsentPublishedEmail();
+        List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail();
         List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
         
         for (FeedbackSession fs : fsList) {
@@ -261,6 +276,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.setGracePeriod(newAttributes.getGracePeriod());
         fs.setFeedbackSessionType(newAttributes.getFeedbackSessionType());
         fs.setSentOpenEmail(newAttributes.isSentOpenEmail());
+        fs.setSentClosingEmail(newAttributes.isSentClosingEmail());
+        fs.setSentClosedEmail(newAttributes.isSentClosedEmail());
         fs.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
         fs.setIsOpeningEmailEnabled(newAttributes.isOpeningEmailEnabled());
         fs.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
@@ -270,15 +287,15 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void addInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession)
+    public void addInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         
         List<String> emails = new ArrayList<String>();
         emails.add(email);
-        addInstructorRespondants(emails, feedbackSession);
+        addInstructorRespondents(emails, feedbackSession);
     }
 
-    public void addInstructorRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession)
+    public void addInstructorRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
@@ -302,7 +319,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void updateInstructorRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
+    public void updateInstructorRespondent(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
@@ -330,7 +347,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void clearInstructorRespondants(FeedbackSessionAttributes feedbackSession)
+    public void clearInstructorRespondents(FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
@@ -353,15 +370,15 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void addStudentRespondant(String email, FeedbackSessionAttributes feedbackSession)
+    public void addStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws EntityDoesNotExistException, InvalidParametersException {
 
         List<String> emails = new ArrayList<String>();
         emails.add(email);
-        addStudentRespondants(emails, feedbackSession);
+        addStudentRespondents(emails, feedbackSession);
     }
 
-    public void deleteInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession)
+    public void deleteInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -385,7 +402,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void addStudentRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession)
+    public void addStudentRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
@@ -409,7 +426,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void updateStudentRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
+    public void updateStudentRespondent(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
@@ -437,7 +454,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void clearStudentRespondants(FeedbackSessionAttributes feedbackSession)
+    public void clearStudentRespondents(FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
@@ -517,15 +534,6 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getNonPrivateFeedbackSessionEntities() {
-        Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("Enum private");
-        q.setFilter("feedbackSessionType != private");
-        
-        return (List<FeedbackSession>) q.execute(FeedbackSessionType.PRIVATE);
-    }
-    
-    @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
         Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("String courseIdParam");
@@ -535,21 +543,49 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentOpenEmail() {
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("boolean sentParam, Enum notTypeParam");
-        q.setFilter("sentOpenEmail == sentParam && feedbackSessionType != notTypeParam");
+        q.declareParameters("java.util.Date startTimeParam, boolean sentParam");
+        q.setFilter("startTime > startTimeParam && sentOpenEmail == sentParam");
         
-        return (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
+        // only get sessions with startTime within the past two days to reduce the number of sessions returned
+        Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
+        
+        return (List<FeedbackSession>) q.execute(d, false);
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentPublishedEmail() {
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("boolean sentParam, Enum notTypeParam");
-        q.setFilter("sentPublishedEmail == sentParam && feedbackSessionType != notTypeParam");
+        q.declareParameters("java.util.Date endTimeParam, boolean sentParam, boolean enableParam");
+        q.setFilter("endTime > endTimeParam && sentClosingEmail == sentParam && isClosingEmailEnabled == enableParam");
         
-        return (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
+        // only get sessions with endTime within the past two days to reduce the number of sessions returned
+        Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
+        
+        return (List<FeedbackSession>) q.execute(d, false, true);
+    }
+    
+    @SuppressWarnings("unchecked")
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmail() {
+        Query q = getPm().newQuery(FeedbackSession.class);
+        q.declareParameters("java.util.Date endTimeParam, boolean sentParam, boolean enableParam");
+        q.setFilter("endTime > endTimeParam && sentClosedEmail == sentParam && isClosingEmailEnabled == enableParam");
+        
+        // only get sessions with endTime within the past two days to reduce the number of sessions returned
+        Date d = TimeHelper.getDateOffsetToCurrentTime(-2);
+        
+        return (List<FeedbackSession>) q.execute(d, false, true);
+    }
+    
+    @SuppressWarnings("unchecked")
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail() {
+        Query q = getPm().newQuery(FeedbackSession.class);
+        q.declareParameters("boolean sentParam, boolean enableParam, Enum notTypeParam");
+        q.setFilter("sentPublishedEmail == sentParam && isPublishedEmailEnabled == enableParam "
+                    + "&& feedbackSessionType != notTypeParam");
+        
+        return (List<FeedbackSession>) q.execute(false, true, FeedbackSessionType.PRIVATE);
     }
     
     private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {

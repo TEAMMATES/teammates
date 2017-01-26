@@ -6,9 +6,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.StatusMessageColor;
 
 public class InstructorFeedbackResultsDownloadAction extends Action {
 
@@ -29,7 +28,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = true;
 
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly);
+        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
 
         String fileContent = "";
         String fileName = "";

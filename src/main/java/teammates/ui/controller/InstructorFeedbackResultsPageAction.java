@@ -7,10 +7,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 import teammates.ui.controller.InstructorFeedbackResultsPageData.ViewType;
 
 public class InstructorFeedbackResultsPageAction extends Action {
@@ -37,7 +36,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = true;
 
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly);
+        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
 
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
@@ -117,10 +116,19 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                    && Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType);
         boolean isShowSectionWarningForParticipantView = !data.getBundle().isComplete
                                                    && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType);
+        
+        // Warning for section wise does not make sense if there are no multiple sections.
+        boolean isMultipleSectionAvailable = data.getBundle().getRosterSectionTeamNameTable().size() > 1;
+
         if (selectedSection.equals(ALL_SECTION_OPTION) && (isShowSectionWarningForParticipantView
                                                            || isShowSectionWarningForQuestionView)) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING,
-                                               StatusMessageColor.WARNING));
+            if (isMultipleSectionAvailable) {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING,
+                                                   StatusMessageColor.WARNING));
+            } else {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING,
+                                                   StatusMessageColor.WARNING));
+            }
             isError = true;
         }
         

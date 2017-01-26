@@ -1,9 +1,8 @@
 function addRubricRow(questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    var idSuffix = getQuestionIdSuffix(questionNum);
     
-    var numberOfRows = parseInt($('#rubricNumRows' + idSuffix).val());
-    var numberOfCols = parseInt($('#rubricNumCols' + idSuffix).val());
+    var numberOfRows = parseInt($('#rubricNumRows-' + questionNum).val());
+    var numberOfCols = parseInt($('#rubricNumCols-' + questionNum).val());
 
     var newRowNumber = numberOfRows + 1;
 
@@ -40,7 +39,7 @@ function addRubricRow(questionNum) {
     var rubricRowBodyFragments = '';
     // Create numberOfCols of <td>'s
     for (var cols = 0; cols < numberOfCols; cols++) {
-        if (!$('.rubricCol' + idSuffix + '-' + cols).length) {
+        if (!$('.rubricCol-' + questionNum + '-' + cols).length) {
             continue;
         }
         var fragment = rubricRowFragmentTemplate;
@@ -61,11 +60,11 @@ function addRubricRow(questionNum) {
     newRubricRow = replaceAll(newRubricRow, '${rubricRowBodyFragments}', rubricRowBodyFragments);
 
     // Row to insert new row after
-    var lastRow = $('#rubricEditTable' + idSuffix + ' tr:last');
+    var lastRow = $('#rubricEditTable-' + questionNum + ' tr:last');
     $(newRubricRow).insertAfter(lastRow);
 
     // Increment
-    $('#rubricNumRows' + idSuffix).val(newRowNumber);
+    $('#rubricNumRows-' + questionNum).val(newRowNumber);
     
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
@@ -74,10 +73,9 @@ function addRubricRow(questionNum) {
 
 function addRubricCol(questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    var idSuffix = getQuestionIdSuffix(questionNum);
     
-    var numberOfRows = parseInt($('#rubricNumRows' + idSuffix).val());
-    var numberOfCols = parseInt($('#rubricNumCols' + idSuffix).val());
+    var numberOfRows = parseInt($('#rubricNumRows-' + questionNum).val());
+    var numberOfCols = parseInt($('#rubricNumCols-' + questionNum).val());
     
     var newColNumber = numberOfCols + 1;
 
@@ -106,7 +104,7 @@ function addRubricCol(questionNum) {
                                       'rubricChoice');
 
     // Insert after last <th>
-    var lastTh = $('#rubricEditTable' + idSuffix).find('tr:first').children().last();
+    var lastTh = $('#rubricEditTable-' + questionNum).find('tr:first').children().last();
     $(rubricHeaderFragment).insertAfter(lastTh);
     
     // Insert weight <th>
@@ -143,7 +141,7 @@ function addRubricCol(questionNum) {
 
     // Create numberOfRows of <td>'s
     for (var rows = 0; rows < numberOfRows; rows++) {
-        if (!$('#rubricRow' + idSuffix + '-' + rows).length) {
+        if (!$('#rubricRow-' + questionNum + '-' + rows).length) {
             continue;
         }
         var fragment = rubricRowFragmentTemplate;
@@ -156,12 +154,12 @@ function addRubricCol(questionNum) {
                               'rubricDesc');
         
         // Insert after previous <td>
-        var lastTd = $('#rubricRow' + idSuffix + '-' + rows + ' td:last');
+        var lastTd = $('#rubricRow-' + questionNum + '-' + rows + ' td:last');
         $(fragment).insertAfter(lastTd);
     }
 
     // Increment
-    $('#rubricNumCols' + idSuffix).val(newColNumber);
+    $('#rubricNumCols-' + questionNum).val(newColNumber);
     
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
@@ -170,59 +168,59 @@ function addRubricCol(questionNum) {
 
 function removeRubricRow(index, questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    var idSuffix = getQuestionIdSuffix(questionNum);
     
-    var $thisRow = $('#rubricRow' + idSuffix + '-' + index);
+    var $thisRow = $('#rubricRow-' + questionNum + '-' + index);
     
     // count number of table rows from table body
     var numberOfRows = $thisRow.parent().children('tr').length;
     
     var delStr = numberOfRows <= 1 ? 'clear' : 'delete';
-    if (!confirm('Are you sure you want to ' + delStr + ' the row?')) {
-        return;
-    }
-    
-    if (numberOfRows <= 1) {
-        $thisRow.find('textarea').val('');
-    } else {
-        $thisRow.remove();
-    
-        if ($(questionId).attr('editStatus') === 'hasResponses') {
-            $(questionId).attr('editStatus', 'mustDeleteResponses');
+    var messageText = 'Are you sure you want to ' + delStr + ' the row?';
+    var okCallback = function() {
+        if (numberOfRows <= 1) {
+            $thisRow.find('textarea').val('');
+        } else {
+            $thisRow.remove();
+
+            if ($(questionId).attr('editStatus') === 'hasResponses') {
+                $(questionId).attr('editStatus', 'mustDeleteResponses');
+            }
         }
-    }
+    };
+    BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
+                                         BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                                         StatusType.WARNING);
 }
 
 function removeRubricCol(index, questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    var idSuffix = getQuestionIdSuffix(questionNum);
     
-    var $thisCol = $('.rubricCol' + idSuffix + '-' + index);
+    var $thisCol = $('.rubricCol-' + questionNum + '-' + index);
     
     // count number of table columns from table body
     var numberOfCols = $thisCol.first().parent().children().length - 1;
     
     var delStr = numberOfCols <= 1 ? 'clear' : 'delete';
-    if (!confirm('Are you sure you want to ' + delStr + ' the column?')) {
-        return;
-    }
-    
-    if (numberOfCols <= 1) {
-        $thisCol.find('input[id^="rubricChoice"], textarea').val('');
-        $thisCol.find('input[id^="rubricWeight"]').val(0);
-    } else {
-        $thisCol.remove();
-    
-        if ($(questionId).attr('editStatus') === 'hasResponses') {
-            $(questionId).attr('editStatus', 'mustDeleteResponses');
+    var messageText = 'Are you sure you want to ' + delStr + ' the column?';
+    var okCallback = function() {
+        if (numberOfCols <= 1) {
+            $thisCol.find('input[id^="rubricChoice"], textarea').val('');
+            $thisCol.find('input[id^="rubricWeight"]').val(0);
+        } else {
+            $thisCol.remove();
+
+            if ($(questionId).attr('editStatus') === 'hasResponses') {
+                $(questionId).attr('editStatus', 'mustDeleteResponses');
+            }
         }
-    }
+    };
+    BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
+                                         BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                                         StatusType.WARNING);
 }
 
 function highlightRubricRow(index, questionNum, highlight) {
-    var idSuffix = getQuestionIdSuffix(questionNum);
-    
-    var $rubricRow = $('#rubricRow' + idSuffix + '-' + index);
+    var $rubricRow = $('#rubricRow-' + questionNum + '-' + index);
 
     if (highlight) {
         $rubricRow.find('td').addClass('cell-selected-negative');
@@ -233,9 +231,7 @@ function highlightRubricRow(index, questionNum, highlight) {
 }
 
 function highlightRubricCol(index, questionNum, highlight) {
-    var idSuffix = getQuestionIdSuffix(questionNum);
-    
-    var $rubricCol = $('.rubricCol' + idSuffix + '-' + index);
+    var $rubricCol = $('.rubricCol-' + questionNum + '-' + index);
 
     if (highlight) {
         $rubricCol.addClass('cell-selected-negative');

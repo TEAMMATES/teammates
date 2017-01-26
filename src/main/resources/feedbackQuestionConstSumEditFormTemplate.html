@@ -4,7 +4,7 @@
         ${constSumEditFormOptionFragments}
         <div id="constSumAddOptionRow-${questionNumber}">
             <div colspan="2">
-                <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink"
+                <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink-${questionNumber}"
                         onclick="addConstSumOption(${questionNumber})" style="display:none">
                     <span class="glyphicon glyphicon-plus">
                     </span> add more options
@@ -35,10 +35,7 @@
                             value="false" checked>
                     </div>
                     <div data-toggle="tooltip" data-placement="top"
-                        title="Respondents will have to distribute the total points specified here among the 
-                                ${optionRecipientDisplayName}. e.g. If you specify 100 points here and if there are 3 
-                                ${optionRecipientDisplayName}, respondents will have to distribute 100 points among 3 
-                                ${optionRecipientDisplayName}.">
+                        title="${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS}">
                         <div class="col-xs-4 padding-0 col-sm-4">
                             <input type="number" disabled class="form-control width-100-pc pointsBox"
                                 name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
@@ -60,13 +57,11 @@
                             value="true"${perOptionChecked}>
                     </div>
                     <div data-toggle="tooltip" data-placement="top"
-                        title="The number of points to distribute will vary based on the number of options. e.g. 
-                                If you specify 100 points here and if there are 3 options, the total number of points to 
-                                distribute among 3 options will be 300 (i.e. 100 x 3)">
+                        title="${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}">
                         <div class="col-xs-4 padding-0">
                             <input type="number" disabled class="form-control width-100-pc pointsBox"
-                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
-                                id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1"
+                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}"
+                                id="constSumPointsForEachOption-${questionNumber}" value="${constSumPoints}" min="1"
                                 step="1" onChange="updateConstSumPointsValue(${questionNumber})">
                         </div>
                         <div class="col-xs-6 padding-0">
@@ -76,21 +71,19 @@
                     </div>
                 </div>
                 <div class="col-xs-12 margin-bottom-15px padding-left-35px"
-                    id="constSumOption_Recipient-${questionNumber}"${recipientDisplay}>
+                    id="constSumOption_Recipient-${questionNumber}" ${recipientDisplay}>
                     <div class="col-xs-1">
                         <input type="radio" id="constSumPointsPerRecipient-${questionNumber}"
                             name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
                             value="true"${perRecipientChecked}>
                     </div>
                     <div data-toggle="tooltip" data-placement="top"
-                        title="The number of points to distribute will vary based on the number of recipients. e.g. 
-                                If you specify 100 points here and if there are 3 recipients, the total number of points to 
-                                distribute among 3 recipients will be 300 (i.e. 100 x 3)">
+                        title="${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}">
                         <div class="col-xs-4 padding-0">
                             <input type="number" disabled
                                 class="form-control width-100-pc pointsBox"
-                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
-                                id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1"
+                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}"
+                                id="constSumPointsForEachRecipient-${questionNumber}" value="${constSumPoints}" min="1"
                                 step="1" onChange="updateConstSumPointsValue(${questionNumber})">
                         </div>
                         <div class="col-xs-6 padding-0">

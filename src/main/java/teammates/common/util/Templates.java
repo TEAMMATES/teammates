@@ -41,8 +41,14 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
         public static final String USER_FEEDBACK_SESSION_CLOSING =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosing.html");
+        public static final String USER_FEEDBACK_SESSION_CLOSED =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosed.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
+        public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSubmissionConfirmation.html");
+        public static final String USER_FEEDBACK_SESSION_UNPUBLISHED =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");
         public static final String USER_PENDING_COMMENTS_CLEARED =
                 FileHelper.readResourceFile("userEmailTemplate-pendingCommentsCleared.html");
         public static final String SYSTEM_ERROR =
@@ -63,6 +69,8 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionTextSubmissionFormTemplate.html");
             public static final String TEXT_RESULT_STATS =
                     FileHelper.readResourceFile("feedbackQuestionTextResultStatsTemplate.html");
+            public static final String TEXT_EDIT_FORM =
+                    FileHelper.readResourceFile("feedbackQuestionTextEditFormTemplate.html");
 
             public static final String MCQ_SUBMISSION_FORM =
                     FileHelper.readResourceFile("feedbackQuestionMcqSubmissionFormTemplate.html");
@@ -294,7 +302,12 @@ public final class Templates {
             public static final String CONSTSUM_OPTION_VISIBILITY = "${constSumOptionVisibility}";
             public static final String CONSTSUM_OPTION_POINT = "${constSumOptionPoint}";
             public static final String CONSTSUM_OPTION_VALUE = "${constSumOptionValue}";
+            public static final String MARGIN_LEFT = "${marginLeft}";
             public static final String CONSTSUM_PARAM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
+            public static final String CONSTSUM_PARAM_POINTSFOREACHOPTION =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}";
+            public static final String CONSTSUM_PARAM_POINTSFOREACHRECIPIENT =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}";
             public static final String CONSTSUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
             public static final String CONSTSUM_TO_RECIPIENTS =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";
@@ -317,6 +330,11 @@ public final class Templates {
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
             public static final String CONSTSUM_POINTS_PER_OPTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
+            public static final String CONSTSUM_TOOLTIP_POINTS = "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
+            public static final String CONSTSUM_TOOLTIP_POINTS_PER_OPTION =
+                    "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}";
+            public static final String CONSTSUM_TOOLTIP_POINTS_PER_RECIPIENT =
+                    "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}";
             public static final String OPTION_DISPLAY = "${optionDisplay}";
             public static final String RECIPIENT_DISPLAY = "${recipientDisplay}";
             public static final String PER_OPTION_CHECKED = "${perOptionChecked}";

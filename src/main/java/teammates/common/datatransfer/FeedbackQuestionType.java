@@ -3,7 +3,7 @@ package teammates.common.datatransfer;
 import java.util.Map;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Utils;
+import teammates.common.util.Logger;
 
 public enum FeedbackQuestionType {
     /** Feedback Question Type Definitions */
@@ -17,6 +17,8 @@ public enum FeedbackQuestionType {
     RANK_OPTIONS(FeedbackRankOptionsQuestionDetails.class, FeedbackRankOptionsResponseDetails.class),
     RANK_RECIPIENTS(FeedbackRankRecipientsQuestionDetails.class, FeedbackRankRecipientsResponseDetails.class);
     
+    private static final Logger log = Logger.getLogger();
+
     private final Class<? extends FeedbackQuestionDetails> questionDetailsClass;
     private final Class<? extends FeedbackResponseDetails> responseDetailsClass;
 
@@ -149,7 +151,7 @@ public enum FeedbackQuestionType {
                 break;
             }
         } catch (Exception e) {
-            Utils.getLogger().warning("Failed to extract response details.\n" + e.toString());
+            log.warning("Failed to extract response details.\n" + e.toString());
             return null;
         }
 

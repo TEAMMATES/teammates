@@ -9,7 +9,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: showing the 'Edit' page for a course of an instructor
@@ -28,7 +27,7 @@ public class InstructorCourseEditPageAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes courseToEdit = logic.getCourse(courseId);
          
-        new GateKeeper().verifyAccessible(instructor, courseToEdit);
+        gateKeeper.verifyAccessible(instructor, courseToEdit);
         
         /* Setup page data for 'Edit' page of a course for an instructor */
         List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();

@@ -11,11 +11,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: adding a course for an instructor
@@ -29,13 +28,15 @@ public class InstructorCourseAddAction extends Action {
         Assumption.assertNotNull(newCourseId);
         String newCourseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);
         Assumption.assertNotNull(newCourseName);
+        String newCourseTimeZone = getRequestParamValue(Const.ParamsNames.COURSE_TIME_ZONE);
+        Assumption.assertNotNull(newCourseTimeZone);
 
         /* Check if user has the right to execute the action */
-        new GateKeeper().verifyInstructorPrivileges(account);
+        gateKeeper.verifyInstructorPrivileges(account);
 
         /* Create a new course in the database */
         data = new InstructorCoursesPageData(account);
-        CourseAttributes newCourse = new CourseAttributes(newCourseId, newCourseName);
+        CourseAttributes newCourse = new CourseAttributes(newCourseId, newCourseName, newCourseTimeZone);
         createCourse(newCourse);
 
         /* Prepare data for the refreshed page after executing the adding action */
@@ -91,7 +92,8 @@ public class InstructorCourseAddAction extends Action {
 
     private void createCourse(CourseAttributes course) {
         try {
-            logic.createCourseAndInstructor(data.account.googleId, course.getId(), course.getName());
+            logic.createCourseAndInstructor(data.account.googleId, course.getId(), course.getName(),
+                                            course.getTimeZone());
             String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
                     data.getInstructorCourseEnrollLink(course.getId())).replace("${courseEditLink}",
                     data.getInstructorCourseEditLink(course.getId()));

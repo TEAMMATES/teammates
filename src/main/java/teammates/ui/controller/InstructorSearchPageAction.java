@@ -18,9 +18,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.StatusMessageColor;
 
 /**
  * Action: Showing the InstructorSearchPage for an instructor
@@ -29,7 +28,7 @@ public class InstructorSearchPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        new GateKeeper().verifyInstructorPrivileges(account);
+        gateKeeper.verifyInstructorPrivileges(account);
         String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         if (searchKey == null) {
             searchKey = "";
@@ -118,12 +117,12 @@ public class InstructorSearchPageAction extends Action {
                 boolean isVisibleResponse = true;
                 boolean isNotAllowedForInstructor =
                             instructor == null
-                            || !(instructor.isAllowedForPrivilege(
+                            || !instructor.isAllowedForPrivilege(
                                     response.giverSection, response.feedbackSessionName,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                            || !(instructor.isAllowedForPrivilege(
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                            || !instructor.isAllowedForPrivilege(
                                     response.recipientSection, response.feedbackSessionName,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
                 
                 if (isNotAllowedForInstructor) {
                     isVisibleResponse = false;
@@ -142,7 +141,7 @@ public class InstructorSearchPageAction extends Action {
         Iterator<Entry<String, List<FeedbackQuestionAttributes>>> iterQn =
                 frCommentSearchResults.questions.entrySet().iterator();
         while (iterQn.hasNext()) {
-            String fsName = (String) iterQn.next().getKey();
+            String fsName = iterQn.next().getKey();
             List<FeedbackQuestionAttributes> questionList = frCommentSearchResults.questions.get(fsName);
 
             for (int i = questionList.size() - 1; i >= 0; i--) {

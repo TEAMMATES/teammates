@@ -10,6 +10,7 @@ var USER_ID = 'user';
 // Used in instructorCourse.js
 var COURSE_ID = 'courseid';
 var COURSE_NAME = 'coursename';
+var COURSE_TIME_ZONE = 'coursetimezone';
 var COURSE_INSTRUCTOR_NAME = 'instructorname';
 var COURSE_INSTRUCTOR_EMAIL = 'instructoremail';
 var COURSE_INSTRUCTOR_ID = 'instructorid';
@@ -50,6 +51,8 @@ var FEEDBACK_QUESTION_CONSTSUMOPTION = 'constSumOption';
 var FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE = 'constSumOptionTable';
 var FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = 'constSumToRecipients';
 var FEEDBACK_QUESTION_CONSTSUMPOINTS = 'constSumPoints';
+var FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = 'constSumPointsForEachOption';
+var FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = 'constSumPointsForEachRecipient';
 var FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = 'noofchoicecreated';
 var FEEDBACK_QUESTION_NUMSCALE_MIN = 'numscalemin';
 var FEEDBACK_QUESTION_NUMSCALE_MAX = 'numscalemax';
@@ -111,6 +114,7 @@ var DISPLAY_COURSE_LONG_ID = 'Course ID should not exceed ' + COURSE_ID_MAX_LENG
 var DISPLAY_COURSE_LONG_NAME = 'Course name should not exceed ' + COURSE_NAME_MAX_LENGTH + ' characters.';
 var DISPLAY_COURSE_INVALID_ID = 'Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs '
                                 + 'in course ID. Spaces are not allowed for course ID.';
+var DISPLAY_COURSE_INVALID_TIME_ZONE = 'Please select a valid course time zone from the provided options.';
 var DISPLAY_COURSE_COURSE_ID_EMPTY = 'Course ID cannot be empty.';
 var DISPLAY_COURSE_COURSE_NAME_EMPTY = 'Course name cannot be empty';
 
@@ -133,7 +137,7 @@ var DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
         'This feedback session name already existed in this course. Please use another name.';
 var DISPLAY_FEEDBACK_SESSION_NAME_EMPTY = 'Feedback session name must not be empty.';
 var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
-        'Please enter the maximum number of recipients each respondants should give feedback to.';
+        'Please enter the maximum number of recipients each respondents should give feedback to.';
 
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. The question text cannot be empty.';
 var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
@@ -149,6 +153,11 @@ var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
+    
+    $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function() {
+        bindDefaultImageIfMissing(this);
+    });
+    
     /**
      * Initializing then disabling is better than simply
      * not initializing for mobile due to some tooltips-specific
@@ -175,6 +184,18 @@ $(document).on('ajaxComplete ready', function() {
         }
     });
 });
+
+/**
+ * Binds a default image if the image is missing.
+ * @param element Image element.
+ */
+function bindDefaultImageIfMissing(element) {
+    $(element).on('error', function() {
+        if ($(this).attr('src') !== '') {
+            $(this).attr('src', '/images/profile_picture_default.png');
+        }
+    });
+}
 
 /**
  * Checks if the current device is touch based device
@@ -241,8 +262,12 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
     var columnType = 0;
     var store = [];
     var $RowList = $('tr', $table);
-    
+    // For date comparisons in instructor home page we should use
+    // the tool-tip value instead of display text since display text does not contain the year.
+    var shouldConsiderToolTipYear = comp && comp.toString().includes('instructorHomeDateComparator');
+
     // Iterate through column's contents to decide which comparator to use
+    var textToCompare;
     for (var i = row; i < $RowList.length; i++) {
         if ($RowList[i].cells[colIdx - 1] === undefined) {
             continue;
@@ -251,14 +276,17 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
         // $.trim trims leading/trailing whitespaces
         // jQuery(...).text() works like .innerText, but works in Firefox (.innerText does not)
         // $RowList[i].cells[colIdx - 1] is where we get the table cell from
-        var innerText = $.trim(jQuery($RowList[i].cells[colIdx - 1]).text());
+        // If shouldConsiderToolTipYear is true, we consider the tooltip value instead of innerText
+        textToCompare = shouldConsiderToolTipYear
+                ? $.trim($($RowList[i].cells[colIdx - 1]).find('span').attr('data-original-title'))
+                : $.trim($($RowList[i].cells[colIdx - 1]).text());
         
         // Store rows together with the innerText to compare
-        store.push([innerText, $RowList[i], i]);
+        store.push([textToCompare, $RowList[i], i]);
         
-        if ((columnType === 0 || columnType === 1) && isNumber(innerText)) {
+        if ((columnType === 0 || columnType === 1) && isNumber(textToCompare)) {
             columnType = 1;
-        } else if ((columnType === 0 || columnType === 2) && isDate(innerText)) {
+        } else if ((columnType === 0 || columnType === 2) && isDate(textToCompare)) {
             columnType = 2;
         } else {
             columnType = 3;
@@ -349,7 +377,7 @@ function sortDate(x, y) {
 * @returns pattern string
 */
 function getDayMonthYearFormat() {
-    return /^\s*(\d{2})[\/\- ](\d{2})[\/\- ](\d{4}|\d{2})\s*$/;
+    return /^\s*(\d{2})[/\- ](\d{2})[/\- ](\d{4}|\d{2})\s*$/;
 }
 
 /**
@@ -558,6 +586,30 @@ function scrollToTop(duration) {
 var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
 /**
+ * Populates the status div with the message and the message status.
+ * Default message type is info.
+ *
+ * @param message the text message to be shown to the user
+ * @param status type
+ * @return created status message div
+ */
+function populateStatusMessageDiv(message, status) {
+    var $statusMessageDivToUser = $(DIV_STATUS_MESSAGE);
+    var $statusMessageDivContent = $('<div></div>');
+    
+    $statusMessageDivContent.addClass('overflow-auto');
+    $statusMessageDivContent.addClass('alert');
+    // Default the status type to info if any invalid status is passed in
+    $statusMessageDivContent.addClass('alert-' + (StatusType.isValidType(status) ? status : StatusType.INFO));
+    $statusMessageDivContent.addClass('statusMessage');
+    $statusMessageDivContent.html(message);
+    
+    $statusMessageDivToUser.empty();
+    $statusMessageDivToUser.append($statusMessageDivContent);
+    return $statusMessageDivToUser;
+}
+
+/**
  * Sets a status message and the message status.
  * Default message type is info.
  *
@@ -568,22 +620,33 @@ function setStatusMessage(message, status) {
     if (message === '' || message === undefined || message === null) {
         return;
     }
+    var $statusMessageDivToUser = populateStatusMessageDiv(message, status);
+    $statusMessageDivToUser.show();
+    scrollToElement($statusMessageDivToUser[0], { offset: window.innerHeight / 2 * -1 });
+}
 
-    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
-    var $statusMessage = $('<div></div>');
-    
-    $statusMessage.addClass('overflow-auto');
-    $statusMessage.addClass('alert');
-    // Default the status type to info if any invalid status is passed in
-    $statusMessage.addClass('alert-' + (StatusType.isValidType(status) ? status : StatusType.INFO));
-    $statusMessage.addClass('statusMessage');
-    $statusMessage.html(message);
-    
-    $statusMessagesToUser.empty();
-    $statusMessagesToUser.append($statusMessage);
-    $statusMessagesToUser.show();
-    
-    scrollToElement($statusMessagesToUser[0], { offset: window.innerHeight / 2 * -1 });
+/**
+ * Sets a status message and the message status to a given form.
+ * Default message type is info.
+ *
+ * @param message the text message to be shown to the user
+ * @param status type
+ * @param form form which should own the status
+ */
+function setStatusMessageToForm(message, status, form) {
+    if (message === '' || message === undefined || message === null) {
+        return;
+    }
+    // Copy the statusMessage and prepend to form
+    var $copyOfStatusMessagesToUser = populateStatusMessageDiv(message, status).clone().show();
+    $(DIV_STATUS_MESSAGE).remove();
+    $(form).prepend($copyOfStatusMessagesToUser);
+    var opts = {
+        offset: window.innerHeight / 8 * -1,
+        duration: 1000
+    };
+    scrollToElement($copyOfStatusMessagesToUser[0], opts);
+
 }
 
 /**
@@ -606,6 +669,18 @@ function clearStatusMessages() {
     
     $statusMessagesToUser.empty();
     $statusMessagesToUser.hide();
+}
+
+function addLoadingIndicator(button, loadingText) {
+    button.html(loadingText);
+    button.prop('disabled', true);
+    button.append('<img src="/images/ajax-loader.gif">');
+}
+
+function removeLoadingIndicator(button, displayText) {
+    button.empty();
+    button.html(displayText);
+    button.prop('disabled', false);
 }
 
 /**
@@ -675,7 +750,7 @@ function isNameValid(rawName) {
         return false;
     }
     
-    if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
+    if (name.match(/[^/\\,.'\-()0-9a-zA-Z \t]/)) {
         // Returns true if a character NOT belonging to the following set
         // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
         // apostrophe('), hyphen(-), round brackets(()), alpha numeric
@@ -700,7 +775,7 @@ function isInstitutionValid(rawInstitution) {
         return false;
     }
     
-    if (institution.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
+    if (institution.match(/[^/\\,.'\-()0-9a-zA-Z \t]/)) {
         // Returns true if a character NOT belonging to the following set
         // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
         // apostrophe('), hyphen(-), round brackets(()), alpha numeric
@@ -751,7 +826,7 @@ function replaceAll(string, find, replace) {
 }
 
 function escapeRegExp(string) {
-    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+    return string.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
 }
 
 /**
@@ -772,17 +847,21 @@ function sanitizeForJs(rawString) {
  *                             Example- '.panel-body, #panel-data, .sub-container'
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
-    var searchKey = $(searchKeyId).val();
-    // trim symbols around every word in the string
-    var symbolTrimmedSearchKey = [];
-    $.each(searchKey.split(/["'.-]/), function() {
-        symbolTrimmedSearchKey.push($.trim(this));
-    });
-    // remove empty elements from symbolTrimmedSearchKey
-    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n) {
+    var searchKey = $(searchKeyId).val().trim();
+    // split search key string on symbols and spaces and add to searchKeyList
+    var searchKeyList = [];
+    if (searchKey.charAt(0) === '"' && searchKey.charAt(searchKey.length - 1) === '"') {
+        searchKeyList.push(searchKey.replace(/"/g, '').trim());
+    } else {
+        $.each(searchKey.split(/[ "'.-]/), function() {
+            searchKeyList.push($.trim(this));
+        });
+    }
+    // remove empty elements from searchKeyList
+    searchKeyList = searchKeyList.filter(function(n) {
         return n !== '';
     });
-    $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
+    $(sectionToHighlight).highlight(searchKeyList);
 }
 
 /**
@@ -944,3 +1023,16 @@ var BootboxWrapper = {
         .find('.modal-header').addClass('alert-' + color || StatusType.DEFAULT);
     }
 };
+
+// Toggle the visibility of additional question information for the specified question.
+function toggleAdditionalQuestionInfo(identifier) {
+    var $questionButton = $('#questionAdditionalInfoButton-' + identifier);
+
+    if ($questionButton.text() === $questionButton.attr('data-more')) {
+        $questionButton.text($questionButton.attr('data-less'));
+    } else {
+        $questionButton.text($questionButton.attr('data-more'));
+    }
+
+    $('#questionAdditionalInfo-' + identifier).toggle();
+}

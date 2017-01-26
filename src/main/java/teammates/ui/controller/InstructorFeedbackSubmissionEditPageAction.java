@@ -6,7 +6,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissionEditPageAction {
 
@@ -20,7 +19,7 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
     protected void verifyAccesibleForSpecificUser(FeedbackSessionAttributes session) {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         boolean creatorOnly = false;
-        new GateKeeper().verifyAccessible(instructor, session, creatorOnly);
+        gateKeeper.verifyAccessible(instructor, session, creatorOnly);
         boolean shouldEnableSubmit =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         

@@ -24,7 +24,7 @@
     <c:choose>
         <c:when test="${not empty student.links.detailsPageLink}">
             <td>
-                <a class="detailsPageLink" href="${student.links.detailsPageLink}" target="blank"><c:out value="${student.name}"/></a>
+                <a class="detailsPageLink" href="${student.links.detailsPageLink}" target="_blank" rel="noopener noreferrer"><c:out value="${student.name}"/></a>
             </td>
         </c:when>
         <c:otherwise>
@@ -34,7 +34,7 @@
     
     <%-- Google ID [Details] --%>                     
     <td>
-        <a href="${student.links.homePageLink}" target="blank" class="homePageLink">
+        <a href="${student.links.homePageLink}" target="_blank" rel="noopener noreferrer" class="homePageLink">
             ${empty student.links.homePageLink ? "" : student.googleId} <%-- also checks if it is null --%>
         </a>
     </td>
@@ -46,7 +46,7 @@
     <td>
         <%-- View recent actions --%>
         <c:if test="${not empty student.viewRecentActionsId}">
-            <form method="post" target="blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
+            <form method="post" target="_blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
                 <button type="submit" id="${student.viewRecentActionsId}_recentActions"
                         class="btn btn-link btn-xs recentActionButton">
                         

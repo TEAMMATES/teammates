@@ -3,6 +3,7 @@
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="currentPage" %>
 <!DOCTYPE html>
+<html>
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <meta name="application-name" content="TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects">
@@ -11,8 +12,6 @@
     <link rel="stylesheet" href="stylesheets/teammates.css" type="text/css">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <title>TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects</title>
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    ${jsIncludes}
 </head>
 <body>
     <div id="mainContainer">
@@ -89,9 +88,11 @@
     <div id="footer">
         <div id="footerWrapper">
             <div id="footerRightCol">
-                Hosted on <a class="footer" href="http://code.google.com/appengine/" target="_blank">Google App Engine</a>
+                Hosted on <a class="footer" href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    ${jsIncludes}
 </body>
 </html>

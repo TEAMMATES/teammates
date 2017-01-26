@@ -11,31 +11,31 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
-import teammates.common.util.Utils;
-import teammates.logic.api.GateKeeper;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.backdoor.BackDoorLogic;
-
-import com.google.gson.Gson;
 
 public class AdminInstructorAccountAddAction extends Action {
     
     @Override
     protected ActionResult execute() {
 
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
 
         AdminHomePageData data = new AdminHomePageData(account);
 
@@ -119,10 +119,18 @@ public class AdminInstructorAccountAddAction extends Action {
             return createAjaxResult(data);
         }
         
-        BackDoorLogic backDoor = new BackDoorLogic();
-        List<InstructorAttributes> instructorList = backDoor.getInstructorsForCourse(courseId);
-        String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName,
-                                                            data.instructorInstitution);
+        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
+                                .withInstructorInstitution(data.instructorInstitution)
+                                .toAbsoluteString();
+        EmailWrapper email = new EmailGenerator().generateNewInstructorAccountJoinEmail(
+                instructorList.get(0).email, data.instructorShortName, joinLink);
+        try {
+            emailSender.sendEmail(email);
+        } catch (EmailSendingException e) {
+            log.severe("Instructor welcome email failed to send: " + TeammatesException.toStringWithStackTrace(e));
+        }
         data.statusForAjax = "Instructor " + data.instructorName
                              + " has been successfully created with join link:<br>" + joinLink;
         statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.SUCCESS));
@@ -183,44 +191,36 @@ public class AdminInstructorAccountAddAction extends Action {
                 // update feedback session time
                 "2013-04-01 11:59 PM UTC", formatter.format(c.getTime()));
 
-        Gson gson = Utils.getTeammatesGson();
-        DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+        DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
         
-        BackDoorLogic backdoor = new BackDoorLogic();
+        BackDoorLogic backDoorLogic = new BackDoorLogic();
         
         try {
-            backdoor.persistDataBundle(data);
+            backDoorLogic.persistDataBundle(data);
         } catch (EntityDoesNotExistException e) {
-            int elapsedTime = 0;
-            
-            while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
-                ThreadHelper.waitBriefly();
-                elapsedTime += ThreadHelper.WAIT_DURATION;
-            }
-            
-            backdoor.persistDataBundle(data);
+            ThreadHelper.waitFor(Config.PERSISTENCE_CHECK_DURATION);
+            backDoorLogic.persistDataBundle(data);
             log.warning("Data Persistence was Checked Twice in This Request");
         }
         
         //produce searchable documents
-        List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, pageData.instructorEmail);
+        List<CommentAttributes> comments = logic.getCommentsForGiver(courseId, pageData.instructorEmail);
         List<FeedbackResponseCommentAttributes> frComments =
-                backdoor.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
-        List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
-        List<InstructorAttributes> instructors = backdoor.getInstructorsForCourse(courseId);
+                logic.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
+        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         
         for (CommentAttributes comment : comments) {
-            backdoor.putDocument(comment);
+            logic.putDocument(comment);
         }
         for (FeedbackResponseCommentAttributes comment : frComments) {
-            backdoor.putDocument(comment);
+            logic.putDocument(comment);
         }
         for (StudentAttributes student : students) {
-            backdoor.putDocument(student);
+            logic.putDocument(student);
         }
-        
         for (InstructorAttributes instructor : instructors) {
-            backdoor.putDocument(instructor);
+            logic.putDocument(instructor);
         }
         
         return courseId;
@@ -272,11 +272,15 @@ public class AdminInstructorAccountAddAction extends Action {
     * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
     */
     private String getDemoCourseIdRoot(String instructorEmail) {
-        final String[] splitedEmail = instructorEmail.split("@");
-        final String head = splitedEmail[0];
-        final String emailAbbreviation = splitedEmail[1].substring(0, 3);
-        return head + "." + emailAbbreviation
-                + "-demo";
+        String[] emailSplit = instructorEmail.split("@");
+        
+        String username = emailSplit[0];
+        String host = emailSplit[1];
+        
+        String head = StringHelper.replaceIllegalChars(username, FieldValidator.REGEX_COURSE_ID, '_');
+        String hostAbbreviation = host.substring(0, 3);
+        
+        return head + "." + hostAbbreviation + "-demo";
     }
     
     /** 

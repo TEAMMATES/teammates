@@ -3,16 +3,15 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.StatusMessageColor;
 
 public class AdminEmailTrashAction extends Action {
 
     @Override
     protected ActionResult execute() {
         
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         String emailId = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);
         

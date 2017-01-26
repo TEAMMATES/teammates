@@ -85,15 +85,15 @@ public class InstructorCoursesPageData extends PageData {
             
             String unarchiveLink = getInstructorCourseArchiveLink(course.getId(), false, false);
             ElementTag unarchivedButton = createButton("Unarchive", "btn btn-default btn-xs",
-                                                       "t_course_unarchive" + idx, unarchiveLink, "", "", false);
+                                                       "t_course_unarchive" + idx, unarchiveLink, "", false);
             
             String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
-            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs", "t_course_delete" + idx,
-                                                   deleteLink, Const.Tooltips.COURSE_DELETE,
-                                                   "return toggleDeleteCourseConfirmation('" + course.getId() + "');",
+            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs course-delete-link",
+                                                   "t_course_delete" + idx, deleteLink, Const.Tooltips.COURSE_DELETE,
                                                    !hasDeletePermission);
+            deleteButton.setAttribute("data-course-id", course.getId());
             
             actionsParam.add(unarchivedButton);
             actionsParam.add(deleteButton);
@@ -122,27 +122,27 @@ public class InstructorCoursesPageData extends PageData {
                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
             ElementTag enrollButton = createButton("Enroll", "btn btn-default btn-xs t_course_enroll" + idx, "",
                                                    getInstructorCourseEnrollLink(course.getId()),
-                                                   Const.Tooltips.COURSE_ENROLL, "", !hasModifyPermission);
+                                                   Const.Tooltips.COURSE_ENROLL, !hasModifyPermission);
             
             ElementTag viewButton = createButton("View", "btn btn-default btn-xs t_course_view" + idx, "",
                                                  getInstructorCourseDetailsLink(course.getId()),
-                                                 Const.Tooltips.COURSE_DETAILS, "", false);
+                                                 Const.Tooltips.COURSE_DETAILS, false);
             
             ElementTag editButton = createButton("Edit", "btn btn-default btn-xs t_course_edit" + idx, "",
                                                  getInstructorCourseEditLink(course.getId()),
-                                                 Const.Tooltips.COURSE_EDIT, "", false);
+                                                 Const.Tooltips.COURSE_EDIT, false);
             
             ElementTag archiveButton = createButton("Archive", "btn btn-default btn-xs t_course_archive" + idx, "",
                                                     getInstructorCourseArchiveLink(course.getId(), true, false),
-                                                    Const.Tooltips.COURSE_ARCHIVE, "", false);
+                                                    Const.Tooltips.COURSE_ARCHIVE, false);
             
             String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
-            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs t_course_delete" + idx, "",
-                                                   deleteLink, Const.Tooltips.COURSE_DELETE,
-                                                   "return toggleDeleteCourseConfirmation('" + course.getId() + "');",
+            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs course-delete-link "
+                                                   + "t_course_delete" + idx, "", deleteLink, Const.Tooltips.COURSE_DELETE,
                                                    !hasDeletePermission);
+            deleteButton.setAttribute("data-course-id", course.getId());
             
             actionsParam.add(enrollButton);
             actionsParam.add(viewButton);
@@ -161,7 +161,7 @@ public class InstructorCoursesPageData extends PageData {
     }
     
     private ElementTag createButton(String content, String buttonClass, String id, String href, String title,
-                                    String onClick, boolean isDisabled) {
+                                    boolean isDisabled) {
         ElementTag button = new ElementTag(content);
         
         button.setAttribute("class", buttonClass);
@@ -178,10 +178,6 @@ public class InstructorCoursesPageData extends PageData {
             button.setAttribute("title", title);
             button.setAttribute("data-toggle", "tooltip");
             button.setAttribute("data-placement", "top");
-        }
-        
-        if (onClick != null && !onClick.isEmpty()) {
-            button.setAttribute("onclick", onClick);
         }
         
         if (isDisabled) {

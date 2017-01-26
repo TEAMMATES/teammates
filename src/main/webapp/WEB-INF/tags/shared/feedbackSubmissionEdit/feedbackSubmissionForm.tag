@@ -23,20 +23,10 @@
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <tsfse:feedbackSessionDetailsPanel feedbackSession="${data.bundle.feedbackSession}"/>
     
-    <c:if test="${data.moderation}">
-        <div class="row">
-            <span class="help-block align-center">
-                <%= Const.FEEDBACK_SESSION_QUESTIONS_HIDDEN %>
-            </span>
-        </div>
-    </c:if>
-    
     <c:forEach items="${data.questionsWithResponses}" var="questionWithResponses">
-        <c:if test="${questionWithResponses.numOfResponseBoxes ne 0}">
-            <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}" 
-                                         isShowRealQuestionNumber="${data.showRealQuestionNumber}" 
-                                         questionWithResponses="${questionWithResponses}"/>
-        </c:if>
+        <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}" 
+                                     isShowRealQuestionNumber="${data.showRealQuestionNumber}" 
+                                     questionWithResponses="${questionWithResponses}"/>
     </c:forEach>
     
     <div class="bold align-center"> 
@@ -49,7 +39,9 @@
                     There are no questions for you to answer here!
             </c:when>
             <c:otherwise>
-                <input type="submit" class="btn btn-primary center-block"
+                <input type="checkbox" name="sendsubmissionemail">
+                Send me a confirmation email
+                <input type="submit" class="btn btn-primary center-block margin-top-7px"
                        id="response_submit_button" data-toggle="tooltip"
                        data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
                        value="Submit Feedback"

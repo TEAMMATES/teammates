@@ -11,11 +11,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessageColor;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
     
@@ -26,9 +24,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
                 
-        new GateKeeper().verifyAccessible(instructor,
-                session,
-                false, moderatedStudent.section,
+        gateKeeper.verifyAccessible(instructor, session, false, moderatedStudent.section,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
     
@@ -38,6 +34,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail);
 
         moderatedStudent = logic.getStudentForEmail(courseId, moderatedStudentEmail);
+        isSendSubmissionEmail = false;
     }
 
     @Override
@@ -50,8 +47,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
         
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-            String questionId = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters,
+            String questionId = getRequestParamValue(
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             
             if (questionId == null) {
@@ -90,20 +86,20 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
     }
     
     @Override
-    protected void appendRespondant() {
+    protected void appendRespondent() {
         try {
-            logic.addStudentRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.addStudentRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to append student respondant");
+            log.severe("Fail to append student respondent");
         }
     }
 
     @Override
-    protected void removeRespondant() {
+    protected void removeRespondent() {
         try {
-            logic.deleteStudentRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.deleteStudentRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to remove student respondant");
+            log.severe("Fail to remove student respondent");
         }
     }
 

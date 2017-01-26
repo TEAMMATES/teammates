@@ -1,7 +1,5 @@
 package teammates.test.cases.logic;
 
-import java.util.ArrayList;
-
 import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -12,18 +10,18 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.mailjet.client.MailjetRequest;
-import com.mailjet.client.resource.Email;
-import com.sendgrid.SendGrid;
-import com.sun.jersey.multipart.FormDataMultiPart;
-
 import teammates.common.util.EmailWrapper;
-import teammates.logic.core.EmailSender;
+import teammates.logic.api.EmailSender;
 import teammates.logic.core.JavamailService;
 import teammates.logic.core.MailgunService;
 import teammates.logic.core.MailjetService;
 import teammates.logic.core.SendgridService;
 import teammates.test.cases.BaseComponentTestCase;
+
+import com.mailjet.client.MailjetRequest;
+import com.mailjet.client.resource.Email;
+import com.sendgrid.SendGrid;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 /**
  * SUT: {@link EmailSender}
@@ -35,7 +33,7 @@ import teammates.test.cases.BaseComponentTestCase;
 public class EmailSenderTest extends BaseComponentTestCase {
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         printTestClassHeader();
     }
     
@@ -57,11 +55,6 @@ public class EmailSenderTest extends BaseComponentTestCase {
         wrapper.setSubject(subject);
         wrapper.setContent(content);
         return wrapper;
-    }
-    
-    @Test
-    public void testNoExceptionThrownWhenNoMessagesToSend() {
-        new EmailSender().sendEmails(new ArrayList<EmailWrapper>());
     }
     
     @Test

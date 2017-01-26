@@ -8,7 +8,6 @@ import java.util.Properties;
 
 import teammates.common.util.Config;
 import teammates.common.util.Url;
-import teammates.test.util.FileHelper;
 
 /** 
  * Represents properties in test.properties file
@@ -44,6 +43,7 @@ public final class TestProperties {
 
     public static final String BROWSER;
     public static final String FIREFOX_PATH;
+    public static final String CHROMEDRIVER_PATH;
     
     public static final int TEST_TIMEOUT;
 
@@ -79,8 +79,9 @@ public final class TestProperties {
             
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
             
-            BROWSER = prop.getProperty("test.selenium.browser");
+            BROWSER = prop.getProperty("test.selenium.browser").toLowerCase();
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
+            CHROMEDRIVER_PATH = prop.getProperty("test.chromedriver.path");
             
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
                     
@@ -117,7 +118,7 @@ public final class TestProperties {
             fail("God mode regeneration works only in dev server.");
         }
         if (!areTestAccountsReadyForGodMode()) {
-            fail("Please append a unique id (e.g your name) to each of the default account in"
+            fail("Please append a unique id (e.g your name) to each of the default account in "
                     + "test.properties in order to use God mode, e.g change alice.tmms to "
                     + "alice.tmms.<yourName>, charlie.tmms to charlie.tmms.<yourName>, etc.");
         }

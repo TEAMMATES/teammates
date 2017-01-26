@@ -384,7 +384,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (FeedbackResponseAttributes response : responses) {
             String answerString = response.getResponseDetails().getAnswerString();
             boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
@@ -435,7 +435,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (FeedbackResponseAttributes response : responses) {
             String answerString = response.getResponseDetails().getAnswerString();
             boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {

@@ -20,7 +20,6 @@ public class FeedbackQuestionEditForm {
     private String courseId;
     private String feedbackSessionName;
     
-    private String questionNumberSuffix;
     private String questionText;
     private String questionDescription;
     private String questionTypeDisplayName;
@@ -44,8 +43,7 @@ public class FeedbackQuestionEditForm {
     private String questionId;
     
     public static FeedbackQuestionEditForm getNewQnForm(String doneEditingLink, FeedbackSessionAttributes feedbackSession,
-                                                        String questionTypeChoiceOptions, List<ElementTag> giverOptions,
-                                                        List<ElementTag> recipientOptions, List<ElementTag> qnNumOptions,
+                                                        String questionTypeChoiceOptions, List<ElementTag> qnNumOptions,
                                                         String newQuestionEditForm) {
         
         FeedbackQuestionEditForm newQnForm = new FeedbackQuestionEditForm();
@@ -54,7 +52,7 @@ public class FeedbackQuestionEditForm {
         newQnForm.actionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
         newQnForm.courseId = feedbackSession.getCourseId();
         newQnForm.feedbackSessionName = feedbackSession.getFeedbackSessionName();
-        newQnForm.questionNumberSuffix = "";
+        newQnForm.questionIndex = -1;
         
         newQnForm.questionTypeOptions = questionTypeChoiceOptions;
         
@@ -64,8 +62,6 @@ public class FeedbackQuestionEditForm {
         
         newQnForm.feedbackPathSettings = feedbackPathSettings;
         
-        feedbackPathSettings.setGiverParticipantOptions(giverOptions);
-        feedbackPathSettings.setRecipientParticipantOptions(recipientOptions);
         feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(1);
         
         newQnForm.questionSpecificEditFormHtml = newQuestionEditForm;
@@ -95,7 +91,8 @@ public class FeedbackQuestionEditForm {
         }
         
         return new FeedbackQuestionVisibilitySettings(new ArrayList<String>(), isResponsesVisible,
-                                                       isGiverNameVisible, isRecipientNameVisible);
+                                                      isGiverNameVisible, isRecipientNameVisible,
+                                                      "Please select a visibility option <span class='caret'></span>");
     }
     
     public String getCourseId() {
@@ -154,20 +151,8 @@ public class FeedbackQuestionEditForm {
         this.questionIndex = questionIndex;
     }
 
-    /**
-     * @see {@link #getQuestionIndexIfNonZero}
-     */
     public int getQuestionIndex() {
         return questionIndex;
-    }
-    
-    /**
-     * @return empty string if questionIndex is 0 (uninitialised), otherwise the value of the questionIndex
-     * @see {@link #getQuestionIndex}. An example of use of this will be if
-     *      the html id of elements in the form of a new question is not suffixed by question index
-     */
-    public String getQuestionIndexIfNonZero() {
-        return questionIndex == 0 ? "" : String.valueOf(questionIndex);
     }
     
     public void setAction(String action) {
@@ -188,14 +173,6 @@ public class FeedbackQuestionEditForm {
 
     public void setFeedbackPathSettings(FeedbackQuestionFeedbackPathSettings generalSettings) {
         this.feedbackPathSettings = generalSettings;
-    }
-
-    public String getQuestionNumberSuffix() {
-        return questionNumberSuffix;
-    }
-
-    public void setQuestionNumberSuffix(String questionNumberSuffix) {
-        this.questionNumberSuffix = questionNumberSuffix;
     }
 
     public void setDoneEditingLink(String doneEditingLink) {

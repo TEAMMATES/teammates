@@ -22,7 +22,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     private StudentsDb studentsDb = new StudentsDb();
     
     @BeforeClass
-    public static void setupClass() {
+    public void classSetup() {
         printTestClassHeader();
     }
     
@@ -32,7 +32,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         StudentAttributes s = createNewStudent();
         
-        StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
+        StudentAttributes student = studentsDb.getStudentForEmail(s.course, s.email);
         assertNotNull(student);
         
         // Assert dates are now.
@@ -125,7 +125,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testGetStudent() throws InvalidParametersException, EntityDoesNotExistException {
         
@@ -135,12 +134,15 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team, s.section,
                                                      s.email, s.googleId, s.comments);
         
-        ______TS("typical success case: existent");
+        ______TS("typical success case for getStudentForRegistrationKey: existing student");
         StudentAttributes retrieved = studentsDb.getStudentForEmail(s.course, s.email);
         assertNotNull(retrieved);
         assertNotNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(retrieved.key)));
+
         assertNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt("notExistingKey")));
+        
         ______TS("non existant student case");
+
         retrieved = studentsDb.getStudentForEmail("any-course-id", "non-existent@email.com");
         assertNull(retrieved);
         
@@ -179,7 +181,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testupdateStudentWithoutDocument() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateStudentWithoutDocument() throws InvalidParametersException, EntityDoesNotExistException {
         
         // Create a new student with valid attributes
         StudentAttributes s = createNewStudent();
@@ -242,6 +244,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         StudentAttributes updatedStudent = studentsDb.getStudentForEmail(s.course, s.email);
         assertTrue(updatedStudent.isEnrollInfoSameAs(s));
+        
     }
 
     @SuppressWarnings("deprecation")
@@ -284,9 +287,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         }
         
         studentsDb.deleteStudent(s.course, s.email);
-
-      //Untested case: The deletion is not persisted immediately (i.e. persistence delay)
-      //       Reason: Difficult to reproduce a persistence delay during testing
+        
     }
     
     private StudentAttributes createNewStudent() throws InvalidParametersException {

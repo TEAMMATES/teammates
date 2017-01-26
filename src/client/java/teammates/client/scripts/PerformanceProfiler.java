@@ -23,14 +23,13 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.util.FileHelper;
 
-import com.google.gson.Gson;
 /**
  * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
  * of this script in parallel, use ParallelProfiler.Java.
@@ -65,7 +64,6 @@ public class PerformanceProfiler extends Thread {
     
     private String reportFilePath;
     private DataBundle data;
-    private Gson gson = Utils.getTeammatesGson();
     private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
     
     public PerformanceProfiler(String path) {
@@ -81,7 +79,7 @@ public class PerformanceProfiler extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        data = gson.fromJson(jsonString, DataBundle.class);
+        data = JsonUtils.fromJson(jsonString, DataBundle.class);
 
         //Import previous results
         try {
@@ -136,12 +134,12 @@ public class PerformanceProfiler extends Thread {
                 float duration = 0;
                 if (type.equals(String.class) && !customTimer) {
                     long startTime = System.nanoTime();
-                    Object retVal = (String) method.invoke(this);
+                    Object retVal = method.invoke(this);
                     long endTime = System.nanoTime();
                     duration = (float) ((endTime - startTime) / 1000000.0); //in miliSecond
                     System.out.print("Name: " + name + "\tTime: " + duration + "\tVal: " + retVal.toString() + "\n");
                 } else if (type.equals(Long.class) && customTimer) {
-                    duration = (float) (((Long) (method.invoke(this))) / 1000000.0);
+                    duration = (float) ((Long) method.invoke(this) / 1000000.0);
                     System.out.print("Name: " + name + "\tTime: " + duration + "\n");
                 }
                 // Add new duration to the arrayList of the test.
@@ -166,7 +164,7 @@ public class PerformanceProfiler extends Thread {
      * @param args
      */
     public static void main(String[] args) {
-        (new PerformanceProfiler(defaultReportPath)).start();
+        new PerformanceProfiler(defaultReportPath).start();
     }
 
     /**
@@ -524,7 +522,7 @@ public class PerformanceProfiler extends Thread {
         Set<String> set = data.students.keySet();
         for (String studentKey : set) {
             StudentAttributes student = data.students.get(studentKey);
-            status.append(' ').append(BackDoor.getStudentAsJson(student.course, student.email));
+            status.append(' ').append(JsonUtils.toJson(BackDoor.getStudent(student.course, student.email)));
         }
         return status.toString();
     }

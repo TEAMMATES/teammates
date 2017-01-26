@@ -1,3 +1,8 @@
+$(document).ready(function() {
+    $('#filterReference').toggle();
+    AdminCommon.bindBackToTopButtons();
+});
+
 function toggleReference() {
     $('#filterReference').toggle('slow');
     
@@ -11,10 +16,6 @@ function toggleReference() {
         $('#referenceText').text('Show Reference');
     }
 }
-
-$(function() {
-    $('#filterReference').toggle();
-});
 
 function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     var params = 'logTimeInAdminTimeZone=' + time

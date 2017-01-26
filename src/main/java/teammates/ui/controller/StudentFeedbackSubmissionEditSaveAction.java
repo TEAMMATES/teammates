@@ -7,29 +7,28 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionEditSaveAction {
     @Override
     protected void verifyAccesibleForSpecificUser() {
-        new GateKeeper().verifyAccessible(getStudent(), logic.getFeedbackSession(feedbackSessionName, courseId));
+        gateKeeper.verifyAccessible(getStudent(), logic.getFeedbackSession(feedbackSessionName, courseId));
     }
 
     @Override
-    protected void appendRespondant() {
+    protected void appendRespondent() {
         try {
-            logic.addStudentRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.addStudentRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to append student respondant");
+            log.severe("Fail to append student respondent");
         }
     }
 
     @Override
-    protected void removeRespondant() {
+    protected void removeRespondent() {
         try {
-            logic.deleteStudentRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+            logic.deleteStudentRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to remove student respondant");
+            log.severe("Fail to remove student respondent");
         }
     }
 
@@ -105,7 +104,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void setAdditionalParameters() {
-        // no additional parameters to set for the standard student submit page
+        isSendSubmissionEmail = true;
     }
 
     @Override

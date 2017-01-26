@@ -1,6 +1,9 @@
 <%@ tag description="Generic TEAMMATES Page" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ tag import="teammates.common.util.Const" %>
+<%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ attribute name="pageTitle" required="true" %>
+<%@ attribute name="cssIncludes" fragment="true" %>
 <%@ attribute name="jsIncludes" fragment="true" %>
 <%@ attribute name="navBar" required="true" fragment="true" %>
 <%@ attribute name="bodyTitle" required="true" %>
@@ -9,37 +12,34 @@
 <html>
 <head>
     <title>${pageTitle}</title>
-
-    <link rel="shortcut icon" href="/favicon.png" />
-
+    <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link type="text/css" href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
-
+    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS.getLibrarySource() %>" rel="stylesheet">
+    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS.getLibrarySource() %>" rel="stylesheet">
+    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
+    <jsp:invoke fragment="cssIncludes" />
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="${data.jQueryFilePath}"></script>
-    <script type="text/javascript" src="${data.jQueryUiFilePath}"></script>
-    <script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/lib/bootbox.min.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <t:enableJS />
-
-    <jsp:invoke fragment="jsIncludes" />
 </head>
 <body>
+    <noscript>
+        <jsp:include page="<%= Const.ViewURIs.ENABLE_JS %>" />
+    </noscript>
     <jsp:invoke fragment="navBar" />
     <div class="container" id="mainContent">
         <t:bodyHeader title="${bodyTitle}" />
         <jsp:doBody />
     </div>
     <jsp:invoke fragment="bodyFooter" />
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTBOX.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <jsp:invoke fragment="jsIncludes" />
 </body>
 </html>

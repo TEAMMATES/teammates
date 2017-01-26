@@ -320,6 +320,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void clickInviteInstructorLink(int instrNum) {
         click(getInviteInstructorLink(instrNum));
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
     }
     
@@ -370,13 +371,6 @@ public class InstructorCourseEditPage extends AppPage {
     public void clickDeleteInstructorLinkAndCancel(int instrNum) {
         WebElement deleteInstructorLink = getDeleteInstructorLink(instrNum);
         clickAndCancel(deleteInstructorLink);
-    }
-
-    public boolean isCustomCheckboxChecked(String privilege, int instrNum) {
-        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instrNum
-                                     + " input[type='checkbox'][name='" + privilege + "']");
-        WebElement checkbox = browser.driver.findElement(selector);
-        return checkbox.isSelected();
     }
     
     /**

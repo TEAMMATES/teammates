@@ -31,6 +31,8 @@ public final class HtmlHelper {
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( UTC)?";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
+    private static final String REGEX_EXTERNAL_LIBRARY =
+            "(?:/(?:stylesheets|js)/lib/|https://(?:[a-z0-9.@-]+/)+)([A-Za-z0-9.-]{3,}\\.(css|js))";
     
     private HtmlHelper() {
         // utility class
@@ -63,15 +65,14 @@ public final class HtmlHelper {
     
     private static boolean assertSameHtml(String expected, String actual, boolean isPart,
                                           boolean isDifferenceToBeShown) {
-        String processedExpected = standardizeLineBreaks(expected);
         String processedActual = convertToStandardHtml(actual, isPart);
 
-        if (areSameHtmls(processedExpected, processedActual)) {
+        if (areSameHtmls(expected, processedActual)) {
             return true;
         }
         
         // the first failure might be caused by non-standardized conversion
-        processedExpected = convertToStandardHtml(expected, isPart);
+        String processedExpected = convertToStandardHtml(expected, isPart);
 
         if (areSameHtmls(processedExpected, processedActual)) {
             return true;
@@ -79,25 +80,17 @@ public final class HtmlHelper {
         
         // if it still fails, then it is a failure after all
         if (isDifferenceToBeShown) {
-            assertEquals("<expected>\n" + processedExpected + "</expected>",
-                         "<actual>\n" + processedActual + "</actual>");
+            assertEquals("<expected>" + Const.EOL + processedExpected + "</expected>",
+                         "<actual>" + Const.EOL + processedActual + "</actual>");
         }
         return false;
     }
     
     private static boolean areSameHtmls(String expected, String actual) {
-        return AssertHelper.isContainsRegex(expected, actual);
+        // accounts for the variations in line breaks
+        return expected.replaceAll("[\r\n]", "").equals(actual.replaceAll("[\r\n]", ""));
     }
     
-    /**
-     * {@link FileHelper#readFile} uses the system's line separator as line break,
-     * while {@link #convertToStandardHtml} uses LF <code>\n</code> character.
-     * Standardize by replacing each line separator with LF character.
-     */
-    private static String standardizeLineBreaks(String expected) {
-        return expected.replace(Const.EOL, "\n");
-    }
-
     /**
      * Transform the HTML text to follow a standard format.
      * Element attributes are reordered in alphabetical order.
@@ -141,7 +134,7 @@ public final class HtmlHelper {
         text = Sanitizer.sanitizeForHtmlTag(text);
         // line breaks in text are removed as they are ignored in HTML
         // the lines separated by line break will be joined with a single whitespace character
-        return text.isEmpty() ? "" : indentation + text + "\n";
+        return text.isEmpty() ? "" : indentation + text + Const.EOL;
     }
 
     private static String convertElementNode(Node currentNode, String indentation, boolean isPart) {
@@ -159,6 +152,24 @@ public final class HtmlHelper {
                     return generateStudentMotdPlaceholder(indentation);
                 }
             }
+        } else if (currentNode.getNodeName().equalsIgnoreCase("select")) {
+            NamedNodeMap attributes = currentNode.getAttributes();
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Node attribute = attributes.item(i);
+                if (isTimeZoneSelectorAttribute(attribute)) {
+                    return generateTimeZoneSelectorPlaceholder(indentation);
+                }
+            }
+        } else if (currentNode.getNodeName().equalsIgnoreCase("style")) {
+            NamedNodeMap attributes = currentNode.getAttributes();
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Node attribute = attributes.item(i);
+                if (isTinymceStyleAttribute(attribute)) {
+                    // the style definition differs across browsers; replace with placeholder
+                    // return generateTinymceStylePlaceholder(indentation);
+                    return ignoreNode();
+                }
+            }
         }
         
         return generateNodeStringRepresentation(currentNode, indentation, isPart);
@@ -169,8 +180,16 @@ public final class HtmlHelper {
     }
     
     private static String generateStudentMotdPlaceholder(String indentation) {
-        return indentation + "${studentmotd.container}\n";
+        return indentation + "${studentmotd.container}" + Const.EOL;
     }
+    
+    private static String generateTimeZoneSelectorPlaceholder(String indentation) {
+        return indentation + "${timezone.options}" + Const.EOL;
+    }
+    
+    // private static String generateTinymceStylePlaceholder(String indentation) {
+    //     return indentation + "${tinymce.style}" + Const.EOL;
+    // }
     
     private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
         StringBuilder currentHtmlText = new StringBuilder();
@@ -214,6 +233,10 @@ public final class HtmlHelper {
                  || "body".equals(currentNodeName));
     }
 
+    private static boolean isTinymceStyleAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "mceDefaultStyles");
+    }
+    
     /**
      * Checks for tooltips (i.e any <code>div</code> with class <code>tooltip</code> in it)
      */
@@ -242,6 +265,13 @@ public final class HtmlHelper {
      */
     private static boolean isMotdContainerAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "student-motd-container");
+    }
+    
+    /**
+     * Checks for timezone selectors (i.e a <code>select</code> with id <code>coursetimezone</code>)
+     */
+    private static boolean isTimeZoneSelectorAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "coursetimezone");
     }
     
     private static boolean checkForAttributeWithSpecificValue(Node attribute, String attrType, String attrValue) {
@@ -273,7 +303,7 @@ public final class HtmlHelper {
         }
         
         // close the tag
-        openingTag.append(">\n");
+        openingTag.append('>').append(Const.EOL);
         return openingTag.toString();
     }
     
@@ -289,7 +319,7 @@ public final class HtmlHelper {
     }
     
     private static String getNodeClosingTag(String currentNodeName) {
-        return "</" + currentNodeName + ">\n";
+        return "</" + currentNodeName + ">" + Const.EOL;
     }
 
     private static boolean isVoidElement(String elementName) {
@@ -402,18 +432,11 @@ public final class HtmlHelper {
                       .replace(dateOfNextHour, "${date.nexthour}")
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
-                      // jQuery js file
-                      .replace(Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()),
-                               "${lib.path}/jquery.min.js")
-                      // jQuery-ui js file
-                      .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()),
-                               "${lib.path}/jquery-ui.min.js")
-                      // TinyMCE CSS skin
-                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css",
-                               "${lib.path}/skins/lightgray/skin.min.css")
-                      // TinyMCE CSS skin
-                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css",
-                               "${lib.path}/skins/lightgray/content.inline.min.css")
+                      // third-party library directories
+                      .replaceAll(REGEX_EXTERNAL_LIBRARY, "\\${lib.path}/$1")
+                      // TinyMCE CSS skin on dev server
+                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/",
+                               "${lib.path}/")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -458,15 +481,7 @@ public final class HtmlHelper {
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
-                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now))
-                      .replace("<!-- filepath.jquery -->",
-                               Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
-                      .replace("<!-- filepath.jquery-ui -->",
-                               Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()))
-                      .replace("<!-- tinymce.skin.min -->",
-                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css")
-                      .replace("<!-- tinymce.skin.inline -->",
-                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css");
+                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now));
     }
 
 }

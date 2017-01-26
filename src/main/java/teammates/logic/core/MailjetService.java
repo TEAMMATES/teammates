@@ -4,22 +4,23 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
+import teammates.common.util.Config;
+import teammates.common.util.EmailWrapper;
+
 import com.mailjet.client.MailjetClient;
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.MailjetResponse;
 import com.mailjet.client.errors.MailjetException;
+import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.mailjet.client.resource.Email;
-
-import teammates.common.util.Config;
-import teammates.common.util.EmailWrapper;
 
 /**
  * Email sender service provided by Mailjet.
- * Reference: https://cloud.google.com/appengine/docs/java/mail/mailjet
  * 
- * @see MailjetClient
- * @see MailjetRequest
- * @see MailjetResponse
+ * @see <a href="https://cloud.google.com/appengine/docs/java/mail/mailjet">https://cloud.google.com/appengine/docs/java/mail/mailjet</a>
+ * @see {@link MailjetClient}
+ * @see {@link MailjetRequest}
+ * @see {@link MailjetResponse}
  */
 public class MailjetService extends EmailSenderService {
     
@@ -47,7 +48,7 @@ public class MailjetService extends EmailSenderService {
     }
     
     @Override
-    protected void sendEmailWithService(EmailWrapper wrapper) throws MailjetException {
+    protected void sendEmailWithService(EmailWrapper wrapper) throws MailjetException, MailjetSocketTimeoutException {
         MailjetRequest email = parseToEmail(wrapper);
         MailjetClient mailjet = new MailjetClient(Config.MAILJET_APIKEY, Config.MAILJET_SECRETKEY);
         MailjetResponse response = mailjet.post(email);

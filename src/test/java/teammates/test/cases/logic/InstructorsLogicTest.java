@@ -13,8 +13,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailType;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -26,15 +24,15 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
     private static DataBundle dataBundle = getTypicalDataBundle();
 
-    private static InstructorsLogic instructorsLogic = new InstructorsLogic();
+    private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static InstructorsDb instructorsDb = new InstructorsDb();
-    private static CoursesLogic coursesLogic = new CoursesLogic();
+    private static CoursesLogic coursesLogic = CoursesLogic.inst();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         gaeSimulation.resetDatastore();
-        removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataBundle();
     }
 
     @Test
@@ -57,7 +55,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         testDeleteInstructor();
         testDeleteInstructorsForGoogleId();
         testDeleteInstructorsForCourse();
-        testSendRegistrationInviteToInstructor();
     }
     
     public void testAddInstructor() throws Exception {
@@ -93,13 +90,17 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         ______TS("failure: invalid parameter");
         
         instr.email = "invalidEmail.tmt";
-        
+        String expectedError =
+                "\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email "
+                + "because it is not in the correct format. An email address contains "
+                + "some text followed by one '@' sign followed by some more text. "
+                + "It cannot be longer than 254 characters, cannot be empty and "
+                + "cannot contain spaces.";
         try {
             instructorsLogic.createInstructor(instr);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email",
-                                e.getMessage());
+            assertEquals(expectedError, e.getMessage());
         }
         
         ______TS("failure: null parameters");
@@ -240,7 +241,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         ______TS("failure: no instructors for a given course");
         
         courseId = "new-course";
-        coursesLogic.createCourse(courseId, "New course");
+        coursesLogic.createCourse(courseId, "New course", "UTC");
         
         instructors = instructorsLogic.getInstructorsForCourse(courseId);
         assertEquals(0, instructors.size());
@@ -728,62 +729,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
     
     }
 
-    public void testSendRegistrationInviteToInstructor() throws Exception {
-       
-        ______TS("success: send invite to instructor using instructor email");
-        
-        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
-        String courseName = coursesLogic.getCourse(instructor.courseId).getName();
-        EmailWrapper email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
-    
-        verifyJoinInviteToInstructor(instructor, email, courseName, instructor.courseId);
-        
-        ______TS("success: send invite to instructor using instructor attributes");
-
-        email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor);
-    
-        verifyJoinInviteToInstructor(instructor, email, courseName, instructor.courseId);
-        
-        ______TS("failure: send to non-existing instructor");
-    
-        String instrEmail = "non-existing-instr@email.tmt";
-        
-        try {
-            instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instrEmail);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("Instructor [" + instrEmail + "] does not exist in course",
-                        e.getMessage());
-        }
-
-        ______TS("failure: send invitation for a non-existent course");
-
-        try {
-            instructorsLogic.sendRegistrationInviteToInstructor("non-existent-courseId", instructor.email);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("Course does not exist [non-existent-courseId]", e.getMessage());
-        }
-        
-        ______TS("failure: null parameters");
-        
-        try {
-            instructorsLogic.sendRegistrationInviteToInstructor(null, instructor.email);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
-        }
-        
-        try {
-            String instructorEmail = null;
-            instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructorEmail);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
-        }
-
-    }
-
     private void verifySameInstructor(InstructorAttributes instructor1, InstructorAttributes instructor2) {
         assertEquals(instructor1.googleId, instructor2.googleId);
         assertEquals(instructor1.courseId, instructor2.courseId);
@@ -791,11 +736,4 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         assertEquals(instructor1.email, instructor2.email);
     }
     
-    private void verifyJoinInviteToInstructor(InstructorAttributes instructor, EmailWrapper email, String courseName,
-                                              String courseId) {
-        assertEquals(instructor.email, email.getRecipient());
-        assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), courseName, courseId),
-                     email.getSubject());
-    }
-
 }

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -26,7 +27,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.storage.api.CommentsDb;
@@ -38,10 +39,7 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.datastore.Datastore;
-import teammates.test.util.FileHelper;
-
-import com.google.gson.Gson;
+import teammates.test.driver.FileHelper;
 
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
@@ -58,7 +56,6 @@ public class UploadBackupData extends RemoteApiClient {
     private static final String BACKUP_FOLDER = "BackupFiles/Backup";
 
     private static DataBundle data;
-    private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
     
     private static Set<String> coursesPersisted = new HashSet<String>();
@@ -76,7 +73,7 @@ public class UploadBackupData extends RemoteApiClient {
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
-    private static final FeedbackQuestionsLogic feedbackQuestionsLogic = new FeedbackQuestionsLogic();
+    private static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     
     public static void main(String[] args) throws Exception {
         UploadBackupData uploadBackupData = new UploadBackupData();
@@ -85,8 +82,6 @@ public class UploadBackupData extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-        
         String[] folders = getFolders();
 
         for (String folder : folders) {
@@ -134,7 +129,7 @@ public class UploadBackupData extends RemoteApiClient {
                 String folderName = BACKUP_FOLDER + "/" + folder;
                 
                 jsonString = FileHelper.readFile(folderName + "/" + backupFile);
-                data = gson.fromJson(jsonString, DataBundle.class);
+                data = JsonUtils.fromJson(jsonString, DataBundle.class);
                 
                 feedbackQuestionsPersisted = new HashMap<String, FeedbackQuestionAttributes>();
                 feedbackQuestionIds = new HashMap<String, String>();
@@ -187,7 +182,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistAccounts(HashMap<String, AccountAttributes> accounts) {
+    private static void persistAccounts(Map<String, AccountAttributes> accounts) {
         try {
             for (AccountAttributes accountData : accounts.values()) {
                 logic.createAccount(accountData.googleId, accountData.name, accountData.isInstructor,
@@ -198,7 +193,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistCourses(HashMap<String, CourseAttributes> courses) {
+    private static void persistCourses(Map<String, CourseAttributes> courses) {
         try {
             coursesDb.createCourses(courses.values());
         } catch (InvalidParametersException e) {
@@ -206,7 +201,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistInstructors(HashMap<String, InstructorAttributes> instructors) {
+    private static void persistInstructors(Map<String, InstructorAttributes> instructors) {
         try {
             instructorsDb.createInstructors(instructors.values());
         } catch (InvalidParametersException e) {
@@ -214,7 +209,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistStudents(HashMap<String, StudentAttributes> students) {
+    private static void persistStudents(Map<String, StudentAttributes> students) {
         try {
             studentsDb.createStudentsWithoutSearchability(students.values());
         } catch (InvalidParametersException e) {
@@ -222,7 +217,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistFeedbackSessions(HashMap<String, FeedbackSessionAttributes> feedbackSessions) {
+    private static void persistFeedbackSessions(Map<String, FeedbackSessionAttributes> feedbackSessions) {
         try {
             fbDb.createFeedbackSessions(feedbackSessions.values());
         } catch (InvalidParametersException e) {
@@ -230,8 +225,8 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistFeedbackQuestions(HashMap<String, FeedbackQuestionAttributes> map) {
-        HashMap<String, FeedbackQuestionAttributes> questions = map;
+    private static void persistFeedbackQuestions(Map<String, FeedbackQuestionAttributes> map) {
+        Map<String, FeedbackQuestionAttributes> questions = map;
 
         try {
             fqDb.createFeedbackQuestions(questions.values());
@@ -245,8 +240,8 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistFeedbackResponses(HashMap<String, FeedbackResponseAttributes> map) {
-        HashMap<String, FeedbackResponseAttributes> responses = map;
+    private static void persistFeedbackResponses(Map<String, FeedbackResponseAttributes> map) {
+        Map<String, FeedbackResponseAttributes> responses = map;
         
         try {
             for (FeedbackResponseAttributes response : responses.values()) {
@@ -259,8 +254,8 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistFeedbackResponseComments(HashMap<String, FeedbackResponseCommentAttributes> map) {
-        HashMap<String, FeedbackResponseCommentAttributes> responseComments = map;
+    private static void persistFeedbackResponseComments(Map<String, FeedbackResponseCommentAttributes> map) {
+        Map<String, FeedbackResponseCommentAttributes> responseComments = map;
 
         try {
             for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
@@ -273,8 +268,8 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistComments(HashMap<String, CommentAttributes> map) {
-        HashMap<String, CommentAttributes> comments = map;
+    private static void persistComments(Map<String, CommentAttributes> map) {
+        Map<String, CommentAttributes> comments = map;
         try {
             commentsDb.createComments(comments.values());
         } catch (InvalidParametersException e) {
@@ -282,8 +277,8 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
 
-    private static void persistProfiles(HashMap<String, StudentProfileAttributes> studentProfiles) {
-        HashMap<String, StudentProfileAttributes> profiles = studentProfiles;
+    private static void persistProfiles(Map<String, StudentProfileAttributes> studentProfiles) {
+        Map<String, StudentProfileAttributes> profiles = studentProfiles;
         try {
             profilesDb.createEntities(profiles.values());
         } catch (InvalidParametersException e) {

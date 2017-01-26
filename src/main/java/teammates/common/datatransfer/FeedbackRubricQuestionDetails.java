@@ -5,21 +5,20 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
-import teammates.common.util.Utils;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     
-    private static final Logger log = Utils.getLogger();
+    private static final Logger log = Logger.getLogger();
     
     private boolean hasAssignedWeights;
     private List<Double> rubricWeights;
