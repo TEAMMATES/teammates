@@ -105,8 +105,8 @@ public class ActivityLogEntry {
      * Constructor that creates an ActivityLog object from scratch
      * Used in the various servlets in the application
      */
-    public ActivityLogEntry(String servlet, String act, 
-                            AccountAttributes acc, String params, String link, UserType userType) {
+    public ActivityLogEntry(String servlet, String act 
+                            , AccountAttributes acc, String params, String link, UserType userType) {
         this(servlet, act, acc, params, link, null, null, userType);
     }
 
@@ -116,8 +116,8 @@ public class ActivityLogEntry {
      * For the log id, if the googleId is unknown, the {@code unregisteredUserCourse} and {@code unregisteredUserEmail}
      * will be used to construct the id.
      */
-    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link,
-                            String unregisteredUserCourse, String unregisteredUserEmail, UserType userType) {
+    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link
+                            , String unregisteredUserCourse, String unregisteredUserEmail, UserType userType) {
         time = System.currentTimeMillis();
         servletName = servlet;
         action = act;
