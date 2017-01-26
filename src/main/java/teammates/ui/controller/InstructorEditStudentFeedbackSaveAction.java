@@ -11,7 +11,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
@@ -48,8 +47,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
         
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-            String questionId = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters,
+            String questionId = getRequestParamValue(
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             
             if (questionId == null) {

@@ -25,7 +25,6 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
@@ -73,16 +72,15 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-            String totalResponsesForQuestion =
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-" + questionIndx);
+            String totalResponsesForQuestion = getRequestParamValue(
+                    Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-" + questionIndx);
             
             if (totalResponsesForQuestion == null) {
                 continue; // question has been skipped (not displayed).
             }
             
             List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
-            String questionId = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters,
+            String questionId = getRequestParamValue(
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             if (questionAttributes == null) {
@@ -274,34 +272,26 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         FeedbackResponseAttributes response = new FeedbackResponseAttributes();
         
         // This field can be null if the response is new
-        response.setId(HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
+        response.setId(getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-" + responseIndx));
                 
-        response.feedbackSessionName = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        response.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("Null feedback session name", response.feedbackSessionName);
         
-        response.courseId = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
-                Const.ParamsNames.COURSE_ID);
+        response.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("Null feedback courseId", response.courseId);
         
-        response.feedbackQuestionId = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
+        response.feedbackQuestionId = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
         Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
         Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(),
                                 response.feedbackQuestionId);
         
-        response.recipient = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
+        response.recipient = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-" + responseIndx);
         Assumption.assertNotNull("Null feedback recipientEmail", response.recipient);
         
-        String feedbackQuestionType = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
+        String feedbackQuestionType = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx);
         Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
         response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
@@ -320,7 +310,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         // This field can be null if the question is skipped
         String paramName = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx;
-        String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, paramName);
+        String[] answer = getRequestParamValues(paramName);
         
         if (questionDetails.isQuestionSkipped(answer)) {
             response.responseMetaData = new Text("");
