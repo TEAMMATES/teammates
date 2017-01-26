@@ -118,7 +118,7 @@ public class ActivityLogEntry {
      * will be used to construct the id.
      */
     public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link,
-                            String unregisteredUserCourse, String unregisteredUserEmail,UserType userType) {
+                            String unregisteredUserCourse, String unregisteredUserEmail, UserType userType) {
         time = System.currentTimeMillis();
         servletName = servlet;
         action = act;
@@ -130,7 +130,6 @@ public class ActivityLogEntry {
             role = "Unknown";
             name = "Unknown";
             email = "Unknown";
-           
             googleId = userType == null ? "Unknown" : userType.id;
         
         } else {
@@ -145,7 +144,7 @@ public class ActivityLogEntry {
     }
     
     public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage,
-                            String requestUrl, StudentAttributes unregisteredStudent,UserType userType) {
+                            String requestUrl, StudentAttributes unregisteredStudent, UserType userType) {
         time = System.currentTimeMillis();
         try {
             servletName = getActionName(requestUrl);
