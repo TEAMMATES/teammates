@@ -40,7 +40,7 @@ public class InstructorCourseEnrollPageAction extends Action {
     }
 
     private boolean hasExistingResponses(String courseId) {
-        return logic.isCourseHasResponses(courseId);
+        return logic.hasResponsesForCourse(courseId);
     }
 
 }
