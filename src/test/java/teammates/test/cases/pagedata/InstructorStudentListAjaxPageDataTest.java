@@ -40,7 +40,7 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
     }
 
     private void testSectionContent(StudentListSectionData section) {
-        assertEquals(Sanitizer.sanitizeForHtml(sampleSection.name), section.getSectionName());
+        assertEquals(sampleSection.name, section.getSectionName());
         assertEquals(sectionPrivileges.get(sampleSection.name)
                                       .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)
                                       .booleanValue(),
