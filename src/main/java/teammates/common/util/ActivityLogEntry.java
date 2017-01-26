@@ -145,7 +145,7 @@ public class ActivityLogEntry {
     }
     
     public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage,
-                            String requestUrl, StudentAttributes unregisteredStudent) {
+                            String requestUrl, StudentAttributes unregisteredStudent,UserType userType) {
         time = System.currentTimeMillis();
         try {
             servletName = getActionName(requestUrl);
