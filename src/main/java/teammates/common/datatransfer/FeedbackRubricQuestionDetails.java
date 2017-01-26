@@ -617,9 +617,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * Returns a list of FeedbackResponseAttributes filtered according to view, question recipient type
      * for the Statistics Table
      */
-    private List<FeedbackResponseAttributes> filterResponsesForStatistics(List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question, String studentEmail,
-            FeedbackSessionResultsBundle bundle, String view) {
+    private List<FeedbackResponseAttributes> filterResponsesForStatistics(
+            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
+            String studentEmail, FeedbackSessionResultsBundle bundle, String view) {
 
 
         boolean isViewedByStudent = "student".equals(view);
@@ -627,28 +627,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             return responses;
         }
 
-        FeedbackParticipantType[] typesToSkipFiltering = {FeedbackParticipantType.INSTRUCTORS,
-                FeedbackParticipantType.NONE, FeedbackParticipantType.SELF};
         FeedbackParticipantType recipientType = question.getRecipientType();
 
-        for (FeedbackParticipantType skipType : typesToSkipFiltering) {
-            if (recipientType.equals(skipType)) {
-                return responses;
-            }
+        boolean isFilteringSkipped = recipientType.equals(FeedbackParticipantType.INSTRUCTORS)
+                || recipientType.equals(FeedbackParticipantType.NONE)
+                || recipientType.equals(FeedbackParticipantType.SELF);
+
+        if (isFilteringSkipped) {
+            return responses;
         }
 
-        FeedbackParticipantType[] typesToFilterByTeams = {FeedbackParticipantType.OWN_TEAM,
-                FeedbackParticipantType.TEAMS};
-        boolean toFilterByTeams = false;
-
-        for (FeedbackParticipantType teamType : typesToFilterByTeams) {
-            if (recipientType.equals(teamType)) {
-                toFilterByTeams = true;
-            }
-        }
+        boolean isFilteringByTeams = recipientType.equals(FeedbackParticipantType.OWN_TEAM)
+                || recipientType.equals(FeedbackParticipantType.TEAMS);
 
         List<FeedbackResponseAttributes> receivedResponses = new ArrayList<>();
-        String recipientString = toFilterByTeams ? bundle.getTeamNameForEmail(studentEmail) : studentEmail;
+        String recipientString = isFilteringByTeams ? bundle.getTeamNameForEmail(studentEmail) : studentEmail;
 
         for (FeedbackResponseAttributes response : responses) {
             boolean isReceivedResponse = response.recipient.equals(recipientString);
