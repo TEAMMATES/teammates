@@ -55,7 +55,6 @@ public class ActivityLogEntry {
     // or <studentemail>%<courseId>%<time> (for unregistered students)
     //     e.g. bamboo@gmail.tmt%instructor.ema-demo%20151103170618465
     private String id;
-    
     private boolean isFirstRow;
     
     @SuppressWarnings("unused") // used by js
