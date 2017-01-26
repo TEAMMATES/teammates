@@ -105,8 +105,8 @@ public class ActivityLogEntry {
      * Constructor that creates an ActivityLog object from scratch
      * Used in the various servlets in the application
      */
-    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link) {
-        this(servlet, act, acc, params, link, null, null, null);
+    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link, UserType userType) {
+        this(servlet, act, acc, params, link, null, null, userType);
     }
 
     /**
@@ -487,7 +487,7 @@ public class ActivityLogEntry {
                                      : googleId + "%" + formatTimeForId(new Date(time));
     }
     
-    public static String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e) {
+    public static String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e, UserType userType) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if (actionTaken.length > 0) {
@@ -502,12 +502,12 @@ public class ActivityLogEntry {
         String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
         ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message,
-                                                             url, courseId, studentEmail, null);
+                                                             url, courseId, studentEmail, userType);
         
         return exceptionLog.generateLogMessage();
     }
 
-    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail) {
+    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail, UserType userType) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if (actionTaken.length > 0) {
@@ -536,7 +536,7 @@ public class ActivityLogEntry {
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
         
         ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null,
-                                                               message, url, courseId, studentEmail, null);
+                                                               message, url, courseId, studentEmail, userType);
         
         return emailReportLog.generateLogMessage();
     }
