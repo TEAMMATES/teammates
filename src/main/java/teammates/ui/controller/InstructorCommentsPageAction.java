@@ -17,6 +17,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.ui.pagedata.InstructorCommentsPageData;
 
 /**
  * Action: Showing the InstructorCommentsPage for an instructor

@@ -9,8 +9,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditPageAction;
-import teammates.ui.controller.InstructorCourseStudentDetailsEditPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 
 public class InstructorCourseStudentDetailsEditPageActionTest extends BaseActionTest {
 

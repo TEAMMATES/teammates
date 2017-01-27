@@ -29,6 +29,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
+import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
 import com.google.appengine.api.datastore.Text;
 

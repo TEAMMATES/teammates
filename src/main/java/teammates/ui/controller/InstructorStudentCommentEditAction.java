@@ -20,6 +20,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
+import teammates.ui.pagedata.PageData;
 
 import com.google.appengine.api.datastore.Text;
 

@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorFeedbackQuestionCopyPageData;
+import teammates.ui.pagedata.InstructorFeedbackQuestionCopyPageData;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 
 public class InstructorFeedbackQuestionCopyPageDataTest extends BaseTestCase {

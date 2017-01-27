@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
+import teammates.ui.pagedata.StudentProfilePageData;
 
 /**
  * Action: showing the profile page for a student in a course
