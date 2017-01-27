@@ -584,8 +584,9 @@ public abstract class Action {
                && loggedInUser.googleId != null
                && !loggedInUser.googleId.equals(requestedUserId);
     }
+
     /**
-     *Common method to Get the feedback data  
+     *Common method to Get the feedback data
      */
 
     protected FeedbackSessionAttributes extractFeedbackSessionData() {
@@ -599,7 +600,7 @@ public abstract class Action {
         // getting the class name from which it's being called
         String className = new Exception().getStackTrace()[1].getClassName();
 
-        if (className.equals("InstructorFeedbackEditSaveAction")) {
+        if ("InstructorFeedbackEditSaveAction".equals(className)) {
             newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
         } else {
             newSession.setCreatedTime(new Date());
@@ -629,7 +630,7 @@ public abstract class Action {
             log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
         }
 
-        if (className.equals("InstructorFeedbackEditSaveAction")) {
+        if ("InstructorFeedbackEditSaveAction".equals(className)) {
             newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
             newSession.setInstructions(new Text(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
@@ -692,7 +693,7 @@ public abstract class Action {
         List<String> sendReminderEmailsList =
                 sendReminderEmailsArray == null ? new ArrayList<String>()
                         : Arrays.asList(sendReminderEmailsArray);
-        if (className.equals("InstructorFeedbackEditSaveAction")) {
+        if ("InstructorFeedbackEditSaveAction".equals(className)) {
             newSession.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING
                     .toString()));
         }
