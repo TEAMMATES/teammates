@@ -567,6 +567,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashiluka"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Shrut Patel
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashrut1996"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Shum Chee How 
                     [bug reporting/fixing, enhancements]
                 </li>
@@ -891,10 +895,6 @@
                 </li>
                 <li>Shiv Kandikuppa 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashiv12095"
-                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Shrut Patel
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashrut1996"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Sri Aurobindo Munagala
