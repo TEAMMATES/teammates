@@ -12,7 +12,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -39,7 +38,7 @@ public class ActivityLogEntry {
     private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
     
     private static final Logger log = Logger.getLogger();
-    
+
     private long time;
     private String servletName;
     private String action; //TODO: remove if not needed (and rename servletName to action)
@@ -56,7 +55,6 @@ public class ActivityLogEntry {
     // or <studentemail>%<courseId>%<time> (for unregistered students)
     //     e.g. bamboo@gmail.tmt%instructor.ema-demo%20151103170618465
     private String id;
-    
     private boolean isFirstRow;
     
     @SuppressWarnings("unused") // used by js
@@ -107,18 +105,19 @@ public class ActivityLogEntry {
      * Constructor that creates an ActivityLog object from scratch
      * Used in the various servlets in the application
      */
-    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link) {
-        this(servlet, act, acc, params, link, null, null);
+    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link,
+                            UserType userType) {
+        this(servlet, act, acc, params, link, null, null, userType);
     }
 
     /**
      * Constructs a ActivityLogEntry.
-     * The googleId in the log will be based on the {@code acc} passed in, otherwise it is obtained from the GateKeeper.
+     * The googleId in the log will be based on the {@code acc} or {@code userType} passed in
      * For the log id, if the googleId is unknown, the {@code unregisteredUserCourse} and {@code unregisteredUserEmail}
      * will be used to construct the id.
      */
     public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link,
-                            String unregisteredUserCourse, String unregisteredUserEmail) {
+                            String unregisteredUserCourse, String unregisteredUserEmail, UserType userType) {
         time = System.currentTimeMillis();
         servletName = servlet;
         action = act;
@@ -130,8 +129,6 @@ public class ActivityLogEntry {
             role = "Unknown";
             name = "Unknown";
             email = "Unknown";
-            
-            UserType userType = new GateKeeper().getCurrentUser();
             googleId = userType == null ? "Unknown" : userType.id;
         
         } else {
@@ -491,7 +488,7 @@ public class ActivityLogEntry {
                                      : googleId + "%" + formatTimeForId(new Date(time));
     }
     
-    public static String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e) {
+    public static String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e, UserType userType) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if (actionTaken.length > 0) {
@@ -506,12 +503,13 @@ public class ActivityLogEntry {
         String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
         ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message,
-                                                             url, courseId, studentEmail);
+                                                             url, courseId, studentEmail, userType);
         
         return exceptionLog.generateLogMessage();
     }
 
-    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail) {
+    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail,
+                                                             UserType userType) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if (actionTaken.length > 0) {
@@ -540,7 +538,7 @@ public class ActivityLogEntry {
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
         
         ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null,
-                                                               message, url, courseId, studentEmail);
+                                                               message, url, courseId, studentEmail, userType);
         
         return emailReportLog.generateLogMessage();
     }
@@ -628,6 +626,6 @@ public class ActivityLogEntry {
     
     public boolean isTestingData() {
         return email.endsWith(".tmt");
-
     }
+
 }
