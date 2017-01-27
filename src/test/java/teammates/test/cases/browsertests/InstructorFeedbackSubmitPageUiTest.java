@@ -1,10 +1,7 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.FeedbackNumericalScaleResponseDetails;
@@ -13,8 +10,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
@@ -22,17 +17,12 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
  * SUT: {@link FeedbackSubmitPage}.
  */
 public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
-    private static DataBundle testData;
-    private static Browser browser;
-    private FeedbackSubmitPage submitPage;
+    private static FeedbackSubmitPage submitPage;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackSubmitPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-
-        browser = BrowserPool.getBrowser();
     }
 
     @Test
@@ -586,7 +576,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                           .withUserId(testData.instructors.get(instructorName).googleId)
                           .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                           .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPage(editUrl, FeedbackSubmitPage.class);
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
@@ -595,7 +585,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                           .withUserId(testData.students.get(studentName).googleId)
                           .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                           .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPage(editUrl, FeedbackSubmitPage.class);
     }
 
     private void moveToTeam(StudentAttributes student, String newTeam) {
@@ -605,8 +595,4 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }

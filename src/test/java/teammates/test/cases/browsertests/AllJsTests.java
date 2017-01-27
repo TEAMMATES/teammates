@@ -2,14 +2,11 @@ package teammates.test.cases.browsertests;
 
 import java.io.IOException;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.QUnitPage;
 
 /**
@@ -19,14 +16,16 @@ import teammates.test.pageobjects.QUnitPage;
  */
 public class AllJsTests extends BaseUiTestCase {
     
-    private static Browser browser;
     private static QUnitPage page;
     private static final float MIN_COVERAGE_REQUIREMENT = 25;
     
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
+    }
+    
     @BeforeClass
     public void classSetup() throws IOException {
-        printTestClassHeader();
-        browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser)
                       .navigateTo(createLocalUrl("/allJsUnitTests.html?coverage"))
                       .changePageType(QUnitPage.class);
@@ -53,8 +52,4 @@ public class AllJsTests extends BaseUiTestCase {
         assertTrue(coverage >= MIN_COVERAGE_REQUIREMENT);
     }
 
-    @AfterClass
-    public static void tearDown() {
-        BrowserPool.release(browser);
-    }
 }

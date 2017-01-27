@@ -10,8 +10,6 @@ import teammates.test.driver.FileHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 public class GodModeTest extends BaseUiTestCase {
     
@@ -24,25 +22,23 @@ public class GodModeTest extends BaseUiTestCase {
     private static final String EXPECTED_PART_FILEPATH =
             TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedPartOutput.html";
     
-    private static Browser browser;
     private static AppPage page;
     private static String initialContent;
 
-    @BeforeClass
-    public void classSetup() throws Exception {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() throws Exception {
         TestProperties.verifyReadyForGodMode();
-        injectContextDependentValuesIntoActualFile();
-        browser = BrowserPool.getBrowser();
-        page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl(ACTUAL_FILENAME));
-    }
-    
-    private static void injectContextDependentValuesIntoActualFile() throws Exception {
+        
         initialContent = FileHelper.readFile(ACTUAL_FILEPATH);
         String changedContent = HtmlHelper.injectContextDependentValuesForTest(initialContent);
         FileHelper.saveFile(ACTUAL_FILEPATH, changedContent);
     }
 
+    @BeforeClass
+    public void classSetup() throws Exception {
+        page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl(ACTUAL_FILENAME));
+    }
+    
     @Test
     public void testGodMode() throws Exception {
         
@@ -118,8 +114,7 @@ public class GodModeTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
-        BrowserPool.release(browser);
+    public void classTearDown() throws Exception {
         System.clearProperty("godmode");
         FileHelper.saveFile(ACTUAL_FILEPATH, initialContent);
     }

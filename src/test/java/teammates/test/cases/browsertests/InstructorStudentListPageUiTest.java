@@ -2,8 +2,6 @@ package teammates.test.cases.browsertests;
 
 import java.io.File;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -18,8 +16,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
@@ -32,13 +28,10 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
  */
 @Priority(-1)
 public class InstructorStudentListPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorStudentListPage viewPage;
-    private static DataBundle testData;
 
-    @BeforeClass
-    public void classSetup() throws Exception {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() throws Exception {
         testData = loadDataBundle("/InstructorStudentListPageUiTest.json");
         removeAndRestoreDataBundle(testData);
 
@@ -52,8 +45,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         String pictureData = JsonUtils.toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
         assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]",
                      BackDoor.uploadAndUpdateStudentProfilePicture(student.googleId, pictureData));
-
-        browser = BrowserPool.getBrowser();
     }
 
     @Test
@@ -75,20 +66,20 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
         ______TS("content: search no match");
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("noMatch");
 
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
 
         ______TS("content: search student with 1 result");
 
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("charlie");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudent.html");
 
         ______TS("content: search student with multiple results");
 
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("alice");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudentMultiple.html");
 
@@ -104,7 +95,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 
         AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         // This is the full HTML verification for Instructor Student List Page, the rest can all be verifyMainHtml
@@ -115,7 +106,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         instructorWith2Courses.privileges.setDefaultPrivilegesForCoowner();
         BackDoor.createInstructor(instructorWith2Courses);
 
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         viewPage.verifyHtmlMainContent("/instructorStudentList.html");
@@ -126,7 +117,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 
         viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageNoStudent.html");
 
@@ -136,7 +127,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 
         viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageNoCourse.html");
     }
 
@@ -149,7 +140,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("default image");
 
@@ -179,7 +170,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("link: enroll");
         String courseId = testData.courses.get("course2").getId();
@@ -197,7 +188,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
                                                                                               student1.name);
         studentDetailsPage.verifyIsCorrectPage(student1.email);
         studentDetailsPage.closeCurrentWindowAndSwitchToParentWindow();
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("link: edit");
 
@@ -210,7 +201,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         studentEditPage.verifyIsCorrectPage(student2.email);
         studentEditPage.submitButtonClicked();
         studentEditPage.closeCurrentWindowAndSwitchToParentWindow();
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("link: view records");
 
@@ -221,7 +212,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
                                                                                            student2.name);
         studentRecordsPage.verifyIsCorrectPage(student2.name);
         studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
     }
 
     private void testDeleteAction() {
@@ -232,7 +223,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 
         ______TS("action: delete");
 
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         ThreadHelper.waitFor(500);
@@ -257,7 +248,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     private void testDisplayArchive() throws Exception {
         String instructorId = testData.instructors.get("instructorOfCourse4").googleId;
         AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("action: display archive");
 
@@ -281,11 +272,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(1);
         viewPage.checkCourse(2);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageDisplayArchivedCourses.html");
-    }
-
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
     }
 
 }
