@@ -774,6 +774,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         return !"none".equals(recipientOption.getCssValue("display"));
     }
     
+    public boolean isMaxNumOfRecipientsChecked() {
+        return maxNumOfRecipients.isSelected();
+    }
+    
+    public boolean isCustomNumOfRecipientsChecked() {
+        return customNumOfRecipients.isSelected();
+    }
+    
     public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {
         WebElement giverDropdown = browser.driver.findElement(By.id("givertype-" + questionNumber));
         selectDropdownByActualValue(giverDropdown, giverType.toString());
