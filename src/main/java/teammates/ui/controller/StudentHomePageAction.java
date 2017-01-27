@@ -14,6 +14,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.StudentHomePageData;
 
 public class StudentHomePageAction extends Action {
 

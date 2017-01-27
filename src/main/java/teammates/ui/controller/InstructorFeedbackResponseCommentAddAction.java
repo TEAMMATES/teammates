@@ -15,6 +15,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
 import com.google.appengine.api.datastore.Text;
 

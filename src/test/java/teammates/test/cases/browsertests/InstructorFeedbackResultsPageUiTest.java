@@ -3,12 +3,9 @@ package teammates.test.cases.browsertests;
 import java.io.File;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -18,8 +15,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
@@ -30,14 +25,11 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 @Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
-    private static DataBundle testData;
-    private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        browser = BrowserPool.getBrowser();
+    @Override
+    protected void prepareTestData() {
+        // the actual test data is refreshed before each test method
     }
 
     @BeforeMethod
@@ -708,11 +700,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("First Session", editPage.getFeedbackSessionName());
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
-
     private void uploadPhotoForStudent(String googleId) throws Exception {
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
         String pictureData = JsonUtils.toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
@@ -726,7 +713,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         InstructorFeedbackResultsPage resultsPage =
-                loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+                loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
         resultsPage.waitForPageToLoad();
         return resultsPage;
     }
@@ -749,7 +736,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         }
 
         InstructorFeedbackResultsPage resultsPage =
-                loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+                loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
         if (needAjax) {
             resultsPage.waitForPageStructureToLoad();
         } else {

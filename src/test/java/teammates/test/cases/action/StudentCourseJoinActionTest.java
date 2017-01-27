@@ -13,7 +13,7 @@ import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCourseJoinAction;
-import teammates.ui.controller.StudentCourseJoinConfirmationPageData;
+import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
 
 public class StudentCourseJoinActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();

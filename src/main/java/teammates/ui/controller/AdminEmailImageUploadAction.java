@@ -1,6 +1,8 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
+import teammates.ui.pagedata.AdminEmailComposePageData;
+import teammates.ui.pagedata.FileUploadPageData;
 
 import com.google.appengine.api.blobstore.BlobKey;
 

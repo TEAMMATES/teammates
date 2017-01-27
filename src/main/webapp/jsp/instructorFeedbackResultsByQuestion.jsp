@@ -6,7 +6,7 @@
     <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByQuestion.js"></script>
 </c:set>
 
-<results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}" data="${data}">
+<results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
     <%-- Responses are displayed when only a single question is loaded, 
          otherwise it is loaded through ajax. See /js/instructorFeedbackResultsAjaxByQuestion.js --%>
     <results:byQuestionResults isShowingResponses="${!data.largeNumberOfRespondents}"

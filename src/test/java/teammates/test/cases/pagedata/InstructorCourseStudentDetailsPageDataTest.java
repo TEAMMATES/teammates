@@ -10,7 +10,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorCourseStudentDetailsPageData;
+import teammates.ui.pagedata.InstructorCourseStudentDetailsPageData;
 import teammates.ui.template.StudentInfoTable;
 import teammates.ui.template.StudentProfile;
 
