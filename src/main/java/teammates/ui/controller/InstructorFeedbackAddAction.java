@@ -22,6 +22,7 @@ import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.ui.pagedata.InstructorFeedbacksPageData;
 
 import com.google.gson.reflect.TypeToken;
+
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
     @Override
