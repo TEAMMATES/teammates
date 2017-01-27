@@ -1,11 +1,8 @@
 package teammates.test.cases.browsertests;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.AppUrl;
@@ -14,8 +11,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
@@ -25,20 +20,15 @@ import teammates.test.pageobjects.InstructorCoursesPage;
  * SUT {@link InstructorCourseEditPage}. <br>
  */
 public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
-    private static DataBundle testData;
-    private static Browser browser;
     private static InstructorCourseEditPage courseEditPage;
     
     private static String instructorId;
     private static String courseId;
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCourseEditPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
-        
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
         courseId = testData.courses.get("InsCrsEdit.CS2104").getId();
     }
@@ -864,12 +854,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                                     .withUserId(instructorId)
                                     .withCourseId(courseId);
         
-        return loginAdminToPage(browser, courseEditPageLink, InstructorCourseEditPage.class);
-    }
-
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
+        return loginAdminToPage(courseEditPageLink, InstructorCourseEditPage.class);
     }
     
 }

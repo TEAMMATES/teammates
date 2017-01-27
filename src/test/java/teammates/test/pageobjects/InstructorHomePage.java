@@ -3,7 +3,6 @@ package teammates.test.pageobjects;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -202,8 +201,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void setViewResponseLinkValue(WebElement element, String newValue) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("arguments[0].href=arguments[1]", element, newValue);
+        executeScript("arguments[0].href=arguments[1]", element, newValue);
     }
     
     public void clickViewResponseLink(String courseId, String evalName) {
@@ -355,9 +353,7 @@ public class InstructorHomePage extends AppPage {
         By element = By.id(id);
         waitForElementPresence(element);
         
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("document.getElementById('" + id + "').setAttribute('data-actionlink', '" + newActionLink + "')");
-        
+        executeScript("document.getElementById('" + id + "').setAttribute('data-actionlink', '" + newActionLink + "')");
     }
     
     public void clickFsCopyButton(String courseId, String feedbackSessionName) {

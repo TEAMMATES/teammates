@@ -7,25 +7,25 @@ import teammates.common.datatransfer.InstructorAttributes;
 
 public class AdminHomePage extends AppPage {
     @FindBy (id = "addInstructorDetailsSingleLine")
-    WebElement detailsSingleLineTextBox;
+    private WebElement detailsSingleLineTextBox;
     
     @FindBy (id = "instructorShortName")
-    WebElement shortNameTextBox;
+    private WebElement shortNameTextBox;
 
     @FindBy (id = "instructorName")
-    WebElement nameTextBox;
+    private WebElement nameTextBox;
     
     @FindBy (id = "instructorEmail")
-    WebElement emailTextBox;
+    private WebElement emailTextBox;
     
     @FindBy (id = "instructorInstitution")
-    WebElement institutionTextBox;
+    private WebElement institutionTextBox;
     
     @FindBy (id = "btnAddInstructor")
-    WebElement submitButton;
+    private WebElement submitButton;
     
     @FindBy (id = "btnAddInstructorDetailsSingleLineForm")
-    WebElement submitButtonDetailsSingleLineForm;
+    private WebElement submitButtonDetailsSingleLineForm;
     
     public AdminHomePage(Browser browser) {
         super(browser);

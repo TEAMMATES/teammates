@@ -1,18 +1,13 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
@@ -23,14 +18,10 @@ import teammates.test.pageobjects.StudentHomePage;
  * SUT: {@link StudentHelpPage} and {@link LoginPage} for students.
  */
 public class StudentHomePageUiTest extends BaseUiTestCase {
-    private static Browser browser;
-    private static DataBundle testData;
     private static StudentHomePage studentHome;
-    private static FeedbackSessionAttributes gracedFeedbackSession;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/StudentHomePageUiTest.json");
         
         // use the 1st student account injected for this test
@@ -49,11 +40,10 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         removeAndRestoreDataBundle(testData);
         
-        gracedFeedbackSession = BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
+        FeedbackSessionAttributes gracedFeedbackSession =
+                BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
         gracedFeedbackSession.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
         BackDoor.editFeedbackSession(gracedFeedbackSession);
-
-        browser = BrowserPool.getBrowser(true);
     }
 
     @Test
@@ -71,9 +61,9 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         String unregPassword = TestProperties.TEST_UNREG_PASSWORD;
         BackDoor.deleteAccount(unregUserId); //delete account if it exists
         
-        logout(browser);
-        studentHome = getHomePage(browser).clickStudentLogin()
-                                          .loginAsStudent(unregUserId, unregPassword);
+        logout();
+        studentHome = getHomePage().clickStudentLogin()
+                                   .loginAsStudent(unregUserId, unregPassword);
 
         // this test uses the accounts from test.properties
         // do not do full HTML verification here as the unregistered username is not predictable
@@ -88,10 +78,9 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         ______TS("login");
         
-        studentHome = getHomePage(browser)
-                              .clickStudentLogin()
-                              .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
-                                              TestProperties.TEST_STUDENT1_PASSWORD);
+        studentHome = getHomePage().clickStudentLogin()
+                                   .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
+                                                   TestProperties.TEST_STUDENT1_PASSWORD);
             
         ______TS("content: multiple courses");
         
@@ -101,7 +90,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
-        StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
+        StudentHomePage studentHomePage = loginAdminToPage(detailsPageUrl, StudentHomePage.class);
         
         studentHomePage.verifyHtmlMainContent("/studentHomeTypicalHTML.html");
            
@@ -112,7 +101,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         AppUrl homePageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
-        StudentHomePage studentHomePage = loginAdminToPage(browser, homePageUrl, StudentHomePage.class);
+        StudentHomePage studentHomePage = loginAdminToPage(homePageUrl, StudentHomePage.class);
 
         ______TS("link: help page");
         
@@ -179,7 +168,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
-        StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
+        StudentHomePage studentHomePage = loginAdminToPage(detailsPageUrl, StudentHomePage.class);
 
         ______TS("access the feedback session exactly after it is deleted");
         
@@ -195,12 +184,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
                     .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "SHomeUiT.CS2104"))
                     .withUserId("unreg_user");
         
-        studentHome = loginAdminToPage(browser, homeUrl, StudentHomePage.class);
+        studentHome = loginAdminToPage(homeUrl, StudentHomePage.class);
         
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }
