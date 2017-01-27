@@ -232,7 +232,7 @@
 <<<<<<< HEAD
                             Go to the ‘Courses’ page and click the ‘Enroll‘ button of the corresponding course
 =======
-                            Go the the ‘Courses’ page and click the ‘Enroll‘ button of the corresponding course
+                            Go to the ‘Courses’ page and click the ‘Enroll‘ button of the corresponding course
 >>>>>>> parent of 075b7d1... Duplicate "the" in jsp files #6460
                         </li>
                     </ul>
@@ -665,7 +665,7 @@
                         This may be a good policy to adopt (If students know this policy, they will be more honest in reporting contribution values):
                         <br>
                         <br>
-                        <span class="italic">It is OK to do less than an equal share of the the work, as long as you are willing to accept a lower grade than your team members. It is your right to decide how much time you allocate to this course. How you prioritize your work is your own business.</span>
+                        <span class="italic">It is OK to do less than an equal share of to the work, as long as you are willing to accept a lower grade than your team members. It is your right to decide how much time you allocate to this course. How you prioritize your work is your own business.</span>
                         <br>
                         <br>
                     </div>
