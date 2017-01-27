@@ -38,7 +38,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        FeedbackSessionAttributes fs = extractFeedbackSessionData();
+        InstructorFeedbackAddAction newSession = new InstructorFeedbackAddAction();
+        FeedbackSessionAttributes fs = newSession.extractFeedbackSessionData();
 
         // Set creator email as instructors' email
         fs.setCreatorEmail(instructor.email);
@@ -138,11 +139,5 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         }
         
         return new ArrayList<FeedbackQuestionAttributes>();
-    }
-
-    protected FeedbackSessionAttributes extractFeedbackSessionData() {
-        // TODO assert parameters are not null then update test
-        // TODO make this method stateless
-        return super.extractFeedbackSessionData();
     }
 }
