@@ -6,13 +6,13 @@ import org.openqa.selenium.support.FindBy;
 public class InstructorCourseEnrollPage extends AppPage {
     
     @FindBy(id = "spreadsheet-link")
-    protected WebElement spreadsheetLink;
+    private WebElement spreadsheetLink;
     
     @FindBy(id = "enrollstudents")
-    protected WebElement enrollTextBox;
+    private WebElement enrollTextBox;
     
     @FindBy(id = "button_enroll")
-    protected WebElement enrollButton;
+    private WebElement enrollButton;
 
     public InstructorCourseEnrollPage(Browser browser) {
         super(browser);

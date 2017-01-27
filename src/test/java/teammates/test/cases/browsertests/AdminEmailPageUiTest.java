@@ -6,27 +6,21 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.pageobjects.AdminEmailPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 public class AdminEmailPageUiTest extends BaseUiTestCase {
     
     private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
 
-    private static Browser browser;
     private static AdminEmailPage emailPage;
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        browser = BrowserPool.getBrowser();
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
     }
     
     @Test
@@ -41,7 +35,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         ______TS("email compose page");
         
         emailPage = loginAdminToPage(
-                        browser, createUrl(Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE), AdminEmailPage.class);
+                        createUrl(Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE), AdminEmailPage.class);
         assertTrue(isEmailComposeElementsPresent());
         
         ______TS("send email - no recipient");
@@ -184,8 +178,4 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         return trashButton.getText().contains("Empty Trash");
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }
