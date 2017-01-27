@@ -584,11 +584,10 @@ public abstract class Action {
                && loggedInUser.googleId != null
                && !loggedInUser.googleId.equals(requestedUserId);
     }
-    
     /**
      *Common method to Get the feedback data  
      */
-    
+
     protected FeedbackSessionAttributes extractFeedbackSessionData() {
 
         FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
