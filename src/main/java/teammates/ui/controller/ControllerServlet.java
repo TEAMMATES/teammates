@@ -37,7 +37,6 @@ import com.google.apphosting.api.DeadlineExceededException;
 public class ControllerServlet extends HttpServlet {
 
     private static final Logger log = Logger.getLogger();
-    UserType userType = new GateKeeper().getCurrentUser();
 
     @Override
     public final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -47,6 +46,8 @@ public class ControllerServlet extends HttpServlet {
     @Override
     @SuppressWarnings("PMD.AvoidCatchingThrowable") // used as fallback
     public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        
+        UserType userType = new GateKeeper().getCurrentUser();
 
         try {
             /* We are using the Template Method Design Pattern here.

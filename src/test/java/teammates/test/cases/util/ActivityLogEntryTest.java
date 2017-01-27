@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.ActivityLogEntry;
-import teammates.logic.api.GateKeeper;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -19,7 +18,7 @@ public class ActivityLogEntryTest extends BaseTestCase {
         String logMessage = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor|||UserName|||UserId"
                             + "|||UserEmail|||Message|||URL";
         AccountAttributes acc = new AccountAttributes("UserId", "UserName", true, "UserEmail", "UserInstitute");
-        UserType userType = new GateKeeper().getCurrentUser();
+        UserType userType = new UserType("googleId");
         ActivityLogEntry entry = new ActivityLogEntry("instructorHome", "Pageload", acc, "Message", "URL", userType);
         AssertHelper.assertLogMessageEquals(logMessage, entry.generateLogMessage());
 

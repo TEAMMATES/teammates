@@ -112,7 +112,7 @@ public class ActivityLogEntry {
 
     /**
      * Constructs a ActivityLogEntry.
-     * The googleId in the log will be based on the {@code acc} passed in, otherwise will be obtained from {@code userType}
+     * The googleId in the log will be based on the {@code acc} or {@code userType} passed in
      * For the log id, if the googleId is unknown, the {@code unregisteredUserCourse} and {@code unregisteredUserEmail}
      * will be used to construct the id.
      */
@@ -509,7 +509,7 @@ public class ActivityLogEntry {
     }
 
     public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail,
-                                                            UserType userType) {
+                                                             UserType userType) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if (actionTaken.length > 0) {
