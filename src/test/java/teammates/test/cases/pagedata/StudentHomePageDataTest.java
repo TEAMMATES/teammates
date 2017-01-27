@@ -15,7 +15,7 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.StudentHomePageData;
+import teammates.ui.pagedata.StudentHomePageData;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.HomeFeedbackSessionRow;

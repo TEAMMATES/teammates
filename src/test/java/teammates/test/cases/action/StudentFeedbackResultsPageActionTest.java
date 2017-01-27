@@ -17,7 +17,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackResultsPageAction;
-import teammates.ui.controller.StudentFeedbackResultsPageData;
+import teammates.ui.pagedata.StudentFeedbackResultsPageData;
 
 public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();

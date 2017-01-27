@@ -13,8 +13,8 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
-import teammates.ui.controller.InstructorFeedbackResponseCommentAjaxPageData;
 import teammates.ui.controller.InstructorFeedbackResponseCommentDeleteAction;
+import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
 public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActionTest {
 

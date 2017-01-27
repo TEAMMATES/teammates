@@ -8,8 +8,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorStudentRecordsAjaxPageAction;
-import teammates.ui.controller.InstructorStudentRecordsAjaxPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorStudentRecordsAjaxPageData;
 
 public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
