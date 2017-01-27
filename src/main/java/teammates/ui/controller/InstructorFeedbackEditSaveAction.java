@@ -27,7 +27,8 @@ public class InstructorFeedbackEditSaveAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
-        FeedbackSessionAttributes feedbackSession = extractFeedbackSessionData();
+        InstructorFeedbackEditSaveAction newSession = new InstructorFeedbackEditSaveAction();
+        FeedbackSessionAttributes feedbackSession = newSession.extractFeedbackSessionData();
         
         // A session opening reminder email is always sent as students
         // without accounts need to receive the email to be able to respond
@@ -53,10 +54,5 @@ public class InstructorFeedbackEditSaveAction extends Action {
             data.setHasError(true);
         }
         return createAjaxResult(data);
-    }
-
-    protected FeedbackSessionAttributes extractFeedbackSessionData() {
-        // TODO make this method stateless
-        return super.extractFeedbackSessionData();
     }
 }
