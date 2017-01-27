@@ -658,10 +658,7 @@
                         <br>
                     </span>
                     <div class="helpSectionContent">
-                        This may be a good policy to adopt (If students know this policy, they will be more honest in reporting contribution values):
-                        <br>
-                        <br>
-                        <span class="italic">It is OK to do less than an equal share of the the work, as long as you are willing to accept a lower grade than your team members. It is your right to decide how much time you allocate to this course. How you prioritize your work is your own business.</span>
+                        This may be a good policy to adopt (If students know this policy, they will be more honest in reporting contribution values)
                         <br>
                         <br>
                     </div>
