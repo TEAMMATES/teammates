@@ -356,7 +356,7 @@ public final class FeedbackResponseCommentsLogic {
         
         boolean userIsRelatedResponseCommentGiver = relatedComment.giverEmail.equals(userEmail);
         
-        boolean userIsStudentAndRelatedResponseCommentIsVisibleToStudents = 
+        boolean userIsStudentAndRelatedResponseCommentIsVisibleToStudents =
                 userIsStudent && isResponseCommentVisibleTo(relatedQuestion,
                         relatedComment, FeedbackParticipantType.STUDENTS);
         
