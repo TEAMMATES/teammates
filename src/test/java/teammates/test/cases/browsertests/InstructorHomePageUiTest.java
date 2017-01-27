@@ -3,20 +3,15 @@ package teammates.test.cases.browsertests;
 import java.net.MalformedURLException;
 
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -31,8 +26,6 @@ import teammates.test.pageobjects.InstructorHomePage;
  * 
  */
 public class InstructorHomePageUiTest extends BaseUiTestCase {
-    private static DataBundle testData;
-    private static Browser browser;
     private static InstructorHomePage homePage;
     
     private static FeedbackSessionAttributes feedbackSessionAwaiting;
@@ -42,17 +35,20 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     // TODO: refactor this test. try to use admin login or create instructors and courses not using json
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         removeAndRestoreDataBundle(loadDataBundle("/InstructorHomePageUiTest1.json"));
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         removeAndRestoreDataBundle(testData);
 
+        feedbackSessionAwaiting = testData.feedbackSessions.get("Second Feedback Session");
+        feedbackSessionOpen = testData.feedbackSessions.get("First Feedback Session");
+        feedbackSessionClosed = testData.feedbackSessions.get("Third Feedback Session");
+        feedbackSessionPublished = testData.feedbackSessions.get("Fourth Feedback Session");
+
         // Remove entities created during test
         BackDoor.deleteCourse("newIns.wit-demo");
         BackDoor.deleteInstructor("newIns.wit-demo", "CHomeUiT.instructor.tmms@gmail.tmt");
-        browser = BrowserPool.getBrowser();
     }
     
     @Test
@@ -147,11 +143,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("content: multiple courses");
         
         loginAsCommonInstructor();
-        
-        feedbackSessionAwaiting = testData.feedbackSessions.get("Second Feedback Session");
-        feedbackSessionOpen = testData.feedbackSessions.get("First Feedback Session");
-        feedbackSessionClosed = testData.feedbackSessions.get("Third Feedback Session");
-        feedbackSessionPublished = testData.feedbackSessions.get("Fourth Feedback Session");
         
         // Should not see private session
         homePage.verifyHtmlMainContent("/instructorHomeHTMLWithHelperView.html");
@@ -524,7 +515,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
                     .withUserId(googleId);
         
-        homePage = loginAdminToPage(browser, editUrl, InstructorHomePage.class);
+        homePage = loginAdminToPage(editUrl, InstructorHomePage.class);
     }
 
     private void loginWithPersistenceProblem() {
@@ -532,12 +523,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                     .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "something"))
                     .withUserId("unreg_user");
         
-        homePage = loginAdminToPage(browser, homeUrl, InstructorHomePage.class);
+        homePage = loginAdminToPage(homeUrl, InstructorHomePage.class);
         
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }

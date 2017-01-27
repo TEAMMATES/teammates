@@ -1,18 +1,13 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 /**
  * Covers the 'accounts management' view for admins.
@@ -20,16 +15,12 @@ import teammates.test.pageobjects.BrowserPool;
  */
 @Priority(1)
 public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static AdminAccountDetailsPage detailsPage;
-    private static DataBundle testData;
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/AdminAccountDetailsPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
     }
     
     @Test
@@ -46,7 +37,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
                 .withInstructorId("AAMgtUiT.instr2")
                 .withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
-        detailsPage = loginAdminToPage(browser, detailsPageUrl, AdminAccountDetailsPage.class);
+        detailsPage = loginAdminToPage(detailsPageUrl, AdminAccountDetailsPage.class);
         
         detailsPage.verifyHtml("/adminAccountDetails.html");
     }
@@ -69,11 +60,6 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
             .verifyStatus(Const.StatusMessages.STUDENT_DELETED);
         assertNull(BackDoor.getStudent(courseId, "AAMgtUiT.instr2@gmail.com"));
         detailsPage.verifyHtmlMainContent("/adminAccountDetailsRemoveStudent.html");
-    }
-    
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
     }
     
 }

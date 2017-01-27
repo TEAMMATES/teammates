@@ -4,11 +4,8 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.FeedbackContributionResponseDetails;
 import teammates.common.datatransfer.FeedbackMsqResponseDetails;
@@ -22,8 +19,6 @@ import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
@@ -35,16 +30,12 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
  * SUT: {@link StudentFeedbackSubmitPage}.
  */
 public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
-    private static DataBundle testData;
-    private static Browser browser;
-    private FeedbackSubmitPage submitPage;
+    private static FeedbackSubmitPage submitPage;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/StudentFeedbackSubmitPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
     }
 
     @Test
@@ -76,7 +67,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student");
 
-        logout(browser);
+        logout();
         
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
 
@@ -467,7 +458,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // this should not give any error since the value will be automatically adjusted before the form is submitted
         // adjusted value should be 1
-        logout(browser);
+        logout();
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "");
         submitPage.fillResponseTextBox(14, 0, "0");
@@ -658,7 +649,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
-        return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPage(editUrl, FeedbackSubmitPage.class);
     }
     
     private FeedbackSessionNotVisiblePage
@@ -668,7 +659,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
-        return loginAdminToPage(browser, editUrl, FeedbackSessionNotVisiblePage.class);
+        return loginAdminToPage(editUrl, FeedbackSessionNotVisiblePage.class);
     }
 
     private void moveToTeam(StudentAttributes student, String newTeam) {
@@ -678,8 +669,4 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }

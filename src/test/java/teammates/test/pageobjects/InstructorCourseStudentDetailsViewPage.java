@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 public class InstructorCourseStudentDetailsViewPage extends AppPage {
     
     @FindBy (id = "studentemail")
-    WebElement studentEmail;
+    private WebElement studentEmail;
     
     public InstructorCourseStudentDetailsViewPage(Browser browser) {
         super(browser);

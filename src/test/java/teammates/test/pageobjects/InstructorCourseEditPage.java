@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -384,7 +383,7 @@ public class InstructorCourseEditPage extends AppPage {
     public void changeCourseIdInForm(int instrNum, String newCourseId) {
         String selector = "$('#edit-" + instrNum + " input[name=\"" + Const.ParamsNames.COURSE_ID + "\"]')";
         String action = ".val('" + newCourseId + "')";
-        ((JavascriptExecutor) browser.driver).executeScript(selector + action);
+        executeScript(selector + action);
     }
     
     // methods that return WebElements of the page go here
