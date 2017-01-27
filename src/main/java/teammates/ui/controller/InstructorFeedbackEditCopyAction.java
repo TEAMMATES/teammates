@@ -15,6 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
+import teammates.ui.pagedata.InstructorFeedbackEditCopyData;
 
 public class InstructorFeedbackEditCopyAction extends Action {
 

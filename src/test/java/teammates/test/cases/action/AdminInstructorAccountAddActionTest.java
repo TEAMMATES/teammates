@@ -11,9 +11,9 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.CommentsLogic;
-import teammates.ui.controller.AdminHomePageData;
 import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.AjaxResult;
+import teammates.ui.pagedata.AdminHomePageData;
 
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 

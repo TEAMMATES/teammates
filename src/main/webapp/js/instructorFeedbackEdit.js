@@ -669,7 +669,7 @@ function prepareQuestionForm(type) {
  */
 function copyOptions() {
     // If there is one or less questions, there's no need to copy.
-    if ($('div[class~="questionTable"]').size() < 2) {
+    if ($('.questionTable').size() < 2) {
         return;
     }
     
@@ -701,8 +701,8 @@ function copyOptions() {
 
     // Number of recipient setup
     formatNumberBox($currRecipient.val(), NEW_QUESTION);
-    var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
-    var $currRadioButtons = $('table[class~="questionTable"]').last().find('input[name="numofrecipientstype"]');
+    var $prevRadioButtons = $('.questionTable').eq(-2).find('input[name="numofrecipientstype"]');
+    var $currRadioButtons = $('.questionTable').last().find('input[name="numofrecipientstype"]');
     
     $currRadioButtons.each(function(index) {
         $(this).prop('checked', $prevRadioButtons.eq(index).prop('checked'));
@@ -739,7 +739,7 @@ function copyOptions() {
  * Sets the correct initial question number from the value field
  */
 function formatQuestionNumbers() {
-    var $questions = $('div[class~="questionTable"]');
+    var $questions = $('.questionTable');
     
     $questions.each(function(index) {
         var $selector = $(this).find('.questionNumber');

@@ -299,6 +299,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.TEAMS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
+        feedbackEditPage.clickCustomNumberOfRecipientsButton();
         
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToTeamToTeam.html");
 
@@ -318,13 +319,28 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForElementVisibility(visibilityMessage);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
+
+        ______TS("test new question (frame) link copies custom number of recipients option");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
+        assertTrue(feedbackEditPage.isCustomNumOfRecipientsChecked());
+        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         
         //change back
         feedbackEditPage.enableOtherVisibilityOptions(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.clickMaxNumberOfRecipientsButton();
         feedbackEditPage.clickquestionSaveForQuestion1();
+
+        ______TS("test new question (frame) link copies max number of recipients option");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
+        assertTrue(feedbackEditPage.isMaxNumOfRecipientsChecked());
+        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         
         
         feedbackEditPage.clickNewQuestionButton();

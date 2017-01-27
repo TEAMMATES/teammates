@@ -11,7 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorCourseEnrollResultPageData;
+import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 
 public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();

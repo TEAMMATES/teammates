@@ -10,6 +10,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StatusMessage;
+import teammates.ui.pagedata.PageData;
 
 public class AjaxResult extends ActionResult {
 

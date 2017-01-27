@@ -13,7 +13,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorCoursesPageData;
+import teammates.ui.pagedata.InstructorCoursesPageData;
 
 public class InstructorCoursesPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
