@@ -21,7 +21,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorFeedbackEditPageData;
+import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 import teammates.ui.template.FeedbackQuestionEditForm;
 import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
 import teammates.ui.template.FeedbackQuestionVisibilitySettings;

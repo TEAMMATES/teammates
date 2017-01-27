@@ -18,6 +18,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Version;
+import teammates.ui.pagedata.AdminActivityLogPageData;
 
 import com.google.appengine.api.log.AppLogLine;
 

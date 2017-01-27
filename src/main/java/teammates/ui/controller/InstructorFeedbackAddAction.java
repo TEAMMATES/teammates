@@ -25,6 +25,7 @@ import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.common.util.TimeHelper;
+import teammates.ui.pagedata.InstructorFeedbacksPageData;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.reflect.TypeToken;
@@ -56,6 +57,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
      
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
 
+        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         try {
             logic.createFeedbackSession(fs);
             
@@ -81,7 +83,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             //TODO: add a condition to include the status due to inconsistency problem of database
             //      (similar to the one below)
             return createRedirectResult(
-                    new PageData(account).getInstructorFeedbackEditLink(
+                    data.getInstructorFeedbackEditLink(
                             fs.getCourseId(), fs.getFeedbackSessionName()));
             
         } catch (EntityAlreadyExistsException e) {
@@ -103,7 +105,6 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                                                StatusMessageColor.WARNING));
         }
         
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs,
                                        feedbackSessionType);
         

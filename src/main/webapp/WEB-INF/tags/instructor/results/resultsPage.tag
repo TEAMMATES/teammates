@@ -4,7 +4,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ attribute name="pageTitle" required="true" %>
 <%@ attribute name="bodyTitle" required="true" %>
-<%@ attribute name="data" type="teammates.ui.controller.InstructorFeedbackResultsPageData" required="true" %>
 <%@ attribute name="jsIncludes" %>
 <ti:instructorPage pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
     <jsp:attribute name="jsIncludes">

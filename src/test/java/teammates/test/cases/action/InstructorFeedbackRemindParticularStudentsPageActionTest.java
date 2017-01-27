@@ -9,8 +9,8 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackRemindParticularStudentsPageAction;
-import teammates.ui.controller.InstructorFeedbackRemindParticularStudentsPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorFeedbackRemindParticularStudentsPageData;
 
 public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         BaseActionTest {
