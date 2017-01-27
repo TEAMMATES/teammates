@@ -19,10 +19,10 @@ import teammates.common.util.TaskWrapper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.InstructorCourseEnrollPageData;
-import teammates.ui.controller.InstructorCourseEnrollResultPageData;
 import teammates.ui.controller.InstructorCourseEnrollSaveAction;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorCourseEnrollPageData;
+import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 import teammates.ui.template.EnrollResultPanel;
 
 public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {

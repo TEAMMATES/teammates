@@ -14,6 +14,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
+import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 
 import com.google.appengine.api.datastore.Text;
 

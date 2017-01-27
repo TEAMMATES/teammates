@@ -4,6 +4,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
+import teammates.ui.pagedata.InstructorCourseJoinConfirmationPageData;
 
 /**
  * This action handles instructors that attempts to join a course.

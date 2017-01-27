@@ -4,6 +4,7 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.ui.pagedata.CreateImageUploadUrlAjaxPageData;
 
 /**
  * Action: creates a URL for uploading an image

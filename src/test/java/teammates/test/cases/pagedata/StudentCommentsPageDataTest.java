@@ -27,7 +27,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.StudentCommentsPageData;
+import teammates.ui.pagedata.StudentCommentsPageData;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;

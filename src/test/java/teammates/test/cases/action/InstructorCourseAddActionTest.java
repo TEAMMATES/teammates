@@ -10,8 +10,8 @@ import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseAddAction;
-import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorCoursesPageData;
 
 /**
  * Test case for adding a course for an instructor
