@@ -13,6 +13,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbacksPageAction extends Action {
     
@@ -24,10 +25,10 @@ public class InstructorFeedbacksPageAction extends Action {
         String feedbackSessionToHighlight = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
         
-        gateKeeper.verifyInstructorPrivileges(account);
+        new GateKeeper().verifyInstructorPrivileges(account);
                 
         if (courseIdForNewSession != null) {
-            gateKeeper.verifyAccessible(
+            new GateKeeper().verifyAccessible(
                     logic.getInstructorForGoogleId(courseIdForNewSession, account.googleId),
                     logic.getCourse(courseIdForNewSession),
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -103,5 +104,10 @@ public class InstructorFeedbacksPageAction extends Action {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
         return courseInstructorMap;
+    }
+    
+    // call the extrackFeedbackSessionData of the Action class 
+    protected FeedbackSessionAttributes extractFeedbackSessionData() {
+        return super.extractFeedbackSessionData();
     }
 }
