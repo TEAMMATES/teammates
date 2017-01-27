@@ -147,88 +147,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         return new ArrayList<FeedbackQuestionAttributes>();
     }
 
-    private FeedbackSessionAttributes extractFeedbackSessionData() {
-        //TODO assert parameters are not null then update test
-        //TODO make this method stateless
-        
-        FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
-        newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
-        newSession.setFeedbackSessionName(Sanitizer.sanitizeTitle(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
-        
-        newSession.setCreatedTime(new Date());
-        newSession.setStartTime(TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
-        newSession.setEndTime(TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
-        String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
-        if (paramTimeZone != null) {
-            newSession.setTimeZone(Double.parseDouble(paramTimeZone));
-        }
-        String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
-        if (paramGracePeriod != null) {
-            newSession.setGracePeriod(Integer.parseInt(paramGracePeriod));
-        }
-        
-        newSession.setSentOpenEmail(false);
-        newSession.setSentPublishedEmail(false);
-        
-        newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        newSession.setInstructions(new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
-        
-        String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
-        switch (type) {
-        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-            newSession.setResultsVisibleFromTime(TimeHelper.combineDateTime(
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME)));
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            break;
-        default:
-            log.severe("Invalid resultsVisibleFrom setting in creating" + newSession.getIdentificationString());
-            break;
-        }
-        
-        type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
-        switch (type) {
-        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            newSession.setSessionVisibleFromTime(TimeHelper.combineDateTime(
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME)));
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
-            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
-            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            // overwrite if private
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
-            break;
-        default:
-            log.severe("Invalid sessionVisibleFrom setting in creating " + newSession.getIdentificationString());
-            break;
-        }
-        
-        String[] sendReminderEmailsArray =
-                getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
-        List<String> sendReminderEmailsList =
-                sendReminderEmailsArray == null ? new ArrayList<String>()
-                                                : Arrays.asList(sendReminderEmailsArray);
-        newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
-        newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
-        
-        return newSession;
+    protected FeedbackSessionAttributes extractFeedbackSessionData() {
+        // TODO assert parameters are not null then update test
+        // TODO make this method stateless
+        return super.extractFeedbackSessionData();
     }
-
 }
