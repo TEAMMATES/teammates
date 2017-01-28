@@ -36,9 +36,9 @@ public class CommentSearchDocument extends SearchDocument {
             return;
         }
         
-        course = logic.getCourse(comment.courseId);
+        course = coursesDb.getCourse(comment.courseId);
         
-        giverAsInstructor = logic.getInstructorForEmail(comment.courseId, comment.giverEmail);
+        giverAsInstructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.giverEmail);
         
         String delim = "";
         relatedStudents = new ArrayList<StudentAttributes>();
@@ -47,7 +47,7 @@ public class CommentSearchDocument extends SearchDocument {
         switch (comment.recipientType) {
         case PERSON:
             for (String email : comment.recipients) {
-                StudentAttributes student = logic.getStudentForEmail(comment.courseId, email);
+                StudentAttributes student = studentsDb.getStudentForEmail(comment.courseId, email);
                 if (student == null) {
                     commentRecipientNameBuilder.append(delim).append(email);
                     delim = ", ";
@@ -63,7 +63,7 @@ public class CommentSearchDocument extends SearchDocument {
         case TEAM:
             for (String team : comment.recipients) {
                 List<StudentAttributes> students =
-                        logic.getStudentsForTeam(StringHelper.recoverFromSanitizedText(team), comment.courseId);
+                        studentsDb.getStudentsForTeam(StringHelper.recoverFromSanitizedText(team), comment.courseId);
                 if (students != null) {
                     relatedStudents.addAll(students);
                 }
@@ -73,7 +73,7 @@ public class CommentSearchDocument extends SearchDocument {
             break;
         case SECTION:
             for (String section : comment.recipients) {
-                List<StudentAttributes> students = logic.getStudentsForSection(section, comment.courseId);
+                List<StudentAttributes> students = studentsDb.getStudentsForSection(section, comment.courseId);
                 if (students != null) {
                     relatedStudents.addAll(students);
                 }

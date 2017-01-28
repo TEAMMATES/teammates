@@ -24,7 +24,7 @@ public class InstructorSearchDocument extends SearchDocument {
             return;
         }
         
-        course = logic.getCourse(instructor.courseId);
+        course = coursesDb.getCourse(instructor.courseId);
     }
 
     @Override

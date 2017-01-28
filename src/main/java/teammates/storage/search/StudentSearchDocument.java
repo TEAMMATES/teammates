@@ -23,7 +23,7 @@ public class StudentSearchDocument extends SearchDocument {
             return;
         }
         
-        course = logic.getCourse(student.course);
+        course = coursesDb.getCourse(student.course);
     }
 
     @Override

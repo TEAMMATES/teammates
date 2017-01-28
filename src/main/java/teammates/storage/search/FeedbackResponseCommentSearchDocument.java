@@ -45,15 +45,15 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             return;
         }
         
-        relatedSession = logic.getFeedbackSession(comment.feedbackSessionName, comment.courseId);
+        relatedSession = fsDb.getFeedbackSession(comment.courseId, comment.feedbackSessionName);
         
-        relatedQuestion = logic.getFeedbackQuestion(comment.feedbackQuestionId);
+        relatedQuestion = fqDb.getFeedbackQuestion(comment.feedbackQuestionId);
         
-        relatedResponse = logic.getFeedbackResponse(comment.feedbackResponseId);
+        relatedResponse = frDb.getFeedbackResponse(comment.feedbackResponseId);
         
-        course = logic.getCourse(comment.courseId);
+        course = coursesDb.getCourse(comment.courseId);
         
-        giverAsInstructor = logic.getInstructorForEmail(comment.courseId, comment.giverEmail);
+        giverAsInstructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.giverEmail);
         
         relatedInstructors = new ArrayList<InstructorAttributes>();
         relatedStudents = new ArrayList<StudentAttributes>();
@@ -62,7 +62,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         Set<String> addedEmailSet = new HashSet<String>();
         if (relatedQuestion.giverType == FeedbackParticipantType.INSTRUCTORS
                 || relatedQuestion.giverType == FeedbackParticipantType.SELF) {
-            InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.giver);
+            InstructorAttributes ins = instructorsDb.getInstructorForEmail(comment.courseId, relatedResponse.giver);
             if (ins == null || addedEmailSet.contains(ins.email)) {
                 responseGiverName = Const.USER_UNKNOWN_TEXT;
             } else {
@@ -71,7 +71,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 responseGiverName = ins.name + " (" + ins.displayedName + ")";
             }
         } else {
-            StudentAttributes stu = logic.getStudentForEmail(comment.courseId, relatedResponse.giver);
+            StudentAttributes stu = studentsDb.getStudentForEmail(comment.courseId, relatedResponse.giver);
             if (stu == null || addedEmailSet.contains(stu.email)) {
                 responseGiverName = Const.USER_UNKNOWN_TEXT;
             } else {
@@ -82,7 +82,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         }
         
         if (relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS) {
-            InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.recipient);
+            InstructorAttributes ins = instructorsDb.getInstructorForEmail(comment.courseId, relatedResponse.recipient);
             if (ins != null && !addedEmailSet.contains(ins.email)) {
                 relatedInstructors.add(ins);
                 addedEmailSet.add(ins.email);
@@ -93,13 +93,13 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         } else if (relatedQuestion.recipientType == FeedbackParticipantType.NONE) {
             responseRecipientName = Const.USER_NOBODY_TEXT;
         } else {
-            StudentAttributes stu = logic.getStudentForEmail(comment.courseId, relatedResponse.recipient);
+            StudentAttributes stu = studentsDb.getStudentForEmail(comment.courseId, relatedResponse.recipient);
             if (stu != null && !addedEmailSet.contains(stu.email)) {
                 relatedStudents.add(stu);
                 addedEmailSet.add(stu.email);
                 responseRecipientName = stu.name + " (" + stu.team + ")";
             }
-            List<StudentAttributes> team = logic.getStudentsForTeam(relatedResponse.recipient, comment.courseId);
+            List<StudentAttributes> team = studentsDb.getStudentsForTeam(relatedResponse.recipient, comment.courseId);
             if (team != null) {
                 responseRecipientName = relatedResponse.recipient; //it's actually a team name here
                 for (StudentAttributes studentInTeam : team) {
