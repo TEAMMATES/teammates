@@ -1,14 +1,9 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 
 /**
@@ -16,19 +11,15 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
  * SUT: {@link InstructorCourseStudentDetailsViewPage}.
  */
 public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorCourseStudentDetailsViewPage viewPage;
-    private static DataBundle testData;
     
     private static String instructorId;
     private static String courseId;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCourseStudentDetailsPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
         instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
         courseId = testData.courses.get("CCSDetailsUiT.CS2104").getId();
     }
@@ -70,11 +61,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
                 .withCourseId(courseId)
                 .withStudentEmail(testData.students.get(studentStr).email);
         
-        return loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
+        return loginAdminToPage(viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }

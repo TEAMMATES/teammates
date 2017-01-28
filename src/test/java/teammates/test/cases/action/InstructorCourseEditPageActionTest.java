@@ -13,8 +13,8 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseEditPageAction;
-import teammates.ui.controller.InstructorCourseEditPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorCourseEditPageData;
 import teammates.ui.template.CourseEditInstructorPanel;
 
 public class InstructorCourseEditPageActionTest extends BaseActionTest {

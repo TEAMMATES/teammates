@@ -8,8 +8,8 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.InstructorFeedbackResultsPageAction;
-import teammates.ui.controller.InstructorFeedbackResultsPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorFeedbackResultsPageData;
 
 public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
 

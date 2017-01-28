@@ -2,33 +2,24 @@ package teammates.test.cases.browsertests;
 
 import java.io.File;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorSearchPage;
 
 public class InstructorSearchPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorSearchPage searchPage;
-    private static DataBundle testData;
 
-    @BeforeClass
-    public void classSetup() throws Exception {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() throws Exception {
         testData = loadDataBundle("/InstructorSearchPageUiTest.json");
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
-        browser = BrowserPool.getBrowser();
         
         // upload a profile picture for one of the students
         StudentAttributes student = testData.students.get("student2InCourse1");
@@ -131,12 +122,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         AppUrl commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
                 .withUserId(instructorId);
 
-        return loginAdminToPage(browser, commentsPageUrl, InstructorSearchPage.class);
+        return loginAdminToPage(commentsPageUrl, InstructorSearchPage.class);
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
-
 }

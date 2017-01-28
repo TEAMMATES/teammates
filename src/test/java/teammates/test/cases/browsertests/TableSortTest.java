@@ -1,24 +1,23 @@
 package teammates.test.cases.browsertests;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 /** Covers the table sorting functionality
  */
 public class TableSortTest extends BaseUiTestCase {
-    private static Browser browser;
     private static AppPage page;
 
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
+    }
+    
     @BeforeClass
     public void classSetup() throws Exception {
-        printTestClassHeader();
-        browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/tableSort.html"));
     }
     
@@ -207,9 +206,4 @@ public class TableSortTest extends BaseUiTestCase {
         page.verifyContains(searchString.toString());
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-        BrowserPool.release(browser);
-    }
 }

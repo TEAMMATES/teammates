@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorCourseStudentDetailsEditPageData;
+import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 import teammates.ui.template.StudentInfoTable;
 
 public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase {

@@ -1,29 +1,20 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 
 /**
  * Tests Student Course Details page
  */
 public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
-    private static DataBundle testData;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/StudentCourseDetailsPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
     }
     
     @Test
@@ -50,7 +41,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
                                 .withUserId(testData.students.get(studentObjectId).googleId)
                                 .withCourseId(testData.courses.get(courseObjectId).getId());
-        StudentCourseDetailsPage detailsPage = loginAdminToPage(browser, detailsPageUrl, StudentCourseDetailsPage.class);
+        StudentCourseDetailsPage detailsPage = loginAdminToPage(detailsPageUrl, StudentCourseDetailsPage.class);
         if (isFullPageChecked) {
             detailsPage.verifyHtml(filePath);
         } else {
@@ -58,9 +49,4 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         }
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
-    
 }

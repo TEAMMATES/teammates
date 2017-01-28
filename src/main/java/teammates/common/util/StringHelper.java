@@ -307,6 +307,31 @@ public final class StringHelper {
         }
         return result;
     }
+
+    /**
+     * Replaces every character in {@code str} that does not match
+     * {@code regex} with the character {@code replacement}.
+     * 
+     * @param str String to be replaced.
+     * @param regex Pattern that every character is to be matched against.
+     * @param replacement Character unmatching characters should be replaced with.
+     * @return String with all unmatching characters replaced; null if input is null.
+     */
+    public static String replaceIllegalChars(String str, String regex, char replacement) {
+        if (str == null) {
+            return null;
+        }
+        
+        char[] charArray = str.toCharArray();
+        
+        for (int i = 0; i < charArray.length; i++) {
+            if (!isMatching(Character.toString(charArray[i]), regex)) {
+                charArray[i] = replacement;
+            }
+        }
+        
+        return String.valueOf(charArray);
+    }
     
     private static String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);

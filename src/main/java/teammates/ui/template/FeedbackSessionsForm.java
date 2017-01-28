@@ -9,7 +9,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.ui.controller.PageData;
+import teammates.ui.pagedata.PageData;
 
 /**
  * Data model for the form for creating/editing a feedback session.

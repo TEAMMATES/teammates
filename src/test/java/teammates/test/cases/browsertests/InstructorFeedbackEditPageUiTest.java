@@ -7,11 +7,9 @@ import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -24,8 +22,6 @@ import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
@@ -38,18 +34,15 @@ import com.google.appengine.api.datastore.Text;
  */
 @Priority(-1)
 public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
-    private static DataBundle testData;
     private static String instructorId;
     private static String courseId;
     private static String feedbackSessionName;
     /** This contains data for the feedback session to be edited during testing */
     private static FeedbackSessionAttributes editedSession;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackEditPageUiTest.json");
         removeAndRestoreDataBundle(testData);
 
@@ -63,14 +56,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
-
-        browser = BrowserPool.getBrowser();
-        feedbackEditPage = getFeedbackEditPage();
     }
-
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
+    
+    @BeforeClass
+    public void classSetup() {
+        feedbackEditPage = getFeedbackEditPage();
     }
 
     @Test
@@ -154,8 +144,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 editedSession.getCourseId(), editedSession.getFeedbackSessionName());
         editedSession.setInstructions(new Text("<p>" + editedSession.getInstructionsString() + "</p>"));
         assertEquals(editedSession.toString(), savedSession.toString());
-        assertEquals("overflow-auto alert alert-success statusMessage",
-                feedbackEditPage.getStatusMessage().findElement(By.className("statusMessage")).getAttribute("class"));
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
@@ -299,6 +287,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.TEAMS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
+        feedbackEditPage.clickCustomNumberOfRecipientsButton();
         
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToTeamToTeam.html");
 
@@ -318,13 +307,28 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForElementVisibility(visibilityMessage);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
+
+        ______TS("test new question (frame) link copies custom number of recipients option");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
+        assertTrue(feedbackEditPage.isCustomNumOfRecipientsChecked());
+        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         
         //change back
         feedbackEditPage.enableOtherVisibilityOptions(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.clickMaxNumberOfRecipientsButton();
         feedbackEditPage.clickquestionSaveForQuestion1();
+
+        ______TS("test new question (frame) link copies max number of recipients option");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
+        assertTrue(feedbackEditPage.isMaxNumOfRecipientsChecked());
+        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         
         
         feedbackEditPage.clickNewQuestionButton();
@@ -1044,15 +1048,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
     }
 
-    private static InstructorFeedbackEditPage getFeedbackEditPage() {
+    private InstructorFeedbackEditPage getFeedbackEditPage() {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId)
                                     .withSessionName(feedbackSessionName);
-        return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
     
-    private static InstructorFeedbackEditPage getFeedbackEditPageOfCourseWithoutQuestions() {
+    private InstructorFeedbackEditPage getFeedbackEditPageOfCourseWithoutQuestions() {
         String instructor = testData.instructors.get("teammates.test.instructor3").googleId;
         String courseWithoutQuestion = testData.courses.get("course2").getId();
         String sessionWithoutQuestions = testData.feedbackSessions.get("openSession3")
@@ -1061,7 +1065,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                     .withUserId(instructor)
                                     .withCourseId(courseWithoutQuestion)
                                     .withSessionName(sessionWithoutQuestions);
-        return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
 }

@@ -10,8 +10,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AjaxResult;
-import teammates.ui.controller.InstructorFeedbackEditPageData;
 import teammates.ui.controller.InstructorFeedbackEditSaveAction;
+import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 
 public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 

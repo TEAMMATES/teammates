@@ -4,6 +4,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
 
 /**
  * This action handles students that attempts to join a course.
