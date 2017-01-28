@@ -50,19 +50,24 @@ public class ControllerServlet extends HttpServlet {
         UserType userType = new GateKeeper().getCurrentUser();
 
         try {
-           		long startTime = System.currentTimeMillis();
-            	log.info("Request received : [" + req.getMethod() + "] " + req.getRequestURL().toString()
-                + ":" + HttpRequestHelper.printRequestParameters(req));
-            	log.info("User agent : " + req.getHeader("User-Agent"));
-            	Action c = new ActionFactory().getAction(req);
-           		 if (c.isValidUser()) {
+            /* We are using the Template Method Design Pattern here.
+             * This method contains the high level logic of the the request processing.
+             * Concrete details of the processing steps are to be implemented by child
+             * classes, based on request-specific needs.
+             */
+            long startTime = System.currentTimeMillis();
+            
+            log.info("Request received : [" + req.getMethod() + "] " + req.getRequestURL().toString()
+                    + ":" + HttpRequestHelper.printRequestParameters(req));
+            log.info("User agent : " + req.getHeader("User-Agent"));
+            
+            Action c = new ActionFactory().getAction(req);
+            if (c.isValidUser()) {
                 ActionResult actionResult = c.executeAndPostProcess();
                 actionResult.send(req, resp);
-            	} 
-            	else 
-            	{
-              	  resp.sendRedirect(c.getAuthenticationRedirectUrl());
-            	}
+            } else {
+                resp.sendRedirect(c.getAuthenticationRedirectUrl());
+            }
             
             long timeTaken = System.currentTimeMillis() - startTime;
             // This is the log message that is used to generate the 'activity log' for the admin.
