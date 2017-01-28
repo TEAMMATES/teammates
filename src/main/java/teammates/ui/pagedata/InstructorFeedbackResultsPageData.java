@@ -647,7 +647,22 @@ public class InstructorFeedbackResultsPageData extends PageData {
         // update the teams for the previous section
         Set<String> teamsInSection = bundle.getTeamsInSectionFromRoster(sectionName);
         Set<String> teamsWithoutResponses = new HashSet<String>(teamsInSection);
-        teamsWithoutResponses.removeAll(teamWithResponses); 
+        teamsWithoutResponses.removeAll(teamWithResponses);
+        
+        // create for every remaining team in the section, participantResultsPanels for every team member
+        for (String teamWithoutResponses : teamsWithoutResponses) {
+            List<String> teamMembers = new ArrayList<String>(
+                                                     bundle.getTeamMembersFromRoster(teamWithoutResponses));
+            Collections.sort(teamMembers);
+            if (viewType.isPrimaryGroupingOfGiverType()) {
+                addMissingParticipantsPanelsWithModerationButtonForTeam(
+                                                sectionPanel, teamWithoutResponses, teamMembers);
+            } else {
+                addMissingParticipantsPanelsWithoutModerationButtonForTeam(
+                                                sectionPanel, teamWithoutResponses, teamMembers);
+            }
+        }
+        
     }
 
     private static String getCurrentTeam(FeedbackSessionResultsBundle bundle, String giverIdentifier) {
@@ -676,7 +691,16 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         // Create missing participants panels for the previous team
         List<String> sortedTeamMembersWithoutResponses = new ArrayList<String>(teamMembersWithoutResponses);
-        Collections.sort(sortedTeamMembersWithoutResponses);   
+        Collections.sort(sortedTeamMembersWithoutResponses);
+        
+        if (viewType.isPrimaryGroupingOfGiverType()) {
+            addMissingParticipantsPanelsWithModerationButtonForTeam(sectionPanel,
+                                                        teamName, sortedTeamMembersWithoutResponses);
+        } else {
+            addMissingParticipantsPanelsWithoutModerationButtonForTeam(sectionPanel,
+                                                        teamName, sortedTeamMembersWithoutResponses);
+        }
+        
     }
 
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
@@ -712,11 +736,40 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Builds participant panels for the the specified team, and add to sectionPanel
+     * Builds participant panels for the specified team, and add to sectionPanel
      * @param sectionPanel
      * @param teamName
      * @param teamMembers
      */
+    private void addMissingParticipantsPanelsWithModerationButtonForTeam(
+                                                             InstructorFeedbackResultsSectionPanel sectionPanel,
+                                                             String teamName, List<String> teamMembers) {
+        for (String teamMember : teamMembers) {
+            InstructorFeedbackResultsModerationButton moderationButton =
+                    buildModerationButtonForGiver(null, teamMember, "btn btn-default btn-xs",
+                                                  MODERATE_RESPONSES_FOR_GIVER);
+            InstructorFeedbackResultsParticipantPanel giverPanel;
+            
+            if (viewType.isSecondaryGroupingOfParticipantType()) {
+
+                String teamMemberNameWithTeamNameAppended = bundle.getFullNameFromRoster(teamMember)
+                                                + " (" + bundle.getTeamNameFromRoster(teamMember) + ")";
+                giverPanel = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
+                                 teamMember, teamMemberNameWithTeamNameAppended,
+                                 new ArrayList<InstructorFeedbackResultsSecondaryParticipantPanelBody>(),
+                                 moderationButton);
+            } else {
+                giverPanel = new InstructorFeedbackResultsGroupByQuestionPanel(
+                                teamMember, bundle.getFullNameFromRoster(teamMember),
+                                new ArrayList<InstructorFeedbackResultsQuestionTable>(),
+                                getStudentProfilePictureLink(teamMember, instructor.courseId),
+                                viewType.isPrimaryGroupingOfGiverType(), moderationButton);
+            }
+
+            giverPanel.setHasResponses(false);
+            sectionPanel.addParticipantPanel(teamName, giverPanel);
+        }
+    }
     
     private void addMissingParticipantsPanelsWithoutModerationButtonForTeam(
                                     InstructorFeedbackResultsSectionPanel sectionPanel,
