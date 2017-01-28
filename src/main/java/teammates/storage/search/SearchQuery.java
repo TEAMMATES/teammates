@@ -29,7 +29,6 @@ public abstract class SearchQuery {
     
     private QueryOptions options;
     private List<String> textQueryStrings = new ArrayList<String>();
-    private List<String> dateQueryStrings = new ArrayList<String>();
     
     protected SearchQuery(List<InstructorAttributes> instructors, String queryString, String cursorString) {
         Cursor cursor = cursorString.isEmpty()
@@ -53,7 +52,7 @@ public abstract class SearchQuery {
      * Return how many query strings a SearchQuery object has
      */
     public int getFilterSize() {
-        return textQueryStrings.size() + dateQueryStrings.size();
+        return textQueryStrings.size();
     }
     
     protected SearchQuery setTextFilter(String textField, String queryString) {
@@ -120,11 +119,6 @@ public abstract class SearchQuery {
         return preparedQueryString.toString() + ")";
     }
     
-    protected SearchQuery setDateFilter(String dateField, String startTime, String endTime) {
-        this.dateQueryStrings.add(startTime + " <= " + dateField + AND + dateField + " <= " + endTime);
-        return this;
-    }
-    
     /*
      * Build the {@link Query} object
      */
@@ -151,14 +145,6 @@ public abstract class SearchQuery {
                 isfirstElement = false;
             } else {
                 queryStringBuilder.append(AND).append(textQuery);
-            }
-        }
-        for (String dateQuery : dateQueryStrings) {
-            if (isfirstElement) {
-                queryStringBuilder.append(dateQuery);
-                isfirstElement = false;
-            } else {
-                queryStringBuilder.append(AND).append(dateQuery);
             }
         }
         log.info("Query: " + queryStringBuilder.toString());
