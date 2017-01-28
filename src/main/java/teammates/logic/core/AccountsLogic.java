@@ -130,64 +130,33 @@ public final class AccountsLogic {
         }
     }
 
+
     /**
      * Joins the user as an instructor, and sets the institute too.
      */
-    public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
+     public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
             throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
         
-        joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
+        //joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
         
     }
-    
+
     /**
      * Joins the user as an instructor.
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId)
             throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
         
-        joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
+       // joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
         
     }
+    
 
     /**
      * Institute is set only if it is not null. If it is null, this instructor
      * is given the the institute of an existing instructor of the same course.
      */
-    private void joinCourseForInstructorWithInstitute(String encryptedKey, String googleId, String institute)
-            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
-
-        confirmValidJoinCourseRequest(encryptedKey, googleId);
-
-        InstructorAttributes instructor = instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
-        AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = institute == null ? getCourseInstitute(instructor.courseId) : institute;
-        
-        if (account == null) {
-            createAccount(new AccountAttributes(googleId,
-                                                instructor.name,
-                                                true,
-                                                instructor.email,
-                                                instituteToSave));
-        } else {
-            makeAccountInstructor(googleId);
-        }
-                  
-        instructor.googleId = googleId;
-        instructorsLogic.updateInstructorByEmail(instructor.email, instructor);
-        
-        //Update the goolgeId of the student entity for the instructor which was created from sampleData.
-        StudentAttributes student = studentsLogic.getStudentForEmail(instructor.courseId, instructor.email);
-        if (student != null) {
-            student.googleId = googleId;
-            studentsLogic.updateStudentCascade(instructor.email, student);
-        }
-        
-    }
-    
-    /**
-     * @throws JoinCourseException if the request is invalid. Do nothing otherwise.
-     */
+   
     private void confirmValidJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {
         
