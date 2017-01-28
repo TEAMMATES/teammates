@@ -63,8 +63,8 @@ public class AdminSearchPageAction extends Action {
                                     data.instructorResultBundle.instructorList,
                                     data);
 
-        int numOfResults = data.studentResultBundle.getResultSize()
-                           + data.instructorResultBundle.getResultSize();
+        int numOfResults = data.studentResultBundle.numberOfResults
+                           + data.instructorResultBundle.numberOfResults;
         
         if (numOfResults > 0) {
             statusToUser.add(new StatusMessage("Total results found: " + numOfResults, StatusMessageColor.INFO));

@@ -57,7 +57,7 @@ public class StudentsDb extends EntitiesDb {
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT,
                 new StudentSearchQuery(instructors, queryString, cursorString));
         
-        return new StudentSearchResultBundle().fromResults(results, instructors);
+        return StudentSearchDocument.fromResults(results, instructors);
     }
 
     /**
@@ -76,7 +76,7 @@ public class StudentsDb extends EntitiesDb {
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT,
                 new StudentSearchQuery(queryString, cursorString));
         
-        return new StudentSearchResultBundle().getStudentsfromResults(results);
+        return StudentSearchDocument.fromResults(results);
     }
 
     public void deleteDocument(StudentAttributes studentToDelete) {

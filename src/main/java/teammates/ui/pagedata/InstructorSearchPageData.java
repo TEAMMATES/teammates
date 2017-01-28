@@ -66,9 +66,9 @@ public class InstructorSearchPageData extends PageData {
         this.isSearchCommentForResponses = isSearchCommentForResponses;
         this.isSearchForStudents = isSearchForStudents;
         
-        this.isCommentsForStudentsEmpty = commentSearchResultBundle.getResultSize() == 0;
-        this.isCommentsForResponsesEmpty = frcSearchResultBundle.getResultSize() == 0;
-        this.isStudentsEmpty = studentSearchResultBundle.getResultSize() == 0;
+        this.isCommentsForStudentsEmpty = commentSearchResultBundle.numberOfResults == 0;
+        this.isCommentsForResponsesEmpty = frcSearchResultBundle.numberOfResults == 0;
+        this.isStudentsEmpty = studentSearchResultBundle.numberOfResults == 0;
         
         setSearchCommentsForStudentsTables(commentSearchResultBundle);
         setSearchCommentsForResponsesTables(frcSearchResultBundle);

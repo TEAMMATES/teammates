@@ -451,7 +451,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT,
                 new FeedbackResponseCommentSearchQuery(instructors, queryString, cursorString));
         
-        return new FeedbackResponseCommentSearchResultBundle().fromResults(results, instructors);
+        return FeedbackResponseCommentSearchDocument.fromResults(results, instructors);
     }
     
     /**

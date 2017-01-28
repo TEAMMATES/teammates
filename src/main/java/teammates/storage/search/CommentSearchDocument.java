@@ -5,6 +5,8 @@ import java.util.List;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
+import teammates.common.datatransfer.CommentSearchResultBundle;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -14,6 +16,8 @@ import teammates.common.util.StringHelper;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * The SearchDocument object that defines how we store {@link Document} for student comments
@@ -146,4 +150,70 @@ public class CommentSearchDocument extends SearchDocument {
                 .build();
     }
 
+    /**
+     * Produce a CommentSearchResultBundle from the Results<ScoredDocument> collection.
+     * The list of InstructorAttributes is used to filter out the search result.
+     */
+    public static CommentSearchResultBundle fromResults(Results<ScoredDocument> results,
+                                                        List<InstructorAttributes> instructors) {
+        CommentSearchResultBundle bundle = new CommentSearchResultBundle();
+        if (results == null) {
+            return bundle;
+        }
+        
+        bundle.cursor = results.getCursor();
+        List<String> giverEmailList = new ArrayList<String>();
+        for (InstructorAttributes ins : instructors) {
+            giverEmailList.add(ins.email);
+        }
+        
+        List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
+        for (ScoredDocument doc : filteredResults) {
+            CommentAttributes comment = JsonUtils.fromJson(
+                    doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(),
+                    CommentAttributes.class);
+            if (commentsDb.getComment(comment.getCommentId()) == null) {
+                commentsDb.deleteDocument(comment);
+                continue;
+            }
+            comment.sendingState = CommentSendingState.SENT;
+            String giverName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_GIVER_NAME).getText();
+            String recipientName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).getText();
+            
+            boolean isGiver = giverEmailList.contains(comment.giverEmail);
+            String giverAsKey = comment.giverEmail + comment.courseId;
+            
+            if (isGiver) {
+                giverName = "You (" + comment.courseId + ")";
+            } else if (comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR)) {
+                giverName = extractContentFromQuotedString(giverName) + " (" + comment.courseId + ")";
+            } else {
+                giverAsKey = "Anonymous" + comment.courseId;
+                giverName = "Anonymous" + " (" + comment.courseId + ")";
+            }
+            
+            if (isGiver || comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR)) {
+                recipientName = extractContentFromQuotedString(recipientName);
+            } else {
+                recipientName = "Anonymous";
+            }
+            
+            List<CommentAttributes> commentList = bundle.giverCommentTable.get(giverAsKey);
+            if (commentList == null) {
+                commentList = new ArrayList<CommentAttributes>();
+                bundle.giverCommentTable.put(giverAsKey, commentList);
+            }
+            commentList.add(comment);
+            bundle.giverTable.put(giverAsKey, giverName);
+            bundle.recipientTable.put(comment.getCommentId().toString(), recipientName);
+            bundle.numberOfResults++;
+        }
+        
+        for (List<CommentAttributes> comments : bundle.giverCommentTable.values()) {
+            CommentAttributes.sortCommentsByCreationTime(comments);
+        }
+        
+        return bundle;
+    }
+    
 }

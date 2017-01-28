@@ -73,8 +73,8 @@ public class InstructorSearchPageAction extends Action {
                 studentSearchResults = logic.searchStudents(searchKey, instructors, "");
             }
             
-            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize()
-                                            + studentSearchResults.getResultSize();
+            totalResultsSize = commentSearchResults.numberOfResults + frCommentSearchResults.numberOfResults
+                                            + studentSearchResults.numberOfResults;
             
             Set<String> instructorEmails = new HashSet<String>();
             

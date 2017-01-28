@@ -500,7 +500,7 @@ public class CommentsDb extends EntitiesDb {
                                                           new CommentSearchQuery(instructors, queryString,
                                                                                  cursorString));
         
-        return new CommentSearchResultBundle().fromResults(results, instructors);
+        return CommentSearchDocument.fromResults(results, instructors);
     }
     
     /**

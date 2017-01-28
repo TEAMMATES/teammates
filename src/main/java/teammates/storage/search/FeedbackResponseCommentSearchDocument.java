@@ -1,16 +1,21 @@
 package teammates.storage.search;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
@@ -18,6 +23,8 @@ import teammates.common.util.JsonUtils;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * The SearchDocument object that defines how we store {@link Document} for response comments
@@ -212,4 +219,218 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 .build();
     }
 
+    /**
+     * Produce a FeedbackResponseCommentSearchResultBundle from the Results<ScoredDocument> collection.
+     * The list of InstructorAttributes is used to filter out the search result.
+     */
+    public static FeedbackResponseCommentSearchResultBundle fromResults(
+            Results<ScoredDocument> results, List<InstructorAttributes> instructors) {
+        FeedbackResponseCommentSearchResultBundle bundle = new FeedbackResponseCommentSearchResultBundle();
+        if (results == null) {
+            return bundle;
+        }
+        
+        // get instructor's information
+        bundle.instructorEmails = new HashSet<String>();
+        Set<String> instructorCourseIdList = new HashSet<String>();
+        for (InstructorAttributes ins : instructors) {
+            bundle.instructorEmails.add(ins.email);
+            instructorCourseIdList.add(ins.courseId);
+        }
+        
+        bundle.cursor = results.getCursor();
+        Set<String> isAdded = new HashSet<String>();
+        
+        List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
+        for (ScoredDocument doc : filteredResults) {
+            // get FeedbackResponseComment from results
+            FeedbackResponseCommentAttributes comment = JsonUtils.fromJson(
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(),
+                    FeedbackResponseCommentAttributes.class);
+            if (frcDb.getFeedbackResponseComment(comment.getId()) == null) {
+                frcDb.deleteDocument(comment);
+                continue;
+            }
+            comment.sendingState = CommentSendingState.SENT;
+            List<FeedbackResponseCommentAttributes> commentList = bundle.comments.get(comment.feedbackResponseId);
+            if (commentList == null) {
+                commentList = new ArrayList<FeedbackResponseCommentAttributes>();
+                bundle.comments.put(comment.feedbackResponseId, commentList);
+            }
+            commentList.add(comment);
+            
+            // get related response from results
+            FeedbackResponseAttributes response = JsonUtils.fromJson(
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(),
+                    FeedbackResponseAttributes.class);
+            if (frDb.getFeedbackResponse(response.getId()) == null) {
+                frcDb.deleteDocument(comment);
+                continue;
+            }
+            List<FeedbackResponseAttributes> responseList = bundle.responses.get(response.feedbackQuestionId);
+            if (responseList == null) {
+                responseList = new ArrayList<FeedbackResponseAttributes>();
+                bundle.responses.put(response.feedbackQuestionId, responseList);
+            }
+            if (!isAdded.contains(response.getId())) {
+                isAdded.add(response.getId());
+                responseList.add(response);
+            }
+            
+            // get related question from results
+            FeedbackQuestionAttributes question = JsonUtils.fromJson(
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).getText(),
+                    FeedbackQuestionAttributes.class);
+            if (fqDb.getFeedbackQuestion(question.getId()) == null) {
+                frcDb.deleteDocument(comment);
+                continue;
+            }
+            List<FeedbackQuestionAttributes> questionList = bundle.questions.get(question.feedbackSessionName);
+            if (questionList == null) {
+                questionList = new ArrayList<FeedbackQuestionAttributes>();
+                bundle.questions.put(question.feedbackSessionName, questionList);
+            }
+            if (!isAdded.contains(question.getId())) {
+                isAdded.add(question.getId());
+                questionList.add(question);
+            }
+            
+            // get related session from results
+            FeedbackSessionAttributes session = JsonUtils.fromJson(
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(),
+                    FeedbackSessionAttributes.class);
+            if (fsDb.getFeedbackSession(session.getCourseId(), session.getSessionName()) == null) {
+                frcDb.deleteDocument(comment);
+                continue;
+            }
+            if (!isAdded.contains(session.getFeedbackSessionName())) {
+                isAdded.add(session.getFeedbackSessionName());
+                bundle.sessions.put(session.getSessionName(), session);
+            }
+            
+            // get giver and recipient names
+            String responseGiverName = extractContentFromQuotedString(
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME).getText());
+            bundle.responseGiverTable.put(response.getId(),
+                    getFilteredGiverName(bundle, instructorCourseIdList, response, responseGiverName));
+            
+            String responseRecipientName = extractContentFromQuotedString(
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME).getText());
+            bundle.responseRecipientTable.put(response.getId(),
+                    getFilteredRecipientName(bundle, instructorCourseIdList, response, responseRecipientName));
+            
+            String commentGiverName = extractContentFromQuotedString(
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
+            bundle.commentGiverTable.put(comment.getId().toString(),
+                    getFilteredCommentGiverName(bundle, instructorCourseIdList, response, comment, commentGiverName));
+            bundle.numberOfResults++;
+        }
+        
+        for (List<FeedbackQuestionAttributes> questions : bundle.questions.values()) {
+            Collections.sort(questions);
+        }
+        
+        for (List<FeedbackResponseAttributes> responses : bundle.responses.values()) {
+            FeedbackResponseAttributes.sortFeedbackResponses(responses);
+        }
+        
+        for (List<FeedbackResponseCommentAttributes> responseComments : bundle.comments.values()) {
+            FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(responseComments);
+        }
+        
+        return bundle;
+    }
+    
+    private static String getFilteredCommentGiverName(FeedbackResponseCommentSearchResultBundle bundle,
+                                                      Set<String> instructorCourseIdList,
+                                                      FeedbackResponseAttributes response,
+                                                      FeedbackResponseCommentAttributes comment, String name) {
+        return isCommentGiverNameVisibleToInstructor(
+                bundle.instructorEmails, instructorCourseIdList, response, comment) ? name : "Anonymous";
+    }
+    
+    private static String getFilteredGiverName(FeedbackResponseCommentSearchResultBundle bundle,
+                                               Set<String> instructorCourseIdList,
+                                               FeedbackResponseAttributes response, String name) {
+        FeedbackQuestionAttributes question = getFeedbackQuestion(bundle.questions, response);
+        if (!isNameVisibleToInstructor(bundle.instructorEmails, instructorCourseIdList,
+                                       response, question.showGiverNameTo)
+                && question.giverType != FeedbackParticipantType.SELF) {
+            return FeedbackSessionResultsBundle.getAnonName(question.giverType, name);
+        }
+        return name;
+    }
+    
+    private static String getFilteredRecipientName(FeedbackResponseCommentSearchResultBundle bundle,
+                                                   Set<String> instructorCourseIdList,
+                                                   FeedbackResponseAttributes response, String name) {
+        FeedbackQuestionAttributes question = getFeedbackQuestion(bundle.questions, response);
+        if (!isNameVisibleToInstructor(bundle.instructorEmails, instructorCourseIdList,
+                                       response, question.showRecipientNameTo)
+                && question.recipientType != FeedbackParticipantType.SELF
+                && question.recipientType != FeedbackParticipantType.NONE) {
+            return FeedbackSessionResultsBundle.getAnonName(question.recipientType, name);
+        }
+        return name;
+    }
+    
+    private static FeedbackQuestionAttributes getFeedbackQuestion(
+            Map<String, List<FeedbackQuestionAttributes>> questions, FeedbackResponseAttributes response) {
+        FeedbackQuestionAttributes question = null;
+        for (FeedbackQuestionAttributes qn : questions.get(response.feedbackSessionName)) {
+            if (qn.getId().equals(response.feedbackQuestionId)) {
+                question = qn;
+                break;
+            }
+        }
+        return question;
+    }
+    
+    private static boolean isCommentGiverNameVisibleToInstructor(
+            Set<String> instructorEmails, Set<String> instructorCourseIdList,
+            FeedbackResponseAttributes response, FeedbackResponseCommentAttributes comment) {
+        // in the old ver, name is always visible
+        if (comment.isVisibilityFollowingFeedbackQuestion) {
+            return true;
+        }
+        
+        // comment giver can always see
+        if (instructorEmails.contains(comment.giverEmail)) {
+            return true;
+        }
+        List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
+        for (FeedbackParticipantType type : showNameTo) {
+            if (type == FeedbackParticipantType.GIVER
+                    && instructorEmails.contains(response.giver)) {
+                return true;
+            } else if (type == FeedbackParticipantType.INSTRUCTORS
+                    && instructorCourseIdList.contains(response.courseId)) {
+                return true;
+            } else if (type == FeedbackParticipantType.RECEIVER
+                    && instructorEmails.contains(response.recipient)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private static boolean isNameVisibleToInstructor(
+            Set<String> instructorEmails, Set<String> instructorCourseIdList,
+            FeedbackResponseAttributes response, List<FeedbackParticipantType> showNameTo) {
+        // giver can always see
+        if (instructorEmails.contains(response.giver)) {
+            return true;
+        }
+        for (FeedbackParticipantType type : showNameTo) {
+            if (type == FeedbackParticipantType.INSTRUCTORS
+                    && instructorCourseIdList.contains(response.courseId)) {
+                return true;
+            } else if (type == FeedbackParticipantType.RECEIVER
+                    && instructorEmails.contains(response.recipient)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

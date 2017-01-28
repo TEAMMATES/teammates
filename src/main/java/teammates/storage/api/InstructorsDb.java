@@ -83,7 +83,7 @@ public class InstructorsDb extends EntitiesDb {
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.INSTRUCTOR,
                                                           new InstructorSearchQuery(queryString, cursorString));
         
-        return new InstructorSearchResultBundle().getInstructorsfromResults(results);
+        return InstructorSearchDocument.fromResults(results);
     }
 
     /* =========================================================================
