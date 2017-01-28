@@ -431,7 +431,7 @@ public final class FeedbackQuestionsLogic {
 
     private String getGiverTeam(String defaultTeam, InstructorAttributes instructorGiver,
             StudentAttributes studentGiver) {
-        String giverTeam;
+        String giverTeam = null;
         boolean isStudentGiver = studentGiver != null;
         boolean isInstructorGiver = instructorGiver != null;
         if (isStudentGiver) {
@@ -444,7 +444,7 @@ public final class FeedbackQuestionsLogic {
         return giverTeam;
     }
     
-    public boolean doesQuestionHaveResponses(String feedbackQuestionId) {
+    public boolean areThereResponsesForQuestion(String feedbackQuestionId) {
         return !frLogic.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, 1)
                        .isEmpty();
     }
@@ -477,11 +477,11 @@ public final class FeedbackQuestionsLogic {
         List<StudentAttributes> studentsInTeam =
                 studentsLogic.getStudentsForTeam(question.courseId, teamName);
         
-        int numberOfResponsesNeeded =
+        int numberOfPendingResponses =
                 question.numberOfEntitiesToGiveFeedbackTo;
         
-        if (numberOfResponsesNeeded == Const.MAX_POSSIBLE_RECIPIENTS) {
-            numberOfResponsesNeeded = getRecipientsForQuestion(question, teamName).size();
+        if (numberOfPendingResponses == Const.MAX_POSSIBLE_RECIPIENTS) {
+            numberOfPendingResponses = getRecipientsForQuestion(question, teamName).size();
         }
                 
         for (StudentAttributes student : studentsInTeam) {
@@ -489,11 +489,11 @@ public final class FeedbackQuestionsLogic {
                     frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
             for (FeedbackResponseAttributes response : responses) {
                 if (response.giver.equals(student.email)) {
-                    numberOfResponsesNeeded -= 1;
+                    numberOfPendingResponses -= 1;
                 }
             }
         }
-        return numberOfResponsesNeeded <= 0;
+        return numberOfPendingResponses <= 0;
     }
     
     
@@ -538,24 +538,18 @@ public final class FeedbackQuestionsLogic {
      */
     private void adjustQuestionNumbers(int oldQuestionNumber,
             int newQuestionNumber, List<FeedbackQuestionAttributes> questions) {
-        try {
-            if (oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1) {
-                for (int i = oldQuestionNumber - 1; i >= newQuestionNumber; i--) {
-                    FeedbackQuestionAttributes question = questions.get(i - 1);
-                    question.questionNumber += 1;
-                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
-                }
-            } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()) {
-                for (int i = oldQuestionNumber + 1; i <= newQuestionNumber; i++) {
-                    FeedbackQuestionAttributes question = questions.get(i - 1);
-                    question.questionNumber -= 1;
-                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
-                }
+        if (oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1) {
+            for (int i = oldQuestionNumber - 1; i >= newQuestionNumber; i--) {
+                FeedbackQuestionAttributes question = questions.get(i - 1);
+                question.questionNumber += 1;
+                updateFeedbackQuestionWithoutResponseRateUpdate(question);
             }
-        } catch (InvalidParametersException e) {
-            Assumption.fail("Invalid question.");
-        } catch (EntityDoesNotExistException e) {
-            Assumption.fail("Question disappeared.");
+        } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()) {
+            for (int i = oldQuestionNumber + 1; i <= newQuestionNumber; i++) {
+                FeedbackQuestionAttributes question = questions.get(i - 1);
+                question.questionNumber -= 1;
+                updateFeedbackQuestionWithoutResponseRateUpdate(question);
+            }
         }
     }
 
@@ -569,10 +563,14 @@ public final class FeedbackQuestionsLogic {
      * Precondition: <br>
      * {@code newAttributes} is not {@code null}
      */
-    private void updateFeedbackQuestionWithoutResponseRateUpdate(FeedbackQuestionAttributes newAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        updateFeedbackQuestion(newAttributes, false);
+    private void updateFeedbackQuestionWithoutResponseRateUpdate(FeedbackQuestionAttributes newAttributes) {
+        try {
+            updateFeedbackQuestion(newAttributes, false);
+        } catch (InvalidParametersException e) {
+            Assumption.fail("Invalid question.");
+        } catch (EntityDoesNotExistException e) {
+            Assumption.fail("Question disappeared.");
+        }
     }
 
     /**
@@ -606,7 +604,7 @@ public final class FeedbackQuestionsLogic {
                     "Trying to update a feedback question that does not exist.");
         }
         
-        if (oldQuestion.doChangesRequireResponseDeletion(newAttributes)) {
+        if (oldQuestion.areResponseDeletionsRequiredForChanges(newAttributes)) {
             frLogic.deleteFeedbackResponsesForQuestionAndCascade(oldQuestion.getId(), hasResponseRateUpdate);
         }
         
@@ -721,13 +719,7 @@ public final class FeedbackQuestionsLogic {
         for (FeedbackQuestionAttributes question : questionsToShift) {
             if (question.questionNumber > questionNumberToShiftFrom) {
                 question.questionNumber -= 1;
-                try {
-                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
-                } catch (InvalidParametersException e) {
-                    Assumption.fail("Invalid question.");
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared.");
-                }
+                updateFeedbackQuestionWithoutResponseRateUpdate(question);
             }
         }
     }
