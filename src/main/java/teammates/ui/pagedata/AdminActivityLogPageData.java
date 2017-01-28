@@ -35,8 +35,21 @@ public class AdminActivityLogPageData extends PageData {
     private Long fromDateValue;
     private String logLocalTime;
     private boolean isFromDateSpecifiedInQuery;
+    /**
+     * This determines whether the logs with requests contained in "excludedLogRequestURIs" below
+     * should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
+     * logs despite any action or change in the page unless the page is reloaded with "?all=false"
+     * or simply reloaded with this parameter omitted.
+     */
     private boolean ifShowAll;
+    
+    /**
+     * This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
+     * to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
+     * unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
+     */
     private boolean ifShowTestData;
+    
     private String statusForAjax;
     private QueryParameters q;
     
