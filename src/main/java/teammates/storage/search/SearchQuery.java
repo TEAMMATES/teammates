@@ -48,31 +48,28 @@ public abstract class SearchQuery {
     
     protected abstract String prepareVisibilityQueryString(List<InstructorAttributes> instructors);
     
-    /*
-     * Return how many query strings a SearchQuery object has
+    /**
+     * Returns how many query strings a SearchQuery object has.
      */
     public int getFilterSize() {
         return textQueryStrings.size();
     }
     
-    protected SearchQuery setTextFilter(String textField, String queryString) {
-        String sanitizedQueryString;
+    private void setTextFilter(String textField, String queryString) {
         
-        // The sanitize process considers the '.'(dot) as a space and this
+        // The sanitize process considers the '.' (dot) as a space and this
         // returns unnecessary search results in the case if someone searches
         // using an email. To avoid this, we check whether the input text is an
         // email, and if yes, we skip the sanitize process.
-        if (FieldValidator.isValidEmailAddress(queryString)) {
-            sanitizedQueryString = queryString.toLowerCase().trim();
-        } else {
-            sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim();
-        }
+        String sanitizedQueryString =
+                FieldValidator.isValidEmailAddress(queryString)
+                ? queryString.toLowerCase().trim()
+                : Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim();
         
         if (!sanitizedQueryString.isEmpty()) {
             String preparedOrQueryString = prepareOrQueryString(sanitizedQueryString);
-            this.textQueryStrings.add(textField + ":" + preparedOrQueryString);
+            textQueryStrings.add(textField + ":" + preparedOrQueryString);
         }
-        return this;
     }
     
     private String prepareOrQueryString(String queryString) {
@@ -119,25 +116,18 @@ public abstract class SearchQuery {
         return preparedQueryString.toString() + ")";
     }
     
-    /*
-     * Build the {@link Query} object
+    /**
+     * Builds the {@link Query} object.
      */
     public Query toQuery() {
-        String queryString = buildQueryString();
-        return Query.newBuilder()
-                .setOptions(options)
-                .build(queryString);
+        return Query.newBuilder().setOptions(options).build(toString());
     }
     
     @Override
     public String toString() {
-        return buildQueryString();
-    }
-    
-    private String buildQueryString() {
         StringBuilder queryStringBuilder = new StringBuilder(visibilityQueryString);
         
-        boolean isfirstElement = visibilityQueryString.isEmpty() ? true : false;
+        boolean isfirstElement = visibilityQueryString.isEmpty();
         
         for (String textQuery : textQueryStrings) {
             if (isfirstElement) {
