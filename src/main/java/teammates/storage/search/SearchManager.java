@@ -25,10 +25,11 @@ import com.google.appengine.api.search.StatusCode;
  * https://developers.google.com/appengine/docs/java/search/
  */
 public final class SearchManager {
+    
     private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE =
-            "Failed to put document %s into search index %s due to non-transient backend issue.";
+            "Failed to put document %s into search index %s due to non-transient backend issue: ";
     private static final String ERROR_EXCEED_DURATION =
-            "Operation did not succeed in time to put document %s into search index %s";
+            "Operation did not succeed in time: putting document %s into search index %s.";
     private static final Logger log = Logger.getLogger();
     private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String, Index>>();
     
@@ -36,18 +37,17 @@ public final class SearchManager {
         // utility class
     }
     
-    /*
-     * Create or update the search document for the given document and index
+    /**
+     * Creates or updates the search document for the given document and index
      */
     public static void putDocument(String indexName, Document document) {
         int elapsedTime = 0;
         boolean isSuccessful = tryPutDocument(indexName, document);
-        while (!isSuccessful
-                && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
+        while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
             ThreadHelper.waitBriefly();
-            //retry putting the document
+            // retry putting the document
             isSuccessful = tryPutDocument(indexName, document);
-            //check before incrementing to avoid boundary case problem
+            // check before incrementing to avoid boundary case problem
             if (!isSuccessful) {
                 elapsedTime += ThreadHelper.WAIT_DURATION;
             }
@@ -63,38 +63,38 @@ public final class SearchManager {
             PutResponse result = index.put(document);
             return result.getResults().get(0).getCode() == StatusCode.OK;
         } catch (PutException e) {
-            //if it's a transient error in the server, it can be re-tried
+            // if it's a transient error in the server, it can be re-tried
             if (!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
                 log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
-                        + " e:\n" + TeammatesException.toStringWithStackTrace(e));
+                           + TeammatesException.toStringWithStackTrace(e));
             }
             return false;
         }
     }
     
-    /*
-     * Get document for index and the documentId
+    /**
+     * Gets document for index and the documentId.
      */
     public static Document getDocument(String indexName, String documentId) {
         return getIndex(indexName).get(documentId);
     }
     
-    /*
-     * Search document by query
+    /**
+     * Searches document by the given query.
      */
     public static Results<ScoredDocument> searchDocuments(String indexName, Query query) {
         return getIndex(indexName).search(query);
     }
     
-    /*
-     * Delete document by documentId
+    /**
+     * Deletes document by documentId.
      */
     public static void deleteDocument(String indexName, String documentId) {
         getIndex(indexName).deleteAsync(documentId);
     }
     
-    /*
-     * Delete documents by documentIds
+    /**
+     * Deletes documents by documentIds.
      */
     public static void deleteDocuments(String indexName, String[] documentIds) {
         getIndex(indexName).deleteAsync(documentIds);
@@ -119,4 +119,5 @@ public final class SearchManager {
         }
         return indicesTable;
     }
+    
 }
