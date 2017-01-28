@@ -38,8 +38,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        InstructorFeedbackAddAction newSession = new InstructorFeedbackAddAction();
-        FeedbackSessionAttributes fs = newSession.extractFeedbackSessionData();
+        FeedbackSessionAttributes fs = extractFeedbackSessionData();
 
         // Set creator email as instructors' email
         fs.setCreatorEmail(instructor.email);
