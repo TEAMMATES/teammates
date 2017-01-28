@@ -1,9 +1,8 @@
 package teammates.storage.search;
 
-import teammates.common.util.Const;
+import java.util.List;
 
-import com.google.appengine.api.search.Cursor;
-import com.google.appengine.api.search.QueryOptions;
+import teammates.common.datatransfer.InstructorAttributes;
 
 public class InstructorSearchQuery extends SearchQuery {
 
@@ -16,15 +15,12 @@ public class InstructorSearchQuery extends SearchQuery {
      * @return admin's InstructorSearchQuery with visibilityQueryString to be empty
      */
     public InstructorSearchQuery(String queryString, String cursorString) {
-        Cursor cursor = cursorString.isEmpty()
-                ? Cursor.newBuilder().build()
-                : Cursor.newBuilder().build(cursorString);
-        QueryOptions options = QueryOptions.newBuilder()
-                .setLimit(20)
-                .setCursor(cursor)
-                .build();
-        setOptions(options);
-        visibilityQueryString = "";
-        setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
+        super(queryString, cursorString);
     }
+    
+    @Override
+    protected String prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
+        return null; // method not used
+    }
+    
 }

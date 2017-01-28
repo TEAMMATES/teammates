@@ -3,10 +3,13 @@ package teammates.storage.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 
+import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
@@ -14,7 +17,7 @@ import com.google.appengine.api.search.QueryOptions;
 /**
  * The SearchQuery object that defines how we query {@link Document}
  */
-public class SearchQuery {
+public abstract class SearchQuery {
 
     protected static final String AND = " AND ";
     protected static final String OR = " OR ";
@@ -22,21 +25,29 @@ public class SearchQuery {
     
     private static final Logger log = Logger.getLogger();
     
-    //to be defined by the inherited class
-    protected String visibilityQueryString;
+    private String visibilityQueryString;
     
     private QueryOptions options;
     private List<String> textQueryStrings = new ArrayList<String>();
     private List<String> dateQueryStrings = new ArrayList<String>();
     
-    protected SearchQuery() {
-        // Prevents instantiation of the base SearchQuery.
-        // A SearchQuery specific to the search (e.g. StudentSearchQuery) should be used instead
+    protected SearchQuery(List<InstructorAttributes> instructors, String queryString, String cursorString) {
+        Cursor cursor = cursorString.isEmpty()
+                ? Cursor.newBuilder().build()
+                : Cursor.newBuilder().build(cursorString);
+        options = QueryOptions.newBuilder()
+                .setLimit(20)
+                .setCursor(cursor)
+                .build();
+        visibilityQueryString = instructors == null ? "" : prepareVisibilityQueryString(instructors);
+        setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
     
-    protected void setOptions(QueryOptions options) {
-        this.options = options;
+    protected SearchQuery(String queryString, String cursorString) {
+        this(null, queryString, cursorString);
     }
+    
+    protected abstract String prepareVisibilityQueryString(List<InstructorAttributes> instructors);
     
     /*
      * Return how many query strings a SearchQuery object has
