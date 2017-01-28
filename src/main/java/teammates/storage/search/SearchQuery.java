@@ -14,7 +14,7 @@ import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
 
 /**
- * The SearchQuery object that defines how we query {@link Document}
+ * Defines how we query {@link Document}.
  */
 public abstract class SearchQuery {
 

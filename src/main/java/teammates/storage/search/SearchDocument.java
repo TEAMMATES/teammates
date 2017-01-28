@@ -21,7 +21,7 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 /**
- * The SearchDocument object that defines how we store {@link Document}
+ * Defines how we store {@link Document} for indexing/searching.
  */
 public abstract class SearchDocument {
     

@@ -20,9 +20,9 @@ import com.google.appengine.api.search.SearchServiceFactory;
 import com.google.appengine.api.search.StatusCode;
 
 /**
- * Represents the search manager for index.
- * Codes reference:
- * https://developers.google.com/appengine/docs/java/search/
+ * Manages {@link Document} and {@link Index} in the Datastore for use of search functions.
+ * 
+ * @see <a href="https://cloud.google.com/appengine/docs/java/search/">https://cloud.google.com/appengine/docs/java/search/</a>
  */
 public final class SearchManager {
     

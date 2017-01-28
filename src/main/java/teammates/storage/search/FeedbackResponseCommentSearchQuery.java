@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import com.google.appengine.api.search.Document;
 
 /**
- * The SearchQuery object that defines how we query {@link Document} for response comments
+ * The {@link SearchQuery} object that defines how we query {@link Document} for response comments.
  */
 public class FeedbackResponseCommentSearchQuery extends SearchQuery {
     

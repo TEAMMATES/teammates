@@ -27,7 +27,7 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 /**
- * The SearchDocument object that defines how we store {@link Document} for response comments
+ * The {@link SearchDocument} object that defines how we store {@link Document} for response comments.
  */
 public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     

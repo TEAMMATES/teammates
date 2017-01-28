@@ -20,7 +20,7 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 /**
- * The SearchDocument object that defines how we store {@link Document} for student comments
+ * The {@link SearchDocument} object that defines how we store {@link Document} for student comments.
  */
 public class CommentSearchDocument extends SearchDocument {
     

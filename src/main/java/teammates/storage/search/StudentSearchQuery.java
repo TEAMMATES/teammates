@@ -5,6 +5,11 @@ import java.util.List;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 
+import com.google.appengine.api.search.Document;
+
+/**
+ * The {@link SearchQuery} object that defines how we query {@link Document} for students.
+ */
 public class StudentSearchQuery extends SearchQuery {
     
     public StudentSearchQuery(List<InstructorAttributes> instructors, String queryString) {
