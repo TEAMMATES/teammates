@@ -73,13 +73,6 @@ public final class SearchManager {
     }
     
     /**
-     * Gets document for index and the documentId.
-     */
-    public static Document getDocument(String indexName, String documentId) {
-        return getIndex(indexName).get(documentId);
-    }
-    
-    /**
      * Searches document by the given query.
      */
     public static Results<ScoredDocument> searchDocuments(String indexName, Query query) {
@@ -91,13 +84,6 @@ public final class SearchManager {
      */
     public static void deleteDocument(String indexName, String documentId) {
         getIndex(indexName).deleteAsync(documentId);
-    }
-    
-    /**
-     * Deletes documents by documentIds.
-     */
-    public static void deleteDocuments(String indexName, String[] documentIds) {
-        getIndex(indexName).deleteAsync(documentIds);
     }
     
     private static Index getIndex(String indexName) {
