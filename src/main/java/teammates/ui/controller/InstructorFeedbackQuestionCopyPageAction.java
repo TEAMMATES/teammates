@@ -7,6 +7,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.ui.pagedata.InstructorFeedbackQuestionCopyPageData;
 
 public class InstructorFeedbackQuestionCopyPageAction extends Action {
 
@@ -28,7 +29,8 @@ public class InstructorFeedbackQuestionCopyPageAction extends Action {
         
         copiableQuestions = logic.getCopiableFeedbackQuestionsForInstructor(account.googleId);
         
-        PageData data = new InstructorFeedbackQuestionCopyPageData(account, copiableQuestions);
+        InstructorFeedbackQuestionCopyPageData data =
+                new InstructorFeedbackQuestionCopyPageData(account, copiableQuestions);
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_MODAL, data);
     }
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.ui.pagedata.FileUploadPageData;
 
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;

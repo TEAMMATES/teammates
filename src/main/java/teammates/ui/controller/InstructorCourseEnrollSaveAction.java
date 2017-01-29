@@ -19,6 +19,8 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.InstructorCourseEnrollPageData;
+import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 
 /**
  * Action: saving the list of enrolled students for a course of an instructor

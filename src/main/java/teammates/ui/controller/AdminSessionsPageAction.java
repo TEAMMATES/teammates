@@ -15,6 +15,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
+import teammates.ui.pagedata.AdminSessionsPageData;
 
 public class AdminSessionsPageAction extends Action {
     

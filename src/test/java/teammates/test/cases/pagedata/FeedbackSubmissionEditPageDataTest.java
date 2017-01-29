@@ -18,7 +18,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.FeedbackSubmissionEditPageData;
+import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses;
 
 public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {

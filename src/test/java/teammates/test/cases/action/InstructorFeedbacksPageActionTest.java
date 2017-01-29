@@ -10,8 +10,8 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbacksPageAction;
-import teammates.ui.controller.InstructorFeedbacksPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorFeedbacksPageData;
 
 public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 

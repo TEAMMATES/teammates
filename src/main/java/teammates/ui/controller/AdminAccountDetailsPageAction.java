@@ -8,6 +8,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.ui.pagedata.AdminAccountDetailsPageData;
 
 public class AdminAccountDetailsPageAction extends Action {
 

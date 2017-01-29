@@ -2,38 +2,28 @@ package teammates.test.cases.browsertests;
 
 import java.io.File;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 /**
  * Loads the Mashup page for the tester to do a visual inspection.
  */
 public class MashupPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
 
-    private static DataBundle testData;
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/MashupPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
     }
 
     @Test
     public void loadWebpageCompilation() throws Exception {
-        AppPage page = loginAdmin(browser);
+        AppPage page = loginAdmin();
         uploadNewPhotoForStudent();
         page.navigateTo(createUrl(Const.ViewURIs.MASHUP));
     }
@@ -46,10 +36,9 @@ public class MashupPageUiTest extends BaseUiTestCase {
         BackDoor.uploadAndUpdateStudentProfilePicture(googleId, pictureData);
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        //We do not release the browser instance here because we want the tester
-        //  to see the loaded page.
+    @Override
+    protected void releaseBrowser() {
+        // We do not release the browser instance here because we want the tester to see the loaded page.
     }
 
 }

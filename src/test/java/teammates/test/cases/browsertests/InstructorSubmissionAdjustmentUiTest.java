@@ -3,11 +3,8 @@ package teammates.test.cases.browsertests;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -19,8 +16,6 @@ import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**
@@ -28,13 +23,10 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
  */
 @Priority(1)
 public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
-    private static DataBundle testData;
-    private static Browser browser;
     private static InstructorCourseEnrollPage enrollPage;
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorSubmissionAdjustmentUiTest.json");
         
         // use the instructor account injected for this test
@@ -43,13 +35,6 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         testData.accounts.get("instructor1OfCourse1").email = TestProperties.TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
         
         removeAndRestoreDataBundle(testData);
-        
-        browser = BrowserPool.getBrowser();
-    }
-    
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
     }
     
     @Test
@@ -106,7 +91,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
                             .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
                             .withCourseId(testData.courses.get("typicalCourse1").getId());
                 
-        enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
+        enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
     }
     
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {

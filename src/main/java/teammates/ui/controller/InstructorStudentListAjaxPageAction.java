@@ -13,6 +13,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
+import teammates.ui.pagedata.InstructorStudentListAjaxPageData;
 
 public class InstructorStudentListAjaxPageAction extends Action {
 

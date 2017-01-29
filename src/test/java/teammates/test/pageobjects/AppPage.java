@@ -67,37 +67,37 @@ public abstract class AppPage {
     
     /** These are elements common to most pages in our app */
     @FindBy(id = "statusMessagesToUser")
-    protected WebElement statusMessage;
+    private WebElement statusMessage;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
-    protected WebElement instructorHomeTab;
+    private WebElement instructorHomeTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[2]/a")
-    protected WebElement instructorCoursesTab;
+    private WebElement instructorCoursesTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
-    protected WebElement instructorStudentsTab;
+    private WebElement instructorStudentsTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")
-    protected WebElement instructorCommentsTab;
+    private WebElement instructorCommentsTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
-    protected WebElement instructorHelpTab;
+    private WebElement instructorHelpTab;
     
     @FindBy(id = "studentHomeNavLink")
-    protected WebElement studentHomeTab;
+    private WebElement studentHomeTab;
     
     @FindBy(id = "studentProfileNavLink")
-    protected WebElement studentProfileTab;
+    private WebElement studentProfileTab;
     
     @FindBy(id = "studentCommentsNavLink")
-    protected WebElement studentCommentsTab;
+    private WebElement studentCommentsTab;
     
     @FindBy(id = "studentHelpLink")
-    protected WebElement studentHelpTab;
+    private WebElement studentHelpTab;
     
     @FindBy(id = "btnLogout")
-    protected WebElement logoutButton;
+    private WebElement logoutButton;
     
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
@@ -345,6 +345,11 @@ public abstract class AppPage {
         browser.driver.get(browser.driver.getCurrentUrl());
         waitForPageToLoad();
     }
+    
+    protected Object executeScript(String script, Object... args) {
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) browser.driver;
+        return javascriptExecutor.executeScript(script, args);
+    }
 
     /** Equivalent to pressing the 'back' button of the browser. <br>
      * Fails if the page content does not match content expected in a page of
@@ -471,8 +476,7 @@ public abstract class AppPage {
     }
     
     protected void click(WebElement element) {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("arguments[0].click();", element);
+        executeScript("arguments[0].click();", element);
     }
     
     public String getElementAttribute(By locator, String attrName) {
@@ -487,19 +491,15 @@ public abstract class AppPage {
     
     protected void fillRichTextEditor(String id, String content) {
         String preparedContent = content.replace("\n", "<br>");
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                                 + "    tinyMCE.get('" + id + "').setContent('" + preparedContent + "\t\t');"
-                                 + "}");
+        executeScript("  if (typeof tinyMCE !== 'undefined') {"
+                      + "    tinyMCE.get('" + id + "').setContent('" + preparedContent + "\t\t');"
+                      + "}");
     }
 
     protected String getRichTextEditorContent(String id) {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        String content = (String) jsExecutor.executeScript(
-                "  if (typeof tinyMCE !== 'undefined') {"
-                + "    return tinyMCE.get('" + id + "').getContent();"
-                + "}");
-        return content;
+        return (String) executeScript("  if (typeof tinyMCE !== 'undefined') {"
+                                      + "    return tinyMCE.get('" + id + "').getContent();"
+                                      + "}");
     }
 
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) {
@@ -763,8 +763,7 @@ public abstract class AppPage {
     public boolean isElementCovered(WebElement element) {
         int x = element.getLocation().x + element.getSize().width / 2;
         int y = element.getLocation().y + element.getSize().height / 2;
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        WebElement topElem = (WebElement) js.executeScript("return document.elementFromPoint(" + x + "," + y + ");");
+        WebElement topElem = (WebElement) executeScript("return document.elementFromPoint(" + x + "," + y + ");");
         return !topElem.equals(element);
     }
 
@@ -1033,8 +1032,7 @@ public abstract class AppPage {
      * @return true if the element is in the user's visible area of a web page.
      */
     public boolean isElementInViewport(String id) {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         String script = "return isWithinView(document.getElementById('" + id + "'));";
-        return (boolean) jsExecutor.executeScript(script);
+        return (boolean) executeScript(script);
     }
 }

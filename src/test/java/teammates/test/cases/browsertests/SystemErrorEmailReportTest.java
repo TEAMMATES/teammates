@@ -1,6 +1,5 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -11,8 +10,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 import com.google.apphosting.api.DeadlineExceededException;
 
@@ -22,16 +19,16 @@ import com.google.apphosting.api.DeadlineExceededException;
  * three emails to the admin.
  */
 public class SystemErrorEmailReportTest extends BaseUiTestCase {
-    private static Browser browser;
     private static AppPage page;
 
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
+    }
+    
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
-
-        browser = BrowserPool.getBrowser();
-        page = loginAdmin(browser);
-
+        page = loginAdmin();
     }
     
     @Test
@@ -107,9 +104,4 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         print("This exception is handled by system, make sure you don't receive any emails. ");
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-        BrowserPool.release(browser);
-    }
 }

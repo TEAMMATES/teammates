@@ -9,8 +9,8 @@ import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.Priority;
 import teammates.ui.controller.InstructorStudentListPageAction;
-import teammates.ui.controller.InstructorStudentListPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorStudentListPageData;
 
 // Priority added due to conflict between InstructorStudentListPageActionTest,
 // StudentHomePageActionTest, and StudentCommentsPageActionTest.

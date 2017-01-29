@@ -6,35 +6,26 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.test.pageobjects.AdminSearchPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 public class AdminSearchPageUiTest extends BaseUiTestCase {
     public static final int ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS = 5;
     public static final int ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS = 6;
     
-    private static Browser browser;
     private static AdminSearchPage searchPage;
-    private static DataBundle testData;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorSearchPageUiTest.json");
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
-        browser = BrowserPool.getBrowser();
     }
     
     @Test
@@ -102,9 +93,8 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
 
     private AdminSearchPage getAdminSearchPage() {
-        AppUrl commentsPageUrl = createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE);
-
-        return loginAdminToPage(browser, commentsPageUrl, AdminSearchPage.class);
+        AppUrl searchPageUrl = createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE);
+        return loginAdminToPage(searchPageUrl, AdminSearchPage.class);
     }
     
     private boolean isPageTitleCorrect() {
@@ -278,8 +268,4 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         return actualNameLink.equals(expectedNameLink);
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }

@@ -8,7 +8,6 @@ import static org.testng.AssertJUnit.fail;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
@@ -330,10 +329,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement photoCell = browser.driver.findElement(By.id(idOfPanelBody))
                                              .findElements(By.cssSelector(".profile-pic-icon-click"))
                                              .get(0);
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementById('" + idOfPanelBody + "')"
-                                 + ".getElementsByClassName('profile-pic-icon-click')[0]"
-                                 + ".getElementsByTagName('a')[0].click();");
+        executeScript("document.getElementById('" + idOfPanelBody + "')"
+                      + ".getElementsByClassName('profile-pic-icon-click')[0]"
+                      + ".getElementsByTagName('a')[0].click();");
         Actions actions = new Actions(browser.driver);
 
         actions.moveToElement(photoCell).perform();
@@ -344,17 +342,16 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         String idOfPanelHeading = "panelHeading-" + panelHeadingIndex;
         WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
                                             .findElement(By.className("profile-pic-icon-hover"));
-        jsExecutor.executeScript("arguments[0].scrollIntoView(true);", photoDiv);
+        executeScript("arguments[0].scrollIntoView(true);", photoDiv);
         Actions actions = new Actions(browser.driver);
         actions.moveToElement(photoDiv).perform();
         waitForElementPresence(By.cssSelector(".popover-content"));
 
-        jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]"
-                                 + ".getElementsByTagName('a')[0].click();");
+        executeScript("document.getElementsByClassName('popover-content')[0]"
+                      + ".getElementsByTagName('a')[0].click();");
 
         waitForElementPresence(By.cssSelector(".popover-content > img"));
 
@@ -363,8 +360,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                        .get(0)
                                                        .getAttribute("src"));
 
-        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
-                                 + "document.getElementsByClassName('popover')[0])");
+        executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
+                      + "document.getElementsByClassName('popover')[0])");
     }
 
     public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
@@ -382,9 +379,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                                  .get(0)
                                                                  .getAttribute("src"));
 
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
-                                 + "document.getElementsByClassName('popover')[0])");
+        executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
+                      + "document.getElementsByClassName('popover')[0])");
     }
     
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
@@ -395,18 +391,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
          * Execute JavaScript instead of using Selenium selectors to bypass bug
          * regarding unix systems and current testing version of Selenium and Firefox
          */
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript(
-                "$(document.getElementById('" + idOfQuestionBody + "')"
-                + ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']"
-                + ".querySelectorAll('td')['" + tableCol + "']"
-                + ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
+        executeScript("$(document.getElementById('" + idOfQuestionBody + "')"
+                      + ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']"
+                      + ".querySelectorAll('td')['" + tableCol + "']"
+                      + ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
         
         waitForElementPresence(By.cssSelector(".popover-content"));
         
-        jsExecutor.executeScript(
-                "document.getElementsByClassName('popover-content')[0]"
-                + ".getElementsByTagName('a')[0].click();");
+        executeScript("document.getElementsByClassName('popover-content')[0]"
+                      + ".getElementsByTagName('a')[0].click();");
 
         waitForElementPresence(By.cssSelector(".popover-content > img"));
 
@@ -414,8 +407,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                                  .get(0)
                                                                  .getAttribute("src"));
 
-        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
-                                 + "document.getElementsByClassName('popover')[0])");
+        executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
+                      + "document.getElementsByClassName('popover')[0])");
     }
 
     public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
@@ -429,9 +422,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void removeNavBar() {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementsByClassName('navbar-fixed-top')[0].parentNode.removeChild("
-                                 + "document.getElementsByClassName('navbar-fixed-top')[0])");
+        executeScript("document.getElementsByClassName('navbar-fixed-top')[0].parentNode.removeChild("
+                      + "document.getElementsByClassName('navbar-fixed-top')[0])");
     }
 
     public void verifyModerateResponseButtonBelongsTo(WebElement btn, String email) {
@@ -490,16 +482,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void changeFsNameInAjaxLoadResponsesForm(int indexOfForm, String newFsName) {
-        
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('.ajax_submit:eq(" + indexOfForm
-                         + ") [name=\"fsname\"]').val('" + newFsName + "')");
+        executeScript("$('.ajax_submit:eq(" + indexOfForm + ") [name=\"fsname\"]').val('" + newFsName + "')");
     }
     
     public void changeFsNameInNoResponsePanelForm(String newFsName) {
-        
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('.ajax-response-submit [name=\"fsname\"]').val('" + newFsName + "')");
+        executeScript("$('.ajax-response-submit [name=\"fsname\"]').val('" + newFsName + "')");
     }
     
     public void waitForAjaxError(int indexOfForm) {
