@@ -35,29 +35,28 @@ public class CommentSearchDocument extends SearchDocument {
         if (comment == null) {
             return;
         }
-        
         course = coursesDb.getCourse(comment.courseId);
-        
         giverAsInstructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.giverEmail);
-        
-        String delim = "";
         relatedStudents = new ArrayList<StudentAttributes>();
-        
+        commentRecipientName = buildCommentRecipientName();
+    }
+    
+    private String buildCommentRecipientName() {
         StringBuilder commentRecipientNameBuilder = new StringBuilder(100);
+        String delim = "";
         switch (comment.recipientType) {
         case PERSON:
             for (String email : comment.recipients) {
                 StudentAttributes student = studentsDb.getStudentForEmail(comment.courseId, email);
                 if (student == null) {
                     commentRecipientNameBuilder.append(delim).append(email);
-                    delim = ", ";
                 } else {
                     relatedStudents.add(student);
                     commentRecipientNameBuilder.append(delim)
                                                .append(student.name)
                                                .append(" (" + student.team + ", " + student.email + ")");
-                    delim = ", ";
                 }
+                delim = ", ";
             }
             break;
         case TEAM:
@@ -90,43 +89,40 @@ public class CommentSearchDocument extends SearchDocument {
         default:
             break;
         }
-        commentRecipientName = commentRecipientNameBuilder.toString();
+        return commentRecipientNameBuilder.toString();
     }
 
     @Override
     public Document toDocument() {
         
-        //populate recipients information
+        // populate recipients information
         StringBuilder recipientsBuilder = new StringBuilder("");
         String delim = ",";
         int counter = 0;
         for (StudentAttributes student : relatedStudents) {
             if (counter == 50) {
-                break; //in case of exceeding size limit for document
+                break; // in case of exceeding size limit for document
             }
             recipientsBuilder.append(student.email).append(delim)
-                .append(student.name).append(delim)
-                .append(student.team).append(delim)
-                .append(student.section).append(delim);
+                             .append(student.name).append(delim)
+                             .append(student.team).append(delim)
+                             .append(student.section).append(delim);
             counter++;
         }
         
-        //produce searchableText for this comment document:
-        //it contains
-        //courseId, courseName, giverEmail, giverName,
-        //recipientEmails/Teams/Sections, and commentText
-        StringBuilder searchableTextBuilder = new StringBuilder("");
-        searchableTextBuilder.append(comment.courseId).append(delim)
-                             .append(course == null ? "" : course.getName()).append(delim)
-                             .append(comment.giverEmail).append(delim)
-                             .append(giverAsInstructor == null ? "" : giverAsInstructor.name).append(delim)
-                             .append(recipientsBuilder.toString()).append(delim)
-                             .append(comment.commentText.getValue());
+        // produce searchableText for this comment document:
+        // it contains courseId, courseName, giverEmail, giverName, recipientEmails/Teams/Sections, and commentText
+        String searchableText = comment.courseId + delim
+                                + (course == null ? "" : course.getName()) + delim
+                                + comment.giverEmail + delim
+                                + (giverAsInstructor == null ? "" : giverAsInstructor.name) + delim
+                                + recipientsBuilder.toString() + delim
+                                + comment.commentText.getValue();
         
         String displayedName = giverAsInstructor == null
                              ? comment.giverEmail
                              : giverAsInstructor.displayedName + " " + giverAsInstructor.name;
-        Document doc = Document.newBuilder()
+        return Document.newBuilder()
                 // this is used to filter documents visible to certain instructor
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID)
                                             .setText(comment.courseId))
@@ -136,7 +132,7 @@ public class CommentSearchDocument extends SearchDocument {
                                             .setText(comment.isVisibleTo(CommentParticipantType.INSTRUCTOR).toString()))
                 // searchableText and createdDate are used to match the query string
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
-                                            .setText(searchableTextBuilder.toString()))
+                                            .setText(searchableText))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE)
                                             .setDate(comment.createdAt))
                 // attribute field is used to convert a doc back to attribute
@@ -148,7 +144,6 @@ public class CommentSearchDocument extends SearchDocument {
                                             .setText(JsonUtils.toJson(commentRecipientName)))
                 .setId(comment.getCommentId().toString())
                 .build();
-        return doc;
     }
 
 }

@@ -31,7 +31,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     private FeedbackQuestionAttributes relatedQuestion;
     private FeedbackSessionAttributes relatedSession;
     private CourseAttributes course;
-    private InstructorAttributes giverAsInstructor; //comment giver
+    private InstructorAttributes giverAsInstructor; // comment giver
     private List<InstructorAttributes> relatedInstructors;
     private List<StudentAttributes> relatedStudents;
     
@@ -46,19 +46,14 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         }
         
         relatedSession = fsDb.getFeedbackSession(comment.courseId, comment.feedbackSessionName);
-        
         relatedQuestion = fqDb.getFeedbackQuestion(comment.feedbackQuestionId);
-        
         relatedResponse = frDb.getFeedbackResponse(comment.feedbackResponseId);
-        
         course = coursesDb.getCourse(comment.courseId);
-        
         giverAsInstructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.giverEmail);
-        
         relatedInstructors = new ArrayList<InstructorAttributes>();
         relatedStudents = new ArrayList<StudentAttributes>();
         
-        //prepare the response giver name and recipient name
+        // prepare the response giver name and recipient name
         Set<String> addedEmailSet = new HashSet<String>();
         if (relatedQuestion.giverType == FeedbackParticipantType.INSTRUCTORS
                 || relatedQuestion.giverType == FeedbackParticipantType.SELF) {
@@ -101,7 +96,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
             List<StudentAttributes> team = studentsDb.getStudentsForTeam(relatedResponse.recipient, comment.courseId);
             if (team != null) {
-                responseRecipientName = relatedResponse.recipient; //it's actually a team name here
+                responseRecipientName = relatedResponse.recipient; // it's actually a team name here
                 for (StudentAttributes studentInTeam : team) {
                     if (!addedEmailSet.contains(studentInTeam.email)) {
                         relatedStudents.add(studentInTeam);
@@ -118,13 +113,13 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     @Override
     public Document toDocument() {
         
-        //populate related Students/Instructors information
+        // populate related Students/Instructors information
         StringBuilder relatedPeopleBuilder = new StringBuilder("");
         String delim = ",";
         int counter = 0;
         for (StudentAttributes student : relatedStudents) {
             if (counter == 25) {
-                break; //in case of exceeding size limit for document
+                break; // in case of exceeding size limit for document
             }
             relatedPeopleBuilder.append(student.email).append(delim)
                 .append(student.name).append(delim)
@@ -143,25 +138,21 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             counter++;
         }
         
-        //produce searchableText for this feedback comment document:
-        //it contains
-        //courseId, courseName, feedback session name, question number, question title
-        //response answer
-        //commentGiverEmail, commentGiverName,
-        //related people's information, and commentText
-        StringBuilder searchableTextBuilder = new StringBuilder("");
-        searchableTextBuilder.append(comment.courseId).append(delim)
-                             .append(course == null ? "" : course.getName()).append(delim)
-                             .append(relatedSession.getFeedbackSessionName()).append(delim)
-                             .append("question ").append(relatedQuestion.questionNumber).append(delim)
-                             .append(relatedQuestion.getQuestionDetails().getQuestionText()).append(delim)
-                             .append(relatedResponse.getResponseDetails().getAnswerString()).append(delim)
-                             .append(comment.giverEmail).append(delim)
-                             .append(giverAsInstructor == null ? "" : giverAsInstructor.name).append(delim)
-                             .append(relatedPeopleBuilder.toString()).append(delim)
-                             .append(comment.commentText.getValue());
+        // produce searchableText for this feedback comment document:
+        // it contains courseId, courseName, feedback session name, question number, question title,
+        // response answer commentGiverEmail, commentGiverName, related people's information, and commentText
+        String searchableText = comment.courseId + delim
+                                + (course == null ? "" : course.getName()) + delim
+                                + relatedSession.getFeedbackSessionName() + delim
+                                + "question " + relatedQuestion.questionNumber + delim
+                                + relatedQuestion.getQuestionDetails().getQuestionText() + delim
+                                + relatedResponse.getResponseDetails().getAnswerString() + delim
+                                + comment.giverEmail + delim
+                                + (giverAsInstructor == null ? "" : giverAsInstructor.name) + delim
+                                + relatedPeopleBuilder.toString() + delim
+                                + comment.commentText.getValue();
         
-        //for data-migration use
+        // for data-migration use
         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
                                    || comment.isVisibleTo(FeedbackParticipantType.GIVER);
@@ -173,9 +164,9 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                       : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
         
         String displayedName = giverAsInstructor == null
-                             ? comment.giverEmail
-                             : giverAsInstructor.displayedName + " " + giverAsInstructor.name;
-        Document doc = Document.newBuilder()
+                               ? comment.giverEmail
+                               : giverAsInstructor.displayedName + " " + giverAsInstructor.name;
+        return Document.newBuilder()
                 // these are used to filter documents visible to certain instructor
                 // TODO: some of the following fields are not used anymore
                 // (refer to {@link FeedbackResponseCommentSearchQuery}), can remove them
@@ -199,7 +190,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                             .setText(Boolean.toString(isVisibleToInstructor)))
                 // searchableText and createdDate are used to match the query string
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
-                                            .setText(searchableTextBuilder.toString()))
+                                            .setText(searchableText))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE)
                                             .setDate(comment.createdAt))
                 // attribute field is used to convert a doc back to attribute
@@ -219,7 +210,6 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                             .setText(JsonUtils.toJson(displayedName)))
                 .setId(comment.getId().toString())
                 .build();
-        return doc;
     }
 
 }

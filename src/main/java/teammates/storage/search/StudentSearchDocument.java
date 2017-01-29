@@ -31,31 +31,26 @@ public class StudentSearchDocument extends SearchDocument {
         
         String delim = ",";
         
-        //produce searchableText for this student document:
-        //it contains
-        //courseId, courseName, studentEmail, studentName
-        //studentTeam and studentSection
-        StringBuilder searchableTextBuilder = new StringBuilder("");
-        searchableTextBuilder.append(student.course).append(delim)
-                             .append(course == null ? "" : course.getName()).append(delim)
-                             .append(student.email).append(delim)
-                             .append(student.name).append(delim)
-                             .append(student.team).append(delim)
-                             .append(student.section);
+        // produce searchableText for this student document:
+        // it contains courseId, courseName, studentEmail, studentName studentTeam and studentSection
+        String searchableText = student.course + delim
+                                + (course == null ? "" : course.getName()) + delim
+                                + student.email + delim
+                                + student.name + delim
+                                + student.team + delim
+                                + student.section;
         
-        Document doc = Document.newBuilder()
+        return Document.newBuilder()
                 // this is used to filter documents visible to certain instructor
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID)
                                             .setText(student.course))
                 // searchableText and createdDate are used to match the query string
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
-                                            .setText(searchableTextBuilder.toString()))
+                                            .setText(searchableText))
                 // attribute field is used to convert a doc back to attribute
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.STUDENT_ATTRIBUTE)
                                             .setText(JsonUtils.toJson(student)))
                 .setId(student.key)
                 .build();
-        
-        return doc;
     }
 }
