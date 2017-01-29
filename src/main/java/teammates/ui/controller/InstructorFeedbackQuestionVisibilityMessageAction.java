@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -74,20 +73,4 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
         return newQuestion;
     }
 
-    private static List<FeedbackParticipantType> getParticipantListFromParams(String participantListParam) {
-        List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
-
-        if (participantListParam == null || participantListParam.isEmpty()) {
-            // null not covered, even when set to null, action receives it as an empty string
-            return participantList;
-        }
-
-        String[] splitString = participantListParam.split(",");
-
-        for (String str : splitString) {
-            participantList.add(FeedbackParticipantType.valueOf(str));
-        }
-
-        return participantList;
-    }
 }
