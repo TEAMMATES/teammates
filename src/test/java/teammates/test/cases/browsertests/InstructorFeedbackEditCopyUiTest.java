@@ -1,35 +1,25 @@
 package teammates.test.cases.browsertests;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
-    private static DataBundle testData;
     private static String instructorId;
     private static String courseId;
     private static String feedbackSessionName;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
         removeAndRestoreDataBundle(testData);
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
-
-        browser = BrowserPool.getBrowser();
     }
 
     @Test
@@ -105,17 +95,12 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
-
     private InstructorFeedbackEditPage getFeedbackEditPage() {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                              .withUserId(instructorId)
                                              .withCourseId(courseId)
                                              .withSessionName(feedbackSessionName);
-        return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
 }

@@ -13,6 +13,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
+import teammates.ui.pagedata.InstructorStudentListPageData;
 
 public class InstructorStudentListPageAction extends Action {
 

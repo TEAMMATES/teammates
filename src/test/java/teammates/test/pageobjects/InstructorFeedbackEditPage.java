@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -219,8 +218,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement minScaleBox = browser.driver.findElement(By.id("minScaleBox" + idSuffix));
         fillTextBox(minScaleBox, Integer.toString(minScale));
         
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", minScaleBox);
+        executeScript("$(arguments[0]).change();", minScaleBox);
     }
     
     public void fillMaxNumScaleBox(int maxScale, int qnNumber) {
@@ -229,8 +227,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
         fillTextBox(maxScaleBox, Integer.toString(maxScale));
         
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", maxScaleBox);
+        executeScript("$(arguments[0]).change();", maxScaleBox);
     }
     
     public void fillMinNumScaleBox(String minScale, int qnNumber) {
@@ -239,8 +236,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement minScaleBox = browser.driver.findElement(By.id("minScaleBox" + idSuffix));
         fillTextBox(minScaleBox, minScale);
         
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", minScaleBox);
+        executeScript("$(arguments[0]).change();", minScaleBox);
     }
     
     public void fillMaxNumScaleBox(String maxScale, int qnNumber) {
@@ -249,8 +245,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
         fillTextBox(maxScaleBox, maxScale);
         
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", maxScaleBox);
+        executeScript("$(arguments[0]).change();", maxScaleBox);
     }
     
     public String getMaxNumScaleBox(int qnNumber) {
@@ -265,8 +260,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
         fillTextBox(stepBox, StringHelper.toDecimalFormatString(step));
         
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", stepBox);
+        executeScript("$(arguments[0]).change();", stepBox);
     }
     
     public void fillStepNumScaleBox(String step, int qnNumber) {
@@ -275,8 +269,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
         fillTextBox(stepBox, step);
         
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", stepBox);
+        executeScript("$(arguments[0]).change();", stepBox);
     }
     
     public String getNumScalePossibleValuesString(int qnNumber) {
@@ -292,8 +285,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         // backspace to clear the extra 1 when box is cleared.
         fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
         
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", pointsBox);
+        executeScript("$(arguments[0]).change();", pointsBox);
     }
     
     public String getConstSumPointsBox(int qnNumber) {
@@ -309,8 +301,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         // backspace to clear the extra 1 when box is cleared.
         fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
         
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", pointsBox);
+        executeScript("$(arguments[0]).change();", pointsBox);
     }
     
     public String getConstSumPointsForEachOptionBox(int qnNumber) {
@@ -326,8 +317,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         // backspace to clear the extra 1 when box is cleared.
         fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
         
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", pointsBox);
+        executeScript("$(arguments[0]).change();", pointsBox);
     }
     
     public String getConstSumPointsForEachRecipientBox(int qnNumber) {
@@ -422,7 +412,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void changeActionLinkOnCopyButton(String actionLink) {
         String selector = "$('#button_copy')";
         String action = ".data('actionlink', '" + actionLink + "')";
-        ((JavascriptExecutor) browser.driver).executeScript(selector + action);
+        executeScript(selector + action);
     }
     
     public void clickCopyButton() {
@@ -774,6 +764,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         return !"none".equals(recipientOption.getCssValue("display"));
     }
     
+    public boolean isMaxNumOfRecipientsChecked() {
+        return maxNumOfRecipients.isSelected();
+    }
+    
+    public boolean isCustomNumOfRecipientsChecked() {
+        return customNumOfRecipients.isSelected();
+    }
+    
     public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {
         WebElement giverDropdown = browser.driver.findElement(By.id("givertype-" + questionNumber));
         selectDropdownByActualValue(giverDropdown, giverType.toString());
@@ -829,15 +827,14 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
         // Select start date
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
-                         + TimeHelper.formatDate(startTime) + "';");
+        executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
+                      + TimeHelper.formatDate(startTime) + "';");
         selectDropdownByVisibleValue(startTimeDropdown,
                                      TimeHelper.convertToDisplayValueInTimeDropDown(startTime));
     
         // Select deadline date
-        js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE + "')[0].value='"
-                         + TimeHelper.formatDate(endTime) + "';");
+        executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE + "')[0].value='"
+                      + TimeHelper.formatDate(endTime) + "';");
         selectDropdownByVisibleValue(endTimeDropdown,
                                      TimeHelper.convertToDisplayValueInTimeDropDown(endTime));
         
@@ -848,17 +845,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
     
         click(fsSaveLink);
-        waitForElementVisibility(statusMessage);
+        waitForPageToLoad();
     }
     
     public InstructorFeedbacksPage deleteSession() {
         clickAndConfirm(getDeleteSessionLink());
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);
-    }
-    
-    public WebElement getStatusMessage() {
-        return statusMessage;
     }
     
     public InstructorFeedbacksPage clickDoneEditingLink() {
@@ -1117,7 +1110,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void changeQuestionTypeInForm(int questionNumber, String newQuestionType) {
         String selector = "$('#form_editquestion-" + questionNumber + "').find('[name=\"questiontype\"]')";
         String action = ".val('" + newQuestionType + "')";
-        ((JavascriptExecutor) browser.driver).executeScript(selector + action);
+        executeScript(selector + action);
     }
     
     public void waitForAjaxErrorOnVisibilityMessageButton(int questionNumber) {

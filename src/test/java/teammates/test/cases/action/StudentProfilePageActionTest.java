@@ -7,9 +7,9 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.PageData;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentProfilePageAction;
+import teammates.ui.pagedata.PageData;
 
 public class StudentProfilePageActionTest extends BaseActionTest {
 

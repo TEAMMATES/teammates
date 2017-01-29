@@ -13,6 +13,8 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessages;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.InstructorHomeCourseAjaxPageData;
+import teammates.ui.pagedata.InstructorHomePageData;
 
 public class InstructorHomePageAction extends Action {
     @Override

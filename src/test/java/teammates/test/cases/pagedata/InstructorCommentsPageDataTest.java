@@ -18,7 +18,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorCommentsPageData;
+import teammates.ui.pagedata.InstructorCommentsPageData;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;

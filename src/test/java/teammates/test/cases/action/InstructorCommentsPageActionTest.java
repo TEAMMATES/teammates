@@ -11,8 +11,8 @@ import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.Priority;
 import teammates.ui.controller.InstructorCommentsPageAction;
-import teammates.ui.controller.InstructorCommentsPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorCommentsPageData;
 import teammates.ui.template.CoursePagination;
 
 @Priority(-1)

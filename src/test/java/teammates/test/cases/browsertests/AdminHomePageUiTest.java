@@ -1,6 +1,5 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -17,8 +16,6 @@ import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
@@ -42,14 +39,15 @@ import com.google.appengine.api.datastore.Text;
  */
 @Priority(6)
 public class AdminHomePageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static AdminHomePage homePage;
-    private static InstructorCourseJoinConfirmationPage confirmationPage;
 
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
+    }
+    
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
-        browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();
     }
     
@@ -65,7 +63,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         ______TS("content: typical page");
         
         AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE).withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
-        homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
+        homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
         
         homePage.verifyHtml("/adminHomePage.html");
     }
@@ -136,9 +134,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
       
         //simulate the user's verification here because it is added by admin
         browser.driver.get(joinLink);
-        confirmationPage = AppPage.createCorrectLoginPageType(browser)
-                           .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
-                                                     TestProperties.TEST_INSTRUCTOR_PASSWORD);
+        InstructorCourseJoinConfirmationPage confirmationPage =
+                AppPage.createCorrectLoginPageType(browser)
+                       .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+                                                 TestProperties.TEST_INSTRUCTOR_PASSWORD);
         confirmationPage.clickCancelButton();
         
         browser.driver.get(joinLink);
@@ -243,7 +242,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         ______TS("action failure : invalid parameter");
         
         AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
-        homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
+        homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
         
         instructor.email = "AHPUiT.email.tmt";
         homePage.createInstructor(shortName, instructor, institute);
@@ -265,9 +264,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         //verify sample course is accessible for newly joined instructor as an student
         
-        StudentHomePage studentHomePage = getHomePage(browser).clickStudentLogin()
-                                                              .loginAsStudent(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
-                                                                              TestProperties.TEST_INSTRUCTOR_PASSWORD);
+        StudentHomePage studentHomePage =
+                getHomePage().clickStudentLogin().loginAsStudent(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+                                                                 TestProperties.TEST_INSTRUCTOR_PASSWORD);
         
         studentHomePage.verifyContains(demoCourseId);
         studentHomePage.clickViewTeam();
@@ -298,9 +297,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         studentHomePage.logout();
         
         //login in as instructor again to test sample course deletion
-        instructorHomePage = getHomePage(browser).clickInstructorLogin()
-                                                 .loginAsInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
-                                                                    TestProperties.TEST_INSTRUCTOR_PASSWORD);
+        instructorHomePage =
+                getHomePage().clickInstructorLogin().loginAsInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+                                                                       TestProperties.TEST_INSTRUCTOR_PASSWORD);
 
         instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
         assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been deleted."));
@@ -311,11 +310,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
 
-    }
-
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
     }
     
 }

@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
+import teammates.ui.pagedata.AdminHomePageData;
 
 public class AdminHomePageAction extends Action {
 

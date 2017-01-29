@@ -1,29 +1,20 @@
 package teammates.test.cases.browsertests;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCommentsPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 public class InstructorCommentsPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorCommentsPage commentsPage;
-    private static DataBundle testData;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCommentsPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser(true);
     }
     
     @Test
@@ -42,7 +33,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         AppUrl commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
                 .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
 
-        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+        commentsPage = loginAdminToPage(commentsPageUrl, InstructorCommentsPage.class);
         
         // This is the full HTML verification for Instructor Comments Page, the rest can all be verifyMainHtml
         commentsPage.verifyHtml("/instructorCommentsPageForEmptyCourse.html");
@@ -52,7 +43,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("instructorWithOnlyOneSampleCourse").googleId);
 
-        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+        commentsPage = loginAdminToPage(commentsPageUrl, InstructorCommentsPage.class);
 
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageForCourseWithoutComment.html");
         
@@ -61,7 +52,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("helperOfCourse1").googleId);
 
-        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+        commentsPage = loginAdminToPage(commentsPageUrl, InstructorCommentsPage.class);
         commentsPage.loadResponseComments();
         
         commentsPage.verifyHtmlMainContent("/instructorCommentsForTypicalCourseWithCommentsWithHelperView.html");
@@ -71,7 +62,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("instructorOfCourseWithUriChars").googleId);
         
-        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+        commentsPage = loginAdminToPage(commentsPageUrl, InstructorCommentsPage.class);
         commentsPage.loadResponseComments();
         
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageForCourseWithURIEncodedSessionName.html");
@@ -81,7 +72,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("instructor1OfCourse1").googleId);
         
-        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+        commentsPage = loginAdminToPage(commentsPageUrl, InstructorCommentsPage.class);
         commentsPage.loadResponseComments();
         removePreExistComments();
         
@@ -271,8 +262,4 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_CLEARED);
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }

@@ -13,6 +13,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 
 public class InstructorFeedbackEditPageAction extends Action {
 

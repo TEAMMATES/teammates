@@ -1,47 +1,33 @@
 package teammates.test.cases.browsertests;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackRankOptionsQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
 public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
-    private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
     
-    private static InstructorFeedbackResultsPage instructorResultsPage;
-    private static StudentFeedbackResultsPage studentResultsPage;
-    
-    private static DataBundle testData;
-
     private static String instructorCourseId;
     private static String instructorEditFSName;
     private static String instructorId;
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/FeedbackRankQuestionUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
         instructorCourseId = testData.courses.get("course").getId();
         instructorEditFSName = testData.feedbackSessions.get("edit").getFeedbackSessionName();
-
     }
 
     @Test
@@ -134,7 +120,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("Rank : student results");
 
-        studentResultsPage = loginToStudentFeedbackResultsPage("alice.tmms@FRankUiT.CS4221", "student");
+        StudentFeedbackResultsPage studentResultsPage =
+                loginToStudentFeedbackResultsPage("alice.tmms@FRankUiT.CS4221", "student");
         studentResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRank.html");
         
     }
@@ -183,7 +170,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("Rank instructor results : question");
 
-        instructorResultsPage =
+        InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "question");
         instructorResultsPage.waitForPanelsToExpand();
         
@@ -380,7 +367,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                         .withUserId(instructorId)
                         .withCourseId(instructorCourseId)
                         .withSessionName(instructorEditFSName);
-        return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(
@@ -389,7 +376,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                         .withUserId(testData.instructors.get(instructorName).googleId)
                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(browser, submitPageUrl, FeedbackSubmitPage.class);
+        return loginAdminToPage(submitPageUrl, FeedbackSubmitPage.class);
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
@@ -398,7 +385,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                         .withUserId(testData.students.get(studentName).googleId)
                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(browser, submitPageUrl, FeedbackSubmitPage.class);
+        return loginAdminToPage(submitPageUrl, FeedbackSubmitPage.class);
     }
 
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(
@@ -407,8 +394,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                         .withUserId(testData.students.get(studentName).googleId)
                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(browser, resultsPageUrl,
-                StudentFeedbackResultsPage.class);
+        return loginAdminToPage(resultsPageUrl, StudentFeedbackResultsPage.class);
     }
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPageWithViewType(
@@ -427,12 +413,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
             resultsPageUrl = resultsPageUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
         
-        return loginAdminToPage(browser, resultsPageUrl, InstructorFeedbackResultsPage.class);
-    }
-
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
+        return loginAdminToPage(resultsPageUrl, InstructorFeedbackResultsPage.class);
     }
 
 }

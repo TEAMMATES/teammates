@@ -8,6 +8,7 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.ui.pagedata.AdminAccountManagementPageData;
 
 public class AdminAccountManagementPageAction extends Action {
 
