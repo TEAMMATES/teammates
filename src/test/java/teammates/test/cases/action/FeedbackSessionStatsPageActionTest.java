@@ -10,7 +10,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.FeedbackSessionStatsPageAction;
-import teammates.ui.controller.FeedbackSessionStatsPageData;
+import teammates.ui.pagedata.FeedbackSessionStatsPageData;
 
 public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();

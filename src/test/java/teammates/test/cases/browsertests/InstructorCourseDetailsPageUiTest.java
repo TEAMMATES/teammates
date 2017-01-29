@@ -1,10 +1,8 @@
 package teammates.test.cases.browsertests;
 
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -12,8 +10,6 @@ import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailAccount;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
@@ -25,16 +21,13 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
  * This class uses real user accounts for students.
  */
 public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorCourseDetailsPage detailsPage;
-    private static DataBundle testData;
     
     private static String instructorId;
     private static String courseId;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCourseDetailsPageUiTest.json");
         
         // use both the student accounts injected for this test
@@ -53,7 +46,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         testData.students.get("charlie.tmms@CCDetailsUiT.CS2103").email = student2Email;
         
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser(true);
     }
     
     @Test
@@ -244,7 +236,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
                                 .withUserId(instructorId)
                                 .withCourseId(courseId);
 
-        return loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
+        return loginAdminToPage(detailsPageUrl, InstructorCourseDetailsPage.class);
     }
     
     private boolean didStudentReceiveReminder(String courseName, String courseId, String studentEmail,
@@ -259,8 +251,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() {
+    public void classTearDown() {
         BackDoor.removeDataBundle(testData);
-        BrowserPool.release(browser);
     }
 }

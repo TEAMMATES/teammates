@@ -3,12 +3,9 @@ package teammates.test.cases.browsertests;
 import java.io.File;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -18,8 +15,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
@@ -30,14 +25,11 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 @Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
-    private static DataBundle testData;
-    private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        browser = BrowserPool.getBrowser();
+    @Override
+    protected void prepareTestData() {
+        // the actual test data is refreshed before each test method
     }
 
     @BeforeMethod
@@ -186,25 +178,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
-
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-1"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-1"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
+
+        String additionalInfoId = "section-1-giver-1-recipient-1";
+        int qnNumber = 8;
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("test sort by recipient > giver > question");
 
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestionTeam.html");
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-0"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-0"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
+        additionalInfoId = "section-1-giver-1-recipient-0";
+        qnNumber = 8;
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("test sort by giver > question > recipient");
 
@@ -246,12 +236,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionTeam.html");
         
-
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(7, ""));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(7, ""));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
+        additionalInfoId = "";
+        qnNumber = 8;
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("Typical case: test in-table sort");
 
@@ -712,11 +700,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("First Session", editPage.getFeedbackSessionName());
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
-
     private void uploadPhotoForStudent(String googleId) throws Exception {
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
         String pictureData = JsonUtils.toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
@@ -730,7 +713,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         InstructorFeedbackResultsPage resultsPage =
-                loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+                loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
         resultsPage.waitForPageToLoad();
         return resultsPage;
     }
@@ -753,7 +736,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         }
 
         InstructorFeedbackResultsPage resultsPage =
-                loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+                loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
         if (needAjax) {
             resultsPage.waitForPageStructureToLoad();
         } else {
@@ -786,6 +769,18 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
             resultsPage.verifyModerateResponseButtonBelongsTo(
                     resultsPage.getModerateResponseButtonInQuestionView(qnNumber, i), emails[i - 1]);
         }
+    }
+    
+    private void verifyQuestionAdditionalInfoCollapse(int qnNumber, String additionalInfoId) {
+        resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+        assertFalse(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
+    }
+    
+    private void verifyQuestionAdditionalInfoExpand(int qnNumber, String additionalInfoId) {
+        resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+        assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
     }
 
 }

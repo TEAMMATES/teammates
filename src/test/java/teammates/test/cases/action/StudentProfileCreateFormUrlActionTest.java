@@ -9,7 +9,7 @@ import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.StudentProfileCreateFormUrlAction;
-import teammates.ui.controller.StudentProfileCreateFormUrlAjaxPageData;
+import teammates.ui.pagedata.StudentProfileCreateFormUrlAjaxPageData;
 
 public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
 

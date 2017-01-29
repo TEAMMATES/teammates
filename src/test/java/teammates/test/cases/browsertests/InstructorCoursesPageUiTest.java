@@ -1,19 +1,15 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -24,7 +20,6 @@ import teammates.test.pageobjects.InstructorCoursesPage;
  * The main SUT is {@link InstructorCoursesPage}.
  */
 public class InstructorCoursesPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     /* Comments given as 'Explanation:' are extra comments added to train
      * developers. They are not meant to be repeated when you write similar
      * classes.
@@ -33,20 +28,17 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
      * 'minimal comments'.
      */
     
-    /* Explanation: This is made a static variable for convenience
+    /* Explanation: This is made a global variable for convenience
      * (i.e. no need to declare it multiple times in multiple methods) */
     private static InstructorCoursesPage coursesPage;
-    private static DataBundle testData;
     
     private static String instructorId;
     
-    CourseAttributes validCourse = new CourseAttributes(" CCAddUiTest.course1 ", " Software Engineering $^&*() ",
-                                                        "Asia/Singapore");
+    private static CourseAttributes validCourse =
+            new CourseAttributes(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", "Asia/Singapore");
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        
+    @Override
+    protected void prepareTestData() {
         /* Explanation: These two lines persist the test data on the server. */
         testData = loadDataBundle("/InstructorCoursesPageUiTest.json");
         removeAndRestoreDataBundle(testData);
@@ -60,10 +52,10 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          * e.g., "ICPUiT.inst.withnocourses" can be a Google ID unique to this
          * class.
          */
-        
-        /* Explanation: Gets a browser instance to be used for this class. */
-        browser = BrowserPool.getBrowser();
-        
+    }
+    
+    @BeforeClass
+    public void classSetup() {
         /* 
          * Any entity that is created in previous test run must be deleted.
          * If that previous test run fails, the entity persists and that will
@@ -368,23 +360,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     private InstructorCoursesPage getCoursesPage() {
         AppUrl coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
                 .withUserId(instructorId);
-        InstructorCoursesPage page = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+        InstructorCoursesPage page = loginAdminToPage(coursesUrl, InstructorCoursesPage.class);
         page.waitForAjaxLoadCoursesSuccess();
         return page;
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        //Explanation: release the Browser back to be reused by other tests.
-        BrowserPool.release(browser);
-        
-        /* Explanation: We don't delete leftover data at the end of a test.
-         * Instead, we delete such data at the beginning or at the point that
-         * data are accessed. This means there will be leftover data in the
-         * datastore at the end of a test run. Not deleting data at the end
-         * saves time and helps in debugging if a test failed.
-         * 
-         */
-    }
-
 }

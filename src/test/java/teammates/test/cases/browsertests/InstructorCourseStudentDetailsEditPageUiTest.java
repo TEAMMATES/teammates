@@ -1,18 +1,13 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 
@@ -21,16 +16,12 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
  * SUT: {@link InstructorCourseStudentDetailsEditPage}.
  */
 public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorCourseStudentDetailsEditPage editPage;
-    private static DataBundle testData;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCourseStudentDetailsEditPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
     }
 
     @Test
@@ -53,7 +44,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
                                         .withCourseId(courseId)
                                         .withStudentEmail(testData.students.get("unregisteredStudent").email);
         
-        editPage = loginAdminToPage(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
+        editPage = loginAdminToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
         editPage.verifyHtmlMainContent("/instructorCourseStudentEditUnregisteredPage.html");
         
         ______TS("content: registered student");
@@ -63,7 +54,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
             .withCourseId(courseId)
             .withStudentEmail(testData.students.get("registeredStudent").email);
         
-        editPage = loginAdminToPage(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
+        editPage = loginAdminToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
 
         // This is the full HTML verification for Instructor Course Student Edit Page, the rest can all be verifyMainHtml
         editPage.verifyHtml("/instructorCourseStudentEditPage.html");
@@ -148,8 +139,4 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         assertEquals("New comments", student.comments);
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }

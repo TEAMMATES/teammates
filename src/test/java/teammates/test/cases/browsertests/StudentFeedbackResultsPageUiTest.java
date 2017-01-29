@@ -1,18 +1,13 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
@@ -23,15 +18,12 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
  * SUT: {@link StudentFeedbackResultsPage}.
  */
 public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
-    private static DataBundle testData;
-    private static Browser browser;
+    private StudentFeedbackResultsPage resultsPage;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/StudentFeedbackResultsPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
     }
 
     @Test
@@ -39,12 +31,11 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student");
 
-        logout(browser);
+        logout();
         
         // Open Session
         StudentAttributes unreg = testData.students.get("DropOut");
-        StudentFeedbackResultsPage resultsPage =
-                loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
+        resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
         resultsPage.verifyHtmlMainContent("/unregisteredStudentFeedbackResultsPageOpen.html");
 
         // Mcq Session
@@ -77,34 +68,30 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "MCQ Session");
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageMCQ.html");
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
+        String additionalInfoId = "";
+        int qnNumber = 4;
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
+        additionalInfoId = "";
+        qnNumber = 5;
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("MSQ session results");
 
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "MSQ Session");
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageMSQ.html");
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
+        additionalInfoId = "";
+        qnNumber = 4;
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
+        additionalInfoId = "";
+        qnNumber = 5;
+        verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
+        verifyQuestionAdditionalInfoCollapse(qnNumber, additionalInfoId);
 
         ______TS("NUMSCALE session results");
 
@@ -127,7 +114,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         String student1Username = TestProperties.TEST_STUDENT1_ACCOUNT;
         String student1Password = TestProperties.TEST_STUDENT1_PASSWORD;
         
-        logout(browser);
+        logout();
         LoginPage loginPage = AppPage.getNewPageInstance(browser, HomePage.class).clickStudentLogin();
         loginPage.loginAsStudent(student1Username, student1Password);
 
@@ -143,7 +130,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("unreg student logged in as a student in another course: registered without logging out");
         
-        logout(browser);
+        logout();
         loginPage = AppPage.getNewPageInstance(browser, HomePage.class).clickStudentLogin();
         loginPage.loginAsStudent(student1Username, student1Password);
 
@@ -157,17 +144,12 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         BackDoor.deleteStudent(unreg.course, unreg.email);
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
-
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(browser, editUrl, StudentFeedbackResultsPage.class);
+        return loginAdminToPage(editUrl, StudentFeedbackResultsPage.class);
     }
 
     private <T extends AppPage> T loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId,
@@ -180,4 +162,17 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
                                             .withRegistrationKey(BackDoor.getEncryptedKeyForStudent(s.course, s.email));
         return AppPage.getNewPageInstance(browser, submitUrl, typeOfPage);
     }
+    
+    private void verifyQuestionAdditionalInfoCollapse(int qnNumber, String additionalInfoId) {
+        resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+        assertFalse(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
+    }
+    
+    private void verifyQuestionAdditionalInfoExpand(int qnNumber, String additionalInfoId) {
+        resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
+        assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
+    }
+
 }

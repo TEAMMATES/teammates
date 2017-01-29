@@ -15,7 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorStudentListAjaxPageData;
+import teammates.ui.pagedata.InstructorStudentListAjaxPageData;
 import teammates.ui.template.StudentListSectionData;
 import teammates.ui.template.StudentListStudentData;
 import teammates.ui.template.StudentListTeamData;
@@ -40,7 +40,7 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
     }
 
     private void testSectionContent(StudentListSectionData section) {
-        assertEquals(Sanitizer.sanitizeForHtml(sampleSection.name), section.getSectionName());
+        assertEquals(sampleSection.name, section.getSectionName());
         assertEquals(sectionPrivileges.get(sampleSection.name)
                                       .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)
                                       .booleanValue(),

@@ -17,7 +17,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.ui.controller.StudentFeedbackResultsPageData;
+import teammates.ui.pagedata.StudentFeedbackResultsPageData;
 import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
 
 public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {

@@ -11,6 +11,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.StudentFeedbackResultsPageData;
 
 public class StudentFeedbackResultsPageAction extends Action {
     @Override

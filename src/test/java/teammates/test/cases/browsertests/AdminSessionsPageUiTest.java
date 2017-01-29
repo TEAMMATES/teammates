@@ -5,28 +5,27 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminSessionsPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 /**
  * Covers the home page for admins.
  * SUT: {@link AdminSessionsPage}
  */
 public class AdminSessionsPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
-    AdminSessionsPage sessionsPage;
+    private static AdminSessionsPage sessionsPage;
+    
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
+    }
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
-        browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();
     }
     
@@ -34,18 +33,13 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
     public void testAll() {
         testContent();
     }
-
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
     
     private void testContent() {
         
         ______TS("content: typical page");
         
         AppUrl sessionsUrl = createUrl(Const.ActionURIs.ADMIN_SESSIONS_PAGE);
-        sessionsPage = loginAdminToPage(browser, sessionsUrl, AdminSessionsPage.class);
+        sessionsPage = loginAdminToPage(sessionsUrl, AdminSessionsPage.class);
         By timeFramePanel = By.id("timeFramePanel");
         sessionsPage.waitForElementToDisappear(timeFramePanel);
         assertTrue(isSessionDataDisplayCorrect());
