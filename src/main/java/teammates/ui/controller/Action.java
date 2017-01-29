@@ -598,7 +598,7 @@ public abstract class Action {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
 
         // getting the class name from which it's being called
-        String className = new Exception().getStackTrace()[1].getClassName();
+        String className = this.getClass().getName();
 
         if ("InstructorFeedbackEditSaveAction".equals(className)) {
             newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
