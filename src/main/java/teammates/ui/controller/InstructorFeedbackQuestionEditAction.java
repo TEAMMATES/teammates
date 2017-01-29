@@ -227,20 +227,4 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         
         return "custom".equals(nEntityTypes);
     }
-
-    private static List<FeedbackParticipantType> getParticipantListFromParams(String params) {
-        List<FeedbackParticipantType> list = new ArrayList<FeedbackParticipantType>();
-        
-        if (params.isEmpty()) {
-            return list;
-        }
-        
-        String[] splitString = params.split(",");
-        
-        for (String str : splitString) {
-            list.add(FeedbackParticipantType.valueOf(str));
-        }
-        
-        return list;
-    }
 }
