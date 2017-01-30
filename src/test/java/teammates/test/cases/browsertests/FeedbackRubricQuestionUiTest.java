@@ -181,8 +181,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.fillNewQuestionBox("empty weight test");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
-        feedbackEditPage.clickAssignWeightsCheckbox(-1);
-        feedbackEditPage.fillRubricWeightBox("", -1, 3);
+        feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 3);
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.verifyStatus(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);

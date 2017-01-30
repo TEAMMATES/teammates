@@ -413,6 +413,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement weightBox = browser.driver.findElement(By.id(elemid));
         fillTextBox(weightBox, weight);
     }
+    
+    public void fillRubricWeightBoxForNewQuestion(String weight, int choiceIndex) {
+        fillRubricWeightBox(weight, NEW_QUESTION_NUM, choiceIndex);
+    }
 
     public void fillRubricDescriptionBox(String description, int qnNumber, int subQnIndex, int choiceIndex) {
         String idSuffix = getIdSuffix(qnNumber);
@@ -1019,6 +1023,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         By by = By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED + getIdSuffix(qnIndex));
         WebElement assignWeightsCheckbox = browser.driver.findElement(by);
         click(assignWeightsCheckbox);
+    }
+    
+    public void clickAssignWeightsCheckboxForNewQuestion() {
+        clickAssignWeightsCheckbox(NEW_QUESTION_NUM);
     }
 
     public void clickAddRubricRowLink(int qnIndex) {
