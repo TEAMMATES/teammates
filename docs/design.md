@@ -84,30 +84,31 @@ GAE server sends such automated requests through two different configurations:
 - The list of actions and corresponding URIs are listed in the `ActionURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
 - The list of pages and corresponding URIs are listed in the `ViewURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
 
-##Logic
+## Logic Component
 
-The `Logic` component handles the business logic of TEAMMATES. 
-It is accessible via a thin [facade class](http://en.wikipedia.org/wiki/Facade_pattern) called [Logic](../src/main/java/teammates/logic/api/Logic.java) which makes use of several `*Logic` classes to handle the logic related to various types of data and to access data from the `Storage` component. In particular, `Logic` is responsible for these: 
-+ Managing relationships between entities. e.g., cascade logic for create/update/delete.
-+ Managing transactions. e.g., to ensure atomicity of a transaction.
-+ Sanitizing input values recevied from the UI component.
-+ Providing a mechanism for checking access control rights.
+The `Logic` component handles the business logic of TEAMMATES. In particular, it is responsible for:
+- Managing relationships between entities, e.g. cascade logic for create/update/delete.
+- Managing transactions, e.g. ensuring atomicity of a transaction.
+- Sanitizing input values received from the UI component.
+- Providing a mechanism for checking access control rights.
+- Connecting to GAE-provided or third-party APIs, e.g. for adding tasks to the task queue and for sending emails with third-party providers.
 
 ![Logic Component](images/LogicComponent.png)
 
 Package overview:
-+ **`logic.api`**: Provides the normal API of the component.
-+ **`logic.backdoor`**: Provides a mechanism for the test driver to access data.
-+ **`logic.core`**: Contains the core logic of the system.
-+ **`logic.automated`**: Contains the logic of automated tasks.
-+ **`logic.publicresource`**: Contains the logic for retrieving data without the need for authentication.
+- **`logic.api`**: Provides the API of the component to be accessed by the UI.
+- **`logic.backdoor`**: Provides a mechanism for the test driver and client scripts to access data.
+- **`logic.core`**: Contains the core logic of the system.
 
-###Logic API
+### Logic API
 
 Represented by these classes:
-+ `Logic`: For the use of the UI. Logic class acts as a facade between UI (servlets) and the backend of the app.
-+ `GateKeeper`: For the use of the UI. To check the access rights of a user for a given action.
-+ `BackDoorLogic`: For the use of `TestDriver` (via `BackDoorServlet`)
+- `Logic`: A [Facade class](http://en.wikipedia.org/wiki/Facade_pattern) which connects to the several `*Logic` classes to handle the logic related to various types of data and to access data from the `Storage` component.
+- `GateKeeper`: Checks access rights of a user for a given action.
+- `EmailGenerator`: Generates emails to be sent.
+- `EmailSender`: Sends email with the provider chosen based on the build configuration. It connects to the email provider by using the appropriate `*Service` class.
+- `TaskQueuer`: Adds tasks to the task queue. It connects to GAE's task queue API.
+- `BackDoorLogic`: For the use of `Test Driver` only. White-box tests are allowed to access this component directly, while black-box tests can access this via `BackDoorServlet`.
 
 ###Policies
 
