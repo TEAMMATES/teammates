@@ -1,4 +1,4 @@
-package teammates.test.cases.ui.browsertests;
+package teammates.test.cases.browsertests;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,12 +7,9 @@ import java.util.List;
 import java.util.TimeZone;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.AppUrl;
@@ -22,13 +19,11 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
+import teammates.test.driver.Priority;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
-import teammates.test.util.Priority;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -38,17 +33,13 @@ import com.google.appengine.api.datastore.Text;
  */
 @Priority(-1)
 public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorFeedbacksPage feedbackPage;
-    private static DataBundle testData;
     private static String idOfInstructorWithSessions;
     /** This contains data for the new feedback session to be created during testing */
     private static FeedbackSessionAttributes newSession;
     
-    @BeforeClass
-    public static void classSetup() {
-        printTestClassHeader();
-        
+    @Override
+    protected void prepareTestData() {
         newSession = new FeedbackSessionAttributes();
         newSession.setCourseId("CFeedbackUiT.CS1101");
         newSession.setFeedbackSessionName("New Session ##");
@@ -67,14 +58,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         newSession.setClosingEmailEnabled(true);
         newSession.setPublishedEmailEnabled(true);
-            
-        browser = BrowserPool.getBrowser();
+        
+        // the actual test data is refreshed before each test method
     }
     
     @BeforeMethod
     public void refreshTestData() {
         testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
+        removeAndRestoreDataBundle(testData);
         idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
     }
@@ -169,6 +160,25 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public void testAddAction() throws Exception {
         
         // TODO: possibly remove some of the test cases below in the future
+        ______TS("ui test case: test two 'change' links for uncommon settings section");
+        
+        By uncommonSettingsSection = By.id("uncommonSettingsSection");
+        
+        feedbackPage.clickEditUncommonSettingsSendEmailsButton();
+        feedbackPage.verifyHtmlPart(uncommonSettingsSection,
+                                    "/instructorFeedbackUncommonSettingsSendEmails.html");
+        feedbackPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
+        feedbackPage.verifyHtmlPart(uncommonSettingsSection,
+                                    "/instructorFeedbackUncommonSettings.html");
+        
+        feedbackPage.reloadPage();
+        
+        feedbackPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
+        feedbackPage.verifyHtmlPart(uncommonSettingsSection,
+                                    "/instructorFeedbackUncommonSettingsSessionResponsesVisibility.html");
+        feedbackPage.clickEditUncommonSettingsSendEmailsButton();
+        feedbackPage.verifyHtmlPart(uncommonSettingsSection,
+                                    "/instructorFeedbackUncommonSettings.html");
         
         ______TS("success case: defaults: visible when open, manual publish");
         
@@ -176,7 +186,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         feedbackPage.selectSessionType("Session with your own questions");
         
-        feedbackPage.clickEditUncommonSettingsButton();
+        feedbackPage.clickEditUncommonSettingsButtons();
         
         feedbackPage.clickManualPublishTimeButton();
         
@@ -211,7 +221,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
-        feedbackPage.clickEditUncommonSettingsButton();
+        feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickManualPublishTimeButton();
         
         feedbackPage.selectSessionType("Team peer evaluation session");
@@ -243,7 +253,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("success case: private session, boundary length name, timezone = 5.75, only results email");
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        feedbackPage.clickEditUncommonSettingsButton();
+        feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickNeverVisibleTimeButton();
         
         //verify that timeFrameTable, instructions and ResponseVisTable are all hidden
@@ -287,7 +297,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.clickEditUncommonSettingsButton();
+        feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickDefaultPublishTimeButton();
         
@@ -326,7 +336,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.clickEditUncommonSettingsButton();
+        feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickNeverPublishTimeButton();
 
@@ -363,7 +373,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.clickEditUncommonSettingsButton();
+        feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
         newSession.setFeedbackSessionName("Long Instruction Test ##");
@@ -394,7 +404,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.clickEditUncommonSettingsButton();
+        feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
         
@@ -668,7 +678,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public void testSessionViewableTable() {
         
         ______TS("all 4 datetime elements enabled when custom is selected");
-        feedbackPage.clickEditUncommonSettingsButton();
+        feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickCustomPublishTimeButton();
         feedbackPage.clickCustomVisibleTimeButton();
         
@@ -993,7 +1003,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         newSession.setFeedbackSessionName("");
         newSession.setEndTime(Const.TIME_REPRESENTS_LATER);
-        feedbackPage.clickEditUncommonSettingsButton();
+        feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickNeverPublishTimeButton();
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
@@ -1009,14 +1019,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.verifyVisible(By.id("instructionsRow")));
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
-
-    private static InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
+    private InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
-        InstructorFeedbacksPage page = loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
+        InstructorFeedbacksPage page = loginAdminToPage(feedbackPageLink, InstructorFeedbacksPage.class);
         page.waitForElementPresence(By.id("table-sessions"));
         return page;
     }
