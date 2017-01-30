@@ -186,15 +186,6 @@ $(document).on('ajaxComplete ready', function() {
 });
 
 /**
- * Encodes a string for displaying in a HTML document.
- * Uses an in-memory element created with jQuery.
- * @param the string to be encoded
- */
-function encodeHtmlString(stringToEncode) {
-    return $('<div>').text(stringToEncode).html();
-}
-
-/**
  * Binds a default image if the image is missing.
  * @param element Image element.
  */
@@ -247,6 +238,15 @@ function toggleSort(divElement, comparator) {
         $selectedDivElement.attr('class', 'button-sort-ascending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
     }
+}
+
+/**
+* Encodes a string for displaying in a HTML document.
+* Uses an in-memory element created with jQuery.
+* @param the string to be encoded
+*/
+function encodeHtmlString(stringToEncode) {
+    return $('<div>').text(stringToEncode).html();
 }
 
 // http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
