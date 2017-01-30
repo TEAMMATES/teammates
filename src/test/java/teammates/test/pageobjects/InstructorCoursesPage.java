@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 public class InstructorCoursesPage extends AppPage {
     /* Explanation: This class follows the 'Page Objects Pattern' and as
      * explained in https://code.google.com/p/selenium/wiki/PageObjects
-     * This class represents an abstraction for the the 'Courses' page as
+     * This class represents an abstraction for the 'Courses' page as
      * shown in the Browser. The test class interact with this object when it
      * wants to perform an action on the web page (e.g., click a button).
      */
