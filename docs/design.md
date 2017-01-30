@@ -196,26 +196,26 @@ API for updating:
 API for deleting:
 + Attempt to delete an entity that does not exist: Fails silently.
 
-##Common
+## Common Component
 
 The Common component contains common utilities used across TEAMMATES.
 
 ![Common Component](images/CommonComponent.png)
 
 Package overview:
-+ **`common.util`**: Contains utility classes.
-+ **`common.exceptions`**: Contains custom exceptions.
-+ **`common.datatransfer`**: Containts data transfer objects. Given below are some more information about this package.
+- **`common.util`**: Contains utility classes.
+- **`common.exceptions`**: Contains custom exceptions.
+- **`common.datatransfer`**: Containts data transfer objects.
 
-`common.datatransfer` package contains lightweight 'data transfer object' classes for transferring data among components. They can be combined in various ways to transfer structured data between components. Given below are three examples. 
+`common.datatransfer` package contains lightweight "data transfer object" classes for transferring data among components. They can be combined in various ways to transfer structured data between components. Given below are three examples.
 
 ![Data Transfer Classes](images/dataTransferClasses.png)
 
-  (a) `Test Driver` can use the `DataBundle` in this manner to send an arbitrary number of objects to be persisted in the database.  
-  (b) This structure can be used to transfer data of a course (e.g., when constructing the home page for an instructor).  
-  (c) This structure can be used to send results of a feedback session (e.g., when showing a feedback session report to an instructor).   
+1. `Test Driver` can use the `DataBundle` in this manner to send an arbitrary number of objects to be persisted in the database.
+1. This structure can be used to transfer data of a course (e.g., when constructing the home page for an instructor).
+1. This structure can be used to send results of a feedback session (e.g., when showing a feedback session report to an instructor).
 
-For convenience, these classes use public variables for data. This is not a good practice as it contravenes OO principle of _information hiding_ and increases the risk of inconsistent data. This strategy is to be reconsidered at a later date. 
+Some of these classes are methodless (and thus more of a data structure rather than a class); these classes use public variables for data for easy access.
 
 ##TestDriver
 
