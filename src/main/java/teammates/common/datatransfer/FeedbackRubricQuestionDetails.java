@@ -742,7 +742,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             for (int j = 0; j < percentageFrequencyAndAverageValue[i].length - 1; j++) {
                 totalForSubQuestion += responseFrequency[i][j];
             }
-            
+
+            //continue to next row if no response for this sub-question
+            if (totalForSubQuestion == 0) {
+                continue;
+            }
+
             // Divide by totalForSubQuestion to get percentage and calculate the average value
             for (int j = 0; j < percentageFrequencyAndAverageValue[i].length - 1; j++) {
                 percentageFrequencyAndAverageValue[i][j] /= totalForSubQuestion;
