@@ -63,15 +63,15 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.fillNewQuestionBox("ConstSum-recipient qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         
-        feedbackEditPage.fillConstSumPointsBox("", -1);
-        assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
+        feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
+        assertEquals("1", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
         
-        feedbackEditPage.fillConstSumPointsForEachRecipientBox("", -1);
-        assertEquals("1", feedbackEditPage.getConstSumPointsForEachRecipientBox(-1));
+        feedbackEditPage.fillConstSumPointsForEachRecipientBoxForNewQuestion("");
+        assertEquals("1", feedbackEditPage.getConstSumPointsForEachRecipientBoxForNewQuestion());
         
         assertFalse(feedbackEditPage.isElementVisible("constSumOptionTable--1"));
         
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertEquals("", feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
@@ -85,8 +85,8 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
         ______TS("CONST SUM: set points options");
 
-        feedbackEditPage.selectConstSumPointsOptions("PerRecipient", -1);
-        feedbackEditPage.fillConstSumPointsForEachRecipientBox("30", -1);
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerRecipient");
+        feedbackEditPage.fillConstSumPointsForEachRecipientBoxForNewQuestion("30");
         
     }
 

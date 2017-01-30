@@ -338,10 +338,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         executeScript("$(arguments[0]).change();", pointsBox);
     }
     
+    public void fillConstSumPointsForEachRecipientBoxForNewQuestion(String points) {
+        fillConstSumPointsForEachRecipientBox(points, NEW_QUESTION_NUM);
+    }
+    
     public String getConstSumPointsForEachRecipientBox(int qnNumber) {
         String idSuffix = getIdSuffix(qnNumber);
         WebElement constSumPointsBox = browser.driver.findElement(By.id("constSumPointsForEachRecipient" + idSuffix));
         return constSumPointsBox.getAttribute("value");
+    }
+    
+    public String getConstSumPointsForEachRecipientBoxForNewQuestion() {
+        return getConstSumPointsForEachRecipientBox(NEW_QUESTION_NUM);
     }
     
     public void fillRubricSubQuestionBox(String subQuestion, int qnNumber, int subQnIndex) {
@@ -469,6 +477,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickDiscardChangesLink(int qnIndex) {
         WebElement link = browser.driver.findElement(By.xpath("//a[@onclick='discardChanges(" + qnIndex + ")']"));
         click(link);
+    }
+    
+    public void clickDiscardChangesLinkForNewQuestion() {
+        clickDiscardChangesLink(NEW_QUESTION_NUM);
     }
     
     public boolean isDiscardChangesButtonVisible(int qnIndex) {
@@ -729,6 +741,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void selectConstSumPointsOptions(String pointsOption, int questionNumber) {
         markRadioButtonAsChecked(
                 browser.driver.findElement(By.id("constSumPoints" + pointsOption + "-" + questionNumber)));
+    }
+    
+    public void selectConstSumPointsOptionsForNewQuestion(String pointsOption) {
+        selectConstSumPointsOptions(pointsOption, NEW_QUESTION_NUM);
     }
     
     public String getGiverTypeForQuestion1() {
