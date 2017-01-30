@@ -649,9 +649,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 receivedResponses.add(response);
             }
         }
-        if (receivedResponses.isEmpty()) {
-            return responses;
-        }
 
         return receivedResponses;
     }
