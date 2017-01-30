@@ -16,6 +16,8 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.ActivityLogGenerator;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
+import teammates.logic.api.EmailGenerator;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.GaeSimulation;
@@ -35,6 +37,39 @@ public class ActivityLogGeneratorTest extends BaseTestCase {
     }
     
     @Test
+    public void testGenerateSystemErrorReportLogMessage() {
+        ______TS("With google login");
+        
+        gaeSimulation.loginUser("googleIdABC");
+        HttpServletRequest req = gaeSimulation.createWebRequest(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        @SuppressWarnings("PMD.AvoidThrowingNullPointerException") Exception e = new NullPointerException();
+        EmailWrapper errorEmail = generateMockEmailWrapperFromRequest(req, e);
+        String logMessagePrefix = "TEAMMATESLOG|||instructorHomePage|||System Error Report|||true|||Unknown"
+                                  + "|||Unknown|||googleIdABC|||Unknown|||";
+        
+        String generatedMessage = logCenter.generateSystemErrorReportLogMessage(req, errorEmail);
+        assertTrue(generatedMessage.startsWith(logMessagePrefix));
+        assertTrue(isGoogleIdContainInLogAndLogId("googleIdABC", generatedMessage));
+        
+        gaeSimulation.logoutUser();
+        
+        ______TS("Without google login (with key)");
+        
+        req = gaeSimulation.createWebRequest(Const.ActionURIs.STUDENT_COURSE_JOIN,
+                Const.ParamsNames.COURSE_ID, "CS2103", Const.ParamsNames.STUDENT_EMAIL, "student@email.com",
+                Const.ParamsNames.REGKEY, "KeyABC");
+        e = new IndexOutOfBoundsException();
+        errorEmail = generateMockEmailWrapperFromRequest(req, e);
+        
+        generatedMessage = logCenter.generateSystemErrorReportLogMessage(req, errorEmail);
+        logMessagePrefix = "TEAMMATESLOG|||studentCourseJoin|||System Error Report|||true|||Unknown"
+                    + "|||Unknown|||Unregistered|||Unknown|||";
+        
+        assertTrue(generatedMessage.startsWith(logMessagePrefix));
+        assertTrue(generatedMessage.contains("student@email.com%CS2103")); // log id contain courseId and email
+    }
+    
+    @Test
     public void testGenerateServletActionFailureLogMessage() {
         ______TS("With google login");
         
@@ -46,9 +81,7 @@ public class ActivityLogGeneratorTest extends BaseTestCase {
         
         String generatedMessage = logCenter.generateServletActionFailureLogMessage(req, e);
         assertTrue(generatedMessage.startsWith(logMessagePrefix));
-        int googleIdPosition = generatedMessage.indexOf("googleIdABC");
-        assertTrue(googleIdPosition != -1); // google id is in google id field
-        assertTrue(generatedMessage.indexOf("googleIdABC", googleIdPosition + 1) != -1); // google id is in log id
+        assertTrue(isGoogleIdContainInLogAndLogId("googleIdABC", generatedMessage));
         
         gaeSimulation.logoutUser();
         
@@ -70,11 +103,12 @@ public class ActivityLogGeneratorTest extends BaseTestCase {
     public void testGenerateBasicActivityLogMessage() {
         ______TS("Automated task");
         HttpServletRequest req = gaeSimulation.createWebRequest(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
-        String logMessage = "TEAMMATESLOG|||feedbackSessionClosedReminders|||feedbackSessionClosedReminders|||true|||Auto"
-                + "|||Unknown|||Unknown|||Unknown|||auto task|||/auto/feedbackSessionClosedReminders";
+        String logMessagePrefix = "TEAMMATESLOG|||feedbackSessionClosedReminders|||feedbackSessionClosedReminders|||true"
+                + "|||Auto|||Unknown|||Unknown|||Unknown|||auto task|||/auto/feedbackSessionClosedReminders";
         
-        AssertHelper.assertLogMessageEquals(logMessage,
-                logCenter.generateBasicActivityLogMessage(req, "auto task"));
+        String generatedMessage = logCenter.generateBasicActivityLogMessage(req, "auto task");
+        assertTrue(generatedMessage.startsWith(logMessagePrefix));
+        assertTrue(generatedMessage.contains("Auto")); // log id contain auto
         
         // other situations tested in testGenerateNormalPageActionLogMessage
     }
@@ -203,6 +237,21 @@ public class ActivityLogGeneratorTest extends BaseTestCase {
         assertEquals(20, entry.getActionTimeTaken());
     }
     
+    private EmailWrapper generateMockEmailWrapperFromRequest(HttpServletRequest req, Throwable t) {
+        EmailWrapper errorReport =
+                new EmailGenerator().generateSystemErrorEmail("GET", "MAC OS", "/page/somePage",
+                                                              "http://example/", "{}", null, t);
+        return errorReport;
+    }
+    
+    private boolean isGoogleIdContainInLogAndLogId(String googleId, String generatedMessage) {
+        int googleIdPosition = generatedMessage.indexOf(googleId);
+        if (googleIdPosition == -1) { // google id is in google id field
+            return false;
+        }
+        return generatedMessage.indexOf(googleId, googleIdPosition + 1) != -1; // google id is in log id field
+    }
+
     @AfterTest
     public void testTearDown() {
         gaeSimulation.tearDown();
