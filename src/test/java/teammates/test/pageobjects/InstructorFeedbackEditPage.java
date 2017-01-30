@@ -289,10 +289,19 @@ public class InstructorFeedbackEditPage extends AppPage {
         executeScript("$(arguments[0]).change();", pointsBox);
     }
     
+    public void fillConstSumPointsBoxForNewQuestion(String points) {
+        fillConstSumPointsBox(points, NEW_QUESTION_NUM);
+    }
+    
     public String getConstSumPointsBox(int qnNumber) {
         String idSuffix = getIdSuffix(qnNumber);
         WebElement constSumPointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
         return constSumPointsBox.getAttribute("value");
+    }
+
+    
+    public String getConstSumPointsBoxForNewQuestion() {
+        return getConstSumPointsBox(NEW_QUESTION_NUM);
     }
     
     public void fillConstSumPointsForEachOptionBox(String points, int qnNumber) {
@@ -305,10 +314,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         executeScript("$(arguments[0]).change();", pointsBox);
     }
     
+    public void fillConstSumPointsForEachOptionBoxForNewQuestion(String points) {
+        fillConstSumPointsForEachOptionBox(points, NEW_QUESTION_NUM);
+    }
+    
     public String getConstSumPointsForEachOptionBox(int qnNumber) {
         String idSuffix = getIdSuffix(qnNumber);
         WebElement constSumPointsBox = browser.driver.findElement(By.id("constSumPointsForEachOption" + idSuffix));
         return constSumPointsBox.getAttribute("value");
+    }
+
+    public String getConstSumPointsForEachOptionBoxForNewQuestion() {
+        return getConstSumPointsForEachOptionBox(NEW_QUESTION_NUM);
     }
     
     public void fillConstSumPointsForEachRecipientBox(String points, int qnNumber) {
@@ -915,12 +932,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(addMoreOptionLink);
     }
     
+    public void clickAddMoreConstSumOptionLinkForNewQuestion() {
+        clickAddMoreConstSumOptionLink(NEW_QUESTION_NUM);
+    }
+    
     public void clickRemoveConstSumOptionLink(int optionIndex, int qnIndex) {
         String idSuffix = getIdSuffix(qnIndex);
         
         WebElement msqOptionRow = browser.driver.findElement(By.id("constSumOptionRow-" + optionIndex + idSuffix));
         WebElement removeOptionLink = msqOptionRow.findElement(By.id("constSumRemoveOptionLink"));
         click(removeOptionLink);
+    }
+    
+    public void clickRemoveConstSumOptionLinkForNewQuestion(int optionIndex) {
+        clickRemoveConstSumOptionLink(optionIndex, NEW_QUESTION_NUM);
     }
     
     public void clickAssignWeightsCheckbox(int qnIndex) {
