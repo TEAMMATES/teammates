@@ -82,21 +82,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         String instructorDetails = instructor.name + " | " + instructor.email + "\n"
                                  + instructor.name + " | " + instructor.email + " | " + institute;
         
-        ______TS("action success: instructor details are sent across to the backend properly");
-        BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
-        BackDoor.deleteCourse(demoCourseId);
-        BackDoor.deleteInstructor(demoCourseId, instructor.email);
-        homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
-        InstructorAttributes instructorInBackend = BackDoor.getInstructorByEmail(instructor.email, demoCourseId);
-        
-        assertEquals(instructor.getName(), instructorInBackend.getName());
-        assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
-        
         ______TS("action fail & success: add multiple instructors");
         BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
+        InstructorAttributes instructorInBackend = BackDoor.getInstructorByEmail(instructor.email, demoCourseId);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID,
                                    Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
                      homePage.getMessageFromResultTable(1));
@@ -109,6 +100,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                         .toAbsoluteString();
         assertEquals("Instructor AHPUiT Instrúctör+++ has been successfully created with join link:\n" + expectedjoinUrl,
                      homePage.getMessageFromResultTable(2));
+        assertEquals(instructor.getName(), instructorInBackend.getName());
+        assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
         homePage.clearInstructorDetailsSingleLineForm();
         
         ______TS("action success : create instructor account and the account is created successfully "
