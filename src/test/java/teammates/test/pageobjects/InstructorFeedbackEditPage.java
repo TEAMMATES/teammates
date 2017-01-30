@@ -932,12 +932,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(addMoreOptionLink);
     }
     
+    public void clickAddMoreMsqOptionLinkForNewQuestion() {
+        clickAddMoreMsqOptionLink(NEW_QUESTION_NUM);
+    }
+    
     public void clickRemoveMsqOptionLink(int optionIndex, int qnIndex) {
         String idSuffix = getIdSuffix(qnIndex);
         
         WebElement msqOptionRow = browser.driver.findElement(By.id("msqOptionRow-" + optionIndex + idSuffix));
         WebElement removeOptionLink = msqOptionRow.findElement(By.id("msqRemoveOptionLink"));
         click(removeOptionLink);
+    }
+    
+    public void clickRemoveMsqOptionLinkForNewQuestion(int optionIndex) {
+        clickRemoveMsqOptionLink(optionIndex, NEW_QUESTION_NUM);
     }
     
     public void fillConstSumOption(int optionIndex, String optionText, int qnIndex) {

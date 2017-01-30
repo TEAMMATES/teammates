@@ -80,12 +80,12 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillNewQuestionBox("Test question text");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
-        feedbackEditPage.clickRemoveMsqOptionLink(1, -1);
+        feedbackEditPage.clickRemoveMsqOptionLinkForNewQuestion(1);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-1--1"));
         
         // TODO: Check that after deleting, the value is cleared
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
-        feedbackEditPage.clickRemoveMsqOptionLink(0, -1);
+        feedbackEditPage.clickRemoveMsqOptionLinkForNewQuestion(0);
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (multiple answers) question. "
@@ -117,21 +117,21 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MSQ: add msq option");
 
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-2--1"));
-        feedbackEditPage.clickAddMoreMsqOptionLink(-1);
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-2--1"));
 
         ______TS("MSQ: remove msq option");
 
         feedbackEditPage.fillMsqOptionForNewQuestion(2, "Choice 3");
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-1--1"));
-        feedbackEditPage.clickRemoveMsqOptionLink(1, -1);
+        feedbackEditPage.clickRemoveMsqOptionLinkForNewQuestion(1);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-1--1"));
 
         ______TS("MSQ: add msq option after remove");
 
-        feedbackEditPage.clickAddMoreMsqOptionLink(-1);
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-3--1"));
-        feedbackEditPage.clickAddMoreMsqOptionLink(-1);
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
         feedbackEditPage.fillMsqOptionForNewQuestion(4, "Choice 5");
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-4--1"));
     }
