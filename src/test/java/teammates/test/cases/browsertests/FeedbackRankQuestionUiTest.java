@@ -262,7 +262,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1 <>");
         
-        assertEquals(2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
+        assertEquals(2, feedbackEditPage.getNumOfOptionsInRankOptionsForNewQuestion());
         // try to submit with insufficient non-blank option
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
@@ -279,7 +279,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 1 <>");
         feedbackEditPage.fillRankOptionForNewQuestion(2, "  Option 2  ");
         feedbackEditPage.clickAddMoreRankOptionLinkForNewQuestion();
-        assertEquals(4, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
+        assertEquals(4, feedbackEditPage.getNumOfOptionsInRankOptionsForNewQuestion());
         
         feedbackEditPage.tickDuplicatesAllowedCheckboxForNewQuestion();
         
@@ -287,7 +287,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
         
-        assertEquals("Blank options should have been removed", 2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(1));
+        assertEquals("Blank options should have been removed", 2, feedbackEditPage.getNumOfOptionsInRankOptions(1));
         
         ______TS("Rank edit: add rank recipient question action success");
         feedbackEditPage.clickNewQuestionButton();
@@ -322,7 +322,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveRankOptionLink(1, 0);
         assertEquals("Should still remain with 2 options,"
                          + "less than 2 options should not be permitted",
-                     2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(1));
+                     2, feedbackEditPage.getNumOfOptionsInRankOptions(1));
         
         feedbackEditPage.fillRankOptionForQuestion(1, 1, " (Edited) Option 2 ");
         

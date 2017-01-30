@@ -1114,12 +1114,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(removeOptionLink);
     }
     
-    public int getNumOfOptionsInRankOptionsQuestion(int qnIndex) {
+    public int getNumOfOptionsInRankOptions(int qnIndex) {
         WebElement rankOptionsTable = browser.driver.findElement(By.id("rankOptionTable-" + qnIndex));
         List<WebElement> optionInputFields = rankOptionsTable
                                                 .findElements(
                                                      By.cssSelector("input[id^='rankOption-']"));
         return optionInputFields.size();
+    }
+    
+    public int getNumOfOptionsInRankOptionsForNewQuestion() {
+        return getNumOfOptionsInRankOptions(NEW_QUESTION_NUM);
     }
     
     public FeedbackSubmitPage clickPreviewAsStudentButton() {
