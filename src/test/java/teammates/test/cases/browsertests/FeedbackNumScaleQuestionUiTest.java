@@ -61,7 +61,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("empty options");
         
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("NumScale qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.fillMinNumScaleBoxForNewQuestion("");
         feedbackEditPage.fillStepNumScaleBoxForNewQuestion("");
@@ -77,7 +77,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("invalid options");
         
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("NumScale qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.fillMinNumScaleBoxForNewQuestion("1");
         feedbackEditPage.fillStepNumScaleBoxForNewQuestion("0.3");
@@ -93,7 +93,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("possible floating point error");
         
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("NumScale qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.fillMinNumScaleBoxForNewQuestion("1");
         feedbackEditPage.fillStepNumScaleBoxForNewQuestion("0.001");
@@ -130,7 +130,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
 
     @Override
     public void testCustomizeOptions() {
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("NumScale qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
                 feedbackEditPage.getNumScalePossibleValuesStringForNewQuestion());
@@ -167,7 +167,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("NUMSCALE: edit question success");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.fillEditQuestionBox("edited numscale qn text", 1);
+        feedbackEditPage.fillQuestionTextBox("edited numscale qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.fillMinNumScaleBox(3, 1);
         feedbackEditPage.fillMaxNumScaleBox(4, 1);

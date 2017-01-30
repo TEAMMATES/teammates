@@ -60,7 +60,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
         ______TS("CONST SUM:input validation");
         
-        feedbackEditPage.fillNewQuestionBox("ConstSum-recipient qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("ConstSum-recipient qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
@@ -94,7 +94,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     public void testAddQuestionAction() throws Exception {
         ______TS("CONST SUM: add question action success");
         
-        feedbackEditPage.fillNewQuestionBox("const sum qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("const sum qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectRecipientsToBeStudents();
@@ -113,7 +113,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         ______TS("CONST SUM: edit question success");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 1);
+        feedbackEditPage.fillQuestionTextBox("edited const sum qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.fillConstSumPointsBox("200", 1);
         feedbackEditPage.selectConstSumPointsOptions("Total", 1);

@@ -181,13 +181,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
     
-    public void fillNewQuestionBox(String qnText) {
-        fillTextBox(questionTextBoxForNewQuestion, qnText);
+    public void fillQuestionTextBox(String qnText, int qnIndex) {
+        WebElement questionTextBox = browser.driver.findElement(By.id("questiontext-" + qnIndex));
+        fillTextBox(questionTextBox, qnText);
     }
     
-    public void fillEditQuestionBox(String qnText, int qnIndex) {
-        WebElement questionEditTextBox = browser.driver.findElement(By.id("questiontext-" + qnIndex));
-        fillTextBox(questionEditTextBox, qnText);
+    public void fillQuestionTextBoxForNewQuestion(String qnText) {
+        fillTextBox(questionTextBoxForNewQuestion, qnText);
     }
 
     public void fillQuestionDescription(String qnDescription, int qnIndex) {

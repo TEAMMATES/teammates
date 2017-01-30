@@ -67,7 +67,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("empty options");
 
-        feedbackEditPage.fillNewQuestionBox("Test question text");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (multiple answers) question. "
@@ -77,7 +77,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
-        feedbackEditPage.fillNewQuestionBox("Test question text");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
         feedbackEditPage.clickRemoveMsqOptionLinkForNewQuestion(1);
@@ -95,7 +95,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
-        feedbackEditPage.fillNewQuestionBox("Msq with other option");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Msq with other option");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
         
@@ -141,7 +141,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MSQ: add question action success");
 
-        feedbackEditPage.fillNewQuestionBox("msq qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("msq qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectRecipientsToBeStudents();
@@ -158,7 +158,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MSQ: edit question success");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.fillEditQuestionBox("edited msq qn text", 1);
+        feedbackEditPage.fillQuestionTextBox("edited msq qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
         feedbackEditPage.clickRemoveMsqOptionLink(0, 1);
@@ -171,7 +171,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MSQ: edit to generated options");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.fillEditQuestionBox("generated msq qn text", 1);
+        feedbackEditPage.fillQuestionTextBox("generated msq qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
         assertTrue(feedbackEditPage.isElementVisible("msqAddOptionLink-1"));
         feedbackEditPage.verifyFieldValue(

@@ -60,7 +60,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         ______TS("empty options");
         
-        feedbackEditPage.fillNewQuestionBox("ConstSum-option qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("ConstSum-option qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
@@ -78,7 +78,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
-        feedbackEditPage.fillNewQuestionBox("Test const sum question");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test const sum question");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
 
@@ -97,7 +97,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
-        feedbackEditPage.fillNewQuestionBox("Test duplicate options");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test duplicate options");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
         feedbackEditPage.fillConstSumOptionForNewQuestion(0, "duplicate option");
@@ -141,7 +141,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     public void testAddQuestionAction() throws Exception {
         ______TS("CONST SUM: add question action success");
         
-        feedbackEditPage.fillNewQuestionBox("const sum qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("const sum qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectRecipientsToBeStudents();
@@ -161,7 +161,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("CONST SUM: edit question success");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 1);
+        feedbackEditPage.fillQuestionTextBox("edited const sum qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.selectConstSumPointsOptions("PerOption", 1);
         feedbackEditPage.fillConstSumPointsForEachOptionBox("200", 1);

@@ -84,7 +84,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     public void testAddQuestionAction() throws Exception {
         ______TS("CONTRIB: add question action success");
         
-        feedbackEditPage.fillNewQuestionBox("contrib qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("contrib qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
@@ -103,7 +103,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         //Javascript should hide giver/recipient options that are not STUDENTS to OWN_TEAM_MEMBERS_INCLUDING_SELF
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEdit.html");
         
-        feedbackEditPage.fillEditQuestionBox("edited contrib qn text", 1);
+        feedbackEditPage.fillQuestionTextBox("edited contrib qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.toggleNotSureCheck(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
@@ -138,14 +138,14 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
-        feedbackEditPage.fillNewQuestionBox("q1, essay qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("q1, essay qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONTRIB");
-        feedbackEditPage.fillNewQuestionBox("q2, contribution qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("q2, contribution qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);

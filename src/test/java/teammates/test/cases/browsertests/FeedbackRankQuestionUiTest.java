@@ -258,7 +258,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
         
-        feedbackEditPage.fillNewQuestionBox("Rank qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Rank qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1 <>");
         
@@ -271,7 +271,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
         
-        feedbackEditPage.fillNewQuestionBox("Rank qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Rank qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         
         // blank option at the start and end, to check they are removed
@@ -297,7 +297,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(0);
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(1);
-        feedbackEditPage.fillNewQuestionBox("Rank recipients qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Rank recipients qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         
         feedbackEditPage.clickAddQuestionButton();
@@ -316,7 +316,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlPart(By.id("questionTable-1"),
                                         "/instructorFeedbackRankQuestionEdit.html");
         
-        feedbackEditPage.fillEditQuestionBox("edited Rank qn text", 1);
+        feedbackEditPage.fillQuestionTextBox("edited Rank qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
 
         feedbackEditPage.clickRemoveRankOptionLink(1, 0);

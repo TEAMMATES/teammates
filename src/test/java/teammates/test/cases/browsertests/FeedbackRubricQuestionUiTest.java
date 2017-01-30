@@ -179,7 +179,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("empty weight test");
 
-        feedbackEditPage.fillNewQuestionBox("empty weight test");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("empty weight test");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
         feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 3);
@@ -201,7 +201,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RUBRIC");
-        feedbackEditPage.fillNewQuestionBox("RUBRIC qn");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("RUBRIC qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
@@ -220,7 +220,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         // Check that fields are editable
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEdit.html");
         
-        feedbackEditPage.fillEditQuestionBox("edited RUBRIC qn text", 1);
+        feedbackEditPage.fillQuestionTextBox("edited RUBRIC qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
@@ -334,7 +334,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectNewQuestionType("RUBRIC");
         
         // start editing it
-        feedbackEditPage.fillNewQuestionBox("RUBRIC qn JS validation test");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("RUBRIC qn JS validation test");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
         
