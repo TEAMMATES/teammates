@@ -19,48 +19,70 @@ The diagram below shows how the code is organized into packages inside each comp
 Notes:
 - `[logic] - [ui::view] - [ui::controller]` represent an application of Model-View-Controller pattern.
 
-##UI
+## UI Component
 
 The diagram below shows the object structure of the UI component.
 
 ![UI Component](images/UiComponent.png)
 
-###Request flow
+Notes:
+- `ui::pagedata`, `ui::template`, and `ui::website` make up the `ui::view` package as shown on the high-level package diagram.
+- `ui::website` is not a Java package. It consists of JSP/JSTL tag, HTML, CSS and JS files.
 
-Request from the Browser for a specific page will go through following steps: 
+The UI component is the first stop for 99% of all requests that are received by the application.
+Such request will go through the following steps:
+
+1. Request received by the GAE server.
+1. Custom filters are applied according to the order specified in `web.xml`, e.g. `AppstatsFilter`.
+1. Request forwarded to a `*Servlet` object as specified in `web.xml` for further processing, depending on the type of request.
+
+There are two general types of requests: user-invoked requests and automated (GAE server-invoked) requests, which are processed differently.
+
+### User-invoked requests
+
+User-invoked requests are all requests made by the users of the application, typically made from the Web browser (i.e. by navigating to a particular URL of the application).
+About 70% of this type of request results in a web page being shown, for which the request will be processed as follows:
 
 ![UI Workflow](images/UiWorkflow.png)
 
-1. Request received by the GAE server.
-2. Custom filters are applied according to the order specified in `web.xml`. In our case this would be `DatastoreFilter` and `AppstatsFilter`.
-3. Request forwarded to the `ControllerServlet`.
-4. `ControllerServlet` uses the `ActionFactory` to generate the matching `Action` object. E.g., `InstructorHomePageAction`.
-5. `ControllerServlet` executes the action.
-6. The `Action` object checks the access rights of the user. If the action is allowed, it interacts with the `Logic` component to perform the action.
-7. Assuming the action was loading a page, the `Action` gathers the data required for the page into a `PageData` object. e.g. `InstructorHomePageData`, creates a `ShowPageResult` object by enclosing the `PageData` object created previously, and returns it to the `ControllerServlet`.
-8. `ControllerServlet` "sends" the result. In the case of a `ShowPageResult`, this is equivalent to forwarding to the matching JSP page.
-9. The JSP page uses the data in the given `PageData` object to generate the HTML page.
-10. The response will then be sent back to the Browser, which will render the page.
+1. Request forwarded to the `ControllerServlet`.
+1. `ControllerServlet` uses the `ActionFactory` to generate the matching `Action` object, e.g. `InstructorHomePageAction`.
+1. `ControllerServlet` executes the action.
+1. The `Action` object checks the access rights of the user. If the action is allowed, it will be performed, interacting with the `Logic` component as necessary.
+1. The `Action` gathers the data required for the page into a `PageData` object, e.g. `InstructorHomePageData`, creates a `ShowPageResult` object by enclosing the `PageData` object created previously, and returns it to the `ControllerServlet`.
+1. `ControllerServlet` sends the result. In case of a `ShowPageResult`, this is equivalent to forwarding to the matching JSP page.
+1. The JSP page uses the data in the given `PageData` object to generate the HTML page.
+1. The response will then be sent back to the browser, which will render the page.
 
-Things to note: 
+The other 30% types of request may differ in the following manners:
+- At times, the user will request for data asynchronously via AJAX. In such cases, the actions return an `AjaxResult`. `PageData` is also created for this request and the data obtained is pre-processed for display in the browser; that is, the result of the AJAX request is not the raw data.
+- After performing certain actions, the browser may load another page (redirects to another page), possibly with the status of the previous action. In such cases, the action returns a `RedirectResult`, which simply instructs the browser to send a fresh request for the specified page. In such cases, no `PageData` object will be generated for the original request.
+- The result of some actions is downloading of a file (e.g. a feedback session report) or an image (e.g. profile picture). In such cases, the result type will be `FileDownloadResult` or `ImageResult`, and no `PageData` object will be generated.
+- In some cases, the request is not forwarded to `ControllerServlet`, but to some other `*Servlet` as specified in `web.xml`. In such cases, the request will be processed as specified in those `*Servlet` objects; no common routine is observed in these other `*Servlet` objects.
+- Some requests may not forwarded to any `*Servlet` at all, but rather to a specified resource file of the web application (e.g. JSP files).
 
-+   After performing certain actions, the Browser should load another page, possibly with the status of the previous action. For example, if the action is 'delete course', the Browser should load the 'courses' page after the server performed the action. In such cases, the result generated for the action will be of type `RedirectResult` which simply instructs the Browser to send a fresh request for the specified page. In such cases, we do not create a `PageData` object for the original request.  
-  Example:
-  - Browser request for 'delete course' action.
-  - Server performs the action (creates a `RedirectResult` object but no `PageData` object) and instructs the Browser to load the 'courses' page.
-  - As instructed, the Browser requests for the 'courses' page.
-  - Server processes the request separately (creates a `ShowPageResult` object but no `PageData` object) and returns the 'courses' page.
-+ The result of some actions is downloading of a file (e.g. a feedback session report). In such cases, the result type will be `FileDownloadResult` and no `PageData` object will be generated.
-+ Since the high-level workflow of processing a request is same for any request, we use the [Template Method pattern](http://en.wikipedia.org/wiki/Template_method_pattern) to abstract the process folow into the `Action` class.
-+ The list of actions and corresponding URIs are listed in the `ActionURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
-+ The list of pages and corresponding URIs are listed in the `ViewURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
+### Automated requests
 
-###Types of pages
+Automated requests are all requests sent automatically by the GAE server during specific periods of time.
+This type of request will be processed as follows:
 
-The UI consist of following pages:
-+ Product pages (functional): e.g., 'courses' page. These require login.
-+ Product pages (peripheral): e.g., help pages, error pages. etc.
-+ Website pages: These are the static pages of the product website. e.g., `contact.jsp`
+1. The source of the request will be checked for administrator privilege. If such privilege is absent (e.g. non-administrator users trying to invoke the automated actions), the request will be dropped and returned with a `403 Forbidden` status.
+   - Requests generated by the GAE server are equipped with such privilege.
+   - Administrators can manually invoke these requests; this is particularly useful in testing the actions associated with those requests.
+1. Request forwarded to the `AutomatedServlet`.
+1. `AutomatedServlet` uses the `AutomatedActionFactory` to generate the matching `AutomatedAction` object, e.g. `CompileLogsAction`.
+1. `AutomatedServlet` executes the action.
+1. The corresponding `AutomatedAction` will be performed, interacting with the `Logic` component as necessary.
+
+GAE server sends such automated requests through two different configurations:
+- Cron jobs: These are jobs that are automatically scheduled for a specified period of time, e.g. scheduling feedback session opening reminders. It is configured in `cron.xml`.
+- Task queue workers: These are hybrids of user-invoked and GAE-invoked in that they are queued by users (i.e. users request for the tasks to be added to queue), but executed by GAE (i.e. GAE determines when and which tasks in the queue are executed at any point of time). This is typically used for tasks that may take a long time to finish and can exceed the 1 minute standard request processing limit imposed by GAE. It is configured in `queue.xml` as well as the `TaskQueue` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
+
+### Additional Notes
+
+- Since the high-level workflow of processing a request is same for any request (differing by the two request types only), we use the [Template Method pattern](http://en.wikipedia.org/wiki/Template_method_pattern) to abstract the process flow into the `Action` and `AutomatedAction` classes.
+- The list of actions and corresponding URIs are listed in the `ActionURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
+- The list of pages and corresponding URIs are listed in the `ViewURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
 
 ##Logic
 
