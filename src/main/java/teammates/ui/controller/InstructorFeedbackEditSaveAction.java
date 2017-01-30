@@ -9,7 +9,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 
-public class InstructorFeedbackEditSaveAction extends Action {
+public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstractAction {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
