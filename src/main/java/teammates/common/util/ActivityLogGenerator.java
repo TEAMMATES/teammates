@@ -20,7 +20,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.ActivityLogEntry.Builder;
 
 /**
- * Handles operations related to logs
+ * Factory to generate ActivityLogEntry
  * 
  * @see {@link ActivityLogEntry}
  */

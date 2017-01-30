@@ -164,7 +164,7 @@ public class GaeSimulation {
         }
     }
 
-    private HttpServletRequest createWebRequest(String uri, String... parameters) {
+    public HttpServletRequest createWebRequest(String uri, String... parameters) {
         
         WebRequest request = new PostMethodWebRequest("http://localhost:8888" + uri);
         
