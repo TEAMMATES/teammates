@@ -2,6 +2,7 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -213,24 +214,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return isValid ? "-" + qnNumber : "";
     }
     
-    public void fillMinNumScaleBox(int minScale, int qnNumber) {
-        String idSuffix = getIdSuffix(qnNumber);
-        
-        WebElement minScaleBox = browser.driver.findElement(By.id("minScaleBox" + idSuffix));
-        fillTextBox(minScaleBox, Integer.toString(minScale));
-        
-        executeScript("$(arguments[0]).change();", minScaleBox);
-    }
-    
-    public void fillMaxNumScaleBox(int maxScale, int qnNumber) {
-        String idSuffix = getIdSuffix(qnNumber);
-        
-        WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
-        fillTextBox(maxScaleBox, Integer.toString(maxScale));
-        
-        executeScript("$(arguments[0]).change();", maxScaleBox);
-    }
-    
     public void fillMinNumScaleBox(String minScale, int qnNumber) {
         String idSuffix = getIdSuffix(qnNumber);
         
@@ -238,6 +221,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(minScaleBox, minScale);
         
         executeScript("$(arguments[0]).change();", minScaleBox);
+    }
+    
+    public void fillMinNumScaleBox(int minScale, int qnNumber) {
+        fillMinNumScaleBox(Integer.toString(minScale), qnNumber);
+    }
+    
+    public void fillMinNumScaleBoxForNewQuestion(String minScale) {
+        fillMinNumScaleBox(minScale, NEW_QUESTION_NUM);
+    }
+    
+    public void fillMinNumScaleBoxForNewQuestion(int minScale) {
+        fillMinNumScaleBox(minScale, NEW_QUESTION_NUM);
     }
     
     public void fillMaxNumScaleBox(String maxScale, int qnNumber) {
@@ -249,19 +244,22 @@ public class InstructorFeedbackEditPage extends AppPage {
         executeScript("$(arguments[0]).change();", maxScaleBox);
     }
     
+    public void fillMaxNumScaleBox(int maxScale, int qnNumber) {
+        fillMaxNumScaleBox(Integer.toString(maxScale), qnNumber);
+    }
+    
+    public void fillMaxNumScaleBoxForNewQuestion(String maxScale) {
+        fillMaxNumScaleBox(maxScale, NEW_QUESTION_NUM);
+    }
+    
+    public void fillMaxNumScaleBoxForNewQuestion(int maxScale) {
+        fillMaxNumScaleBox(maxScale, NEW_QUESTION_NUM);
+    }
+    
     public String getMaxNumScaleBox(int qnNumber) {
         String idSuffix = getIdSuffix(qnNumber);
         WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
         return maxScaleBox.getAttribute("value");
-    }
-    
-    public void fillStepNumScaleBox(double step, int qnNumber) {
-        String idSuffix = getIdSuffix(qnNumber);
-        
-        WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
-        fillTextBox(stepBox, StringHelper.toDecimalFormatString(step));
-        
-        executeScript("$(arguments[0]).change();", stepBox);
     }
     
     public void fillStepNumScaleBox(String step, int qnNumber) {
@@ -273,10 +271,47 @@ public class InstructorFeedbackEditPage extends AppPage {
         executeScript("$(arguments[0]).change();", stepBox);
     }
     
+    public void fillStepNumScaleBox(double step, int qnNumber) {
+        fillStepNumScaleBox(StringHelper.toDecimalFormatString(step), qnNumber);
+    }
+    
+    public void fillStepNumScaleBoxForNewQuestion(String step) {
+        fillStepNumScaleBox(step, NEW_QUESTION_NUM);
+    }
+    
+    public void fillStepNumScaleBoxForNewQuestion(double step) {
+        fillStepNumScaleBox(step, NEW_QUESTION_NUM);
+    }
+    
     public String getNumScalePossibleValuesString(int qnNumber) {
         String idSuffix = getIdSuffix(qnNumber);
         WebElement possibleValuesSpan = browser.driver.findElement(By.id("numScalePossibleValues" + idSuffix));
         return possibleValuesSpan.getText();
+    }
+    
+    public String getNumScalePossibleValuesStringForNewQuestion() {
+        return getNumScalePossibleValuesString(-1);
+    }
+    
+    public void fillNumScaleBoxWithRecheck(boolean isMinScaleBox, int scale, int qnNumber, String expected) {
+        int counter = 0;
+        while (counter != 100) {
+            if (isMinScaleBox) {
+                fillMinNumScaleBox(scale, qnNumber);
+            } else {
+                fillMaxNumScaleBox(scale, qnNumber);
+            }
+            if (expected.equals(getMaxNumScaleBox(qnNumber))) {
+                return;
+            }
+            counter++;
+            browser.driver.switchTo().window("");
+        }
+        assertEquals(expected, getMaxNumScaleBox(qnNumber));
+    }
+    
+    public void fillNumScaleBoxWithRecheckForNewQuestion(boolean isMinScaleBox, int scale, String expected) {
+        fillNumScaleBoxWithRecheck(isMinScaleBox, scale, NEW_QUESTION_NUM, expected);
     }
     
     public void fillConstSumPointsBox(String points, int qnNumber) {
