@@ -1,6 +1,6 @@
 **New Contributor Introduction**
 
-**Issue Title:** New Contributor Self-Intro [my real name]
+**Issue Title:** New Contributor Self-Intro [your real name]
 
 **Link to my app:**
 
