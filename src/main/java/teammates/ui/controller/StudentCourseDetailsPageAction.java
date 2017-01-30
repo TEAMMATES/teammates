@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.ui.pagedata.StudentCourseDetailsPageData;
 
 public class StudentCourseDetailsPageAction extends Action {
 

@@ -4,6 +4,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
 public class InstructorFeedbackPreviewAsInstructorAction extends Action {
 

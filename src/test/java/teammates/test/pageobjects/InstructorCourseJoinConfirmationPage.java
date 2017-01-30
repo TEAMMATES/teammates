@@ -5,10 +5,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class InstructorCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")
-    protected WebElement confirmButton;
+    private WebElement confirmButton;
     
     @FindBy(id = "button_cancel")
-    protected WebElement cancelButton;
+    private WebElement cancelButton;
     
     public InstructorCourseJoinConfirmationPage(Browser browser) {
         super(browser);

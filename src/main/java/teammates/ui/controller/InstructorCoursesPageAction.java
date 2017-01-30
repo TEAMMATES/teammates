@@ -10,6 +10,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.InstructorCoursesPageData;
 
 /**
  * Action: loading of the 'Courses' page for an instructor.

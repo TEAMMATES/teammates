@@ -20,6 +20,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.InstructorStudentRecordsPageData;
 
 public class InstructorStudentRecordsPageAction extends Action {
 

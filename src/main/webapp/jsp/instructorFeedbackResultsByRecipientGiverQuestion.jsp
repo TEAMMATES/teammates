@@ -9,6 +9,6 @@
     <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByRGQ.js"></script>
 </c:set>
 
-<results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}" data="${data}">
+<results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
     <results:bySectionPanels isGroupedByQuestion="${false}" isShowingAll="${data.bundle.complete}" isGroupedByTeam="${data.groupedByTeam}" />
 </results:resultsPage>
