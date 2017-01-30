@@ -334,7 +334,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return constSumPointsBox.getAttribute("value");
     }
 
-    
     public String getConstSumPointsBoxForNewQuestion() {
         return getConstSumPointsBox(NEW_QUESTION_NUM);
     }
