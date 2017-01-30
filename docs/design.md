@@ -143,29 +143,34 @@ API for deleting entities:
 + Cascade policy:   When a parent entity is deleted, entities that have referential integrity with the deleted entity should also be deleted.  
   Refer to the API for the cascade logic.
 
-##Storage
+## Storage Component
 
-The Storage component performs CRUD (Create, Read, Update, Delete) operations on data entities individually.
+The `Storage` component performs CRUD (Create, Read, Update, Delete) operations on data entities individually.
+It contains minimal logic beyond what is directly relevant to CRUD operations.
+In particular, it is reponsible for:
+- Validating data inside entities before creating/updating them, to ensure they are in a valid state.
+- Hiding the complexities of datastore from the `Logic` component. All GQL queries are to be contained inside the `Storage` component.
+- Protecting persistable objects: Classes in the `storage::entity` package are not visible outside this component to prevent accidental modification to the entity's attributes (these classes have been marked as "persistence capable" and changes to their attributes are automatically persisted to the Datastore by default).
+  - Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned, where values can be modified easily without any impact on the persistent data copy. These datatransfer classes are in `common::datatransfer` package, to be explained later.
+  - Note: This decision was taken before GAE started supporting [the ability to "detach" entities](https://cloud.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata) to prevent accidental modifications to persistable data. The decision to use data transfer objects is to be reconsidered in the future.
+
+The `Storage` component does not perform any cascade delete/create operations. Cascade logic is handled by the `Logic` component.
 
 ![Storage Component](images/StorageComponent.png)
 
 Package overview:
-+ **`storage.api`**: Provides the normal API of the component.
-+ **`storage.entity`**: Classes that represent persistable entities.
-+ **`storage.datastore`**: Classes for dealing with the datastore.
-+ **`storage.search`**: Classes for dealing with searching and indexing.
+- **`storage.api`**: Provides the API of the component to be accessed by the logic component.
+- **`storage.entity`**: Classes that represent persistable entities.
+- **`storage.search`**: Classes for dealing with searching and indexing.
 
-Storage contains minimal logic beyond what is directly relevant to CRUD operations. 
+![Storage ER Diagram](images/StorageERDiagram.png)
 
-In particular, it handles these:
-+ Validating data inside entities before creating/updating them, to ensure they are in a valid state.
-+ Hiding the complexities of datastore from the `Logic` component. All GQL queries are to be contained inside the `Storage` component.
-+ Protecting persistable objects: Classes in the `storage::entity` package are not visible outside this component to prevent accidental modification to the entity's attributes (Since these classes have been marked as 'persistence capable', and changes to their attributes are automatically persisted to the datastore by default). 
-Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned, where values can be modified easily without any impact on the persistent data copy. These datatransfer classes are in `common::datatransfer` package explained later. Note: This decision was taken before GAE started supporting [the ability to 'detach' entities](https://cloud.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata) to prevent accidental modifications to persistable data. The decision to use data transfer objects is to be reconsidered in the future.
+Note that the navigability of the association links between entity objects appear to be in the reverse direction of what we see in a normal OOP design.
+This is because we want to keep the data schema flexible so that new entity types can be added later with minimal modifications to existing elements.
 
-The `Storage` component will not perform any cascade delete/create operations. Cascade logic is currently handled by the `Logic` component. 
+### Storage API
 
-Note that the navigability of the association links between entity objects appear to be in the reverse direction of what we see in a normal OOP design. This is because we want to keep the data scheme flexible so that new entity types can be added later with minimal modifications to existing elements.
+Represented by the `*Db` classes. These classes act as the bridge to the GAE Datastore.
 
 ###Policies
 
