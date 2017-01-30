@@ -1,5 +1,13 @@
 # Design
 
+- [Architecture](#architecture)
+- [UI Component](#ui-component)
+- [Logic Component](#logic-component)
+- [Storage Component](#storage-component)
+- [Common Component](#common-component)
+- [Test Driver Component](#test-driver-component)
+- [Client Component](#client-component)
+
 ## Architecture
 
 ![High Level Architecture](images/highlevelArchitecture.png)
