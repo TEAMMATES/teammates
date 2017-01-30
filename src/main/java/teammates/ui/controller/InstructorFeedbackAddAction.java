@@ -23,7 +23,7 @@ import teammates.ui.pagedata.InstructorFeedbacksPageData;
 
 import com.google.gson.reflect.TypeToken;
 
-public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
+public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractAction {
 
     @Override
     protected ActionResult execute() {
