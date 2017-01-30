@@ -508,6 +508,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void enableOtherVisibilityOptions(int qnNumber) {
         clickVisibilityDropdown("OTHER", qnNumber);
     }
+    
+    public void enableOtherVisibilityOptionsForNewQuestion() {
+        enableOtherVisibilityOptions(NEW_QUESTION_NUM);
+    }
 
     public void clickVisibilityDropdown(String optionValue, int qnNumber) {
         click(browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber + " .visibility-options-dropdown "
