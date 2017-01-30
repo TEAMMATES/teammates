@@ -431,15 +431,13 @@ public final class FeedbackQuestionsLogic {
 
     private String getGiverTeam(String defaultTeam, InstructorAttributes instructorGiver,
             StudentAttributes studentGiver) {
-        String giverTeam = null;
+        String giverTeam = defaultTeam;
         boolean isStudentGiver = studentGiver != null;
         boolean isInstructorGiver = instructorGiver != null;
         if (isStudentGiver) {
             giverTeam = studentGiver.team;
         } else if (isInstructorGiver) {
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-        } else {
-            giverTeam = defaultTeam;
         }
         return giverTeam;
     }
