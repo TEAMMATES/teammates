@@ -82,12 +82,12 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
-        feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
+        feedbackEditPage.clickRemoveMcqOptionLinkForNewQuestion(1);
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
 
         // TODO: Check that after deleting, the value is cleared
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
-        feedbackEditPage.clickRemoveMcqOptionLink(0, -1);
+        feedbackEditPage.clickRemoveMcqOptionLinkForNewQuestion(0);
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (single answer) question. "
@@ -101,7 +101,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
-        feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
+        feedbackEditPage.clickRemoveMcqOptionLinkForNewQuestion(1);
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
         
@@ -130,7 +130,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.fillMcqOptionForNewQuestion(2, "Choice 3");
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
-        feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
+        feedbackEditPage.clickRemoveMcqOptionLinkForNewQuestion(1);
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
 
         ______TS("MCQ: add mcq option after remove");

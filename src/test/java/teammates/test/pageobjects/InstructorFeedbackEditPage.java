@@ -911,6 +911,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(removeOptionLink);
     }
     
+    public void clickRemoveMcqOptionLinkForNewQuestion(int optionIndex) {
+        clickRemoveMcqOptionLink(optionIndex, NEW_QUESTION_NUM);
+    }
+    
     public void clickGenerateOptionsCheckbox(int qnIndex) {
         String idSuffix = getIdSuffix(qnIndex);
         
