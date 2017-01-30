@@ -1180,6 +1180,10 @@ public class InstructorFeedbackEditPage extends AppPage {
                 visibilityMessages.get(0).getText().equals("Error loading visibility hint. Click here to retry.");
         return !visibilityMessages.isEmpty() && !isLoadVisibilityMessageAjaxError;
     }
+    
+    public boolean verifyVisibilityMessageIsDisplayedForNewQuestion() {
+        return verifyVisibilityMessageIsDisplayed(NEW_QUESTION_NUM);
+    }
 
     public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
         return getVisibilityOptions(questionNumber).isDisplayed();
@@ -1230,6 +1234,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
         waitForElementVisibility(checkbox);
         click(checkbox);
+    }
+    
+    public void clickResponseVisibilityCheckBoxForNewQuestion(String checkBoxValue) {
+        clickResponseVisibilityCheckBox(checkBoxValue, NEW_QUESTION_NUM);
     }
 
     public void clickGiverNameVisibilityCheckBox(String checkBoxValue, int questionNumber) {

@@ -234,7 +234,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 By.id("visibilityMessage--1"),
                 "Instructors in this course can see your response, the name of the recipient, and your name.");
         assertTrue("Visibility preview for new question should be displayed",
-                   feedbackEditPage.verifyVisibilityMessageIsDisplayed(-1));
+                   feedbackEditPage.verifyVisibilityMessageIsDisplayedForNewQuestion());
     }
 
     private void testInputValidationForQuestion() {
@@ -312,7 +312,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.isCustomNumOfRecipientsChecked());
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         
         //change back
@@ -327,15 +327,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.isMaxNumOfRecipientsChecked());
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         
         
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.waitForElementVisibility(browser.driver.findElement(By.id("questionTable--1")));
-        feedbackEditPage.enableOtherVisibilityOptions(-1);
-        feedbackEditPage.clickResponseVisibilityCheckBox("RECEIVER_TEAM_MEMBERS", -1);
+        feedbackEditPage.enableOtherVisibilityOptionsForNewQuestion();
+        feedbackEditPage.clickResponseVisibilityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
         
         feedbackEditPage.waitForTextContainedInElementPresence(
                 By.id("visibilityMessage--1"),
@@ -347,7 +347,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 By.id("visibilityMessage--1"),
                 "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         
         ______TS("add question 2 and edit it to giver's team members and giver");
@@ -394,27 +394,27 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("MCQ");
         
         ______TS("Click cancel but click no to confirmation prompt");
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
         
         
         ______TS("Click cancel and click yes to confirmation prompt");
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertFalse(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
         ______TS("Make sure controls disabled by Team Contribution questions are re-enabled after cancelling");
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONTRIB");
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("NUMSCALE");
         assertTrue(feedbackEditPage.isAllFeedbackPathOptionsEnabledForNewQuestion());
 
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
 
     }
