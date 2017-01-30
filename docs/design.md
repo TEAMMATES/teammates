@@ -217,32 +217,33 @@ Package overview:
 
 Some of these classes are methodless (and thus more of a data structure rather than a class); these classes use public variables for data for easy access.
 
-##TestDriver
+## Test Driver Component
 
 This component automates the testing of TEAMMATES.
 
 ![Test Driver Component](images/TestDriverComponent.png)
 
 Package overview:
-+ **`test.driver`**: Contains infrastructure and helpers needed for running the tests.
-+ **`test.pageobjects`**: Contains abstractions of the pages as the appear on a Browser (i.e. SUTs).
-+ **`test.cases`**: Contains test cases.  
-  Sub packages:  
- - **`.cases.testdriver`**: Component test cases for testing the test driver infrastructure and helpers.
- - **`.cases.datatransfer`**: Component test cases for testing the datatransfer objects from the `Common` component.
- - **`.cases.util`**: Component test cases for testing the utility classes from the `Common` component.
- - **`.cases.logic`**: Component test cases for testing the `Logic` component.
- - **`.cases.storage`**: Component test cases for testing the `Storage` component.
- - **`.cases.pagedata`**: Component test cases for testing the UI view model.
- - **`.cases.automated`**: System test cases for testing the system-automated actions (manually invoked during testing).
- - **`.cases.action`**: System test cases for testing the user-invoked actions.
- - **`.cases.browsertests`**: Black-box system test cases for testing the application as a whole via the web browser.
+- **`test.driver`**: Contains infrastructure and helpers needed for running the tests.
+- **`test.pageobjects`**: Contains abstractions of the pages as the appear on a Browser (i.e. SUTs).
+- **`test.cases`**: Contains test cases.
+  Sub-packages:
+  - **`.testdriver`**: Component test cases for testing the test driver infrastructure and helpers.
+  - **`.datatransfer`**: Component test cases for testing the datatransfer objects from the `Common` component.
+  - **`.util`**: Component test cases for testing the utility classes from the `Common` component.
+  - **`.logic`**: Component test cases for testing the `Logic` component.
+  - **`.storage`**: Component test cases for testing the `Storage` component.
+  - **`.search`**: Component test cases for testing the search functions.
+  - **`.pagedata`**: Component test cases for testing the UI view model.
+  - **`.action`**: System test cases for testing the user-invoked actions.
+  - **`.automated`**: System test cases for testing the system-automated actions (manually invoked during testing).
+  - **`.browsertests`**: Black-box system test cases for testing the application as a whole via the web browser.
 
 Notes:
-+ Component tests: Some of these are pure unit tests (i.e., test one component in isolation) while others are integration tests that tests units as well as integration of units with each other.
-+ `AllJsTests.java` (implemented as a UI test) is for unit testing JavaScript code.
+- Component tests: Some of these are pure unit tests (i.e. testing one component in isolation) while others are integration tests that test units as well as integration of units with each other.
+- `AllJsTests.java` (implemented as a browser test) is for unit-testing JavaScript code.
 
-This is how TEAMMATES testing maps to standard types of testing. 
+This is how TEAMMATES testing maps to standard types of testing.
 
 ```
 Normal
@@ -251,11 +252,11 @@ Normal
 TEAMMATES
 ```
 
-##Client
+## Client Component
 
-The Client component contains scripts that can connect to the application backend for things such as migrating data and calculating statistics.
+The Client component contains scripts that can connect to the application back end for administrative purposes, such as migrating data to a new schema and calculating statistics.
 
 Package overview:
 
-+ **`client.remoteapi`**: Classes needed to connect to the backend directly.
-+ **`client.scripts`**: Scripts that do things with the back end data.
+- **`client.remoteapi`**: Classes needed to connect to the back end directly.
+- **`client.scripts`**: Scripts that do things with the back end data.
