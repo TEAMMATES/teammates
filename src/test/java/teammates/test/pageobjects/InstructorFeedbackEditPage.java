@@ -96,7 +96,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private WebElement doneEditingButton;
     
     @FindBy(id = "questiontext-" + NEW_QUESTION_NUM)
-    private WebElement questionTextBox;
+    private WebElement questionTextBoxForNewQuestion;
 
     @FindBy(id = "mcqOtherOptionFlag-" + NEW_QUESTION_NUM)
     private WebElement addMcqOtherOptionCheckboxForNewQuestion;
@@ -105,10 +105,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     private WebElement addMsqOtherOptionCheckboxForNewQuestion;
     
     @FindBy(id = "givertype-" + NEW_QUESTION_NUM)
-    private WebElement giverDropdown;
+    private WebElement giverDropdownForNewQuestion;
     
     @FindBy(id = "recipienttype-" + NEW_QUESTION_NUM)
-    private WebElement recipientDropdown;
+    private WebElement recipientDropdownForNewQuestion;
     
     @FindBy(id = "givertype-1")
     private WebElement giverDropdownForQuestion1;
@@ -181,20 +181,20 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void fillNewQuestionBox(String qnText) {
-        fillTextBox(questionTextBox, qnText);
+        fillTextBox(questionTextBoxForNewQuestion, qnText);
     }
     
     public void fillEditQuestionBox(String qnText, int qnIndex) {
         WebElement questionEditTextBox = browser.driver.findElement(By.id("questiontext-" + qnIndex));
         fillTextBox(questionEditTextBox, qnText);
     }
-    
-    public void fillNewQuestionDescription(String qnDescription) {
-        fillRichTextEditor(Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION + "-" + NEW_QUESTION_NUM, qnDescription);
-    }
 
-    public void fillEditQuestionDescription(String qnDescription, int qnIndex) {
+    public void fillQuestionDescription(String qnDescription, int qnIndex) {
         fillRichTextEditor(Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION + "-" + qnIndex, qnDescription);
+    }
+    
+    public void fillQuestionDescriptionForNewQuestion(String qnDescription) {
+        fillQuestionDescription(qnDescription, NEW_QUESTION_NUM);
     }
 
     public void fillNumOfEntitiesToGiveFeedbackToBoxForNewQuestion(String num) {
@@ -784,23 +784,23 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void selectGiverToBeStudents() {
-        selectDropdownByVisibleValue(giverDropdown, "Students in this course");
+        selectDropdownByVisibleValue(giverDropdownForNewQuestion, "Students in this course");
     }
     
     public void selectGiverToBeInstructors() {
-        selectDropdownByVisibleValue(giverDropdown, "Instructors in this course");
+        selectDropdownByVisibleValue(giverDropdownForNewQuestion, "Instructors in this course");
     }
     
     public void selectRecipientsToBeStudents() {
-        selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
+        selectDropdownByVisibleValue(recipientDropdownForNewQuestion, "Other students in the course");
     }
     
     public void selectRecipientsToBeGiverTeamMembersAndGiver() {
-        selectDropdownByVisibleValue(recipientDropdown, "Giver's team members and Giver");
+        selectDropdownByVisibleValue(recipientDropdownForNewQuestion, "Giver's team members and Giver");
     }
 
     public void selectRecipientsToBeInstructors() {
-        selectDropdownByVisibleValue(recipientDropdown, "Instructors in the course");
+        selectDropdownByVisibleValue(recipientDropdownForNewQuestion, "Instructors in the course");
     }
 
     public void selectRecipientsToBeStudents(int qnNumber) {
@@ -856,7 +856,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return changePageType(InstructorFeedbacksPage.class);
     }
     
-    public void fillMcqOption(int optionIndex, String optionText) {
+    public void fillMcqOptionForNewQuestion(int optionIndex, String optionText) {
         WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex + "-" + NEW_QUESTION_NUM));
         fillTextBox(optionBox, optionText);
     }
@@ -881,7 +881,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(generateOptionsCheckbox);
     }
     
-    public void fillMsqOption(int optionIndex, String optionText) {
+    public void fillMsqOptionForNewQuestion(int optionIndex, String optionText) {
         WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex + "-" + NEW_QUESTION_NUM));
         fillTextBox(optionBox, optionText);
     }
@@ -899,17 +899,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(removeOptionLink);
     }
     
-    // For new question frame
-    public void fillConstSumOption(int optionIndex, String optionText) {
-        fillConstSumOption(optionIndex, optionText, NEW_QUESTION_NUM);
-    }
-    
-    // For existing question edit frame
     public void fillConstSumOption(int optionIndex, String optionText, int qnIndex) {
         String idSuffix = getIdSuffix(qnIndex);
         
         WebElement optionBox = browser.driver.findElement(By.id("constSumOption-" + optionIndex + idSuffix));
         fillTextBox(optionBox, optionText);
+    }
+    
+    public void fillConstSumOptionForNewQuestion(int optionIndex, String optionText) {
+        fillConstSumOption(optionIndex, optionText, NEW_QUESTION_NUM);
     }
     
     public void clickAddMoreConstSumOptionLink(int qnIndex) {
@@ -963,13 +961,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         assertFalse(optionBox.isDisplayed());
     }
     
-    public void fillRankOptionForNewQuestion(int optionIndex, String optionText) {
-        fillRankOptionForQuestion(NEW_QUESTION_NUM, optionIndex, optionText);
-    }
-    
     public void fillRankOptionForQuestion(int qnIndx, int optionIndex, String optionText) {
         WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "-" + qnIndx));
         fillTextBox(optionBox, optionText);
+    }
+    
+    public void fillRankOptionForNewQuestion(int optionIndex, String optionText) {
+        fillRankOptionForQuestion(NEW_QUESTION_NUM, optionIndex, optionText);
     }
     
     public void tickDuplicatesAllowedCheckboxForQuestion(int qnIndex) {
@@ -1007,13 +1005,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         return checkBox.isSelected();
     }
     
-    public void clickAddMoreRankOptionLinkForNewQn() {
-        clickAddMoreRankOptionLink(NEW_QUESTION_NUM);
-    }
-    
     public void clickAddMoreRankOptionLink(int qnIndex) {
         WebElement addMoreOptionLink = browser.driver.findElement(By.id("rankAddOptionLink-" + qnIndex));
         click(addMoreOptionLink);
+    }
+    
+    public void clickAddMoreRankOptionLinkForNewQuestion() {
+        clickAddMoreRankOptionLink(NEW_QUESTION_NUM);
     }
     
     public void clickRemoveRankOptionLink(int qnIndex, int optionIndex) {
@@ -1101,8 +1099,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.id("visibilityOptions-" + questionNumber));
     }
     
-    public WebElement getNewQnVisibilityOptions() {
-        return browser.driver.findElement(By.id("visibilityOptions-" + NEW_QUESTION_NUM));
+    public WebElement getVisibilityOptionsForNewQuestion() {
+        return getVisibilityOptions(NEW_QUESTION_NUM);
     }
 
     public void toggleNotSureCheck(int questionNumber) {
