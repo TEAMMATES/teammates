@@ -1,6 +1,5 @@
 package teammates.common.util;
 
-import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -187,11 +186,7 @@ public class ActivityLogGenerator {
     }
     
     private boolean isAutomatedAction(String url) {
-        try {
-            return Url.getRelativePath(url).startsWith(Const.ActivityLog.PREFIX_AUTO_PAGE);
-        } catch (MalformedURLException e) {
-            return false;
-        }
+        return url.startsWith(Const.ActivityLog.PREFIX_AUTO_PAGE);
     }
     
     private boolean isUserGoogleLogIn() {

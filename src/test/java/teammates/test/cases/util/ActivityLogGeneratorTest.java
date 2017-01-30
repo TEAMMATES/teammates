@@ -33,6 +33,19 @@ public class ActivityLogGeneratorTest extends BaseTestCase {
     }
     
     @Test
+    public void testGenerateBasicActivityLogMessage() {
+        ______TS("Automated task");
+        HttpServletRequest req = gaeSimulation.createWebRequest(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
+        String logMessage = "TEAMMATESLOG|||feedbackSessionClosedReminders|||feedbackSessionClosedReminders|||true|||Auto"
+                + "|||Unknown|||Unknown|||Unknown|||auto task|||/auto/feedbackSessionClosedReminders";
+        
+        AssertHelper.assertLogMessageEquals(logMessage,
+                logCenter.generateBasicActivityLogMessage(req, "auto task"));
+        
+        // other situations tested in testGenerateNormalPageActionLogMessage
+    }
+    
+    @Test
     public void testGenerateNormalPageActionLogMessage() {
         ______TS("Not login");
         
@@ -142,6 +155,7 @@ public class ActivityLogGeneratorTest extends BaseTestCase {
         AssertHelper.assertLogMessageEquals(logMessage, // Masquerade: userType and acc don't have same google id
                 logCenter.generateNormalPageActionLogMessage(req, userType, acc, null, "View comments"));
         
+        gaeSimulation.logoutUser();
     }
     
     @Test

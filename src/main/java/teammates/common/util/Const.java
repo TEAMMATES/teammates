@@ -1477,7 +1477,7 @@ public final class Const {
         
         public static final String PREFIX_STUDENT_PAGE = "student";
         public static final String PREFIX_INSTRUCTOR_PAGE = "instructor";
-        public static final String PREFIX_AUTO_PAGE = "auto";
+        public static final String PREFIX_AUTO_PAGE = "/auto";
         
         public static final String FIELD_CONNECTOR = "%";
         public static final String FIELD_SEPERATOR = "|||";
