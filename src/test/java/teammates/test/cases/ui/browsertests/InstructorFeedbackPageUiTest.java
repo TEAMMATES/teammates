@@ -776,7 +776,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         changedStartDate.set(2014, 1, 19);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, changedStartDate);
         
-        changedPublishDate.set(2014, 2, 18);
+        changedPublishDate.set(2014, 2, 21);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
         
         //check if maxDate is start time and not publish time
