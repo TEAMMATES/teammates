@@ -452,14 +452,9 @@ function getPointValue(s, ditchZero) {
     var s0 = s;
     var baseValue = 100;
     
-    if (s0.lastIndexOf('<') !== -1) {
-        s0 = s0.substring(0, s0.lastIndexOf('<'));
-        s0 = s0.substring(s0.lastIndexOf('>') + 1);
-    }
-    
     if (s0.indexOf('/') !== -1) {
         // magic expressions below as these cases will only be compared with
-        // Case E +(-)X% (0 <= X <= 100)
+        // case E +(-)X% (0 <= X <= 100)
         if (s0.indexOf('S') !== -1) {
             return 2 * baseValue + 1; // Case N/S (feedback contribution not sure)
         }
