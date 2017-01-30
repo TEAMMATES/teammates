@@ -101,6 +101,34 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                      homePage.getMessageFromResultTable(2));
         homePage.clearInstructorDetailsSingleLineForm();
         
+        ______TS("action success: displayed instructor details are properly HTML-encoded");
+        
+        InstructorAttributes dangerousInstructor = new InstructorAttributes();
+        
+        String shortNameDangerous = "<b>Instrúctör</b>";
+        dangerousInstructor.name = "AHPUiT <script>alert('dangerous');</script>Instrúctör";
+        dangerousInstructor.email = "AHPUiT.instr1<>!@gmail.tmt";
+        String dangerousInstitute = "TEAMMATES Test Institute <!@!@!>";
+        String dangerousDemoCourseId = "AHPUiT.instr1___.gma-demo";
+        
+        BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
+        BackDoor.deleteCourse(dangerousDemoCourseId);
+        BackDoor.deleteInstructor(dangerousDemoCourseId, dangerousInstructor.email);
+        
+        homePage.createInstructor(shortNameDangerous, dangerousInstructor, dangerousInstitute);
+        
+        encryptedKey = BackDoor.getEncryptedKeyForInstructor(dangerousDemoCourseId, dangerousInstructor.email);
+        // use AppUrl from Config because the join link takes its base URL from build.properties
+        expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                        .withRegistrationKey(encryptedKey)
+                                        .withInstructorInstitution(dangerousInstitute)
+                                        .toAbsoluteString();
+        
+        assertEquals(shortNameDangerous, homePage.getShortNameFromResultTable(1));
+        assertEquals(dangerousInstructor.name, homePage.getNameFromResultTable(1));
+        assertEquals(dangerousInstructor.email, homePage.getEmailFromResultTable(1));
+        assertEquals(dangerousInstitute, homePage.getInstitutionFromResultTable(1));
+        
         ______TS("action success : create instructor account and the account is created successfully "
                  + "after user's verification");
         
