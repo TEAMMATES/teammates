@@ -36,6 +36,8 @@ public class ActivityLogGeneratorTest extends BaseTestCase {
         gaeSimulation.setup();
     }
     
+    // TODO: can remove log verification in action test cases
+    
     @Test
     public void testGenerateSystemErrorReportLogMessage() {
         ______TS("With google login");
@@ -43,7 +45,7 @@ public class ActivityLogGeneratorTest extends BaseTestCase {
         gaeSimulation.loginUser("googleIdABC");
         HttpServletRequest req = gaeSimulation.createWebRequest(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         @SuppressWarnings("PMD.AvoidThrowingNullPointerException") Exception e = new NullPointerException();
-        EmailWrapper errorEmail = generateMockEmailWrapperFromRequest(req, e);
+        EmailWrapper errorEmail = generateMockEmailWrapperFromRequest(e);
         String logMessagePrefix = "TEAMMATESLOG|||instructorHomePage|||System Error Report|||true|||Unknown"
                                   + "|||Unknown|||googleIdABC|||Unknown|||";
         
@@ -59,7 +61,7 @@ public class ActivityLogGeneratorTest extends BaseTestCase {
                 Const.ParamsNames.COURSE_ID, "CS2103", Const.ParamsNames.STUDENT_EMAIL, "student@email.com",
                 Const.ParamsNames.REGKEY, "KeyABC");
         e = new IndexOutOfBoundsException();
-        errorEmail = generateMockEmailWrapperFromRequest(req, e);
+        errorEmail = generateMockEmailWrapperFromRequest(e);
         
         generatedMessage = logCenter.generateSystemErrorReportLogMessage(req, errorEmail);
         logMessagePrefix = "TEAMMATESLOG|||studentCourseJoin|||System Error Report|||true|||Unknown"
@@ -237,7 +239,7 @@ public class ActivityLogGeneratorTest extends BaseTestCase {
         assertEquals(20, entry.getActionTimeTaken());
     }
     
-    private EmailWrapper generateMockEmailWrapperFromRequest(HttpServletRequest req, Throwable t) {
+    private EmailWrapper generateMockEmailWrapperFromRequest(Throwable t) {
         EmailWrapper errorReport =
                 new EmailGenerator().generateSystemErrorEmail("GET", "MAC OS", "/page/somePage",
                                                               "http://example/", "{}", null, t);

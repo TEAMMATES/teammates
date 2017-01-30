@@ -7,6 +7,9 @@ import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 
+/**
+ * SUT: {@link ActivityLogEntry}
+ */
 public class ActivityLogEntryTest extends BaseTestCase {
 
     @Test

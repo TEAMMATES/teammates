@@ -44,7 +44,7 @@ public class ActivityLogEntry {
     private long actionTimeTaken;
     
     // legacy of messing up UI and logic
-    private boolean logToShow = true; // TODO clean up the UI thing
+    private boolean logToShow = true;
     
     public ActivityLogEntry(Builder builder) {
         logTime = builder.logTime;
