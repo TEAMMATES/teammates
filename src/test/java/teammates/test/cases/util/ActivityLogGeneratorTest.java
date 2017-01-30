@@ -11,6 +11,8 @@ import com.google.appengine.api.log.AppLogLine;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
+import teammates.common.exception.PageNotFoundException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.ActivityLogGenerator;
 import teammates.common.util.Const;
@@ -30,6 +32,38 @@ public class ActivityLogGeneratorTest extends BaseTestCase {
     @BeforeTest
     public void testSetup() {
         gaeSimulation.setup();
+    }
+    
+    @Test
+    public void testGenerateServletActionFailureLogMessage() {
+        ______TS("With google login");
+        
+        gaeSimulation.loginUser("googleIdABC");
+        HttpServletRequest req = gaeSimulation.createWebRequest("/randomPageWithAttack");
+        Exception e = new PageNotFoundException("randomPageWithAttack");
+        String logMessagePrefix = "TEAMMATESLOG|||Error when getting ActionName for requestUrl : /randomPageWithAttack"
+                + "|||Servlet Action Failure|||true|||Unknown|||Unknown|||googleIdABC|||Unknown|||";
+        
+        String generatedMessage = logCenter.generateServletActionFailureLogMessage(req, e);
+        assertTrue(generatedMessage.startsWith(logMessagePrefix));
+        int googleIdPosition = generatedMessage.indexOf("googleIdABC");
+        assertTrue(googleIdPosition != -1); // google id is in google id field
+        assertTrue(generatedMessage.indexOf("googleIdABC", googleIdPosition + 1) != -1); // google id is in log id
+        
+        gaeSimulation.logoutUser();
+        
+        ______TS("Without google login (with key)");
+        
+        req = gaeSimulation.createWebRequest(Const.ActionURIs.STUDENT_COURSE_JOIN,
+                Const.ParamsNames.COURSE_ID, "CS2103", Const.ParamsNames.STUDENT_EMAIL, "student@email.com",
+                Const.ParamsNames.REGKEY, "KeyABC");
+        e = new UnauthorizedAccessException("Unknown Registration Key KeyABC");
+        generatedMessage = logCenter.generateServletActionFailureLogMessage(req, e);
+        logMessagePrefix = "TEAMMATESLOG|||studentCourseJoin|||Servlet Action Failure|||true"
+                    + "|||Unknown|||Unknown|||Unregistered|||Unknown|||";
+        
+        assertTrue(generatedMessage.startsWith(logMessagePrefix));
+        assertTrue(generatedMessage.contains("student@email.com%CS2103")); // log id contain courseId and email
     }
     
     @Test
