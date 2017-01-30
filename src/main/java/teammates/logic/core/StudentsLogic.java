@@ -117,9 +117,8 @@ public final class StudentsLogic {
         studentsDb.deleteDocument(student);
     }
 
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
-                                                    String cursorString) {
-        return studentsDb.search(queryString, instructors, cursorString);
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
+        return studentsDb.search(queryString, instructors);
     }
 
     /**
@@ -127,11 +126,10 @@ public final class StudentsLogic {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
      * @param queryString
-     * @param cursorString
      * @return null if no result found
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
-        return studentsDb.searchStudentsInWholeSystem(queryString, cursorString);
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
+        return studentsDb.searchStudentsInWholeSystem(queryString);
     }
     
     public StudentProfileAttributes getStudentProfile(String googleId) {

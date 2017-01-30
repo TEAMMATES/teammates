@@ -11,11 +11,10 @@ public class InstructorSearchQuery extends SearchQuery {
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search instructors in the whole system.
      * @param queryString
-     * @param cursorString
      * @return admin's InstructorSearchQuery with visibilityQueryString to be empty
      */
-    public InstructorSearchQuery(String queryString, String cursorString) {
-        super(queryString, cursorString);
+    public InstructorSearchQuery(String queryString) {
+        super(queryString);
     }
     
     @Override

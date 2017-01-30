@@ -77,8 +77,6 @@ public class StudentSearchDocument extends SearchDocument {
             return bundle;
         }
         
-        bundle.cursor = results.getCursor();
-        
         for (ScoredDocument doc : results) {
             StudentAttributes student = JsonUtils.fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
@@ -109,7 +107,6 @@ public class StudentSearchDocument extends SearchDocument {
             return bundle;
         }
         
-        bundle.cursor = results.getCursor();
         for (InstructorAttributes ins : instructors) {
             bundle.courseIdInstructorMap.put(ins.courseId, ins);
         }

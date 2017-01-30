@@ -12,8 +12,8 @@ import com.google.appengine.api.search.Document;
  */
 public class CommentSearchQuery extends SearchQuery {
     
-    public CommentSearchQuery(List<InstructorAttributes> instructors, String queryString, String cursorString) {
-        super(instructors, queryString, cursorString);
+    public CommentSearchQuery(List<InstructorAttributes> instructors, String queryString) {
+        super(instructors, queryString);
     }
     
     @Override

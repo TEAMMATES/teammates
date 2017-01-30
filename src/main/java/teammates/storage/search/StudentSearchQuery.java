@@ -7,8 +7,8 @@ import teammates.common.util.Const;
 
 public class StudentSearchQuery extends SearchQuery {
     
-    public StudentSearchQuery(List<InstructorAttributes> instructors, String queryString, String cursorString) {
-        super(instructors, queryString, cursorString);
+    public StudentSearchQuery(List<InstructorAttributes> instructors, String queryString) {
+        super(instructors, queryString);
     }
     
     /**
@@ -16,11 +16,10 @@ public class StudentSearchQuery extends SearchQuery {
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search students in the whole system.
      * @param queryString
-     * @param cursorString
      * @return admin's StudentSearchQuery with visibilityQueryString to be empty
      */
-    public StudentSearchQuery(String queryString, String cursorString) {
-        super(queryString, cursorString);
+    public StudentSearchQuery(String queryString) {
+        super(queryString);
     }
     
     @Override

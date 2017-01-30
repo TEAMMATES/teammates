@@ -238,7 +238,6 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             instructorCourseIdList.add(ins.courseId);
         }
         
-        bundle.cursor = results.getCursor();
         Set<String> isAdded = new HashSet<String>();
         
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);

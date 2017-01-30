@@ -70,18 +70,17 @@ public class InstructorsDb extends EntitiesDb {
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search instructors in the whole system.
      * @param queryString
-     * @param cursorString
      * @return null if no result found
      */
     
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
         
         if (queryString.trim().isEmpty()) {
             return new InstructorSearchResultBundle();
         }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.INSTRUCTOR,
-                                                          new InstructorSearchQuery(queryString, cursorString));
+                                                          new InstructorSearchQuery(queryString));
         
         return InstructorSearchDocument.fromResults(results);
     }

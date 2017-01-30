@@ -9,7 +9,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.Sanitizer;
 
-import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
@@ -30,20 +29,16 @@ public abstract class SearchQuery {
     private QueryOptions options;
     private List<String> textQueryStrings = new ArrayList<String>();
     
-    protected SearchQuery(List<InstructorAttributes> instructors, String queryString, String cursorString) {
-        Cursor cursor = cursorString.isEmpty()
-                ? Cursor.newBuilder().build()
-                : Cursor.newBuilder().build(cursorString);
+    protected SearchQuery(List<InstructorAttributes> instructors, String queryString) {
         options = QueryOptions.newBuilder()
                 .setLimit(20)
-                .setCursor(cursor)
                 .build();
         visibilityQueryString = instructors == null ? "" : prepareVisibilityQueryString(instructors);
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
     
-    protected SearchQuery(String queryString, String cursorString) {
-        this(null, queryString, cursorString);
+    protected SearchQuery(String queryString) {
+        this(null, queryString);
     }
     
     protected abstract String prepareVisibilityQueryString(List<InstructorAttributes> instructors);

@@ -12,9 +12,8 @@ import com.google.appengine.api.search.Document;
  */
 public class FeedbackResponseCommentSearchQuery extends SearchQuery {
     
-    public FeedbackResponseCommentSearchQuery(List<InstructorAttributes> instructors, String queryString,
-                                              String cursorString) {
-        super(instructors, queryString, cursorString);
+    public FeedbackResponseCommentSearchQuery(List<InstructorAttributes> instructors, String queryString) {
+        super(instructors, queryString);
     }
 
     @Override

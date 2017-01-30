@@ -161,7 +161,6 @@ public class CommentSearchDocument extends SearchDocument {
             return bundle;
         }
         
-        bundle.cursor = results.getCursor();
         List<String> giverEmailList = new ArrayList<String>();
         for (InstructorAttributes ins : instructors) {
             giverEmailList.add(ins.email);
