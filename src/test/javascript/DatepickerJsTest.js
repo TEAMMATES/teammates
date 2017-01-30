@@ -20,7 +20,7 @@ QUnit.test('getMaxDateForVisibleDate(startDate, publishDate)', function(assert) 
     assert.strictEqual(getMaxDateForVisibleDate(new Date('01/04/12'), new Date('02/04/12')),
                      newDate('01/04/12'), 'Test for startDate < publishDate');
     assert.strictEqual(getMaxDateForVisibleDate(new Date('02/04/12'), new Date('02/04/12')),
-                     newDate('02 Apr 2012, 23:59'), 'Test for startDate = publishDate');
+                     newDate('02/04/12'), 'Test for startDate = publishDate');
 });
 
 QUnit.test('getMinDateForPublishDate(visibleDate)', function(assert) {
