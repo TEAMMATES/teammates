@@ -199,7 +199,7 @@ The coverage will be reported in Eclipse after the test run is over.
 
 Alternatively, use Gradle to run the tests, and obtain the coverage data with `jacocoTestReport` task, i.e:
 ```
-./gradlew travisTests
+./gradlew ciTests
 ./gradlew jacocoTestReport
 ```
 The report can be found in the `build/reports/jacoco/test/` directory.
