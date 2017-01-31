@@ -1404,7 +1404,8 @@ public final class Const {
         
         /** Template String. Parameters:  Course ID */
         public static final String DELETED_STUDENT_ATTEMPTING_TO_JOIN =
-                "Unable to join course %s as you have been unenrolled by an instructor. Please contact your course instructor for assistance.";
+                "Unable to join course %s as you have been unenrolled by an instructor. Please contact your "
+                        + "course instructor for assistance.";
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
         public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";
