@@ -556,14 +556,6 @@ public abstract class Action {
         String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
     }
-    
-    // TODO : REMOVE this
-    protected boolean isInMasqueradeMode() {
-        if (loggedInUser != null && loggedInUser.googleId != null && account != null) {
-            return !loggedInUser.googleId.equals(account.googleId);
-        }
-        return false;
-    }
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {
         return loggedInUser != null && requestedUserId != null
