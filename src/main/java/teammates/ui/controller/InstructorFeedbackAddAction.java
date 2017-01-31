@@ -2,12 +2,14 @@ package teammates.ui.controller;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -21,6 +23,7 @@ import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.ui.pagedata.InstructorFeedbacksPageData;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.reflect.TypeToken;
 
 public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractAction {
@@ -138,5 +141,21 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         }
         
         return new ArrayList<FeedbackQuestionAttributes>();
+    }
+    
+    @Override
+    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(FeedbackSessionAttributes newSession) {
+        newSession.setCreatedTime(new Date());
+        newSession.setSentOpenEmail(false);
+        newSession.setSentPublishedEmail(false);
+        newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
+        newSession.setInstructions(new Text(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
+        return newSession;
+    }
+    
+    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
+            FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
+        return newSession;
     }
 }
