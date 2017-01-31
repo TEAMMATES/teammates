@@ -85,7 +85,11 @@ public class AdminActivityLogPageData extends PageData {
     private void initLogAsTemplateRow(List<ActivityLogEntry> entries) {
         this.logs = new ArrayList<AdminActivityLogTableRow>();
         for (ActivityLogEntry entry : entries) {
-            this.logs.add(new AdminActivityLogTableRow(entry));
+            AdminActivityLogTableRow row = new AdminActivityLogTableRow(entry);
+            this.logs.add(row);
+            if (q.isInfoInQuery) {
+                row.setKeyStringsToHighlight(q.infoValues);
+            }
         }
     }
     
@@ -220,7 +224,6 @@ public class AdminActivityLogPageData extends PageData {
                 }
             }
             
-            // TODO hightlight string
             return true;
         }
         if (q.isIdInQuery && !arrayContains(q.idValues, logEntry.getLogId())) {
