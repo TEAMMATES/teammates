@@ -1041,31 +1041,31 @@ public class InstructorFeedbackEditPage extends AppPage {
         assertFalse(optionBox.isDisplayed());
     }
     
-    public void fillRankOptionForQuestion(int qnIndx, int optionIndex, String optionText) {
+    public void fillRankOption(int qnIndx, int optionIndex, String optionText) {
         WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "-" + qnIndx));
         fillTextBox(optionBox, optionText);
     }
     
     public void fillRankOptionForNewQuestion(int optionIndex, String optionText) {
-        fillRankOptionForQuestion(NEW_QUESTION_NUM, optionIndex, optionText);
+        fillRankOption(NEW_QUESTION_NUM, optionIndex, optionText);
     }
     
-    public void tickDuplicatesAllowedCheckboxForQuestion(int qnIndex) {
+    public void tickDuplicatesAllowedCheckbox(int qnIndex) {
         WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
         assertTrue(checkBox.isSelected());
     }
     
     public void tickDuplicatesAllowedCheckboxForNewQuestion() {
-        tickDuplicatesAllowedCheckboxForQuestion(NEW_QUESTION_NUM);
+        tickDuplicatesAllowedCheckbox(NEW_QUESTION_NUM);
     }
     
-    public void untickDuplicatesAllowedCheckboxForQuestion(int qnIndex) {
+    public void untickDuplicatesAllowedCheckbox(int qnIndex) {
         WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
         assertFalse(checkBox.isSelected());
     }
     
     public void untickDuplicatesAllowedCheckboxForNewQuestion() {
-        untickDuplicatesAllowedCheckboxForQuestion(NEW_QUESTION_NUM);
+        untickDuplicatesAllowedCheckbox(NEW_QUESTION_NUM);
     }
     
     private WebElement toggleDuplicatesAllowedCheckBox(int qnIndex) {

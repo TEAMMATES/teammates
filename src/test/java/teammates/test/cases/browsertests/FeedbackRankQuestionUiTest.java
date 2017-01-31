@@ -324,15 +324,15 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                          + "less than 2 options should not be permitted",
                      2, feedbackEditPage.getNumOfOptionsInRankOptions(1));
         
-        feedbackEditPage.fillRankOptionForQuestion(1, 1, " (Edited) Option 2 ");
+        feedbackEditPage.fillRankOption(1, 1, " (Edited) Option 2 ");
         
         // Should end up with 4 choices, including (1) and (2)
         feedbackEditPage.clickAddMoreRankOptionLink(1);
         feedbackEditPage.clickAddMoreRankOptionLink(1);
-        feedbackEditPage.fillRankOptionForQuestion(1, 2, "  <New> Option 3 ");
-        feedbackEditPage.fillRankOptionForQuestion(1, 3, "Option 4 (slightly longer text for this one)");
+        feedbackEditPage.fillRankOption(1, 2, "  <New> Option 3 ");
+        feedbackEditPage.fillRankOption(1, 3, "Option 4 (slightly longer text for this one)");
         
-        feedbackEditPage.untickDuplicatesAllowedCheckboxForQuestion(1);
+        feedbackEditPage.untickDuplicatesAllowedCheckbox(1);
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
@@ -341,7 +341,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("rank edit: edit rank recipients question success");
         feedbackEditPage.clickEditQuestionButton(2);
         
-        feedbackEditPage.tickDuplicatesAllowedCheckboxForQuestion(2);
+        feedbackEditPage.tickDuplicatesAllowedCheckbox(2);
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertTrue(feedbackEditPage.isRankDuplicatesAllowedChecked(2));
