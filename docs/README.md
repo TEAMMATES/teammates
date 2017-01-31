@@ -10,6 +10,7 @@ Here are some documents important for TEAMMATES developers.
 * How to [**set up the developer environment**](settingUp.md).
 * [**Development guideline**](development.md) - how to work with your own copy of TEAMMATES.
 * The [**workflow/process to follow**](process.md) when contributing to TEAMMATES.
+* How the [**issue tracker**](issues.md) is used - issue lifecycle, issue labels, etc.
 
 ## Supplementary documents
 
