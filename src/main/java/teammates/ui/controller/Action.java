@@ -576,9 +576,9 @@ public abstract class Action {
                && loggedInUser.googleId != null
                && !loggedInUser.googleId.equals(requestedUserId);
     }
-
+    
     // ===================== Utility methods used by some child classes========
-
+    
     protected void excludeStudentDetailsFromResponseParams() {
         regkey = null;
     }
