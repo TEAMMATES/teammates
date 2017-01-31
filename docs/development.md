@@ -87,7 +87,7 @@ You need a student account which can be created by instructors.
 ## Testing
 
 TEAMMATES automated testing requires Firefox or Chrome (works on Windows and OS X).
-It is recommended to use Firefox 46.0 as this is the browser used in Travis build.
+It is recommended to use Firefox 46.0 as this is the browser used in CI build (Travis/AppVeyor).
 
 Before running the test suite, both the server and the test environment should be using the UTC time zone. If this has not been done yet, here is the procedure:
 * Stop the dev server if it is running.
@@ -129,11 +129,11 @@ Before running the test suite, both the server and the test environment should b
 ### Running the test suite with Eclipse
 
 Test can be run using the configurations available under the green `Run` button on the Eclipse toolbar. Several configurations are provided by default:
-* `All tests` - Runs `Travis tests` and `Local tests`.
-* `Travis tests` - Runs `src/test/testng-travis.xml`, all the tests that are run by Travis.
+* `All tests` - Runs `CI tests` and `Local tests`.
+* `CI tests` - Runs `src/test/testng-ci.xml`, all the tests that are run by CI (Travis/AppVeyor).
 * `Local tests` - Runs `src/test/testng-local.xml`, all the tests that need to be run locally by developers. `Dev green` means passing all the tests in this configuration.
 * `Failed tests` - Runs `test-output/testng-failed.xml`, which is generated if a test run results in some failures. This will run only the failed tests.
-* `Staging tests` - Runs a subset of the tests in `src/test/testng-travis.xml`. This is run before deploying to a staging server.
+* `Staging tests` - Runs a subset of the tests in `src/test/testng-ci.xml`. This is run before deploying to a staging server.
 
 Additionally, configurations that run the tests with `GodMode` turned on are also provided.
 More info on this can be found [here](godmode.md).
@@ -152,7 +152,7 @@ Typically, we run the test suite within Eclipse, but core developers may prefer 
 
 1. Run the following command to run the full test suite once and retry the failed tests several times:
    ```sh
-   ./gradlew travisTests
+   ./gradlew ciTests
    ```
 
 1. The final result can be viewed by opening `{project folder}/build/reports/test-try-{n}/index.html`, where `{n}` is the sequence number of the test run.
@@ -214,6 +214,7 @@ There are several files used to configure various aspects of the system.
 * `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
 * `package.json`: Contains the client-side third-party dependencies specification.
 * `.travis.yml`: Contains the Travis CI job configuration.
+* `appveyor.yml`: Contains the AppVeyor CI job configuration.
 
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.

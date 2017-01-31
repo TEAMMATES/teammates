@@ -1591,8 +1591,8 @@ public class Logic {
      * * All parameters are non-null.
      */
     
-    public boolean isQuestionHasResponses(String feedbackQuestionId) {
-        return feedbackQuestionsLogic.isQuestionHasResponses(feedbackQuestionId);
+    public boolean areThereResponsesForQuestion(String feedbackQuestionId) {
+        return feedbackQuestionsLogic.areThereResponsesForQuestion(feedbackQuestionId);
     }
     
     /**
