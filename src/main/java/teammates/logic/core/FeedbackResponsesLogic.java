@@ -335,7 +335,7 @@ public final class FeedbackResponsesLogic {
                 break;
             default:
                 Assumption.fail("Invalid FeedbackParticipantType for showNameTo in "
-                                + "FeedbackResponseLogic.shouldFeedbackParticipantNameBeVisibleToUser()");
+                                + "FeedbackResponseLogic.isNameVisibleToUser()");
                 break;
             }
         }
