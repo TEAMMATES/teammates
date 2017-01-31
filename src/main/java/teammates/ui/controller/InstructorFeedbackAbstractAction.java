@@ -21,14 +21,10 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
     /**
      * Common method to Get the feedback data
      */
-    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(FeedbackSessionAttributes newSession) {
-
-        return this.extractFeedbackSessionDataHelper(newSession);
-    }
 
     protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
-            FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
-        return this.extractFeedbackSessionDataHelper(newSession, sendRemainderEmailsList);
+            FeedbackSessionAttributes newSession, List<String> sendReminderEmailsList) {
+        return this.extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
     }
 
     protected FeedbackSessionAttributes extractFeedbackSessionData() {
@@ -37,7 +33,14 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
         newSession.setFeedbackSessionName(Sanitizer.sanitizeTitle(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
-        newSession = extractFeedbackSessionDataHelper(newSession);
+        
+        String[] sendReminderEmailsArray =
+                getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
+        List<String> sendReminderEmailsList =
+                sendReminderEmailsArray == null ? new ArrayList<String>()
+                        : Arrays.asList(sendReminderEmailsArray);
+
+        newSession = extractFeedbackSessionDataHelper(newSession,sendReminderEmailsList);
         newSession.setStartTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
@@ -107,12 +110,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                     + newSession.getIdentificationString());
             break;
         }
-
-        String[] sendReminderEmailsArray =
-                getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
-        List<String> sendReminderEmailsList =
-                sendReminderEmailsArray == null ? new ArrayList<String>()
-                        : Arrays.asList(sendReminderEmailsArray);
 
         newSession = extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
         newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING
