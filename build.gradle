@@ -191,7 +191,7 @@ task createLaunches << {
         ".launches/Failed tests.launch.xml",
         ".launches/Failed tests (GodMode).launch.xml",
         ".launches/Local tests.launch.xml",
-        ".launches/Travis tests.launch.xml",
+        ".launches/CI tests.launch.xml",
         ".launches/Staging tests.launch.xml"
     ]
     templatesToCopy.findAll {
@@ -386,6 +386,7 @@ task staticAnalysis {
 
 def numOfTestRetries = 3
 def isTravis = System.getenv("TRAVIS") != null
+def isAppVeyor = System.getenv("APPVEYOR") != null
 def failedXmlPath = "test-output/testng-failed.xml"
 def failedXmlUrl = "https://gist.githubusercontent.com/anonymous/gist_id/raw/"
 
@@ -406,9 +407,11 @@ def afterTestClosure = { descriptor, result ->
             def process = "${diffCommand} ${expectedFileName} ${actualFileName}".execute()
             println process.getText()
             process.waitFor()
-            def deleteCommand = isWindows ? "del" : "rm"
-            "${deleteCommand} ${expectedFileName}".execute()
-            "${deleteCommand} ${actualFileName}".execute()
+            if (!isAppVeyor && !isTravis) { // CI does not allow deleting files
+                def deleteCommand = isWindows ? "del" : "rm"
+                "${deleteCommand} ${expectedFileName}".execute()
+                "${deleteCommand} ${actualFileName}".execute()
+            }
         } else {
             println "${result.exception.getClass().getName()}: ${result.exception.getMessage()}"
         }
@@ -427,11 +430,11 @@ def afterTestClosure = { descriptor, result ->
 def checkConfigFailureClosure = { descriptor, result ->
     if (result.exception instanceof org.gradle.messaging.remote.internal.PlaceholderException
             && result.exception.toString().startsWith("org.gradle.api.internal.tasks.testing.TestSuiteExecutionException")) {
-        throw new GradleException('Detected TestNG configuration failure - check src/test/testng-travis.xml')
+        throw new GradleException('Detected TestNG configuration failure - check src/test/testng-ci.xml')
     }
 }
 
-task travisTests {
+task ciTests {
     description "Runs the full test suite and retries failed test up to ${numOfTestRetries} times."
     group "Test"
 }
@@ -441,7 +444,7 @@ task travisTests {
     def isLastRetry = id == numOfTestRetries + 1
     task "testTry${id}"(type: Test) {
         useTestNG()
-        options.suites isFirstTry ? "src/test/testng-travis.xml" : "build/reports/test-try-${id - 1}/testng-failed.xml"
+        options.suites isFirstTry ? "src/test/testng-ci.xml" : "build/reports/test-try-${id - 1}/testng-failed.xml"
         options.outputDirectory = file("build/reports/test-try-${id}")
         options.useDefaultListeners = true
         ignoreFailures = !isLastRetry
@@ -467,7 +470,7 @@ task travisTests {
             isFirstTry || file("build/reports/test-try-${id - 1}/testng-failed.xml").exists()
         }
     }
-    travisTests.dependsOn "testTry${id}"
+    ciTests.dependsOn "testTry${id}"
 
     task "killFirefox${id}"(type: Exec) {
         doFirst {
@@ -507,7 +510,7 @@ task cleanTestOutputDir << {
 }
 
 task downloadFailedXml {
-    description "Downloads testng-failed.xml from a failed run in Travis."
+    description "Downloads testng-failed.xml from a failed run in Travis/AppVeyor."
     group "Test"
     onlyIf {
         project.hasProperty("gist")

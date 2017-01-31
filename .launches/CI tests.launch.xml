@@ -17,7 +17,7 @@
 <booleanAttribute key="org.testng.eclipse.PREFIX_VM_ARGS_FROM_POM" value="true"/>
 <stringAttribute key="org.testng.eclipse.PROTOCOL" value="object"/>
 <listAttribute key="org.testng.eclipse.SUITE_TEST_LIST">
-<listEntry value="src/test/testng-travis.xml"/>
+<listEntry value="src/test/testng-ci.xml"/>
 </listAttribute>
 <intAttribute key="org.testng.eclipse.TYPE" value="3"/>
 <booleanAttribute key="org.testng.eclipse.VERBOSE" value="false"/>

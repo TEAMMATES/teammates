@@ -37,7 +37,7 @@ before_script:
 
 install: true
 script:
-  - ./gradlew appengineRun travisTests
+  - ./gradlew appengineRun ciTests
 
 after_failure:
   - gem install gist
