@@ -105,11 +105,11 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         InstructorAttributes dangerousInstructor = new InstructorAttributes();
         
-        String shortNameDangerous = "<b>Instrúctör</b>";
-        dangerousInstructor.name = "AHPUiT <script>alert('dangerous');</script>Instrúctör";
-        dangerousInstructor.email = "AHPUiT.instr1<>!@gmail.tmt";
-        String dangerousInstitute = "TEAMMATES Test Institute <!@!@!>";
-        String dangerousDemoCourseId = "AHPUiT.instr1___.gma-demo";
+        String shortNameDangerous = "<b>MaliciousInstrúctör</b>";
+        dangerousInstructor.name = "Malicious <script>alert('dangerous');</script>Instrúctör";
+        dangerousInstructor.email = "malicious.instr1<>!@gmail.tmt";
+        String dangerousInstitute = "TEAMMATES Malicious Institute <!@!@!>";
+        String dangerousDemoCourseId = "malicious.instr1___.gma-demo";
         
         BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(dangerousDemoCourseId);
