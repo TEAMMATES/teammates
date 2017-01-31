@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,31 +16,28 @@ import teammates.common.util.EmailType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 
-import com.google.appengine.api.datastore.Text;
-
 public abstract class InstructorFeedbackAbstractAction extends Action {
 
     /**
      * Common method to Get the feedback data
      */
+    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(FeedbackSessionAttributes newSession) {
+
+        return this.extractFeedbackSessionDataHelper(newSession);
+    }
+
+    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
+            FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
+        return this.extractFeedbackSessionDataHelper(newSession, sendRemainderEmailsList);
+    }
 
     protected FeedbackSessionAttributes extractFeedbackSessionData() {
 
         FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
-
         newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
         newSession.setFeedbackSessionName(Sanitizer.sanitizeTitle(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
-
-        // getting the class name from which it's being called
-        String className = this.getClass().getName();
-
-        if ("InstructorFeedbackEditSaveAction".equals(className)) {
-            newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
-        } else {
-            newSession.setCreatedTime(new Date());
-        }
-
+        newSession = extractFeedbackSessionDataHelper(newSession);
         newSession.setStartTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
@@ -64,18 +60,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             newSession.setGracePeriod(Integer.parseInt(paramGracePeriod));
         } catch (NumberFormatException nfe) {
             log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
-        }
-
-        if ("InstructorFeedbackEditSaveAction".equals(className)) {
-            newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-            newSession.setInstructions(new Text(
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
-        } else {
-            newSession.setSentOpenEmail(false);
-            newSession.setSentPublishedEmail(false);
-            newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-            newSession.setInstructions(new Text(
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
         }
 
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
@@ -129,10 +113,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         List<String> sendReminderEmailsList =
                 sendReminderEmailsArray == null ? new ArrayList<String>()
                         : Arrays.asList(sendReminderEmailsArray);
-        if ("InstructorFeedbackEditSaveAction".equals(className)) {
-            newSession.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING
-                    .toString()));
-        }
+
+        newSession = extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
         newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING
                 .toString()));
         newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED
