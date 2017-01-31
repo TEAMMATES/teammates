@@ -736,7 +736,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Builds participant panels for the the specified team, and add to sectionPanel
+     * Builds participant panels for the specified team, and add to sectionPanel
      * @param sectionPanel
      * @param teamName
      * @param teamMembers
