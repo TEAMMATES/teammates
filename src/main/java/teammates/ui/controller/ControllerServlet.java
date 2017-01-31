@@ -51,7 +51,7 @@ public class ControllerServlet extends HttpServlet {
 
         try {
             /* We are using the Template Method Design Pattern here.
-             * This method contains the high level logic of the the request processing.
+             * This method contains the high level logic of the request processing.
              * Concrete details of the processing steps are to be implemented by child
              * classes, based on request-specific needs.
              */
