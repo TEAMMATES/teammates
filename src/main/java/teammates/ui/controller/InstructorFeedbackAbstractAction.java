@@ -33,14 +33,14 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
         newSession.setFeedbackSessionName(Sanitizer.sanitizeTitle(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
-        
+
         String[] sendReminderEmailsArray =
                 getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
         List<String> sendReminderEmailsList =
                 sendReminderEmailsArray == null ? new ArrayList<String>()
                         : Arrays.asList(sendReminderEmailsArray);
 
-        newSession = extractFeedbackSessionDataHelper(newSession,sendReminderEmailsList);
+        newSession = extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
         newSession.setStartTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
