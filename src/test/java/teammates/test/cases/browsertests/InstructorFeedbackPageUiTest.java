@@ -745,7 +745,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(sdf.format(changedStartDate.getTime()), minValueOfPublishDate);
         
         
-        ______TS("decreasing end date does not affects start time or visible time");
+        ______TS("decreasing end date does not affect start time or visible time");
         Calendar changedEndDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         changedEndDate.set(2014, 1, 20, 0, 0, 0);
         
