@@ -120,9 +120,12 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
                 feedbackEditPage.getNumScalePossibleValuesStringForNewQuestion());
         
-        feedbackEditPage.fillNumScaleBoxWithRecheckForNewQuestion(true, 6, "7");
-        feedbackEditPage.fillNumScaleBoxWithRecheckForNewQuestion(false, 6, "7");
-            
+        feedbackEditPage.fillMinNumScaleBoxForNewQuestion(6);
+        assertEquals("7", feedbackEditPage.getMaxNumScaleBoxForNewQuestion());
+        
+        feedbackEditPage.fillMaxNumScaleBoxForNewQuestion(6);
+        assertEquals("7", feedbackEditPage.getMaxNumScaleBoxForNewQuestion());
+        
         //Reset values
         feedbackEditPage.fillMinNumScaleBoxForNewQuestion(1);
         feedbackEditPage.fillMaxNumScaleBoxForNewQuestion(5);

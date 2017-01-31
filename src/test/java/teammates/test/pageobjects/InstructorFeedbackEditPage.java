@@ -2,8 +2,6 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -262,6 +260,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         return maxScaleBox.getAttribute("value");
     }
     
+    public String getMaxNumScaleBoxForNewQuestion() {
+        return getMaxNumScaleBox(NEW_QUESTION_NUM);
+    }
+    
     public void fillStepNumScaleBox(String step, int qnNumber) {
         String idSuffix = getIdSuffix(qnNumber);
         
@@ -291,27 +293,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public String getNumScalePossibleValuesStringForNewQuestion() {
         return getNumScalePossibleValuesString(-1);
-    }
-    
-    public void fillNumScaleBoxWithRecheck(boolean isMinScaleBox, int scale, int qnNumber, String expected) {
-        int counter = 0;
-        while (counter != 100) {
-            if (isMinScaleBox) {
-                fillMinNumScaleBox(scale, qnNumber);
-            } else {
-                fillMaxNumScaleBox(scale, qnNumber);
-            }
-            if (expected.equals(getMaxNumScaleBox(qnNumber))) {
-                return;
-            }
-            counter++;
-            browser.driver.switchTo().window("");
-        }
-        assertEquals(expected, getMaxNumScaleBox(qnNumber));
-    }
-    
-    public void fillNumScaleBoxWithRecheckForNewQuestion(boolean isMinScaleBox, int scale, String expected) {
-        fillNumScaleBoxWithRecheck(isMinScaleBox, scale, NEW_QUESTION_NUM, expected);
     }
     
     public void fillConstSumPointsBox(String points, int qnNumber) {
@@ -1075,8 +1056,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void tickDuplicatesAllowedCheckboxForNewQuestion() {
-        WebElement checkBox = toggleDuplicatesAllowedCheckBoxForNewQuestion();
-        assertTrue(checkBox.isSelected());
+        tickDuplicatesAllowedCheckboxForQuestion(NEW_QUESTION_NUM);
     }
     
     public void untickDuplicatesAllowedCheckboxForQuestion(int qnIndex) {
@@ -1085,18 +1065,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void untickDuplicatesAllowedCheckboxForNewQuestion() {
-        WebElement checkBox = toggleDuplicatesAllowedCheckBoxForNewQuestion();
-        assertFalse(checkBox.isSelected());
+        untickDuplicatesAllowedCheckboxForQuestion(NEW_QUESTION_NUM);
     }
     
     private WebElement toggleDuplicatesAllowedCheckBox(int qnIndex) {
         WebElement checkBox = browser.driver.findElement(By.id("rankAreDuplicatesAllowed-" + qnIndex));
         click(checkBox);
         return checkBox;
-    }
-    
-    private WebElement toggleDuplicatesAllowedCheckBoxForNewQuestion() {
-        return toggleDuplicatesAllowedCheckBox(NEW_QUESTION_NUM);
     }
     
     public boolean isRankDuplicatesAllowedChecked(int qnIndex) {
