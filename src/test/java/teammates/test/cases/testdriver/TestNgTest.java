@@ -14,7 +14,7 @@ public class TestNgTest extends BaseTestCase {
 
     @Test
     public void checkTestsInTestNg() throws IOException {
-        String testNgXml = FileHelper.readFile("./src/test/testng-travis.xml")
+        String testNgXml = FileHelper.readFile("./src/test/testng-ci.xml")
                            + FileHelper.readFile("./src/test/testng-local.xml");
         // <class name, package name>
         HashMap<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases");
