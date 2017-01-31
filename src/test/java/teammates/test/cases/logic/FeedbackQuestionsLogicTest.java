@@ -588,12 +588,12 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         ______TS("Check that a question has some responses");
         
         questionWithResponse = getQuestionFromDatastore("qn1InSession2InCourse2");
-        assertTrue(fqLogic.isQuestionHasResponses(questionWithResponse.getId()));
+        assertTrue(fqLogic.areThereResponsesForQuestion(questionWithResponse.getId()));
         
         ______TS("Check that a question has no responses");
         
         questionWithoutResponse = getQuestionFromDatastore("qn2InSession2InCourse2");
-        assertFalse(fqLogic.isQuestionHasResponses(questionWithoutResponse.getId()));
+        assertFalse(fqLogic.areThereResponsesForQuestion(questionWithoutResponse.getId()));
     }
     
     public void testIsQuestionAnswered() throws Exception {

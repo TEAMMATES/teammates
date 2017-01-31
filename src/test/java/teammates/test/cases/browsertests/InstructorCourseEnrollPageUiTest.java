@@ -135,7 +135,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
             .withCourseId(courseId);
         detailsPage = loginAdminToPage(coursesPageUrl, InstructorCoursesDetailsPage.class);
         assertEquals(3, detailsPage.getStudentCountForCourse());
-
+      
         ______TS("enroll action: fail to enroll as a team cannot be in 2 different sections");
 
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
