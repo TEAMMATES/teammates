@@ -4,7 +4,6 @@
 **Roles**:
 * `Dev` - Issue owner who fixes the issue. 
 * `Reviewer` - Assigned per issue. Usually, a core team member.
-* `Release Lead` (RL) - Responsible for the release management.
 * `Project Manager` (PM) - General project coordination and deploying to the live server.
 
 Note: *Roles* are related to the development process and they are different from *Positions*, which relate to
@@ -213,61 +212,3 @@ Role: dev (with push permission), or reviewer
     * If not green,
       * Change the pull request status to `s.Ongoing`.
       * Add a comment to mention the test failure.
-
-###Assigning labels, reviewers, and milestones
-Roles: PM (Project Manager) + RL (Release Lead)
-
-PM: Assign priority label and any other missing labels to incoming issues.
-
-RL: 
- * When a new PR comes in, assign a reviewer for the PR. The selection of reviewer
-   should be based on the *feature* (`f-`), *aspect* (`a-`), or the *tech* (`t-`) labels 
-   of the issue. If there are more than one of these labels, the main category of
-   the issue as specified by the *main classifier* (`m.`) label. <br>
-   e.g. If the issue has labels `m-Tech` `a-Testing` `t-JS`, the main classifier is 
-   `Tech` and therefore the reviewer should be based on the `t-JS` label.<br>
-   Once you have figured out which label determines the reviewer, you can find the 
-   *Lead* of the label in the [Issue Labels section](#issue-labels).
- * Try to load balance when assigning reviewers. 
- * Assign the current+1 milestone to the corresponding issue. This gives the 
-   dev at least a week to finish the PR. 
-    
-###Making a release
-Roles: PM + RL
-
-RL: 
-  * Release day - 3: 
-    * Post a comment on ongoing PRs of the current milestone to remind the
-      dev/reviewer to finish by the release date.
-  * Release day:
-    * Get dev green for `master`.
-    * Merge to `release` branch, tag (Format `V{major}.{minor}.{patch}` e.g. `V5.01.02`.)
-    * Inform PM the next version is ready for deployment.
-    * Ensure all issues and PRs included in the release are tagged with the 
-      correct milestone and the correct assignee.
-    * Extend the milestone of issues that slipped the current milestone and post
-      a comment asking to finish by next milestone. If an issue is not making
-      progress, close the PR and un-assign the issue.
-    * Add/revise `e.` labels for the issues/PRs in the release.
-    * Ensure all branches merged in the milestone have been deleted.
-    * Announce the release on slack and issue tracker.
-    * Update `about.jsp` with names of new contributors, if any. Alternatively,
-      create an issue to update `about.jsp`.
-    * Close the current milestone and create a new milestone for the next+1 release.
-    * Create an issue for the next release. Post a comment in that issue to 
-      remind active devs who don't have issues scheduled for next release. 
-    
-  * Release day + 1:
-    * Ensure all pending `p.Urgent` issues are assigned and scheduled for next milestone.
-    * Ensure all active devs have committed for at least one issue in next milestone.
-  
-PM: 
-  * Pull the latest `release` branch.
-  * Get dev green.
-  * Deploy.
-  * Get live green.
-  * Make the version default.
-  * Close the 'Release' issue.
-     
-
-
