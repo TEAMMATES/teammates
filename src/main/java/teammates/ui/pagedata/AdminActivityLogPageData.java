@@ -87,7 +87,7 @@ public class AdminActivityLogPageData extends PageData {
         for (ActivityLogEntry entry : entries) {
             AdminActivityLogTableRow row = new AdminActivityLogTableRow(entry);
             this.logs.add(row);
-            if (q.isInfoInQuery) {
+            if (q != null && q.isInfoInQuery) {
                 row.setKeyStringsToHighlight(q.infoValues);
             }
         }
