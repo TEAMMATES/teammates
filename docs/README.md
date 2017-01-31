@@ -16,6 +16,7 @@ Here are some documents important for TEAMMATES developers.
 * [**Resources bin**](https://docs.google.com/document/pub?id=1LymZ6oeEA6TZRzgW7X2FUxA2MPbZTjUrzIx6si_5ThI&embedded=true): Learning resources for the use of developers (tutorials, cheat sheets etc).
 * [**Decision analysis**](https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true): Analysis of problems encountered, solutions considered, rationale for selection etc.
 * The [**glossary**](glossary.md) of terms used in the project.
+* The [**developer community structure**](community.md).
 * **Coding standards** for:
   [Java](https://oss-generic.github.io/process/codingStandards/CodingStandard-Java.html),
   [JSP](https://docs.google.com/document/d/14bXfdveXvoIaPBYpL19m4PK6oPabSnnoawj6OGjOzD4/pub?embedded=true),

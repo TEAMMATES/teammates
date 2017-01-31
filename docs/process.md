@@ -10,19 +10,6 @@
 Note: *Roles* are related to the development process and they are different from *Positions*, which relate to
 the organization structure of the TEAMMATES dev community. 
 
-**Positions** (in the order of increasing seniority): 
-* `Contributor`
-* `Committer`
-* `Snr Developer`
-* `Area Lead`
-* `Project Lead`
-* `Project Advisor`
-
-Those who are at the rank of `Committer` or above are considered a core member if they are 'active'. 
-An *active* member is someone who contributes to almost every release cycle, thereby helping to maintain the 
-project velocity. An active member is expected to *pledge* at least one issue to each release, at the beginning of 
-the release cycle. They are also strongly encouraged to pick at least one high priority issue for each release cycle. 
-
 ## Naming conventions
 * For pull request titles, refer to [creating a pull request](#creating-a-pull-request)
 * For branch names, refer to [creating a branch](#creating-a-branch)
