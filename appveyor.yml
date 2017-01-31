@@ -9,6 +9,16 @@ branches:
     - master
     - release
 
+skip_commits:
+  files:
+    - '**/*.md'
+    - '**/*.txt'
+    - '**/*.png'
+    - '**/*.jpg'
+    - '**/*.gif'
+    - LICENSE
+    - docs/**/*
+
 install:
   - choco install firefox -version 46.0
 
