@@ -90,7 +90,7 @@
             <h2 class="caption">No signup required for students</h2>
             <img src="images/feature-nosignuprequired.png" width="500px" alt="No signup required for students">
             <div class="feature-description">
-                Students can submit responses and view published responses using the unique links TEAMMATES email them, without having to login or signup.
+                Students can submit responses and view published responses using the unique links TEAMMATES emails them, without having to login or signup.
                 <br><br>
                 If they login to TEAMMATES using their Google accounts (optional), they can access all TEAMMATES courses in one page and access even more features such as setting up profiles.
             </div>
