@@ -13,7 +13,7 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.ActivityLogGenerator;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -434,14 +434,8 @@ public abstract class Action {
     public String getLogMessage() {
         UserType currentUser = gateKeeper.getCurrentUser();
         
-        ActivityLogEntry activityLogEntry = new ActivityLogEntry(account,
-                                                                 isInMasqueradeMode(),
-                                                                 statusToAdmin,
-                                                                 requestUrl,
-                                                                 student,
-                                                                 currentUser);
-        
-        return activityLogEntry.generateLogMessage();
+        return new ActivityLogGenerator().generateNormalPageActionLogMessage(request, currentUser,
+                                                account, student, statusToAdmin);
     }
     
     /**
@@ -562,7 +556,8 @@ public abstract class Action {
         String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
     }
-
+    
+    // TODO : REMOVE this
     protected boolean isInMasqueradeMode() {
         if (loggedInUser != null && loggedInUser.googleId != null && account != null) {
             return !loggedInUser.googleId.equals(account.googleId);

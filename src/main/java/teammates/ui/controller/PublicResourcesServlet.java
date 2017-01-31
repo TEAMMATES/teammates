@@ -6,13 +6,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.datatransfer.UserType;
-import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.ActivityLogGenerator;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
-import teammates.logic.api.GateKeeper;
 
 /** 
  * Serves the public resources stored in google cloud storage using the blobkey.<br>
@@ -54,9 +52,6 @@ public abstract class PublicResourcesServlet extends HttpServlet {
     }
     
     protected void logMessage(HttpServletRequest request, String message) {
-        UserType userType = new GateKeeper().getCurrentUser();
-        String url = HttpRequestHelper.getRequestedUrl(request);
-        ActivityLogEntry activityLogEntry = new ActivityLogEntry(servletName, action, null, message, url, userType);
-        log.info(activityLogEntry.generateLogMessage());
+        log.info(new ActivityLogGenerator().generateBasicActivityLogMessage(request, message));
     }
 }

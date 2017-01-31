@@ -136,7 +136,7 @@ public final class AssertHelper {
      * @param actual
      */
     public static void assertLogMessageEquals(String expected, String actual) {
-        String expectedGoogleId = expected.split("\\|\\|\\|")[ActivityLogEntry.POSITION_OF_GOOGLEID];
+        String expectedGoogleId = expected.split("\\|\\|\\|")[ActivityLogEntry.POSITION_OF_USER_GOOGLEID];
 
         assertLogMessageEquals(expected, actual, expectedGoogleId);
     }

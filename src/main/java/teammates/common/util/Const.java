@@ -1461,5 +1461,35 @@ public final class Const {
                 + "the question, do consider communications made informally within the team, and formal communications with "
                 + "the instructors and tutors.&quot;";
     }
+    
+    public static class ActivityLog {
+        public static final String TEAMMATESLOG = "TEAMMATESLOG";
+        
+        public static final String ROLE_ADMIN = "Admin";
+        public static final String ROLE_INSTRUCTOR = "Instructor";
+        public static final String ROLE_STUDENT = "Student";
+        public static final String ROLE_AUTO = "Auto";
+        public static final String ROLE_UNREGISTERED = "Unregistered";
+        public static final String ROLE_UNKNOWN = "Unknown";
+        public static final String MASQUERADE_ROLE_POSTFIX = "(M)";
+        
+        public static final String AUTH_UNLOGIN = "Unregistered"; // TODO : discuss to change
+        
+        public static final String PREFIX_STUDENT_PAGE = "student";
+        public static final String PREFIX_INSTRUCTOR_PAGE = "instructor";
+        public static final String PREFIX_AUTO_PAGE = "auto";
+        
+        public static final String FIELD_CONNECTOR = "%";
+        public static final String FIELD_SEPERATOR = "|||";
+        
+        public static final String UNKNOWN = "Unknown";
+        
+        public static final String MESSAGE_ERROR_ACTIONNAME = "Error when getting ActionName for requestUrl : %1$s";
+        public static final String MESSAGE_ERROR_LOGMESSAGE_FORMAT = "Log message format not as expected: %1$s";
+        
+        public static final String TIME_FORMAT_LOGID = "yyyyMMddHHmmssSS";
+        
+        public static final String TESTING_DATA_EMAIL_POSTFIX = ".tmt";
+    }
 
 }
