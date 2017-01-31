@@ -1397,13 +1397,14 @@ public final class Const {
         public static final String STUDENT_UPDATE_PROFILE_NATIONALITY =
                 "Meanwhile, you can provide your nationality "
                 + "<a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
-        public static final String DELETED_STUDENT_ATTEMPTING_TO_JOIN =
-                "You can no longer join the course, as you you have been unenrolled from the course by an instructor.";
+        
         // Messages that are templates only
         /** Template String. Parameters: Student's name, Course ID */
         public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course %s.";
         
         /** Template String. Parameters:  Course ID */
+        public static final String DELETED_STUDENT_ATTEMPTING_TO_JOIN =
+                "Unable to join course %s as you have been unenrolled by an instructor. Please contact your course instructor for assistance.";
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
         public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";

@@ -29,7 +29,10 @@ public class StudentCourseJoinAction extends Action {
         
         if (student == null) {
             statusToAdmin += "<br>Student course join failed due to being deleted by instructor.";
-            statusToUser.add(new StatusMessage(Const.StatusMessages.DELETED_STUDENT_ATTEMPTING_TO_JOIN,
+            String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+            Assumption.assertNotNull(courseId);
+            statusToUser.add(new StatusMessage(
+                    String.format(Const.StatusMessages.DELETED_STUDENT_ATTEMPTING_TO_JOIN, courseId),
                     StatusMessageColor.WARNING));
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         }
