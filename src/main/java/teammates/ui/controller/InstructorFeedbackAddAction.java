@@ -142,9 +142,10 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         
         return new ArrayList<FeedbackQuestionAttributes>();
     }
-    
+
     @Override
-    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(FeedbackSessionAttributes newSession) {
+    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
+            FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
         newSession.setCreatedTime(new Date());
         newSession.setSentOpenEmail(false);
         newSession.setSentPublishedEmail(false);
@@ -153,9 +154,5 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
         return newSession;
     }
-    
-    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
-            FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
-        return newSession;
-    }
+
 }
