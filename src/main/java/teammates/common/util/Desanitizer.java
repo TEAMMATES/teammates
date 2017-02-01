@@ -27,16 +27,16 @@ public final class Desanitizer {
      * to original encoding for appropriate display in files such as csv file <br>
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
-     * @param sanitized string
+     * @param sanitizedString
      * @return recovered string
      */
-    public static String desanitizeFromHtml(String str) {
+    public static String desanitizeFromHtml(String sanitizedString) {
 
-        if (str == null) {
+        if (sanitizedString == null) {
             return null;
         }
 
-        return str.replace("&lt;", "<")
+        return sanitizedString.replace("&lt;", "<")
                   .replace("&gt;", ">")
                   .replace("&quot;", "\"")
                   .replace("&#x2f;", "/")
@@ -49,12 +49,12 @@ public final class Desanitizer {
      * to original encoding for appropriate display in files such as csv file <br>
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
-     * @param sanitized string set
+     * @param sanitizedStringSet
      * @return recovered string set
      */
-    public static Set<String> desanitizeFromHtml(Set<String> textSet) {
+    public static Set<String> desanitizeFromHtml(Set<String> sanitizedStringSet) {
         Set<String> textSetTemp = new HashSet<String>();
-        for (String text : textSet) {
+        for (String text : sanitizedStringSet) {
             textSetTemp.add(desanitizeFromHtml(text));
         }
         return textSetTemp;
