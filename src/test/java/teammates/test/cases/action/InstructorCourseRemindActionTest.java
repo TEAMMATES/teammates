@@ -171,23 +171,24 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
         };
         
-        assertEntityNotFoundException(instructorId, submissionParams);
+        testExecuteAndPostProcess_assertEntityNotFoundException(instructorId, submissionParams);
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_EMAIL, invalidEmail
         };
         
-       assertEntityNotFoundException(instructorId, submissionParams);
+        testExecuteAndPostProcess_assertEntityNotFoundException(instructorId, submissionParams);
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "invalidCourseId"
         };
         
-        assertEntityNotFoundException(instructorId, submissionParams);
+        testExecuteAndPostProcess_assertEntityNotFoundException(instructorId, submissionParams);
     }
 
-    private void assertEntityNotFoundException(String instructorId, String[] submissionParams) {
+    private void testExecuteAndPostProcess_assertEntityNotFoundException(String instructorId,
+                                                                         String[] submissionParams) {
         try {
             Action remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
             remindAction.executeAndPostProcess();
