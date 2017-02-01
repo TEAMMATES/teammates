@@ -198,6 +198,4 @@ public class SanitizerTest extends BaseTestCase {
         assertEquals(expected, Sanitizer.sanitizeStringForXPath(text));
         
     }
-    
-
 }

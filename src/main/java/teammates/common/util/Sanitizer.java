@@ -302,8 +302,8 @@ public final class Sanitizer {
         // currentPos iterates through 0 to textLength (inclusive) to include last chain
         for (int currentPos = 0; currentPos <= textLength; currentPos++) {
             boolean isChainBroken = currentPos >= textLength
-                    || (isSingleQuotationChain && text.charAt(currentPos) != '\'')
-                    || (!isSingleQuotationChain && text.charAt(currentPos) == '\'');
+                    || isSingleQuotationChain && text.charAt(currentPos) != '\''
+                    || !isSingleQuotationChain && text.charAt(currentPos) == '\'';
             if (isChainBroken && startOfChain < currentPos) {
                 // format text.substring(startOfChain, currentPos) and append to result
                 char wrapper = isSingleQuotationChain ? '\"' : '\'';

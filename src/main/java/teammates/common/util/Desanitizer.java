@@ -6,7 +6,11 @@ import java.util.Set;
 /**
  * Class contains methods to convert sanitized inputs to its previous unsanitized state.
  */
-public class Desanitizer {
+public final class Desanitizer {
+
+    private Desanitizer() {
+        // utility class
+    }
 
     /**
      * Recovers the URL from sanitization due to {@link Sanitizer.sanitizeForNextUrl}.
