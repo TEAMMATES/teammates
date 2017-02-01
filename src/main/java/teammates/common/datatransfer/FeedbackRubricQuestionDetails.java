@@ -577,8 +577,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             for (int j = 0; j < numOfRubricChoices; j++) {
                 String percentageFrequencyString = isSubQuestionRespondedTo
-                        ? df.format(rubricStats[i][j] * 100) + "%"
-                        : STATISTICS_NO_VALUE_STRING;
+                                                 ? df.format(rubricStats[i][j] * 100) + "%"
+                                                 : STATISTICS_NO_VALUE_STRING;
                 String tableBodyCell = Templates.populateTemplate(tableBodyFragmentTemplate,
                         Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
                         percentageFrequencyString + " (" + responseFrequency[i][j] + ")");
