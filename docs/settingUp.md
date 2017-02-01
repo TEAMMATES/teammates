@@ -31,6 +31,12 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
     upstream        https://github.com/TEAMMATES/teammates.git (push)
   ```
 
+1. Set your `master` branch to track the original repo's `master` branch.
+   ```sh
+   git checkout master
+   git branch -u upstream/master
+   ```
+
 More information can be found at [this documentation](https://help.github.com/articles/fork-a-repo/).
 
 ## Step 3: Set up project-specific settings and dependencies
