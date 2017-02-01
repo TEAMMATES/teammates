@@ -199,13 +199,5 @@ public class SanitizerTest extends BaseTestCase {
         
     }
     
-    @Test
-    public void testRemoveNonAscii() {
-        assertEquals("Hello world!", Sanitizer.removeNonAscii("Hello world!"));
-        
-        assertEquals("", Sanitizer.removeNonAscii("©¡¢â"));
-        
-        assertEquals("Coevaluacin Prctica (Part 1)",
-                     Sanitizer.removeNonAscii("Coevaluación Práctica (Part 1)"));
-    }
+
 }
