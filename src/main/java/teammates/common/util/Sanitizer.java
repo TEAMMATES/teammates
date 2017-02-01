@@ -187,7 +187,6 @@ public final class Sanitizer {
                 .replace("&#x2f;", "/")
                 .replace("&#39;", "'")
                 .replaceAll("&amp;", "&");
-
     }
 
     /**
