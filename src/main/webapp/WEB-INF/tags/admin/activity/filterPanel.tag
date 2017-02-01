@@ -190,13 +190,13 @@
         
         <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
         in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
-        logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+        logs despite any action or change in the page unless the page is reloaded with "?all=false" 
         or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="all" value="${ifShowAll}">
 
         <%-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
         to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
-        unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
+        unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="testdata" value="${ifShowTestData}"> 
     </form>
     
@@ -207,13 +207,13 @@
         
         <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
         in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
-        logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+        logs despite any action or change in the page unless the page is reloaded with "?all=false" 
         or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="all" value="${ifShowAll}">
 
         <%-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
         to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
-        unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
+        unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="testdata" value="${ifShowTestData}">
         
         <input type="hidden" id="filterQuery" name="filterQuery" value="${filterQuery}">
