@@ -492,13 +492,12 @@ function isWithinView(element) {
     
     var $viewport = $(window);
     
-    // subpixel range to prevent rounding errors
-    // e.g. rect.top = -0.0013 will still be considered to be within viewport
+    // makes the viewport size slightly larger to account for rounding errors
     var tolerance = 0.25;
     return (
-        rect.top >= 0 - tolerance                           // below the top of viewport
-        && rect.left >= 0 - tolerance                       // within the left of viewport
-        && rect.right <= $viewport.width() + tolerance      // within the right of viewport
+        rect.top >= 0 - tolerance    // below the top of viewport
+        && rect.left >= 0 - tolerance    // within the left of viewport
+        && rect.right <= $viewport.width() + tolerance    // within the right of viewport
         && rect.bottom <= $viewport.height() + tolerance    // above the bottom of viewport
     );
 }
