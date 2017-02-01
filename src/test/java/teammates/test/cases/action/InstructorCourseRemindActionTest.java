@@ -179,7 +179,9 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         };
         
         testExecuteAndPostProcess_assertEntityNotFoundException(instructorId, submissionParams);
-        
+
+        ______TS("Failure case: Invalid course id parameter");
+
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "invalidCourseId"
         };
