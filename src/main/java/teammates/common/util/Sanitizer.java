@@ -66,7 +66,7 @@ public final class Sanitizer {
      * @return the sanitized email address or null (if the parameter was null).
      */
     public static String sanitizeEmail(String rawEmail) {
-        return trimIfNotNull(rawEmail);
+        return StringHelper.trimIfNotNull(rawEmail);
     }
     
     /**
@@ -97,7 +97,7 @@ public final class Sanitizer {
      * @return the sanitized text or null (if the parameter was null).
      */
     public static String sanitizeTextField(String rawText) {
-        return trimIfNotNull(rawText);
+        return StringHelper.trimIfNotNull(rawText);
     }
     
     /**
@@ -111,14 +111,14 @@ public final class Sanitizer {
         if (rawText == null) {
             return null;
         }
-        return new Text(trimIfNotNull(rawText.getValue()));
+        return new Text(StringHelper.trimIfNotNull(rawText.getValue()));
     }
 
     /**
      * Escape the string for inserting into javascript code.
      * This automatically calls {@link #sanitizeForHtml} so make it safe for HTML too.
      *
-     * @param string
+     * @param str
      * @return the sanitized string or null (if the parameter was null).
      */
     public static String sanitizeForJs(String str) {
@@ -291,16 +291,6 @@ public final class Sanitizer {
         
         return sanitizedStrList;
     }
-
-    /**
-     * Trims the string if it is not null.
-     * 
-     * @param string
-     * @return the trimmed string or null (if the parameter was null).
-     */
-    private static String trimIfNotNull(String string) {
-        return string == null ? null : string.trim();
-    }
     
     /**
      * Convert the string to a safer version for XPath
@@ -340,10 +330,4 @@ public final class Sanitizer {
         return "concat(" + result.toString() + "'')";
     }
 
-    /**
-     * @return text with all non-ASCII characters removed
-     */
-    public static String removeNonAscii(String text) {
-        return text.replaceAll("[^\\x00-\\x7F]", "");
-    }
 }

@@ -514,15 +514,15 @@ public final class StringHelper {
         }
         return result.reverse().toString();
     }
-    
+
     /**
-     * Trim the given string if it is not equals to null
+     * Trims the string if it is not null.
+     *
+     * @param string
+     * @return the trimmed string or null (if the parameter was null).
      */
-    public static String trimIfNotNull(String untrimmedString) {
-        if (untrimmedString != null) {
-            return untrimmedString.trim();
-        }
-        return untrimmedString;
+    public static String trimIfNotNull(String string) {
+        return string == null ? null : string.trim();
     }
 
     /**
@@ -585,5 +585,12 @@ public final class StringHelper {
             stringsAfterTrim[i++] = stringToTrim.trim();
         }
         return stringsAfterTrim;
+    }
+
+    /**
+     * @return text with all non-ASCII characters removed
+     */
+    public static String removeNonAscii(String text) {
+        return text.replaceAll("[^\\x00-\\x7F]", "");
     }
 }

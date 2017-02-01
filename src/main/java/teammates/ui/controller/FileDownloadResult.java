@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StringHelper;
 
 public class FileDownloadResult extends ActionResult {
     
@@ -55,7 +56,7 @@ public class FileDownloadResult extends ActionResult {
     }
     
     private String getAsciiOnlyCsvFileName() {
-        return Sanitizer.removeNonAscii(fileName) + ".csv";
+        return StringHelper.removeNonAscii(fileName) + ".csv";
     }
     
     private String getUrlEscapedCsvFileName() {

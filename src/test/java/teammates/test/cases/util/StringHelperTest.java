@@ -329,4 +329,14 @@ public class StringHelperTest extends BaseTestCase {
                                   + "</table>";
         assertEquals(expectedHtmlText, htmlText);
     }
+
+    @Test
+    public void testRemoveNonAscii() {
+        assertEquals("Hello world!", StringHelper.removeNonAscii("Hello world!"));
+
+        assertEquals("", StringHelper.removeNonAscii("©¡¢â"));
+
+        assertEquals("Coevaluacin Prctica (Part 1)",
+                StringHelper.removeNonAscii("Coevaluación Práctica (Part 1)"));
+    }
 }
