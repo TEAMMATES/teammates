@@ -106,7 +106,24 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         
         // delete the new student
         studentsDb.deleteStudentWithoutDocument(newStudentData.course, newStudentData.email);
+        
+        ______TS("Unenrolled student joining course displays error");
 
+        gaeSimulation.loginUser(idOfNewStudent);
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, newStudentKey,
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_PROFILE_PAGE,
+                Const.ParamsNames.STUDENT_EMAIL, newStudentData.email,
+                Const.ParamsNames.COURSE_ID, newStudentData.course
+        };
+        joinAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(joinAction);
+
+        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE, redirectResult.destination);
+        assertEquals(
+                String.format(Const.StatusMessages.DELETED_STUDENT_ATTEMPTING_TO_JOIN, newStudentData.course),
+                redirectResult.getStatusMessage());
+        assertEquals("warning", redirectResult.getStatusMessageColor());
     }
     
     @Test
