@@ -144,8 +144,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
     }
 
     @Override
-    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
-            FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
+    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(FeedbackSessionAttributes newSession) {
         newSession.setCreatedTime(new Date());
         newSession.setSentOpenEmail(false);
         newSession.setSentPublishedEmail(false);
@@ -155,4 +154,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         return newSession;
     }
 
+    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
+            FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
+        return newSession;
+    }
 }
