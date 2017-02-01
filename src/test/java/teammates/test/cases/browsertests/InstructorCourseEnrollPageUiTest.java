@@ -97,7 +97,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
                 .withCourseId(courseId);
         InstructorCoursesDetailsPage detailsPage =
                 loginAdminToPage(coursesPageUrl, InstructorCoursesDetailsPage.class);
-        assertEquals(6, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
+        assertEquals(6, detailsPage.getStudentCountForCourse());
 
         ______TS("enroll action: empty course, enroll lines with header containing empty columns, no sections");
         
@@ -134,8 +134,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
             .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
             .withCourseId(courseId);
         detailsPage = loginAdminToPage(coursesPageUrl, InstructorCoursesDetailsPage.class);
-        assertEquals(3, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
-
+        assertEquals(3, detailsPage.getStudentCountForCourse());
+      
         ______TS("enroll action: fail to enroll as a team cannot be in 2 different sections");
 
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
