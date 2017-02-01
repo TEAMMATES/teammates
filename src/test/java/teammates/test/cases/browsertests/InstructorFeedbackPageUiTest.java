@@ -279,7 +279,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.setInstructions(new Text("<p>Please answer all the given questions.</p>"));
         newSession.setGracePeriod(15);
         
-        newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
+        newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
         
         feedbackPage.addFeedbackSessionWithTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
