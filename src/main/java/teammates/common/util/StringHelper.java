@@ -2,7 +2,6 @@ package teammates.common.util;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -493,7 +492,7 @@ public final class StringHelper {
      * Counts the number of empty strings passed as the argument. Null is
      * considered an empty string, while whitespace is not.
      * 
-     * @param String...
+     * @param strings
      * @return number of empty strings passed
      */
     public static int countEmptyStrings(String... strings) {
@@ -510,7 +509,7 @@ public final class StringHelper {
      * Converts null input to empty string. Non-null inputs will be left as is.
      * This method is for displaying purpose.
      * 
-     * @param String
+     * @param str
      * @return empty string if null, the string itself otherwise
      */
     public static String convertToEmptyStringIfNull(String str) {
