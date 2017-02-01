@@ -237,17 +237,7 @@ public final class Sanitizer {
         }
         return url.replace("&", "${amp}").replace("%2B", "${plus}").replace("%23", "${hash}");
     }
-    
-    /**
-     * Recovers the URL from sanitization due to {@link #sanitizeForNextUrl}.
-     * In addition, any un-encoded whitespace (they may be there due to Google's
-     * behind-the-screen decoding process) will be encoded again to +.
-     */
-    public static String desanitizeFromNextUrl(String url) {
-        return url.replace("${amp}", "&").replace("${plus}", "%2B").replace("${hash}", "%23")
-                  .replace(" ", "+");
-    }
-    
+
     /**
      * Sanitize the string for searching.
      */
