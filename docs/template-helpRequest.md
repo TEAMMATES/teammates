@@ -29,9 +29,9 @@
 java.lang.AssertionError:
         at org.testng.AssertJUnit.fail(AssertJUnit.java:59)
         at org.testng.AssertJUnit.assertTrue(AssertJUnit.java:24)
- 	at org.testng.AssertJUnit.assertNotNull(AssertJUnit.java:267)
+        at org.testng.AssertJUnit.assertNotNull(AssertJUnit.java:267)
         at org.testng.AssertJUnit.assertNotNull(AssertJUnit.java:259)
- 	at teammates.test.cases.BaseTestCase.assertNotNull(BaseTestCase.java:177)
+        at teammates.test.cases.BaseTestCase.assertNotNull(BaseTestCase.java:177)
         at teammates.test.cases.action.AdminAccountDeletePageActionTest.testExecuteAndPostProcess(AdminAccountDeletePageActionTest.java:42)
 ```
 
