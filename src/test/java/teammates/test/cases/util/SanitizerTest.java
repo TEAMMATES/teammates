@@ -92,7 +92,26 @@ public class SanitizerTest extends BaseTestCase {
                 + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
         assertEquals(sanitized, Sanitizer.sanitizeForHtml(sanitized));
     }
-    
+
+    @Test
+    public void testDesanitizeFromHtml() {
+        desanitizeFromHtml_receivesNull_returnsNull();
+        desanitizeFromHtml_receivesSanitized_returnsDesanitized();
+
+    }
+
+    private void desanitizeFromHtml_receivesNull_returnsNull() {
+        assertEquals(null, Sanitizer.desanitizeFromHtml(null));
+    }
+
+    private void desanitizeFromHtml_receivesSanitized_returnsDesanitized() {
+        String unsanitized = "< > \" / ' &"
+                + "<script>alert('injected');</script> "
+                + "The quick brown fox, jumps! Over the lazy brown dog.";
+        String sanitized = Sanitizer.sanitizeForHtml(unsanitized);
+        assertEquals(unsanitized, Sanitizer.desanitizeFromHtml(sanitized));
+    }
+
     @Test
     public void testSanitizeForHtmlTag() {
         sanitizeHtmlTag_receivesNull_returnsNull();
