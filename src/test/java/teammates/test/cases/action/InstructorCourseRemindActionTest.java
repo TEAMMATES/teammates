@@ -194,7 +194,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         try {
             Action remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
             remindAction.executeAndPostProcess();
-            signalFailureToDetectException();
+            signalFailureToDetectException(" - EntityNotFoundException");
         } catch (EntityNotFoundException e) {
             ignoreExpectedException();
         }
