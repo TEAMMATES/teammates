@@ -2,25 +2,24 @@ package teammates.test.cases.browsertests;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 public class TimezoneSyncerTest extends BaseUiTestCase {
     
-    private static Browser browser;
     private static AppPage page;
+    
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
+    }
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
-        browser = BrowserPool.getBrowser();
-        loginAdmin(browser);
+        loginAdmin();
         page = AppPage.getNewPageInstance(browser).navigateTo(createUrl(Const.ViewURIs.TIMEZONE));
     }
     
@@ -29,12 +28,6 @@ public class TimezoneSyncerTest extends BaseUiTestCase {
         Document pageSource = Jsoup.parse(page.getPageSource());
         assertEquals(pageSource.getElementById("jodatime").text().replace(" ", Const.EOL),
                      pageSource.getElementById("momentjs").text().replace(" ", Const.EOL));
-    }
-    
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-        BrowserPool.release(browser);
     }
     
 }

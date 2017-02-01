@@ -5,9 +5,11 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.UserType;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
+import teammates.logic.api.GateKeeper;
 import teammates.common.util.JsonUtils;
 
 import com.google.gson.reflect.TypeToken;
@@ -60,8 +62,9 @@ public class FeedbackResponseAdjustmentWorkerAction extends AutomatedAction {
             try {
                 logic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
             } catch (Exception e) {
+                UserType userType = new GateKeeper().getCurrentUser();
                 log.severe(String.format(errorString, sessionName, courseId, e.getMessage(),
-                                         ActivityLogEntry.generateServletActionFailureLogMessage(request, e)));
+                                         ActivityLogEntry.generateServletActionFailureLogMessage(request, e, userType)));
                 setForRetry();
                 return;
             }

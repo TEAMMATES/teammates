@@ -1,29 +1,21 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
-    private static DataBundle testData;
     private static InstructorCourseJoinConfirmationPage confirmationPage;
-    String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCourseJoinConfirmationPageUiTest.json");
         
         // use the instructor account injected for this test
@@ -36,8 +28,10 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                         TestProperties.TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
         
         removeAndRestoreDataBundle(testData);
-        
-        browser = BrowserPool.getBrowser(true);
+    }
+    
+    @BeforeClass
+    public void classSetup() {
         browser.driver.manage().deleteAllCookies();
     }
 
@@ -57,12 +51,14 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
     private void testJoinConfirmation() throws Exception {
         
+        String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+        
         ______TS("Click join link then cancel");
         
         String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(invalidEncryptedKey)
                                         .toAbsoluteString();
-        logout(browser);
+        logout();
         browser.driver.get(joinLink);
         confirmationPage = AppPage.createCorrectLoginPageType(browser)
                            .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
@@ -109,11 +105,6 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser.driver.get(joinLink);
         instructorHome = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         instructorHome.verifyStatus(TestProperties.TEST_INSTRUCTOR_ACCOUNT + " has already joined this course");
-    }
-    
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
     }
     
 }

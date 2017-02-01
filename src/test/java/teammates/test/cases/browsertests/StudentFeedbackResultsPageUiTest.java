@@ -1,18 +1,13 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
@@ -23,16 +18,12 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
  * SUT: {@link StudentFeedbackResultsPage}.
  */
 public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
-    private static DataBundle testData;
-    private static Browser browser;
     private StudentFeedbackResultsPage resultsPage;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/StudentFeedbackResultsPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
     }
 
     @Test
@@ -40,7 +31,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student");
 
-        logout(browser);
+        logout();
         
         // Open Session
         StudentAttributes unreg = testData.students.get("DropOut");
@@ -123,7 +114,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         String student1Username = TestProperties.TEST_STUDENT1_ACCOUNT;
         String student1Password = TestProperties.TEST_STUDENT1_PASSWORD;
         
-        logout(browser);
+        logout();
         LoginPage loginPage = AppPage.getNewPageInstance(browser, HomePage.class).clickStudentLogin();
         loginPage.loginAsStudent(student1Username, student1Password);
 
@@ -139,7 +130,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("unreg student logged in as a student in another course: registered without logging out");
         
-        logout(browser);
+        logout();
         loginPage = AppPage.getNewPageInstance(browser, HomePage.class).clickStudentLogin();
         loginPage.loginAsStudent(student1Username, student1Password);
 
@@ -153,17 +144,12 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         BackDoor.deleteStudent(unreg.course, unreg.email);
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
-
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(browser, editUrl, StudentFeedbackResultsPage.class);
+        return loginAdminToPage(editUrl, StudentFeedbackResultsPage.class);
     }
 
     private <T extends AppPage> T loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId,

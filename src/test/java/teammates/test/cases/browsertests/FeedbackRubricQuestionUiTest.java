@@ -1,43 +1,36 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
 public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
-    private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
-    private static FeedbackSubmitPage submitPage;
-    private static InstructorFeedbackResultsPage instructorResultsPage;
-    private static DataBundle testData;
 
     private static String courseId;
     private static String feedbackSessionName;
     private static String instructorId;
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/FeedbackRubricQuestionUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
+    }
+    
+    @BeforeClass
+    protected void classSetup() {
         feedbackEditPage = getFeedbackEditPage();
-
     }
 
     @Test
@@ -61,7 +54,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("test rubric question instructor results page");
 
         // Question view
-        instructorResultsPage =
+        InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2",
                                                                  false, "question");
         instructorResultsPage.waitForPanelsToExpand();
@@ -102,7 +95,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("test rubric question input disabled for closed session");
         
-        submitPage = loginToInstructorFeedbackSubmitPage("teammates.test.instructor", "closedSession");
+        FeedbackSubmitPage submitPage = loginToInstructorFeedbackSubmitPage("teammates.test.instructor", "closedSession");
         int qnNumber = 1;
         int responseNumber = 0;
         int rowNumber = 0;
@@ -118,7 +111,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("test rubric question input disabled for closed session");
         
-        submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "closedSession");
+        FeedbackSubmitPage submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "closedSession");
         int qnNumber = 1;
         int responseNumber = 0;
         int rowNumber = 0;
@@ -370,7 +363,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private InstructorFeedbackEditPage getFeedbackEditPage() {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                 .withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
-        return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
     
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(
@@ -379,7 +372,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                 .withUserId(testData.instructors.get(instructorName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPage(editUrl, FeedbackSubmitPage.class);
     }
     
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
@@ -388,7 +381,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                 .withUserId(testData.students.get(studentName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPage(editUrl, FeedbackSubmitPage.class);
     }
     
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(
@@ -397,8 +390,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                 .withUserId(testData.students.get(studentName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(browser, editUrl,
-                StudentFeedbackResultsPage.class);
+        return loginAdminToPage(editUrl, StudentFeedbackResultsPage.class);
     }
     
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPageWithViewType(
@@ -416,12 +408,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
         
-        return loginAdminToPage(browser, editUrl,
-                InstructorFeedbackResultsPage.class);
+        return loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }

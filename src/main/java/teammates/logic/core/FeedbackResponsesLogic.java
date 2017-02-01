@@ -255,7 +255,7 @@ public final class FeedbackResponsesLogic {
         return viewableResponses;
     }
 
-    public boolean shouldNameBeVisibleToUser(
+    public boolean isNameVisibleToUser(
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,
             String userEmail,
@@ -277,11 +277,11 @@ public final class FeedbackResponsesLogic {
             }
         }
         
-        return shouldFeedbackParticipantNameBeVisibleToUser(question, response,
+        return isFeedbackParticipantNameVisibleToUser(question, response,
                 userEmail, role, isGiverName, roster);
     }
 
-    private boolean shouldFeedbackParticipantNameBeVisibleToUser(
+    private boolean isFeedbackParticipantNameVisibleToUser(
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
             String userEmail, UserRole role, boolean isGiverName, CourseRoster roster) {
         List<FeedbackParticipantType> showNameTo = isGiverName
@@ -334,8 +334,8 @@ public final class FeedbackResponsesLogic {
                 }
                 break;
             default:
-                Assumption.fail("Invalid FeedbackPariticipantType for showNameTo in "
-                                + "FeedbackResponseLogic.isNameVisible()");
+                Assumption.fail("Invalid FeedbackParticipantType for showNameTo in "
+                                + "FeedbackResponseLogic.isFeedbackParticipantNameVisibleToUser()");
                 break;
             }
         }
