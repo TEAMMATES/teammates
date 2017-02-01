@@ -10,7 +10,7 @@ If that is the case, [open a new issue][new issue]. Use the following templates:
 * For feature requests, refer [here](../docs/template-featureRequest.md).
 * For bug reports, refer [here](../docs/template-bugReport.md).
 * For new contributor introduction, refer [here](../docs/template-contributorIntro.md).
-* For help requests, refer  [here](../docs/template-helpRequest.md).
+* For help requests, refer [here](../docs/template-helpRequest.md).
 * For other work like refactoring, updating documentation, or performance improvement, simply provide a clear **issue title** and **description** of the work to be done.
 
 [issue tracker]: https://github.com/TEAMMATES/teammates/issues
