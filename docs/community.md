@@ -63,7 +63,7 @@ They do not have additional duties other than that common to all core team membe
 Area leads are team members in charge of particular aspects of the project.
 
 Area leads have the following duties:
-* Act as the first point of contact for an issue requiring triaging or a PR requiring review, if the issue falls in their portfolio (as determined by the issue labels).
+* Act as the first point of contact for an issue requiring triage or a PR requiring review, if the issue falls in their portfolio (as determined by the issue labels).
 * Perform maintenance tasks regularly in their portfolio area. For example:
   * For feature-related areas: fixing bugs, testing for correctness and performance, paying off code-related technical debts.
   * For DevOps: researching new development tools or alternative workflow to be adopted, updating third-party dependencies.
@@ -79,7 +79,7 @@ Project leads have the following additional privileges:
 * Have "admin" access to the main repository.
 * Can merge any approved PRs reviewed by anyone as they see fit.
 
-Project leads have the following duties, which can also be spread with other team members:
+Project leads have the following duties, which can also be shared with other team members:
 * Assign reviewers for PRs (if nobody volunteers to be a reviewer), based on the issue label.
 * Manage issue and PR tracker, e.g. close PRs that are abandoned for long.
 * Manage weekly release (i.e. act as Release Lead).

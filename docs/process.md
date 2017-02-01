@@ -43,7 +43,7 @@ You are free to work on any of the issues listed there.
 * (Optional) You can discuss, via the issue tracker, the alternative solutions before choosing one to implement.
   Such a discussion reduces the chance of a rejected fix or a misunderstood issue.
 
-The issue labels as documented [here](issues.md) may help you in choosing which issue to fix.
+The [issue labels](issues.md#issue-labels) may help you in choosing which issue to fix.
 
 ### Step 2: Start clean from a new branch
 
