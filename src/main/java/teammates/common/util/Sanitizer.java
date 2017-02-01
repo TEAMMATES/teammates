@@ -174,6 +174,23 @@ public final class Sanitizer {
     }
 
     /**
+     * Desanitizes html sanitized by santizeForHtml to its original string.
+     * Should only be used once.
+     */
+    public static String desanitizeFromHtml(String str) {
+        if (str == null) {
+            return null;
+        }
+        return str.replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&quot;", "\"")
+                .replace("&#x2f;", "/")
+                .replace("&#39;", "'")
+                .replaceAll("&amp;", "&");
+
+    }
+
+    /**
      * Escapes HTML tag safely. This function can be applied multiple times.
      */
     public static String sanitizeForHtmlTag(String str) {
