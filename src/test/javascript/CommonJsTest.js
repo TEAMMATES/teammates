@@ -1,5 +1,29 @@
 QUnit.module('common.js');
 
+/**
+ * Warning: This test must be the first because it tests on the visibility
+ * of the elements. Testing later may push the elements out of view.
+ */
+QUnit.test('isWithinView()', function(assert) {
+    var testDiv = $('#visible');
+    
+    // Applies style to visible element and asserts whether it should be visible
+    function assertWithStyle(style, condition) {
+        testDiv.attr('style', 'position: absolute;' + style);
+
+        var testString = 'Element with style ' + style + (condition ? ' is within view' : ' is not within view');
+        assert.equal(isWithinView(testDiv), condition, testString);
+    }
+    assertWithStyle('top: 0%;', true);
+    assertWithStyle('top: 100%;', false);
+    assertWithStyle('bottom: 0%;', true);
+    assertWithStyle('bottom: 100%;', false);
+    assertWithStyle('top: 0%; left: 0%;', true);
+    assertWithStyle('top: 0%; left: -100%;', false);
+    assertWithStyle('top: 0%; right: -100%;', false);
+    assertWithStyle('top: 0%; right: 0%;', true);
+});
+
 QUnit.test('isNumber(num)', function(assert) {
     assert.equal(isNumber('-0.001'), true, 'Negative double');
     assert.equal(isNumber('12.056'), true, 'Positive double');

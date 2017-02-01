@@ -484,20 +484,23 @@ function getPointValue(s, ditchZero) {
 /**
  * Checks if element is within browser's viewport.
  * @return true if it is within the viewport, false otherwise
+ * @see http://stackoverflow.com/q/123999
  */
 function isWithinView(element) {
-    var viewHeight = window.innerHeight;
-    var viewTop = window.scrollY;
-    var viewBottom = viewTop + viewHeight;
+    var baseElement = $(element)[0]; // unwrap jquery element
+    var rect = baseElement.getBoundingClientRect();
     
-    var elementHeight = element.offsetHeight;
-    var elementTop = element.offsetTop;
-    var elementBottom = elementTop + elementHeight;
+    var $viewport = $(window);
     
-    return viewHeight >= elementHeight
-           ? viewTop <= elementTop && viewBottom >= elementBottom          // all within view
-           : viewTop <= elementTop && viewBottom >= elementTop             // top within view
-             || viewTop <= elementBottom && viewBottom >= elementBottom;   // btm within view
+    // subpixel range to prevent rounding errors
+    // e.g. rect.top = -0.0013 will still be considered to be within viewport
+    var tolerance = 0.25;
+    return (
+        rect.top >= 0 - tolerance                           // below the top of viewport
+        && rect.left >= 0 - tolerance                       // within the left of viewport
+        && rect.right <= $viewport.width() + tolerance      // within the right of viewport
+        && rect.bottom <= $viewport.height() + tolerance    // above the bottom of viewport
+    );
 }
 
 /**
