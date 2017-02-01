@@ -171,39 +171,30 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
         };
         
-        try {
-            remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-            redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
-            signalFailureToDetectException();
-        } catch (EntityNotFoundException e) {
-            ignoreExpectedException();
-        }
+        assertEntityNotFoundException(instructorId, submissionParams);
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_EMAIL, invalidEmail
         };
         
-        try {
-            remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-            redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
-            signalFailureToDetectException();
-        } catch (EntityNotFoundException e) {
-            ignoreExpectedException();
-        }
+       assertEntityNotFoundException(instructorId, submissionParams);
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "invalidCourseId"
         };
         
+        assertEntityNotFoundException(instructorId, submissionParams);
+    }
+
+    private void assertEntityNotFoundException(String instructorId, String[] submissionParams) {
         try {
-            remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-            redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+            Action remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
+            remindAction.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (EntityNotFoundException e) {
             ignoreExpectedException();
         }
-        
     }
 
     private InstructorCourseRemindAction getAction(String... parameters) {
