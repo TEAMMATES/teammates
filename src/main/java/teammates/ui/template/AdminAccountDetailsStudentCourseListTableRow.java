@@ -1,7 +1,7 @@
 package teammates.ui.template;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.ui.controller.AdminAccountDetailsPageData;
+import teammates.ui.pagedata.AdminAccountDetailsPageData;
 
 public class AdminAccountDetailsStudentCourseListTableRow {
     private String googleId;

@@ -27,6 +27,7 @@ import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
+import teammates.ui.pagedata.PageData;
 
 /** An 'action' to be performed by the system. If the logged in user is allowed
  * to perform the requested action, this object can talk to the back end to
@@ -337,7 +338,7 @@ public abstract class Action {
         statusToAdmin = "Redirecting user to " + redirectUrl;
     }
     
-    protected String getAuthenticationRedirectUrl() {
+    public String getAuthenticationRedirectUrl() {
         return authenticationRedirectUrl;
     }
     

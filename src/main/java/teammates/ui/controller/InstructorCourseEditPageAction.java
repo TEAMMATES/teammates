@@ -9,6 +9,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.ui.pagedata.InstructorCourseEditPageData;
 
 /**
  * Action: showing the 'Edit' page for a course of an instructor

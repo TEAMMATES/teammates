@@ -1,17 +1,12 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEditStudentFeedbackPage;
 
 /**
@@ -20,17 +15,12 @@ import teammates.test.pageobjects.InstructorEditStudentFeedbackPage;
  */
 public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
-    private static DataBundle testData;
-    private static Browser browser;
-    private InstructorEditStudentFeedbackPage submitPage;
+    private static InstructorEditStudentFeedbackPage submitPage;
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
         removeAndRestoreDataBundle(testData);
-        
-        browser = BrowserPool.getBrowser();
     }
     
     @Test
@@ -136,11 +126,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail);
         
-        return loginAdminToPage(browser, editUrl, InstructorEditStudentFeedbackPage.class);
+        return loginAdminToPage(editUrl, InstructorEditStudentFeedbackPage.class);
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }

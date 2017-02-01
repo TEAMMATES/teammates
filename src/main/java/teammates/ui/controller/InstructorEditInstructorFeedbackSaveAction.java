@@ -10,7 +10,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
@@ -64,7 +63,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
 
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
             String paramMapKey = Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx;
-            String questionId = HttpRequestHelper.getValueFromParamMap(requestParameters, paramMapKey);
+            String questionId = getRequestParamValue(paramMapKey);
             
             if (questionId == null) {
                 // we do not throw an error if the question was not present on the page for instructors to edit

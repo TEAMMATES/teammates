@@ -5,8 +5,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.ui.controller.AdminHomePageAction;
-import teammates.ui.controller.AdminHomePageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.AdminHomePageData;
 
 public class AdminHomePageActionTest extends BaseActionTest {
 

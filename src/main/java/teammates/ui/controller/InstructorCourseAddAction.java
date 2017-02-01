@@ -15,6 +15,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
+import teammates.ui.pagedata.InstructorCoursesPageData;
 
 /**
  * Action: adding a course for an instructor

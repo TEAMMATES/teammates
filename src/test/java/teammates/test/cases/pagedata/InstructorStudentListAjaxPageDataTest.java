@@ -15,7 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorStudentListAjaxPageData;
+import teammates.ui.pagedata.InstructorStudentListAjaxPageData;
 import teammates.ui.template.StudentListSectionData;
 import teammates.ui.template.StudentListStudentData;
 import teammates.ui.template.StudentListTeamData;

@@ -3,36 +3,26 @@ package teammates.test.cases.browsertests;
 import java.util.Arrays;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 import teammates.test.pageobjects.AdminAccountManagementPage;
 import teammates.test.pageobjects.AdminActivityLogPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 /**
  * Covers the 'accounts management' view for admins.
  * SUT: {@link AdminAccountManagementPage}
  */
 public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
-    private static AppUrl accountsPageUrl;
     private static AdminAccountManagementPage accountsPage;
-    private static DataBundle testData;
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/AdminAccountManagementPageUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
     }
     
     @Test
@@ -105,16 +95,11 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     }
     
     private void loginToAdminAccountsManagementPage(String instructorIdToShow) {
-        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE
-                                    + "?all=true&googleId=" + instructorIdToShow);
-        accountsPage = loginAdminToPage(browser, accountsPageUrl, AdminAccountManagementPage.class);
+        AppUrl accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE
+                                           + "?all=true&googleId=" + instructorIdToShow);
+        accountsPage = loginAdminToPage(accountsPageUrl, AdminAccountManagementPage.class);
         accountsPage.waitForAdminAccountsManagementPageToFinishLoading();
         accountsPage.verifyIsCorrectPage();
-    }
-
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
     }
     
 }
