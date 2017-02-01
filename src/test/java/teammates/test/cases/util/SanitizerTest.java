@@ -180,22 +180,22 @@ public class SanitizerTest extends BaseTestCase {
     }
     
     @Test
-    public void testClearStringForXPath() {
+    public void testSanitizeStringForXPath() {
         String text = "";
         String expected = "''";
-        assertEquals(expected, Sanitizer.convertStringForXPath(text));
+        assertEquals(expected, Sanitizer.sanitizeStringForXPath(text));
         
         text = "Will o' The Wisp";
         expected = "concat('Will o',\"'\",' The Wisp','')";
-        assertEquals(expected, Sanitizer.convertStringForXPath(text));
+        assertEquals(expected, Sanitizer.sanitizeStringForXPath(text));
         
         text = "'''''Will o''''' The''''' Wisp";
         expected = "concat(\"'''''\",'Will o',\"'''''\",' The',\"'''''\",' Wisp','')";
-        assertEquals(expected, Sanitizer.convertStringForXPath(text));
+        assertEquals(expected, Sanitizer.sanitizeStringForXPath(text));
         
         text = "Team 1</td></div>'\"";
         expected = "concat('Team 1</td></div>',\"'\",'\"','')";
-        assertEquals(expected, Sanitizer.convertStringForXPath(text));
+        assertEquals(expected, Sanitizer.sanitizeStringForXPath(text));
         
     }
     

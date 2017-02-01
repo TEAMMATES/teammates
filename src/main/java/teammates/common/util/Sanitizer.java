@@ -304,24 +304,28 @@ public final class Sanitizer {
      * @param text
      * @return safer version of the text for XPath
      */
-    public static String convertStringForXPath(String text) {
+    public static String sanitizeStringForXPath(String text) {
         StringBuilder result = new StringBuilder();
         int startPos = 0;
-        int i = 0;
-        while (i < text.length()) {
-            while (i < text.length() && text.charAt(i) != '\'') {
-                i++;
+        int currentPos = 0;
+        while (currentPos < text.length()) {
+            while (currentPos < text.length() && text.charAt(currentPos) != '\'') {
+                currentPos++;
+                //find first '\'' char
             }
-            if (startPos < i) {
-                result.append('\'').append(text.substring(startPos, i)).append("',");
-                startPos = i;
+            if (startPos < currentPos) {
+                result.append('\'').append(text.substring(startPos, currentPos)).append("',");
+                startPos = currentPos;
+                //wrap string without '\'' with '' and append to result
             }
-            while (i < text.length() && text.charAt(i) == '\'') {
-                i++;
+            while (currentPos < text.length() && text.charAt(currentPos) == '\'') {
+                currentPos++;
+                //reach end of continuous chain of '\''
             }
-            if (startPos < i) {
-                result.append('\"').append(text.substring(startPos, i)).append("\",");
-                startPos = i;
+            if (startPos < currentPos) {
+                result.append('\"').append(text.substring(startPos, currentPos)).append("\",");
+                startPos = currentPos;
+                //wrap string of '\'' with "" and append to result
             }
         }
         if (result.length() == 0) {
