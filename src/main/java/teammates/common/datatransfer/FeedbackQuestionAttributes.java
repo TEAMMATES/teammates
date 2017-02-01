@@ -287,7 +287,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * @param newAttributes
      * @return
      */
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionAttributes newAttributes) {
+    public boolean areResponseDeletionsRequiredForChanges(FeedbackQuestionAttributes newAttributes) {
         if (!newAttributes.giverType.equals(this.giverType)
                 || !newAttributes.recipientType.equals(this.recipientType)) {
             return true;
