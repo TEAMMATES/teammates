@@ -315,12 +315,12 @@ public final class Sanitizer {
                     || (isSingleQuotationChain && text.charAt(currentPos) != '\'')
                     || (!isSingleQuotationChain && text.charAt(currentPos) == '\'');
             if (isChainBroken && startOfChain < currentPos) {
-                //format text.substring(startOfChain, currentPos) and append to result
+                // format text.substring(startOfChain, currentPos) and append to result
                 char wrapper = isSingleQuotationChain ? '\"' : '\'';
                 result.append(wrapper).append(text.substring(startOfChain, currentPos)).append(wrapper).append(',');
                 startOfChain = currentPos;
             }
-            //flip isSingleQuotationChain if chain is broken
+            // flip isSingleQuotationChain if chain is broken
             if (isChainBroken) {
                 isSingleQuotationChain = !isSingleQuotationChain;
             }
