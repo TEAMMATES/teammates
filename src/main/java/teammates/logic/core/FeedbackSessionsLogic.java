@@ -1723,7 +1723,7 @@ public final class FeedbackSessionsLogic {
                     role, section, student, studentsEmailInTeam, relatedResponse,
                     relatedQuestion, frc, instructor);
             if (isVisibleResponseComment) {
-                if (!frcLogic.isNameVisibleTo(frc, relatedResponse, userEmail, roster)) {
+                if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
                     frc.giverEmail = "Anonymous";
                 }
                 
@@ -1956,7 +1956,7 @@ public final class FeedbackSessionsLogic {
                         role, section, student, studentsEmailInTeam, relatedResponse,
                         relatedQuestion, frc, instructor);
                 if (isVisibleResponseComment) {
-                    if (!frcLogic.isNameVisibleTo(frc, relatedResponse, userEmail, roster)) {
+                    if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
                         frc.giverEmail = "Anonymous";
                     }
                     
@@ -2127,9 +2127,9 @@ public final class FeedbackSessionsLogic {
             UserRole role,
             CourseRoster roster) {
         boolean[] visibility = new boolean[2];
-        visibility[Const.VISIBILITY_TABLE_GIVER] = frLogic.shouldNameBeVisibleToUser(
+        visibility[Const.VISIBILITY_TABLE_GIVER] = frLogic.isNameVisibleToUser(
                 question, response, userEmail, role, true, roster);
-        visibility[Const.VISIBILITY_TABLE_RECIPIENT] = frLogic.shouldNameBeVisibleToUser(
+        visibility[Const.VISIBILITY_TABLE_RECIPIENT] = frLogic.isNameVisibleToUser(
                 question, response, userEmail, role, false, roster);
         visibilityTable.put(response.getId(), visibility);
     }
