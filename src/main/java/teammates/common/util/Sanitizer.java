@@ -20,7 +20,7 @@ import com.google.appengine.api.datastore.Text;
  */
 public final class Sanitizer {
 
-    private static PolicyFactory policy =
+    private static PolicyFactory richTextPolicy =
             new HtmlPolicyBuilder()
                 .allowStandardUrlProtocols()
                 .allowAttributes("title").globally()
@@ -140,7 +140,7 @@ public final class Sanitizer {
         if (content == null) {
             return null;
         }
-        return policy.sanitize(sanitizeTextField(content));
+        return richTextPolicy.sanitize(sanitizeTextField(content));
     }
     
     /**
