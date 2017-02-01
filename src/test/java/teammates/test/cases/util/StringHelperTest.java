@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -189,18 +188,6 @@ public class StringHelperTest extends BaseTestCase {
        
         str = " a      b       c       d      ";
         assertEquals("a b c d", StringHelper.removeExtraSpace(str));
-    }
-    
-    @Test
-    public void testRecoverFromSanitizedText() {
-        String str = null;
-        assertEquals(null, StringHelper.recoverFromSanitizedText(str));
-        
-        str = "";
-        assertEquals("", StringHelper.recoverFromSanitizedText(str));
-        
-        str = Sanitizer.sanitizeForHtml("<text><div> 'param' &&& \\//\\");
-        assertEquals("<text><div> 'param' &&& \\//\\", StringHelper.recoverFromSanitizedText(str));
     }
     
     @Test

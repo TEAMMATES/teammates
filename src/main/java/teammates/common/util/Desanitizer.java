@@ -1,0 +1,58 @@
+package teammates.common.util;
+
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * Class contains methods to convert sanitized inputs to its previous unsanitized state.
+ */
+public class Desanitizer {
+
+    /**
+     * Recovers the URL from sanitization due to {@link Sanitizer.sanitizeForNextUrl}.
+     * In addition, any un-encoded whitespace (they may be there due to Google's
+     * behind-the-screen decoding process) will be encoded again to +.
+     */
+    public static String desanitizeFromNextUrl(String url) {
+        return url.replace("${amp}", "&").replace("${plus}", "%2B").replace("${hash}", "%23")
+                  .replace(" ", "+");
+    }
+
+    /**
+     * This recovers a html-sanitized string using {@link Sanitizer.sanitizeForHtml}
+     * to original encoding for appropriate display in files such as csv file <br>
+     * It restores encoding for < > \ / ' &  <br>
+     * The method should only be used once on sanitized html
+     * @param sanitized string
+     * @return recovered string
+     */
+    public static String desanitizeFromHtml(String str) {
+
+        if (str == null) {
+            return null;
+        }
+
+        return str.replace("&lt;", "<")
+                  .replace("&gt;", ">")
+                  .replace("&quot;", "\"")
+                  .replace("&#x2f;", "/")
+                  .replace("&#39;", "'")
+                  .replaceAll("&amp;", "&");
+    }
+
+    /**
+     * This recovers a set of html-sanitized string using {@link Sanitizer.sanitizeForHtml}
+     * to original encoding for appropriate display in files such as csv file <br>
+     * It restores encoding for < > \ / ' &  <br>
+     * The method should only be used once on sanitized html
+     * @param sanitized string set
+     * @return recovered string set
+     */
+    public static Set<String> desanitizeFromHtml(Set<String> textSet) {
+        Set<String> textSetTemp = new HashSet<String>();
+        for (String text : textSet) {
+            textSetTemp.add(desanitizeFromHtml(text));
+        }
+        return textSetTemp;
+    }
+}

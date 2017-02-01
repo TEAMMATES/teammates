@@ -7,7 +7,7 @@ import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.StringHelper;
+import teammates.common.util.Desanitizer;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
 
@@ -110,7 +110,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     
     private String fixSanitization(String s) {
         if (isSanitizedString(s)) {
-            return StringHelper.recoverFromSanitizedText(s);
+            return Desanitizer.desanitizeFromHtml(s);
         }
         return s;
     }

@@ -354,44 +354,8 @@ public final class StringHelper {
         }
         return b;
     }
-    
-    
-    
-    /**
-     * This recovers a html-sanitized string to original encoding for appropriate display in files such as csv file <br>
-     * It restores encoding for < > \ / ' &  <br>
-     * @param sanitized string
-     * @return recovered string
-     */
-    public static String recoverFromSanitizedText(String str) {
-        
-        if (str == null) {
-            return null;
-        }
-        
-        return str.replace("&lt;", "<")
-                  .replace("&gt;", ">")
-                  .replace("&quot;", "\"")
-                  .replace("&#x2f;", "/")
-                  .replace("&#39;", "'")
-                  .replaceAll("&amp;", "&");
-    }
-    
-    /**
-     * This recovers a set of html-sanitized string to original encoding for appropriate display in files
-     * such as csv file <br>
-     * It restores encoding for < > \ / ' &  <br>
-     * @param sanitized string set
-     * @return recovered string set
-     */
-    public static Set<String> recoverFromSanitizedText(Set<String> textSet) {
-        Set<String> textSetTemp = new HashSet<String>();
-        for (String text : textSet) {
-            textSetTemp.add(StringHelper.recoverFromSanitizedText(text));
-        }
-        return textSetTemp;
-    }
-    
+
+
     /**
      * Convert a csv string to a html table string for displaying
      * @param str
