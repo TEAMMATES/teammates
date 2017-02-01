@@ -306,26 +306,23 @@ public final class Sanitizer {
      */
     public static String sanitizeStringForXPath(String text) {
         StringBuilder result = new StringBuilder();
-        int startPos = 0;
-        int currentPos = 0;
-        while (currentPos < text.length()) {
-            while (currentPos < text.length() && text.charAt(currentPos) != '\'') {
-                currentPos++;
-                //find first '\'' char
+        int startOfChain = 0;
+        int textLength = text.length();
+        boolean isSingleQuotationChain = false;
+        // currentPos iterates through 0 to textLength (inclusive) to include last chain
+        for (int currentPos = 0; currentPos <= textLength; currentPos++) {
+            boolean isChainBroken = currentPos >= textLength
+                    || (isSingleQuotationChain && text.charAt(currentPos) != '\'')
+                    || (!isSingleQuotationChain && text.charAt(currentPos) == '\'');
+            if (isChainBroken && startOfChain < currentPos) {
+                //format text.substring(startOfChain, currentPos) and append to result
+                char wrapper = isSingleQuotationChain ? '\"' : '\'';
+                result.append(wrapper).append(text.substring(startOfChain, currentPos)).append(wrapper).append(',');
+                startOfChain = currentPos;
             }
-            if (startPos < currentPos) {
-                result.append('\'').append(text.substring(startPos, currentPos)).append("',");
-                startPos = currentPos;
-                //wrap string without '\'' with '' and append to result
-            }
-            while (currentPos < text.length() && text.charAt(currentPos) == '\'') {
-                currentPos++;
-                //reach end of continuous chain of '\''
-            }
-            if (startPos < currentPos) {
-                result.append('\"').append(text.substring(startPos, currentPos)).append("\",");
-                startPos = currentPos;
-                //wrap string of '\'' with "" and append to result
+            //flip isSingleQuotationChain if chain is broken
+            if (isChainBroken) {
+                isSingleQuotationChain = !isSingleQuotationChain;
             }
         }
         if (result.length() == 0) {
