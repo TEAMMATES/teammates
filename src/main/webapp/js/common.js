@@ -450,33 +450,32 @@ function sortByDiff(a, b) {
  */
 function getPointValue(s, ditchZero) {
     var s0 = s;
-    if (s0.lastIndexOf('<') !== -1) {
-        s0 = s0.substring(0, s0.lastIndexOf('<'));
-        s0 = s0.substring(s0.lastIndexOf('>') + 1);
-    }
+    var baseValue = 100;
     
     if (s0.indexOf('/') !== -1) {
+        // magic expressions below as these cases will only be compared with
+        // case E +(-)X% (0 <= X <= 100)
         if (s0.indexOf('S') !== -1) {
-            return 999; // Case N/S
+            return 2 * baseValue + 1; // Case N/S (feedback contribution not sure)
         }
         
-        return 1000; // Case N/A
+        return 2 * baseValue + 2; // Case N/A
     }
     
     if (s0 === '0%') { // Case 0%
         if (ditchZero) {
             return 0;
         }
-        return 100;
+        return baseValue;
     }
     
-    s0 = s0.replace('E', '').replace('%', '');
+    s0 = s0.replace('E', '').replace('%', ''); // Case E +(-)X%
     
     if (s0 === '') {
-        return 100; // Case E
+        return baseValue; // Case E
     }
     
-    return 100 + parseInt(s0); // Other typical cases
+    return baseValue + parseFloat(s0); // Other typical cases
 }
 
 /** -----------------------UI Related Helper Functions-----------------------* */
