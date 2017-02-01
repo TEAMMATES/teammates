@@ -42,9 +42,13 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     public void createData(StudentAttributes student) {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
         question = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        
+
         responses.add(dataBundle.feedbackResponses.get("response1ForQ1S1C1"));
         responses.add(dataBundle.feedbackResponses.get("response2ForQ1S1C1"));
+
+        // create a dummy questionId for question,
+        // otherwise it would be uninitialised as this is normally done by the database
+        setDummyQuestionId(question, responses);
         
         questionResponseBundle.put(question, responses);
         
@@ -53,6 +57,15 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         
         pageData.bundle = new FeedbackSessionQuestionsBundle(feedbackSession, questionResponseBundle, recipientList);
         pageData.bundle.questionResponseBundle.put(question, responses);
+    }
+
+    private void setDummyQuestionId(
+            FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responses) {
+        String dummyQuestionId = "dummy";
+        question.setId(dummyQuestionId);
+        for (FeedbackResponseAttributes response : responses) {
+            response.feedbackQuestionId = dummyQuestionId;
+        }
     }
     
     @Test
