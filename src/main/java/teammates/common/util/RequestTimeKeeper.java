@@ -8,7 +8,7 @@ import com.google.apphosting.api.DeadlineExceededException;
 public class RequestTimeKeeper {
     private static final long REMAINING_TIME_THRESHOLD = 5000;
     private static final long TIME_BETWEEN_CHECKS = 5000;
-    private Date lastCalledDateForEnoughTimeMethod;
+    private Date lastCalledDateForEnoughTimeMethod = new Date();
     
     public void hasEnoughTimeThrowException() throws DeadlineExceededException {
         Date now = new Date();
@@ -16,9 +16,7 @@ public class RequestTimeKeeper {
                 && now.getTime() - lastCalledDateForEnoughTimeMethod.getTime() <= TIME_BETWEEN_CHECKS) {
             return;
         }
-        lastCalledDateForEnoughTimeMethod = new Date();
-        boolean hasEnoughTime = hasEnoughTime();
-        if (!hasEnoughTime) {
+        if (!hasEnoughTime()) {
             throw new DeadlineExceededException();
         }
     }
