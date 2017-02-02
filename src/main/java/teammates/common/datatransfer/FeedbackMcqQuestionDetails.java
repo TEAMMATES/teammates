@@ -14,7 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -156,7 +156,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.CHECKED,
                                     existingMcqResponse.getAnswerString().equals(choices.get(i)) ? "checked" : "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(choices.get(i)));
+                            Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         if (otherEnabled) {
@@ -171,7 +171,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER,
                                     Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
-                            Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
+                            Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
                             Slots.MCQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
         }
@@ -196,7 +196,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                             Slots.CHECKED, "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(choices.get(i)));
+                            Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
@@ -278,7 +278,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.ITERATOR, Integer.toString(i),
-                            Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(mcqChoices.get(i)),
+                            Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(mcqChoices.get(i)),
                             Slots.MCQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -333,7 +333,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             for (int i = 0; i < numOfMcqChoices; i++) {
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
-                                Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(mcqChoices.get(i)));
+                                Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(mcqChoices.get(i)));
 
                 optionListHtml.append(optionFragment);
             }
@@ -403,7 +403,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                    Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(entry.getKey()),
+                    Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(entry.getKey()),
                     Slots.COUNT, entry.getValue().toString(),
                     Slots.PERCENTAGE, df.format(100 * (double) entry.getValue() / responses.size())));
         }
@@ -453,7 +453,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments.append(Sanitizer.sanitizeForCsv(entry.getKey())).append(',')
+            fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey())).append(',')
                      .append(entry.getValue().toString()).append(',')
                      .append(df.format(100 * (double) entry.getValue() / responses.size())).append(Const.EOL);
         }

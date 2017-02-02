@@ -16,7 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
@@ -97,7 +97,7 @@ public class InstructorStudentCommentEditAction extends Action {
         
         CommentParticipantType commentRecipientType = commentInDb.recipientType;
         String recipients = commentInDb.recipients.iterator().next();
-        String unsanitizedRecipients = Sanitizer.desanitizeFromHtml(recipients);
+        String unsanitizedRecipients = SanitizationHelper.desanitizeFromHtml(recipients);
         if (commentRecipientType == CommentParticipantType.COURSE) {
             gateKeeper.verifyAccessible(instructor, course,
                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
@@ -199,7 +199,7 @@ public class InstructorStudentCommentEditAction extends Action {
         if (isCommentPublicToRecipient(comment)) {
             comment.sendingState = CommentSendingState.PENDING;
         }
-        comment.commentText = Sanitizer.sanitizeForRichText(commentText);
+        comment.commentText = SanitizationHelper.sanitizeForRichText(commentText);
         comment.createdAt = new Date();
         
         return comment;

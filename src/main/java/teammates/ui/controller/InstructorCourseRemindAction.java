@@ -16,7 +16,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.common.util.StringHelper;
+import teammates.common.util.SanitizationHelper;
 import teammates.logic.api.EmailGenerator;
 
 /**
@@ -143,7 +143,7 @@ public class InstructorCourseRemindAction extends Action {
     private String extractUserName(String emailContent) {
         int startIndex = emailContent.indexOf("Hello ") + "Hello ".length();
         int endIndex = emailContent.indexOf(',');
-        return StringHelper.recoverFromSanitizedText(emailContent.substring(startIndex, endIndex));
+        return SanitizationHelper.desanitizeFromHtml(emailContent.substring(startIndex, endIndex));
     }
     
     private String extractRegistrationKey(String emailContent) {

@@ -12,7 +12,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -281,8 +281,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
             contribFragments.append(Templates.populateTemplate(
                     FormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
-                    Slots.CONTRIB_STUDENT_TEAM, Sanitizer.sanitizeForHtml(displayTeam),
-                    Slots.CONTRIB_STUDENT_NAME, Sanitizer.sanitizeForHtml(displayName),
+                    Slots.CONTRIB_STUDENT_TEAM, SanitizationHelper.sanitizeForHtml(displayTeam),
+                    Slots.CONTRIB_STUDENT_NAME, SanitizationHelper.sanitizeForHtml(displayName),
                     Slots.CONTRIB_CC, getPointsAsColorizedHtml(summary.claimedToInstructor),
                     Slots.CONTRIB_PC, getPointsAsColorizedHtml(summary.perceivedToInstructor),
                     Slots.CONTRIB_DIFF, getPointsDiffAsHtml(summary),
@@ -293,7 +293,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return Templates.populateTemplate(
                 FormTemplates.CONTRIB_RESULT_STATS,
                 Slots.CONTRIB_FRAGMENTS, contribFragments.toString(),
-                Slots.CONTRIB_TOOLTIPS_CLAIMED, Sanitizer.sanitizeForHtml(Const.Tooltips.CLAIMED),
+                Slots.CONTRIB_TOOLTIPS_CLAIMED, SanitizationHelper.sanitizeForHtml(Const.Tooltips.CLAIMED),
                 Slots.CONTRIB_TOOLTIPS_PERCEIVED, Const.Tooltips.PERCEIVED,
                 Slots.CONTRIB_TOOLTIPS_POINTS_RECEIVED, Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
                 Slots.CONTRIB_TOOLTIPS_DIFF, Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
@@ -378,12 +378,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
                      
-            String contribFragmentString = Sanitizer.sanitizeForCsv(displayTeam) + ","
-                    + Sanitizer.sanitizeForCsv(displayName) + ","
-                    + Sanitizer.sanitizeForCsv(displayEmail) + ","
-                    + Sanitizer.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
-                    + Sanitizer.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
-                    + Sanitizer.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx)) + Const.EOL;
+            String contribFragmentString = SanitizationHelper.sanitizeForCsv(displayTeam) + ","
+                    + SanitizationHelper.sanitizeForCsv(displayName) + ","
+                    + SanitizationHelper.sanitizeForCsv(displayEmail) + ","
+                    + SanitizationHelper.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
+                    + SanitizationHelper.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
+                    + SanitizationHelper.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx)) + Const.EOL;
         
             // Replace all Unset values
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.INT_UNINITIALIZED), "N/A");

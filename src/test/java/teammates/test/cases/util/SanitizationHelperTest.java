@@ -7,15 +7,15 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.test.cases.BaseTestCase;
 
-public class SanitizerTest extends BaseTestCase {
+public class SanitizationHelperTest extends BaseTestCase {
     
     @Test
     public void testSanitizeGoogleId() {
-        assertEquals("big-small.20_12", Sanitizer.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
-        assertEquals("user@hotmail.com", Sanitizer.sanitizeGoogleId(" user@hotmail.com \t\n"));
+        assertEquals("big-small.20_12", SanitizationHelper.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
+        assertEquals("user@hotmail.com", SanitizationHelper.sanitizeGoogleId(" user@hotmail.com \t\n"));
     }
     
     @Test
@@ -23,9 +23,9 @@ public class SanitizerTest extends BaseTestCase {
         String emailWithWhiteSpaces = "\tnormal@email.com \t\n";
         String normalEmail = "normal@email.com";
 
-        assertEquals(null, Sanitizer.sanitizeEmail(null));
-        assertEquals(normalEmail, Sanitizer.sanitizeEmail(normalEmail));
-        assertEquals(normalEmail, Sanitizer.sanitizeEmail(emailWithWhiteSpaces));
+        assertEquals(null, SanitizationHelper.sanitizeEmail(null));
+        assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(normalEmail));
+        assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithWhiteSpaces));
     }
     
     @Test
@@ -34,9 +34,9 @@ public class SanitizerTest extends BaseTestCase {
         String nameWithWhiteSpaces = "\t alice   bob \t\n";
         String normalName = "alice bob";
 
-        assertEquals(null, Sanitizer.sanitizeName(null));
-        assertEquals(normalName, Sanitizer.sanitizeName(normalName));
-        assertEquals(normalName, Sanitizer.sanitizeName(nameWithWhiteSpaces));
+        assertEquals(null, SanitizationHelper.sanitizeName(null));
+        assertEquals(normalName, SanitizationHelper.sanitizeName(normalName));
+        assertEquals(normalName, SanitizationHelper.sanitizeName(nameWithWhiteSpaces));
     }
     
     @Test
@@ -56,13 +56,13 @@ public class SanitizerTest extends BaseTestCase {
     }
 
     private void sanitizeJs_receivesNull_returnsNull() {
-        assertEquals(null, Sanitizer.sanitizeForJs(null));
+        assertEquals(null, SanitizationHelper.sanitizeForJs(null));
     }
 
     private void sanitizeJs_receivesUnsanitized_returnsSanitized() {
         String unsanitized = "\\ \" ' #"; // i.e., [\ " ' #]
         String expected = "\\\\ \\&quot; \\&#39; \\#"; // i.e., [\\ \&quot; \&#39; \#]
-        String sanitized = Sanitizer.sanitizeForJs(unsanitized);
+        String sanitized = SanitizationHelper.sanitizeForJs(unsanitized);
         assertEquals(expected, sanitized);
     }
 
@@ -76,14 +76,14 @@ public class SanitizerTest extends BaseTestCase {
     @Test
     public void testDesanitizeFromHtml() {
         String noChange = null;
-        assertEquals(null, Sanitizer.desanitizeFromHtml(noChange));
+        assertEquals(null, SanitizationHelper.desanitizeFromHtml(noChange));
 
         noChange = "";
-        assertEquals("", Sanitizer.desanitizeFromHtml(noChange));
+        assertEquals("", SanitizationHelper.desanitizeFromHtml(noChange));
 
         String text = "<text><div> 'param' &&& \\//\\";
-        String sanitizedText = Sanitizer.sanitizeForHtml(text);
-        assertEquals(text, Sanitizer.desanitizeFromHtml(sanitizedText));
+        String sanitizedText = SanitizationHelper.sanitizeForHtml(text);
+        assertEquals(text, SanitizationHelper.desanitizeFromHtml(sanitizedText));
     }
 
     @Test
@@ -95,18 +95,18 @@ public class SanitizerTest extends BaseTestCase {
     private void sanitizeHtmlTag_receivesHtml_returnsSanitized() {
         String unsanitized = "<div><td>&lt;</td></div>";
         String expected = "&lt;div&gt;&lt;td&gt;&lt;&lt;/td&gt;&lt;/div&gt;";
-        String sanitized = Sanitizer.sanitizeForHtmlTag(unsanitized);
+        String sanitized = SanitizationHelper.sanitizeForHtmlTag(unsanitized);
         assertEquals(expected, sanitized);
     }
 
     private void sanitizeHtmlTag_receivesNull_returnsNull() {
         String nullString = null;
-        assertEquals(null, Sanitizer.sanitizeForHtmlTag(nullString));
+        assertEquals(null, SanitizationHelper.sanitizeForHtmlTag(nullString));
     }
 
     private void sanitizeHtml_receivesNull_returnsNull() {
         String nullString = null;
-        assertEquals(null, Sanitizer.sanitizeForHtml(nullString));
+        assertEquals(null, SanitizationHelper.sanitizeForHtml(nullString));
     }
 
     private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
@@ -114,23 +114,23 @@ public class SanitizerTest extends BaseTestCase {
                            + "<script>alert('injected');</script>";
         String expected = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
                         + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
-        String sanitized = Sanitizer.sanitizeForHtml(unsanitized);
+        String sanitized = SanitizationHelper.sanitizeForHtml(unsanitized);
         assertEquals(expected, sanitized);
     }
 
     private void sanitizeHtml_receivesSanitized_returnsUnchanged() {
         String sanitized = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
                          + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
-        assertEquals(sanitized, Sanitizer.sanitizeForHtml(sanitized));
+        assertEquals(sanitized, SanitizationHelper.sanitizeForHtml(sanitized));
     }
     
     @Test
     public void testSanitizeForRichText() {
-        assertEquals(null, Sanitizer.sanitizeForRichText((Text) null));
-        assertEquals(null, Sanitizer.sanitizeForRichText((String) null));
-        assertEquals("", Sanitizer.sanitizeForRichText(""));
-        assertEquals("<p>wihtout changes</p>", Sanitizer.sanitizeForRichText("<p>wihtout changes</p>"));
-        assertEquals("<p>spaces test</p>", Sanitizer.sanitizeForRichText("<p >spaces test</p >"));
+        assertEquals(null, SanitizationHelper.sanitizeForRichText((Text) null));
+        assertEquals(null, SanitizationHelper.sanitizeForRichText((String) null));
+        assertEquals("", SanitizationHelper.sanitizeForRichText(""));
+        assertEquals("<p>wihtout changes</p>", SanitizationHelper.sanitizeForRichText("<p>wihtout changes</p>"));
+        assertEquals("<p>spaces test</p>", SanitizationHelper.sanitizeForRichText("<p >spaces test</p >"));
         String actualRichText = "<body onload=\"alert('onload');\">"
                                 + "<a href=\"https://teammatesv4.appspot.com\" onclick=\"alert('fail');\"></a>"
                                 + "<script>alert('fail');</script>"
@@ -149,11 +149,11 @@ public class SanitizerTest extends BaseTestCase {
                                   + "<p style=\"text-align:center\"><strong>Content</strong></p>"
                                   + "<div></div>"
                                   + "<span style=\"color:#339966\">Content</span>";
-        String sanitized = Sanitizer.sanitizeForRichText(actualRichText);
+        String sanitized = SanitizationHelper.sanitizeForRichText(actualRichText);
         assertEquals(expectedRichText, sanitized);
         
         Text actualRichTextObj = new Text(actualRichText);
-        Text sanitizedTextObj = Sanitizer.sanitizeForRichText(actualRichTextObj);
+        Text sanitizedTextObj = SanitizationHelper.sanitizeForRichText(actualRichTextObj);
         assertEquals(expectedRichText, sanitizedTextObj.getValue());
     }
 
@@ -165,7 +165,7 @@ public class SanitizerTest extends BaseTestCase {
     private void sanitizeCsv_receivesUnsanitized_returnsSanitized() {
         String unsanitized = "aaa , bb\"b, c\"\"cc";
         String expected = "\"aaa , bb\"\"b, c\"\"\"\"cc\"";
-        String sanitized = Sanitizer.sanitizeForCsv(unsanitized);
+        String sanitized = SanitizationHelper.sanitizeForCsv(unsanitized);
         assertEquals(expected, sanitized);
     }
     
@@ -177,7 +177,7 @@ public class SanitizerTest extends BaseTestCase {
 
     private void sanitizeCsvList_receivesEmptyList_returnsEmptyList() {
         List<String> emptyList = new ArrayList<String>();
-        assertEquals(emptyList, Sanitizer.sanitizeListForCsv(emptyList));
+        assertEquals(emptyList, SanitizationHelper.sanitizeListForCsv(emptyList));
     }
 
     private void sanitizeCsvList_receivesUnsanitized_returnsSanitized() {
@@ -189,26 +189,26 @@ public class SanitizerTest extends BaseTestCase {
         expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
         expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
 
-        assertEquals(expected, Sanitizer.sanitizeListForCsv(unsanitized));
+        assertEquals(expected, SanitizationHelper.sanitizeListForCsv(unsanitized));
     }
     
     @Test
     public void testSanitizeStringForXPath() {
         String text = "";
         String expected = "''";
-        assertEquals(expected, Sanitizer.sanitizeStringForXPath(text));
+        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
         
         text = "Will o' The Wisp";
         expected = "concat('Will o',\"'\",' The Wisp','')";
-        assertEquals(expected, Sanitizer.sanitizeStringForXPath(text));
+        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
         
         text = "'''''Will o''''' The''''' Wisp";
         expected = "concat(\"'''''\",'Will o',\"'''''\",' The',\"'''''\",' Wisp','')";
-        assertEquals(expected, Sanitizer.sanitizeStringForXPath(text));
+        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
         
         text = "Team 1</td></div>'\"";
         expected = "concat('Team 1</td></div>',\"'\",'\"','')";
-        assertEquals(expected, Sanitizer.sanitizeStringForXPath(text));
+        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
         
     }
 }

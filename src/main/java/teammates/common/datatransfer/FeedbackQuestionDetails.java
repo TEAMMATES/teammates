@@ -7,7 +7,7 @@ import java.util.Map;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
@@ -86,14 +86,14 @@ public abstract class FeedbackQuestionDetails {
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
-        return Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
-                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))
-                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
-                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
-                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
-                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
-                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
-                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
+        return SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
+                                      + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))
+                                      + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                                      + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
+                                      + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
+                                      + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
+                                      + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
+                                      + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                                       + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
                                       + Const.EOL;
     }
@@ -174,7 +174,7 @@ public abstract class FeedbackQuestionDetails {
                                           FeedbackSessionResultsBundle bundle,
                                           FeedbackQuestionAttributes question) {
         return "<i>"
-               + Sanitizer.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question))
+               + SanitizationHelper.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question))
                + "</i>";
     }
     
@@ -190,7 +190,7 @@ public abstract class FeedbackQuestionDetails {
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
                                          FeedbackSessionResultsBundle bundle,
                                          FeedbackQuestionAttributes question) {
-        return Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
+        return SanitizationHelper.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
     }
 
     /**

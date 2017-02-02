@@ -14,7 +14,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
@@ -150,13 +150,13 @@ public class StudentCommentsPageData extends PageData {
         
         for (CommentAttributes comment : comments) {
             String recipientDetails = getRecipientNames(comment.recipients, courseId, studentEmail, roster);
-            String unsanitizedRecipientDetails = Sanitizer.desanitizeFromHtml(recipientDetails);
+            String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
             InstructorAttributes instructor = roster.getInstructorForEmail(comment.giverEmail);
             String giverDetails = comment.giverEmail;
             if (instructor != null) {
                 giverDetails = instructor.displayedName + " " + instructor.name;
             }
-            String unsanitizedGiverDetails = Sanitizer.desanitizeFromHtml(giverDetails);
+            String unsanitizedGiverDetails = SanitizationHelper.desanitizeFromHtml(giverDetails);
             CommentRow commentRow = new CommentRow(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails);
             
             commentRows.add(commentRow);

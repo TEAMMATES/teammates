@@ -8,7 +8,7 @@ import java.util.List;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
 
@@ -95,8 +95,8 @@ public class AdminEmailAttributes extends EntityAttributes {
 
     @Override
     public void sanitizeForSaving() {
-        this.subject = Sanitizer.sanitizeTextField(subject);
-        this.content = new Text(Sanitizer.sanitizeForHtml(content.getValue()));
+        this.subject = SanitizationHelper.sanitizeTextField(subject);
+        this.content = new Text(SanitizationHelper.sanitizeForHtml(content.getValue()));
     }
     
     public String getEmailId() {
@@ -152,7 +152,7 @@ public class AdminEmailAttributes extends EntityAttributes {
     }
     
     public String getContentForDisplay() {
-        return Sanitizer.desanitizeFromHtml(this.getContent().getValue());
+        return SanitizationHelper.desanitizeFromHtml(this.getContent().getValue());
     }
     
     public String getFirstAddressReceiver() {

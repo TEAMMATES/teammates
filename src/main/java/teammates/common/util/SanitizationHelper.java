@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +19,7 @@ import com.google.appengine.api.datastore.Text;
  * parameters so that they conform to our data format
  * and possible threats can be removed first.
  */
-public final class Sanitizer {
+public final class SanitizationHelper {
 
     private static PolicyFactory richTextPolicy =
             new HtmlPolicyBuilder()
@@ -36,7 +37,7 @@ public final class Sanitizer {
                 .allowStyling()
                 .toFactory();
 
-    private Sanitizer() {
+    private SanitizationHelper() {
         // utility class
     }
     
@@ -125,7 +126,7 @@ public final class Sanitizer {
         if (str == null) {
             return null;
         }
-        return Sanitizer.sanitizeForHtml(
+        return SanitizationHelper.sanitizeForHtml(
                 str.replace("\\", "\\\\")
                 .replace("\"", "\\\"")
                 .replace("'", "\\'")
@@ -174,7 +175,7 @@ public final class Sanitizer {
     }
 
     /**
-     * This recovers a html-sanitized string using {@link Sanitizer.sanitizeForHtml}
+     * This recovers a html-sanitized string using {@link #sanitizeForHtml}
      * to original encoding for appropriate display in files such as csv file <br>
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
@@ -197,7 +198,7 @@ public final class Sanitizer {
     }
 
     /**
-     * This recovers a set of html-sanitized string using {@link Sanitizer.sanitizeForHtml}
+     * This recovers a set of html-sanitized string using {@link #sanitizeForHtml}
      * to original encoding for appropriate display in files such as csv file <br>
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
@@ -279,7 +280,7 @@ public final class Sanitizer {
     }
 
     /**
-     * Recovers the URL from sanitization due to {@link Sanitizer.sanitizeForNextUrl}.
+     * Recovers the URL from sanitization due to {@link SanitizationHelper.sanitizeForNextUrl}.
      * In addition, any un-encoded whitespace (they may be there due to Google's
      * behind-the-screen decoding process) will be encoded again to +.
      */

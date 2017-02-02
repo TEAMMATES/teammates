@@ -27,7 +27,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.CoursesDb;
 
@@ -700,8 +700,8 @@ public final class CoursesLogic {
         boolean hasSection = hasIndicatedSections(courseId);
         
         StringBuilder export = new StringBuilder(100);
-        String courseInfo = "Course ID," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL
-                      + "Course Name," + Sanitizer.sanitizeForCsv(course.course.getName()) + Const.EOL
+        String courseInfo = "Course ID," + SanitizationHelper.sanitizeForCsv(courseId) + Const.EOL
+                      + "Course Name," + SanitizationHelper.sanitizeForCsv(course.course.getName()) + Const.EOL
                       + Const.EOL + Const.EOL;
         export.append(courseInfo);
         
@@ -719,14 +719,14 @@ public final class CoursesLogic {
                     }
                     
                     if (hasSection) {
-                        export.append(Sanitizer.sanitizeForCsv(section.name)).append(',');
+                        export.append(SanitizationHelper.sanitizeForCsv(section.name)).append(',');
                     }
 
-                    export.append(Sanitizer.sanitizeForCsv(team.name) + ','
-                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
-                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ','
-                            + Sanitizer.sanitizeForCsv(studentStatus) + ','
-                            + Sanitizer.sanitizeForCsv(student.email) + Const.EOL);
+                    export.append(SanitizationHelper.sanitizeForCsv(team.name) + ','
+                            + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
+                            + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ','
+                            + SanitizationHelper.sanitizeForCsv(studentStatus) + ','
+                            + SanitizationHelper.sanitizeForCsv(student.email) + Const.EOL);
                 }
             }
         }

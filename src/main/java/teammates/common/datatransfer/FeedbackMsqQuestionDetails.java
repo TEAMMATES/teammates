@@ -14,7 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
@@ -149,8 +149,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                             Slots.CHECKED, existingMsqResponse.contains(choices.get(i)) ? "checked" : "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(choices.get(i)),
-                            Slots.MSQ_CHOICE_TEXT, Sanitizer.sanitizeForHtml(choices.get(i)));
+                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
+                            Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
@@ -166,7 +166,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.MSQ_PARAM_IS_OTHER_OPTION_ANSWER,
                                     Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
-                            Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
+                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
                             Slots.MSQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
         }
@@ -203,8 +203,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                             Slots.CHECKED, "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(choices.get(i)),
-                            Slots.MSQ_CHOICE_TEXT, Sanitizer.sanitizeForHtml(choices.get(i)));
+                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
+                            Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment);
             optionListHtml.append(Const.EOL);
         }
@@ -301,7 +301,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.ITERATOR, Integer.toString(i),
-                            Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(msqChoices.get(i)),
+                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i)),
                             Slots.MSQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -356,7 +356,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             for (int i = 0; i < numOfMsqChoices; i++) {
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
-                                Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(msqChoices.get(i)));
+                                Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i)));
                 
                 optionListHtml.append(optionFragment);
             }
@@ -533,7 +533,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         StringBuilder fragments = new StringBuilder();
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments.append(Sanitizer.sanitizeForCsv(entry.getKey()) + ','
+            fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey()) + ','
                              + entry.getValue().toString() + ','
                              + df.format(100 * (double) entry.getValue() / numChoicesSelected) + Const.EOL);
         }
@@ -545,7 +545,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getCsvHeader() {
-        List<String> sanitizedChoices = Sanitizer.sanitizeListForCsv(msqChoices);
+        List<String> sanitizedChoices = SanitizationHelper.sanitizeListForCsv(msqChoices);
         return "Feedbacks:," + StringHelper.toString(sanitizedChoices, ",");
     }
     

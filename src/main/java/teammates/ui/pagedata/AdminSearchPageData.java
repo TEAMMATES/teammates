@@ -12,7 +12,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.ui.template.AdminSearchInstructorRow;
 import teammates.ui.template.AdminSearchInstructorTable;
@@ -113,7 +113,7 @@ public class AdminSearchPageData extends PageData {
     }
 
     private String createId(InstructorAttributes instructor) {
-        String id = Sanitizer.sanitizeForSearch(instructor.getIdentificationString());
+        String id = SanitizationHelper.sanitizeForSearch(instructor.getIdentificationString());
         id = StringHelper.removeExtraSpace(id);
         id = id.replace(" ", "").replace("@", "");
         
@@ -176,7 +176,7 @@ public class AdminSearchPageData extends PageData {
     }
 
     private String createId(StudentAttributes student) {
-        String id = Sanitizer.sanitizeForSearch(student.getIdentificationString());
+        String id = SanitizationHelper.sanitizeForSearch(student.getIdentificationString());
         id = id.replace(" ", "").replace("@", "");
         return "student_" + id;
     }
