@@ -93,7 +93,7 @@ public class EmailLogEntry {
     }
     
     public String getUnsanitizedContent() {
-        return Desanitizer.desanitizeFromHtml(content);
+        return Sanitizer.desanitizeFromHtml(content);
     }
     
     public String getTimeForDisplay() {

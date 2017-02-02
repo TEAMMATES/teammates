@@ -12,7 +12,7 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Desanitizer;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
@@ -41,7 +41,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
             nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         }
         Assumption.assertNotNull(nextUrl);
-        nextUrl = Desanitizer.desanitizeFromNextUrl(nextUrl);
+        nextUrl = Sanitizer.desanitizeFromNextUrl(nextUrl);
         
         ensureStudentExists();
         

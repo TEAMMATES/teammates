@@ -10,7 +10,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Desanitizer;
+import teammates.common.util.Sanitizer;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.StudentProfile;
@@ -121,7 +121,7 @@ public class InstructorStudentRecordsPageData extends PageData {
         
         for (CommentAttributes comment : comments) {
             String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
-            String unsanitizedRecipientDetails = Desanitizer.desanitizeFromHtml(recipientDetails);
+            String unsanitizedRecipientDetails = Sanitizer.desanitizeFromHtml(recipientDetails);
             CommentRow commentDiv = new CommentRow(comment, giverEmail, unsanitizedRecipientDetails);
             String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
             commentDiv.setVisibilityIcon(whoCanSeeComment);

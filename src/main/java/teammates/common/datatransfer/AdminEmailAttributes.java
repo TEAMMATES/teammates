@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.common.util.Const;
-import teammates.common.util.Desanitizer;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Sanitizer;
@@ -153,7 +152,7 @@ public class AdminEmailAttributes extends EntityAttributes {
     }
     
     public String getContentForDisplay() {
-        return Desanitizer.desanitizeFromHtml(this.getContent().getValue());
+        return Sanitizer.desanitizeFromHtml(this.getContent().getValue());
     }
     
     public String getFirstAddressReceiver() {

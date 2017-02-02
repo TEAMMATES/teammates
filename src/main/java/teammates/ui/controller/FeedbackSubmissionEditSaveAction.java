@@ -24,8 +24,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Desanitizer;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.EmailGenerator;
@@ -101,7 +101,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         
             Set<String> emailSet = data.bundle.getRecipientEmails(questionAttributes.getId());
             emailSet.add("");
-            emailSet = Desanitizer.desanitizeFromHtml(emailSet);
+            emailSet = Sanitizer.desanitizeFromHtml(emailSet);
             
             ArrayList<String> responsesRecipients = new ArrayList<String>();
             List<String> errors = new ArrayList<String>();

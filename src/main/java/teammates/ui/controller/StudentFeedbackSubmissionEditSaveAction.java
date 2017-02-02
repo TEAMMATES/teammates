@@ -6,7 +6,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.Desanitizer;
+import teammates.common.util.Sanitizer;
 
 public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionEditSaveAction {
     @Override
@@ -39,7 +39,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
     
     @Override
     protected String getUserTeamForCourse() {
-        return Desanitizer.desanitizeFromHtml(getStudent().team);
+        return Sanitizer.desanitizeFromHtml(getStudent().team);
     }
 
     @Override
