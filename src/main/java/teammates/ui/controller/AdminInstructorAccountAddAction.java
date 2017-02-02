@@ -8,9 +8,7 @@ import java.util.TimeZone;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
