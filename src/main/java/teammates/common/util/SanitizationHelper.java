@@ -17,7 +17,9 @@ import com.google.appengine.api.datastore.Text;
 /**
  * Class contains methods to sanitize user provided
  * parameters so that they conform to our data format
- * and possible threats can be removed first.
+ * and possible threats can be removed first
+ * as well as methods to revert sanitized text
+ * back to its previous unsanitized state.
  */
 public final class SanitizationHelper {
 
@@ -100,20 +102,6 @@ public final class SanitizationHelper {
     public static String sanitizeTextField(String rawText) {
         return StringHelper.trimIfNotNull(rawText);
     }
-    
-    /**
-     * Sanitizes a user input text field by removing leading/trailing whitespace.
-     * i.e. comments, instructions, etc.
-     * 
-     * @param rawText
-     * @return the sanitized text or null (if the parameter was null).
-     */
-    public static Text sanitizeTextField(Text rawText) {
-        if (rawText == null) {
-            return null;
-        }
-        return new Text(StringHelper.trimIfNotNull(rawText.getValue()));
-    }
 
     /**
      * Escape the string for inserting into javascript code.
@@ -160,11 +148,11 @@ public final class SanitizationHelper {
      * Sanitizes the string for inserting into HTML. Converts special characters
      * into HTML-safe equivalents.
      */
-    public static String sanitizeForHtml(String str) {
-        if (str == null) {
+    public static String sanitizeForHtml(String unsanitizedString) {
+        if (unsanitizedString == null) {
             return null;
         }
-        return str.replace("<", "&lt;")
+        return unsanitizedString.replace("<", "&lt;")
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
                 .replace("/", "&#x2f;")
@@ -217,11 +205,11 @@ public final class SanitizationHelper {
     /**
      * Escapes HTML tag safely. This function can be applied multiple times.
      */
-    public static String sanitizeForHtmlTag(String str) {
-        if (str == null) {
+    public static String sanitizeForHtmlTag(String string) {
+        if (string == null) {
             return null;
         }
-        return str.replace("<", "&lt;").replace(">", "&gt;");
+        return string.replace("<", "&lt;").replace(">", "&gt;");
     }
     
     /**
@@ -284,8 +272,8 @@ public final class SanitizationHelper {
      * In addition, any un-encoded whitespace (they may be there due to Google's
      * behind-the-screen decoding process) will be encoded again to +.
      */
-    public static String desanitizeFromNextUrl(String url) {
-        return url.replace("${amp}", "&").replace("${plus}", "%2B").replace("${hash}", "%23")
+    public static String desanitizeFromNextUrl(String sanitizedUrl) {
+        return sanitizedUrl.replace("${amp}", "&").replace("${plus}", "%2B").replace("${hash}", "%23")
                 .replace(" ", "+");
     }
 
@@ -350,7 +338,7 @@ public final class SanitizationHelper {
         int startOfChain = 0;
         int textLength = text.length();
         boolean isSingleQuotationChain = false;
-        // currentPos iterates through 0 to textLength (inclusive) to include last chain
+        // currentPos iterates one position beyond text length to include last chain
         for (int currentPos = 0; currentPos <= textLength; currentPos++) {
             boolean isChainBroken = currentPos >= textLength
                     || isSingleQuotationChain && text.charAt(currentPos) != '\''
