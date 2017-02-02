@@ -858,7 +858,8 @@ public final class FeedbackSessionsLogic {
         
         StringBuilder exportBuilder = new StringBuilder(100);
 
-        exportBuilder.append(String.format("Course,%s", SanitizationHelper.sanitizeForCsv(results.feedbackSession.getCourseId())))
+        exportBuilder.append(String.format("Course,%s",
+                             SanitizationHelper.sanitizeForCsv(results.feedbackSession.getCourseId())))
                      .append(Const.EOL)
                      .append(String.format("Session Name,%s",
                              SanitizationHelper.sanitizeForCsv(results.feedbackSession.getFeedbackSessionName())))

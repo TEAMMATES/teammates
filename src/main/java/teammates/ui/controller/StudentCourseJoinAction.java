@@ -52,9 +52,11 @@ public class StudentCourseJoinAction extends Action {
         boolean isNextUrlAccessibleWithoutLogin =
                         Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(nextUrlType);
         String courseId = student.course;
-        StudentCourseJoinConfirmationPageData data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl,
-                                                         gateKeeper.getLogoutUrl(SanitizationHelper.sanitizeForNextUrl(confirmUrl)),
-                                                         isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
+        StudentCourseJoinConfirmationPageData data =
+                new StudentCourseJoinConfirmationPageData(
+                        account, student, confirmUrl,
+                        gateKeeper.getLogoutUrl(SanitizationHelper.sanitizeForNextUrl(confirmUrl)),
+                        isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
         excludeStudentDetailsFromResponseParams();
         
         return createShowPageResult(

@@ -453,29 +453,36 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
         expectedInvalidInfo.clear();
         info = StringHelper.toString(
-                SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamName, courseId).getInvalidityInfo()),
+                SanitizationHelper.sanitizeForHtml(
+                        saf.makeStudent(lineWithInvalidTeamName, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamName, info));
         info = StringHelper.toString(
-                SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithInvalidStudentName, courseId).getInvalidityInfo()),
+                SanitizationHelper.sanitizeForHtml(
+                        saf.makeStudent(lineWithInvalidStudentName, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidStudentName, info));
         info = StringHelper.toString(
-                SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithInvalidEmail, courseId).getInvalidityInfo()),
+                SanitizationHelper.sanitizeForHtml(
+                        saf.makeStudent(lineWithInvalidEmail, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidEmail, info));
         info = StringHelper.toString(
-                SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithInvalidStudentNameAndEmail, courseId).getInvalidityInfo()),
+                SanitizationHelper.sanitizeForHtml(
+                        saf.makeStudent(lineWithInvalidStudentNameAndEmail, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
                                               lineWithInvalidStudentNameAndEmail, info));
         info = StringHelper.toString(
-                SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamNameAndEmail, courseId).getInvalidityInfo()),
+                SanitizationHelper.sanitizeForHtml(
+                        saf.makeStudent(lineWithInvalidTeamNameAndEmail, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
                                               lineWithInvalidTeamNameAndEmail, info));
-        info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail,
-                courseId).getInvalidityInfo()), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+        info = StringHelper.toString(
+                SanitizationHelper.sanitizeForHtml(
+                        saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail, courseId).getInvalidityInfo()),
+                "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
                 lineWithInvalidTeamNameAndStudentNameAndEmail, info));
         
@@ -564,21 +571,25 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         expectedInvalidInfo.clear();
         info = StringHelper.toString(
-                SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamName, courseId).getInvalidityInfo()),
+                SanitizationHelper.sanitizeForHtml(
+                        saf.makeStudent(lineWithInvalidTeamName, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamName, info));
-        info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail,
-                                                                               courseId).getInvalidityInfo()),
+        info = StringHelper.toString(
+                SanitizationHelper.sanitizeForHtml(
+                        saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
                               lineWithInvalidTeamNameAndStudentNameAndEmail, info));
         info = StringHelper.toString(
-                SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithTeamNameEmpty, courseId).getInvalidityInfo()),
+                SanitizationHelper.sanitizeForHtml(
+                        saf.makeStudent(lineWithTeamNameEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithTeamNameEmpty, info));
         info = StringHelper.toString(
-                SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithCorrectInput, courseId).getInvalidityInfo()),
+                SanitizationHelper.sanitizeForHtml(
+                        saf.makeStudent(lineWithCorrectInput, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithCorrectInput, info));
         

@@ -109,7 +109,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         verifyStudentEnrollmentStatus(unmodifiedStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
 
         String expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]"
-                                    + ":</span><br>" + SanitizationHelper.sanitizeForHtml(enrollString).replace("\n", "<br>");
+                                    + ":</span><br>"
+                                    + SanitizationHelper.sanitizeForHtml(enrollString).replace("\n", "<br>");
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Masquerade mode, enrollment into empty course");

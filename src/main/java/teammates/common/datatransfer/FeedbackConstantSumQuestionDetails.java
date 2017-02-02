@@ -478,7 +478,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 String recipientName = bundle.getNameForEmail(participantIdentifier);
                 
-                option = SanitizationHelper.sanitizeForCsv(teamName) + "," + SanitizationHelper.sanitizeForCsv(recipientName);
+                option = SanitizationHelper.sanitizeForCsv(teamName)
+                         + "," + SanitizationHelper.sanitizeForCsv(recipientName);
             } else {
                 option = SanitizationHelper.sanitizeForCsv(entry.getKey());
             }

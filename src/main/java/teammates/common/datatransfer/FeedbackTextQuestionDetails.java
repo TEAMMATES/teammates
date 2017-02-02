@@ -60,7 +60,8 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 "${recommendedLengthDisplay}", recommendedLength == 0 ? "style=\"display:none\"" : "",
                 "${recommendedLength}", Integer.toString(recommendedLength),
-                Slots.TEXT_EXISTING_RESPONSE, SanitizationHelper.sanitizeForRichText(existingResponseDetails.getAnswerString()));
+                Slots.TEXT_EXISTING_RESPONSE,
+                    SanitizationHelper.sanitizeForRichText(existingResponseDetails.getAnswerString()));
     }
 
     @Override
