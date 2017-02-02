@@ -67,9 +67,8 @@ public class StudentCourseJoinEmailWorkerActionTest extends BaseAutomatedActionT
     }
     
     @Override
-    protected StudentCourseJoinEmailWorkerAction getAction(String... submissionParams) {
-        return (StudentCourseJoinEmailWorkerAction)
-                gaeSimulation.getAutomatedActionObject(getActionUri(), submissionParams);
+    protected StudentCourseJoinEmailWorkerAction getAction(String... params) {
+        return (StudentCourseJoinEmailWorkerAction) gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
     
 }

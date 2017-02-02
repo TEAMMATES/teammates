@@ -79,9 +79,8 @@ public class FeedbackResponseAdjustmentWorkerActionTest extends BaseAutomatedAct
     }
     
     @Override
-    protected FeedbackResponseAdjustmentWorkerAction getAction(String... submissionParams) {
-        return (FeedbackResponseAdjustmentWorkerAction)
-                gaeSimulation.getAutomatedActionObject(getActionUri(), submissionParams);
+    protected FeedbackResponseAdjustmentWorkerAction getAction(String... params) {
+        return (FeedbackResponseAdjustmentWorkerAction) gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
     
     private List<FeedbackResponseAttributes> getAllResponsesForStudentForSession(StudentAttributes student,

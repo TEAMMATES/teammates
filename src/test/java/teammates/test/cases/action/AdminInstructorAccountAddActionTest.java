@@ -179,8 +179,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
 
     @Override
-    protected AdminInstructorAccountAddAction getAction(String... parameters) {
-        return (AdminInstructorAccountAddAction) gaeSimulation.getActionObject(getActionUri(), parameters);
+    protected AdminInstructorAccountAddAction getAction(String... params) {
+        return (AdminInstructorAccountAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     private String getDemoCourseIdRoot(String instructorEmail) {

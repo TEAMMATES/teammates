@@ -51,9 +51,9 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest extends BaseAutomat
     }
     
     @Override
-    protected FeedbackSessionUnpublishedEmailWorkerAction getAction(String... submissionParams) {
+    protected FeedbackSessionUnpublishedEmailWorkerAction getAction(String... params) {
         return (FeedbackSessionUnpublishedEmailWorkerAction)
-                gaeSimulation.getAutomatedActionObject(getActionUri(), submissionParams);
+                gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
     
 }

@@ -183,8 +183,8 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
     }
     
     @Override
-    protected InstructorCourseInstructorAddAction getAction(String... parameters) {
-        return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(getActionUri(), parameters);
+    protected InstructorCourseInstructorAddAction getAction(String... params) {
+        return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

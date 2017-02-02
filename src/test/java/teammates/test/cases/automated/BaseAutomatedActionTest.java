@@ -20,7 +20,7 @@ public abstract class BaseAutomatedActionTest extends BaseComponentTestCase {
     
     protected abstract String getActionUri();
     
-    protected abstract AutomatedAction getAction(String... submissionParams);
+    protected abstract AutomatedAction getAction(String... params);
     
     @BeforeClass
     public void baseClassSetup() {

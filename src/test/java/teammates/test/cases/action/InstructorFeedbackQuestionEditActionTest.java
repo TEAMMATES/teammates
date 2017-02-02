@@ -1402,7 +1402,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     @Override
-    protected InstructorFeedbackQuestionEditAction getAction(String... submissionParams) {
-        return (InstructorFeedbackQuestionEditAction) gaeSimulation.getActionObject(getActionUri(), submissionParams);
+    protected InstructorFeedbackQuestionEditAction getAction(String... params) {
+        return (InstructorFeedbackQuestionEditAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

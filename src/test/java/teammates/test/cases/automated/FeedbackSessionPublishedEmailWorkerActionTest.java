@@ -51,9 +51,9 @@ public class FeedbackSessionPublishedEmailWorkerActionTest extends BaseAutomated
     }
     
     @Override
-    protected FeedbackSessionPublishedEmailWorkerAction getAction(String... submissionParams) {
+    protected FeedbackSessionPublishedEmailWorkerAction getAction(String... params) {
         return (FeedbackSessionPublishedEmailWorkerAction)
-                gaeSimulation.getAutomatedActionObject(getActionUri(), submissionParams);
+                gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
     
 }

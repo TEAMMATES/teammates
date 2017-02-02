@@ -237,7 +237,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     }
     
     @Override
-    protected InstructorCourseInstructorEditSaveAction getAction(String... parameters) {
-        return (InstructorCourseInstructorEditSaveAction) gaeSimulation.getActionObject(getActionUri(), parameters);
+    protected InstructorCourseInstructorEditSaveAction getAction(String... params) {
+        return (InstructorCourseInstructorEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }
