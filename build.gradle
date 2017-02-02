@@ -232,9 +232,8 @@ task printUserHomeDir << {
     println "Your Gradle user directory is: ${gradle.gradleUserHomeDir}"
 }
 
-
 task installJsDependencies(type: Exec) {
-    commandLine "npm", "install"
+    commandLine "npm", "install", "--only=dev"
 }
 
 task setup {
