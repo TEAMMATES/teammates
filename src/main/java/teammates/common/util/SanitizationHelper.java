@@ -38,6 +38,7 @@ public final class SanitizationHelper {
                 .allowElements("quote", "ecode")
                 .allowStyling()
                 .toFactory();
+    private static final Logger log = Logger.getLogger();
 
     private SanitizationHelper() {
         // utility class
@@ -241,6 +242,7 @@ public final class SanitizationHelper {
         try {
             return URLEncoder.encode(uri, Const.SystemParams.ENCODING);
         } catch (UnsupportedEncodingException wontHappen) {
+            log.warning("Unexpected UnsupportedEncodingException in SanitizerHelper.sanitizeForUri(...)");
             return uri;
         }
     }
