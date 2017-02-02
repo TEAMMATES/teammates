@@ -73,6 +73,26 @@ public class SanitizationHelperTest extends BaseTestCase {
         sanitizeHtml_receivesSanitized_returnsUnchanged();
     }
 
+    private void sanitizeHtml_receivesNull_returnsNull() {
+        String nullString = null;
+        assertEquals(null, SanitizationHelper.sanitizeForHtml(nullString));
+    }
+
+    private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
+        String unsanitized = "< > \" / ' &"
+                + "<script>alert('injected');</script>";
+        String expected = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
+                + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
+        String sanitized = SanitizationHelper.sanitizeForHtml(unsanitized);
+        assertEquals(expected, sanitized);
+    }
+
+    private void sanitizeHtml_receivesSanitized_returnsUnchanged() {
+        String sanitized = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
+                + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
+        assertEquals(sanitized, SanitizationHelper.sanitizeForHtml(sanitized));
+    }
+
     @Test
     public void testDesanitizeFromHtml() {
         String noChange = null;
@@ -104,26 +124,6 @@ public class SanitizationHelperTest extends BaseTestCase {
         assertEquals(null, SanitizationHelper.sanitizeForHtmlTag(nullString));
     }
 
-    private void sanitizeHtml_receivesNull_returnsNull() {
-        String nullString = null;
-        assertEquals(null, SanitizationHelper.sanitizeForHtml(nullString));
-    }
-
-    private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
-        String unsanitized = "< > \" / ' &"
-                           + "<script>alert('injected');</script>";
-        String expected = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
-                        + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
-        String sanitized = SanitizationHelper.sanitizeForHtml(unsanitized);
-        assertEquals(expected, sanitized);
-    }
-
-    private void sanitizeHtml_receivesSanitized_returnsUnchanged() {
-        String sanitized = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
-                         + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
-        assertEquals(sanitized, SanitizationHelper.sanitizeForHtml(sanitized));
-    }
-    
     @Test
     public void testSanitizeForRichText() {
         assertEquals(null, SanitizationHelper.sanitizeForRichText((Text) null));
