@@ -267,6 +267,19 @@ task removeDuplicateLibs(type: Delete) {
             "${buildDir}/exploded-app/WEB-INF/lib/appengine-api-labs.jar"
 }
 
+def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
+
+task installWebpack(type: Exec) {
+    commandLine "npm", "install", "webpack@2.2.1"
+}
+
+task webpack(type: Exec) {
+    def command = ["webpack"]
+    def configFile = ["--config", "webpack.config.js"]
+    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + configFile
+}
+
+removeDuplicateLibs.dependsOn webpack
 appengineExplodeApp.finalizedBy removeDuplicateLibs
 
 task enhancerRun << {
@@ -290,8 +303,6 @@ enhancerRun.shouldRunAfter project.testClasses
 war.dependsOn enhancerRun
 
 // STATIC ANALYSIS TASKS
-
-def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
 task eslint(type: Exec) {
     def command = ["eslint"]
