@@ -5,7 +5,7 @@ import java.util.Date;
 import com.google.apphosting.api.ApiProxy;
 import com.google.apphosting.api.DeadlineExceededException;
 
-public class TimeKeeper {
+public class RequestTimeKeeper {
     private static final long REMAINING_TIME_THRESHOLD = 5000;
     private static final long TIME_BETWEEN_CHECKS = 5000;
     private Date lastCalledDateForEnoughTimeMethod;
