@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -577,23 +576,7 @@ public abstract class Action {
                && loggedInUser.googleId != null
                && !loggedInUser.googleId.equals(requestedUserId);
     }
-
-    protected static List<FeedbackParticipantType> getParticipantListFromParams(String participantListParam) {
-        List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
-
-        if (participantListParam == null || participantListParam.isEmpty()) {
-            // null not covered, even when set to null, action receives it as an empty string
-            return participantList;
-        }
-
-        String[] splitString = participantListParam.split(",");
-
-        for (String str : splitString) {
-            participantList.add(FeedbackParticipantType.valueOf(str));
-        }
-
-        return participantList;
-    }
+    
     // ===================== Utility methods used by some child classes========
     
     protected void excludeStudentDetailsFromResponseParams() {
