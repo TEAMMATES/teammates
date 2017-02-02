@@ -23,8 +23,6 @@
   "devDependencies": {
     "eslint": "3.11.1",
     "stylelint": "7.6.0",
-    "uglify-js": "^2.7.5",
-    "uglifyjs-webpack-plugin": "^0.1.2",
     "webpack": "^2.2.1"
   }
 }

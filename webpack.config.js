@@ -1,14 +1,20 @@
 const path = require('path');
+const glob = require("glob");
+const webpack = require('webpack');
 
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const entry = {};
+glob.sync("./src/main/webapp/js/*.js").forEach((file) => {
+    const filename = path.basename(file, '.js');
+    entry[filename] = file
+});
 
 module.exports = {
-    entry: path.resolve(__dirname, 'src/main/webapp/js/index.js'),
+    entry,
     output: {
-        filename: 'bundle.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'build/exploded-app/js/')
     },
     plugins: [
-        new UglifyJSPlugin()
+        new webpack.optimize.UglifyJsPlugin()
     ]
 };

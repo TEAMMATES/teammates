@@ -22,17 +22,6 @@
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackEdit/feedbackPath.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackEdit/visibilityOptions.js"></script>
-
-    <!-- javascript for behaviors of the various question types -->
-    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionMcq.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionMsq.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionNumScale.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionConstSum.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionContrib.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionRubric.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionRank.js"></script>
 </c:set>
 
 <c:set var="EMPTY_FEEDBACK_SESSION_MESSAGE">
