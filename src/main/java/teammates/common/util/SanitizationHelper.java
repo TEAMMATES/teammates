@@ -240,7 +240,7 @@ public final class SanitizationHelper {
     public static String sanitizeForUri(String uri) {
         try {
             return URLEncoder.encode(uri, Const.SystemParams.ENCODING);
-        } catch (UnsupportedEncodingException wonthappen) {
+        } catch (UnsupportedEncodingException wontHappen) {
             return uri;
         }
     }
