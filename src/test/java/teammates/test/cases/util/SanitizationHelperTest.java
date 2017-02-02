@@ -95,13 +95,23 @@ public class SanitizationHelperTest extends BaseTestCase {
 
     @Test
     public void testDesanitizeFromHtml() {
-        String noChange = null;
-        assertEquals(null, SanitizationHelper.desanitizeFromHtml(noChange));
+        desanitizeFromHtml_receivesNull_returnsNull();
+        desanitizeFromHtml_recievesEmpty_returnsEmpty();
+        desanitizeFromHtml_receivesSanitized_returnsDesanitized();
+    }
 
-        noChange = "";
-        assertEquals("", SanitizationHelper.desanitizeFromHtml(noChange));
+    private void desanitizeFromHtml_receivesNull_returnsNull() {
+        String nullString = null;
+        assertEquals(null, SanitizationHelper.desanitizeFromHtml(nullString));
+    }
 
-        String text = "<text><div> 'param' &&& \\//\\";
+    private void desanitizeFromHtml_recievesEmpty_returnsEmpty() {
+        String emptyString = "";
+        assertEquals(emptyString, SanitizationHelper.desanitizeFromHtml(emptyString));
+    }
+
+    private void desanitizeFromHtml_receivesSanitized_returnsDesanitized() {
+        String text = "<text><div> 'param' &&& \\//\\ \" <The quick brown fox jumps over the lazy dog.>";
         String sanitizedText = SanitizationHelper.sanitizeForHtml(text);
         assertEquals(text, SanitizationHelper.desanitizeFromHtml(sanitizedText));
     }
