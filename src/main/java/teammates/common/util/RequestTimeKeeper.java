@@ -6,22 +6,25 @@ import com.google.apphosting.api.ApiProxy;
 import com.google.apphosting.api.DeadlineExceededException;
 
 public class RequestTimeKeeper {
-    private static final long REMAINING_TIME_THRESHOLD = 5000;
-    private static final long TIME_BETWEEN_CHECKS = 5000;
-    private Date lastCalledDateForEnoughTimeMethod = new Date();
-    
-    public void hasEnoughTimeThrowException() throws DeadlineExceededException {
-        Date now = new Date();
-        if (lastCalledDateForEnoughTimeMethod != null
-                && now.getTime() - lastCalledDateForEnoughTimeMethod.getTime() <= TIME_BETWEEN_CHECKS) {
-            return;
-        }
+    private final long remainingMillisThreshold;
+    private long deadlineExpiryTime;
+
+    public RequestTimeKeeper(long remainingMillisThreshold) {
+        this.remainingMillisThreshold = remainingMillisThreshold;
+        deadlineExpiryTime = getCurrentTimeInMillis() + ApiProxy.getCurrentEnvironment().getRemainingMillis();
+    }
+
+    private long getCurrentTimeInMillis() {
+        return new Date().getTime();
+    }
+
+    public void confirmEnoughTimeLeft() throws DeadlineExceededException {
         if (!hasEnoughTime()) {
             throw new DeadlineExceededException();
         }
     }
     
     public boolean hasEnoughTime() {
-        return ApiProxy.getCurrentEnvironment().getRemainingMillis() > REMAINING_TIME_THRESHOLD;
+        return deadlineExpiryTime - getCurrentTimeInMillis() > remainingMillisThreshold;
     }
 }
