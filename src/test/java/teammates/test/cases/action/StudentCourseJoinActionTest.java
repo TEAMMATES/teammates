@@ -124,6 +124,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
                 String.format(Const.StatusMessages.DELETED_STUDENT_ATTEMPTING_TO_JOIN, newStudentData.course),
                 redirectResult.getStatusMessage());
         assertEquals("warning", redirectResult.getStatusMessageColor());
+        assertTrue(redirectResult.isError);
     }
     
     @Test
