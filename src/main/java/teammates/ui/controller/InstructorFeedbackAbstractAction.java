@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -18,9 +19,6 @@ import teammates.common.util.TimeHelper;
 
 public abstract class InstructorFeedbackAbstractAction extends Action {
 
-    /**
-     * Common method to Get the feedback data
-     */
     protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(FeedbackSessionAttributes newSession) {
 
         return this.extractFeedbackSessionDataHelper(newSession);
@@ -32,6 +30,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
     }
 
     protected FeedbackSessionAttributes extractFeedbackSessionData() {
+        // TODO assert parameters are not null then update test
+        // TODO make this method stateless
 
         FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
         newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
@@ -46,7 +46,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
 
-        // adding try and catch block instead of having if-else conditions
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
             try {
@@ -115,7 +114,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 sendReminderEmailsArray == null ? new ArrayList<String>()
                         : Arrays.asList(sendReminderEmailsArray);
         newSession = extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
-        newSession = extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
         newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING
                 .toString()));
         newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED
@@ -123,11 +121,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
         return newSession;
     }
-
-    /*
-     * InstructorFeedbacksPageAction and InstructorFeedbackAddAction class
-     * related methods
-     */
 
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
             List<InstructorAttributes> instructorList) {
@@ -153,11 +146,9 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
     /**
      * Gets a Map with courseId as key, and InstructorAttributes as value.
-     * 
-     * @return
      */
-    protected HashMap<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
-        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
+    protected Map<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
+        Map<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId,
                 omitArchived);
         for (InstructorAttributes instructor : instructors) {
@@ -165,4 +156,5 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         }
         return courseInstructorMap;
     }
+
 }
