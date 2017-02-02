@@ -243,7 +243,7 @@ public final class SanitizationHelper {
             return URLEncoder.encode(uri, Const.SystemParams.ENCODING);
         } catch (UnsupportedEncodingException wontHappen) {
             log.warning("Unexpected UnsupportedEncodingException in "
-                        + "SanitizerHelper.sanitizeForUri(" + uri + ", " + Const.SystemParams.ENCODING + ")");
+                        + "SanitizationHelper.sanitizeForUri(" + uri + ", " + Const.SystemParams.ENCODING + ")");
             return uri;
         }
     }
