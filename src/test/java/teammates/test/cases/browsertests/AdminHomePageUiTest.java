@@ -74,10 +74,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         InstructorAttributes instructor = new InstructorAttributes();
         
         String shortName = "Instrúctör";
-        instructor.name = "AHPUiT Instrúctör";
-        instructor.email = "AHPUiT.instr1!@gmail.tmt";
+        instructor.name = "AHPUiT Instrúctör WithPlusInEmail";
+        instructor.email = "AHPUiT+++_.instr1!@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
-        String demoCourseId = "AHPUiT.instr1_.gma-demo";
+        String demoCourseId = "AHPUiT____.instr1_.gma-demo";
         
         String instructorDetails = instructor.name + " | " + instructor.email + "\n"
                                  + instructor.name + " | " + instructor.email + " | " + institute;
@@ -87,6 +87,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
+        InstructorAttributes instructorInBackend = BackDoor.getInstructorByEmail(instructor.email, demoCourseId);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID,
                                    Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
                      homePage.getMessageFromResultTable(1));
@@ -97,8 +98,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                         .withRegistrationKey(encryptedKey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
-        assertEquals("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" + expectedjoinUrl,
-                     homePage.getMessageFromResultTable(2));
+        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created with join link:\n"
+                     + expectedjoinUrl, homePage.getMessageFromResultTable(2));
+        assertEquals(instructor.getName(), instructorInBackend.getName());
+        assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
         homePage.clearInstructorDetailsSingleLineForm();
         
         ______TS("action success : create instructor account and the account is created successfully "
@@ -117,8 +120,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
        
-        assertEquals("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" + expectedjoinUrl,
-                     homePage.getMessageFromResultTable(1));
+        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created with join link:\n"
+                     + expectedjoinUrl, homePage.getMessageFromResultTable(1));
         
         homePage.logout();
         //verify the instructor and the demo course have been created
@@ -292,7 +295,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         StudentProfilePage spp = studentHomePage.loadProfileTab();
         spp.verifyContains("Student Profile");
-        spp.verifyContains("AHPUiT Instrúctör");
+        spp.verifyContains("AHPUiT Instrúctör WithPlusInEmail");
         
         studentHomePage.logout();
         

@@ -61,14 +61,14 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("empty options");
         
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
-        feedbackEditPage.fillMinNumScaleBox("", -1);
-        feedbackEditPage.fillStepNumScaleBox("", -1);
-        feedbackEditPage.fillMaxNumScaleBox("", -1);
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("NumScale qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.fillMinNumScaleBoxForNewQuestion("");
+        feedbackEditPage.fillStepNumScaleBoxForNewQuestion("");
+        feedbackEditPage.fillMaxNumScaleBoxForNewQuestion("");
         
         assertEquals("[Please enter valid numbers for all the options.]",
-                feedbackEditPage.getNumScalePossibleValuesString(-1));
+                feedbackEditPage.getNumScalePossibleValuesStringForNewQuestion());
         
         feedbackEditPage.clickAddQuestionButton();
         
@@ -77,14 +77,14 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("invalid options");
         
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
-        feedbackEditPage.fillMinNumScaleBox("1", -1);
-        feedbackEditPage.fillStepNumScaleBox("0.3", -1);
-        feedbackEditPage.fillMaxNumScaleBox("5", -1);
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("NumScale qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.fillMinNumScaleBoxForNewQuestion("1");
+        feedbackEditPage.fillStepNumScaleBoxForNewQuestion("0.3");
+        feedbackEditPage.fillMaxNumScaleBoxForNewQuestion("5");
         
         assertEquals("[The interval 1 - 5 is not divisible by the specified increment.]",
-                feedbackEditPage.getNumScalePossibleValuesString(-1));
+                feedbackEditPage.getNumScalePossibleValuesStringForNewQuestion());
         
         feedbackEditPage.clickAddQuestionButton();
         
@@ -93,60 +93,63 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("possible floating point error");
         
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
-        feedbackEditPage.fillMinNumScaleBox("1", -1);
-        feedbackEditPage.fillStepNumScaleBox("0.001", -1);
-        feedbackEditPage.fillMaxNumScaleBox("5555", -1);
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("NumScale qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.fillMinNumScaleBoxForNewQuestion("1");
+        feedbackEditPage.fillStepNumScaleBoxForNewQuestion("0.001");
+        feedbackEditPage.fillMaxNumScaleBoxForNewQuestion("5555");
         
         assertEquals("[Based on the above settings, acceptable responses are: 1, 1.001, 1.002, ..., "
                              + "5554.998, 5554.999, 5555]",
-                     feedbackEditPage.getNumScalePossibleValuesString(-1));
+                     feedbackEditPage.getNumScalePossibleValuesStringForNewQuestion());
         
         ______TS("more than three dp step rounding test");
 
-        feedbackEditPage.fillMaxNumScaleBox("1002", -1);
-        feedbackEditPage.fillStepNumScaleBox("1.00123456789", -1);
+        feedbackEditPage.fillMaxNumScaleBoxForNewQuestion("1002");
+        feedbackEditPage.fillStepNumScaleBoxForNewQuestion("1.00123456789");
 
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2.001, 3.002, ..., "
                              + "999.998, 1000.999, 1002]",
-                     feedbackEditPage.getNumScalePossibleValuesString(-1));
+                     feedbackEditPage.getNumScalePossibleValuesStringForNewQuestion());
         
         ______TS("NUMSCALE: min >= max test");
         //Tests javascript that automatically makes max = min+1 when max is <= min.
-        feedbackEditPage.fillMinNumScaleBox(1, -1);
-        feedbackEditPage.fillStepNumScaleBox(1, -1);
-        feedbackEditPage.fillMaxNumScaleBox(5, -1);
+        feedbackEditPage.fillMinNumScaleBoxForNewQuestion(1);
+        feedbackEditPage.fillStepNumScaleBoxForNewQuestion(1);
+        feedbackEditPage.fillMaxNumScaleBoxForNewQuestion(5);
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
-                feedbackEditPage.getNumScalePossibleValuesString(-1));
+                feedbackEditPage.getNumScalePossibleValuesStringForNewQuestion());
         
-        fillNumScaleBoxWithRecheck(true, 6, -1, "7");
-        fillNumScaleBoxWithRecheck(false, 6, -1, "7");
-            
+        feedbackEditPage.fillMinNumScaleBoxForNewQuestion(6);
+        assertEquals("7", feedbackEditPage.getMaxNumScaleBoxForNewQuestion());
+        
+        feedbackEditPage.fillMaxNumScaleBoxForNewQuestion(6);
+        assertEquals("7", feedbackEditPage.getMaxNumScaleBoxForNewQuestion());
+        
         //Reset values
-        feedbackEditPage.fillMinNumScaleBox(1, -1);
-        feedbackEditPage.fillMaxNumScaleBox(5, -1);
+        feedbackEditPage.fillMinNumScaleBoxForNewQuestion(1);
+        feedbackEditPage.fillMaxNumScaleBoxForNewQuestion(5);
     }
 
     @Override
     public void testCustomizeOptions() {
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("NumScale qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
-                feedbackEditPage.getNumScalePossibleValuesString(-1));
-        feedbackEditPage.fillStepNumScaleBox(0.3, -1);
+                feedbackEditPage.getNumScalePossibleValuesStringForNewQuestion());
+        feedbackEditPage.fillStepNumScaleBoxForNewQuestion(0.3);
         assertEquals("[The interval 1 - 5 is not divisible by the specified increment.]",
-                feedbackEditPage.getNumScalePossibleValuesString(-1));
-        feedbackEditPage.fillMinNumScaleBox(5, -1);
-        feedbackEditPage.fillMaxNumScaleBox(6, -1);
-        feedbackEditPage.fillStepNumScaleBox(0.001, -1);
+                feedbackEditPage.getNumScalePossibleValuesStringForNewQuestion());
+        feedbackEditPage.fillMinNumScaleBoxForNewQuestion(5);
+        feedbackEditPage.fillMaxNumScaleBoxForNewQuestion(6);
+        feedbackEditPage.fillStepNumScaleBoxForNewQuestion(0.001);
         assertEquals("[Based on the above settings, acceptable responses are: 5, 5.001, 5.002, ..., 5.998, 5.999, 6]",
-                feedbackEditPage.getNumScalePossibleValuesString(-1));
-        feedbackEditPage.fillMinNumScaleBox(0, -1);
-        feedbackEditPage.fillMaxNumScaleBox(1, -1);
-        feedbackEditPage.fillStepNumScaleBox(0.1, -1);
+                feedbackEditPage.getNumScalePossibleValuesStringForNewQuestion());
+        feedbackEditPage.fillMinNumScaleBoxForNewQuestion(0);
+        feedbackEditPage.fillMaxNumScaleBoxForNewQuestion(1);
+        feedbackEditPage.fillStepNumScaleBoxForNewQuestion(0.1);
         assertEquals("[Based on the above settings, acceptable responses are: 0, 0.1, 0.2, ..., 0.8, 0.9, 1]",
-                feedbackEditPage.getNumScalePossibleValuesString(-1));
+                feedbackEditPage.getNumScalePossibleValuesStringForNewQuestion());
     }
 
     @Override
@@ -167,8 +170,8 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("NUMSCALE: edit question success");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.fillEditQuestionBox("edited numscale qn text", 1);
-        feedbackEditPage.fillEditQuestionDescription("more details", 1);
+        feedbackEditPage.fillQuestionTextBox("edited numscale qn text", 1);
+        feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.fillMinNumScaleBox(3, 1);
         feedbackEditPage.fillMaxNumScaleBox(4, 1);
         feedbackEditPage.fillStepNumScaleBox(0.002, 1);
@@ -194,23 +197,6 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
-    }
-    
-    private void fillNumScaleBoxWithRecheck(boolean isMinScaleBox, int scale, int qnNumber, String expected) {
-        int counter = 0;
-        while (counter != 100) {
-            if (isMinScaleBox) {
-                feedbackEditPage.fillMinNumScaleBox(scale, qnNumber);
-            } else {
-                feedbackEditPage.fillMaxNumScaleBox(scale, qnNumber);
-            }
-            if (expected.equals(feedbackEditPage.getMaxNumScaleBox(qnNumber))) {
-                return;
-            }
-            counter++;
-            browser.driver.switchTo().window("");
-        }
-        assertEquals(expected, feedbackEditPage.getMaxNumScaleBox(qnNumber));
     }
     
 }
