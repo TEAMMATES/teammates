@@ -183,7 +183,7 @@ public final class SanitizationHelper {
                 .replace("&quot;", "\"")
                 .replace("&#x2f;", "/")
                 .replace("&#39;", "'")
-                .replaceAll("&amp;", "&");
+                .replace("&amp;", "&");
     }
 
     /**
@@ -242,7 +242,8 @@ public final class SanitizationHelper {
         try {
             return URLEncoder.encode(uri, Const.SystemParams.ENCODING);
         } catch (UnsupportedEncodingException wontHappen) {
-            log.warning("Unexpected UnsupportedEncodingException in SanitizerHelper.sanitizeForUri(...)");
+            log.warning("Unexpected UnsupportedEncodingException in "
+                        + "SanitizerHelper.sanitizeForUri(" + uri + ", " + Const.SystemParams.ENCODING + ")");
             return uri;
         }
     }
