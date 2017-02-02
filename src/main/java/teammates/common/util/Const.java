@@ -1018,6 +1018,9 @@ public final class Const {
         public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
                 "/worker/pendingCommentClearedEmail";
         
+        public static final String SEARCHABLE_DOCUMENTS_PRODUCTION_QUEUE_NAME = "searchable-documents-production-queue";
+        public static final String SEARCHABLE_DOCUMENTS_PRODUCTION_WORKER_URL = "/worker/searchableDocumentsProduction";
+        
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
         

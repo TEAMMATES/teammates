@@ -294,6 +294,23 @@ public class TaskQueuer {
         }
     }
     
+    /**
+     * Schedules production of searchable documents
+     * Task queue handles this so that instructor account creation depends on less database calls
+     * 
+     * @param courseId the course ID of the feedback session
+     * @param feedbackSessionName the name of the feedback session
+     * @param enrollmentList the list of enrollment details
+     */
+    public void scheduleSearchableDocumentsProduction(String courseId, String instructorEmail) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.COURSE_ID, courseId);
+        paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
+        
+        addTask(TaskQueue.SEARCHABLE_DOCUMENTS_PRODUCTION_QUEUE_NAME,
+                TaskQueue.SEARCHABLE_DOCUMENTS_PRODUCTION_WORKER_URL, paramMap);
+    }
+    
     private void scheduleEmailForSending(EmailWrapper email, long emailDelayTimer) {
         String emailSubject = email.getSubject();
         String emailSenderName = email.getSenderName();
