@@ -16,7 +16,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorCourseRemindAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -47,7 +46,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email
         };
         
-        Action remindAction = getAction(submissionParams);
+        InstructorCourseRemindAction remindAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
@@ -171,14 +170,14 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
         };
         
-        testExecuteAndPostProcess_assertEntityNotFoundException(instructorId, submissionParams);
+        executeAndAssertEntityNotFoundException(instructorId, submissionParams);
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_EMAIL, invalidEmail
         };
         
-        testExecuteAndPostProcess_assertEntityNotFoundException(instructorId, submissionParams);
+        executeAndAssertEntityNotFoundException(instructorId, submissionParams);
 
         ______TS("Failure case: Invalid course id parameter");
 
@@ -187,13 +186,13 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email
         };
         
-        testExecuteAndPostProcess_assertEntityNotFoundException(instructorId, submissionParams);
+        executeAndAssertEntityNotFoundException(instructorId, submissionParams);
     }
 
-    private void testExecuteAndPostProcess_assertEntityNotFoundException(String instructorId,
-                                                                         String[] submissionParams) {
+    private void executeAndAssertEntityNotFoundException(String instructorId,
+                                                         String[] submissionParams) {
         try {
-            Action remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
+            InstructorCourseRemindAction remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
             remindAction.executeAndPostProcess();
             signalFailureToDetectException(" - EntityNotFoundException");
         } catch (EntityNotFoundException e) {
