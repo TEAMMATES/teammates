@@ -1,9 +1,7 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
@@ -15,15 +13,12 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorStudentCommentAddActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
@@ -44,7 +39,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -60,7 +55,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
 
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -76,7 +71,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
   
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -95,7 +90,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
   
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that team does not exist.");
         } catch (AssertionError e) {
             assertEquals("null", e.getMessage());
@@ -113,7 +108,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
   
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that student does not exist.");
         } catch (AssertionError e) {
             assertEquals("null", e.getMessage());
@@ -463,7 +458,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
     
-    private InstructorStudentCommentAddAction getAction(String... params) {
-        return (InstructorStudentCommentAddAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorStudentCommentAddAction getAction(String... params) {
+        return (InstructorStudentCommentAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }
