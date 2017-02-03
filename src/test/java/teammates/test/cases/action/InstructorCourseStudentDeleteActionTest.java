@@ -1,9 +1,7 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
@@ -13,15 +11,12 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         
@@ -37,7 +32,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         };
         
         InstructorCourseStudentDeleteAction action = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult redirectResult = getRedirectResult(action);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
@@ -51,8 +46,9 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         
     }
     
-    private InstructorCourseStudentDeleteAction getAction(String... params) {
-        return (InstructorCourseStudentDeleteAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCourseStudentDeleteAction getAction(String... params) {
+        return (InstructorCourseStudentDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
     
 }

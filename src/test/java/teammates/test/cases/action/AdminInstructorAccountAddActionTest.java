@@ -1,6 +1,5 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CommentAttributes;
@@ -17,14 +16,14 @@ import teammates.ui.pagedata.AdminHomePageData;
 
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
-    // private final DataBundle dataBundle = getTypicalDataBundle();
-    //TODO: move all the input validation/sanitization js code to server side
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
+    }
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        uri = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
-        // removeAndRestoreTypicalDataInDatastore();
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
     }
 
     @Test
@@ -33,6 +32,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         testGenerateNextDemoCourseIdForLengthLimit(20);
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         final String newInstructorShortName = "James";
@@ -73,7 +73,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, instituteWithSpaces);
         
-        AjaxResult r = (AjaxResult) a.executeAndPostProcess();
+        AjaxResult r = getAjaxResult(a);
         assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
         
         verifyNumberOfEmailsSent(a, 1);
@@ -98,7 +98,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 + "it contains invalid characters. All person name must start with an "
                 + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
         
-        AjaxResult rInvalidParam = (AjaxResult) a.executeAndPostProcess();
+        AjaxResult rInvalidParam = getAjaxResult(a);
         assertEquals(expectedError, rInvalidParam.getStatusMessage());
         
         AdminHomePageData pageData = (AdminHomePageData) rInvalidParam.data;
@@ -117,7 +117,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         
-        r = (AjaxResult) a.executeAndPostProcess();
+        r = getAjaxResult(a);
         assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
         
         verifyNumberOfEmailsSent(a, 1);
@@ -178,8 +178,9 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                                      a, new Object[] { instructorEmailOrProposedCourseId, maximumIdLength });
     }
 
-    private AdminInstructorAccountAddAction getAction(String... parameters) {
-        return (AdminInstructorAccountAddAction) gaeSimulation.getActionObject(uri, parameters);
+    @Override
+    protected AdminInstructorAccountAddAction getAction(String... params) {
+        return (AdminInstructorAccountAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     private String getDemoCourseIdRoot(String instructorEmail) {

@@ -3,10 +3,8 @@ package teammates.test.cases.action;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
@@ -26,16 +24,13 @@ import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 import teammates.ui.template.EnrollResultPanel;
 
 public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String enrollString = "";
@@ -305,8 +300,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertTrue(result);
     }
     
-    private InstructorCourseEnrollSaveAction getAction(String... params) {
-        return (InstructorCourseEnrollSaveAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCourseEnrollSaveAction getAction(String... params) {
+        return (InstructorCourseEnrollSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }
