@@ -1,5 +1,3 @@
-require('./instructorFeedbackEdit/');
-
 var NEW_QUESTION = -1;
 
 var WARNING_DISCARD_CHANGES = 'Warning: Any unsaved changes will be lost';
