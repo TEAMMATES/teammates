@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "eslint": "3.11.1",
+    "glob": "^7.1.1",
     "stylelint": "7.6.0",
     "webpack": "^2.2.1"
   }
