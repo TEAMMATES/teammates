@@ -1,6 +1,5 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -10,15 +9,17 @@ import teammates.ui.pagedata.AdminHomePageData;
 
 public class AdminHomePageActionTest extends BaseActionTest {
 
-    // private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        uri = Const.ActionURIs.ADMIN_HOME_PAGE;
-        // removeAndRestoreTypicalDataInDatastore();
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.ADMIN_HOME_PAGE;
     }
     
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
+    }
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         
@@ -27,7 +28,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
         final AdminHomePageAction a = getAction();
         
-        final ShowPageResult result = (ShowPageResult) a.executeAndPostProcess();
+        final ShowPageResult result = getShowPageResult(a);
         assertEquals(Const.ViewURIs.ADMIN_HOME, result.destination);
         final AdminHomePageData startingPageData = (AdminHomePageData) result.data;
         assertEquals("", startingPageData.instructorDetailsSingleLine);
@@ -39,8 +40,9 @@ public class AdminHomePageActionTest extends BaseActionTest {
         
     }
     
-    private AdminHomePageAction getAction(String... parameters) {
-        return (AdminHomePageAction) gaeSimulation.getActionObject(uri, parameters);
+    @Override
+    protected AdminHomePageAction getAction(String... params) {
+        return (AdminHomePageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }
