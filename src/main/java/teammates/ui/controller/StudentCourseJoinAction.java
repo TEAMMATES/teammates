@@ -28,12 +28,12 @@ public class StudentCourseJoinAction extends Action {
                                                     : "<br>Google ID: " + account.googleId + "<br>Key: " + regkey);
         
         if (student == null) {
-            statusToAdmin += "<br>Student course join failed due to being deleted by instructor.";
+            statusToAdmin += "<br>Student course join failed as student does not exist.";
             String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
             Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
             isError = true;
             statusToUser.add(new StatusMessage(
-                    String.format(Const.StatusMessages.DELETED_STUDENT_ATTEMPTING_TO_JOIN, courseId),
+                    String.format(Const.StatusMessages.NON_EXISTENT_STUDENT_ATTEMPTING_TO_JOIN_COURSE, courseId),
                     StatusMessageColor.WARNING));
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         }
