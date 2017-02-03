@@ -19,7 +19,7 @@ buildscript {
     }
     dependencies {
         classpath "com.google.appengine:gradle-appengine-plugin:1.9.27"
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.0.1"
     }
 }
 
