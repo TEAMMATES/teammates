@@ -5,6 +5,8 @@ apply plugin: "checkstyle"
 apply plugin: "pmd"
 apply plugin: "findbugs"
 apply plugin: "jacoco"
+apply plugin: "org.sonarqube"
+
 
 def appengineVersion = "1.9.27"
 def checkstyleVersion = "6.19"
