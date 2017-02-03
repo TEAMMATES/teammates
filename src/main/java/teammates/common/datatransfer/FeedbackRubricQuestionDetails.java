@@ -628,7 +628,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
             String studentEmail, FeedbackSessionResultsBundle bundle, String view) {
 
-
         boolean isViewedByStudent = "student".equals(view);
         if (!isViewedByStudent) {
             return responses;
@@ -680,15 +679,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                            FeedbackRubricQuestionDetails fqd) {
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         int numOfRubricChoices = fqd.numOfRubricChoices;
-        float[][] percentageFrequencyAndAverageValue = new float[fqd.numOfRubricSubQuestions][];
-
-        // initialise array values to 0
-        for (int i = 0; i < percentageFrequencyAndAverageValue.length; i++) {
-            percentageFrequencyAndAverageValue[i] = new float[numOfRubricChoices + 1];
-            for (int j = 0; j < (percentageFrequencyAndAverageValue.length + 1); j++) {
-                percentageFrequencyAndAverageValue[i][j] = 0;
-            }
-        }
+        float[][] percentageFrequencyAndAverageValue = new float[fqd.numOfRubricSubQuestions][numOfRubricChoices + 1];
 
         // calculate percentage frequencies and average value
         for (int i = 0; i < percentageFrequencyAndAverageValue.length; i++) {
@@ -699,13 +690,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
             // Divide responsesFrequency by totalForSubQuestion to get percentage
             for (int j = 0; j < numOfRubricChoices; j++) {
-                percentageFrequencyAndAverageValue[i][j] = (float) responseFrequency[i][j] / totalForSubQuestion;
+                percentageFrequencyAndAverageValue[i][j] =
+                        (float) responseFrequency[i][j] / totalForSubQuestion;
             }
             // Calculate the average for each sub-question
             if (fqd.hasAssignedWeights) {
                 for (int j = 0; j < numOfRubricChoices; j++) {
-                    float choiceWeight = (float)
-                            (fqd.rubricWeights.get(j) * percentageFrequencyAndAverageValue[i][j]);
+                    float choiceWeight =
+                            (float) (fqd.rubricWeights.get(j) * percentageFrequencyAndAverageValue[i][j]);
                     percentageFrequencyAndAverageValue[i][numOfRubricChoices] += choiceWeight;
                 }
             }
@@ -721,7 +713,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private int[][] calculateResponseFrequency(List<FeedbackResponseAttributes> responses,
                                                FeedbackRubricQuestionDetails fqd) {
         int[][] responseFrequency = new int[fqd.numOfRubricSubQuestions][];
-        int totalNumberPosition = fqd.numOfRubricChoices;
+        int responseTotalIndex = fqd.numOfRubricChoices;
 
         for (int i = 0; i < responseFrequency.length; i++) {
             responseFrequency[i] = new int[fqd.numOfRubricChoices + 1];
@@ -737,7 +729,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 int chosenChoice = frd.getAnswer(i);
                 if (chosenChoice != -1) {
                     responseFrequency[i][chosenChoice] += 1;
-                    responseFrequency[i][totalNumberPosition] += 1;
+                    responseFrequency[i][responseTotalIndex] += 1;
                 }
             }
         }
@@ -785,17 +777,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             csv.append(Sanitizer.sanitizeForCsv(alphabeticalIndex + ") " + rubricSubQuestions.get(i)));
             boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
             for (int j = 0; j < rubricChoices.size(); j++) {
-                String percentageFrequency = isSubQuestionRespondedTo
+                String percentageFrequencyString = isSubQuestionRespondedTo
                                            ? df.format(rubricStats[i][j] * 100) + "%"
                                            : STATISTICS_NO_VALUE_STRING;
-                csv.append("," + percentageFrequency + " (" + responseFrequency[i][j] + ")");
+                csv.append("," + percentageFrequencyString + " (" + responseFrequency[i][j] + ")");
             }
 
             if (hasAssignedWeights) {
-                String value = isSubQuestionRespondedTo
+                String averageString = isSubQuestionRespondedTo
                              ? dfAverage.format(rubricStats[i][rubricWeights.size()])
                              : STATISTICS_NO_VALUE_STRING;
-                csv.append(',').append(value);
+                csv.append(',').append(averageString);
             }
 
             csv.append(Const.EOL);
