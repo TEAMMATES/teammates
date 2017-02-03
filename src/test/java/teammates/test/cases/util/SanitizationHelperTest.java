@@ -80,9 +80,9 @@ public class SanitizationHelperTest extends BaseTestCase {
 
     private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
         String unsanitized = "< > \" / ' &"
-                + "<script>alert('injected');</script>";
+                             + "<script>alert('injected');</script>";
         String expected = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
-                + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
+                          + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
         String sanitized = SanitizationHelper.sanitizeForHtml(unsanitized);
         assertEquals(expected, sanitized);
     }

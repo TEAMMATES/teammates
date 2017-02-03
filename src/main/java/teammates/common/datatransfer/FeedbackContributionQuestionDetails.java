@@ -378,7 +378,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
                      
-            String contribFragmentString = SanitizationHelper.sanitizeForCsv(displayTeam) + ","
+            String contribFragmentString =
+                    SanitizationHelper.sanitizeForCsv(displayTeam) + ","
                     + SanitizationHelper.sanitizeForCsv(displayName) + ","
                     + SanitizationHelper.sanitizeForCsv(displayEmail) + ","
                     + SanitizationHelper.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
