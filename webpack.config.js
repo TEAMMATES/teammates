@@ -23,8 +23,5 @@ module.exports = {
         filename: '[name].js',
         path: path.resolve(__dirname, BUILD)
     },
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin()
-    ],
     stats: 'errors-only'
 };
