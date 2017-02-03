@@ -16,6 +16,7 @@ def findbugsVersion = "3.0.1"
 buildscript {
     repositories {
         mavenCentral()
+        url "https://plugins.gradle.org/m2/"
     }
     dependencies {
         classpath "com.google.appengine:gradle-appengine-plugin:1.9.27"
