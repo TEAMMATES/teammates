@@ -274,8 +274,13 @@ public final class SanitizationHelper {
      * Recovers the URL from sanitization due to {@link SanitizationHelper.sanitizeForNextUrl}.
      * In addition, any un-encoded whitespace (they may be there due to Google's
      * behind-the-screen decoding process) will be encoded again to +.
+     * @param sanitizedUrl
+     * @return the unsantized url or null (if the parameter was null).
      */
     public static String desanitizeFromNextUrl(String sanitizedUrl) {
+        if (sanitizedUrl == null) {
+            return null;
+        }
         return sanitizedUrl.replace("${amp}", "&")
                            .replace("${plus}", "%2B")
                            .replace("${hash}", "%23")
