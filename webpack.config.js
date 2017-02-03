@@ -10,8 +10,10 @@ const files = glob.sync(`${ROOT}/**/*.js`, {
     ignore: `${ROOT}/lib/**`    // ignore /lib/
 });
 files.forEach((file) => {
-    const { dir, name } = path.parse(file);
-    const filePath = path.join(dir.replace(ROOT, ''), name);
+    const pathObj = path.parse(file);
+    const dir = pathObj.dir.replace(ROOT, '');
+    const name = pathObj.name;
+    const filePath = path.join(dir, name);
     entry[filePath] = file;
 });
 
