@@ -551,8 +551,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             : "");
 
             String tableHeaderCell =
-                    Templates.populateTemplate(tableHeaderFragmentTemplate,
-                        Slots.RUBRIC_CHOICE_VALUE, header);
+                    Templates.populateTemplate(tableHeaderFragmentTemplate, Slots.RUBRIC_CHOICE_VALUE, header);
             tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
         }
 
@@ -679,7 +678,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                            FeedbackRubricQuestionDetails fqd) {
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         int numOfRubricChoices = fqd.numOfRubricChoices;
-        float[][] percentageFrequencyAndAverageValue = new float[fqd.numOfRubricSubQuestions][numOfRubricChoices + 1];
+        float[][] percentageFrequencyAndAverageValue =
+                new float[fqd.numOfRubricSubQuestions][numOfRubricChoices + 1];
 
         // calculate percentage frequencies and average value
         for (int i = 0; i < percentageFrequencyAndAverageValue.length; i++) {
@@ -712,15 +712,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      */
     private int[][] calculateResponseFrequency(List<FeedbackResponseAttributes> responses,
                                                FeedbackRubricQuestionDetails fqd) {
-        int[][] responseFrequency = new int[fqd.numOfRubricSubQuestions][];
+        int[][] responseFrequency =
+                new int[fqd.numOfRubricSubQuestions][fqd.numOfRubricChoices + 1];
         int responseTotalIndex = fqd.numOfRubricChoices;
-
-        for (int i = 0; i < responseFrequency.length; i++) {
-            responseFrequency[i] = new int[fqd.numOfRubricChoices + 1];
-            for (int j = 0; j < responseFrequency[i].length; j++) {
-                responseFrequency[i][j] = 0;
-            }
-        }
         
         // Count frequencies
         for (FeedbackResponseAttributes response : responses) {
@@ -778,15 +772,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
             for (int j = 0; j < rubricChoices.size(); j++) {
                 String percentageFrequencyString = isSubQuestionRespondedTo
-                                           ? df.format(rubricStats[i][j] * 100) + "%"
-                                           : STATISTICS_NO_VALUE_STRING;
+                                                 ? df.format(rubricStats[i][j] * 100) + "%"
+                                                 : STATISTICS_NO_VALUE_STRING;
                 csv.append("," + percentageFrequencyString + " (" + responseFrequency[i][j] + ")");
             }
 
             if (hasAssignedWeights) {
                 String averageString = isSubQuestionRespondedTo
-                             ? dfAverage.format(rubricStats[i][rubricWeights.size()])
-                             : STATISTICS_NO_VALUE_STRING;
+                                     ? dfAverage.format(rubricStats[i][rubricWeights.size()])
+                                     : STATISTICS_NO_VALUE_STRING;
                 csv.append(',').append(averageString);
             }
 
