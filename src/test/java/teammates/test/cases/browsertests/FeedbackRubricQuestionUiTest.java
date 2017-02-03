@@ -179,10 +179,10 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("empty weight test");
 
-        feedbackEditPage.fillNewQuestionBox("empty weight test");
-        feedbackEditPage.fillNewQuestionDescription("more details");
-        feedbackEditPage.clickAssignWeightsCheckbox(-1);
-        feedbackEditPage.fillRubricWeightBox("", -1, 3);
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("empty weight test");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 3);
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.verifyStatus(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
@@ -201,8 +201,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RUBRIC");
-        feedbackEditPage.fillNewQuestionBox("RUBRIC qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("RUBRIC qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
@@ -220,8 +220,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         // Check that fields are editable
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEdit.html");
         
-        feedbackEditPage.fillEditQuestionBox("edited RUBRIC qn text", 1);
-        feedbackEditPage.fillEditQuestionDescription("more details", 1);
+        feedbackEditPage.fillQuestionTextBox("edited RUBRIC qn text", 1);
+        feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         
@@ -334,8 +334,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectNewQuestionType("RUBRIC");
         
         // start editing it
-        feedbackEditPage.fillNewQuestionBox("RUBRIC qn JS validation test");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("RUBRIC qn JS validation test");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
         
         feedbackEditPage.clickEditQuestionButton(1);
