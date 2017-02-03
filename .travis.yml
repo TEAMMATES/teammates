@@ -47,6 +47,7 @@ after_failure:
 
 after_success:
   - ./gradlew jacocoTestReport
+  - ./gradlew sonarqube -Dsonar.host.url=https://sonarqube.com -Dsonar.login=$SONAR_TOKEN -Dsonar.verbose=true
 
 after_script:
   - ./gradlew appengineStop
