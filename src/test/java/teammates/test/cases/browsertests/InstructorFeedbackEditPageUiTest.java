@@ -7,11 +7,9 @@ import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -24,8 +22,6 @@ import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
@@ -38,18 +34,15 @@ import com.google.appengine.api.datastore.Text;
  */
 @Priority(-1)
 public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
-    private static DataBundle testData;
     private static String instructorId;
     private static String courseId;
     private static String feedbackSessionName;
     /** This contains data for the feedback session to be edited during testing */
     private static FeedbackSessionAttributes editedSession;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackEditPageUiTest.json");
         removeAndRestoreDataBundle(testData);
 
@@ -63,14 +56,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
-
-        browser = BrowserPool.getBrowser();
-        feedbackEditPage = getFeedbackEditPage();
     }
-
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
+    
+    @BeforeClass
+    public void classSetup() {
+        feedbackEditPage = getFeedbackEditPage();
     }
 
     @Test
@@ -154,8 +144,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 editedSession.getCourseId(), editedSession.getFeedbackSessionName());
         editedSession.setInstructions(new Text("<p>" + editedSession.getInstructionsString() + "</p>"));
         assertEquals(editedSession.toString(), savedSession.toString());
-        assertEquals("overflow-auto alert alert-success statusMessage",
-                feedbackEditPage.getStatusMessage().findElement(By.className("statusMessage")).getAttribute("class"));
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
@@ -246,7 +234,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 By.id("visibilityMessage--1"),
                 "Instructors in this course can see your response, the name of the recipient, and your name.");
         assertTrue("Visibility preview for new question should be displayed",
-                   feedbackEditPage.verifyVisibilityMessageIsDisplayed(-1));
+                   feedbackEditPage.verifyVisibilityMessageIsDisplayedForNewQuestion());
     }
 
     private void testInputValidationForQuestion() {
@@ -259,8 +247,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("empty number of max respondents field");
 
-        feedbackEditPage.fillNewQuestionBox("filled qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("filled qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.fillNumOfEntitiesToGiveFeedbackToBoxForNewQuestion("");
@@ -299,6 +287,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.TEAMS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
+        feedbackEditPage.clickCustomNumberOfRecipientsButton();
         
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToTeamToTeam.html");
 
@@ -318,20 +307,35 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForElementVisibility(visibilityMessage);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
+
+        ______TS("test new question (frame) link copies custom number of recipients option");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
+        assertTrue(feedbackEditPage.isCustomNumOfRecipientsChecked());
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         
         //change back
         feedbackEditPage.enableOtherVisibilityOptions(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.clickMaxNumberOfRecipientsButton();
         feedbackEditPage.clickquestionSaveForQuestion1();
+
+        ______TS("test new question (frame) link copies max number of recipients option");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
+        assertTrue(feedbackEditPage.isMaxNumOfRecipientsChecked());
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         
         
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.waitForElementVisibility(browser.driver.findElement(By.id("questionTable--1")));
-        feedbackEditPage.enableOtherVisibilityOptions(-1);
-        feedbackEditPage.clickResponseVisibilityCheckBox("RECEIVER_TEAM_MEMBERS", -1);
+        feedbackEditPage.enableOtherVisibilityOptionsForNewQuestion();
+        feedbackEditPage.clickResponseVisibilityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
         
         feedbackEditPage.waitForTextContainedInElementPresence(
                 By.id("visibilityMessage--1"),
@@ -343,13 +347,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 By.id("visibilityMessage--1"),
                 "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         
         ______TS("add question 2 and edit it to giver's team members and giver");
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.fillNewQuestionBox("test visibility when choosing giver's team members and giver");
-        feedbackEditPage.fillNewQuestionDescription(
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("test visibility when choosing giver's team members and giver");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion(
                 "<h3 style=\"text-align: center;\"><strong>Description</strong></h3><hr /><p>&nbsp;</p>");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectGiverToBeStudents();
@@ -371,13 +375,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         WebElement visibilityMessage2 = browser.driver.findElement(By.id("visibilityMessage-2"));
         feedbackEditPage.waitForElementVisibility(visibilityMessage2);
 
-        assertTrue("Expected the receiving student to be able to see response, but was "
-                   + visibilityMessage2.getText(), visibilityMessage2.getText()
-                   .contains("The receiving student can see your response, and your name."));
+        feedbackEditPage.waitForTextContainedInElementPresence(
+                By.id("visibilityMessage-2"),
+                "The receiving student can see your response, and your name.");
         
-        assertTrue("Expected instructors to be able to see response, but was "
-                   + visibilityMessage2.getText(), visibilityMessage2.getText()
-                   .contains("Instructors in this course can see your response, the name of the recipient, and your name."));
+        feedbackEditPage.waitForTextContainedInElementPresence(
+                By.id("visibilityMessage-2"),
+                "Instructors in this course can see your response, the name of the recipient, and your name.");
         
         feedbackEditPage.clickDeleteQuestionLink(2);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
@@ -390,27 +394,27 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("MCQ");
         
         ______TS("Click cancel but click no to confirmation prompt");
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
         
         
         ______TS("Click cancel and click yes to confirmation prompt");
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertFalse(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
         ______TS("Make sure controls disabled by Team Contribution questions are re-enabled after cancelling");
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONTRIB");
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("NUMSCALE");
         assertTrue(feedbackEditPage.isAllFeedbackPathOptionsEnabledForNewQuestion());
 
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
 
     }
@@ -423,10 +427,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Add question 2 first
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
-        feedbackEditPage.fillNewQuestionBox(qnTextOriginal);
-        feedbackEditPage.fillNewQuestionDescription("more details");
-        feedbackEditPage.fillMcqOption(0, "Choice 1");
-        feedbackEditPage.fillMcqOption(1, "Choice 2");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion(qnTextOriginal);
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.fillMcqOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillMcqOptionForNewQuestion(1, "Choice 2");
         feedbackEditPage.clickAddQuestionButton();
         
         // Enable edit mode before testing canceling
@@ -440,8 +444,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         
         ______TS("Click cancel and click yes to confirmation prompt");
-        feedbackEditPage.fillEditQuestionBox("new edits to question text", qnIndex);
-        feedbackEditPage.fillEditQuestionDescription("more details", qnIndex);
+        feedbackEditPage.fillQuestionTextBox("new edits to question text", qnIndex);
+        feedbackEditPage.fillQuestionDescription("more details", qnIndex);
         String qnTextAfterEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertFalse(qnTextOriginal.equals(qnTextAfterEdit));
 
@@ -812,9 +816,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickGiverNameVisibilityCheckBox("STUDENTS", 1);
         WebElement visibilityMessage1 = browser.driver.findElement(By.id("visibilityMessage-1"));
         feedbackEditPage.waitForElementVisibility(visibilityMessage1);
-        assertTrue("Visibility message does not correspond to visibility options",
-                   feedbackEditPage.getVisibilityMessage(1).contains("Other students in the course can see your response, "
-                                                                     + "and your name, but not the name of the recipient"));
+        feedbackEditPage.waitForTextContainedInElementPresence(
+                By.id("visibilityMessage-1"),
+                "Other students in the course can see your response, and your name, but not the name of the recipient");
 
         ______TS("Test visibility message corresponds to visibility options: going from Others to a predefined option");
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
@@ -826,8 +830,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickVisibilityDropdown("VISIBLE_TO_INSTRUCTORS_ONLY", 1);
         WebElement visibilityMessage2 = browser.driver.findElement(By.id("visibilityMessage-1"));
         feedbackEditPage.waitForElementVisibility(visibilityMessage2);
-        assertFalse("Visibility message does not correspond to visibility options",
-                   feedbackEditPage.getVisibilityMessage(1).contains("The receiving student"));
+        feedbackEditPage.waitForTextContainedInElementAbsence(
+                By.id("visibilityMessage-1"), "The receiving student");
 
         ______TS("Failure case: ajax on clicking visibility message button");
         
@@ -862,8 +866,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Create a new question and save
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
-        feedbackEditPage.fillNewQuestionBox("new question");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("new question");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
 
         // Delete the new question through the backdoor so that it still appears in the browser
@@ -873,8 +877,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // Edit the deleted question and save
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.fillEditQuestionBox("non-existent question", 1);
-        feedbackEditPage.fillEditQuestionDescription("more details", 1);
+        feedbackEditPage.fillQuestionTextBox("non-existent question", 1);
+        feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
 
         AppUrl expectedRedirectUrl = createUrl("/entityNotFoundPage.jsp");
@@ -890,8 +894,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Create a new question and save
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
-        feedbackEditPage.fillNewQuestionBox("new question");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("new question");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
 
         // Create response for the new question
@@ -951,8 +955,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillNewQuestionBox("question for me");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("question for me");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
@@ -961,8 +965,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillNewQuestionBox("question for students");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("question for students");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
@@ -970,8 +974,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillNewQuestionBox("question for instructors");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("question for instructors");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectGiverToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
@@ -979,8 +983,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillNewQuestionBox("question for students to instructors");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("question for students to instructors");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.selectRecipientsToBeInstructors();
@@ -1044,15 +1048,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
     }
 
-    private static InstructorFeedbackEditPage getFeedbackEditPage() {
+    private InstructorFeedbackEditPage getFeedbackEditPage() {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId)
                                     .withSessionName(feedbackSessionName);
-        return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
     
-    private static InstructorFeedbackEditPage getFeedbackEditPageOfCourseWithoutQuestions() {
+    private InstructorFeedbackEditPage getFeedbackEditPageOfCourseWithoutQuestions() {
         String instructor = testData.instructors.get("teammates.test.instructor3").googleId;
         String courseWithoutQuestion = testData.courses.get("course2").getId();
         String sessionWithoutQuestions = testData.feedbackSessions.get("openSession3")
@@ -1061,7 +1065,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                     .withUserId(instructor)
                                     .withCourseId(courseWithoutQuestion)
                                     .withSessionName(sessionWithoutQuestions);
-        return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
 }

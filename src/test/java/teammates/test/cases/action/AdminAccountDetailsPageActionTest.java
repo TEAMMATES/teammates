@@ -5,8 +5,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.AdminAccountDetailsPageAction;
-import teammates.ui.controller.AdminAccountDetailsPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.AdminAccountDetailsPageData;
 
 public class AdminAccountDetailsPageActionTest extends BaseActionTest {
 

@@ -7,12 +7,9 @@ import java.util.List;
 import java.util.TimeZone;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.AppUrl;
@@ -23,8 +20,6 @@ import teammates.common.util.TimeHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
@@ -38,17 +33,13 @@ import com.google.appengine.api.datastore.Text;
  */
 @Priority(-1)
 public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorFeedbacksPage feedbackPage;
-    private static DataBundle testData;
     private static String idOfInstructorWithSessions;
     /** This contains data for the new feedback session to be created during testing */
     private static FeedbackSessionAttributes newSession;
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        
+    @Override
+    protected void prepareTestData() {
         newSession = new FeedbackSessionAttributes();
         newSession.setCourseId("CFeedbackUiT.CS1101");
         newSession.setFeedbackSessionName("New Session ##");
@@ -67,8 +58,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         newSession.setClosingEmailEnabled(true);
         newSession.setPublishedEmailEnabled(true);
-            
-        browser = BrowserPool.getBrowser();
+        
+        // the actual test data is refreshed before each test method
     }
     
     @BeforeMethod
@@ -1030,14 +1021,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.verifyVisible(By.id("instructionsRow")));
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
-
-    private static InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
+    private InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
-        InstructorFeedbacksPage page = loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
+        InstructorFeedbacksPage page = loginAdminToPage(feedbackPageLink, InstructorFeedbacksPage.class);
         page.waitForElementPresence(By.id("table-sessions"));
         return page;
     }

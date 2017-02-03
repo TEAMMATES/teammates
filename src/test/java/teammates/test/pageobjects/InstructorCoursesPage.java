@@ -3,7 +3,6 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -11,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 public class InstructorCoursesPage extends AppPage {
     /* Explanation: This class follows the 'Page Objects Pattern' and as
      * explained in https://code.google.com/p/selenium/wiki/PageObjects
-     * This class represents an abstraction for the the 'Courses' page as
+     * This class represents an abstraction for the 'Courses' page as
      * shown in the Browser. The test class interact with this object when it
      * wants to perform an action on the web page (e.g., click a button).
      */
@@ -139,27 +138,23 @@ public class InstructorCoursesPage extends AppPage {
     public void changeUserIdInAjaxLoadCoursesForm(String newUserId) {
         By element = By.id("ajaxForCourses");
         waitForElementPresence(element);
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('#ajaxForCourses [name=\"user\"]').val('" + newUserId + "')");
+        executeScript("$('#ajaxForCourses [name=\"user\"]').val('" + newUserId + "')");
     }
 
     public void changeHrefInAjaxLoadCourseStatsLink(String newLink) {
         By element = By.id("ajaxForCourses");
         waitForElementPresence(element);
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('td[id^=\"course-stats\"] > a').attr('href', '" + newLink + "')");
+        executeScript("$('td[id^=\"course-stats\"] > a').attr('href', '" + newLink + "')");
     }
     
     public void triggerAjaxLoadCourses() {
         By element = By.id("ajaxForCourses");
         waitForElementPresence(element);
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('#ajaxForCourses').trigger('submit')");
+        executeScript("$('#ajaxForCourses').trigger('submit')");
     }
     
     public void triggerAjaxLoadCourseStats(int rowIndex) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('.course-stats-link-" + rowIndex + "').first().trigger('click')");
+        executeScript("$('.course-stats-link-" + rowIndex + "').first().trigger('click')");
     }
     
     public void waitForAjaxLoadCoursesError() {

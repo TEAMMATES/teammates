@@ -8,7 +8,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorCourseJoinConfirmationPageData;
+import teammates.ui.pagedata.InstructorCourseJoinConfirmationPageData;
 
 public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();

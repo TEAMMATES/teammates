@@ -4,25 +4,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentHomePage;
 
 public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
-    private static DataBundle testData;
     private static StudentCourseJoinConfirmationPage confirmationPage;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageUiTest.json");
         
         // use the 1st student account injected for this test
@@ -37,10 +31,12 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         testData.students.get("alice.tmms@SCJConfirmationUiT.CS1101").email = student1Email;
 
         removeAndRestoreDataBundle(testData);
-
-        browser = BrowserPool.getBrowser(true);
+    }
+    
+    @BeforeClass
+    public void classSetup() {
         browser.driver.manage().deleteAllCookies();
-        logout(browser);
+        logout();
     }
 
     @Test
@@ -143,7 +139,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     }
 
     private void testJoinConfirmation() throws Exception {
-        logout(browser);
+        logout();
         removeAndRestoreDataBundle(testData);
         String expectedMsg;
         String homePageActionUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
@@ -222,9 +218,8 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() {
+    public void classTearDown() {
         BackDoor.removeDataBundle(testData);
-        BrowserPool.release(browser);
     }
 
     // continuously ask BackDoor to get the key until a legit key is returned

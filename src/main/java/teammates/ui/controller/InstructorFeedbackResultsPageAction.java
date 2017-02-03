@@ -10,7 +10,8 @@ import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-import teammates.ui.controller.InstructorFeedbackResultsPageData.ViewType;
+import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
+import teammates.ui.pagedata.InstructorFeedbackResultsPageData;
 
 public class InstructorFeedbackResultsPageAction extends Action {
 
@@ -139,28 +140,33 @@ public class InstructorFeedbackResultsPageAction extends Action {
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
         case Const.FeedbackSessionResults.RGQ_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.RECIPIENT_GIVER_QUESTION, isMissingResponsesShown);
+                                          InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION,
+                                          isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         case Const.FeedbackSessionResults.GRQ_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.GIVER_RECIPIENT_QUESTION, isMissingResponsesShown);
+                                          InstructorFeedbackResultsPageViewType.GIVER_RECIPIENT_QUESTION,
+                                          isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
         case Const.FeedbackSessionResults.RQG_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.RECIPIENT_QUESTION_GIVER, isMissingResponsesShown);
+                                          InstructorFeedbackResultsPageViewType.RECIPIENT_QUESTION_GIVER,
+                                          isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
         case Const.FeedbackSessionResults.GQR_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.GIVER_QUESTION_RECIPIENT, isMissingResponsesShown);
+                                          InstructorFeedbackResultsPageViewType.GIVER_QUESTION_RECIPIENT,
+                                          isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
         default:
             sortType = Const.FeedbackSessionResults.RGQ_SORT_TYPE;
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.RECIPIENT_GIVER_QUESTION, isMissingResponsesShown);
+                                          InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION,
+                                          isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }

@@ -13,6 +13,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 
 public class InstructorFeedbackEditPageAction extends Action {
 
@@ -37,7 +38,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         Map<String, Boolean> questionHasResponses = new HashMap<String, Boolean>();
         
         for (FeedbackQuestionAttributes question : questions) {
-            boolean hasResponse = logic.isQuestionHasResponses(question.getId());
+            boolean hasResponse = logic.areThereResponsesForQuestion(question.getId());
             questionHasResponses.put(question.getId(), hasResponse);
         }
         

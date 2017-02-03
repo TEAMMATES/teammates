@@ -6,6 +6,7 @@ import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.ui.pagedata.AdminEmailComposePageData;
 
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;

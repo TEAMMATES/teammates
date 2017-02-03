@@ -7,8 +7,8 @@ import teammates.logic.api.Logic;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorHomePageAction;
-import teammates.ui.controller.InstructorHomePageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorHomePageData;
 
 public class InstructorHomePageActionTest extends BaseActionTest {
     

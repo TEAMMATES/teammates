@@ -1,23 +1,22 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 /** Covers the table sorting functionality
  */
 public class AppPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static AppPage page;
 
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
+    }
+    
     @BeforeClass
     public void classSetup() throws Exception {
-        printTestClassHeader();
-        browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/appVerifyTablePatternTestPage.html"));
     }
     
@@ -51,9 +50,4 @@ public class AppPageUiTest extends BaseUiTestCase {
     
     //TODO: add test cases for other methods in AppPage
 
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-        BrowserPool.release(browser);
-    }
 }

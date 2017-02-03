@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
-import teammates.ui.controller.InstructorFeedbackEditCopyData;
+import teammates.ui.pagedata.InstructorFeedbackEditCopyData;
 
 public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
     

@@ -1,7 +1,5 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -9,30 +7,22 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * Covers the 'student records' view for instructors.
  */
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
-    private static Browser browser;
     private static InstructorStudentRecordsPage viewPage;
-    private static DataBundle testDataNormal;
-    private static DataBundle testDataQuestionType;
 
     private static String instructorId;
     private static String courseId;
     private static String studentEmail;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        testDataNormal = loadDataBundle("/InstructorStudentRecordsPageUiTest.json");
-        testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-
-        browser = BrowserPool.getBrowser();
+    @Override
+    protected void prepareTestData() {
+        testData = loadDataBundle("/InstructorStudentRecordsPageUiTest.json");
+        removeAndRestoreDataBundle(testData);
     }
 
     @Test
@@ -51,10 +41,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         ______TS("content: typical case, normal student records with comments");
 
-        removeAndRestoreDataBundle(testDataNormal);
-
-        instructor = testDataNormal.instructors.get("teammates.test.CS2104");
-        student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
+        instructor = testData.instructors.get("teammates.test.CS2104");
+        student = testData.students.get("benny.c.tmms@ISR.CS2104");
 
         instructorId = instructor.googleId;
         courseId = instructor.courseId;
@@ -66,7 +54,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         ______TS("content: typical case, normal student records with comments, helper view");
 
-        instructor = testDataNormal.instructors.get("teammates.test.CS2104.Helper");
+        instructor = testData.instructors.get("teammates.test.CS2104.Helper");
 
         instructorId = instructor.googleId;
         courseId = instructor.courseId;
@@ -77,8 +65,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         ______TS("content: normal student records with other instructor's comments, private feedback session");
 
-        instructor = testDataNormal.instructors.get("teammates.test.CS1101");
-        student = testDataNormal.students.get("teammates.test@ISR.CS1101");
+        instructor = testData.instructors.get("teammates.test.CS1101");
+        student = testData.students.get("teammates.test@ISR.CS1101");
 
         instructorId = instructor.googleId;
         courseId = instructor.courseId;
@@ -89,8 +77,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         ______TS("content: no student records, no profiles");
 
-        instructor = testDataNormal.instructors.get("teammates.noeval");
-        student = testDataNormal.students.get("alice.b.tmms@ISR.NoEval");
+        instructor = testData.instructors.get("teammates.noeval");
+        student = testData.students.get("alice.b.tmms@ISR.NoEval");
 
         instructorId = instructor.googleId;
         courseId = instructor.courseId;
@@ -101,6 +89,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         ______TS("content: multiple feedback session type student record");
 
+        DataBundle testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         removeAndRestoreDataBundle(testDataQuestionType);
 
         instructor = testDataQuestionType.instructors.get("instructor1OfCourse1");
@@ -120,8 +109,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     }
 
     private void testScript() {
-        InstructorAttributes instructor = testDataNormal.instructors.get("teammates.test.CS2104");
-        StudentAttributes student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
+        InstructorAttributes instructor = testData.instructors.get("teammates.test.CS2104");
+        StudentAttributes student = testData.students.get("benny.c.tmms@ISR.CS2104");
 
         instructorId = instructor.googleId;
         courseId = instructor.courseId;
@@ -225,7 +214,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
                            .withUserId(instructorId)
                            .withCourseId(courseId)
                            .withStudentEmail(studentEmail);
-        return loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
+        return loginAdminToPage(viewPageUrl, InstructorStudentRecordsPage.class);
     }
 
     private void testPanelsCollapseExpand() {
@@ -239,11 +228,6 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage.clickAllRecordPanelHeadings();
         viewPage.waitForPanelsToExpand();
         assertTrue(viewPage.areRecordsVisible());
-    }
-
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
     }
 
 }

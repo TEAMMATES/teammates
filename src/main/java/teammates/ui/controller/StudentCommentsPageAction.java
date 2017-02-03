@@ -20,6 +20,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.pagedata.StudentCommentsPageData;
 
 /**
  * Action: Showing the StudentCommentsPage for a student

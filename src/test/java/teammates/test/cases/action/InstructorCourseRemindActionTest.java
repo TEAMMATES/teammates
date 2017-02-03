@@ -165,39 +165,34 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
         };
         
-        try {
-            remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-            redirectResult = getRedirectResult(remindAction);
-            signalFailureToDetectException();
-        } catch (EntityNotFoundException e) {
-            ignoreExpectedException();
-        }
+        executeAndAssertEntityNotFoundException(instructorId, submissionParams);
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_EMAIL, invalidEmail
         };
         
-        try {
-            remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-            redirectResult = getRedirectResult(remindAction);
-            signalFailureToDetectException();
-        } catch (EntityNotFoundException e) {
-            ignoreExpectedException();
-        }
-        
+        executeAndAssertEntityNotFoundException(instructorId, submissionParams);
+
+        ______TS("Failure case: Invalid course id parameter");
+
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, "invalidCourseId"
+                Const.ParamsNames.COURSE_ID, "invalidCourseId",
+                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email
         };
         
+        executeAndAssertEntityNotFoundException(instructorId, submissionParams);
+    }
+
+    private void executeAndAssertEntityNotFoundException(String instructorId,
+                                                         String[] submissionParams) {
         try {
-            remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-            redirectResult = getRedirectResult(remindAction);
-            signalFailureToDetectException();
+            InstructorCourseRemindAction remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
+            remindAction.executeAndPostProcess();
+            signalFailureToDetectException(" - EntityNotFoundException");
         } catch (EntityNotFoundException e) {
             ignoreExpectedException();
         }
-        
     }
 
     @Override

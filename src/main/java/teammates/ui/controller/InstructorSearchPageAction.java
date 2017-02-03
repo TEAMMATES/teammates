@@ -20,6 +20,7 @@ import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.InstructorSearchPageData;
 
 /**
  * Action: Showing the InstructorSearchPage for an instructor

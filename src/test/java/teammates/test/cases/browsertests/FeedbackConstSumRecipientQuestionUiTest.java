@@ -1,37 +1,32 @@
 package teammates.test.cases.browsertests;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiTest {
-    private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
-    private static DataBundle testData;
 
     private static String courseId;
     private static String feedbackSessionName;
     private static String instructorId;
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
         testData = loadDataBundle("/FeedbackConstSumRecipientQuestionUiTest.json");
         removeAndRestoreDataBundle(testData);
-        browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
-        feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
-
+    }
+    
+    @BeforeClass
+    public void classSetup() {
+        feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName);
     }
     
     @Test
@@ -65,18 +60,18 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
         ______TS("CONST SUM:input validation");
         
-        feedbackEditPage.fillNewQuestionBox("ConstSum-recipient qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("ConstSum-recipient qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         
-        feedbackEditPage.fillConstSumPointsBox("", -1);
-        assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
+        feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
+        assertEquals("1", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
         
-        feedbackEditPage.fillConstSumPointsForEachRecipientBox("", -1);
-        assertEquals("1", feedbackEditPage.getConstSumPointsForEachRecipientBox(-1));
+        feedbackEditPage.fillConstSumPointsForEachRecipientBoxForNewQuestion("");
+        assertEquals("1", feedbackEditPage.getConstSumPointsForEachRecipientBoxForNewQuestion());
         
         assertFalse(feedbackEditPage.isElementVisible("constSumOptionTable--1"));
         
-        feedbackEditPage.clickDiscardChangesLink(-1);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertEquals("", feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
@@ -90,8 +85,8 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
         ______TS("CONST SUM: set points options");
 
-        feedbackEditPage.selectConstSumPointsOptions("PerRecipient", -1);
-        feedbackEditPage.fillConstSumPointsForEachRecipientBox("30", -1);
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerRecipient");
+        feedbackEditPage.fillConstSumPointsForEachRecipientBoxForNewQuestion("30");
         
     }
 
@@ -99,8 +94,8 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     public void testAddQuestionAction() throws Exception {
         ______TS("CONST SUM: add question action success");
         
-        feedbackEditPage.fillNewQuestionBox("const sum qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("const sum qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectRecipientsToBeStudents();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
@@ -118,8 +113,8 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         ______TS("CONST SUM: edit question success");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 1);
-        feedbackEditPage.fillEditQuestionDescription("more details", 1);
+        feedbackEditPage.fillQuestionTextBox("edited const sum qn text", 1);
+        feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.fillConstSumPointsBox("200", 1);
         feedbackEditPage.selectConstSumPointsOptions("Total", 1);
         
@@ -147,8 +142,4 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        BrowserPool.release(browser);
-    }
 }

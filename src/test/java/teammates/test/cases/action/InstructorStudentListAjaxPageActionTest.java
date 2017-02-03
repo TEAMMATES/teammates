@@ -5,8 +5,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorStudentListAjaxPageAction;
-import teammates.ui.controller.InstructorStudentListAjaxPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.pagedata.InstructorStudentListAjaxPageData;
 
 public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
 

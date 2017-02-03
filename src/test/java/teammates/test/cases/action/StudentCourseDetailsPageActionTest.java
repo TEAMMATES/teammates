@@ -16,8 +16,8 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCourseDetailsPageAction;
-import teammates.ui.controller.StudentCourseDetailsPageData;
 import teammates.ui.controller.StudentProfileEditSaveAction;
+import teammates.ui.pagedata.StudentCourseDetailsPageData;
 
 public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
