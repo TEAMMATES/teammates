@@ -164,6 +164,28 @@ public final class SanitizationHelper {
     }
 
     /**
+     * Sanitizes a list of strings for inserting into HTML.
+     */
+    public static List<String> sanitizeForHtml(List<String> list) {
+        List<String> sanitizedList = new ArrayList<String>();
+        for (String str : list) {
+            sanitizedList.add(sanitizeForHtml(str));
+        }
+        return sanitizedList;
+    }
+
+    /**
+     * Sanitizes a set of strings for inserting into HTML.
+     */
+    public static Set<String> sanitizeForHtml(Set<String> set) {
+        Set<String> sanitizedSet = new TreeSet<String>();
+        for (String str : set) {
+            sanitizedSet.add(sanitizeForHtml(str));
+        }
+        return sanitizedSet;
+    }
+
+    /**
      * This recovers a html-sanitized string using {@link #sanitizeForHtml}
      * to original encoding for appropriate display in files such as csv file <br>
      * It restores encoding for < > \ / ' &  <br>
@@ -214,28 +236,6 @@ public final class SanitizationHelper {
     }
     
     /**
-     * Sanitizes a list of strings for inserting into HTML.
-     */
-    public static List<String> sanitizeForHtml(List<String> list) {
-        List<String> sanitizedList = new ArrayList<String>();
-        for (String str : list) {
-            sanitizedList.add(sanitizeForHtml(str));
-        }
-        return sanitizedList;
-    }
-    
-    /**
-     * Sanitizes a set of strings for inserting into HTML.
-     */
-    public static Set<String> sanitizeForHtml(Set<String> set) {
-        Set<String> sanitizedSet = new TreeSet<String>();
-        for (String str : set) {
-            sanitizedSet.add(sanitizeForHtml(str));
-        }
-        return sanitizedSet;
-    }
-    
-    /**
      * Converts a string to be put in URL (replaces some characters)
      */
     public static String sanitizeForUri(String uri) {
@@ -276,8 +276,10 @@ public final class SanitizationHelper {
      * behind-the-screen decoding process) will be encoded again to +.
      */
     public static String desanitizeFromNextUrl(String sanitizedUrl) {
-        return sanitizedUrl.replace("${amp}", "&").replace("${plus}", "%2B").replace("${hash}", "%23")
-                .replace(" ", "+");
+        return sanitizedUrl.replace("${amp}", "&")
+                           .replace("${plus}", "%2B")
+                           .replace("${hash}", "%23")
+                           .replace(" ", "+");
     }
 
     /**
@@ -344,8 +346,8 @@ public final class SanitizationHelper {
         // currentPos iterates one position beyond text length to include last chain
         for (int currentPos = 0; currentPos <= textLength; currentPos++) {
             boolean isChainBroken = currentPos >= textLength
-                    || isSingleQuotationChain && text.charAt(currentPos) != '\''
-                    || !isSingleQuotationChain && text.charAt(currentPos) == '\'';
+                                    || isSingleQuotationChain && text.charAt(currentPos) != '\''
+                                    || !isSingleQuotationChain && text.charAt(currentPos) == '\'';
             if (isChainBroken && startOfChain < currentPos) {
                 // format text.substring(startOfChain, currentPos) and append to result
                 char wrapper = isSingleQuotationChain ? '\"' : '\'';
