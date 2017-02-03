@@ -12,6 +12,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
@@ -452,10 +453,37 @@ public abstract class Action {
     }
     
     /**
+     * Retrieves the value for the specified parameter expected to be present in the http request.
+     *
+     * @param paramName  a constant from the {@link Const.ParamsNames} class.
+     * @return the value of the specified parameter if it exists, asserts otherwise.
+     */
+    public String getExpectedRequestParamValue(String paramName) {
+        String value = HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
+        Assumption.assertPostParamNotNull(paramName, value);
+        return value;
+    }
+    
+    /**
      * @return null if the specified parameter was not found in the request.
      */
     public String[] getRequestParamValues(String paramName) {
         return HttpRequestHelper.getValuesFromParamMap(requestParameters, paramName);
+    }
+    
+    /**
+     * Retrieves the values for the specified parameter expected to be present in the http request.
+     *
+     * @param paramName  a constant from the {@link Const.ParamsNames} class.
+     * @return the values of the specified parameter if it exists, asserts otherwise.
+     */
+    public String[] getExpectedRequestParamValues(String paramName) {
+        String[] values = HttpRequestHelper.getValuesFromParamMap(requestParameters, paramName);
+        if (values == null) {
+            throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
+                    paramName));
+        }
+        return values;
     }
     
     public boolean getRequestParamAsBoolean(String paramName) {
