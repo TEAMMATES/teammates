@@ -168,6 +168,51 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testSanitizeForNextUrl() {
+        sanitizeForNextUrl_receivesNull_returnsNull();
+        sanitizeForNextUrl_receivesUrl_returnsSanitizedUrl();
+    }
+
+    private void sanitizeForNextUrl_receivesNull_returnsNull() {
+        String nullString = null;
+        assertEquals(null, SanitizationHelper.sanitizeForNextUrl(nullString));
+    }
+
+    private void sanitizeForNextUrl_receivesUrl_returnsSanitizedUrl() {
+        String url = "/page/studentCourseJoinAuthenticated?key=FF6266"
+                     + "&next=/page/studentHomePage%23/encodedHashHere%2B/encodedPlusHere";
+        String expected = "/page/studentCourseJoinAuthenticated?key=FF6266$"
+                          + "{amp}next=/page/studentHomePage${hash}/encodedHashHere${plus}/encodedPlusHere";
+        assertEquals(expected, SanitizationHelper.sanitizeForNextUrl(url));
+    }
+
+    @Test
+    public void testDesanitizeFromNextUrl( ){
+        desanitizeFromNextUrl_receivesNull_returnsNull();
+        desanitizeFromNextUrl_receivesSanitized_returnsDesanitized();
+    }
+
+    private void desanitizeFromNextUrl_receivesNull_returnsNull() {
+        String nullString = null;
+        assertEquals(null, SanitizationHelper.desanitizeFromNextUrl(nullString));
+    }
+
+    private void desanitizeFromNextUrl_receivesSanitized_returnsDesanitized() {
+        String expected = "/page/studentCourseJoinAuthenticated?key=FF6266"
+                          + "&next=/page/studentHomePage%23/encodedHashHere%2B/encodedPlusHere";
+        String sanitizedUrl = SanitizationHelper.sanitizeForNextUrl(expected);
+        assertEquals(expected, SanitizationHelper.desanitizeFromNextUrl(sanitizedUrl));
+
+        sanitizedUrl = "/page/studentCourseDetailsPage?user=USERNAME"
+                       + "${amp}courseid=CS2103-Aug2016${hash}/encodedHashHere${plus}/encodedPlusHere"
+                       + " /plusHere";
+        expected = "/page/studentCourseDetailsPage?user=USERNAME"
+                   + "&courseid=CS2103-Aug2016%23/encodedHashHere%2B/encodedPlusHere"
+                   + "+/plusHere";
+        assertEquals(expected, SanitizationHelper.desanitizeFromNextUrl(sanitizedUrl));
+    }
+
+    @Test
     public void testSanitizeForCsv() {
         sanitizeCsv_receivesUnsanitized_returnsSanitized();
     }
