@@ -187,7 +187,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testDesanitizeFromNextUrl( ){
+    public void testDesanitizeFromNextUrl() {
         desanitizeFromNextUrl_receivesNull_returnsNull();
         desanitizeFromNextUrl_receivesSanitized_returnsDesanitized();
     }
