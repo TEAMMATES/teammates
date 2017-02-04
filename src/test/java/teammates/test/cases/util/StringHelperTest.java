@@ -324,6 +324,6 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("", StringHelper.removeNonAscii("©¡¢â"));
 
         assertEquals("Coevaluacin Prctica (Part 1)",
-                StringHelper.removeNonAscii("Coevaluación Práctica (Part 1)"));
+                     StringHelper.removeNonAscii("Coevaluación Práctica (Part 1)"));
     }
 }
