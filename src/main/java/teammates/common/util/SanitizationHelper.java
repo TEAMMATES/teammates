@@ -201,11 +201,11 @@ public final class SanitizationHelper {
         }
 
         return sanitizedString.replace("&lt;", "<")
-                .replace("&gt;", ">")
-                .replace("&quot;", "\"")
-                .replace("&#x2f;", "/")
-                .replace("&#39;", "'")
-                .replace("&amp;", "&");
+                              .replace("&gt;", ">")
+                              .replace("&quot;", "\"")
+                              .replace("&#x2f;", "/")
+                              .replace("&#39;", "'")
+                              .replace("&amp;", "&");
     }
 
     /**
