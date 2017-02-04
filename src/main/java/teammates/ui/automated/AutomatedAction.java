@@ -3,6 +3,9 @@ package teammates.ui.automated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.exception.NullPostParameterException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.logic.api.EmailSender;
@@ -58,8 +61,35 @@ public abstract class AutomatedAction {
         return HttpRequestHelper.getValueFromRequestParameterMap(request, paramName);
     }
     
+    /**
+     * Retrieves the value for the specified parameter expected to be present in the http request.
+     *
+     * @param paramName  a constant from the {@link Const.ParamsNames} class.
+     * @return the value of the specified parameter if it exists, asserts otherwise.
+     */
+    protected String getExpectedRequestParamValue(String paramName) {
+        String value = getRequestParamValue(paramName);
+        Assumption.assertPostParamNotNull(paramName, value);
+        return value;
+    }
+    
     protected String[] getRequestParamValues(String paramName) {
         return HttpRequestHelper.getValuesFromRequestParameterMap(request, paramName);
+    }
+    
+    /**
+     * Retrieves the values for the specified parameter expected to be present in the http request.
+     *
+     * @param paramName  a constant from the {@link Const.ParamsNames} class.
+     * @return the values of the specified parameter if it exists, asserts otherwise.
+     */
+    protected String[] getExpectedRequestParamValues(String paramName) {
+        String[] values = getRequestParamValues(paramName);
+        if (values == null) {
+            throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
+                    paramName));
+        }
+        return values;
     }
     
     protected void setForRetry() {

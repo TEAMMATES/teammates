@@ -459,7 +459,7 @@ public abstract class Action {
      * @return the value of the specified parameter if it exists, asserts otherwise.
      */
     public String getExpectedRequestParamValue(String paramName) {
-        String value = HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
+        String value = getRequestParamValue(paramName);
         Assumption.assertPostParamNotNull(paramName, value);
         return value;
     }
@@ -478,7 +478,7 @@ public abstract class Action {
      * @return the values of the specified parameter if it exists, asserts otherwise.
      */
     public String[] getExpectedRequestParamValues(String paramName) {
-        String[] values = HttpRequestHelper.getValuesFromParamMap(requestParameters, paramName);
+        String[] values = getRequestParamValues(paramName);
         if (values == null) {
             throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     paramName));
