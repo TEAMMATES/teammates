@@ -67,12 +67,11 @@ public class StudentSearchDocument extends SearchDocument {
     }
     
     /**
-     * This method should be used by admin only since the previous searching does not restrict the
-     * visibility according to the logged-in user's google ID. Therefore,This fromResults method
-     * does not require a googleID as a parameter. Returned results bundle will contain information
-     * related to matched students only.
-     * @param results
-     * @return studentResultBundle containing information related to matched students only.
+     * Produces a {@link StudentSearchResultBundle} from the {@code Results<ScoredDocument>} collection.
+     * The list of {@link InstructorAttributes} is used to filter out the search result.
+     * <p>
+     * This method should be used by admin only since the searching does not restrict the
+     * visibility according to the logged-in user's google ID.
      */
     public static StudentSearchResultBundle fromResults(Results<ScoredDocument> results) {
         StudentSearchResultBundle bundle = new StudentSearchResultBundle();
@@ -100,8 +99,8 @@ public class StudentSearchDocument extends SearchDocument {
     }
     
     /**
-     * Produce a StudentSearchResultBundle from the Results<ScoredDocument> collection.
-     * The list of InstructorAttributes is used to filter out the search result.
+     * Produces a {@link StudentSearchResultBundle} from the {@code Results<ScoredDocument>} collection.
+     * The list of {@link InstructorAttributes} is used to filter out the search result.
      */
     public static StudentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                         List<InstructorAttributes> instructors) {

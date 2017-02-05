@@ -220,8 +220,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     }
 
     /**
-     * Produce a FeedbackResponseCommentSearchResultBundle from the Results<ScoredDocument> collection.
-     * The list of InstructorAttributes is used to filter out the search result.
+     * Produces a {@link FeedbackResponseCommentSearchResultBundle} from the {@code Results<ScoredDocument>} collection.
+     * The list of {@link InstructorAttributes} is used to filter out the search result.
      */
     public static FeedbackResponseCommentSearchResultBundle fromResults(
             Results<ScoredDocument> results, List<InstructorAttributes> instructors) {
