@@ -65,9 +65,10 @@ public abstract class AutomatedAction {
      * Retrieves the value for the specified parameter expected to be present in the http request.
      *
      * @param paramName  a constant from the {@link Const.ParamsNames} class.
-     * @return the value of the specified parameter if it exists, asserts otherwise.
+     * @return the value of the specified parameter.
+     * @throws @link{NullPostParameterException}  if the parameter is not present in the http request.
      */
-    protected String getExpectedRequestParamValue(String paramName) {
+    protected String getNonNullRequestParamValue(String paramName) {
         String value = getRequestParamValue(paramName);
         Assumption.assertPostParamNotNull(paramName, value);
         return value;
@@ -81,9 +82,10 @@ public abstract class AutomatedAction {
      * Retrieves the values for the specified parameter expected to be present in the http request.
      *
      * @param paramName  a constant from the {@link Const.ParamsNames} class.
-     * @return the values of the specified parameter if it exists, asserts otherwise.
+     * @return the values of the specified parameter.
+     * @throws @link{NullPostParameterException}  if the parameter is not present in the http request.
      */
-    protected String[] getExpectedRequestParamValues(String paramName) {
+    protected String[] getNonNullRequestParamValues(String paramName) {
         String[] values = getRequestParamValues(paramName);
         if (values == null) {
             throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
