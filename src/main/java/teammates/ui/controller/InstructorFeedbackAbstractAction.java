@@ -80,7 +80,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             break;
         default:
             log.severe("Invalid resultsVisibleFrom setting in creating"
-                    + newSession.getIdentificationString());
+                       + newSession.getIdentificationString());
             break;
         }
 
@@ -104,7 +104,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             break;
         default:
             log.severe("Invalid sessionVisibleFrom setting in creating "
-                    + newSession.getIdentificationString());
+                       + newSession.getIdentificationString());
             break;
         }
 
@@ -112,12 +112,12 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
         List<String> sendReminderEmailsList =
                 sendReminderEmailsArray == null ? new ArrayList<String>()
-                        : Arrays.asList(sendReminderEmailsArray);
+                                                : Arrays.asList(sendReminderEmailsArray);
         newSession = extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
         newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING
-                .toString()));
+                                                                                    .toString()));
         newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED
-                .toString()));
+                                                                                      .toString()));
 
         return newSession;
     }
@@ -150,11 +150,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
     protected Map<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
         Map<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId,
-                omitArchived);
+                                                                                 omitArchived);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
         return courseInstructorMap;
     }
-
+    
 }
