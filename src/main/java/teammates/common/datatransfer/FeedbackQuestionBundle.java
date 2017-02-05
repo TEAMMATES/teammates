@@ -45,14 +45,4 @@ public class FeedbackQuestionBundle {
             this.recipientList.put(entry.getKey(), entry.getValue());
         }
     }
-
-    public Set<String> getRecipientEmails(String feedbackQuestionId) {
-        HashSet<String> result = new HashSet<String>();
-
-        for (Entry<String, String> entry : this.recipientList.entrySet()) {
-            result.add(entry.getKey());
-        }
-
-        return result;
-    }
 }
