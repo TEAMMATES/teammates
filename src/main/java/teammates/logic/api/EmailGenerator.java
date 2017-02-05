@@ -360,10 +360,10 @@ public class EmailGenerator {
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
                 "${instructorFragment}",
-                        "The email below has been sent to students of course: "
+                        "<p>The email below has been sent to students of course: "
                         + SanitizationHelper.sanitizeForHtml(course.getId())
-                        + ".<p/><br>" + Const.EOL + "<br>" + Const.EOL
-                        + "=== Email message as seen by the students ===<br>" + Const.EOL,
+                        + ".<br>" + Const.EOL + "<br>" + Const.EOL
+                        + "=== Email message as seen by the students ===</p>" + Const.EOL,
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${supportEmail}", Config.SUPPORT_EMAIL);
