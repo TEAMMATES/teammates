@@ -11,7 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
@@ -45,7 +45,7 @@ public class AdminSearchPageAction extends Action {
             return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
         }
         
-        data.searchKey = Sanitizer.sanitizeForHtml(searchKey);
+        data.searchKey = SanitizationHelper.sanitizeForHtml(searchKey);
        
         data.studentResultBundle = logic.searchStudentsInWholeSystem(searchKey, "");
         

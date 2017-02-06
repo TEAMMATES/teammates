@@ -13,7 +13,7 @@ import java.util.TimeZone;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
@@ -103,7 +103,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorId;
-        this.instructions = Sanitizer.sanitizeForRichText(instructions);
+        this.instructions = SanitizationHelper.sanitizeForRichText(instructions);
         this.createdTime = createdTime;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -155,7 +155,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
     
     public String getInstructionsString() {
-        return Sanitizer.sanitizeForRichText(instructions.getValue());
+        return SanitizationHelper.sanitizeForRichText(instructions.getValue());
     }
 
     @Override
@@ -459,7 +459,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public void sanitizeForSaving() {
-        this.instructions = Sanitizer.sanitizeForRichText(instructions);
+        this.instructions = SanitizationHelper.sanitizeForRichText(instructions);
     }
 
     @Override

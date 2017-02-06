@@ -7,7 +7,7 @@ import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -60,7 +60,8 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 "${recommendedLengthDisplay}", recommendedLength == 0 ? "style=\"display:none\"" : "",
                 "${recommendedLength}", Integer.toString(recommendedLength),
-                Slots.TEXT_EXISTING_RESPONSE, Sanitizer.sanitizeForRichText(existingResponseDetails.getAnswerString()));
+                Slots.TEXT_EXISTING_RESPONSE,
+                    SanitizationHelper.sanitizeForRichText(existingResponseDetails.getAnswerString()));
     }
 
     @Override
