@@ -24,7 +24,6 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.EmailChecker;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -33,7 +32,7 @@ import com.google.appengine.api.log.LogService.LogLevel;
 /**
  * SUT: {@link EmailGenerator}
  */
-public class EmailGeneratorTest extends BaseComponentTestCase {
+public class EmailGeneratorTest extends BaseLogicTest {
     
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -45,7 +44,6 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() {
-        removeAndRestoreTypicalDataBundle();
         if (isGodModeEnabled) {
             System.setProperty("godmode", "true");
         }

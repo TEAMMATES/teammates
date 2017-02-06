@@ -7,11 +7,15 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.test.cases.BaseComponentTestCase;
 
-public class BackDoorLogicTest extends BaseComponentTestCase {
-    private static DataBundle dataBundle = getTypicalDataBundle();
+public class BackDoorLogicTest extends BaseLogicTest {
 
+    @Override
+    protected void prepareTestData() {
+        dataBundle = getTypicalDataBundle();
+        // data bundle not persisted before test since the remove/restore data itself is being tested
+    }
+    
     @Test
     public void testPersistDataBundle() throws Exception {
 

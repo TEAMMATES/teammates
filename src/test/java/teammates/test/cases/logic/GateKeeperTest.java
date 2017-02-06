@@ -1,26 +1,17 @@
 package teammates.test.cases.logic;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
-import teammates.test.cases.BaseComponentTestCase;
 
-public class GateKeeperTest extends BaseComponentTestCase {
+public class GateKeeperTest extends BaseLogicTest {
 
     private static GateKeeper gateKeeper = new GateKeeper();
-    private static DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        removeAndRestoreTypicalDataBundle();
-    }
 
     @Test
     public void testGetLoginUrl() {

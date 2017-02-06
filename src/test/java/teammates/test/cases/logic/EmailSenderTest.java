@@ -14,7 +14,6 @@ import teammates.logic.core.JavamailService;
 import teammates.logic.core.MailgunService;
 import teammates.logic.core.MailjetService;
 import teammates.logic.core.SendgridService;
-import teammates.test.cases.BaseComponentTestCase;
 
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.resource.Email;
@@ -28,7 +27,12 @@ import com.sun.jersey.multipart.FormDataMultiPart;
  *      {@link MailgunService}
  *      {@link MailjetService}
  */
-public class EmailSenderTest extends BaseComponentTestCase {
+public class EmailSenderTest extends BaseLogicTest {
+    
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
+    }
     
     private EmailWrapper getTypicalEmailWrapper() {
         String senderName = "Sender Name";

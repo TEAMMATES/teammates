@@ -6,7 +6,6 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -17,12 +16,9 @@ import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
-public class InstructorsLogicTest extends BaseComponentTestCase {
-
-    private static DataBundle dataBundle = getTypicalDataBundle();
+public class InstructorsLogicTest extends BaseLogicTest {
 
     private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static InstructorsDb instructorsDb = new InstructorsDb();
@@ -31,7 +27,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
     @BeforeClass
     public void classSetup() {
         instructorsLogic.deleteInstructorCascade("FSQTT.idOfTypicalCourse1", "instructor3@course1.tmt");
-        removeAndRestoreTypicalDataBundle();
     }
 
     @Test

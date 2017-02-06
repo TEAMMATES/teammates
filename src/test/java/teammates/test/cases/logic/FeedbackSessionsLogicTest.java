@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -36,19 +35,18 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
-public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
+public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static DataBundle dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
 
-    @BeforeClass
-    public void classSetup() {
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
     
