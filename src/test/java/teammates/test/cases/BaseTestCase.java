@@ -31,10 +31,6 @@ public class BaseTestCase {
     }
     // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
-    public static void printTestCaseHeader() {
-        print("[TestCase]---:" + Thread.currentThread().getStackTrace()[2].getMethodName());
-    }
-
     @BeforeClass
     public void printTestClassHeader() {
         print("[============================="
