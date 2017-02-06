@@ -12,6 +12,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import com.google.appengine.labs.repackaged.com.google.common.collect.ComparisonChain;
+
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -749,7 +751,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     @Override
     public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
+        return new Comparator<InstructorFeedbackResultsResponseRow>() {
+            @Override
+            public int compare(InstructorFeedbackResultsResponseRow a1,
+                    InstructorFeedbackResultsResponseRow a2) {
+                return ComparisonChain.start()
+                        .compare(a1.getRecipientDisplayableIdentifier().toLowerCase(),
+                                a2.getRecipientDisplayableIdentifier().toLowerCase())
+                        .compare(a1.getGiverTeam(), a2.getGiverTeam())
+                        .compare(a1.getGiverDisplayableIdentifier(), a2.getGiverDisplayableIdentifier())
+                        .result();
+            }
+        };
+        //return null;
     }
 
     @Override
