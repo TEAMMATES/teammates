@@ -120,13 +120,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         homePage.createInstructor(shortNameDangerous, dangerousInstructor, dangerousInstitute);
         
-        encryptedKey = BackDoor.getEncryptedKeyForInstructor(dangerousDemoCourseId, dangerousInstructor.email);
-        // use AppUrl from Config because the join link takes its base URL from build.properties
-        expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                        .withRegistrationKey(encryptedKey)
-                                        .withInstructorInstitution(dangerousInstitute)
-                                        .toAbsoluteString();
-        
         assertEquals(shortNameDangerous, homePage.getShortNameFromResultTable(1));
         assertEquals(dangerousInstructor.name, homePage.getNameFromResultTable(1));
         assertEquals(dangerousInstructor.email, homePage.getEmailFromResultTable(1));
@@ -340,6 +333,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
+        
+        BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
+        BackDoor.deleteCourse(dangerousDemoCourseId);
+        BackDoor.deleteInstructor(dangerousDemoCourseId, dangerousInstructor.email);
 
     }
     
