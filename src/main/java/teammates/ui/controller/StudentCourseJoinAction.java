@@ -3,7 +3,7 @@ package teammates.ui.controller;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
@@ -45,16 +45,18 @@ public class StudentCourseJoinAction extends Action {
         
         String confirmUrl = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
                 + "?" + Const.ParamsNames.REGKEY + "=" + regkey
-                + "&" + Const.ParamsNames.NEXT_URL + "=" + Sanitizer.sanitizeForNextUrl(nextUrl);
+                + "&" + Const.ParamsNames.NEXT_URL + "=" + SanitizationHelper.sanitizeForNextUrl(nextUrl);
         String nextUrlType = getPageTypeOfUrl(nextUrl);
         // the student is redirected to join page because he/she is not registered in the course
         boolean isRedirectResult = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(nextUrlType);
         boolean isNextUrlAccessibleWithoutLogin =
                         Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(nextUrlType);
         String courseId = student.course;
-        StudentCourseJoinConfirmationPageData data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl,
-                                                         gateKeeper.getLogoutUrl(Sanitizer.sanitizeForNextUrl(confirmUrl)),
-                                                         isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
+        StudentCourseJoinConfirmationPageData data =
+                new StudentCourseJoinConfirmationPageData(
+                        account, student, confirmUrl,
+                        gateKeeper.getLogoutUrl(SanitizationHelper.sanitizeForNextUrl(confirmUrl)),
+                        isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
         excludeStudentDetailsFromResponseParams();
         
         return createShowPageResult(

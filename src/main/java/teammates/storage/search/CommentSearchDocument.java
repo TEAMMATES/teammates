@@ -10,10 +10,10 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
+import teammates.common.util.SanitizationHelper;
 
 /**
  * The SearchDocument object that defines how we store {@link Document} for student comments
@@ -63,7 +63,7 @@ public class CommentSearchDocument extends SearchDocument {
         case TEAM:
             for (String team : comment.recipients) {
                 List<StudentAttributes> students =
-                        logic.getStudentsForTeam(StringHelper.recoverFromSanitizedText(team), comment.courseId);
+                        logic.getStudentsForTeam(SanitizationHelper.desanitizeFromHtml(team), comment.courseId);
                 if (students != null) {
                     relatedStudents.addAll(students);
                 }

@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 
 import com.google.appengine.api.datastore.Text;
@@ -48,7 +48,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.courseId = fq.getCourseId();
         this.creatorEmail = fq.getCreatorEmail();
         this.questionMetaData = fq.getQuestionMetaData();
-        this.questionDescription = Sanitizer.sanitizeForRichText(fq.getQuestionDescription());
+        this.questionDescription = SanitizationHelper.sanitizeForRichText(fq.getQuestionDescription());
         this.questionNumber = fq.getQuestionNumber();
         this.questionType = fq.getQuestionType();
         this.giverType = fq.getGiverType();
@@ -543,7 +543,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public void sanitizeForSaving() {
-        this.questionDescription = Sanitizer.sanitizeForRichText(this.questionDescription);
+        this.questionDescription = SanitizationHelper.sanitizeForRichText(this.questionDescription);
     }
     
     private boolean isValidJsonString(String jsonString) {

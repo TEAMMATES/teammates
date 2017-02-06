@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 
 public class InstructorStudentListSearchBox {
 
@@ -10,7 +10,7 @@ public class InstructorStudentListSearchBox {
 
     public InstructorStudentListSearchBox(String instructorSearchLink, String searchKey, String googleId) {
         this.instructorSearchLink = instructorSearchLink;
-        this.searchKey = searchKey == null ? "" : Sanitizer.sanitizeForHtml(searchKey);
+        this.searchKey = searchKey == null ? "" : SanitizationHelper.sanitizeForHtml(searchKey);
         this.googleId = googleId;
     }
 

@@ -9,7 +9,7 @@ import java.util.Map;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
@@ -284,7 +284,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             Slots.QUESTION_INDEX, questionNumberString,
                             Slots.RESPONSE_INDEX, responseNumberString,
                             Slots.COL, Integer.toString(i),
-                            Slots.RUBRIC_CHOICE_VALUE, Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
+                            Slots.RUBRIC_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(rubricChoices.get(i)));
             // TODO display numerical value of option
             tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
         }
@@ -308,7 +308,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 Slots.COL, Integer.toString(j),
                                 Slots.ROW, Integer.toString(i),
                                 Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                                Slots.DESCRIPTION, Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
+                                Slots.DESCRIPTION, SanitizationHelper.sanitizeForHtml(this.getDescription(i, j)),
                                 // Check if existing choice for sub-question == current choice
                                 Slots.CHECKED, isExistingResponse && frd.getAnswer(i) == j ? "checked" : "",
                                 Slots.RUBRIC_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
@@ -321,7 +321,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             Slots.RESPONSE_INDEX, responseNumberString,
                             Slots.ROW, Integer.toString(i),
                             Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
-                                              + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)),
+                                              + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
                             Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
@@ -343,17 +343,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         Slots.COL, Integer.toString(j),
                         Slots.ROW, Integer.toString(i),
                         Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                        Slots.DESCRIPTION, Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
+                        Slots.DESCRIPTION, SanitizationHelper.sanitizeForHtml(this.getDescription(i, j)),
                         // Check if existing choice for sub-question == current choice
                         Slots.CHECKED, isExistingResponse && frd.getAnswer(i) == j ? "checked" : "",
-                        Slots.RUBRIC_CHOICE_VALUE, Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
+                        Slots.RUBRIC_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(rubricChoices.get(j)),
                         Slots.RUBRIC_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
             }
             String panel = Templates.populateTemplate(mobilePanelTemplate,
                     Slots.PANEL_BODY, panelBody.toString(),
                     Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
-                            + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
+                            + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)));
             mobileHtml.append(panel).append(Const.EOL);
         }
         return mobileHtml.toString();
@@ -372,7 +372,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     Templates.populateTemplate(tableHeaderFragmentTemplate,
                             Slots.QUESTION_INDEX, questionNumberString,
                             Slots.COL, Integer.toString(i),
-                            Slots.RUBRIC_CHOICE_VALUE, Sanitizer.sanitizeForHtml(rubricChoices.get(i)),
+                            Slots.RUBRIC_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(rubricChoices.get(i)),
                             Slots.RUBRIC_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
             tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
         }
@@ -404,7 +404,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 Slots.QUESTION_INDEX, questionNumberString,
                                 Slots.COL, Integer.toString(i),
                                 Slots.ROW, Integer.toString(j),
-                                Slots.DESCRIPTION, Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
+                                Slots.DESCRIPTION, SanitizationHelper.sanitizeForHtml(this.getDescription(j, i)),
                                 Slots.RUBRIC_PARAM_DESCRIPTION, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION);
                 tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
             }
@@ -414,7 +414,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     Templates.populateTemplate(tableBodyTemplate,
                             Slots.QUESTION_INDEX, questionNumberString,
                             Slots.ROW, Integer.toString(j),
-                            Slots.SUB_QUESTION, Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
+                            Slots.SUB_QUESTION, SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(j)),
                             Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString(),
                             Slots.RUBRIC_PARAM_SUB_QUESTION, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION);
             tableBodyHtml.append(tableRow).append(Const.EOL);
@@ -502,7 +502,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             for (int i = 0; i < numOfRubricSubQuestions; i++) {
                 String subQuestionFragment =
                         StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1)
-                        + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i));
+                        + ") " + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i));
                 subQuestionListHtml.append(subQuestionFragment);
                 subQuestionListHtml.append("<br>");
             }
@@ -544,7 +544,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String tableHeaderFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
         for (int i = 0; i < numOfRubricChoices; i++) {
 
-            String header = Sanitizer.sanitizeForHtml(rubricChoices.get(i))
+            String header = SanitizationHelper.sanitizeForHtml(rubricChoices.get(i))
                           + (fqd.hasAssignedWeights
                             ? "<span style=\"font-weight:normal;\"> (Weight: "
                               + weightFormat.format(rubricWeights.get(i)) + ")</span>"
@@ -596,7 +596,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             // Get entire row
             String tableRow = Templates.populateTemplate(tableBodyTemplate,
                     Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
-                            + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)),
+                            + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
                     Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
@@ -750,7 +750,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             ? " (Weight: " + dfWeight.format(rubricWeights.get(i)) + ")"
                             : "");
 
-            csv.append(',').append(Sanitizer.sanitizeForCsv(header));
+            csv.append(',').append(SanitizationHelper.sanitizeForCsv(header));
         }
 
         if (hasAssignedWeights) {
@@ -768,7 +768,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         for (int i = 0; i < rubricSubQuestions.size(); i++) {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
-            csv.append(Sanitizer.sanitizeForCsv(alphabeticalIndex + ") " + rubricSubQuestions.get(i)));
+            csv.append(SanitizationHelper.sanitizeForCsv(alphabeticalIndex + ") " + rubricSubQuestions.get(i)));
             boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
             for (int j = 0; j < rubricChoices.size(); j++) {
                 String percentageFrequencyString = isSubQuestionRespondedTo
@@ -794,8 +794,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
-        return Sanitizer.sanitizeForCsv("All Sub-Questions") + ","
-             + Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
+        return SanitizationHelper.sanitizeForCsv("All Sub-Questions") + ","
+             + SanitizationHelper.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
     }
     
     @Override
@@ -846,17 +846,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
             
             detailedResponsesRow.append(
-                    Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) + ','
-                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) + ','
-                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)) + ','
-                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail)) + ','
-                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName)) + ','
-                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName)) + ','
-                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)) + ','
-                    + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
-                    + Sanitizer.sanitizeForCsv(chosenIndexString) + ','
-                    + Sanitizer.sanitizeForCsv(chosenChoiceValue) + ','
-                    + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
+                    SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) + ','
+                    + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) + ','
+                    + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)) + ','
+                    + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail)) + ','
+                    + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName)) + ','
+                    + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName)) + ','
+                    + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)) + ','
+                    + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
+                    + SanitizationHelper.sanitizeForCsv(chosenIndexString) + ','
+                    + SanitizationHelper.sanitizeForCsv(chosenChoiceValue) + ','
+                    + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber)
                     + Const.EOL);
         }
         
