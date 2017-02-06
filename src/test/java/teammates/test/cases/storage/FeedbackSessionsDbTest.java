@@ -304,11 +304,12 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         deleteSessionsFromDb();
     }
     
-    private static void deleteSessionsFromDb() {
+    private void deleteSessionsFromDb() {
         Set<String> keys = dataBundle.feedbackSessions.keySet();
         for (String i : keys) {
             fsDb.deleteEntity(dataBundle.feedbackSessions.get(i));
         }
+        fsDb.deleteEntity(getNewFeedbackSession());
     }
     
 }

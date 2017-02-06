@@ -49,7 +49,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
     @BeforeClass
     public void classSetup() {
-        gaeSimulation.resetDatastore();
         removeAndRestoreDataBundle(dataBundle);
     }
     

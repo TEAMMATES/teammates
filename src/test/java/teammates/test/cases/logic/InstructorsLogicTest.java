@@ -30,7 +30,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() {
-        gaeSimulation.resetDatastore();
+        instructorsLogic.deleteInstructorCascade("FSQTT.idOfTypicalCourse1", "instructor3@course1.tmt");
         removeAndRestoreTypicalDataBundle();
     }
 
