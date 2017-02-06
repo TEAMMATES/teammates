@@ -38,6 +38,14 @@ public class EmailLogEntry {
             logInfoAsHtml = "";
         }
     }
+    /*
+    It gets info of log 
+    Collects receiver,subject,Time,Content
+    Then display it in HTML format
+    in rows using <tr> ,<td>
+    
+    */
+    
     
     private String getLogInfoForTableRowAsHtml() {
         return "<tr class=\"log\">"
@@ -96,6 +104,12 @@ public class EmailLogEntry {
         return SanitizationHelper.desanitizeFromHtml(content);
     }
     
+    /*used to get time from system 
+    and convert to Millisecons then
+     convert to the write format then
+     return to Timehelper
+    
+    */
     public String getTimeForDisplay() {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         appCal.setTimeInMillis(time);
