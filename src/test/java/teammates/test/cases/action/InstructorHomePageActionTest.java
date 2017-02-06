@@ -1,9 +1,7 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.CoursesLogic;
@@ -13,15 +11,13 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorHomePageData;
 
 public class InstructorHomePageActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String[] submissionParams = new String[]{
@@ -177,8 +173,9 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade(newCourseIdForSorting);
     }
     
-    private InstructorHomePageAction getAction(String... params) {
-        return (InstructorHomePageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorHomePageAction getAction(String... params) {
+        return (InstructorHomePageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
     
 }

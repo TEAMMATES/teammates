@@ -131,6 +131,27 @@ public class TableSortTest extends BaseUiTestCase {
                 "N/S",
                 "N/A");
     }
+    
+    @Test
+    public void testTableSortingPointNumber() {
+        verifySortingOrder(By.id("button_sortPointNumber"),
+        
+                "-1.667",
+                "-1.51",
+                "-1",
+                "-0.5",
+                "-0.4",
+                "-0.1",
+                "0",
+                "0.2",
+                "0.333",
+                "0.45",
+                "0.9",
+                "1",
+                "1.1",
+                "1.333",
+                "1.45");
+    }
  
     @Test
     public void testStableSort() {
