@@ -23,7 +23,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     private static StudentProfileAttributes profile;
 
     @BeforeClass
-    public static void setupClass() {
+    public void classSetup() {
         profile = new StudentProfileAttributes();
         profile.googleId = "valid.googleId";
         profile.shortName = "shor";

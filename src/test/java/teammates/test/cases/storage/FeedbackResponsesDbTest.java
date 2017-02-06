@@ -847,7 +847,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() {
+    public void classTearDown() {
         deleteResponsesFromDb();
     }
     

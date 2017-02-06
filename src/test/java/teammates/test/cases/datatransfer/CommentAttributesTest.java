@@ -27,7 +27,7 @@ public class CommentAttributesTest extends BaseTestCase {
     private static Date createdAt;
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         courseId = "test-course-id";
         giverEmail = "email from giver";
         recipientType = CommentParticipantType.PERSON;

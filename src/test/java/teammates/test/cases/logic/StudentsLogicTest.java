@@ -1136,7 +1136,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     }
         
     @AfterClass
-    public static void classTearDown() {
+    public void classTearDown() {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
     }
     

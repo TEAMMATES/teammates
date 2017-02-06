@@ -71,7 +71,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @AfterClass
-    public static void classTearDown() {
+    public void classTearDown() {
         StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
     }
     

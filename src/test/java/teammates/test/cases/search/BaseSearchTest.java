@@ -13,7 +13,7 @@ public abstract class BaseSearchTest extends BaseComponentTestCase {
     protected DataBundle dataBundle;
     
     @BeforeClass
-    public void classSetup() {
+    public void baseClassSetup() {
         prepareTestData();
     }
     

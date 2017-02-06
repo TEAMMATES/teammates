@@ -39,7 +39,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     private static FeedbackSessionAttributes fsa;
     
     @BeforeClass
-    public static void classSetUp() {
+    public void classSetup() {
         feedbackSessionName = null;
         courseId = null;
         creatorId = null;

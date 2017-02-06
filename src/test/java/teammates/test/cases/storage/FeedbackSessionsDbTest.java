@@ -300,7 +300,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() {
+    public void classTearDown() {
         deleteSessionsFromDb();
     }
     
