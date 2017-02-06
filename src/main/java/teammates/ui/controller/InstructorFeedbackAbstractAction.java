@@ -114,10 +114,10 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 sendReminderEmailsArray == null ? new ArrayList<String>()
                                                 : Arrays.asList(sendReminderEmailsArray);
         newSession = extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
-        newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING
-                                                                                    .toString()));
-        newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED
-                                                                                      .toString()));
+        newSession.setClosingEmailEnabled(
+                sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
+        newSession.setPublishedEmailEnabled(
+                sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
 
         return newSession;
     }
