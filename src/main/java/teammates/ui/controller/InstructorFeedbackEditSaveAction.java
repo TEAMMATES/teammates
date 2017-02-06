@@ -73,8 +73,8 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
     @Override
     protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
             FeedbackSessionAttributes newSession, List<String> sendReminderEmailsList) {
-        newSession.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING
-                .toString()));
+        newSession.setOpeningEmailEnabled(
+                sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString()));
         return newSession;
     }
 }
