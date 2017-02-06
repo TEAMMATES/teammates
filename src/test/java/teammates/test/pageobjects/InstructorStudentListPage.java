@@ -15,6 +15,15 @@ public class InstructorStudentListPage extends AppPage {
     @FindBy(id = "searchbox")
     private WebElement searchBox;
 
+    @FindBy(id = "show_email")
+    private WebElement showEmailCheckbox;
+    
+    @FindBy(id = "emails")
+    private WebElement shownEmails;
+    
+    @FindBy(id = "copy_email_button")
+    private WebElement copyEmailButton;
+
     @FindBy(id = "buttonSearch")
     private WebElement searchButton;
 
@@ -28,6 +37,31 @@ public class InstructorStudentListPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Student List</h1>");
+    }
+    
+    public void toggleShowEmailCheckbox() {
+        click(showEmailCheckbox);
+    }
+    
+    public void clickCopyEmailButton() {
+        click(copyEmailButton);
+    }
+    
+    public boolean isCopyEmailButtonVisible() {
+        return copyEmailButton.isDisplayed();
+    }
+    
+    public boolean isCopyEmailPopoverVisible() {
+        String xpath = "//button[@id='copy_email_button']/following-sibling::div[contains(@class, 'popover')]";
+        return isElementVisible(By.xpath(xpath));
+    }
+    
+    public String getSelectedText() {
+        return (String) executeScript("return window.getSelection().toString();");
+    }
+    
+    public String getShownEmailsText() {
+        return shownEmails.getText();
     }
 
     public InstructorCourseEnrollPage clickEnrollStudents(String courseId) {
