@@ -13,7 +13,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
@@ -42,7 +42,7 @@ public class StudentAttributes extends EntityAttributes {
     public StudentAttributes(String id, String email, String name, String comments, String courseId,
                              String team, String section) {
         this(section, team, name, email, comments, courseId);
-        this.googleId = Sanitizer.sanitizeGoogleId(id);
+        this.googleId = SanitizationHelper.sanitizeGoogleId(id);
     }
 
     public StudentAttributes() {
@@ -54,10 +54,10 @@ public class StudentAttributes extends EntityAttributes {
         this();
         this.section = section;
         this.team = team;
-        this.lastName = Sanitizer.sanitizeName(StringHelper.splitName(name)[1]);
-        this.name = Sanitizer.sanitizeName(name);
+        this.lastName = SanitizationHelper.sanitizeName(StringHelper.splitName(name)[1]);
+        this.name = SanitizationHelper.sanitizeName(name);
         this.email = email;
-        this.comments = Sanitizer.sanitizeTextField(comment);
+        this.comments = SanitizationHelper.sanitizeTextField(comment);
         this.course = courseId;
     }
 
@@ -67,7 +67,7 @@ public class StudentAttributes extends EntityAttributes {
         this.course = student.getCourseId();
         this.name = student.getName();
         this.lastName = student.getLastName();
-        this.comments = Sanitizer.sanitizeTextField(student.getComments());
+        this.comments = SanitizationHelper.sanitizeTextField(student.getComments());
         this.team = student.getTeamName();
         this.section = student.getSectionName() == null ? Const.DEFAULT_SECTION : student.getSectionName();
         this.googleId = student.getGoogleId() == null ? "" : student.getGoogleId();
@@ -332,9 +332,9 @@ public class StudentAttributes extends EntityAttributes {
 
     @Override
     public void sanitizeForSaving() {
-        googleId = Sanitizer.sanitizeGoogleId(googleId);
-        name = Sanitizer.sanitizeName(name);
-        comments = Sanitizer.sanitizeTextField(comments);
+        googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+        name = SanitizationHelper.sanitizeName(name);
+        comments = SanitizationHelper.sanitizeTextField(comments);
     }
     
     public String getStudentStatus() {

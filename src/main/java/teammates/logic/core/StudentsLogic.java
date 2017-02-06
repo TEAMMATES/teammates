@@ -20,7 +20,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 
@@ -477,7 +477,7 @@ public final class StudentsLogic {
         StringBuilder errorMessage = new StringBuilder(100);
         for (String team : invalidTeamList) {
             errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,
-                                              Sanitizer.sanitizeForHtml(team)));
+                                              SanitizationHelper.sanitizeForHtml(team)));
         }
 
         if (errorMessage.length() != 0) {
@@ -604,7 +604,7 @@ public final class StudentsLogic {
         
         for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
-            String sanitizedLine = Sanitizer.sanitizeForHtml(line);
+            String sanitizedLine = SanitizationHelper.sanitizeForHtml(line);
             try {
                 if (StringHelper.isWhiteSpace(line)) {
                     continue;
@@ -612,7 +612,7 @@ public final class StudentsLogic {
                 StudentAttributes student = saf.makeStudent(line, courseId);
                 
                 if (!student.isValid()) {
-                    String info = StringHelper.toString(Sanitizer.sanitizeForHtml(student.getInvalidityInfo()),
+                    String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
                                                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }

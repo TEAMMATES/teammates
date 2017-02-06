@@ -13,7 +13,7 @@ import java.util.Set;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -90,7 +90,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             Slots.OPTIONS,
                                     getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.RANK_OPTION_VALUE, Sanitizer.sanitizeForHtml(options.get(i)));
+                            Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
             
         }
@@ -127,7 +127,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             Slots.RANK_OPTION_VISIBILITY, "",
                             Slots.OPTIONS, getSubmissionOptionsHtmlForRankingOptions(Const.INT_UNINITIALIZED),
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.RANK_OPTION_VALUE, Sanitizer.sanitizeForHtml(options.get(i)));
+                            Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
 
@@ -173,7 +173,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.ITERATOR, Integer.toString(i),
-                            Slots.RANK_OPTION_VALUE, Sanitizer.sanitizeForHtml(options.get(i)),
+                            Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(options.get(i)),
                             Slots.RANK_PARAM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -260,7 +260,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             String option = entry.getKey();
             
             fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
-                    Slots.RANK_OPTION_VALUE, Sanitizer.sanitizeForHtml(option),
+                    Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(option),
                     Slots.RANK_RECIEVED, ranksReceived,
                     Slots.RANK_AVERAGE, df.format(average)));
 
@@ -286,7 +286,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         DecimalFormat df = new DecimalFormat("#.##");
         
         for (Entry<String, List<Integer>> entry : optionRanks.entrySet()) {
-            String option = Sanitizer.sanitizeForCsv(entry.getKey());
+            String option = SanitizationHelper.sanitizeForCsv(entry.getKey());
           
             List<Integer> ranksAssigned = entry.getValue();
             double average = computeAverage(ranksAssigned);

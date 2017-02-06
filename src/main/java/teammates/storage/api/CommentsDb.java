@@ -21,7 +21,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Comment;
 import teammates.storage.search.CommentSearchDocument;
 import teammates.storage.search.CommentSearchQuery;
@@ -627,7 +627,7 @@ public class CommentsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<Comment> commentList =
-                (List<Comment>) q.execute(courseId, recipientType.toString(), Sanitizer.sanitizeForHtml(recipient));
+                (List<Comment>) q.execute(courseId, recipientType.toString(), SanitizationHelper.sanitizeForHtml(recipient));
         
         return getCommentsWithoutDeletedEntity(commentList);
     }
@@ -685,7 +685,7 @@ public class CommentsDb extends EntitiesDb {
             if (!JDOHelper.isDeleted(comment)
                     && comment.getGiverEmail().equals(giverEmail)
                     && comment.getCreatedAt().equals(date)
-                    && comment.getRecipients().equals(Sanitizer.sanitizeForHtml(recipients))) {
+                    && comment.getRecipients().equals(SanitizationHelper.sanitizeForHtml(recipients))) {
                 return comment;
             }
         }

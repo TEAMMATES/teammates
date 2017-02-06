@@ -7,7 +7,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Query;
@@ -59,7 +59,7 @@ public abstract class SearchQuery {
         String sanitizedQueryString =
                 FieldValidator.isValidEmailAddress(queryString)
                 ? queryString.toLowerCase().trim()
-                : Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim();
+                : SanitizationHelper.sanitizeForSearch(queryString).toLowerCase().trim();
         
         if (!sanitizedQueryString.isEmpty()) {
             String preparedOrQueryString = prepareOrQueryString(sanitizedQueryString);

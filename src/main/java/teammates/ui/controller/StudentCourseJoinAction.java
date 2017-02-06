@@ -3,7 +3,9 @@ package teammates.ui.controller;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
 
 /**
@@ -20,28 +22,41 @@ public class StudentCourseJoinAction extends Action {
     @Override
     public ActionResult execute() {
         Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
-        String nextUrl = getNextUrl();
         
         statusToAdmin = "Action Student Clicked Join Link"
                         + (account.googleId == null ? "<br>Email: " + account.email
                                                     : "<br>Google ID: " + account.googleId + "<br>Key: " + regkey);
         
+        if (student == null) {
+            statusToAdmin += "<br>Student course join failed as student does not exist.";
+            String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+            Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+            isError = true;
+            statusToUser.add(new StatusMessage(
+                    String.format(Const.StatusMessages.NON_EXISTENT_STUDENT_ATTEMPTING_TO_JOIN_COURSE, courseId),
+                    StatusMessageColor.WARNING));
+            return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+        }
+        
+        String nextUrl = getNextUrl();
         if (gateKeeper.getCurrentUser() == null) {
             return createRedirectToAuthenticatedJoinPage(nextUrl);
         }
         
         String confirmUrl = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
                 + "?" + Const.ParamsNames.REGKEY + "=" + regkey
-                + "&" + Const.ParamsNames.NEXT_URL + "=" + Sanitizer.sanitizeForNextUrl(nextUrl);
+                + "&" + Const.ParamsNames.NEXT_URL + "=" + SanitizationHelper.sanitizeForNextUrl(nextUrl);
         String nextUrlType = getPageTypeOfUrl(nextUrl);
         // the student is redirected to join page because he/she is not registered in the course
         boolean isRedirectResult = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(nextUrlType);
         boolean isNextUrlAccessibleWithoutLogin =
                         Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(nextUrlType);
         String courseId = student.course;
-        StudentCourseJoinConfirmationPageData data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl,
-                                                         gateKeeper.getLogoutUrl(Sanitizer.sanitizeForNextUrl(confirmUrl)),
-                                                         isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
+        StudentCourseJoinConfirmationPageData data =
+                new StudentCourseJoinConfirmationPageData(
+                        account, student, confirmUrl,
+                        gateKeeper.getLogoutUrl(SanitizationHelper.sanitizeForNextUrl(confirmUrl)),
+                        isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
         excludeStudentDetailsFromResponseParams();
         
         return createShowPageResult(

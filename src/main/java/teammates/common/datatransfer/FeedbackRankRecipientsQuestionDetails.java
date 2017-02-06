@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -191,8 +191,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
             fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
-                    Slots.RANK_OPTION_VALUE, Sanitizer.sanitizeForHtml(name),
-                    Slots.TEAM, Sanitizer.sanitizeForHtml(teamName),
+                    Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
+                    Slots.TEAM, SanitizationHelper.sanitizeForHtml(teamName),
                     Slots.RANK_RECIEVED, ranksReceived,
                     Slots.RANK_AVERAGE, df.format(average)));
 
@@ -223,9 +223,9 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             
             String teamName = bundle.getTeamNameForEmail(entry.getKey());
             String recipientName = bundle.getNameForEmail(entry.getKey());
-            String option = Sanitizer.sanitizeForCsv(teamName)
+            String option = SanitizationHelper.sanitizeForCsv(teamName)
                             + ","
-                            + Sanitizer.sanitizeForCsv(recipientName);
+                            + SanitizationHelper.sanitizeForCsv(recipientName);
 
             List<Integer> ranks = entry.getValue();
             double average = computeAverage(ranks);
