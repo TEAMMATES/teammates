@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
@@ -457,7 +456,7 @@ public abstract class Action {
      *
      * @param paramName  a constant from the {@link Const.ParamsNames} class.
      * @return the value of the specified parameter.
-     * @throws @link{NullPostParameterException}  if the parameter is not present in the http request.
+     * @throws @link{NullPostParameterException} if the parameter is not present in the http request.
      */
     public String getNonNullRequestParamValue(String paramName) {
         String value = getRequestParamValue(paramName);
@@ -477,14 +476,11 @@ public abstract class Action {
      *
      * @param paramName  a constant from the {@link Const.ParamsNames} class.
      * @return the values of the specified parameter.
-     * @throws @link{NullPostParameterException}  if the parameter is not present in the http request.
+     * @throws @link{NullPostParameterException} if the parameter is not present in the http request.
      */
     public String[] getNonNullRequestParamValues(String paramName) {
         String[] values = getRequestParamValues(paramName);
-        if (values == null) {
-            throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
-                    paramName));
-        }
+        Assumption.assertPostParamNotNull(paramName, values);
         return values;
     }
     
