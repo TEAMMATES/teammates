@@ -142,14 +142,19 @@ public enum FeedbackParticipantType {
         return displayNameRecipient;
     }
     
-    public static List<FeedbackParticipantType> getParticipantListFromParams(String participantListParams) {
+    /**
+     * @return A user-friendly {@FeedbackParticipantType} representing participant list.
+     */
+    public static List<FeedbackParticipantType> getParticipantListFromParams(
+            String getParticipantListFromCommaSeparatedValues) {
         List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
 
-        if (participantListParams == null || participantListParams.isEmpty()) {
+        if (getParticipantListFromCommaSeparatedValues == null
+                || getParticipantListFromCommaSeparatedValues.isEmpty()) {
             return participantList;
         }
 
-        String[] splitString = participantListParams.split(",");
+        String[] splitString = getParticipantListFromCommaSeparatedValues.split(",");
 
         for (String str : splitString) {
             participantList.add(FeedbackParticipantType.valueOf(str));
