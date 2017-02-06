@@ -11,7 +11,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
@@ -71,8 +71,8 @@ public class InstructorCourseAddAction extends Action {
         String courseNameToShowParam = "";
         
         if (isError) { // there is error in adding the course
-            courseIdToShowParam = Sanitizer.sanitizeForHtml(newCourse.getId());
-            courseNameToShowParam = Sanitizer.sanitizeForHtml(newCourse.getName());
+            courseIdToShowParam = SanitizationHelper.sanitizeForHtml(newCourse.getId());
+            courseNameToShowParam = SanitizationHelper.sanitizeForHtml(newCourse.getName());
             
             List<String> statusMessageTexts = new ArrayList<String>();
             

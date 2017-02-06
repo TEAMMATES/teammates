@@ -6,7 +6,7 @@ import java.util.List;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Instructor;
 
 /**
@@ -58,14 +58,14 @@ public class InstructorAttributes extends EntityAttributes {
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
                                 String displayedName, String instructorPrivilegesAsText) {
-        this.googleId = Sanitizer.sanitizeGoogleId(googleId);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+        this.courseId = SanitizationHelper.sanitizeTitle(courseId);
         this.isArchived = false;
-        this.name = Sanitizer.sanitizeName(name);
+        this.name = SanitizationHelper.sanitizeName(name);
         this.email = email;
-        this.role = Sanitizer.sanitizeName(role);
+        this.role = SanitizationHelper.sanitizeName(role);
         this.isDisplayedToStudents = true;
-        this.displayedName = Sanitizer.sanitizeName(displayedName);
+        this.displayedName = SanitizationHelper.sanitizeName(displayedName);
         this.privileges = getInstructorPrivilegesFromText(instructorPrivilegesAsText);
     }
     
@@ -82,14 +82,14 @@ public class InstructorAttributes extends EntityAttributes {
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
                                 String displayedName, InstructorPrivileges privileges) {
-        this.googleId = Sanitizer.sanitizeGoogleId(googleId);
+        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         this.courseId = courseId;
         this.isArchived = false;
-        this.name = Sanitizer.sanitizeName(name);
+        this.name = SanitizationHelper.sanitizeName(name);
         this.email = email;
-        this.role = Sanitizer.sanitizeName(role);
+        this.role = SanitizationHelper.sanitizeName(role);
         this.isDisplayedToStudents = true;
-        this.displayedName = Sanitizer.sanitizeName(displayedName);
+        this.displayedName = SanitizationHelper.sanitizeName(displayedName);
         this.privileges = privileges;
     }
     
@@ -264,21 +264,21 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        googleId = Sanitizer.sanitizeGoogleId(googleId);
-        name = Sanitizer.sanitizeForHtml(Sanitizer.sanitizeName(name));
-        email = Sanitizer.sanitizeEmail(email);
-        courseId = Sanitizer.sanitizeTitle(courseId);
+        googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+        name = SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeName(name));
+        email = SanitizationHelper.sanitizeEmail(email);
+        courseId = SanitizationHelper.sanitizeTitle(courseId);
         
         if (role == null) {
             role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            role = Sanitizer.sanitizeForHtml(Sanitizer.sanitizeName(role));
+            role = SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeName(role));
         }
         
         if (displayedName == null) {
             displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            displayedName = Sanitizer.sanitizeForHtml(Sanitizer.sanitizeName(displayedName));
+            displayedName = SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeName(displayedName));
         }
         
         if (privileges == null) {

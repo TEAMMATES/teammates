@@ -10,7 +10,7 @@ import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentEditAction;
 import teammates.ui.controller.RedirectResult;
@@ -385,7 +385,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         comments = backDoorLogic.getCommentsForReceiver(
                                          instructor.courseId,
                                          CommentParticipantType.TEAM,
-                                         Sanitizer.sanitizeForHtml(student.team));
+                                         SanitizationHelper.sanitizeForHtml(student.team));
         iterator = comments.iterator();
         while (iterator.hasNext()) {
             CommentAttributes commentAttributes = iterator.next();
@@ -421,7 +421,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
                 + "|||instr3@course1n2.tmt|||"
                 + "Edited Comment for Student:"
-                + "<span class=\"bold\">([" + Sanitizer.sanitizeForHtml(student.team) + "])</span> "
+                + "<span class=\"bold\">([" + SanitizationHelper.sanitizeForHtml(student.team) + "])</span> "
                 + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
                 + "<span class=\"bold\">Comment:</span> <Text: some text>"
                 + "|||/page/instructorStudentCommentEdit";

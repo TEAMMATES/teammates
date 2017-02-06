@@ -12,7 +12,7 @@ import java.util.Set;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Comment;
 
@@ -48,7 +48,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         this.giverEmail = giverEmail;
         this.recipientType = recipientType == null ? CommentParticipantType.PERSON : recipientType;
         this.recipients = recipients;
-        this.commentText = Sanitizer.sanitizeForRichText(commentText);
+        this.commentText = SanitizationHelper.sanitizeForRichText(commentText);
         this.createdAt = createdAt;
         this.lastEditorEmail = giverEmail;
         this.lastEditedAt = createdAt;
@@ -66,7 +66,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         this.showRecipientNameTo = comment.getShowRecipientNameTo();
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
-        this.commentText = Sanitizer.sanitizeForRichText(comment.getCommentText());
+        this.commentText = SanitizationHelper.sanitizeForRichText(comment.getCommentText());
         this.lastEditorEmail = comment.getLastEditorEmail() == null
                              ? comment.getGiverEmail()
                              : comment.getLastEditorEmail();
@@ -210,14 +210,14 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
     @Override
     public void sanitizeForSaving() {
         this.courseId = this.courseId.trim();
-        this.commentText = Sanitizer.sanitizeForRichText(commentText);
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
+        this.commentText = SanitizationHelper.sanitizeForRichText(commentText);
+        this.courseId = SanitizationHelper.sanitizeForHtml(courseId);
+        this.giverEmail = SanitizationHelper.sanitizeForHtml(giverEmail);
 
         if (recipients != null) {
             HashSet<String> sanitizedRecipients = new HashSet<String>();
             for (String recipientId : recipients) {
-                sanitizedRecipients.add(Sanitizer.sanitizeForHtml(recipientId));
+                sanitizedRecipients.add(SanitizationHelper.sanitizeForHtml(recipientId));
             }
             recipients = sanitizedRecipients;
         }

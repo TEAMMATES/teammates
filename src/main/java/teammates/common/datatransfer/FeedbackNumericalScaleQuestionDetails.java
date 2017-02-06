@@ -12,7 +12,7 @@ import java.util.Set;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
@@ -218,8 +218,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
             fragmentHtml.append(Templates.populateTemplate(
                                     fragmentTemplateToUse,
-                                    Slots.RECIPIENT_TEAM, Sanitizer.sanitizeForHtml(recipientTeam),
-                                    Slots.RECIPIENT_NAME, Sanitizer.sanitizeForHtml(recipientName),
+                                    Slots.RECIPIENT_TEAM, SanitizationHelper.sanitizeForHtml(recipientTeam),
+                                    Slots.RECIPIENT_NAME, SanitizationHelper.sanitizeForHtml(recipientName),
                                     Slots.AVERAGE, df.format(average.get(recipient)),
                                     Slots.MAX, df.format(max.get(recipient)),
                                     Slots.MIN, df.format(min.get(recipient)),
@@ -347,8 +347,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             
             String recipientFragmentHtml = Templates.populateTemplate(
                     fragmentTemplateToUse,
-                    Slots.RECIPIENT_TEAM, Sanitizer.sanitizeForHtml(recipientTeam),
-                    Slots.RECIPIENT_NAME, Sanitizer.sanitizeForHtml(recipientName),
+                    Slots.RECIPIENT_TEAM, SanitizationHelper.sanitizeForHtml(recipientTeam),
+                    Slots.RECIPIENT_NAME, SanitizationHelper.sanitizeForHtml(recipientName),
                     Slots.AVERAGE, df.format(averageScore),
                     Slots.MAX, df.format(maxScore),
                     Slots.MIN, df.format(minScore),
@@ -487,8 +487,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             String averageScoreExcludingSelfText =
                     getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
             
-            csvBody.append(Sanitizer.sanitizeForCsv(recipientTeam) + ','
-                           + Sanitizer.sanitizeForCsv(isRecipientGeneral
+            csvBody.append(SanitizationHelper.sanitizeForCsv(recipientTeam) + ','
+                           + SanitizationHelper.sanitizeForCsv(isRecipientGeneral
                                                       ? "General"
                                                       : bundle.getNameForEmail(recipient))
                            + ','

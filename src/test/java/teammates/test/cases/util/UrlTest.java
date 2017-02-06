@@ -3,7 +3,7 @@ package teammates.test.cases.util;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 
@@ -82,7 +82,7 @@ public class UrlTest extends BaseTestCase {
         url = "http://www.google.com?key1=value1&key2=value2";
         assertEquals(url, Url.addParamToUrl(url, "key1", "newvalue1"));
         assertEquals(url, Url.addParamToUrl(url, "key2", "newvalue2"));
-        assertEquals(url + "&key3=" + Sanitizer.sanitizeForUri("#& ?"), Url.addParamToUrl(url, "key3", "#& ?"));
+        assertEquals(url + "&key3=" + SanitizationHelper.sanitizeForUri("#& ?"), Url.addParamToUrl(url, "key3", "#& ?"));
         
         ______TS("in-place method withParam");
         

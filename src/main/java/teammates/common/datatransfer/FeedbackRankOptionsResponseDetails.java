@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDetails {
@@ -79,7 +79,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
             List<String> optionsWithGivenRank = rankAndOption.getValue();
             for (String option : optionsWithGivenRank) {
                 htmlBuilder.append("<li>");
-                htmlBuilder.append(Sanitizer.sanitizeForHtml(rank.toString()));
+                htmlBuilder.append(SanitizationHelper.sanitizeForHtml(rank.toString()));
                 htmlBuilder.append(": ");
                 htmlBuilder.append(option);
                 htmlBuilder.append("</li>");
@@ -105,7 +105,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
             }
             List<String> optionsWithGivenRank = orderedOptions.get(rank);
             
-            String optionsInCsv = Sanitizer.sanitizeForCsv(StringHelper.toString(optionsWithGivenRank, ", "));
+            String optionsInCsv = SanitizationHelper.sanitizeForCsv(StringHelper.toString(optionsWithGivenRank, ", "));
             
             csvBuilder.append(optionsInCsv).append(',');
         }
