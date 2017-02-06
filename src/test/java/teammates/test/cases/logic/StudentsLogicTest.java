@@ -56,7 +56,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
     }
     
@@ -1139,7 +1138,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     @AfterClass
     public static void classTearDown() {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
-        printTestClassFooter();
     }
     
     private void verifyEnrollmentDetailsForStudent(StudentAttributes expectedStudent, String oldTeam,

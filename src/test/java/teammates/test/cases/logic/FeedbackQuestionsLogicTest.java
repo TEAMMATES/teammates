@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,7 +32,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
     }
     
@@ -643,9 +641,4 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         return question;
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
-
 }

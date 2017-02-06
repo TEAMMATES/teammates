@@ -25,7 +25,6 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
     }
     

@@ -34,7 +34,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() throws Exception {
-        printTestClassHeader();
         addSessionsToDb();
     }
     
@@ -303,7 +302,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     @AfterClass
     public static void classTearDown() {
         deleteSessionsFromDb();
-        printTestClassFooter();
     }
     
     private static void deleteSessionsFromDb() {

@@ -41,7 +41,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
     }
     

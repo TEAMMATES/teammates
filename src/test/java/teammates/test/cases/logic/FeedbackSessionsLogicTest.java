@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -50,7 +49,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         gaeSimulation.resetDatastore();
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -2075,9 +2073,4 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
-
 }

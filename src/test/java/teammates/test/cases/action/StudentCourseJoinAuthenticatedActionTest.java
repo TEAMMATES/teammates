@@ -24,7 +24,6 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         removeAndRestoreDataBundle(dataBundle);
     }
 

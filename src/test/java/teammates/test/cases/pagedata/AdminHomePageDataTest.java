@@ -1,6 +1,5 @@
 package teammates.test.cases.pagedata;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -12,11 +11,6 @@ public class AdminHomePageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private AdminHomePageData pageData;
     
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
-
     @Test
     public void allTests() {
         createData();

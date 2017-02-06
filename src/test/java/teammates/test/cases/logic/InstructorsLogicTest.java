@@ -30,7 +30,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         gaeSimulation.resetDatastore();
         removeAndRestoreTypicalDataBundle();
     }

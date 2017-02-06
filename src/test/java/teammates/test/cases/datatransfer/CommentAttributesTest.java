@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -29,7 +28,6 @@ public class CommentAttributesTest extends BaseTestCase {
     
     @BeforeClass
     public static void classSetUp() {
-        printTestClassHeader();
         courseId = "test-course-id";
         giverEmail = "email from giver";
         recipientType = CommentParticipantType.PERSON;
@@ -140,8 +138,4 @@ public class CommentAttributesTest extends BaseTestCase {
         }
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 }

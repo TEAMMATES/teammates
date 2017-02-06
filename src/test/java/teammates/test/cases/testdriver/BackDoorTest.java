@@ -1,6 +1,5 @@
 package teammates.test.cases.testdriver;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -26,7 +25,6 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
 
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         removeAndRestoreDataBundle(dataBundle);
         
         // verifies that typical bundle is restored by the above operation
@@ -317,8 +315,4 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
         verifyAbsentInDatastore(fr);
     }
 
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
-    }
 }

@@ -30,7 +30,6 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
     }
     

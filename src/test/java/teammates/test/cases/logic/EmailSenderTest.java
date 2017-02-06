@@ -6,8 +6,6 @@ import javax.mail.internet.MimeMessage;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.EmailWrapper;
@@ -31,11 +29,6 @@ import com.sun.jersey.multipart.FormDataMultiPart;
  *      {@link MailjetService}
  */
 public class EmailSenderTest extends BaseComponentTestCase {
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-    }
     
     private EmailWrapper getTypicalEmailWrapper() {
         String senderName = "Sender Name";
@@ -114,11 +107,6 @@ public class EmailSenderTest extends BaseComponentTestCase {
                      ((JSONObject) email.get(Email.HEADERS)).getString("Reply-To"));
         assertEquals(wrapper.getSubject(), email.get(Email.SUBJECT));
         assertEquals(wrapper.getContent(), email.get(Email.HTMLPART));
-    }
-    
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
     }
     
 }

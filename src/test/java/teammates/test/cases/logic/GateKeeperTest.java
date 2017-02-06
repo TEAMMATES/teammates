@@ -1,6 +1,5 @@
 package teammates.test.cases.logic;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -20,7 +19,6 @@ public class GateKeeperTest extends BaseComponentTestCase {
 
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
     }
 
@@ -75,9 +73,4 @@ public class GateKeeperTest extends BaseComponentTestCase {
         assertEquals(null, gateKeeper.getCurrentUser());
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
-
 }

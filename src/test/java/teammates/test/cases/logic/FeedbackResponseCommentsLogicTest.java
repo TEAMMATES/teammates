@@ -3,7 +3,6 @@ package teammates.test.cases.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -26,11 +25,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     
     private static DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-    }
     
     @BeforeMethod
     public void refreshTestData() {

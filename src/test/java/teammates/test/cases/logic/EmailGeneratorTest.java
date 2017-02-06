@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -46,7 +45,6 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
         if (isGodModeEnabled) {
             System.setProperty("godmode", "true");
@@ -417,11 +415,6 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         // check email body for no left placeholders
         assertFalse(emailContent.contains("${"));
-    }
-    
-    @AfterClass
-    public void classTearDown() {
-        printTestClassFooter();
     }
     
 }

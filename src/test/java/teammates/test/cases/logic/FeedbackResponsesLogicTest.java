@@ -3,7 +3,6 @@ package teammates.test.cases.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -47,7 +46,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         removeAndRestoreTypicalDataBundle();
         removeAndRestoreDataBundle(specialCharBundle);
         removeAndRestoreDataBundle(questionTypeBundle);
@@ -705,8 +703,4 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         return responseComments;
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 }

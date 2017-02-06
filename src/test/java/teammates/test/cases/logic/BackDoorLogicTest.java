@@ -1,7 +1,5 @@
 package teammates.test.cases.logic;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -13,11 +11,6 @@ import teammates.test.cases.BaseComponentTestCase;
 
 public class BackDoorLogicTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-    }
 
     @Test
     public void testPersistDataBundle() throws Exception {
@@ -72,10 +65,5 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         editStudentAsJson(String, String)
         createCourse(String, String)
     */
-
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 
 }
