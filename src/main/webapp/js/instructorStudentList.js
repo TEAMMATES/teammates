@@ -39,8 +39,10 @@ $(document).ready(function() {
     });
     
     // Binding for copy email button
+    var copyEmailPopoverTimeout;
     $('#copy-email-button').click(function(e) {
         e.preventDefault();
+        clearTimeout(copyEmailPopoverTimeout);
         var $copyEmailButton = $('#copy-email-button');
         var tips = 'Emails now are copied. If it doesn\'t work, you can also use <kbd>Ctrl + C</kbd> to COPY.<br>'
                     + 'You may use <kbd>Ctrl + V</kbd> to PASTE to your email client. <br>'
@@ -61,7 +63,7 @@ $(document).ready(function() {
         selectElementContents($('#emails').get(0));
         executeCopyCommand();
         
-        setTimeout(function() {
+        copyEmailPopoverTimeout = setTimeout(function() {
             $copyEmailButton.popover('destroy');
         }, 10000); // popover will disappear in 10 seconds
     });
