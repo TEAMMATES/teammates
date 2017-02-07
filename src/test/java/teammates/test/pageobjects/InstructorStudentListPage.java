@@ -52,8 +52,8 @@ public class InstructorStudentListPage extends AppPage {
     }
     
     public boolean isCopyEmailPopoverVisible() {
-        String xpath = "//button[@id='copy_email_button']/following-sibling::div[contains(@class, 'popover')]";
-        return isElementVisible(By.xpath(xpath));
+        String selector = "#copy_email_button + div.popover";
+        return isElementVisible(By.cssSelector(selector));
     }
     
     public String getSelectedText() {
