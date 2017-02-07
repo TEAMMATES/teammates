@@ -8,7 +8,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.StudentProfile;
 
@@ -33,10 +33,10 @@ public class StudentProfileAttributes extends EntityAttributes {
     public StudentProfileAttributes(String googleId, String shortName, String email, String institute,
                                     String nationality, String gender, String moreInfo, String pictureKey) {
         this.googleId = googleId;
-        this.shortName = Sanitizer.sanitizeName(shortName);
-        this.email = Sanitizer.sanitizeEmail(email);
-        this.institute = Sanitizer.sanitizeTitle(institute);
-        this.nationality = Sanitizer.sanitizeName(nationality);
+        this.shortName = SanitizationHelper.sanitizeName(shortName);
+        this.email = SanitizationHelper.sanitizeEmail(email);
+        this.institute = SanitizationHelper.sanitizeTitle(institute);
+        this.nationality = SanitizationHelper.sanitizeName(nationality);
         this.gender = gender;
         this.moreInfo = moreInfo;
         this.pictureKey = pictureKey;
@@ -177,13 +177,13 @@ public class StudentProfileAttributes extends EntityAttributes {
 
     @Override
     public void sanitizeForSaving() {
-        this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
-        this.shortName = Sanitizer.sanitizeForHtml(this.shortName);
-        this.email = Sanitizer.sanitizeForHtml(this.email);
-        this.institute = Sanitizer.sanitizeForHtml(this.institute);
-        this.nationality = Sanitizer.sanitizeForHtml(this.nationality);
-        this.gender = Sanitizer.sanitizeForHtml(this.gender);
-        this.moreInfo = Sanitizer.sanitizeForHtml(this.moreInfo);
+        this.googleId = SanitizationHelper.sanitizeGoogleId(this.googleId);
+        this.shortName = SanitizationHelper.sanitizeForHtml(this.shortName);
+        this.email = SanitizationHelper.sanitizeForHtml(this.email);
+        this.institute = SanitizationHelper.sanitizeForHtml(this.institute);
+        this.nationality = SanitizationHelper.sanitizeForHtml(this.nationality);
+        this.gender = SanitizationHelper.sanitizeForHtml(this.gender);
+        this.moreInfo = SanitizationHelper.sanitizeForHtml(this.moreInfo);
     }
 
 }

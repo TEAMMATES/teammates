@@ -5,7 +5,7 @@ import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 
 public class FeedbackContributionResponseDetails extends FeedbackResponseDetails {
     
@@ -59,7 +59,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     // Not used for contribution question, due to calculations required. See corresponding function below.
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return Sanitizer.sanitizeForCsv(FeedbackContributionQuestionDetails.convertToEqualShareFormat(getAnswer()));
+        return SanitizationHelper.sanitizeForCsv(FeedbackContributionQuestionDetails.convertToEqualShareFormat(getAnswer()));
     }
     
     @Override
@@ -162,13 +162,13 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
                         + "Response Id: " + actualResponse.getId());
             }
         } else {
-            responseAnswerCsv = Sanitizer.sanitizeForCsv(
+            responseAnswerCsv = SanitizationHelper.sanitizeForCsv(
                     FeedbackContributionQuestionDetails.convertToEqualShareFormat(
                             teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]));
             
             if (response.giver.equals(response.recipient)) {
                 StudentResultSummary studentResult = stats.get(response.giver);
-                responseAnswerCsv = Sanitizer.sanitizeForCsv(
+                responseAnswerCsv = SanitizationHelper.sanitizeForCsv(
                         FeedbackContributionQuestionDetails.convertToEqualShareFormat(
                                 studentResult.claimedToInstructor));
             }

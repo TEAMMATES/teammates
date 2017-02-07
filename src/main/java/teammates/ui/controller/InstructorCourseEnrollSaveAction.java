@@ -16,7 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorCourseEnrollPageData;
@@ -33,7 +33,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
-        String sanitizedStudentsInfo = Sanitizer.sanitizeForHtml(studentsInfo);
+        String sanitizedStudentsInfo = SanitizationHelper.sanitizeForHtml(studentsInfo);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);

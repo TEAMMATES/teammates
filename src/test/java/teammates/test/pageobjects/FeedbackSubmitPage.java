@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 
 public class FeedbackSubmitPage extends AppPage {
 
@@ -93,8 +93,8 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = Sanitizer.convertStringForXPath(name);
-        String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
+        name = SanitizationHelper.sanitizeStringForXPath(name);
+        String sanitizedChoiceName = SanitizationHelper.sanitizeStringForXPath(choiceName);
         WebElement element = browser.driver.findElement(
                 By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         click(element);
@@ -108,8 +108,8 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = Sanitizer.convertStringForXPath(name);
-        String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
+        name = SanitizationHelper.sanitizeStringForXPath(name);
+        String sanitizedChoiceName = SanitizationHelper.sanitizeStringForXPath(choiceName);
         WebElement element = browser.driver.findElement(
                 By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         click(element);
@@ -123,7 +123,7 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void chooseContribOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = Sanitizer.convertStringForXPath(name);
+        name = SanitizationHelper.sanitizeStringForXPath(name);
         selectDropdownByVisibleValue(browser.driver.findElement(By.xpath("//select[@name=" + name + "]")), choiceName);
     }
     

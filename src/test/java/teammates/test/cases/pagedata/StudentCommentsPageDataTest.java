@@ -24,7 +24,7 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.StudentCommentsPageData;
@@ -101,11 +101,11 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
     private static CommentsForStudentsTable getCommentsForStudentsTable(
             String giverDetails, String studentEmail, List<CommentAttributes> comments, CourseRoster roster) {
         List<CommentRow> commentRows = new ArrayList<CommentRow>();
-        String unsanitizedGiverDetails = StringHelper.recoverFromSanitizedText(giverDetails);
+        String unsanitizedGiverDetails = SanitizationHelper.desanitizeFromHtml(giverDetails);
         for (CommentAttributes comment : comments) {
             String recipientDetails = data.getRecipientNames(comment.recipients, sampleCourse.getId(),
                                                              studentEmail, roster);
-            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
+            String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
             commentRows.add(new CommentRow(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails));
         }
         CommentsForStudentsTable commentsForStudentsTable =

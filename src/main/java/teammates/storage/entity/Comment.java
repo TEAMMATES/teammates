@@ -12,7 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -105,7 +105,7 @@ public class Comment {
         this.showGiverNameTo = showGiverNameTo;
         this.showRecipientNameTo = showRecipientNameTo;
         this.createdAt = date;
-        this.commentText = Sanitizer.sanitizeForRichText(comment);
+        this.commentText = SanitizationHelper.sanitizeForRichText(comment);
         this.lastEditorEmail = lastEditorEmail == null ? giverEmail : lastEditorEmail;
         this.lastEditedAt = lastEditedAt == null ? date : lastEditedAt;
     }

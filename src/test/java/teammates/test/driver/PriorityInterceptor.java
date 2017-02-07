@@ -28,7 +28,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
     
     static {
         try {
-            packageOrder = FileHelper.readFile("src/test/testng-travis.xml");
+            packageOrder = FileHelper.readFile("src/test/testng-ci.xml");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
