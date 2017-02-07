@@ -65,7 +65,7 @@
                 <div class="checkbox" style="display:none;">
                     <input id="show_email" type="checkbox" checked>
                     <label for="show_email"><strong>Show Emails</strong></label>
-                    <button id="copy_email_button" class="btn btn-default btn-xs">Copy Emails</button>
+                    <button id="copy-email-button" class="btn btn-default btn-xs">Copy Emails</button>
                 </div>
                 <br>
                 <div id="emails">

@@ -21,7 +21,7 @@ public class InstructorStudentListPage extends AppPage {
     @FindBy(id = "emails")
     private WebElement shownEmails;
     
-    @FindBy(id = "copy_email_button")
+    @FindBy(id = "copy-email-button")
     private WebElement copyEmailButton;
 
     @FindBy(id = "buttonSearch")
@@ -52,7 +52,7 @@ public class InstructorStudentListPage extends AppPage {
     }
     
     public boolean isCopyEmailPopoverVisible() {
-        String selector = "#copy_email_button + div.popover";
+        String selector = "#copy-email-button + div.popover";
         return isElementVisible(By.cssSelector(selector));
     }
     

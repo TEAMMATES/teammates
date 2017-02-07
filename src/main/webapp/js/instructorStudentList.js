@@ -24,7 +24,7 @@ $(document).ready(function() {
 
     // Binding for 'Show Emails' check box.
     $('#show_email').on('change', function() {
-        var $copyEmailButton = $('#copy_email_button');
+        var $copyEmailButton = $('#copy-email-button');
         var $emails = $('#emails');
         
         if (this.checked) {
@@ -39,12 +39,12 @@ $(document).ready(function() {
     });
     
     // Binding for copy email button
-    $('#copy_email_button').click(function(e) {
+    $('#copy-email-button').click(function(e) {
         e.preventDefault();
-        var $copyEmailButton = $('#copy_email_button');
+        var $copyEmailButton = $('#copy-email-button');
         var tips = 'Emails now are selected, you can use <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl + V</kbd> to PASTE'
                     + ' to your email client. <br>'
-                    + '<small class="text-muted">This message will disappear in 5 seconds<small>';
+                    + '<small class="text-muted">This message will disappear in 10 seconds</small>';
         
         $copyEmailButton
             .popover('destroy')
@@ -62,7 +62,7 @@ $(document).ready(function() {
         
         setTimeout(function() {
             $copyEmailButton.popover('destroy');
-        }, 5000); // popover will disappear in 5 seconds
+        }, 10000); // popover will disappear in 10 seconds
     });
 
     // Binding for changes in the Courses checkboxes.
