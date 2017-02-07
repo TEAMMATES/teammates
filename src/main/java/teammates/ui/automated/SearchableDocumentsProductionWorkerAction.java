@@ -1,10 +1,13 @@
 package teammates.ui.automated;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
@@ -32,12 +35,25 @@ public class SearchableDocumentsProductionWorkerAction extends AutomatedAction {
         
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertNotNull(instructorEmail);
+
         
-        //produce searchable documents
+        List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
+        try {
+            comments = logic.getCommentsForGiver(courseId, instructorEmail);
+            
+        } catch (EntityDoesNotExistException e) {
+            log.severe("Comments for " + instructorEmail 
+                    + " in course " + courseId + " does not exist");
+        }
+        
         List<FeedbackResponseCommentAttributes> frComments =
                 logic.getFeedbackResponseCommentForGiver(courseId, instructorEmail);
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        
+        for (CommentAttributes comment : comments) {
+            logic.putDocument(comment);
+        }
         
         for (FeedbackResponseCommentAttributes comment : frComments) {
             logic.putDocument(comment);

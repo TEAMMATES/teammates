@@ -96,7 +96,7 @@
     
     <queue>
         <name>searchable-documents-production-queue</name>
-        <!-- Configuration allows for 5 emails to be queued when the bucket is not full -->
+        <!-- Configuration allows for 5 sets of documents to be queued when the bucket is not full -->
         <rate>10/s</rate>
         <bucket-size>20</bucket-size>
         <retry-parameters>
@@ -106,7 +106,7 @@
 
     <queue>
         <name>send-email-queue</name>
-        <!-- Configuration allows for 20 sets of documents to be queued when the bucket is not full -->
+        <!-- Configuration allows for 20 emails to be queued when the bucket is not full -->
         <rate>10/s</rate>
         <bucket-size>20</bucket-size>
         <retry-parameters>

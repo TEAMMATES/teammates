@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EmailSendingException;
@@ -203,13 +202,6 @@ public class AdminInstructorAccountAddAction extends Action {
         }
         
         //produce searchable documents
-        //this is not added to taskQueue because it might throw EntityDoesNotExistException
-        List<CommentAttributes> comments = logic.getCommentsForGiver(courseId, pageData.instructorEmail);
-        
-        for (CommentAttributes comment : comments) {
-            logic.putDocument(comment);
-        }
-        
         taskQueuer.scheduleSearchableDocumentsProduction(
                 courseId, pageData.instructorEmail);
         
