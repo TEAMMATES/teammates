@@ -42,7 +42,7 @@ public class SearchableDocumentsProductionWorkerAction extends AutomatedAction {
             comments = logic.getCommentsForGiver(courseId, instructorEmail);
             
         } catch (EntityDoesNotExistException e) {
-            log.severe("Comments for " + instructorEmail 
+            log.severe("Comments for " + instructorEmail
                     + " in course " + courseId + " does not exist");
         }
         
