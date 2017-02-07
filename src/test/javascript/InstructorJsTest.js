@@ -23,7 +23,7 @@ QUnit.test('executeCopyCommand()', function(assert) {
     var browserImplementation = document.execCommand;
     document.execCommand = function(command) {
         assert.equal(command, 'copy', 'Copy command is executed');
-    }
+    };
     
     executeCopyCommand();
     
