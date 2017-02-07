@@ -2,8 +2,8 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.ui.pagedata.AdminAccountManagementPageData;
 
 public class AdminAccountManagementAccountTableRow {

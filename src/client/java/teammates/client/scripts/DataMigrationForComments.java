@@ -11,7 +11,7 @@ import javax.jdo.Query;
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentStatus;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.entity.Comment;
 

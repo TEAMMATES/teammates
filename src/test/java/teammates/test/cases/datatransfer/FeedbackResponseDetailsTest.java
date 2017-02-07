@@ -6,22 +6,22 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackConstantSumQuestionDetails;
-import teammates.common.datatransfer.FeedbackConstantSumResponseDetails;
-import teammates.common.datatransfer.FeedbackContributionQuestionDetails;
-import teammates.common.datatransfer.FeedbackContributionResponseDetails;
-import teammates.common.datatransfer.FeedbackMcqQuestionDetails;
-import teammates.common.datatransfer.FeedbackMcqResponseDetails;
-import teammates.common.datatransfer.FeedbackMsqQuestionDetails;
-import teammates.common.datatransfer.FeedbackMsqResponseDetails;
-import teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails;
-import teammates.common.datatransfer.FeedbackNumericalScaleResponseDetails;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackResponseDetails;
-import teammates.common.datatransfer.FeedbackRubricQuestionDetails;
-import teammates.common.datatransfer.FeedbackRubricResponseDetails;
-import teammates.common.datatransfer.FeedbackTextQuestionDetails;
-import teammates.common.datatransfer.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.test.cases.BaseTestCase;
 
 /**

@@ -1,6 +1,6 @@
 package teammates.ui.pagedata;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Url;
 
 /**
