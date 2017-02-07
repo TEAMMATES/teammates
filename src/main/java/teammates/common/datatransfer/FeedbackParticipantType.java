@@ -143,20 +143,17 @@ public enum FeedbackParticipantType {
     }
     
     /**
-     * @return A user-friendly {@FeedbackParticipantType} list representing participant.
+     * @return A list of {@link FeedbackParticipantType} objects.
      */
     public static List<FeedbackParticipantType> getParticipantListFromCommaSeparatedValues(
             String commaSeparatedValues) {
         List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
 
-        if (commaSeparatedValues == null
-                || commaSeparatedValues.isEmpty()) {
+        if (commaSeparatedValues == null || commaSeparatedValues.isEmpty()) {
             return participantList;
         }
 
-        String[] splitString = commaSeparatedValues.split(",");
-
-        for (String str : splitString) {
+        for (String str : commaSeparatedValues.split(",")) {
             participantList.add(FeedbackParticipantType.valueOf(str));
         }
 
