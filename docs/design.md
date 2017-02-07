@@ -176,7 +176,7 @@ Package overview:
 - **`storage.entity`**: Classes that represent persistable entities.
 - **`storage.search`**: Classes for dealing with searching and indexing.
 
-![Storage ER Diagram](images/StorageERDiagram.png)
+![Storage ER Diagram](images/StorageClassDiagram.png)
 
 Note that the navigability of the association links between entity objects appear to be in the reverse direction of what we see in a normal OOP design.
 This is because we want to keep the data schema flexible so that new entity types can be added later with minimal modifications to existing elements.
