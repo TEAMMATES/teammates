@@ -13,7 +13,7 @@ import java.util.TreeSet;
 
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 /**
@@ -1663,7 +1663,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     // TODO consider removing this to increase cohesion
     public String getQuestionText(String feedbackQuestionId) {
-        return Sanitizer.sanitizeForHtml(questions.get(feedbackQuestionId)
+        return SanitizationHelper.sanitizeForHtml(questions.get(feedbackQuestionId)
                                                   .getQuestionDetails()
                                                   .getQuestionText());
     }

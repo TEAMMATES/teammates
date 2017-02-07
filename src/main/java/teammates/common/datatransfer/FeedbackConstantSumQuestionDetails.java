@@ -15,7 +15,7 @@ import java.util.TreeMap;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
@@ -198,7 +198,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 Slots.CONSTSUM_OPTION_POINT,
                                         Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
                                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                                Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
+                                Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
@@ -257,7 +257,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 Slots.CONSTSUM_OPTION_VISIBILITY, "",
                                 Slots.CONSTSUM_OPTION_POINT, "",
                                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                                Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
+                                Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
@@ -292,7 +292,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.ITERATOR, Integer.toString(i),
-                            Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
+                            Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(constSumOptions.get(i)),
                             Slots.CONSTSUM_PARAM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -422,15 +422,15 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
-                        Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(name),
-                        Slots.TEAM, Sanitizer.sanitizeForHtml(teamName),
+                        Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
+                        Slots.TEAM, SanitizationHelper.sanitizeForHtml(teamName),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
             } else {
                 String option = entry.getKey();
                 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
-                        Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(option),
+                        Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(option),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
             }
@@ -478,9 +478,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 String recipientName = bundle.getNameForEmail(participantIdentifier);
                 
-                option = Sanitizer.sanitizeForCsv(teamName) + "," + Sanitizer.sanitizeForCsv(recipientName);
+                option = SanitizationHelper.sanitizeForCsv(teamName)
+                         + "," + SanitizationHelper.sanitizeForCsv(recipientName);
             } else {
-                option = Sanitizer.sanitizeForCsv(entry.getKey());
+                option = SanitizationHelper.sanitizeForCsv(entry.getKey());
             }
             
             List<Integer> points = entry.getValue();
@@ -642,7 +643,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         if (distributeToRecipients) {
             return "Feedback";
         }
-        List<String> sanitizedOptions = Sanitizer.sanitizeListForCsv(constSumOptions);
+        List<String> sanitizedOptions = SanitizationHelper.sanitizeListForCsv(constSumOptions);
         return "Feedbacks:," + StringHelper.toString(sanitizedOptions, ",");
     }
 

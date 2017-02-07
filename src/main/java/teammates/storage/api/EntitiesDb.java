@@ -322,10 +322,6 @@ public abstract class EntitiesDb {
         }
     }
     
-    protected void getDocument(String indexName, String documentId) {
-        SearchManager.getDocument(indexName, documentId);
-    }
-    
     protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
         try {
             if (query.getFilterSize() > 0) {
@@ -346,7 +342,4 @@ public abstract class EntitiesDb {
         }
     }
     
-    protected void deleteDocuments(String indexName, String[] documentId) {
-        SearchManager.deleteDocuments(indexName, documentId);
-    }
 }

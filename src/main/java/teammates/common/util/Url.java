@@ -71,7 +71,7 @@ public class Url {
             // or if the key is already included in the url
             return url;
         }
-        return url + (url.contains("?") ? "&" : "?") + key + "=" + Sanitizer.sanitizeForUri(value);
+        return url + (url.contains("?") ? "&" : "?") + key + "=" + SanitizationHelper.sanitizeForUri(value);
     }
 
     public static String trimTrailingSlash(String url) {

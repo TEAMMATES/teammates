@@ -27,7 +27,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CommentsDb;
@@ -221,7 +220,13 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students.values()) {
             StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.course, student.email);
             studentsDb.putDocument(studentInDb);
-            ThreadHelper.waitFor(50);
+        }
+        
+        Map<String, InstructorAttributes> instructors = dataBundle.instructors;
+        for (InstructorAttributes instructor : instructors.values()) {
+            InstructorAttributes instructorInDb =
+                    instructorsDb.getInstructorForEmail(instructor.courseId, instructor.email);
+            instructorsDb.putDocument(instructorInDb);
         }
         
         Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
