@@ -436,7 +436,7 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
 // --------------------------------------------------------------------------
 
 /**
- * function that select contents inside element
+ * function that select contents inside element.
  * @param el
  */
 function selectElementContents(el) {
@@ -458,4 +458,10 @@ function selectElementContents(el) {
         range.moveToElementText(el);
         range.select();
     }
+}
+/**
+ * Simulate the copy action in the right-click menu, typically 'Ctrl + C'.
+ */
+function executeCopyCommand() {
+    document.execCommand('copy');
 }

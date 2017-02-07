@@ -59,7 +59,7 @@ $(document).ready(function() {
             .popover('show');
         
         selectElementContents($('#emails').get(0));
-        document.execCommand('copy');
+        executeCopyCommand();
         
         setTimeout(function() {
             $copyEmailButton.popover('destroy');

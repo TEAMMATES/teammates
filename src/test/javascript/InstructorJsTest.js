@@ -17,3 +17,28 @@ QUnit.test('isStudentInputValid(editName, editTeamName, editEmail)', function(as
                  'Invalid teamname');
     assert.equal(isStudentInputValid(generateRandomString(NAME_MAX_LENGTH + 1), 'Bob\'s Team', ''), false, 'invalid name');
 });
+
+QUnit.test('executeCopyCommand()', function(assert) {
+    // override execCommand
+    var browserImplementation = document.execCommand;
+    document.execCommand = function(command) {
+        assert.equal(command, 'copy', 'Copy command is executed');
+    }
+    
+    executeCopyCommand();
+    
+    // restore back
+    document.execCommand = browserImplementation;
+});
+
+QUnit.test('selectElementContents(el)', function(assert) {
+    window.getSelection().removeAllRanges();
+    
+    var $contentsToSelect = $('#team_all');
+    selectElementContents($contentsToSelect.get(0));
+    
+    var selectedContents = window.getSelection().toString();
+    assert.equal(selectedContents, $contentsToSelect.text().replace(/ /gi, ''), 'Contents are selected');
+    
+    window.getSelection().removeAllRanges();
+});
