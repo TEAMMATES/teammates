@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseJoinConfirmationPageData;
 
@@ -37,7 +37,7 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getConfirmationLink());
         String confirmationLink = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey
                                   + "&" + Const.ParamsNames.INSTRUCTOR_INSTITUTION + "="
-                                  + Sanitizer.sanitizeForUri(institute);
+                                  + SanitizationHelper.sanitizeForUri(institute);
         assertEquals(confirmationLink, pageData.getConfirmationLink());
         
         ______TS("test case when institute is null");

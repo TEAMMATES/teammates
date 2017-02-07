@@ -8,7 +8,7 @@ import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 
 public class FeedbackResponseRow {
 
@@ -47,7 +47,7 @@ public class FeedbackResponseRow {
     }
 
     public String getQuestionText() {
-        return Sanitizer.sanitizeForHtml(questionText);
+        return SanitizationHelper.sanitizeForHtml(questionText);
     }
 
     public String getQuestionMoreInfo() {

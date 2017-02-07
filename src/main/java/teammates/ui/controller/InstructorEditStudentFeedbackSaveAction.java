@@ -11,9 +11,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.common.util.StringHelper;
 
 public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
     
@@ -110,7 +110,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
     
     @Override
     protected String getUserTeamForCourse() {
-        return StringHelper.recoverFromSanitizedText(moderatedStudent.team);
+        return SanitizationHelper.desanitizeFromHtml(moderatedStudent.team);
     }
     
     @Override

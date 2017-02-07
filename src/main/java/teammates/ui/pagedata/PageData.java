@@ -21,7 +21,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.NationalityHelper;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -72,11 +72,11 @@ public class PageData {
      * those *Helper classes.
      */
     public static String sanitizeForHtml(String unsanitizedStringLiteral) {
-        return Sanitizer.sanitizeForHtml(unsanitizedStringLiteral);
+        return SanitizationHelper.sanitizeForHtml(unsanitizedStringLiteral);
     }
     
     public static String sanitizeForJs(String unsanitizedStringLiteral) {
-        return Sanitizer.sanitizeForJs(unsanitizedStringLiteral);
+        return SanitizationHelper.sanitizeForJs(unsanitizedStringLiteral);
     }
     
     public static String truncate(String untruncatedString, int truncateLength) {
