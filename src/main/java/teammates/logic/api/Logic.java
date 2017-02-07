@@ -285,14 +285,12 @@ public class Logic {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      * @param queryString
-     * @param cursorString
      * @return Null if no match found.
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
         
-        return instructorsLogic.searchInstructorsInWholeSystem(queryString, cursorString);
+        return instructorsLogic.searchInstructorsInWholeSystem(queryString);
     }
     
     /**
@@ -770,15 +768,12 @@ public class Logic {
      * @param queryString
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
-     * @param cursorString  used to support the pagination
      * @return Null if no match found
      */
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
-                                                    String cursorString) {
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructors);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
-        return studentsLogic.searchStudents(queryString, instructors, cursorString);
+        return studentsLogic.searchStudents(queryString, instructors);
     }
     
     /**
@@ -786,14 +781,12 @@ public class Logic {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
      * @param queryString
-     * @param cursorString
      * @return Null if no match found.
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
         
-        return studentsLogic.searchStudentsInWholeSystem(queryString, cursorString);
+        return studentsLogic.searchStudentsInWholeSystem(queryString);
     }
     
     /**
@@ -2037,16 +2030,13 @@ public class Logic {
      * @param queryString
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
-     * @param cursorString  used to support the pagination
      * @return Null if no match found
      */
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString,
-                                                                         List<InstructorAttributes> instructors,
-                                                                         String cursorString) {
+                                                                         List<InstructorAttributes> instructors) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructors);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
-        return feedbackResponseCommentsLogic.searchFeedbackResponseComments(queryString, instructors, cursorString);
+        return feedbackResponseCommentsLogic.searchFeedbackResponseComments(queryString, instructors);
     }
     
     /**
@@ -2142,15 +2132,12 @@ public class Logic {
      * @param queryString
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
-     * @param cursorString  used to support the pagination
      * @return Null if no match found
      */
-    public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors,
-                                                   String cursorString) {
+    public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors) {
         Assumption.assertNotNull(queryString);
         Assumption.assertNotNull(instructors);
-        Assumption.assertNotNull(cursorString);
-        return commentsLogic.searchComment(queryString, instructors, cursorString);
+        return commentsLogic.searchComment(queryString, instructors);
     }
     
     /**
