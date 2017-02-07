@@ -42,8 +42,8 @@ $(document).ready(function() {
     $('#copy-email-button').click(function(e) {
         e.preventDefault();
         var $copyEmailButton = $('#copy-email-button');
-        var tips = 'Emails now are selected, you can use <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl + V</kbd> to PASTE'
-                    + ' to your email client. <br>'
+        var tips = 'Emails now are copied. If it doesn\'t work, you can also use <kbd>Ctrl + C</kbd> to COPY.<br>'
+                    + 'You may use <kbd>Ctrl + V</kbd> to PASTE to your email client. <br>'
                     + '<small class="text-muted">This message will disappear in 10 seconds</small>';
         
         $copyEmailButton
@@ -59,6 +59,7 @@ $(document).ready(function() {
             .popover('show');
         
         selectElementContents($('#emails').get(0));
+        document.execCommand('copy');
         
         setTimeout(function() {
             $copyEmailButton.popover('destroy');

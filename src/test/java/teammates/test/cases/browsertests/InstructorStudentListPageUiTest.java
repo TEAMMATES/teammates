@@ -108,7 +108,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.clickCopyEmailButton();
         assertTrue(viewPage.isCopyEmailPopoverVisible());
         assertEquals(viewPage.getShownEmailsText(), viewPage.getSelectedText().trim());
-
+        
         // update current instructor privileges
         BackDoor.deleteInstructor(instructorWith2Courses.courseId, instructorWith2Courses.email);
         instructorWith2Courses.privileges.setDefaultPrivilegesForCoowner();
