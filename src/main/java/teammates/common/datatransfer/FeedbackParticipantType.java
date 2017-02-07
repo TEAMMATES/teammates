@@ -143,7 +143,7 @@ public enum FeedbackParticipantType {
     }
     
     /**
-     * @return A list of {@link FeedbackParticipantType} objects.
+     * @return A list of {@link FeedbackParticipantType} objects corresponding to the supplied parameter.
      */
     public static List<FeedbackParticipantType> getParticipantListFromCommaSeparatedValues(
             String commaSeparatedValues) {
