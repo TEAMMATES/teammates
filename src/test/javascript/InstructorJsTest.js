@@ -19,7 +19,7 @@ QUnit.test('isStudentInputValid(editName, editTeamName, editEmail)', function(as
 });
 
 QUnit.test('executeCopyCommand()', function(assert) {
-    // override execCommand
+    // override execCommand with mock
     var browserImplementation = document.execCommand;
     document.execCommand = function(command) {
         assert.equal(command, 'copy', 'Copy command is executed');
@@ -27,7 +27,7 @@ QUnit.test('executeCopyCommand()', function(assert) {
     
     executeCopyCommand();
     
-    // restore back
+    // restore back the original execCommand
     document.execCommand = browserImplementation;
 });
 
