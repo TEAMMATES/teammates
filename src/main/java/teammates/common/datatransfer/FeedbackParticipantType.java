@@ -141,4 +141,22 @@ public enum FeedbackParticipantType {
     public String getDisplayNameRecipient() {
         return displayNameRecipient;
     }
+    
+    /**
+     * @return A list of {@link FeedbackParticipantType} objects corresponding to the supplied parameter.
+     */
+    public static List<FeedbackParticipantType> getParticipantListFromCommaSeparatedValues(
+            String commaSeparatedValues) {
+        List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
+
+        if (commaSeparatedValues == null || commaSeparatedValues.isEmpty()) {
+            return participantList;
+        }
+
+        for (String str : commaSeparatedValues.split(",")) {
+            participantList.add(FeedbackParticipantType.valueOf(str));
+        }
+
+        return participantList;
+    }
 }

@@ -114,11 +114,11 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
 
-        newQuestion.showResponsesTo = getParticipantListFromParams(
+        newQuestion.showResponsesTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
-        newQuestion.showGiverNameTo = getParticipantListFromParams(
+        newQuestion.showGiverNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
-        newQuestion.showRecipientNameTo = getParticipantListFromParams(
+        newQuestion.showRecipientNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
 
         String questionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
@@ -136,19 +136,4 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         return newQuestion;
     }
 
-    private static List<FeedbackParticipantType> getParticipantListFromParams(String participantListParam) {
-        List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
-
-        if (participantListParam == null || participantListParam.isEmpty()) {
-            return participantList;
-        }
-
-        String[] splitString = participantListParam.split(",");
-
-        for (String str : splitString) {
-            participantList.add(FeedbackParticipantType.valueOf(str));
-        }
-
-        return participantList;
-    }
 }
