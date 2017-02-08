@@ -16,6 +16,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.ui.template.AdminActivityLogTableRow;
 
 public class AdminActivityLogPageData extends PageData {
     
@@ -29,7 +30,7 @@ public class AdminActivityLogPageData extends PageData {
     
     private String filterQuery;
     private String queryMessage;
-    private List<ActivityLogEntry> logs;
+    private List<AdminActivityLogTableRow> logs;
     private List<String> versions;
     private Long toDateValue;
     private Long fromDateValue;
@@ -77,8 +78,19 @@ public class AdminActivityLogPageData extends PageData {
     public void init(boolean ifShowAll, boolean ifShowTestData, List<ActivityLogEntry> logs) {
         this.ifShowAll = ifShowAll;
         this.ifShowTestData = ifShowTestData;
-        this.logs = logs;
+        initLogAsTemplateRow(logs);
         
+    }
+    
+    private void initLogAsTemplateRow(List<ActivityLogEntry> entries) {
+        this.logs = new ArrayList<AdminActivityLogTableRow>();
+        for (ActivityLogEntry entry : entries) {
+            AdminActivityLogTableRow row = new AdminActivityLogTableRow(entry);
+            this.logs.add(row);
+            if (q != null && q.isInfoInQuery) {
+                row.setKeyStringsToHighlight(q.infoValues);
+            }
+        }
     }
     
     public boolean getIfShowAll() {
@@ -97,7 +109,7 @@ public class AdminActivityLogPageData extends PageData {
         return queryMessage;
     }
     
-    public List<ActivityLogEntry> getLogs() {
+    public List<AdminActivityLogTableRow> getLogs() {
         return logs;
     }
     
@@ -159,7 +171,7 @@ public class AdminActivityLogPageData extends PageData {
         
         for (String uri : excludedLogRequestURIs) {
             
-            if (uri.contains(logEntry.getServletName())) {
+            if (uri.contains(logEntry.getActionServletName())) {
                 return true;
             }
         }
@@ -171,76 +183,54 @@ public class AdminActivityLogPageData extends PageData {
      * Performs the actual filtering, based on QueryParameters
      * returns false if the logEntry fails the filtering process
      */
-    public ActivityLogEntry filterLogs(ActivityLogEntry logEntry) {
-        if (!logEntry.toShow()) {
-            return logEntry;
-        }
-        
+    public boolean filterLogs(ActivityLogEntry logEntry) {
         if (q == null) {
             if (this.queryMessage == null) {
                 this.queryMessage = "Error parsing the query. QueryParameters not created.";
             }
-            logEntry.setToShow(true);
-            return logEntry;
+            return true;
         }
         
         //Filter based on what is in the query
-        if (q.isRequestInQuery && !arrayContains(q.requestValues, logEntry.getServletName())) {
-            logEntry.setToShow(false);
-            return logEntry;
+        if (q.isRequestInQuery && !arrayContains(q.requestValues, logEntry.getActionServletName())) {
+            return false;
         }
-        if (q.isResponseInQuery && !arrayContains(q.responseValues, logEntry.getAction())) {
-            logEntry.setToShow(false);
-            return logEntry;
+        if (q.isResponseInQuery && !arrayContains(q.responseValues, logEntry.getActionName())) {
+            return false;
         }
         if (q.isPersonInQuery
-                && !logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase())
-                && !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase())
-                && !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
-            logEntry.setToShow(false);
-            return logEntry;
+                && !logEntry.getUserName().toLowerCase().contains(q.personValue.toLowerCase())
+                && !logEntry.getUserGoogleId().toLowerCase().contains(q.personValue.toLowerCase())
+                && !logEntry.getUserEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
+            return false;
         }
-        if (q.isRoleInQuery && !arrayContains(q.roleValues, logEntry.getRole())) {
-            logEntry.setToShow(false);
-            return logEntry;
+        if (q.isRoleInQuery && !arrayContains(q.roleValues, logEntry.getUserRole())) {
+            return false;
         }
         if (q.isCutoffInQuery) {
-            if (logEntry.getTimeTaken() == null) {
-                logEntry.setToShow(false);
-                return logEntry;
+            if (logEntry.getActionTimeTaken() == -1) {
+                return false;
             }
             
-            if (logEntry.getTimeTaken() < q.cutoffValue) {
-                logEntry.setToShow(false);
-                return logEntry;
+            if (logEntry.getActionTimeTaken() < q.cutoffValue) {
+                return false;
             }
         }
         if (q.isInfoInQuery) {
             
             for (String keyString : q.infoValues) {
-                if (!logEntry.getMessageInfo().toLowerCase().contains(keyString.toLowerCase())) {
-                    logEntry.setToShow(false);
-                    return logEntry;
+                if (!logEntry.getLogMessage().toLowerCase().contains(keyString.toLowerCase())) {
+                    return false;
                 }
             }
             
-            logEntry.setToShow(true);
-            logEntry.setKeyStringsToHighlight(q.infoValues);
-            logEntry.highlightKeyStringInMessageInfoHtml();
-            return logEntry;
+            return true;
         }
-        if (q.isIdInQuery && !arrayContains(q.idValues, logEntry.getId())) {
-            logEntry.setToShow(false);
-            return logEntry;
+        if (q.isIdInQuery && !arrayContains(q.idValues, logEntry.getLogId())) {
+            return false;
         }
         
-        if (shouldExcludeLogEntry(logEntry)) {
-            logEntry.setToShow(false);
-            return logEntry;
-        }
-        
-        logEntry.setToShow(true);
-        return logEntry;
+        return !shouldExcludeLogEntry(logEntry);
     }
     
     /**

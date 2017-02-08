@@ -5,10 +5,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.datatransfer.UserType;
-import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.ActivityLogGenerator;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
@@ -51,8 +49,7 @@ public class PublicImageServlet extends PublicResourcesServlet {
             }
             
         } catch (IOException e) {
-            UserType userType = new GateKeeper().getCurrentUser();
-            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));
+            log.warning(new ActivityLogGenerator().generateServletActionFailureLogMessage(req, e));
         }
     }
 

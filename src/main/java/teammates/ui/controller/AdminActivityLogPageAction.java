@@ -10,6 +10,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.ActivityLogGenerator;
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
 import teammates.common.util.GaeLogApi;
@@ -39,7 +40,6 @@ public class AdminActivityLogPageAction extends Action {
     private static final int MAX_VERSIONS_TO_QUERY = 1 + 5; //the current version and its 5 preceding versions
     
     private int totalLogsSearched;
-    private boolean isFirstRow = true;
     private Long nextEndTimeToSearch;
     
     @Override
@@ -85,6 +85,7 @@ public class AdminActivityLogPageAction extends Action {
         if (filterQuery == null) {
             filterQuery = "";
         }
+
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(filterQuery);
         
@@ -142,7 +143,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         //  if the search space is limited to a certain log
         if (logs.size() >= RELEVANT_LOGS_PER_PAGE && earliestLogChecked != null) {
-            earliestSearchTime = earliestLogChecked.getTime();
+            earliestSearchTime = earliestLogChecked.getLogTime();
         }
         
         double targetTimeZone = Const.DOUBLE_UNINITIALIZED;
@@ -250,6 +251,8 @@ public class AdminActivityLogPageAction extends Action {
     private List<ActivityLogEntry> filterLogsForActivityLogPage(List<AppLogLine> appLogLines,
                                                                 AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
+        ActivityLogGenerator logGenerator = new ActivityLogGenerator();
+        
         for (AppLogLine appLog : appLogLines) {
             String logMsg = appLog.getLogMessage();
             boolean isNotTeammatesLog = !logMsg.contains("TEAMMATESLOG");
@@ -258,17 +261,15 @@ public class AdminActivityLogPageAction extends Action {
                 continue;
             }
             
-            ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);
-            activityLogEntry = data.filterLogs(activityLogEntry);
-            
-            boolean isToShow = activityLogEntry.toShow() && (!activityLogEntry.isTestingData() || data.getIfShowTestData());
-            if (!isToShow) {
+            ActivityLogEntry activityLogEntry = logGenerator.generateActivityLogFromAppLogLine(appLog);
+            if (!data.filterLogs(activityLogEntry)) {
                 continue;
             }
-            if (isFirstRow) {
-                activityLogEntry.setFirstRow();
-                isFirstRow = false;
+            
+            if (activityLogEntry.isTestingData() && !data.getIfShowTestData()) {
+                continue;
             }
+            
             appLogs.add(activityLogEntry);
         }
         return appLogs;
