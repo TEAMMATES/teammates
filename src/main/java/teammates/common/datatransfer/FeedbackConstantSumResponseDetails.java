@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 
 public class FeedbackConstantSumResponseDetails extends
         FeedbackResponseDetails {
@@ -57,7 +57,7 @@ public class FeedbackConstantSumResponseDetails extends
             String optionString = csQd.getConstSumOptions().get(i);
             
             htmlBuilder.append("<li>");
-            htmlBuilder.append(optionString).append(": ").append(Sanitizer.sanitizeForHtml(answerString));
+            htmlBuilder.append(optionString).append(": ").append(SanitizationHelper.sanitizeForHtml(answerString));
             htmlBuilder.append("</li>");
         }
         htmlBuilder.append("</ul>");

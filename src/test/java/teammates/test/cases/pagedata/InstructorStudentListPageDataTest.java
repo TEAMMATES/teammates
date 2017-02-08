@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
 import teammates.ui.pagedata.InstructorStudentListPageData;
@@ -67,7 +67,7 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
     
     private void testSearchBox(InstructorStudentListSearchBox searchBox) {
         assertEquals(acct.googleId, searchBox.getGoogleId());
-        assertEquals(Sanitizer.sanitizeForHtml(searchKey), searchBox.getSearchKey());
+        assertEquals(SanitizationHelper.sanitizeForHtml(searchKey), searchBox.getSearchKey());
         assertEquals(islpd.getInstructorSearchLink(), searchBox.getInstructorSearchLink());
     }
 

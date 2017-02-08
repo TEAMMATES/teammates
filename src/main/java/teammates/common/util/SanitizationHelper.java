@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -16,11 +17,13 @@ import com.google.appengine.api.datastore.Text;
 /**
  * Class contains methods to sanitize user provided
  * parameters so that they conform to our data format
- * and possible threats can be removed first.
+ * and possible threats can be removed first
+ * as well as methods to revert sanitized text
+ * back to its previous unsanitized state.
  */
-public final class Sanitizer {
+public final class SanitizationHelper {
 
-    private static PolicyFactory policy =
+    private static PolicyFactory richTextPolicy =
             new HtmlPolicyBuilder()
                 .allowStandardUrlProtocols()
                 .allowAttributes("title").globally()
@@ -35,8 +38,9 @@ public final class Sanitizer {
                 .allowElements("quote", "ecode")
                 .allowStyling()
                 .toFactory();
+    private static final Logger log = Logger.getLogger();
 
-    private Sanitizer() {
+    private SanitizationHelper() {
         // utility class
     }
     
@@ -66,7 +70,7 @@ public final class Sanitizer {
      * @return the sanitized email address or null (if the parameter was null).
      */
     public static String sanitizeEmail(String rawEmail) {
-        return trimIfNotNull(rawEmail);
+        return StringHelper.trimIfNotNull(rawEmail);
     }
     
     /**
@@ -97,35 +101,21 @@ public final class Sanitizer {
      * @return the sanitized text or null (if the parameter was null).
      */
     public static String sanitizeTextField(String rawText) {
-        return trimIfNotNull(rawText);
-    }
-    
-    /**
-     * Sanitizes a user input text field by removing leading/trailing whitespace.
-     * i.e. comments, instructions, etc.
-     * 
-     * @param rawText
-     * @return the sanitized text or null (if the parameter was null).
-     */
-    public static Text sanitizeTextField(Text rawText) {
-        if (rawText == null) {
-            return null;
-        }
-        return new Text(trimIfNotNull(rawText.getValue()));
+        return StringHelper.trimIfNotNull(rawText);
     }
 
     /**
      * Escape the string for inserting into javascript code.
      * This automatically calls {@link #sanitizeForHtml} so make it safe for HTML too.
      *
-     * @param string
+     * @param str
      * @return the sanitized string or null (if the parameter was null).
      */
     public static String sanitizeForJs(String str) {
         if (str == null) {
             return null;
         }
-        return Sanitizer.sanitizeForHtml(
+        return SanitizationHelper.sanitizeForHtml(
                 str.replace("\\", "\\\\")
                 .replace("\"", "\\\"")
                 .replace("'", "\\'")
@@ -140,7 +130,7 @@ public final class Sanitizer {
         if (content == null) {
             return null;
         }
-        return policy.sanitize(sanitizeTextField(content));
+        return richTextPolicy.sanitize(sanitizeTextField(content));
     }
     
     /**
@@ -159,11 +149,11 @@ public final class Sanitizer {
      * Sanitizes the string for inserting into HTML. Converts special characters
      * into HTML-safe equivalents.
      */
-    public static String sanitizeForHtml(String str) {
-        if (str == null) {
+    public static String sanitizeForHtml(String unsanitizedString) {
+        if (unsanitizedString == null) {
             return null;
         }
-        return str.replace("<", "&lt;")
+        return unsanitizedString.replace("<", "&lt;")
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
                 .replace("/", "&#x2f;")
@@ -174,16 +164,6 @@ public final class Sanitizer {
     }
 
     /**
-     * Escapes HTML tag safely. This function can be applied multiple times.
-     */
-    public static String sanitizeForHtmlTag(String str) {
-        if (str == null) {
-            return null;
-        }
-        return str.replace("<", "&lt;").replace(">", "&gt;");
-    }
-    
-    /**
      * Sanitizes a list of strings for inserting into HTML.
      */
     public static List<String> sanitizeForHtml(List<String> list) {
@@ -193,7 +173,7 @@ public final class Sanitizer {
         }
         return sanitizedList;
     }
-    
+
     /**
      * Sanitizes a set of strings for inserting into HTML.
      */
@@ -204,6 +184,56 @@ public final class Sanitizer {
         }
         return sanitizedSet;
     }
+
+    /**
+     * This recovers a html-sanitized string using {@link #sanitizeForHtml}
+     * to original encoding for appropriate display in files such as csv file <br>
+     * It restores encoding for < > \ / ' &  <br>
+     * The method should only be used once on sanitized html
+     *
+     * @param sanitizedString
+     * @return recovered string
+     */
+    public static String desanitizeFromHtml(String sanitizedString) {
+
+        if (sanitizedString == null) {
+            return null;
+        }
+
+        return sanitizedString.replace("&lt;", "<")
+                              .replace("&gt;", ">")
+                              .replace("&quot;", "\"")
+                              .replace("&#x2f;", "/")
+                              .replace("&#39;", "'")
+                              .replace("&amp;", "&");
+    }
+
+    /**
+     * This recovers a set of html-sanitized string using {@link #sanitizeForHtml}
+     * to original encoding for appropriate display in files such as csv file <br>
+     * It restores encoding for < > \ / ' &  <br>
+     * The method should only be used once on sanitized html
+     *
+     * @param sanitizedStringSet
+     * @return recovered string set
+     */
+    public static Set<String> desanitizeFromHtml(Set<String> sanitizedStringSet) {
+        Set<String> textSetTemp = new HashSet<String>();
+        for (String text : sanitizedStringSet) {
+            textSetTemp.add(desanitizeFromHtml(text));
+        }
+        return textSetTemp;
+    }
+
+    /**
+     * Escapes HTML tag safely. This function can be applied multiple times.
+     */
+    public static String sanitizeForHtmlTag(String string) {
+        if (string == null) {
+            return null;
+        }
+        return string.replace("<", "&lt;").replace(">", "&gt;");
+    }
     
     /**
      * Converts a string to be put in URL (replaces some characters)
@@ -211,7 +241,9 @@ public final class Sanitizer {
     public static String sanitizeForUri(String uri) {
         try {
             return URLEncoder.encode(uri, Const.SystemParams.ENCODING);
-        } catch (UnsupportedEncodingException wonthappen) {
+        } catch (UnsupportedEncodingException wontHappen) {
+            log.warning("Unexpected UnsupportedEncodingException in "
+                        + "SanitizationHelper.sanitizeForUri(" + uri + ", " + Const.SystemParams.ENCODING + ")");
             return uri;
         }
     }
@@ -237,17 +269,24 @@ public final class Sanitizer {
         }
         return url.replace("&", "${amp}").replace("%2B", "${plus}").replace("%23", "${hash}");
     }
-    
+
     /**
-     * Recovers the URL from sanitization due to {@link #sanitizeForNextUrl}.
+     * Recovers the URL from sanitization due to {@link SanitizationHelper.sanitizeForNextUrl}.
      * In addition, any un-encoded whitespace (they may be there due to Google's
      * behind-the-screen decoding process) will be encoded again to +.
+     * @param sanitizedUrl
+     * @return the unsantized url or null (if the parameter was null).
      */
-    public static String desanitizeFromNextUrl(String url) {
-        return url.replace("${amp}", "&").replace("${plus}", "%2B").replace("${hash}", "%23")
-                  .replace(" ", "+");
+    public static String desanitizeFromNextUrl(String sanitizedUrl) {
+        if (sanitizedUrl == null) {
+            return null;
+        }
+        return sanitizedUrl.replace("${amp}", "&")
+                           .replace("${plus}", "%2B")
+                           .replace("${hash}", "%23")
+                           .replace(" ", "+");
     }
-    
+
     /**
      * Sanitize the string for searching.
      */
@@ -291,16 +330,6 @@ public final class Sanitizer {
         
         return sanitizedStrList;
     }
-
-    /**
-     * Trims the string if it is not null.
-     * 
-     * @param string
-     * @return the trimmed string or null (if the parameter was null).
-     */
-    private static String trimIfNotNull(String string) {
-        return string == null ? null : string.trim();
-    }
     
     /**
      * Convert the string to a safer version for XPath
@@ -314,36 +343,30 @@ public final class Sanitizer {
      * @param text
      * @return safer version of the text for XPath
      */
-    public static String convertStringForXPath(String text) {
+    public static String sanitizeStringForXPath(String text) {
         StringBuilder result = new StringBuilder();
-        int startPos = 0;
-        int i = 0;
-        while (i < text.length()) {
-            while (i < text.length() && text.charAt(i) != '\'') {
-                i++;
+        int startOfChain = 0;
+        int textLength = text.length();
+        boolean isSingleQuotationChain = false;
+        // currentPos iterates one position beyond text length to include last chain
+        for (int currentPos = 0; currentPos <= textLength; currentPos++) {
+            boolean isChainBroken = currentPos >= textLength
+                                    || isSingleQuotationChain && text.charAt(currentPos) != '\''
+                                    || !isSingleQuotationChain && text.charAt(currentPos) == '\'';
+            if (isChainBroken && startOfChain < currentPos) {
+                // format text.substring(startOfChain, currentPos) and append to result
+                char wrapper = isSingleQuotationChain ? '\"' : '\'';
+                result.append(wrapper).append(text.substring(startOfChain, currentPos)).append(wrapper).append(',');
+                startOfChain = currentPos;
             }
-            if (startPos < i) {
-                result.append('\'').append(text.substring(startPos, i)).append("',");
-                startPos = i;
-            }
-            while (i < text.length() && text.charAt(i) == '\'') {
-                i++;
-            }
-            if (startPos < i) {
-                result.append('\"').append(text.substring(startPos, i)).append("\",");
-                startPos = i;
+            // flip isSingleQuotationChain if chain is broken
+            if (isChainBroken) {
+                isSingleQuotationChain = !isSingleQuotationChain;
             }
         }
         if (result.length() == 0) {
             return "''";
         }
         return "concat(" + result.toString() + "'')";
-    }
-
-    /**
-     * @return text with all non-ASCII characters removed
-     */
-    public static String removeNonAscii(String text) {
-        return text.replaceAll("[^\\x00-\\x7F]", "");
     }
 }

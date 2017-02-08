@@ -7,7 +7,7 @@ import java.util.List;
 import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
@@ -44,11 +44,11 @@ public class AccountAttributes extends EntityAttributes {
     
     public AccountAttributes(String googleId, String name, boolean isInstructor,
                 String email, String institute, StudentProfileAttributes studentProfileAttributes) {
-        this.googleId = Sanitizer.sanitizeGoogleId(googleId);
-        this.name = Sanitizer.sanitizeName(name);
+        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+        this.name = SanitizationHelper.sanitizeName(name);
         this.isInstructor = isInstructor;
-        this.email = Sanitizer.sanitizeEmail(email);
-        this.institute = Sanitizer.sanitizeTitle(institute);
+        this.email = SanitizationHelper.sanitizeEmail(email);
+        this.institute = SanitizationHelper.sanitizeTitle(institute);
         this.studentProfile = studentProfileAttributes;
         this.studentProfile.sanitizeForSaving();
         
@@ -56,11 +56,11 @@ public class AccountAttributes extends EntityAttributes {
     
     public AccountAttributes(String googleId, String name, boolean isInstructor,
                 String email, String institute) {
-        this.googleId = Sanitizer.sanitizeGoogleId(googleId);
-        this.name = Sanitizer.sanitizeName(name);
+        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+        this.name = SanitizationHelper.sanitizeName(name);
         this.isInstructor = isInstructor;
-        this.email = Sanitizer.sanitizeEmail(email);
-        this.institute = Sanitizer.sanitizeTitle(institute);
+        this.email = SanitizationHelper.sanitizeEmail(email);
+        this.institute = SanitizationHelper.sanitizeTitle(institute);
         this.studentProfile = new StudentProfileAttributes();
         this.studentProfile.googleId = this.googleId;
     }
@@ -175,10 +175,10 @@ public class AccountAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.googleId = Sanitizer.sanitizeForHtml(googleId);
-        this.name = Sanitizer.sanitizeForHtml(name);
-        this.email = Sanitizer.sanitizeForHtml(email);
-        this.institute = Sanitizer.sanitizeForHtml(institute);
+        this.googleId = SanitizationHelper.sanitizeForHtml(googleId);
+        this.name = SanitizationHelper.sanitizeForHtml(name);
+        this.email = SanitizationHelper.sanitizeForHtml(email);
+        this.institute = SanitizationHelper.sanitizeForHtml(institute);
         this.studentProfile.sanitizeForSaving();
     }
     
