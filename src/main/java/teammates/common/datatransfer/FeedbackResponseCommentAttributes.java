@@ -9,7 +9,7 @@ import java.util.List;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 
@@ -72,7 +72,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.giverEmail = giverEmail;
         this.feedbackResponseId = feedbackResponseId;
         this.createdAt = createdAt;
-        this.commentText = Sanitizer.sanitizeForRichText(commentText);
+        this.commentText = SanitizationHelper.sanitizeForRichText(commentText);
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
         this.showCommentTo = new ArrayList<FeedbackParticipantType>();
@@ -190,7 +190,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.commentText = Sanitizer.sanitizeForRichText(this.commentText);
+        this.commentText = SanitizationHelper.sanitizeForRichText(this.commentText);
     }
     
     @Override

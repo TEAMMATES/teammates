@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
@@ -94,7 +94,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
                              + "</i></span>";
                 html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice + "<br>");
             } else {
-                chosenChoice = Sanitizer.sanitizeForHtml(fqd.getRubricChoices().get(answer.get(i)));
+                chosenChoice = SanitizationHelper.sanitizeForHtml(fqd.getRubricChoices().get(answer.get(i)));
                 html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice
                             + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex + 1)
                             + ")</i></span><br>");

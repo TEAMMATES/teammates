@@ -7,7 +7,7 @@ import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
@@ -74,7 +74,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             htmlBuilder.append("<ul class=\"selectedOptionsList\">");
             for (String answer : answers) {
                 htmlBuilder.append("<li>");
-                htmlBuilder.append(Sanitizer.sanitizeForHtml(answer));
+                htmlBuilder.append(SanitizationHelper.sanitizeForHtml(answer));
                 htmlBuilder.append("</li>");
             }
             htmlBuilder.append("</ul>");
@@ -94,7 +94,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             for (String choice : msqDetails.getMsqChoices()) {
                 csvBuilder.append(',');
                 if (this.contains(choice)) {
-                    csvBuilder.append(Sanitizer.sanitizeForCsv(choice));
+                    csvBuilder.append(SanitizationHelper.sanitizeForCsv(choice));
                 }
             }
         }

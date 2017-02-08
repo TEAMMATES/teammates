@@ -18,7 +18,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorFeedbackEditPageData;
@@ -83,7 +83,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals(fs.getFeedbackSessionName(), fsForm.getFsName());
         assertEquals(TimeHelper.formatDate(fs.getStartTime()), fsForm.getFsStartDate());
         
-        assertEquals(Sanitizer.sanitizeForHtml(fs.getInstructions().getValue()), fsForm.getInstructions());
+        assertEquals(SanitizationHelper.sanitizeForHtml(fs.getInstructions().getValue()), fsForm.getInstructions());
         assertEquals("Save Changes", fsForm.getSubmitButtonText());
         
         assertFalse(fsForm.isCourseIdEditable());

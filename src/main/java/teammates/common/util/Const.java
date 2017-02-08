@@ -1403,6 +1403,9 @@ public final class Const {
         public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course %s.";
         
         /** Template String. Parameters:  Course ID */
+        public static final String NON_EXISTENT_STUDENT_ATTEMPTING_TO_JOIN_COURSE =
+                "Unable to join course %s as you are currently not in the student list of that course. "
+                + "Please contact your course instructor for assistance.";
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
         public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";

@@ -22,7 +22,7 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.logic.backdoor.BackDoorOperation;
 
 import com.google.gson.reflect.TypeToken;
@@ -360,7 +360,7 @@ public final class BackDoor {
     private static String encodeParameters(Map<String, String> map) {
         StringBuilder dataStringBuilder = new StringBuilder();
         for (Map.Entry<String, String> e : map.entrySet()) {
-            dataStringBuilder.append(e.getKey() + "=" + Sanitizer.sanitizeForUri(e.getValue().toString()) + "&");
+            dataStringBuilder.append(e.getKey() + "=" + SanitizationHelper.sanitizeForUri(e.getValue().toString()) + "&");
         }
         return dataStringBuilder.toString();
     }

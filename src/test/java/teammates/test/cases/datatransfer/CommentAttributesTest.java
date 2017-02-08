@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -136,7 +136,7 @@ public class CommentAttributesTest extends BaseTestCase {
         
         comment.sanitizeForSaving();
         for (String recipientId : comment.recipients) {
-            assertEquals(Sanitizer.sanitizeForHtml(invalidRecipientId), recipientId);
+            assertEquals(SanitizationHelper.sanitizeForHtml(invalidRecipientId), recipientId);
         }
     }
     
