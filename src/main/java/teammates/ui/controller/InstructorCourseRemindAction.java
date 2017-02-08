@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +11,11 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.EmailGenerator;
+import teammates.common.util.StringHelper;
 
 /**
  * Action: remind instructor or student to register for a course by sending reminder emails
@@ -55,7 +53,8 @@ public class InstructorCourseRemindAction extends Action {
         }
         
         /* Process sending emails and setup status to be shown to user and admin */
-        List<EmailWrapper> emailsSent = new ArrayList<EmailWrapper>();
+        Map<String, JoinEmailData> emailDataMap = new TreeMap<String, JoinEmailData>();
+
         String redirectUrl = "";
         if (isSendingToStudent) {
             taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, false);
@@ -64,8 +63,8 @@ public class InstructorCourseRemindAction extends Action {
                 throw new EntityDoesNotExistException("Student with email " + studentEmail + " does not exist "
                                                       + "in course " + courseId + "!");
             }
-            EmailWrapper emailSent = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
-            emailsSent.add(emailSent);
+            emailDataMap.put(studentEmail,
+                             new JoinEmailData(studentData.getName(), extractStudentRegistrationKey(studentData)));
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
                                                StatusMessageColor.SUCCESS));
@@ -77,8 +76,8 @@ public class InstructorCourseRemindAction extends Action {
                 throw new EntityDoesNotExistException("Instructor with email " + instructorEmail + " does not exist "
                                                       + "in course " + courseId + "!");
             }
-            EmailWrapper emailSent = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructorData);
-            emailsSent.add(emailSent);
+            emailDataMap.put(instructorEmail,
+                    new JoinEmailData(instructorData.getName(), StringHelper.encrypt(instructorData.key)));
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail,
                                                StatusMessageColor.SUCCESS));
@@ -87,15 +86,15 @@ public class InstructorCourseRemindAction extends Action {
             List<StudentAttributes> studentDataList = logic.getUnregisteredStudentsForCourse(courseId);
             for (StudentAttributes student : studentDataList) {
                 taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail(), false);
-                EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
-                emailsSent.add(email);
+                emailDataMap.put(student.getEmail(),
+                        new JoinEmailData(student.getName(), extractStudentRegistrationKey(student)));
             }
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDERS_SENT, StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         }
         
-        statusToAdmin = generateStatusToAdmin(emailsSent, courseId);
+        statusToAdmin = generateStatusToAdmin(emailDataMap, courseId);
         
         /* Create redirection with URL based on type of sending email */
         RedirectResult response = createRedirectResult(redirectUrl);
@@ -105,20 +104,20 @@ public class InstructorCourseRemindAction extends Action {
 
     }
     
-    private String generateStatusToAdmin(List<EmailWrapper> emailsSent, String courseId) {
+    private String generateStatusToAdmin(Map<String, JoinEmailData> emailDataMap, String courseId) {
         StringBuilder statusToAdmin = new StringBuilder(200);
         statusToAdmin.append("Registration Key sent to the following users in Course <span class=\"bold\">[")
                      .append(courseId)
                      .append("]</span>:<br>");
         
-        Iterator<Entry<String, JoinEmailData>> extractedEmailIterator =
-                extractEmailDataForLogging(emailsSent).entrySet().iterator();
+        Iterator<Entry<String, JoinEmailData>> emailIterator =
+                emailDataMap.entrySet().iterator();
         
-        while (extractedEmailIterator.hasNext()) {
-            Entry<String, JoinEmailData> extractedEmail = extractedEmailIterator.next();
+        while (emailIterator.hasNext()) {
+            Entry<String, JoinEmailData> email = emailIterator.next();
             
-            String userEmail = extractedEmail.getKey();
-            JoinEmailData joinEmailData = extractedEmail.getValue();
+            String userEmail = email.getKey();
+            JoinEmailData joinEmailData = email.getValue();
             
             statusToAdmin.append(joinEmailData.userName).append("<span class=\"bold\"> (").append(userEmail)
                          .append(")</span>.<br>").append(joinEmailData.regKey).append("<br>");
@@ -127,32 +126,10 @@ public class InstructorCourseRemindAction extends Action {
         return statusToAdmin.toString();
     }
 
-    private Map<String, JoinEmailData> extractEmailDataForLogging(List<EmailWrapper> emails) {
-        Map<String, JoinEmailData> logData = new TreeMap<String, JoinEmailData>();
-        
-        for (EmailWrapper email : emails) {
-            String recipient = email.getRecipient();
-            String userName = extractUserName(email.getContent());
-            String regKey = extractRegistrationKey(email.getContent());
-            logData.put(recipient, new JoinEmailData(userName, regKey));
-        }
-        
-        return logData;
-    }
-    
-    private String extractUserName(String emailContent) {
-        int startIndex = emailContent.indexOf("Hello ") + "Hello ".length();
-        int endIndex = emailContent.indexOf(',');
-        return SanitizationHelper.desanitizeFromHtml(emailContent.substring(startIndex, endIndex));
-    }
-    
-    private String extractRegistrationKey(String emailContent) {
-        int startIndex = emailContent.indexOf("key=") + "key=".length();
-        int endIndex = emailContent.indexOf("\">http://");
-        if (endIndex < 0) {
-            endIndex = emailContent.indexOf("\">https://");
-        }
-        return emailContent.substring(startIndex, endIndex);
+    private String extractStudentRegistrationKey(StudentAttributes student) {
+        String joinLink = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+        int startIndex = joinLink.indexOf("key=") + "key=".length();
+        return joinLink.substring(startIndex);
     }
     
     private static class JoinEmailData {
