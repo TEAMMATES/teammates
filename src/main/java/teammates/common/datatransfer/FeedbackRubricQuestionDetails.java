@@ -535,7 +535,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         FeedbackRubricQuestionDetails fqd =
                 (FeedbackRubricQuestionDetails) question.getQuestionDetails();
         int[][] responseFrequency = calculateResponseFrequency(responsesForStatistics, fqd);
-        float[][] rubricStats = calculateRubricStats(responsesForStatistics, fqd);
+        float[][] rubricStats = calculateRubricStats(responsesForStatistics, fqd, responseFrequency);
 
         DecimalFormat weightFormat = new DecimalFormat("#.##");
         
@@ -675,8 +675,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      *
      */
     private float[][] calculateRubricStats(List<FeedbackResponseAttributes> responses,
-                                           FeedbackRubricQuestionDetails fqd) {
-        int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
+                                           FeedbackRubricQuestionDetails fqd, int[][] responseFreq) {
+        int[][] responseFrequency = responseFreq;
         int numOfRubricChoices = fqd.numOfRubricChoices;
         float[][] percentageFrequencyAndAverageValue =
                 new float[fqd.numOfRubricSubQuestions][numOfRubricChoices + 1];
@@ -764,7 +764,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat dfAverage = new DecimalFormat("0.00");
 
         int[][] responseFrequency = calculateResponseFrequency(responses, this);
-        float[][] rubricStats = calculateRubricStats(responses, this);
+        float[][] rubricStats = calculateRubricStats(responses, this, responseFrequency);
 
         for (int i = 0; i < rubricSubQuestions.size(); i++) {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
