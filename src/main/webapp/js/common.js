@@ -240,6 +240,15 @@ function toggleSort(divElement, comparator) {
     }
 }
 
+/**
+* Encodes a string for displaying in a HTML document.
+* Uses an in-memory element created with jQuery.
+* @param the string to be encoded
+*/
+function encodeHtmlString(stringToEncode) {
+    return $('<div>').text(stringToEncode).html();
+}
+
 // http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
 /**
  * Sorts a table based on certain column and comparator
