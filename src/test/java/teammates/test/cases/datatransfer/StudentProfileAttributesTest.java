@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
@@ -115,19 +115,19 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         StudentProfileAttributes profileToSanitizeExpected = getStudentProfileAttributesToSanitize();
         profileToSanitize.sanitizeForSaving();
 
-        assertEquals(Sanitizer.sanitizeGoogleId(profileToSanitizeExpected.googleId),
+        assertEquals(SanitizationHelper.sanitizeGoogleId(profileToSanitizeExpected.googleId),
                      profileToSanitize.googleId);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.shortName),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.shortName),
                      profileToSanitize.shortName);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.institute),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.institute),
                      profileToSanitize.institute);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.email),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.email),
                      profileToSanitize.email);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.nationality),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.nationality),
                      profileToSanitize.nationality);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.gender),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.gender),
                      profileToSanitize.gender);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.moreInfo),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.moreInfo),
                      profileToSanitize.moreInfo);
     }
 

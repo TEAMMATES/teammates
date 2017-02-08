@@ -4,7 +4,7 @@ import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 
 public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     private String answer;
@@ -69,12 +69,12 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
 
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
-        return Sanitizer.sanitizeForHtml(getAnswerString());
+        return SanitizationHelper.sanitizeForHtml(getAnswerString());
     }
 
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return Sanitizer.sanitizeForCsv(getAnswerString());
+        return SanitizationHelper.sanitizeForCsv(getAnswerString());
     }
     
     public Boolean isOtherOptionAnswer() {

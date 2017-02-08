@@ -12,10 +12,10 @@
  * @returns {String} a HTML row of action result table
  */
 function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
-    var result = '<td>' + shortName + '</td>';
-    result += '<td>' + name + '</td>';
-    result += '<td>' + email + '</td>';
-    result += '<td>' + institution + '</td>';
+    var result = '<td>' + encodeHtmlString(shortName) + '</td>';
+    result += '<td>' + encodeHtmlString(name) + '</td>';
+    result += '<td>' + encodeHtmlString(email) + '</td>';
+    result += '<td>' + encodeHtmlString(institution) + '</td>';
     if (isSuccess) {
         result += '<td>Success</td>';
     } else {

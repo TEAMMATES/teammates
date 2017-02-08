@@ -9,6 +9,7 @@
         <!--These can be run without starting the server. Should be run often. -->
         <packages>
             <package name="teammates.test.cases.storage" />
+            <package name="teammates.test.cases.search" />
             <package name="teammates.test.cases.automated" />
             <package name="teammates.test.cases.datatransfer" />
             <package name="teammates.test.cases.util" />

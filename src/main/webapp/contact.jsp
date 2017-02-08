@@ -14,7 +14,7 @@
         </p>
         <br>
         <p>
-            <span class="bold">Bug reports and feature requests: </span> Any bug reports or feature requests can be submitted to above email address.
+            <span class="bold">Bug reports and feature requests: </span> Any bug reports or feature requests can be submitted to the above email address.
         </p>
         <br>
         <p>

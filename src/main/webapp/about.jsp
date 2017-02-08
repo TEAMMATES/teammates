@@ -467,6 +467,10 @@
                 <li>Le Viet Tien 
                     [bug reporting/fixing, enhancements]
                 </li>
+                <li>Li Kai
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ali-kai"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Lian Wenhui Florine 
                     [initial adoption of Selenium]
                 </li>
@@ -636,6 +640,10 @@
                 <li>Teo Yock Swee Terence 
                     [bug reporting/fixing, enhancements]
                 </li>
+                <li>Thenaesh Elango
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Athenaesh"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Thng Kai Yuan 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Athngkaiyuan"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
@@ -689,6 +697,10 @@
                 </li>
                 <br>
                 <div style="margin: 0 auto; padding: 0 0 15px;">[One-time contributions]</div>
+                <li>Abdurahman Sherif
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ADevOpt"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Abhishek Maiti
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aovshake"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
@@ -713,12 +725,24 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajusttimki"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Andrew Hunter
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aiamhunter"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Angie Jones
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aangiejones"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Anirudh Jain
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asponde25"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Aravind Putrevu
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AAravindPutrevu"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Ashwin Oke
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aokeashwin"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Atheesan Sornalingam 
@@ -776,6 +800,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AHooDeLin"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Irene Tenison
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aireneten"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Jake Akers
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajakers821"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
@@ -809,10 +837,6 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aleonardhml"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
-                <li>Li Kai
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ali-kai"
-                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
-                </li>
                 <li>Lim Jia Yee
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajia1"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
@@ -842,6 +866,10 @@
                 </li>
                 <li>Mayank Harsani
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AMynk96"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Meng Lingyao
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Alingyaomeng1"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Niklas Wuensche 
@@ -906,10 +934,6 @@
                 </li>
                 <li>Tarun Bansal 
                     [bug reporting/fixing, enhancements]
-                </li>
-                <li>Thenaesh Elango
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Athenaesh"
-                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Ujjwal Wahi 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aujjwalwahi"

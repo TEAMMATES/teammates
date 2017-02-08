@@ -64,17 +64,17 @@ public class InstructorSearchPageAction extends Action {
             //Start searching
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
             if (isSearchCommentForStudents) {
-                commentSearchResults = logic.searchComment(searchKey, instructors, "");
+                commentSearchResults = logic.searchComment(searchKey, instructors);
             }
             if (isSearchCommentForResponses) {
-                frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, instructors, "");
+                frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, instructors);
             }
             if (isSearchForStudents) {
-                studentSearchResults = logic.searchStudents(searchKey, instructors, "");
+                studentSearchResults = logic.searchStudents(searchKey, instructors);
             }
             
-            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize()
-                                            + studentSearchResults.getResultSize();
+            totalResultsSize = commentSearchResults.numberOfResults + frCommentSearchResults.numberOfResults
+                                            + studentSearchResults.numberOfResults;
             
             Set<String> instructorEmails = new HashSet<String>();
             
