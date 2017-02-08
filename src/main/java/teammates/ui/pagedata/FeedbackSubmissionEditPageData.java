@@ -191,8 +191,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
     
     private boolean isResponseRecipientValid(FeedbackResponseAttributes existingResponse) {
-        Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(
-                existingResponse.feedbackQuestionId);
+        Map<String, String> emailNamePair =
+                this.bundle.getSortedRecipientList(existingResponse.feedbackQuestionId);
         
         return emailNamePair.containsKey(existingResponse.recipient);
     }
@@ -237,6 +237,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             if (!isResponseRecipientValid(existingResponse)) {
+                // A response recipient can be invalid due to submission adjustment failure
                 continue;
             }
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
