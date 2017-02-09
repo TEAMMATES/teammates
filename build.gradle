@@ -5,6 +5,8 @@ apply plugin: "checkstyle"
 apply plugin: "pmd"
 apply plugin: "findbugs"
 apply plugin: "jacoco"
+apply plugin: "org.sonarqube"
+
 
 def appengineVersion = "1.9.27"
 def checkstyleVersion = "6.19"
@@ -14,9 +16,13 @@ def findbugsVersion = "3.0.1"
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+              url "https://plugins.gradle.org/m2/"
+            }
     }
     dependencies {
         classpath "com.google.appengine:gradle-appengine-plugin:1.9.27"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.0.1"
     }
 }
 
