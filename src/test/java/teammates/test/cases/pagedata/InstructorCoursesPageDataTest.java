@@ -5,23 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCoursesPageData;
 
 public class InstructorCoursesPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testAll() {

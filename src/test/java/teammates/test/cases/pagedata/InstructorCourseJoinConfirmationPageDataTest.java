@@ -1,9 +1,8 @@
 package teammates.test.cases.pagedata;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -12,11 +11,6 @@ import teammates.ui.pagedata.InstructorCourseJoinConfirmationPageData;
 
 public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testAll() {

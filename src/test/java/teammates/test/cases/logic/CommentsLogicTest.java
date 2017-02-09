@@ -5,34 +5,24 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentStatus;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.core.CommentsLogic;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
-public class CommentsLogicTest extends BaseComponentTestCase {
+public class CommentsLogicTest extends BaseLogicTest {
 
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
-    private static DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-    }
     
     @Test
     public void testCreateComment() throws Exception {

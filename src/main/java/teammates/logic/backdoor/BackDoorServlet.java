@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;

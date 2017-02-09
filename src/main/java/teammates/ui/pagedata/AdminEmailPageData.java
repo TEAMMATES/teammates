@@ -3,8 +3,8 @@ package teammates.ui.pagedata;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.ui.template.AdminDraftEmailRow;
 import teammates.ui.template.AdminDraftEmailTable;
 import teammates.ui.template.AdminEmailActions;

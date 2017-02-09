@@ -3,13 +3,12 @@ package teammates.test.cases.pagedata;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseEditPageData;
@@ -18,11 +17,6 @@ import teammates.ui.template.CourseEditSectionRow;
 
 public class InstructorCourseEditPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testAll() {

@@ -9,14 +9,14 @@ import java.util.TreeMap;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCommentsPageData;
 import teammates.ui.template.CommentRow;
@@ -32,7 +32,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         course1 = dataBundle.courses.get("typicalCourse1");
         course2 = dataBundle.courses.get("typicalCourse2");
         instructor1 = dataBundle.instructors.get("instructor3OfCourse1");

@@ -29,7 +29,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @BeforeClass
-    protected void classSetup() {
+    public void classSetup() {
         feedbackEditPage = getFeedbackEditPage();
     }
 

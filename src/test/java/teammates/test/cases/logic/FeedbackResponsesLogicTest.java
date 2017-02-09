@@ -3,20 +3,19 @@ package teammates.test.cases.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.UserRole;
@@ -30,25 +29,22 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
-public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
+public class FeedbackResponsesLogicTest extends BaseLogicTest {
     
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static DataBundle typicalBundle = getTypicalDataBundle();
     private static DataBundle specialCharBundle = loadDataBundle("/SpecialCharacterTest.json");
     private static DataBundle questionTypeBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
+        // extra test data used on top of typical data bundle
         removeAndRestoreDataBundle(specialCharBundle);
         removeAndRestoreDataBundle(questionTypeBundle);
     }
@@ -224,7 +220,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         ______TS("standard update team case");
         
-        StudentAttributes studentToUpdate = typicalBundle.students.get("student4InCourse1");
+        StudentAttributes studentToUpdate = dataBundle.students.get("student4InCourse1");
         
         // Student 4 has 1 responses to him from team members,
         // 1 response from him a team member, and
@@ -374,7 +370,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         // Student 1 currently has 2 responses to him and 2 from himself.
         // Student 1 currently has 1 response comment for responses to him
         // and 1 response comment from responses from himself.
-        StudentAttributes studentToUpdate = typicalBundle.students.get("student1InCourse1");
+        StudentAttributes studentToUpdate = dataBundle.students.get("student1InCourse1");
         List<FeedbackResponseAttributes> responsesForReceiver =
                 frLogic.getFeedbackResponsesForReceiverForCourse(
                         studentToUpdate.course, studentToUpdate.email);
@@ -431,7 +427,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         ______TS("success: GetViewableResponsesForQuestion - instructor");
         
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1");
         List<FeedbackResponseAttributes> responses =
                 frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email,
@@ -454,7 +450,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 
         ______TS("success: GetViewableResponsesForQuestion - student");
         
-        StudentAttributes student = typicalBundle.students.get("student1InCourse1");
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
         
@@ -497,7 +493,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                         existingResponse.responseMetaData);
       
         frLogic.createFeedbackResponse(newResponse);
-        student = typicalBundle.students.get("student2InCourse1");
+        student = dataBundle.students.get("student2InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
         assertEquals(responses.size(), 4);
 
@@ -515,11 +511,11 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 
         ______TS("testIsNameVisibleTo");
         
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student = typicalBundle.students.get("student1InCourse1");
-        StudentAttributes student2 = typicalBundle.students.get("student2InCourse1");
-        StudentAttributes student3 = typicalBundle.students.get("student3InCourse1");
-        StudentAttributes student5 = typicalBundle.students.get("student5InCourse1");
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student2 = dataBundle.students.get("student2InCourse1");
+        StudentAttributes student3 = dataBundle.students.get("student3InCourse1");
+        StudentAttributes student5 = dataBundle.students.get("student5InCourse1");
         
         FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1");
         FeedbackResponseAttributes fr = getResponseFromDatastore("response1ForQ3S1C1");
@@ -583,7 +579,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         ______TS("standard delete");
         
-        StudentAttributes studentToDelete = typicalBundle.students.get("student1InCourse1");
+        StudentAttributes studentToDelete = dataBundle.students.get("student1InCourse1");
         List<FeedbackResponseAttributes> responsesForStudent1 =
                 frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email);
         responsesForStudent1
@@ -608,7 +604,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         remainingResponses.clear();
         
-        studentToDelete = typicalBundle.students.get("student2InCourse1");
+        studentToDelete = dataBundle.students.get("student2InCourse1");
         
         studentToDelete.team = "Team 1.3";
         StudentsLogic.inst().updateStudentCascadeWithoutDocument(studentToDelete.email, studentToDelete);
@@ -625,7 +621,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 
         remainingResponses.clear();
                 
-        studentToDelete = typicalBundle.students.get("student5InCourse1");
+        studentToDelete = dataBundle.students.get("student5InCourse1");
         
         frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
         remainingResponses.addAll(
@@ -670,7 +666,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     }
     
     private FeedbackQuestionAttributes getQuestionFromDatastore(String jsonId) {
-        return getQuestionFromDatastore(typicalBundle, jsonId);
+        return getQuestionFromDatastore(dataBundle, jsonId);
     }
     
     private FeedbackResponseAttributes getResponseFromDatastore(DataBundle dataBundle, String jsonId) {
@@ -690,7 +686,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     }
     
     private FeedbackResponseAttributes getResponseFromDatastore(String jsonId) {
-        return getResponseFromDatastore(typicalBundle, jsonId);
+        return getResponseFromDatastore(dataBundle, jsonId);
     }
     
     private List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponsesFromDatastore(
@@ -705,8 +701,4 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         return responseComments;
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 }

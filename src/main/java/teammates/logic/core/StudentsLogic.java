@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;

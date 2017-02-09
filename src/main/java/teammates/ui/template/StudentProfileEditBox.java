@@ -2,7 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.PageData;
 

@@ -9,25 +9,23 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.FeedbackSessionStats;
 import teammates.common.datatransfer.FeedbackSessionType;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -37,21 +35,18 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
-public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
+public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static DataBundle dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        gaeSimulation.resetDatastore();
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
     
@@ -2075,9 +2070,4 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
-
 }

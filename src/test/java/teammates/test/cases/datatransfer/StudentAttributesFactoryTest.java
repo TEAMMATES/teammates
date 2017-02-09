@@ -2,21 +2,14 @@ package teammates.test.cases.datatransfer;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.exception.EnrollException;
 import teammates.test.cases.BaseTestCase;
 
 public class StudentAttributesFactoryTest extends BaseTestCase {
-
-    @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
-    }
 
     @Test
     public void testConstructor() throws Exception {
@@ -238,11 +231,6 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         return (String[]) invokeMethod(StudentAttributesFactory.class, "splitLineIntoColumns",
                                        new Class<?>[] { String.class },
                                        new StudentAttributesFactory(), new Object[] { line });
-    }
-
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
     }
 
 }

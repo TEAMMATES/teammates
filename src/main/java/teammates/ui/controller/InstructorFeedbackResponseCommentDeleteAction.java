@@ -1,9 +1,9 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
