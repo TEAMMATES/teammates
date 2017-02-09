@@ -124,13 +124,15 @@ var constants = {
     // Used in instructorFeedback.js only
     FEEDBACK_SESSION_COPY_INVALID: 'There is no feedback session to be copied.',
     FEEDBACK_QUESTION_COPY_INVALID: 'There are no questions to be copied.',
-    DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE: 'This feedback session name already existed in this course. Please use another name.',
+    DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE: 'This feedback session name already existed in this course. '
+                                             + 'Please use another name.',
     DISPLAY_FEEDBACK_SESSION_NAME_EMPTY: 'Feedback session name must not be empty.',
-    DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID: 'Please enter the maximum number of recipients each respondents should give feedback to.',
-
+    DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID: 'Please enter the maximum number of recipients '
+                                                       + 'each respondents should give feedback to.',
     DISPLAY_FEEDBACK_QUESTION_TEXTINVALID: 'Please enter a valid question. The question text cannot be empty.',
     DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID: 'Please enter valid options. The min/max/step cannot be empty.',
-    DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID: 'Please enter valid options. The interval is not divisible by the specified increment.',
+    DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID: 'Please enter valid options. '
+                                                        + 'The interval is not divisible by the specified increment.',
 
     DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID: 'Feedback session visible date must not be empty',
     DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID: 'Feedback session publish date must not be empty',
@@ -139,4 +141,4 @@ var constants = {
     TEAMNAME_MAX_LENGTH: 60,
     NAME_MAX_LENGTH: 40,
     INSTITUTION_MAX_LENGTH: 64
-}
+};
