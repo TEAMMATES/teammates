@@ -41,7 +41,7 @@ public class TestNgTest extends BaseTestCase {
      *
      * @param testNgXml    Contents of testng.xml
      * @param rootPath     Root path of test files
-     * @return             HashMap containing <class name, package name>
+     * @return             HashMap containing {@code <class name, package name>}
      */
     private HashMap<String, String> getTestFiles(String testNgXml, String rootPath) {
         // BaseComponentTestCase, BaseTestCase (files in current directory) excluded because
@@ -81,7 +81,7 @@ public class TestNgTest extends BaseTestCase {
      * @param packageName                     Package name of the current file
      * @param testNgXml                       Contents of testng.xml
      *
-     * @return                                HashMap containing <class name, package name> including
+     * @return                                HashMap containing {@code <class name, package name>} including
      *                                        current file or tests in the current directory
      */
     private HashMap<String, String> addFilesToTestsRecursively(String path,

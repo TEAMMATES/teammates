@@ -271,7 +271,7 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Recovers the URL from sanitization due to {@link SanitizationHelper.sanitizeForNextUrl}.
+     * Recovers the URL from sanitization due to {@link SanitizationHelper#sanitizeForNextUrl}.
      * In addition, any un-encoded whitespace (they may be there due to Google's
      * behind-the-screen decoding process) will be encoded again to +.
      * @param sanitizedUrl

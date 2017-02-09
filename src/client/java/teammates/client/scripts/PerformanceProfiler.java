@@ -171,7 +171,7 @@ public class PerformanceProfiler extends Thread {
     /**
      * The results from file stored in filePath
      * @param filePath
-     * @return HashMap<nameOfTest,durations> of the report stored in filePath
+     * @return {@code HashMap<nameOfTest, durations>} of the report stored in filePath
      * @throws IOException
      */
     private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException {

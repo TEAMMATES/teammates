@@ -140,6 +140,7 @@
     <module name="JavadocType">
       <property name="scope" value="public"/>
     </module>
+    <module name="AtclauseOrder"/>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>

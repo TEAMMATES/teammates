@@ -965,9 +965,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * the participantIdentifier is returned.
      *
      * Otherwise, Const.USER_NOBODY_TEXT is returned.
-     * @see getDisplayableEmail
      * @param participantIdentifier
      * @return
+     * @see #getDisplayableEmail
      */
     public String getDisplayableEmailFromRoster(String participantIdentifier) {
         if (isEmailOfPersonFromRoster(participantIdentifier)) {
@@ -1462,9 +1462,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * Get a sorted list of team members, who are in the same team as the student.<br>
      * This list includes the student.
      *
-     * @see getSortedListOfTeamMembersEmailsExcludingSelf
      * @param student
      * @return a list of team members, including the original student
+     * @see #getSortedListOfTeamMembersEmailsExcludingSelf
      */
     public List<String> getSortedListOfTeamMembersEmails(StudentAttributes student) {
         String teamName = student.team;
@@ -1478,9 +1478,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * Get a sorted list of team members, who are in the same team as the student,
      * EXCLUDING the student.
      *
-     * @see getSortedListOfTeamMembersEmails
      * @param student
      * @return a list of team members, excluding the original student
+     * @see #getSortedListOfTeamMembersEmails
      */
     private List<String> getSortedListOfTeamMembersEmailsExcludingSelf(StudentAttributes student) {
         List<String> teamMembers = getSortedListOfTeamMembersEmails(student);
@@ -1804,7 +1804,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
 
     /**
-     * Returns responses as a Map<recipientName, Map<question, List<response>>>
+     * Returns responses as a {@code Map<recipientName, Map<question, List<response>>>}
      * Where the responses are sorted in the order of recipient, question, giver.
      * @param sortByTeam
      * @return responses sorted by Recipient > Question > Giver
@@ -1938,7 +1938,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
 
     /**
-     * Returns responses as a Map<giverName, Map<question, List<response>>>
+     * Returns responses as a {@code Map<giverName, Map<question, List<response>>>}
      * Where the responses are sorted in the order of giver, question, recipient.
      * @param sortByTeam
      * @return responses sorted by Giver > Question > Recipient
