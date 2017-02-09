@@ -141,6 +141,7 @@
     <module name="JavadocStyle">
       <property name="scope" value="public"/>
     </module>
+    <module name="NonEmptyAtclauseDescription"/>
     <module name="JavadocType">
       <property name="scope" value="public"/>
     </module>
