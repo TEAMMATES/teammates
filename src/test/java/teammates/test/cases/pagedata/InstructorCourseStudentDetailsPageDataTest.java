@@ -2,7 +2,6 @@ package teammates.test.cases.pagedata;
 
 import java.util.Arrays;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -24,11 +23,6 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private boolean hasSection;
     private String commentRecipient;
 
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
-    
     @Test
     public void allTests() {
         ______TS("With picture key, no comment recipient");

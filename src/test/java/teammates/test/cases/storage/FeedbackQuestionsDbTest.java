@@ -3,8 +3,6 @@ package teammates.test.cases.storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -23,11 +21,6 @@ import teammates.test.driver.AssertHelper;
 public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-    }
-    
     @Test
     public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
                                        EntityDoesNotExistException {
@@ -441,8 +434,4 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         }
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 }

@@ -30,7 +30,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() throws Exception {
-        printTestClassHeader();
         addInstructorsToDb();
     }
     
@@ -499,7 +498,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     @AfterClass
     public void classTearDown() {
         deleteInstructorsFromDb();
-        printTestClassFooter();
     }
     
     private static void deleteInstructorsFromDb() {

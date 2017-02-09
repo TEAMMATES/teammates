@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -31,11 +29,6 @@ public class StudentAttributesTest extends BaseTestCase {
         
     }
     
-    @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
-    }
-
     @Test
     public void testDefaultTimestamp() {
         
@@ -417,11 +410,6 @@ public class StudentAttributesTest extends BaseTestCase {
         s.team = "valid team";
         s.section = "valid section";
         return s;
-    }
-
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
     }
 
 }

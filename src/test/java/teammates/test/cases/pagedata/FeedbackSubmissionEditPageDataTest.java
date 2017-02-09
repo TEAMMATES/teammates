@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -33,11 +32,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     
     private Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
     private Map<String, String> recipients = new HashMap<String, String>();
-    
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
     
     public void createData(StudentAttributes student) {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");

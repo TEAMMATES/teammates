@@ -41,7 +41,6 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
     
     @BeforeClass
     public void baseClassSetup() throws Exception {
-        printTestClassHeader();
         prepareTestData();
         browser = BrowserPool.getBrowser();
     }
@@ -51,7 +50,6 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
     @AfterClass
     public void baseClassTearDown() {
         releaseBrowser();
-        printTestClassFooter();
     }
     
     protected void releaseBrowser() {

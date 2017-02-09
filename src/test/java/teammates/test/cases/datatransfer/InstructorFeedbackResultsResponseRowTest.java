@@ -3,18 +3,12 @@ package teammates.test.cases.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class InstructorFeedbackResultsResponseRowTest extends BaseTestCase {
-
-    @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
-    }
 
     @Test
     public void testDefaultSortOrderWithSameTeam() {

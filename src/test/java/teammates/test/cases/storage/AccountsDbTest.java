@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -25,11 +24,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
     private AccountsDb accountsDb = new AccountsDb();
     private ProfilesDb profilesDb = new ProfilesDb();
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testGetAccount() throws Exception {
