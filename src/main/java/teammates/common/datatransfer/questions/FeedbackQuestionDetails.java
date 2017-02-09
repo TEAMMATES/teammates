@@ -144,7 +144,7 @@ public abstract class FeedbackQuestionDetails {
      * Validates if giverType and recipientType are valid for the question type.
      * Validates visibility options as well.
      *
-     * Override in Feedback*QuestionDetails if necessary.
+     * <p>Override in Feedback*QuestionDetails if necessary.
      * @param giverType
      * @param recipientType
      * @return error message detailing the error, or an empty string if valid.
@@ -200,7 +200,7 @@ public abstract class FeedbackQuestionDetails {
     /**
      * Returns text to indicate that there is no response between the giver and recipient.
      *
-     * Used in instructorFeedbackResultsPage to show possible givers and recipients who did
+     * <p>Used in instructorFeedbackResultsPage to show possible givers and recipients who did
      * not respond to the question in the feedback session.
      * @param giverEmail
      * @param recipientEmail

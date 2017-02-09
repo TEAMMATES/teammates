@@ -165,7 +165,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Creates {@code InstructorFeedbackResultsSectionPanel}s for sectionPanels.
      *
-     * Iterates through the responses and creates panels and questions for them. Keeps track
+     * <p>Iterates through the responses and creates panels and questions for them. Keeps track
      * of missing sections, teams and participants who do not have responses
      * and create panels for these missing sections, teams and participants.
      *
@@ -306,7 +306,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Constructs section panel for the {@code sortedResponses}.
      *
-     * Also builds team statistics tables for every team
+     * <p>Also builds team statistics tables for every team
      * @param section
      * @param sortedResponses
      * @param additionalInfoId

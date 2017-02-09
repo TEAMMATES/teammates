@@ -49,12 +49,11 @@ public class ProfilesDb extends EntitiesDb {
      * Assumes that the googleId remains the same and so updates the profile
      * with the given googleId.
      *
-     * TODO: update the profile with whatever given values are valid and
-     * ignore those that are not valid.
      * @param newSpa
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
+    // TODO: update the profile with whatever given values are valid and ignore those that are not valid.
     public void updateStudentProfile(StudentProfileAttributes newSpa)
             throws InvalidParametersException, EntityDoesNotExistException {
 
@@ -185,10 +184,10 @@ public class ProfilesDb extends EntitiesDb {
      * a profile entity for this account. This is only used for porting
      * legacy account entities on the fly.
      *
-     * TODO: remove this function once legacy data have been ported over
      * @param googleId
      * @return
      */
+    // TODO: remove this function once legacy data have been ported over
     private StudentProfile getStudentProfileEntityForLegacyData(String googleId) {
         Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
         try {
@@ -214,9 +213,9 @@ public class ProfilesDb extends EntitiesDb {
      * profile from the function
      * 'getStudentProfileEntityForLegacyData'.
      *
-     * TODO: update this function once legacy data have been ported over
      * @param googleId
      */
+    // TODO: update this function once legacy data have been ported over
     private StudentProfile getStudentProfileEntityFromDb(String googleId) {
         Key childKey = KeyFactory.createKey(Account.class.getSimpleName(), googleId)
                                  .getChild(StudentProfile.class.getSimpleName(), googleId);

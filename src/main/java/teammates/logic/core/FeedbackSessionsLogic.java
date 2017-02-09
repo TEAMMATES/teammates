@@ -991,7 +991,7 @@ public final class FeedbackSessionsLogic {
     /**
      * Given a participantIdentifier, remove it from participantIdentifierList.
      *
-     * Before removal, FeedbackSessionResultsBundle.getNameFromRoster is used to
+     * <p>Before removal, {@link FeedbackSessionResultsBundle#getFullNameFromRoster} is used to
      * convert the identifier into a canonical form if the participantIdentifierType is TEAMS.
      *
      * @param participantIdentifierType
@@ -1013,7 +1013,7 @@ public final class FeedbackSessionsLogic {
     /**
      * Generate rows of missing responses for the remaining possible givers and recipients.
      *
-     * If for the prevGiver, possibleRecipientsForGiver is not empty,
+     * <p>If for the prevGiver, possibleRecipientsForGiver is not empty,
      * the remaining missing responses for the prevGiver will be generated first.
      *
      * @param results
@@ -1530,7 +1530,7 @@ public final class FeedbackSessionsLogic {
      * Deletes all feedback sessions the course specified. This is
      * a non-cascade delete.
      *
-     * The responses, questions and the comments of the responses
+     * <p>The responses, questions and the comments of the responses
      * should be handled.
      */
     public void deleteFeedbackSessionsForCourse(String courseId) {

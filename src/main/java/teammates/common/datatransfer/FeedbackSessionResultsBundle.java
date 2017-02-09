@@ -919,7 +919,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * Get the displayable full name from an email.
      *
-     * This function is different from getNameForEmail as it obtains the name
+     * <p>This function is different from {@link #getNameForEmail} as it obtains the name
      * using the class roster, instead of from the responses.
      * @param participantIdentifier
      * @return the full name of a student, if participantIdentifier is the email of a student, <br>
@@ -934,7 +934,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * Get the displayable last name from an email.
      *
-     * This function is different from getLastNameForEmail as it obtains the name
+     * <p>This function is different from {@link #getLastNameForEmail} as it obtains the name
      * using the class roster, instead of from the responses.
      * @param participantIdentifier
      * @return the last name of a student, if participantIdentifier is the email of a student, <br>
@@ -964,7 +964,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * If the participantIdentifier identifies a student or instructor,
      * the participantIdentifier is returned.
      *
-     * Otherwise, Const.USER_NOBODY_TEXT is returned.
+     * <p>Otherwise, Const.USER_NOBODY_TEXT is returned.
      * @param participantIdentifier
      * @return
      * @see #getDisplayableEmail
@@ -980,7 +980,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * Get the displayable team name from an email.
      * If the email is not an email of someone in the class roster, an empty string is returned.
      *
-     * This function is different from getTeamNameForEmail as it obtains the name
+     * <p>This function is different from {@link getTeamNameForEmail} as it obtains the name
      * using the class roster, instead of from the responses.
      * @param participantIdentifier
      */
@@ -1001,9 +1001,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     /**
      * Get the displayable section name from an email.
-     * If the email is not an email of someone in the class roster, an empty string is returned.
      *
-     * If the email of an instructor or "%GENERAL%" is passed in, "No specific recipient" is returned.
+     * <p>If the email is not an email of someone in the class roster, an empty string is returned.
+     *
+     * <p>If the email of an instructor or "%GENERAL%" is passed in, "No specific recipient" is returned.
      * @param participantIdentifier
      */
     public String getSectionFromRoster(String participantIdentifier) {
@@ -1038,7 +1039,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * Get the team names in a section. <br>
      *
-     * Instructors are not contained in any section.
+     * <p>Instructors are not contained in any section.
      * @param sectionName
      * @return a set of team names of the teams in the section
      */

@@ -904,10 +904,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Stores the frequency of being selected for each choice of each sub-question
          * and the total number of responses for each sub-question.
-         * Last element in each row stores the total number of responses for the sub-question.
-         * e.g.
+         *
+         * <p>Last element in each row stores the total number of responses for the sub-question.
+         *
+         * <p>e.g.<br>
          * responseFrequency[subQuestionIndex][choiceIndex]
-         * -> is the number of times choiceIndex is chosen for subQuestionIndex.
+         * -> is the number of times choiceIndex is chosen for subQuestionIndex.<br>
          * responseFrequency[subQuestionIndex][numOfRubricChoices]
          * -> is the total number of the responses for the given sub-question.
          */
@@ -916,11 +918,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Stores the percentage value between [0,1] of each choice
          * being selected for the sub-question.
-         * Values are set to 0 if there are no responses to that sub-question.
+         *
+         * <p>Values are set to 0 if there are no responses to that sub-question.
          * Average value is set to 0 if there are no assigned weights.
-         * e.g.
+         *
+         * <p>e.g.<br>
          * percentageFrequencyAndAverageValue[subQuestionIndex][choiceIndex]
-         * -> is the percentage choiceIndex is chosen for subQuestionIndex.
+         * -> is the percentage choiceIndex is chosen for subQuestionIndex.<br>
          * percentageFrequencyAndAverageValue[subQuestionIndex][numOfRubricChoices]
          * -> is the average weight of the responses for the given sub-question.
          */

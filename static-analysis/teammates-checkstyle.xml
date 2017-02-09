@@ -137,6 +137,7 @@
       <property name="suppressLoadErrors" value="true"/>
       <property name="ignoreMethodNamesRegex" value="main"/>
     </module>
+    <module name="JavadocParagraph"/>
     <module name="JavadocType">
       <property name="scope" value="public"/>
     </module>

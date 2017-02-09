@@ -36,7 +36,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * Don't use directly unless for storing/loading from data store <br>
      * To get the answer text use {@code getResponseDetails().getAnswerString()}
      *
-     * This is set to null to represent a missing response.
+     * <p>This is set to null to represent a missing response.
      */
     public Text responseMetaData;
     public String giverSection;

@@ -3,26 +3,21 @@ package teammates.common.util;
 /**
  * Represents a version by 3 parts: major version, minor version and patch version.
  *
- * If the version has fewer than 3 numbers, the numbers will be assigned to major then to minor (if possible).
+ * <p>If the version has fewer than 3 numbers, the numbers will be assigned to major then to minor (if possible).
  * Those without number will be null.
  *
- * If the version has more than 3 numbers, the first number will be major, the second number
+ * <p>If the version has more than 3 numbers, the first number will be major, the second number
  * will be minor and the rest will be patch.
  *
- * For example:
- * version = 15
- * major = "15", minor = null and patch = null
+ * <p>For example:
+ * <ul>
+ * <li>version = 15: major = "15", minor = null and patch = null</li>
+ * <li>version = 15.01: major = "15", minor = "01" and patch = null</li>
+ * <li>version = 15.01.03: major = "15", minor = "01" and patch = "03"</li>
+ * <li>version = 15.01.03.01: major = "15", minor = "01" and patch = "03.01"</li>
+ * </ul>
  *
- * version = 15.01
- * major = "15", minor = "01" and patch = null
- *
- * version = 15.01.03
- * major = "15", minor = "01" and patch = "03"
- *
- * version = 15.01.03.01
- * major = "15", minor = "01" and patch = "03.01"
- *
- * It also support RC versions, which has "rc" appended at the end of the string.
+ * <p>It also support RC versions, which has "rc" appended at the end of the string.
  * For example: 5rc, 4.55rc, 5.55.01rc
  */
 public class Version implements Comparable<Version> {

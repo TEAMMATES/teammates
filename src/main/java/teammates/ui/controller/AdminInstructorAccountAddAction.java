@@ -222,30 +222,25 @@ public class AdminInstructorAccountAddAction extends Action {
         return courseId;
     }
 
-    /**
-    * Strategy to Generate New Demo Course Id:
-    *     a.  keep the part of email before "@"
-    *         replace "@" with "."
-    *         replace email host with their first 3 chars. eg, gmail.com -> gma
-    *         append "-demo"
-    *       to sum up: lebron@gmail.com -> lebron.gma-demo
-    *
-    *   b.  if the generated courseId already exists, create another one by appending a integer to the previous courseId.
-    *       if the newly generate id still exists, increment the id, until we find a feasible one
-    *       eg.
-    *       lebron@gmail.com -> lebron.gma-demo  // already exists!
-    *       lebron@gmail.com -> lebron.gma-demo0 // already exists!
-    *       lebron@gmail.com -> lebron.gma-demo1 // already exists!
-    *       ...
-    *       lebron@gmail.com -> lebron.gma-demo99 // already exists!
-    *       lebron@gmail.com -> lebron.gma-demo100 // found! a feasible id
-    *
-    *   c.  in any cases(a or b), if generated Id is longer than FieldValidator.COURSE_ID_MAX_LENGTH, shorten the part
-    *       before "@" of the intial input email, by continuously remove its last character
-    *
-    *    @see #generateDemoCourseId(String)
-    *    @see #generateNextDemoCourseId(String, int)
-    */
+    // Strategy to Generate New Demo Course Id:
+    // a. keep the part of email before "@"
+    //    replace "@" with "."
+    //    replace email host with their first 3 chars. eg, gmail.com -> gma
+    //    append "-demo"
+    //    to sum up: lebron@gmail.com -> lebron.gma-demo
+    //
+    // b. if the generated courseId already exists, create another one by appending a integer to the previous courseId.
+    //    if the newly generate id still exists, increment the id, until we find a feasible one
+    //    eg.
+    //    lebron@gmail.com -> lebron.gma-demo  // already exists!
+    //    lebron@gmail.com -> lebron.gma-demo0 // already exists!
+    //    lebron@gmail.com -> lebron.gma-demo1 // already exists!
+    //    ...
+    //    lebron@gmail.com -> lebron.gma-demo99 // already exists!
+    //    lebron@gmail.com -> lebron.gma-demo100 // found! a feasible id
+    //
+    // c. in any cases(a or b), if generated Id is longer than FieldValidator.COURSE_ID_MAX_LENGTH, shorten the part
+    //    before "@" of the intial input email, by continuously remove its last character
 
     /**
     * Generate a course ID for demo course, and if the generated id already exists, try another one

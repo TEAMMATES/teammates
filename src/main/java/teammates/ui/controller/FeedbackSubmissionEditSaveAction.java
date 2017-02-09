@@ -337,7 +337,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * needs. For example, this is used in moderations that check that instructors did not
      * respond to any question that they did not have access to during moderation.
      *
-     * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters
+     * <p>Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters
      */
     protected abstract void checkAdditionalConstraints();
 

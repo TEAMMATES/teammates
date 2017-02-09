@@ -337,7 +337,7 @@ public final class SanitizationHelper {
      * Will o' The Wisp => concat('Will o' , "'" , ' The Wisp' , '')
      * This will result in the same string when read by XPath.
      *
-     * This is used when writing the test case for some special characters
+     * <p>This is used when writing the test case for some special characters
      * such as ' and "
      *
      * @param text

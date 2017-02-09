@@ -157,9 +157,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      * For the remaining parameters, the existing value is preserved
      *   if the parameter is null (due to 'keep existing' policy).<br>
      *
-     * Preconditions: <br>
-     * * {@code newAttributes.getId()} is non-null and
-     *  correspond to an existing feedback question. <br>
+     * <p>Preconditions:
+     * {@code newAttributes.getId()} is non-null and correspond to an existing feedback question.
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {

@@ -619,7 +619,7 @@ public final class FeedbackQuestionsLogic {
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is not updated.
      *
-     * Silently fails if question does not exist.
+     * <p>Silently fails if question does not exist.
      *
      * @param feedbackQuestionId
      */
@@ -642,7 +642,7 @@ public final class FeedbackQuestionsLogic {
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is updated accordingly.
      *
-     * Silently fail if question does not exist.
+     * <p>Silently fail if question does not exist.
      *
      * @param feedbackQuestionId
      */

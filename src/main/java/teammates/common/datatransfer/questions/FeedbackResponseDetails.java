@@ -40,7 +40,7 @@ public abstract class FeedbackResponseDetails {
     /**
      * getAnswerHtml with an additional parameter (FeedbackSessionResultsBundle)
      *
-     * default action is to call getAnswerHtml(FeedbackQuestionDetails questionDetails)
+     * <p>default action is to call getAnswerHtml(FeedbackQuestionDetails questionDetails).
      * override in child class if necessary.
      *
      * @param questionDetails
@@ -55,7 +55,7 @@ public abstract class FeedbackResponseDetails {
     /**
      * getAnswerCsv with an additional parameter (FeedbackSessionResultsBundle)
      *
-     * default action is to call getAnswerCsv(FeedbackQuestionDetails questionDetails)
+     * <p>default action is to call getAnswerCsv(FeedbackQuestionDetails questionDetails).
      * override in child class if necessary.
      *
      * @param questionDetails

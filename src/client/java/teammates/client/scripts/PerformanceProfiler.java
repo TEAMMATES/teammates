@@ -31,21 +31,13 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
 /**
- * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
- * of this script in parallel, use ParallelProfiler.Java.
- *
- *
- * Notes:
- * -Edit name of the report file, the result will be written to a file in src/test/resources/data folder
- * -Make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)
- */
-
-/**
  * Annotations for Performance tests with
- *         -Name : name of the test.
- *         -CustomTimer:(default if false) if true, the function will return the duration need to recorded itself
- *                     if false, the function return the status of the test and expected the function
- *                     which called it to record the duration.
+ * <ul>
+ * <li>Name: name of the test</li>
+ * <li>CustomTimer: (default is false) if true, the function will return the duration need to recorded itself.
+ *                  If false, the function return the status of the test and expected the function
+ *                  which called it to record the duration.</li>
+ * </ul>
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -54,6 +46,16 @@ import teammates.test.pageobjects.BrowserPool;
     boolean customTimer() default false;
 }
 
+/**
+ * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
+ * of this script in parallel, use ParallelProfiler.Java.
+ *
+ * <p>Notes:
+ * <ul>
+ * <li>Edit name of the report file, the result will be written to a file in src/test/resources/data folder</li>
+ * <li>Make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)</li>
+ * </ul>
+ */
 public class PerformanceProfiler extends Thread {
 
     private static final String defaultReportPath = TestProperties.TEST_DATA_FOLDER + "/" + "nameOfTheReportFile.txt";

@@ -3,26 +3,12 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.net.URL;
 import java.util.List;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.FileUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.params.HttpParams;
-import org.apache.http.ssl.SSLContexts;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -52,11 +38,10 @@ import teammates.test.driver.TestProperties;
  * provides ways to interact with it. Also contains methods to validate some
  * aspects of the page. .e.g, html page source. <br>
  *
- * Note: We are using the PageObjects pattern here.
- * https://code.google.com/p/selenium/wiki/PageObjects
+ * <p>Note: We are using the PageObjects pattern here.
  *
+ * @see <a href="https://code.google.com/p/selenium/wiki/PageObjects">https://code.google.com/p/selenium/wiki/PageObjects</a>
  */
-@SuppressWarnings("deprecation")
 public abstract class AppPage {
     private static final By MAIN_CONTENT = By.id("mainContent");
     private static final int VERIFICATION_RETRY_COUNT = 5;
@@ -970,50 +955,6 @@ public abstract class AppPage {
         browser.driver.get(url.toAbsoluteString());
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
         assertEquals(beforeReportDownloadUrl, afterReportDownloadUrl);
-    }
-
-    /**
-     * Verify if a file is downloadable based on the given url. If its downloadable,
-     * download the file and get the SHA-1 hex of it and verify the hex with the given
-     * expected hash.
-     *
-     * Compute the expected hash of a file from http://onlinemd5.com/ (SHA-1)
-     */
-    public void verifyDownloadableFile(Url url, String expectedHash) throws Exception {
-
-        URL fileToDownload = new URL(url.toAbsoluteString());
-
-        String localDownloadPath = System.getProperty("java.io.tmpdir");
-        File downloadedFile = new File(localDownloadPath + fileToDownload.getFile().replaceFirst("/|\\\\", ""));
-
-        if (downloadedFile.exists()) {
-            downloadedFile.delete();
-        }
-        if (!downloadedFile.canWrite()) {
-            downloadedFile.setWritable(true);
-        }
-
-        SSLConnectionSocketFactory sslConnectionFactory =
-                new SSLConnectionSocketFactory(SSLContexts.createDefault(), new AllowAllHostnameVerifier());
-
-        CloseableHttpClient client = HttpClientBuilder.create().setSSLSocketFactory(sslConnectionFactory).build();
-
-        HttpGet httpget = new HttpGet(fileToDownload.toURI());
-        HttpParams httpRequestParameters = httpget.getParams();
-        httpRequestParameters.setParameter(ClientPNames.HANDLE_REDIRECTS, false);
-        httpget.setParams(httpRequestParameters);
-
-        HttpResponse response = client.execute(httpget);
-        FileUtils.copyInputStreamToFile(response.getEntity().getContent(), downloadedFile);
-        response.getEntity().getContent().close();
-
-        String downloadedFileAbsolutePath = downloadedFile.getAbsolutePath();
-        assertTrue(new File(downloadedFileAbsolutePath).exists());
-
-        String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
-        assertEquals(expectedHash.toLowerCase(), actualHash);
-
-        client.close();
     }
 
     public void verifyFieldValue(String fieldId, String expectedValue) {

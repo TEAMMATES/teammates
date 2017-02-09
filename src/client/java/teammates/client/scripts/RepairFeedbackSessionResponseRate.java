@@ -32,7 +32,7 @@ import teammates.storage.entity.FeedbackSession;
  * </ul>
  * and verifies that the non-respondents do not have a response in the feedback session. <br>
  *
- * If isPreview is false, whenever an inconsistency is found, {@code logic.updateRespondents} will
+ * <p>If isPreview is false, whenever an inconsistency is found, {@code logic.updateRespondents} will
  * be used to recompute the respondents' set.
  *
  */
