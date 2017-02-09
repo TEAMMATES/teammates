@@ -116,7 +116,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
      * on their updateStatus. Each category is put into a separate list.<br>
      *
      * @return An array of lists of StudentData objects in which each list contains
-     * student with the same updateStatus
+     *         student with the same updateStatus
      */
     @SuppressWarnings("unchecked")
     private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {

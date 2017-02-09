@@ -133,7 +133,6 @@ public class ActionFactory {
 
     /**
      * @return the matching {@link Action} object for the URI in the {@code req}.
-     *   The returned {@code Action} is already initialized using the {@code req}.
      */
     public Action getAction(HttpServletRequest req) {
 

@@ -576,7 +576,7 @@ public abstract class AppPage {
 
     /**
      * @return the status message in the page. Returns "" if there is no
-     * status message in the page.
+     *         status message in the page.
      */
     public String getStatus() {
         return statusMessage == null ? "" : statusMessage.getText();
@@ -584,7 +584,7 @@ public abstract class AppPage {
 
     /**
      * @return the value of the cell located at {@code (row,column)}
-     * from the first table (which is of type {@code class=table}) in the page.
+     *         from the first table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int row, int column) {
         return getCellValueFromDataTable(0, row, column);
@@ -592,7 +592,7 @@ public abstract class AppPage {
 
     /**
      * @return the value of the cell located at {@code (row,column)}
-     * from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
+     *         from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int tableNum, int row, int column) {
         WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
@@ -603,7 +603,7 @@ public abstract class AppPage {
 
     /**
      * @return the value of the header located at {@code (row,column)}
-     * from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
+     *         from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
     public String getHeaderValueFromDataTable(int tableNum, int row, int column) {
         WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
@@ -614,7 +614,7 @@ public abstract class AppPage {
 
     /**
      * @return the number of rows from the nth(0-index-based) table
-     * (which is of type {@code class=table}) in the page.
+     *         (which is of type {@code class=table}) in the page.
      */
     public int getNumberOfRowsFromDataTable(int tableNum) {
         WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
@@ -623,7 +623,7 @@ public abstract class AppPage {
 
     /**
      * @return the number of columns from the header in the table
-     * (which is of type {@code class=table}) in the page.
+     *         (which is of type {@code class=table}) in the page.
      */
     public int getNumberOfColumnsFromDataTable(int tableNum) {
         WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
@@ -633,7 +633,7 @@ public abstract class AppPage {
 
     /**
      * @return the id of the table
-     * (which is of type {@code class=table}) in the page.
+     *         (which is of type {@code class=table}) in the page.
      */
     public String getDataTableId(int tableNum) {
         WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
@@ -676,8 +676,9 @@ public abstract class AppPage {
         waitForPageToLoad();
     }
 
-    /** @return True if the page contains some basic elements expected in a page of the
-     * specific type. e.g., the top heading.
+    /**
+     * @return True if the page contains some basic elements expected in a page of the
+     *         specific type. e.g., the top heading.
      */
     protected abstract boolean containsExpectedPageContents();
 
@@ -810,8 +811,9 @@ public abstract class AppPage {
      * Verifies that the currently loaded page has the same HTML content as
      * the content given in the file at {@code filePath}. <br>
      * The HTML is checked for logical equivalence, not text equivalence.
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the
-     * folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
+     * @param filePath
+     *         If this starts with "/" (e.g., "/expected.html"), the
+     *         folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtml(String filePath) throws IOException {
@@ -822,8 +824,9 @@ public abstract class AppPage {
      * Verifies that element specified in currently loaded page has the same HTML content as
      * the content given in the file at {@code filePath}. <br>
      * The HTML is checked for logical equivalence, not text equivalence.
-     * @param filePathParam If this starts with "/" (e.g., "/expected.html"), the
-     * folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
+     * @param filePathParam
+     *         If this starts with "/" (e.g., "/expected.html"), the
+     *         folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePathParam) throws IOException {
@@ -887,8 +890,9 @@ public abstract class AppPage {
      * loaded page has the same HTML content as
      * the content given in the file at {@code filePath}. <br>
      * The HTML is checked for logical equivalence, not text equivalence.
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the
-     * folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
+     * @param filePath
+     *         If this starts with "/" (e.g., "/expected.html"), the
+     *         folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlMainContent(String filePath) throws IOException {

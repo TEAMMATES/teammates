@@ -159,8 +159,7 @@ public class FeedbackResponseComment {
 
     /**
      * @param giverEmail the giverEmail to set.
-     * This is the email used by the user in the course,
-     * not the one associated with the user's google account.
+     *         This is the email used by the user in the course, not the one associated with the user's google account.
      */
     public void setGiverEmail(String giverEmail) {
         this.giverEmail = giverEmail;

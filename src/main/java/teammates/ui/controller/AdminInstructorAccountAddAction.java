@@ -145,8 +145,9 @@ public class AdminInstructorAccountAddAction extends Action {
 
     /**
      * Extracts instructor's info from a string then store them in an array of string.
-     * @param instructorDetails This string is in the format INSTRUCTOR_NAME | INSTRUCTOR_EMAIL | INSTRUCTOR_INSTITUTION
-     * or INSTRUCTOR_NAME \t INSTRUCTOR_EMAIL \t INSTRUCTOR_INSTITUTION
+     * @param instructorDetails
+     *         This string is in the format INSTRUCTOR_NAME | INSTRUCTOR_EMAIL | INSTRUCTOR_INSTITUTION
+     *         or INSTRUCTOR_NAME \t INSTRUCTOR_EMAIL \t INSTRUCTOR_INSTITUTION
      * @return A String array of size 3
      * @throws InvalidParametersException
      */
@@ -281,12 +282,13 @@ public class AdminInstructorAccountAddAction extends Action {
     *
     * @param instructorEmailOrProposedCourseId is the instructor email or a proposed course id that already exists.
     * @param maximumIdLength is the maximum resulting id length allowed, above which we will cut the part before "@"
-    * @return the proposed course id.
-    *     eg.
-    *         lebron@gmail.com -> lebron.gma-demo
-    *         lebron.gma-demo -> lebron.gma-demo0
-    *         lebron.gma-demo0 -> lebron.gma-demo1
-    *         012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)
+    * @return the proposed course id, e.g.:
+    *         <ul>
+    *         <li>lebron@gmail.com -> lebron.gma-demo</li>
+    *         <li>lebron.gma-demo -> lebron.gma-demo0</li>
+    *         <li>lebron.gma-demo0 -> lebron.gma-demo1</li>
+    *         <li>012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)</li>
+    *         </ul>
     */
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
         final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");

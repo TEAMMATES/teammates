@@ -29,8 +29,7 @@ public class Url {
     }
 
     /**
-     * @return The value of the {@code parameterName} parameter. Null if no
-     * such parameter.
+     * @return The value of the {@code parameterName} parameter. Null if no such parameter.
      */
     public String get(String parameterName) {
         /*

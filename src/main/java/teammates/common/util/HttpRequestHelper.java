@@ -38,8 +38,7 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * @return a HashMap object containing all the parameters key-value pairs.
-     * from a URLFetchRequest object
+     * @return a HashMap object containing all the parameters key-value pairs from a URLFetchRequest object
      */
     public static HashMap<String, String> getParamMap(URLFetchRequest request) {
         String requestBody = request.getPayload().toStringUtf8();
@@ -105,8 +104,7 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * @return  the URL used for the HTTP request but without the domain.
-     * e.g. "/page/studentHome?user=james"
+     * @return the URL used for the HTTP request but without the domain, e.g. "/page/studentHome?user=james"
      */
     public static String getRequestedUrl(HttpServletRequest req) {
         String link = req.getRequestURI();

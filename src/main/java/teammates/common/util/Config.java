@@ -11,52 +11,52 @@ import com.google.appengine.api.utils.SystemProperty;
  */
 public final class Config {
 
-    /** The value of the "app.url" in build.properties file */
+    /** The value of the "app.url" in build.properties file. */
     public static final String APP_URL;
 
-    /** The value of the "app.gcs.bucketname" in build.properties file */
+    /** The value of the "app.gcs.bucketname" in build.properties file. */
     public static final String GCS_BUCKETNAME;
 
-    /** The value of the "app.backdoor.key" in build.properties file */
+    /** The value of the "app.backdoor.key" in build.properties file. */
     public static final String BACKDOOR_KEY;
 
-    /** The value of the "app.encryption.key" in build.properties file */
+    /** The value of the "app.encryption.key" in build.properties file. */
     public static final String ENCRYPTION_KEY;
 
-    /** The value of the "app.persistence.checkduration" in build.properties file */
+    /** The value of the "app.persistence.checkduration" in build.properties file. */
     public static final int PERSISTENCE_CHECK_DURATION;
 
-    /** The value of the "app.crashreport.email" in build.properties file */
+    /** The value of the "app.crashreport.email" in build.properties file. */
     public static final String SUPPORT_EMAIL;
 
-    /** The value of the "app.student.motd.url" in build.properties file */
+    /** The value of the "app.student.motd.url" in build.properties file. */
     public static final String STUDENT_MOTD_URL;
 
-    /** The value of the "app.email.senderemail" in build.properties file */
+    /** The value of the "app.email.senderemail" in build.properties file. */
     public static final String EMAIL_SENDEREMAIL;
 
-    /** The value of the "app.email.sendername" in build.properties file */
+    /** The value of the "app.email.sendername" in build.properties file. */
     public static final String EMAIL_SENDERNAME;
 
-    /** The value of the "app.email.replyto" in build.properties file */
+    /** The value of the "app.email.replyto" in build.properties file. */
     public static final String EMAIL_REPLYTO;
 
-    /** The value of the "app.email.service" in build.properties file */
+    /** The value of the "app.email.service" in build.properties file. */
     public static final String EMAIL_SERVICE;
 
-    /** The value of the "app.sendgrid.apikey" in build.properties file */
+    /** The value of the "app.sendgrid.apikey" in build.properties file. */
     public static final String SENDGRID_APIKEY;
 
-    /** The value of the "app.mailgun.apikey" in build.properties file */
+    /** The value of the "app.mailgun.apikey" in build.properties file. */
     public static final String MAILGUN_APIKEY;
 
-    /** The value of the "app.mailgun.domainname" in build.properties file */
+    /** The value of the "app.mailgun.domainname" in build.properties file. */
     public static final String MAILGUN_DOMAINNAME;
 
-    /** The value of the "app.mailjet.apikey" in build.properties file */
+    /** The value of the "app.mailjet.apikey" in build.properties file. */
     public static final String MAILJET_APIKEY;
 
-    /** The value of the "app.mailjet.secretkey" in build.properties file */
+    /** The value of the "app.mailjet.secretkey" in build.properties file. */
     public static final String MAILJET_SECRETKEY;
 
     static {
@@ -97,8 +97,7 @@ public final class Config {
     }
 
     /**
-     * @return The app version specifed in appengine-web.xml but with '.'
-     * instead of '-' e.g., "4.53"
+     * @return The app version specifed in appengine-web.xml but with '.' instead of '-' e.g., "4.53"
      */
     public static String getAppVersion() {
         String appVersion = SystemProperty.applicationVersion.get();

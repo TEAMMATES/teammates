@@ -401,7 +401,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     /**
      * @return {@code true} if the session is visible; {@code false} if not.
-     * Does not care if the session has started or not.
+     *         Does not care if the session has started or not.
      */
     public boolean isVisible() {
         Date visibleTime = this.sessionVisibleFromTime;
@@ -418,7 +418,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     /**
      * @return {@code true} if the results of the feedback session is visible; {@code false} if not.
-     * Does not care if the session has ended or not.
+     *         Does not care if the session has ended or not.
      */
     public boolean isPublished() {
         Date now = TimeHelper.now(timeZone).getTime();

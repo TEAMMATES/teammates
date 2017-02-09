@@ -12,22 +12,20 @@ import java.util.Random;
 import java.util.Set;
 
 import teammates.test.driver.TestProperties;
+
 /**
  * Class that create a json data file to be used with ImportData script
  * The result file will be saved in src/test/resources/data/ folder.
  *
- * @James: This scripts does not use any teamamtes's data structures or json framework for some reasons:
- *
- * First - For 5000 or more students, it will consume a lot of memory. Need to store only id
- * of the objects to save memory.
- *
- * Second - To make this script portable, if you remove the teammates.common.Common import, and define
- * the path yourself, this become a totally portable script.(this speeds up the process of creating data)
- *
- * Third - The format of data bundle is json but quite "strange", no relationships, no arrays.
- *
+ * <p>This script does not use any teamamtes's data structures or json framework for some reasons:
+ * <ul>
+ * <li>For 5000 or more students, it will consume a lot of memory. Need to store only id
+ * of the objects to save memory.</li>
+ * <li>To make this script portable, if you remove the teammates.common.Common import, and define
+ * the path yourself, this become a totally portable script.(this speeds up the process of creating data)</li>
+ * <li>The format of data bundle is json but quite "strange", no relationships, no arrays.</li>
+ * </ul>
  */
-
 public final class DataGenerator {
     // Name of the result file, please do not override existing file
     private static final String FILE_NAME = "ResultFileName.json";

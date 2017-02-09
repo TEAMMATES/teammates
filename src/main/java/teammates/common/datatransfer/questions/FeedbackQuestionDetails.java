@@ -126,7 +126,7 @@ public abstract class FeedbackQuestionDetails {
      * Validates the question details.
      *
      * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
-     * empty list if question details are valid.
+     *         empty list if question details are valid.
      */
     public abstract List<String> validateQuestionDetails();
 
@@ -136,7 +136,7 @@ public abstract class FeedbackQuestionDetails {
      *
      * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
      * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
-     * empty list if question responses are valid.
+     *         empty list if question responses are valid.
      */
     public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses, int numRecipients);
 

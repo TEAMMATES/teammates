@@ -222,16 +222,14 @@ public class PageData {
     }
 
     /**
-     * @return The relative path to the student home page.
-     * Defaults to whether the student is unregistered.
+     * @return The relative path to the student home page. Defaults to whether the student is unregistered.
      */
     public String getStudentHomeLink() {
         return getStudentHomeLink(isUnregisteredStudent());
     }
 
     /**
-     * @return The relative path to the student home page.
-     * The user Id is encoded in the url as a parameter.
+     * @return The relative path to the student home page. The user Id is encoded in the url as a parameter.
      */
     public String getStudentHomeLink(boolean isUnregistered) {
         String link = Const.ActionURIs.STUDENT_HOME_PAGE;
@@ -243,16 +241,14 @@ public class PageData {
     }
 
     /**
-     * @return The relative path to the student profile page.
-     * Defaults to whether the student is unregistered.
+     * @return The relative path to the student profile page. Defaults to whether the student is unregistered.
      */
     public String getStudentProfileLink() {
         return getStudentProfileLink(isUnregisteredStudent());
     }
 
     /**
-     * @return The relative path to the student profile page.
-     * The user Id is encoded in the url as a parameter.
+     * @return The relative path to the student profile page. The user Id is encoded in the url as a parameter.
      */
     public String getStudentProfileLink(boolean isUnregistered) {
         String link = Const.ActionURIs.STUDENT_PROFILE_PAGE;
@@ -264,16 +260,14 @@ public class PageData {
     }
 
     /**
-     * @return The relative path to the student comments page.
-     * Defaults to whether the student is unregistered.
+     * @return The relative path to the student comments page. Defaults to whether the student is unregistered.
      */
     public String getStudentCommentsLink() {
         return getStudentCommentsLink(isUnregisteredStudent());
     }
 
     /**
-     * @return The relative path to the student comments page.
-     * The user Id is encoded in the url as a parameter.
+     * @return The relative path to the student comments page. The user Id is encoded in the url as a parameter.
      */
     public String getStudentCommentsLink(boolean isUnregistered) {
         String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
@@ -316,8 +310,7 @@ public class PageData {
     }
 
     /**
-     * @return The relative path to the instructor home page.
-     * The user Id is encoded in the url as a parameter.
+     * @return The relative path to the instructor home page. The user Id is encoded in the url as a parameter.
      */
     public String getInstructorHomeLink() {
         String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;

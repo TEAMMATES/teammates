@@ -98,7 +98,7 @@ public enum FeedbackParticipantType {
      * Formats the participant type for display to user in the response visibility section.
      *
      * @return A user-friendly {@code String} representing this participant directed to users who are
-     * responding to a feedback.
+     *         responding to a feedback.
      */
     public String toVisibilityString() {
         return displayNameVisibility;

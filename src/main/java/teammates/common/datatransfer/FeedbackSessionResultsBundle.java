@@ -952,7 +952,7 @@ public class FeedbackSessionResultsBundle {
      *
      * @param participantIdentifier
      * @return true if the participantIdentifier is an email of either a student
-     * or instructor in the course roster, false otherwise.
+     *         or instructor in the course roster, false otherwise.
      */
     public boolean isEmailOfPersonFromRoster(String participantIdentifier) {
         boolean isStudent = isParticipantIdentifierStudent(participantIdentifier);

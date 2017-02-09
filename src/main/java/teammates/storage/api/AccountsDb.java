@@ -103,8 +103,8 @@ public class AccountsDb extends EntitiesDb {
     }
 
     /**
-     * @return {@link AccountAttribute} objects for all accounts with instructor privileges.
-     *   Returns an empty list if no such accounts are found.
+     * @return {@link AccountAttributes} objects for all accounts with instructor privileges.
+     *         Returns an empty list if no such accounts are found.
      */
     public List<AccountAttributes> getInstructorAccounts() {
         Query q = getPm().newQuery(Account.class);

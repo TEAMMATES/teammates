@@ -257,8 +257,7 @@ public class InstructorsDb extends EntitiesDb {
 
     /**
      * Not scalable. Don't use unless for admin features.
-     * @return {@code InstructorAttributes} objects for all instructor
-     * roles in the system.
+     * @return {@code InstructorAttributes} objects for all instructor roles in the system
      */
     @Deprecated
     public List<InstructorAttributes> getAllInstructors() {

@@ -179,7 +179,7 @@ public final class TimeHelper {
 
     /**
      * @return one of these : 0100H, 0200H, ..., 0900H, 1000H, ... 2300H, 2359H.
-     * Note the last one is different from the others.
+     *         Note the last one is different from the others.
      */
     public static String convertToDisplayValueInTimeDropDown(Date date) {
         int optionValue = convertToOptionValueInTimeDropDown(date);
@@ -417,7 +417,7 @@ public final class TimeHelper {
     /**
      * @param type: Long value: time in milliseconds
      * @return Duration in format m:s:ms
-     * Example: 1200 milliseconds ---> 0:1:200
+     *         Example: 1200 milliseconds ---> 0:1:200
      */
 
     public static String convertToStandardDuration(Long timeInMilliseconds) {
@@ -437,8 +437,7 @@ public final class TimeHelper {
      * date: dd/MM/yyyy  hour: hh   min:mm
      *
      * @return Date String in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}.<br>
-     * Example: If date is 01/04/2014, hour is 23, min is 59
-     *          result will be  2014-04-01 11:59 PM UTC
+     *         Example: If date is 01/04/2014, hour is 23, min is 59, result will be  2014-04-01 11:59 PM UTC.
      */
     public static String convertToRequiredFormat(String date, String hour, String min) {
 

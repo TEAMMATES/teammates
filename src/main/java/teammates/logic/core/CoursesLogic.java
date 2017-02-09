@@ -562,7 +562,7 @@ public final class CoursesLogic {
      *
      * @param googleId The Google ID of the instructor
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
-     * Does not include details within the course, such as feedback sessions.
+     *         Does not include details within the course, such as feedback sessions.
      */
     public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId, boolean omitArchived)
             throws EntityDoesNotExistException {
@@ -580,7 +580,7 @@ public final class CoursesLogic {
      *
      * @param instructorAttributesList
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
-     * Does not include details within the course, such as feedback sessions.
+     *         Does not include details within the course, such as feedback sessions.
      */
     public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(
             List<InstructorAttributes> instructorAttributesList) {

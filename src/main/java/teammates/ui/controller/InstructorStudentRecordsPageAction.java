@@ -58,7 +58,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         Map<String, String> giverEmailToGiverNameMap = mapGiverNameToGiverEmail(courseId, giverEmailToCommentsMap.keySet());
 
-        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId);
+        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId, false);
 
         filterFeedbackSessions(courseId, sessions, instructor, student);
 

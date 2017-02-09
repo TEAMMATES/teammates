@@ -23,8 +23,9 @@ public final class EmailChecker {
      * Verifies that the given {@code emailContent} is the same as
      * the content given in the file at {@code filePathParam}. <br>
      * @param emailContent
-     * @param filePathParam If this starts with "/" (e.g., "/expected.html"), the
-     * folder is assumed to be {@link TestProperties.TEST_EMAILS_FOLDER}.
+     * @param filePathParam
+     *         If this starts with "/" (e.g., "/expected.html"), the
+     *         folder is assumed to be {@link TestProperties.TEST_EMAILS_FOLDER}.
      */
     public static void verifyEmailContent(String emailContent, String filePathParam) throws IOException {
         String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_EMAILS_FOLDER : "") + filePathParam;
