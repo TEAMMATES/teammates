@@ -16,8 +16,8 @@ import teammates.common.util.StringHelper;
 import teammates.test.pageobjects.AdminSearchPage;
 
 public class AdminSearchPageUiTest extends BaseUiTestCase {
-    public static final int ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS = 5;
-    public static final int ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS = 6;
+    private static final int ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS = 5;
+    private static final int ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS = 6;
 
     private AdminSearchPage searchPage;
 

@@ -150,6 +150,9 @@
       <property name="offset" value="8"/>
     </module>
     <module name="SingleLineJavadoc"/>
+    <module name="JavadocVariable">
+      <property name="scope" value="public"/>
+    </module>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>

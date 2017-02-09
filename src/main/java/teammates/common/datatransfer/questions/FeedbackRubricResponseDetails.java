@@ -15,8 +15,8 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     private static final Logger log = Logger.getLogger();
 
     /**
-     * List of integers, the size of the list corresponds to the number of sub-questions
-     * Each integer at index i, represents the choice chosen for sub-question i
+     * List of integers, the size of the list corresponds to the number of sub-questions.
+     * Each integer at index i, represents the choice chosen for sub-question i.
      */
     public List<Integer> answer;
 

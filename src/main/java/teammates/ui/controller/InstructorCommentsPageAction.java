@@ -24,7 +24,7 @@ import teammates.ui.pagedata.InstructorCommentsPageData;
  */
 public class InstructorCommentsPageAction extends Action {
 
-    public static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
+    private static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
 
     private String courseId;
     private String isDisplayArchivedCourseString;

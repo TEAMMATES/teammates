@@ -67,9 +67,6 @@ import com.google.appengine.api.blobstore.BlobKey;
  */
 public class Logic {
 
-    //TODO: remove this constant
-    public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
-
     protected static final AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static final StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -82,6 +79,9 @@ public class Logic {
             FeedbackResponseCommentsLogic.inst();
     protected static final AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
     protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+
+    //TODO: remove this constant
+    private static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
 
     /**
      * Creates a new Account based on given values. If a profile is not given,
