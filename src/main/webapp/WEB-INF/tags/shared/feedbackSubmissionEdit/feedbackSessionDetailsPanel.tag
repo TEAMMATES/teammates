@@ -1,6 +1,6 @@
 <%@ tag description="feedbackSubmissionEdit.jsp - Displays feedback session details" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ attribute name="feedbackSession" type="teammates.common.datatransfer.FeedbackSessionAttributes" required="true" %>
+<%@ attribute name="feedbackSession" type="teammates.common.datatransfer.attributes.FeedbackSessionAttributes" required="true" %>
 
 <div class="well well-plain" id="course1">
     <div class="panel-body">

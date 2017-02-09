@@ -3,8 +3,6 @@ package teammates.test.cases.datatransfer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -12,10 +10,6 @@ import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
 public class InstructorPrivilegesTest extends BaseTestCase {
-    @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
-    }
 
     @Test
     public void testSetDefault() {
@@ -535,8 +529,4 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertFalse(nonDefaultPrivileges.hasTutorPrivileges());
     }
 
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
-    }
 }

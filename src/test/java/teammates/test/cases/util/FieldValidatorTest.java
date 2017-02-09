@@ -5,8 +5,6 @@ import static teammates.common.util.FieldValidator.*;
 
 import java.util.Date;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.FieldValidator;
@@ -19,11 +17,6 @@ import com.google.appengine.api.datastore.Text;
 public class FieldValidatorTest extends BaseTestCase {
 
     public FieldValidator validator = new FieldValidator();
-    
-    @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testGetValidityInfoForSizeCappedNonEmptyString() {
@@ -795,8 +788,4 @@ public class FieldValidatorTest extends BaseTestCase {
         assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
     }
     
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
-    }
 }

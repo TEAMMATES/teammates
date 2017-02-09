@@ -6,11 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -28,8 +27,7 @@ public class CommentAttributesTest extends BaseTestCase {
     private static Date createdAt;
     
     @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
+    public void classSetup() {
         courseId = "test-course-id";
         giverEmail = "email from giver";
         recipientType = CommentParticipantType.PERSON;
@@ -140,8 +138,4 @@ public class CommentAttributesTest extends BaseTestCase {
         }
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 }

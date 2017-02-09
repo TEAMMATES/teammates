@@ -6,7 +6,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorFeedbackQuestionCopyPageData;
 import teammates.ui.template.FeedbackQuestionCopyTable;

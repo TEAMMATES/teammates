@@ -4,11 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -24,8 +23,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     private static StudentProfileAttributes profile;
 
     @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
+    public void classSetup() {
         profile = new StudentProfileAttributes();
         profile.googleId = "valid.googleId";
         profile.shortName = "shor";
@@ -155,11 +153,6 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
         // the toString must be unique to the values in the object
         assertEquals(profile.toString(), spa.toString());
-    }
-
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
     }
 
     // -------------------------------------------------------------------------------------------------------

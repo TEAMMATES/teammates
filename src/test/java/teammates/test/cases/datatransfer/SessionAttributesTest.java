@@ -5,19 +5,12 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.SessionAttributes;
+import teammates.common.datatransfer.attributes.SessionAttributes;
 import teammates.test.cases.BaseTestCase;
 
 public class SessionAttributesTest extends BaseTestCase {
-    
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testSort() {
@@ -76,11 +69,6 @@ public class SessionAttributesTest extends BaseTestCase {
         for (int i = 0; i < testList.size(); i++) {
             assertEquals(expected.get(i), testList.get(i));
         }
-    }
-    
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
     }
     
     private static class MiniEval implements SessionAttributes {

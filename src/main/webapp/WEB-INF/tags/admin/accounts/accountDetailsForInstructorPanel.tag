@@ -1,5 +1,5 @@
 <%@ tag description="Instructor Account Details" %>
-<%@ attribute name="accountInformation" type="teammates.common.datatransfer.AccountAttributes" required="true" %>
+<%@ attribute name="accountInformation" type="teammates.common.datatransfer.attributes.AccountAttributes" required="true" %>
 
 <div class="well well-plain">
     <form class="form-horizontal" role="form">

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 

@@ -1,5 +1,9 @@
 package teammates.common.datatransfer;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
