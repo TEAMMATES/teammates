@@ -1,9 +1,9 @@
 package teammates.ui.controller;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -110,17 +110,16 @@ public class InstructorCourseRemindAction extends Action {
                      .append(courseId)
                      .append("]</span>:<br>");
         
-        Iterator<Entry<String, JoinEmailData>> emailIterator =
-                emailDataMap.entrySet().iterator();
+        Set<Entry<String, JoinEmailData>> entries = emailDataMap.entrySet();
         
-        while (emailIterator.hasNext()) {
-            Entry<String, JoinEmailData> email = emailIterator.next();
+        for (Entry<String, JoinEmailData> entry : entries) {
             
-            String userEmail = email.getKey();
-            JoinEmailData joinEmailData = email.getValue();
+            String userEmail = entry.getKey();
+            JoinEmailData joinEmailData = entry.getValue();
             
-            statusToAdmin.append(joinEmailData.userName).append("<span class=\"bold\"> (").append(userEmail)
-                         .append(")</span>.<br>").append(joinEmailData.regKey).append("<br>");
+            statusToAdmin.append(joinEmailData.userName)
+                         .append("<span class=\"bold\"> (").append(userEmail).append(")</span>.<br>")
+                         .append(joinEmailData.regKey).append("<br>");
         }
         
         return statusToAdmin.toString();
