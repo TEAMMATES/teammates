@@ -24,7 +24,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
+        // extra test data used on top of typical data bundle
         removeAndRestoreDataBundle(dataBundle);
     }
 

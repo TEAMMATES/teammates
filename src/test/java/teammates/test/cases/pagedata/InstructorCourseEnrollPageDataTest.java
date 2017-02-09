@@ -1,6 +1,5 @@
 package teammates.test.cases.pagedata;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -10,11 +9,6 @@ import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 
 public class InstructorCourseEnrollPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testAll() {

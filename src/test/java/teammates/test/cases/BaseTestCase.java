@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.testng.AssertJUnit;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.FieldValidator;
@@ -29,18 +31,16 @@ public class BaseTestCase {
     }
     // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
-    public static void printTestCaseHeader() {
-        print("[TestCase]---:" + Thread.currentThread().getStackTrace()[2].getMethodName());
-    }
-
-    public static void printTestClassHeader() {
+    @BeforeClass
+    public void printTestClassHeader() {
         print("[============================="
-                + Thread.currentThread().getStackTrace()[2].getClassName()
+                + getClass().getCanonicalName()
                 + "=============================]");
     }
 
-    public static void printTestClassFooter() {
-        print(Thread.currentThread().getStackTrace()[2].getClassName() + " completed");
+    @AfterClass
+    public void printTestClassFooter() {
+        print(getClass().getCanonicalName() + " completed");
     }
 
     protected static void print(String message) {

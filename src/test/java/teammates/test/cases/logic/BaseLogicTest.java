@@ -1,4 +1,4 @@
-package teammates.test.cases.search;
+package teammates.test.cases.logic;
 
 import org.testng.annotations.BeforeClass;
 
@@ -6,9 +6,9 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.test.cases.BaseComponentTestCase;
 
 /**
- * Base class for all search tests.
+ * Base class for all *Logic tests.
  */
-public abstract class BaseSearchTest extends BaseComponentTestCase {
+public abstract class BaseLogicTest extends BaseComponentTestCase {
     
     protected DataBundle dataBundle;
     
@@ -20,7 +20,6 @@ public abstract class BaseSearchTest extends BaseComponentTestCase {
     protected void prepareTestData() {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreTypicalDataBundle();
-        putDocuments(dataBundle);
     }
     
 }

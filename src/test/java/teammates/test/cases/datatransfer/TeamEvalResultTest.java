@@ -7,7 +7,6 @@ import static teammates.common.util.Const.EOL;
 
 import java.util.Arrays;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.TeamEvalResult;
@@ -15,11 +14,6 @@ import teammates.test.cases.BaseTestCase;
 
 public class TeamEvalResultTest extends BaseTestCase {
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-    }
-
     // CHECKSTYLE.OFF:SingleSpaceSeparator vertical alignment of values for readability
     @Test
     public void testCalculatePoints() {

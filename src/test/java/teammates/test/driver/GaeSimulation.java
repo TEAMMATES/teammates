@@ -145,14 +145,6 @@ public class GaeSimulation {
         return action;
     }
 
-    /** Refreshes the datastore by recreating it from scratch. */
-    public void resetDatastore() {
-        if (helper != null) {
-            helper.tearDown();
-        }
-        helper.setUp();
-    }
-
     public void tearDown() {
         try {
             if (helper != null) {
