@@ -3,9 +3,9 @@ package teammates.ui.pagedata;
 import java.util.HashMap;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.ui.template.FeedbackResponseCommentRow;
 
 /*

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.Priority;
