@@ -47,10 +47,11 @@ public abstract class AppPage {
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
 
-    /** Browser instance the page is loaded into */
+    /** Browser instance the page is loaded into. */
     protected Browser browser;
 
-    /** These are elements common to most pages in our app */
+    // These are elements common to most pages in our app
+
     @FindBy(id = "statusMessagesToUser")
     private WebElement statusMessage;
 

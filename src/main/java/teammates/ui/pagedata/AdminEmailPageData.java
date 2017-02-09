@@ -82,7 +82,7 @@ public abstract class AdminEmailPageData extends PageData {
         return state.equals(AdminEmailPageState.TRASH) ? (AdminEmailTrashPageData) this : null;
     }
 
-    /****************** Sent email table *******************/
+    // Sent email table
 
     private AdminSentEmailTable createAdminSentEmailTable() {
         List<AdminSentEmailRow> rows = new ArrayList<AdminSentEmailRow>();
@@ -115,7 +115,7 @@ public abstract class AdminEmailPageData extends PageData {
                                         groupReceiver, ae.getSubject(), ae.getSendDateForDisplay());
     }
 
-    /****************** Draft email table *******************/
+    // Draft email table
 
     private AdminDraftEmailTable createAdminDraftEmailTable() {
         List<AdminDraftEmailRow> rows = new ArrayList<AdminDraftEmailRow>();
@@ -148,7 +148,7 @@ public abstract class AdminEmailPageData extends PageData {
                                         groupReceiver, ae.getSubject(), ae.getCreateDateForDisplay());
     }
 
-    /****************** Trash email table *******************/
+    // Trash email table
 
     private AdminTrashEmailTable createAdminTrashEmailTable() {
         List<AdminTrashEmailRow> rows = new ArrayList<AdminTrashEmailRow>();

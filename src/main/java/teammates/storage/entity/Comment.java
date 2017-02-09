@@ -50,15 +50,15 @@ public class Comment {
     @Persistent
     private Set<String> recipients;
 
-    /** The comment's status */
+    /** The comment's status. */
     @Persistent
     private CommentStatus status;
 
-    /** Is this comment pending to be sent to recipient (through email) or sending or sent */
+    /** Is this comment pending to be sent to recipient (through email) or sending or sent. */
     @Persistent
     private CommentSendingState sendingState;
 
-    /** Visibility options **/
+    /** Visibility options. **/
     @Persistent
     private List<CommentParticipantType> showCommentTo;
 
@@ -77,15 +77,15 @@ public class Comment {
     @Persistent
     private Date createdAt;
 
-    /** The comment from giver for receiver */
+    /** The comment from giver for receiver. */
     @Persistent
     private Text commentText;
 
-    /** The e-mail of the account that last edited the comment */
+    /** The e-mail of the account that last edited the comment. */
     @Persistent
     private String lastEditorEmail;
 
-    /** The time in which the comment is last edited */
+    /** The time in which the comment is last edited. */
     @Persistent
     private Date lastEditedAt;
 

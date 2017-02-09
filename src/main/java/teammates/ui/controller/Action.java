@@ -53,30 +53,31 @@ public abstract class Action {
     protected TaskQueuer taskQueuer;
     protected EmailSender emailSender;
 
-    /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
+    /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1}. */
     protected String requestUrl;
 
-    /** Parameters received with the request */
+    /** Parameters received with the request. */
     protected Map<String, String[]> requestParameters;
 
-    /** Execution status info to be shown to he admin (in 'activity log')*/
+    /** Execution status info to be shown to he admin (in 'activity log'). */
     protected String statusToAdmin; // TODO: make this a list?
 
-    /** Execution status info to be shown to the user */
+    /** Execution status info to be shown to the user. */
     protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
 
-    /** Whether the execution completed without any errors or
-     * when we are unable to perform the requested action(s)
+    /**
+     * Whether the execution completed without any errors or
+     * when we are unable to perform the requested action(s).
      **/
     protected boolean isError;
 
-    /** Session that contains status message information */
+    /** Session that contains status message information. */
     protected HttpSession session;
 
-    /** This is to get the blobInfo for any file upload from prev pages */
+    /** This is to get the blobInfo for any file upload from prev pages. */
     protected HttpServletRequest request;
 
-    /** This is for authentication at Action Level */
+    /** This is for authentication at Action Level. */
     private String authenticationRedirectUrl = "";
 
     /** Initializes variables.
@@ -153,7 +154,7 @@ public abstract class Action {
     }
 
     /**
-     * Retrieves registration key from the HTTP request
+     * Retrieves registration key from the HTTP request.
      *
      * @return Registration key or null if key not in HTTP request
      */

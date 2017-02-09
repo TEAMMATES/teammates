@@ -603,8 +603,6 @@ public final class CommentsLogic {
         }
     }
 
-    /************ Send Email For Pending Comments : populate recipients emails from Feedback Response Comments ************/
-
     private void populateRecipientEmailsFromPendingResponseComments(
                      List<FeedbackResponseCommentAttributes> sendingResponseCommentsList,
                      List<StudentAttributes> allStudents, CourseRoster roster,
@@ -718,8 +716,6 @@ public final class CommentsLogic {
         }
         return relatedQuestion;
     }
-
-    /************ Send Email For Pending Comments : populate recipients emails from Student Comments ************/
 
     private void populateRecipientEmailsFromPendingComments(List<CommentAttributes> sendingCommentsList,
                                                             List<StudentAttributes> allStudents, CourseRoster roster,

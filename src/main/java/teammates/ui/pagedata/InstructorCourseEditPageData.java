@@ -217,7 +217,7 @@ public class InstructorCourseEditPageData extends PageData {
     }
 
     /**
-     * Creates a basic bootstrap button for use in {@code <a>} tags in panel header
+     * Creates a basic bootstrap button for use in {@code <a></a>} tags in panel header.
      */
     private ElementTag createBasicButton(String buttonText, String buttonId, String href, String tooltipText,
                                          boolean isDisabled) {

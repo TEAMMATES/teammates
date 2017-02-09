@@ -33,7 +33,7 @@ public class InstructorCourseDeleteAction extends Action {
     }
 
     /**
-     * Checks if the action is executed in homepage or 'Courses' pages based on its redirection
+     * Checks if the action is executed in homepage or 'Courses' pages based on its redirection.
      */
     private boolean isRedirectedToHomePage() {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);

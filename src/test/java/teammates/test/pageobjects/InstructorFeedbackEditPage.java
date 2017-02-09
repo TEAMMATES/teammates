@@ -688,7 +688,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}
+     * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}.
      *
      * @param dateBox is a {@link WebElement} that triggers a datepicker
      * @param date is a {@link Calendar} that specifies the date that needs to be navigated to

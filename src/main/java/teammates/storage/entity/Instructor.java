@@ -44,7 +44,7 @@ public class Instructor {
     @Persistent
     private String email;
 
-    /** The instructor's registration key used for joining */
+    /** The instructor's registration key used for joining. */
     @Persistent
     private String registrationKey;
 

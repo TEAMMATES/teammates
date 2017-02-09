@@ -236,14 +236,14 @@ public final class HtmlHelper {
     }
 
     /**
-     * Checks for tooltips (i.e any <code>div</code> with class <code>tooltip</code> in it)
+     * Checks for tooltips (i.e any <code>div</code> with class <code>tooltip</code> in it).
      */
     private static boolean isTooltipAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "class", "tooltip");
     }
 
     /**
-     * Checks for popovers (i.e any <code>div</code> with class <code>popover</code> in it)
+     * Checks for popovers (i.e any <code>div</code> with class <code>popover</code> in it).
      */
     private static boolean isPopoverAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "class", "popover");
@@ -266,7 +266,7 @@ public final class HtmlHelper {
     }
 
     /**
-     * Checks for timezone selectors (i.e a <code>select</code> with id <code>coursetimezone</code>)
+     * Checks for timezone selectors (i.e a <code>select</code> with id <code>coursetimezone</code>).
      */
     private static boolean isTimeZoneSelectorAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "coursetimezone");

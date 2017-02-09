@@ -30,10 +30,10 @@ public abstract class ActionResult {
     /** True if the action did not complete successfully. */
     public boolean isError;
 
-    /** The 'nominal' user for whom the action was executed */
+    /** The 'nominal' user for whom the action was executed. */
     protected AccountAttributes account;
 
-    /** A list of status messages to be shown to the user */
+    /** A list of status messages to be shown to the user. */
     protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
 
     /**

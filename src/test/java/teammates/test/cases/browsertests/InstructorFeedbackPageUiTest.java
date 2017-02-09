@@ -35,7 +35,7 @@ import com.google.appengine.api.datastore.Text;
 public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private InstructorFeedbacksPage feedbackPage;
     private String idOfInstructorWithSessions;
-    /** This contains data for the new feedback session to be created during testing */
+    /** This contains data for the new feedback session to be created during testing. */
     private FeedbackSessionAttributes newSession;
 
     @Override

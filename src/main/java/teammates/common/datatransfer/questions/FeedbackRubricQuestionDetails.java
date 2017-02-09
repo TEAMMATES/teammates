@@ -490,7 +490,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Gets the description for given sub-question and choice
+     * Gets the description for given sub-question and choice.
      * @param subQuestion
      * @param choice
      */
@@ -626,7 +626,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Returns a list of FeedbackResponseAttributes filtered according to view, question recipient type
-     * for the Statistics Table
+     * for the Statistics Table.
      */
     private List<FeedbackResponseAttributes> filterResponsesForStatistics(
             List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,

@@ -103,7 +103,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
 
     /**
      * Tests the branch of the Action handling a request from an Instructor,
-     * where the parameters are the student's course and email
+     * where the parameters are the student's course and email.
      *
      * @throws Exception
      */

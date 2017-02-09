@@ -49,7 +49,7 @@ public class BaseTestCase {
     }
 
     /**
-     * Creates a DataBundle as specified in typicalDataBundle.json
+     * Creates a DataBundle as specified in typicalDataBundle.json.
      */
     protected static DataBundle getTypicalDataBundle() {
         return loadDataBundle("/typicalDataBundle.json");

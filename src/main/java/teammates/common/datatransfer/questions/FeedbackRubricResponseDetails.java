@@ -65,13 +65,13 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     }
 
     /**
-     * Initializes the answer list to have empty responses
-     * -1 indicates no choice chosen
+     * Initializes the answer list to have empty responses.
      * @param numSubQuestions
      */
     private void initializeEmptyAnswerList(int numSubQuestions) {
         answer = new ArrayList<Integer>();
         for (int i = 0; i < numSubQuestions; i++) {
+            // -1 indicates no choice chosen
             answer.add(-1);
         }
     }

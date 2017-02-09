@@ -82,7 +82,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     }
 
     /**
-     * For the given course, set the isArchived attribute of the instructors in the course
+     * For the given course, set the isArchived attribute of the instructors in the course.
      * @throws EntityDoesNotExistException
      * @throws InvalidParametersException
      */
@@ -111,7 +111,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     }
 
     /**
-     * For preview mode, prints out the instructors of the course and their isArchived status
+     * For preview mode, prints out the instructors of the course and their isArchived status.
      */
     private void previewInstructorsIsArchivedInCourse(CourseAttributes course) {
         Assumption.assertEquals(true, isPreview);

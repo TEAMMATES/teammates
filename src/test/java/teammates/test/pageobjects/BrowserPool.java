@@ -13,7 +13,7 @@ public final class BrowserPool {
      * use wait() and notify().
      */
 
-    /** Ideally, should be equal to the number of threads used for testing */
+    /** Ideally, should be equal to the number of threads used for testing. */
     private static final int CAPACITY = System.getenv("CI") == null ? 9 + 1 : 2;
     //+1 in case a sequential ui test uses a browser other than the first in pool
 

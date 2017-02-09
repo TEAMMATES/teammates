@@ -115,7 +115,6 @@ public class InstructorSearchPageData extends PageData {
         return searchStudentsTables;
     }
 
-    /*************** Set results tables *********************/
     private void setSearchCommentsForStudentsTables(
                                     CommentSearchResultBundle commentSearchResultBundle) {
 
@@ -148,7 +147,6 @@ public class InstructorSearchPageData extends PageData {
         }
     }
 
-    /*************** Create data structures for feedback response comments results ********************/
     private List<FeedbackSessionRow> createFeedbackSessionRows(
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
@@ -248,7 +246,6 @@ public class InstructorSearchPageData extends PageData {
         return rows;
     }
 
-    /*************** Create data structures for student search results ********************/
     private List<StudentListSectionData> createStudentRows(String courseId,
                                                            StudentSearchResultBundle studentSearchResultBundle) {
         List<StudentListSectionData> rows = new ArrayList<StudentListSectionData>();
@@ -319,7 +316,7 @@ public class InstructorSearchPageData extends PageData {
     }
 
     /**
-     * Filters students from studentSearchResultBundle by course ID
+     * Filters students from studentSearchResultBundle by course ID.
      * @param courseId
      * @return students whose course ID is equal to the courseId given in the parameter
      */

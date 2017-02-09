@@ -120,7 +120,7 @@ public class PerformanceProfiler extends Thread {
     }
 
     /**
-     * This function perform the method and print the return value for debugging
+     * This function perform the method and print the return value for debugging.
      * @param method
      */
     private void performMethod(Method method) {
@@ -161,8 +161,8 @@ public class PerformanceProfiler extends Thread {
     }
 
     /**
-     * Run this script as an single-thread Java application (for simple, non-parallel profiling)
-     * For parallel profiling, please use ParallelProfiler.java
+     * Run this script as an single-thread Java application (for simple, non-parallel profiling).
+     * For parallel profiling, please use ParallelProfiler.java.
      */
     public static void main(String[] args) {
         // Run this script as an single-thread Java application (for simple, non-parallel profiling)
@@ -171,7 +171,7 @@ public class PerformanceProfiler extends Thread {
     }
 
     /**
-     * The results from file stored in filePath
+     * The results from file stored in filePath.
      * @param filePath
      * @return {@code HashMap<nameOfTest, durations>} of the report stored in filePath
      * @throws IOException
@@ -212,7 +212,7 @@ public class PerformanceProfiler extends Thread {
     }
 
     /**
-     * Write the results to the file with path filePath
+     * Writes the results to the file with path filePath.
      * @param filePath
      * @throws IOException
      */

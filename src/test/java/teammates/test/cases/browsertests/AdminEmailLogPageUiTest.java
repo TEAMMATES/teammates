@@ -45,8 +45,8 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
 
     /**
      * This method only checks if the email log data table are displayed correctly
-     * i.e, table headers are correct
-     * It does not test for the table content
+     * i.e, table headers are correct.
+     * It does not test for the table content.
      */
     private boolean isEmailLogDataDisplayCorrect() {
         return emailLogPage.isElementPresent(By.className("table")) && isEmailLogTableHeaderCorrect();

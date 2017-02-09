@@ -1051,7 +1051,7 @@ public final class FeedbackSessionsLogic {
 
     /**
      * For a giver and a list of possibleRecipientsForGiver, generate rows
-     * of missing responses between the giver and the possible recipients
+     * of missing responses between the giver and the possible recipients.
      *
      * @param results
      * @param question

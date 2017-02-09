@@ -40,7 +40,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
-    /** indicates if the test-run is to use GodMode */
+    /** indicates if the test-run is to use GodMode. */
     private static boolean isGodModeEnabled;
 
     @BeforeClass

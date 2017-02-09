@@ -129,7 +129,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
 
     /**
-     * Removes extra space in feedbackSessionName in FeedbackResponseComments
+     * Removes extra space in feedbackSessionName in FeedbackResponseComments.
      */
     private void fixFeedbackResponseCommentsOfFeedbackSession(FeedbackSession session) {
         Query q = PM.newQuery(FeedbackResponseComment.class);
@@ -150,7 +150,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
 
     /**
-     * Removes extra space in feedbackSessionName in FeedbackResponses
+     * Removes extra space in feedbackSessionName in FeedbackResponses.
      */
     private void fixFeedbackResponsesOfFeedbackSession(FeedbackSession session) {
         Query q = PM.newQuery(FeedbackResponse.class);
@@ -170,7 +170,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
 
     /**
-     * Removes extra space in feedbackSessionName in FeedbackQuestions
+     * Removes extra space in feedbackSessionName in FeedbackQuestions.
      */
     private void fixFeedbackQuestionsOfFeedbackSession(FeedbackSession session) {
         Query q = PM.newQuery(FeedbackQuestion.class);

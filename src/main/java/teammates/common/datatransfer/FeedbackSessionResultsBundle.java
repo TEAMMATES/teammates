@@ -1101,7 +1101,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Get the possible givers for a TEAM recipient for the question specified
+     * Get the possible givers for a TEAM recipient for the question specified.
      * @param fqa
      * @param recipientTeam
      * @return a list of possible givers that can give a response to the team
@@ -1143,7 +1143,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Get the possible givers for a STUDENT recipient for the question specified
+     * Get the possible givers for a STUDENT recipient for the question specified.
      * @param fqa
      * @param studentRecipient
      * @return a list of possible givers that can give a response to the student
@@ -1195,7 +1195,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Get the possible givers for a INSTRUCTOR recipient for the question specified
+     * Get the possible givers for a INSTRUCTOR recipient for the question specified.
      * @param fqa
      * @return a list of possible givers that can give a response to the instructor
      *         specified as the recipient
@@ -1311,7 +1311,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Get the possible recipients for a INSTRUCTOR giver for the question specified
+     * Get the possible recipients for a INSTRUCTOR giver for the question specified.
      * @param fqa
      * @param instructorGiver
      * @return a list of possible recipients that can receive a response from giver specified by
@@ -1351,7 +1351,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Get the possible recipients for a STUDENT giver for the question specified
+     * Get the possible recipients for a STUDENT giver for the question specified.
      * @param fqa
      * @param studentGiver
      * @return a list of possible recipients that can receive a response from giver specified by
@@ -1397,7 +1397,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Get the possible recipients for a TEAM giver for the question specified
+     * Get the possible recipients for a TEAM giver for the question specified.
      * @param fqa
      * @param givingTeam
      * @return a list of possible recipients that can receive a response from giver specified by
@@ -1491,7 +1491,6 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Get a list of student emails, sorted by section name
      * @return a list of student emails, sorted by section name
      */
     private List<String> getSortedListOfStudentEmails() {
@@ -1505,7 +1504,6 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Get a list of instructor emails, sorted alphabetically
      * @return a list of instructor emails, sorted alphabetically
      */
     private List<String> getSortedListOfInstructorEmails() {

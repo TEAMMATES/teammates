@@ -244,11 +244,11 @@ public class AdminInstructorAccountAddAction extends Action {
     //    before "@" of the intial input email, by continuously remove its last character
 
     /**
-    * Generate a course ID for demo course, and if the generated id already exists, try another one
-    *
-    * @param instructorEmail is the instructor email.
-    * @return generated course id
-    */
+     * Generate a course ID for demo course, and if the generated id already exists, try another one.
+     *
+     * @param instructorEmail is the instructor email.
+     * @return generated course id
+     */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
         while (logic.getCourse(proposedCourseId) != null) {
@@ -258,11 +258,11 @@ public class AdminInstructorAccountAddAction extends Action {
     }
 
     /**
-    * Generate a course ID for demo course from a given email
-    *
-    * @param instructorEmail is the instructor email.
-    * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
-    */
+     * Generate a course ID for demo course from a given email.
+     *
+     * @param instructorEmail is the instructor email.
+     * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
+     */
     private String getDemoCourseIdRoot(String instructorEmail) {
         String[] emailSplit = instructorEmail.split("@");
 
@@ -276,20 +276,21 @@ public class AdminInstructorAccountAddAction extends Action {
     }
 
     /**
-    * Generate a course ID for demo course from a given email or a generated course Id
-    * here we check the input string is a email or course Id and handle them accordingly
-    * check the resulting course id, and if bigger than maximumIdLength, cut it so that it equals maximumIdLength
-    *
-    * @param instructorEmailOrProposedCourseId is the instructor email or a proposed course id that already exists.
-    * @param maximumIdLength is the maximum resulting id length allowed, above which we will cut the part before "@"
-    * @return the proposed course id, e.g.:
-    *         <ul>
-    *         <li>lebron@gmail.com -> lebron.gma-demo</li>
-    *         <li>lebron.gma-demo -> lebron.gma-demo0</li>
-    *         <li>lebron.gma-demo0 -> lebron.gma-demo1</li>
-    *         <li>012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)</li>
-    *         </ul>
-    */
+     * Generate a course ID for demo course from a given email or a generated course Id.
+     *
+     * <p>Here we check the input string is an email or course Id and handle them accordingly;
+     * check the resulting course id, and if bigger than maximumIdLength, cut it so that it equals maximumIdLength.
+     *
+     * @param instructorEmailOrProposedCourseId is the instructor email or a proposed course id that already exists.
+     * @param maximumIdLength is the maximum resulting id length allowed, above which we will cut the part before "@"
+     * @return the proposed course id, e.g.:
+     *         <ul>
+     *         <li>lebron@gmail.com -> lebron.gma-demo</li>
+     *         <li>lebron.gma-demo -> lebron.gma-demo0</li>
+     *         <li>lebron.gma-demo0 -> lebron.gma-demo1</li>
+     *         <li>012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)</li>
+     *         </ul>
+     */
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
         final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
         if (isFirstCourseId) {

@@ -44,10 +44,10 @@ public class GaeSimulation {
 
     private static GaeSimulation instance = new GaeSimulation();
 
-    /** This is used only to generate an HttpServletRequest for given parameters */
-    protected ServletUnitClient sc;
+    /** This is used only to generate an HttpServletRequest for given parameters. */
+    private ServletUnitClient sc;
 
-    protected LocalServiceTestHelper helper;
+    private LocalServiceTestHelper helper;
 
     private LocalLogService localLogService;
 
