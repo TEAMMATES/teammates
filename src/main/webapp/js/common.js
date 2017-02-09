@@ -1,10 +1,10 @@
 // Status message type
 var StatusType = {
-    SUCCESS : 'success',
-    INFO : 'info',
-    WARNING : 'warning',
-    DANGER : 'danger',
-    isValidType : function(type) {
+    SUCCESS: 'success',
+    INFO: 'info',
+    WARNING: 'warning',
+    DANGER: 'danger',
+    isValidType: function(type) {
         return type === StatusType.SUCCESS || type === StatusType.INFO
                 || type === StatusType.WARNING || type === StatusType.DANGER;
     }
