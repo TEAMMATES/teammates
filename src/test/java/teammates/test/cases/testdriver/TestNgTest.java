@@ -98,7 +98,8 @@ public class TestNgTest extends BaseTestCase {
         for (File file : listOfFiles) {
             String name = file.getName();
 
-            if (file.isFile() && name.endsWith(".java") && !areFilesInCurrentDirExcluded) {
+            if (file.isFile() && name.endsWith(".java") && !name.startsWith("package-info")
+                    && !areFilesInCurrentDirExcluded) {
                 testFiles.put(name.replace(".java", ""), packageName);
 
             } else if (file.isDirectory()) {
