@@ -437,25 +437,25 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
 
 /**
  * Selects contents inside an element.
- * @param el
+ * @param elementNode a HTML DOM element object, not a jQuery object
  */
-function selectElementContents(el) {
+function selectElementContents(elementNode) {
     var body = document.body;
     var range;
     if (document.createRange && window.getSelection) {
         range = document.createRange();
-        var sel = window.getSelection();
-        sel.removeAllRanges();
+        var selection = window.getSelection();
+        selection.removeAllRanges();
         try {
-            range.selectNodeContents(el);
-            sel.addRange(range);
+            range.selectNodeContents(elementNode);
+            selection.addRange(range);
         } catch (e) {
-            range.selectNode(el);
-            sel.addRange(range);
+            range.selectNode(elementNode);
+            selection.addRange(range);
         }
     } else if (body.createTextRange) {
         range = body.createTextRange();
-        range.moveToElementText(el);
+        range.moveToElementText(elementNode);
         range.select();
     }
 }
