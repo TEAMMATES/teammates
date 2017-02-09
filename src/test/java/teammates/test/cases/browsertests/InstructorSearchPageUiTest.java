@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;

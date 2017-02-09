@@ -1,6 +1,6 @@
 package teammates.ui.automated;
 
-import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;

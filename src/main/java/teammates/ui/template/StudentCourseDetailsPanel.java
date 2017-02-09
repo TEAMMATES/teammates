@@ -2,8 +2,8 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 
 public class StudentCourseDetailsPanel {
     private String courseId;

@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import teammates.common.datatransfer.attributes.CommentAttributes;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
