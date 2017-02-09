@@ -403,31 +403,43 @@ public class StudentsDb extends EntitiesDb {
         CourseStudent courseStudent = getCourseStudentEntityForEmail(courseId, email);
         if (courseStudent != null) {
             boolean isEmailChanged = !email.equals(newEmail);
+            String lastName = StringHelper.splitName(newName)[1];
+            
             if (isEmailChanged) {
-                CourseStudent courseStudentWithNewEmail = getCourseStudentEntityForEmail(courseId, newEmail);
-                if (courseStudentWithNewEmail != null) {
+                CourseStudent newCourseStudent = new CourseStudent(newEmail, newName, newGoogleId, newComments,
+                                                                   courseId, newTeamName, newSectionName);
+                newCourseStudent.setLastName(lastName);
+                newCourseStudent.setCreatedAt(courseStudent.getCreatedAt());
+                if (keepUpdateTimestamp) {
+                    newCourseStudent.setLastUpdate(courseStudent.getUpdatedAt());
+                }
+                
+                try {
+                    createStudent(new StudentAttributes(newCourseStudent), hasDocument);
+                } catch (EntityAlreadyExistsException e) {
+                    StudentAttributes existingStudent = (StudentAttributes) e.existingEntity;
                     String error = ERROR_UPDATE_EMAIL_ALREADY_USED
-                            + courseStudentWithNewEmail.getName() + "/" + courseStudentWithNewEmail.getEmail();
+                            + existingStudent.getName() + "/" + existingStudent.getEmail();
                     throw new InvalidParametersException(error);
                 }
-            }
-    
-            courseStudent.setEmail(newEmail);
-            courseStudent.setName(newName);
-            courseStudent.setLastName(StringHelper.splitName(newName)[1]);
-            courseStudent.setComments(newComments);
-            courseStudent.setGoogleId(newGoogleId);
-            courseStudent.setTeamName(newTeamName);
-            courseStudent.setSectionName(newSectionName);
+                
+                deleteStudent(courseId, email);
+                
+            } else {
+                courseStudent.setName(newName);
+                courseStudent.setLastName(lastName);
+                courseStudent.setComments(newComments);
+                courseStudent.setGoogleId(newGoogleId);
+                courseStudent.setTeamName(newTeamName);
+                courseStudent.setSectionName(newSectionName);
+                
+                if (hasDocument) {
+                    putDocument(new StudentAttributes(courseStudent));
+                }
             
-            if (hasDocument) {
-                putDocument(new StudentAttributes(courseStudent));
+                // Set true to prevent changes to last update timestamp
+                courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
             }
-        
-            // Set true to prevent changes to last update timestamp
-            courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
-            
-            log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         }
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
