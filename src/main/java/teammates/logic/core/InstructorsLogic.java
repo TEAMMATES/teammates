@@ -3,7 +3,7 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -60,11 +60,10 @@ public final class InstructorsLogic {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      * @param queryString
-     * @param cursorString
      * @return null if no result found
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
-        return instructorsDb.searchInstructorsInWholeSystem(queryString, cursorString);
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
+        return instructorsDb.searchInstructorsInWholeSystem(queryString);
     }
     
     /* ====================================

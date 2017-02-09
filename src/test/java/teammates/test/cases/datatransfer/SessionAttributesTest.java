@@ -9,7 +9,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.SessionAttributes;
+import teammates.common.datatransfer.attributes.SessionAttributes;
 import teammates.test.cases.BaseTestCase;
 
 public class SessionAttributesTest extends BaseTestCase {

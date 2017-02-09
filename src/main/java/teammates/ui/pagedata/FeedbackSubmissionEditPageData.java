@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.ui.template.FeedbackSubmissionEditQuestion;
 import teammates.ui.template.FeedbackSubmissionEditResponse;
@@ -179,7 +180,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                    + "</option>");
         
         for (Map.Entry<String, String> pair : emailNamePair.entrySet()) {
-            boolean isSelected = StringHelper.recoverFromSanitizedText(pair.getKey())
+            boolean isSelected = SanitizationHelper.desanitizeFromHtml(pair.getKey())
                                              .equals(currentlySelectedOption);
             result.add("<option value=\"" + sanitizeForHtml(pair.getKey()) + "\"" + (isSelected ? " selected" : "") + ">"
                            + sanitizeForHtml(pair.getValue())

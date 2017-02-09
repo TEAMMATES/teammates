@@ -10,9 +10,9 @@ import java.util.Map;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.datatransfer.EntityAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -48,16 +48,15 @@ public class StudentsDb extends EntitiesDb {
      * Search for students
      * @return {@link StudentSearchResultBundle}
      */
-    public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors,
-                                            String cursorString) {
+    public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors) {
         if (queryString.trim().isEmpty()) {
             return new StudentSearchResultBundle();
         }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT,
-                new StudentSearchQuery(instructors, queryString, cursorString));
+                new StudentSearchQuery(instructors, queryString));
         
-        return new StudentSearchResultBundle().fromResults(results, instructors);
+        return StudentSearchDocument.fromResults(results, instructors);
     }
 
     /**
@@ -65,18 +64,17 @@ public class StudentsDb extends EntitiesDb {
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search students in the whole system.
      * @param queryString
-     * @param cursorString
      * @return null if no result found
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
         if (queryString.trim().isEmpty()) {
             return new StudentSearchResultBundle();
         }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT,
-                new StudentSearchQuery(queryString, cursorString));
+                new StudentSearchQuery(queryString));
         
-        return new StudentSearchResultBundle().getStudentsfromResults(results);
+        return StudentSearchDocument.fromResults(results);
     }
 
     public void deleteDocument(StudentAttributes studentToDelete) {

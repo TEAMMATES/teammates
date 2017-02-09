@@ -6,11 +6,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -21,6 +21,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
@@ -132,17 +133,17 @@ public class AdminInstructorAccountAddAction extends Action {
         } catch (EmailSendingException e) {
             log.severe("Instructor welcome email failed to send: " + TeammatesException.toStringWithStackTrace(e));
         }
-        data.statusForAjax = "Instructor " + data.instructorName
+        data.statusForAjax = "Instructor " + SanitizationHelper.sanitizeForHtml(data.instructorName)
                              + " has been successfully created with join link:<br>" + joinLink;
         statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.SUCCESS));
         statusToAdmin = "A New Instructor <span class=\"bold\">"
-                + data.instructorName + "</span> has been created.<br>"
+                + SanitizationHelper.sanitizeForHtmlTag(data.instructorName) + "</span> has been created.<br>"
                 + "<span class=\"bold\">Id: </span>"
                 + "ID will be assigned when the verification link was clicked and confirmed"
                 + "<br>"
-                + "<span class=\"bold\">Email: </span>" + data.instructorEmail
+                + "<span class=\"bold\">Email: </span>" + SanitizationHelper.sanitizeForHtmlTag(data.instructorEmail)
                 + "<span class=\"bold\">Institution: </span>"
-                + data.instructorInstitution;
+                + SanitizationHelper.sanitizeForHtmlTag(data.instructorInstitution);
  
         
         return createAjaxResult(data);

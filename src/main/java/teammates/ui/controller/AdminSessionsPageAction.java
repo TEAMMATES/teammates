@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
@@ -107,13 +107,13 @@ public class AdminSessionsPageAction extends Action {
             end = calEnd.getTime();
         } else if (checkAllParameters("notNull")) {
             
-            Sanitizer.sanitizeForHtml(startDate);
-            Sanitizer.sanitizeForHtml(endDate);
-            Sanitizer.sanitizeForHtml(startHour);
-            Sanitizer.sanitizeForHtml(endHour);
-            Sanitizer.sanitizeForHtml(startMin);
-            Sanitizer.sanitizeForHtml(endMin);
-            Sanitizer.sanitizeForHtml(timeZone);
+            SanitizationHelper.sanitizeForHtml(startDate);
+            SanitizationHelper.sanitizeForHtml(endDate);
+            SanitizationHelper.sanitizeForHtml(startHour);
+            SanitizationHelper.sanitizeForHtml(endHour);
+            SanitizationHelper.sanitizeForHtml(startMin);
+            SanitizationHelper.sanitizeForHtml(endMin);
+            SanitizationHelper.sanitizeForHtml(timeZone);
             
             zone = Double.parseDouble(timeZone);
             

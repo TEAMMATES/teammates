@@ -6,7 +6,7 @@
 <%@ attribute name="editButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="cancelButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="deleteButton" type="teammates.ui.template.ElementTag" required="true" %>
-<%@ attribute name="instructor" type="teammates.common.datatransfer.InstructorAttributes" required="true" %>
+<%@ attribute name="instructor" type="teammates.common.datatransfer.attributes.InstructorAttributes" required="true" %>
 
 <div class="panel-heading">
     <strong>Instructor ${index}:</strong>

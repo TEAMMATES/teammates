@@ -2,7 +2,7 @@ package teammates.ui.pagedata;
 
 import java.util.List;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 
 public class InstructorFeedbackQuestionVisibilityMessagePageData extends PageData {
     public List<String> visibilityMessage;

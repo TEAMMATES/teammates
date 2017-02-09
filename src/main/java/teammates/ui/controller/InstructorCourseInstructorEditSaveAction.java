@@ -2,13 +2,13 @@ package teammates.ui.controller;
 
 import java.util.List;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
@@ -104,8 +104,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         if (displayedName == null || displayedName.isEmpty()) {
             displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         }
-        instructorRole = Sanitizer.sanitizeName(instructorRole);
-        displayedName = Sanitizer.sanitizeName(displayedName);
+        instructorRole = SanitizationHelper.sanitizeName(instructorRole);
+        displayedName = SanitizationHelper.sanitizeName(displayedName);
         
         InstructorAttributes instructorToEdit =
                 updateBasicInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
@@ -145,10 +145,10 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         } else {
             instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
         }
-        instructorToEdit.name = Sanitizer.sanitizeName(instructorName);
-        instructorToEdit.email = Sanitizer.sanitizeEmail(instructorEmail);
-        instructorToEdit.role = Sanitizer.sanitizeName(instructorRole);
-        instructorToEdit.displayedName = Sanitizer.sanitizeName(displayedName);
+        instructorToEdit.name = SanitizationHelper.sanitizeName(instructorName);
+        instructorToEdit.email = SanitizationHelper.sanitizeEmail(instructorEmail);
+        instructorToEdit.role = SanitizationHelper.sanitizeName(instructorRole);
+        instructorToEdit.displayedName = SanitizationHelper.sanitizeName(displayedName);
         instructorToEdit.isDisplayedToStudents = isDisplayedToStudents;
         instructorToEdit.privileges = new InstructorPrivileges(instructorToEdit.role);
         

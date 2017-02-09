@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 

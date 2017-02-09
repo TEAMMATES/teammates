@@ -2,7 +2,7 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResultsPageAction;
