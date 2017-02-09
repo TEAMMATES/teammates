@@ -137,6 +137,9 @@
       <property name="suppressLoadErrors" value="true"/>
       <property name="ignoreMethodNamesRegex" value="main"/>
     </module>
+    <module name="JavadocType">
+      <property name="scope" value="public"/>
+    </module>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>
