@@ -24,8 +24,8 @@ import com.google.appengine.api.blobstore.BlobKey;
 /**
  * Handles CRUD operations for emails sent by the admin.
  *
- * @see {@link AdminEmail}
- * @see {@link AdminEmailAttributes}
+ * @see AdminEmail
+ * @see AdminEmailAttributes
  */
 public class AdminEmailsDb extends EntitiesDb {
 
@@ -75,7 +75,7 @@ public class AdminEmailsDb extends EntitiesDb {
 
     /**
      * Deletes files uploaded in admin email compose page.
-     * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
+     * @param key the GCS blobkey used to fetch the file in Google Cloud Storage
      */
     public void deleteAdminEmailUploadedFile(BlobKey key) {
         GoogleCloudStorageHelper.deleteFile(key);

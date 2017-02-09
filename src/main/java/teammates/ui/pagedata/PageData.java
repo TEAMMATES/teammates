@@ -686,8 +686,6 @@ public class PageData {
      *         The return URL after performing the action.
      * @param instructor
      *         The Instructor details
-     * @param sectionsInCourse
-     *         The list of sections for the course
      * @return the links of actions available for a specific session
      * @throws EntityDoesNotExistException
      */

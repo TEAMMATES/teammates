@@ -249,7 +249,7 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Sanitizes the given URL for the parameter {@link Const.ParamsNames.NEXT_URL}.
+     * Sanitizes the given URL for the parameter {@link Const.ParamsNames#NEXT_URL}.
      * The following characters will be sanitized:
      * <ul>
      * <li>&, to prevent the parameters of the next URL from being considered as
@@ -308,8 +308,9 @@ public final class SanitizationHelper {
 
     /**
      * Sanitizes the string for comma-separated values (CSV) file output.<br>
-     * We follow the definition described by RFC 4180:<br>
-     * {@link http://tools.ietf.org/html/rfc4180}
+     * We follow the definition described by RFC 4180.
+     *
+     * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
      */
     public static String sanitizeForCsv(String str) {
         return "\"" + str.replace("\"", "\"\"") + "\"";
@@ -317,8 +318,9 @@ public final class SanitizationHelper {
 
     /**
      * Sanitizes the list of strings for comma-separated values (CSV) file output.<br>
-     * We follow the definition described by RFC 4180:<br>
-     * {@link http://tools.ietf.org/html/rfc4180}
+     * We follow the definition described by RFC 4180.
+     *
+     * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
      */
     public static List<String> sanitizeListForCsv(List<String> strList) {
         List<String> sanitizedStrList = new ArrayList<String>();

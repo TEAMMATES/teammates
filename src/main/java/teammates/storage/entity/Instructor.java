@@ -172,7 +172,6 @@ public class Instructor {
     /**
      * Generate unique registration key for the instructor.
      * The key contains random elements to avoid being guessed.
-     * @return
      */
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();

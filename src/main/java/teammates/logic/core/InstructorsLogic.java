@@ -17,8 +17,8 @@ import teammates.storage.api.InstructorsDb;
 /**
  * Handles operations related to instructors.
  *
- * @see {@link InstructorAttributes}
- * @see {@link InstructorsDb}
+ * @see InstructorAttributes
+ * @see InstructorsDb
  */
 public final class InstructorsLogic {
 

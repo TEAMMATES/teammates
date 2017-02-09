@@ -112,7 +112,6 @@ public final class StringHelper {
      * and returns the "obscured" string.
      *
      * @param inputString
-     * @return
      */
     public static String obscure(String inputString) {
         Assumption.assertNotNull(inputString);

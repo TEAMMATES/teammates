@@ -124,7 +124,6 @@ public class InstructorStudentRecordsPageAction extends Action {
      * Maps emails of instructors to the comments they gave.
      * @param comments
      * @param instructor
-     * @param courseId
      * @return A map with instructor email => comments mappings.
      */
     private Map<String, List<CommentAttributes>> mapCommentsToGiverEmail(

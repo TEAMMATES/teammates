@@ -44,7 +44,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
 
     /**
      * Gets answer in integer form.
-     * @return
      */
     public int getAnswer() {
         return answer;

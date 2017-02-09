@@ -28,8 +28,8 @@ import teammates.storage.api.FeedbackQuestionsDb;
 /**
  * Handles operations related to feedback questions.
  *
- * @see {@link FeedbackQuestionAttributes}
- * @see {@link FeedbackQuestionsDb}
+ * @see FeedbackQuestionAttributes
+ * @see FeedbackQuestionsDb
  */
 public final class FeedbackQuestionsLogic {
 

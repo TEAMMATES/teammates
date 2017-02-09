@@ -784,11 +784,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM)), recipientType);
     }
 
-    /**
-     *
-     * @return {@code True} if the button was clicked successfully and an element in the new question
-     *         frame is now visible. {@code False} if not.
-     */
     public void clickNewQuestionButton() {
         click(openNewQuestionButton);
     }

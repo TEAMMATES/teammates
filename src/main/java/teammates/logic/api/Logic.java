@@ -295,14 +295,14 @@ public class Logic {
     }
 
     /**
-     * @see {@link InstructorsLogic#putDocument(InstructorAttributes)}.
+     * @see InstructorsLogic#putDocument(InstructorAttributes).
      */
     public void putDocument(InstructorAttributes instructor) {
         instructorsLogic.putDocument(instructor);
     }
 
     /**
-     * @see {@link InstructorsLogic#deleteDocument(InstructorAttributes)}.
+     * @see InstructorsLogic#deleteDocument(InstructorAttributes).
      */
     public void deleteDocument(InstructorAttributes instructor) {
         instructorsLogic.deleteDocument(instructor);
@@ -443,7 +443,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link InstructorsLogic#isNewInstructor(String)}.
+     * @see InstructorsLogic#isNewInstructor(String).
      */
     public boolean isNewInstructor(String googleId) {
 
@@ -691,7 +691,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link CoursesLogic#updateCourse(CourseAttributes)}.
+     * @see CoursesLogic#updateCourse(CourseAttributes).
      */
     public void updateCourse(CourseAttributes course) throws InvalidParametersException,
                                                              EntityDoesNotExistException {
@@ -775,7 +775,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link StudentsLogic#getAllStudents()}.
+     * @see StudentsLogic#getAllStudents().
      */
     public List<StudentAttributes> getAllStudents() {
         return studentsLogic.getAllStudents();
@@ -873,7 +873,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link CoursesLogic#getSectionsNameForCourse(String)}.
+     * @see CoursesLogic#getSectionsNameForCourse(String).
      */
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -881,7 +881,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link CoursesLogic#getSectionsNameForCourse(CourseAttributes)}.
+     * @see CoursesLogic#getSectionsNameForCourse(CourseAttributes).
      */
     public List<String> getSectionNamesForCourse(CourseAttributes course) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
@@ -889,7 +889,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link CoursesLogic#getSectionsForCourseWithoutStats(String)}.
+     * @see CoursesLogic#getSectionsForCourseWithoutStats(String).
      */
     public List<SectionDetailsBundle> getSectionsForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1005,7 +1005,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link StudentsLogic#getUnregisteredStudentsForCourse(String)}
+     * @see StudentsLogic#getUnregisteredStudentsForCourse(String)
      */
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1013,7 +1013,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link FeedbackSessionsLogic#isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes, String)}
+     * @see FeedbackSessionsLogic#isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes, String)
      */
     public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
             throws EntityDoesNotExistException {
@@ -1023,7 +1023,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link FeedbackSessionsLogic#isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes, String)}
+     * @see FeedbackSessionsLogic#isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes, String)
      */
     public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
@@ -1065,7 +1065,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link StudentsLogic#validateSectionsAndTeams(List, String)}.
+     * @see StudentsLogic#validateSectionsAndTeams(List, String).
      */
     public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
@@ -1076,7 +1076,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link StudentsLogic#validateTeams(List, String)}.
+     * @see StudentsLogic#validateTeams(List, String).
      */
     public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
@@ -1173,7 +1173,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link FeedbackSessionsLogic#getFeedbackSessionDetailsForInstructor(String)}.
+     * @see FeedbackSessionsLogic#getFeedbackSessionDetailsForInstructor(String)
      */
     public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
             String googleId) throws EntityDoesNotExistException {
@@ -1182,7 +1182,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link FeedbackSessionsLogic#getFeedbackSessionsListForInstructor(String, boolean)}.
+     * @see FeedbackSessionsLogic#getFeedbackSessionsListForInstructor(String, boolean)
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(String googleId, boolean omitArchived) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
@@ -1196,7 +1196,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link FeedbackSessionsLogic#getFeedbackSessionQuestionsForInstructor(String, String, String)}.
+     * @see FeedbackSessionsLogic#getFeedbackSessionQuestionsForInstructor(String, String, String)
      */
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForInstructor(String feedbackSessionName,
                                                                                          String courseId,
@@ -1223,7 +1223,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link FeedbackSessionsLogic#getFeedbackSessionQuestionsForStudent(String, String, String)}.
+     * @see FeedbackSessionsLogic#getFeedbackSessionQuestionsForStudent(String, String, String)
      */
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForStudent(String feedbackSessionName,
                                                                                       String courseId,
@@ -1560,7 +1560,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link FeedbackSessionsLogic#getFeedbackSessionResponseStatus(String, String)}.
+     * @see FeedbackSessionsLogic#getFeedbackSessionResponseStatus(String, String).
      */
     public FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
@@ -1955,14 +1955,14 @@ public class Logic {
     }
 
     /**
-     * @see {@link FeedbackResponseCommentsLogic#putDocument(FeedbackResponseCommentAttributes)}.
+     * @see FeedbackResponseCommentsLogic#putDocument(FeedbackResponseCommentAttributes).
      */
     public void putDocument(FeedbackResponseCommentAttributes comment) {
         feedbackResponseCommentsLogic.putDocument(comment);
     }
 
     /**
-     * @see {@link FeedbackResponseCommentsLogic#deleteDocument(FeedbackResponseCommentAttributes)}.
+     * @see FeedbackResponseCommentsLogic#deleteDocument(FeedbackResponseCommentAttributes).
      */
     public void deleteDocument(FeedbackResponseCommentAttributes comment) {
         feedbackResponseCommentsLogic.deleteDocument(comment);
@@ -2047,7 +2047,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link CommentsLogic#getComment(CommentAttributes)}.
+     * @see CommentsLogic#getComment(CommentAttributes).
      */
     public CommentAttributes getComment(CommentAttributes comment) {
         Assumption.assertNotNull(comment);
@@ -2055,14 +2055,14 @@ public class Logic {
     }
 
     /**
-     * @see {@link CommentsLogic#putDocument(CommentAttributes)}.
+     * @see CommentsLogic#putDocument(CommentAttributes).
      */
     public void putDocument(CommentAttributes comment) {
         commentsLogic.putDocument(comment);
     }
 
     /**
-     * @see {@link CommentsLogic#deleteDocument(CommentAttributes)}.
+     * @see CommentsLogic#deleteDocument(CommentAttributes).
      */
     public void deleteDocument(CommentAttributes comment) {
         commentsLogic.deleteDocument(comment);
@@ -2243,7 +2243,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link AdminEmailsLogic#getAdminEmailById(String)}.
+     * @see AdminEmailsLogic#getAdminEmailById(String).
      */
     public AdminEmailAttributes getAdminEmailById(String emailId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, emailId);
@@ -2284,28 +2284,28 @@ public class Logic {
     }
 
     /**
-     * @see {@link AdminEmailsLogic#getSentAdminEmails()}.
+     * @see AdminEmailsLogic#getSentAdminEmails().
      */
     public List<AdminEmailAttributes> getSentAdminEmails() {
         return adminEmailsLogic.getSentAdminEmails();
     }
 
     /**
-     * @see {@link AdminEmailsLogic#getAdminEmailDrafts()}.
+     * @see AdminEmailsLogic#getAdminEmailDrafts().
      */
     public List<AdminEmailAttributes> getAdminEmailDrafts() {
         return adminEmailsLogic.getAdminEmailDrafts();
     }
 
     /**
-     * @see {@link AdminEmailsLogic#getAdminEmailsInTrashBin()}.
+     * @see AdminEmailsLogic#getAdminEmailsInTrashBin().
      */
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {
         return adminEmailsLogic.getAdminEmailsInTrashBin();
     }
 
     /**
-     * @see {@link AdminEmailsLogic#updateAdminEmailById(AdminEmailAttributes, String)}.
+     * @see AdminEmailsLogic#updateAdminEmailById(AdminEmailAttributes, String).
      */
     public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -2317,7 +2317,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link AdminEmailsLogic#getAdminEmail(String, Date)}.
+     * @see AdminEmailsLogic#getAdminEmail(String, Date).
      */
     public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
         Assumption.assertNotNull(subject);
@@ -2327,14 +2327,14 @@ public class Logic {
     }
 
     /**
-     * @see {@link AdminEmailsLogic#deleteAllEmailsInTrashBin()}.
+     * @see AdminEmailsLogic#deleteAllEmailsInTrashBin().
      */
     public void deleteAllEmailsInTrashBin() {
         adminEmailsLogic.deleteAllEmailsInTrashBin();
     }
 
     /**
-     * @see {@link AdminEmailsLogic#deleteAdminEmailUploadedFile(BlobKey)}.
+     * @see AdminEmailsLogic#deleteAdminEmailUploadedFile(BlobKey).
      */
     public void deleteAdminEmailUploadedFile(BlobKey key) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
@@ -2358,7 +2358,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link FeedbackResponsesLogic#getFeedbackResponsesForSession(String, String)}
+     * @see FeedbackResponsesLogic#getFeedbackResponsesForSession(String, String)
      */
     public List<FeedbackResponseAttributes>
             getFeedbackResponsesForSession(String feedbackSessionName, String courseId) {
@@ -2368,7 +2368,7 @@ public class Logic {
     }
 
     /**
-     * @see {@link StudentsLogic#adjustFeedbackResponseForEnrollments(List, FeedbackResponseAttributes)}
+     * @see StudentsLogic#adjustFeedbackResponseForEnrollments(List, FeedbackResponseAttributes)
      */
     public void adjustFeedbackResponseForEnrollments(List<StudentEnrollDetails> enrollmentList,
                                                      FeedbackResponseAttributes response)
@@ -2379,35 +2379,35 @@ public class Logic {
     }
 
     /**
-     * @see {@link FeedbackSessionsLogic#getFeedbackSessionsClosedWithinThePastHour()}
+     * @see FeedbackSessionsLogic#getFeedbackSessionsClosedWithinThePastHour()
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
         return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
     }
 
     /**
-     * @see {@link FeedbackSessionsLogic#getFeedbackSessionsClosingWithinTimeLimit()}
+     * @see FeedbackSessionsLogic#getFeedbackSessionsClosingWithinTimeLimit()
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
         return feedbackSessionsLogic.getFeedbackSessionsClosingWithinTimeLimit();
     }
 
     /**
-     * @see {@link FeedbackSessionsLogic#getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent()}
+     * @see FeedbackSessionsLogic#getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent()
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
         return feedbackSessionsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
     }
 
     /**
-     * @see {@link FeedbackSessionsLogic#getFeedbackSessionsWhichNeedOpenEmailsToBeSent()}
+     * @see FeedbackSessionsLogic#getFeedbackSessionsWhichNeedOpenEmailsToBeSent()
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
     }
 
     /**
-     * @see {@link StudentsLogic#getSectionForTeam(String, String)}
+     * @see StudentsLogic#getSectionForTeam(String, String)
      */
     public String getSectionForTeam(String courseId, String teamName) {
         Assumption.assertNotNull(courseId);

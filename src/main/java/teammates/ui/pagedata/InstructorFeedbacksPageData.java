@@ -47,7 +47,6 @@ public class InstructorFeedbacksPageData extends PageData {
      * @param defaultFormValues          the feedback session which values are used as the default values in the form
      * @param feedbackSessionType        "TEAMEVALUATION" or "STANDARD"
      * @param highlightedFeedbackSession the feedback session to highlight in the sessions table
-     * @param courseIdToSectionNameMap   map of course id to names of sections in the course
      */
     public void init(List<CourseAttributes> courses, String courseIdForNewSession,
                      List<FeedbackSessionAttributes> existingFeedbackSessions,

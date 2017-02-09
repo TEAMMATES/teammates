@@ -59,8 +59,8 @@ public class AdminLogQuery {
      * <p>The time is in Unix time. https://en.wikipedia.org/wiki/Unix_time
      * 0 means it will take logs after Thursday, 1 January 1970 (since forever).
      *
-     * @param startTime
-     * @param endTime
+     * @param startTimeParam
+     * @param endTimeParam
      */
     public void setTimePeriod(Long startTimeParam, Long endTimeParam) {
         long startTime = startTimeParam == null ? 0L : startTimeParam;

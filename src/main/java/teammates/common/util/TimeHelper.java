@@ -99,9 +99,9 @@ public final class TimeHelper {
     /**
      * Convert a date string and time string into a Date object. Returns null on error.
      *
-     * @param date
+     * @param inputDate
      *            The date in format dd/MM/yyyy
-     * @param time
+     * @param inputTimeHours
      *            The time as number of hours
      */
     public static Date combineDateTime(String inputDate, String inputTimeHours) {
@@ -267,7 +267,7 @@ public final class TimeHelper {
     }
 
     /**
-     * @param dateInStringFormat should be in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}
+     * @param dateInStringFormat should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
      */
     public static Date convertToDate(String dateInStringFormat) {
         try {
@@ -415,7 +415,6 @@ public final class TimeHelper {
     }
 
     /**
-     * @param type: Long value: time in milliseconds
      * @return Duration in format m:s:ms
      *         Example: 1200 milliseconds ---> 0:1:200
      */
@@ -436,7 +435,7 @@ public final class TimeHelper {
      * <p>required parameter format:
      * date: dd/MM/yyyy  hour: hh   min:mm
      *
-     * @return Date String in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}.<br>
+     * @return Date String in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}.<br>
      *         Example: If date is 01/04/2014, hour is 23, min is 59, result will be  2014-04-01 11:59 PM UTC.
      */
     public static String convertToRequiredFormat(String date, String hour, String min) {

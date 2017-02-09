@@ -27,7 +27,7 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
  *
  * <p>The first team is named "Team >'"< 1" to test cases where a HTML character exists in the team name.
  *
- * <p>SUT: {@link StudentFeedbackSubmitPage}.
+ * <p>SUT: {@link FeedbackSubmitPage}.
  */
 public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;

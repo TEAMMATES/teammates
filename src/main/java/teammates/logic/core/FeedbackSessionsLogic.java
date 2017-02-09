@@ -45,8 +45,8 @@ import teammates.storage.api.FeedbackSessionsDb;
 /**
  * Handles operations related to feedback sessions.
  *
- * @see {@link FeedbackSessionAttributes}
- * @see {@link FeedbackSessionsDb}
+ * @see FeedbackSessionAttributes
+ * @see FeedbackSessionsDb
  */
 public final class FeedbackSessionsLogic {
 
@@ -221,7 +221,6 @@ public final class FeedbackSessionsLogic {
      * Does not return private sessions unless the instructor is the creator.
      *
      * @param googleId
-     * @return
      * @throws EntityDoesNotExistException
      */
     public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
@@ -239,7 +238,6 @@ public final class FeedbackSessionsLogic {
      * Omits archived sessions if omitArchived == true
      *
      * @param googleId
-     * @return
      * @throws EntityDoesNotExistException
      */
     public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
@@ -266,7 +264,6 @@ public final class FeedbackSessionsLogic {
      * Omits sessions from archived courses if omitArchived == true
      *
      * @param googleId
-     * @return
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(String googleId, boolean omitArchived) {
 
@@ -1058,7 +1055,6 @@ public final class FeedbackSessionsLogic {
      * @param questionDetails
      * @param possibleRecipientsForGiver
      * @param giver
-     * @return
      */
     private StringBuilder getRowsOfPossibleRecipientsInCsvFormat(
             FeedbackSessionResultsBundle results,

@@ -966,7 +966,6 @@ public class FeedbackSessionResultsBundle {
      *
      * <p>Otherwise, Const.USER_NOBODY_TEXT is returned.
      * @param participantIdentifier
-     * @return
      * @see #getDisplayableEmail
      */
     public String getDisplayableEmailFromRoster(String participantIdentifier) {
@@ -980,7 +979,7 @@ public class FeedbackSessionResultsBundle {
      * Get the displayable team name from an email.
      * If the email is not an email of someone in the class roster, an empty string is returned.
      *
-     * <p>This function is different from {@link getTeamNameForEmail} as it obtains the name
+     * <p>This function is different from {@link #getTeamNameForEmail} as it obtains the name
      * using the class roster, instead of from the responses.
      * @param participantIdentifier
      */
@@ -1901,7 +1900,7 @@ public class FeedbackSessionResultsBundle {
      * <br>The inner-most child is a {@code List<FeedbackResponseAttributes} of all the responses
      * <br>with attributes corresponding to it's parents.
      * @return The responses in this bundle sorted by recipient identifier > giver identifier > question number.
-     * @see {@link getResponsesSortedByRecipient}.
+     * @see #getResponsesSortedByRecipient
      */
     public LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByRecipientGiverQuestion(boolean sortByTeam) {
@@ -2035,7 +2034,7 @@ public class FeedbackSessionResultsBundle {
      * <br>The inner-most child is a {@code List<FeedbackResponseAttributes} of all the responses
      * <br>with attributes corresponding to it's parents.
      * @return The responses in this bundle sorted by giver's identifier > recipient's identifier > question number.
-     * @see {@link getResponsesSortedByGiver}.
+     * @see #getResponsesSortedByGiver
      */
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
                 getResponsesSortedByGiverRecipientQuestion(boolean sortByTeam) {

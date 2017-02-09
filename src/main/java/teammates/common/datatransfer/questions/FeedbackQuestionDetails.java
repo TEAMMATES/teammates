@@ -145,8 +145,6 @@ public abstract class FeedbackQuestionDetails {
      * Validates visibility options as well.
      *
      * <p>Override in Feedback*QuestionDetails if necessary.
-     * @param giverType
-     * @param recipientType
      * @return error message detailing the error, or an empty string if valid.
      */
     public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);

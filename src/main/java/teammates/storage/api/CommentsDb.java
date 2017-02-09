@@ -32,8 +32,8 @@ import com.google.appengine.api.search.ScoredDocument;
 /**
  * Handles CRUD operations for student comments.
  *
- * @see {@link Comment}
- * @see {@link CommentAttributes}
+ * @see Comment
+ * @see CommentAttributes
  */
 public class CommentsDb extends EntitiesDb {
 

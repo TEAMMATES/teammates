@@ -30,8 +30,8 @@ import com.google.appengine.api.search.ScoredDocument;
 /**
  * Handles CRUD operations for instructors.
  *
- * @see {@link Instructor}
- * @see {@link InstructorAttributes}
+ * @see Instructor
+ * @see InstructorAttributes
  */
 public class InstructorsDb extends EntitiesDb {
 

@@ -25,7 +25,7 @@ public final class EmailChecker {
      * @param emailContent
      * @param filePathParam
      *         If this starts with "/" (e.g., "/expected.html"), the
-     *         folder is assumed to be {@link TestProperties.TEST_EMAILS_FOLDER}.
+     *         folder is assumed to be {@link TestProperties#TEST_EMAILS_FOLDER}.
      */
     public static void verifyEmailContent(String emailContent, String filePathParam) throws IOException {
         String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_EMAILS_FOLDER : "") + filePathParam;

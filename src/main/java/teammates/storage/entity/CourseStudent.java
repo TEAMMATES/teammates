@@ -92,8 +92,6 @@ public class CourseStudent implements StoreCallback {
      *            Student's email used for this course.
      * @param name
      *            Student name.
-     * @param lastName
-     *            Student last name
      * @param googleId
      *            Student's Google Id. Can be null/empty if the student hasn't
      *            registered yet.

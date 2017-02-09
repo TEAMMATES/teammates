@@ -40,7 +40,6 @@ public class AdminHomePage extends AppPage {
      * If an attribute value is null, the existing value in the form is used.
      *
      * @param attributesForNewAccount
-     * @param isCreateCourse True if a sample course should be created for this account.
      */
     public AdminHomePage createInstructor(String shortName, InstructorAttributes attributesForNewAccount, String institute) {
         if (shortName != null) {

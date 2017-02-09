@@ -20,8 +20,8 @@ import teammates.storage.entity.FeedbackResponse;
 /**
  * Handles CRUD operations for feedback responses.
  *
- * @see {@link FeedbackResponse}
- * @see {@link FeedbackResponseAttributes}
+ * @see FeedbackResponse
+ * @see FeedbackResponseAttributes
  */
 public class FeedbackResponsesDb extends EntitiesDb {
 

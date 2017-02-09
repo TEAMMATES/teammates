@@ -656,7 +656,6 @@ public abstract class AppPage {
     /**
      * Clicks the element and clicks 'Yes' in the follow up dialog box and will not wait for modal to disappear
      * Fails if there is no dialog box.
-     * @return the resulting page.
      */
     public void clickAndConfirmWithoutWaitingForModalDisappearance(WebElement elementToClick) {
         click(elementToClick);
@@ -669,7 +668,6 @@ public abstract class AppPage {
     /**
      * Clicks the element and clicks 'No' in the follow up dialog box.
      * Fails if there is no dialog box.
-     * @return the resulting page.
      */
     public void clickAndCancel(WebElement elementToClick) {
         click(elementToClick);
@@ -814,7 +812,7 @@ public abstract class AppPage {
      * The HTML is checked for logical equivalence, not text equivalence.
      * @param filePath
      *         If this starts with "/" (e.g., "/expected.html"), the
-     *         folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
+     *         folder is assumed to be {@link TestProperties#TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtml(String filePath) throws IOException {
@@ -827,7 +825,7 @@ public abstract class AppPage {
      * The HTML is checked for logical equivalence, not text equivalence.
      * @param filePathParam
      *         If this starts with "/" (e.g., "/expected.html"), the
-     *         folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
+     *         folder is assumed to be {@link TestProperties#TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePathParam) throws IOException {
@@ -893,7 +891,7 @@ public abstract class AppPage {
      * The HTML is checked for logical equivalence, not text equivalence.
      * @param filePath
      *         If this starts with "/" (e.g., "/expected.html"), the
-     *         folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
+     *         folder is assumed to be {@link TestProperties#TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlMainContent(String filePath) throws IOException {

@@ -290,7 +290,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * Does not check if any responses exist.
      *
      * @param newAttributes
-     * @return
      */
     public boolean areResponseDeletionsRequiredForChanges(FeedbackQuestionAttributes newAttributes) {
         if (!newAttributes.giverType.equals(this.giverType)

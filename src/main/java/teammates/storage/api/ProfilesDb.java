@@ -23,8 +23,8 @@ import com.google.appengine.api.datastore.Text;
 /**
  * Handles CRUD operations for student profiles.
  *
- * @see {@link StudentProfile}
- * @see {@link StudentProfileAttributes}
+ * @see StudentProfile
+ * @see StudentProfileAttributes
  */
 public class ProfilesDb extends EntitiesDb {
 
@@ -185,7 +185,6 @@ public class ProfilesDb extends EntitiesDb {
      * legacy account entities on the fly.
      *
      * @param googleId
-     * @return
      */
     // TODO: remove this function once legacy data have been ported over
     private StudentProfile getStudentProfileEntityForLegacyData(String googleId) {

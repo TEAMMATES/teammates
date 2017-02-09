@@ -20,8 +20,8 @@ import teammates.storage.api.AccountsDb;
 /**
  * Handles operations related to accounts.
  *
- * @see {@link AccountAttributes}
- * @see {@link AccountsDb}
+ * @see AccountAttributes
+ * @see AccountsDb
  */
 public final class AccountsLogic {
 

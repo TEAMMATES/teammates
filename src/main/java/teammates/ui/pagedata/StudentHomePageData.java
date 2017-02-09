@@ -127,7 +127,6 @@ public class StudentHomePageData extends PageData {
 
     /**
      * @param fs The feedback session in question.
-     * @param idx The index of the session in the table.
      * @param hasSubmitted Whether the student had submitted the session or not.
      * @return The list of available actions for a specific feedback session.
      */

@@ -33,8 +33,8 @@ import com.google.appengine.api.search.ScoredDocument;
 /**
  * Handles CRUD operations for students.
  *
- * @see {@link CourseStudent}
- * @see {@link StudentAttributes}
+ * @see CourseStudent
+ * @see StudentAttributes
  */
 public class StudentsDb extends EntitiesDb {
 

@@ -18,8 +18,8 @@ import teammates.storage.entity.Course;
 /**
  * Handles CRUD operations for courses.
  *
- * @see {@link Course}
- * @see {@link CourseAttributes}
+ * @see Course
+ * @see CourseAttributes
  */
 public class CoursesDb extends EntitiesDb {
 

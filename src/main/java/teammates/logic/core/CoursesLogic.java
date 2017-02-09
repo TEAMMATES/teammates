@@ -34,8 +34,8 @@ import teammates.storage.api.CoursesDb;
 /**
  * Handles operations related to courses.
  *
- * @see {@link CourseAttributes}
- * @see {@link CoursesDb}
+ * @see CourseAttributes
+ * @see CoursesDb
  */
 public final class CoursesLogic {
 

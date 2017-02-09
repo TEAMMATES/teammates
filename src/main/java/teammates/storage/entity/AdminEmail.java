@@ -49,8 +49,6 @@ public class AdminEmail {
 
     /**
      * Instantiates a new AdminEmail.
-     * @param receiver
-     *          a string list contaning all receiver (could be email address or characteristics{eg. joined date range} )
      * @param subject
      *          email subject
      * @param content

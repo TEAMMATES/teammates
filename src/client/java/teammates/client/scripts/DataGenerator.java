@@ -113,7 +113,7 @@ public final class DataGenerator {
 
     /**
      * Randomly creates courses, students and evaluations for a particular instructor.
-     * @param instructorName
+     * @param courseName
      */
     private static void generateDataForCourse(String courseName) {
         //number of courses for this particular instructor

@@ -31,21 +31,21 @@ public final class JsonUtils {
     }
 
     /**
-     * @see {@link Gson#toJson(Object, Type)}.
+     * @see Gson#toJson(Object, Type)
      */
     public static String toJson(Object src, Type typeOfSrc) {
         return getTeammatesGson().toJson(src, typeOfSrc);
     }
 
     /**
-     * @see {@link Gson#toJson(Object)}.
+     * @see Gson#toJson(Object)
      */
     public static String toJson(Object src) {
         return getTeammatesGson().toJson(src);
     }
 
     /**
-     * @see {@link Gson#fromJson(String, Type)}.
+     * @see Gson#fromJson(String, Type)
      */
     public static <T> T fromJson(String json, Type typeOfT) {
         try {
@@ -57,7 +57,7 @@ public final class JsonUtils {
     }
 
     /**
-     * @see {@link JsonParser#parse(String)}.
+     * @see JsonParser#parse(String)
      */
     public static JsonElement parse(String json) {
         JsonParser parser = new JsonParser();
