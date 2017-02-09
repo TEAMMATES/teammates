@@ -6,6 +6,7 @@ branches:
   only:
     - master
     - release
+    - dev-es6
 
 notifications:
   email: false
