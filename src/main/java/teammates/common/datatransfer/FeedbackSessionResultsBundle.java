@@ -28,7 +28,7 @@ import teammates.common.util.StringHelper;
  * <br> * The basic {@link FeedbackSessionAttributes}
  * <br> * {@link List} of viewable responses as {@link FeedbackResponseAttributes} objects.
  */
-public class FeedbackSessionResultsBundle implements SessionResultsBundle {
+public class FeedbackSessionResultsBundle {
 
     private static final Logger log = Logger.getLogger();
 
@@ -1062,7 +1062,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     /**
      * Get the possible givers for a recipient specified by its participant identifier for
-     * a question
+     * a question.
      *
      * @param fqa
      * @param recipientParticipantIdentifier
@@ -1287,7 +1287,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     // TODO code duplication between this function and in FeedbackQuestionsLogic getRecipientsForQuestion
     /**
-     * Get the possible recipients for a giver for the question specified
+     * Get the possible recipients for a giver for the question specified.
      * @param fqa
      * @param giverParticipantIdentifier
      * @return a list of possible recipients that can receive a response from giver specified by

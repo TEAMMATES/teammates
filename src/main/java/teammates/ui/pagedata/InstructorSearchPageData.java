@@ -30,7 +30,7 @@ import teammates.ui.template.SearchStudentsTable;
 import teammates.ui.template.StudentListSectionData;
 
 /**
- * PageData: the data to be used in the InstructorSearchPage
+ * PageData: the data to be used in the InstructorSearchPage.
  */
 public class InstructorSearchPageData extends PageData {
     private String searchKey = "";
@@ -75,7 +75,6 @@ public class InstructorSearchPageData extends PageData {
         setSearchStudentsTables(studentSearchResultBundle);
     }
 
-    /*************** Get methods ********************/
     public String getSearchKey() {
         return sanitizeForHtml(searchKey);
     }

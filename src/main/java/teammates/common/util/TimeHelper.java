@@ -119,7 +119,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns the date object with specified offset in number of hours from now
+     * @return the date object with specified offset in number of hours from now.
      */
     public static Date getHoursOffsetToCurrentTime(int offsetHours) {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -129,7 +129,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns the date object with specified offset in number of days from now
+     * @return the date object with specified offset in number of days from now.
      */
     public static Date getDateOffsetToCurrentTime(int offsetDays) {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -195,7 +195,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format dd/MM/yyyy
+     * Formats a date in the format dd/MM/yyyy.
      */
     public static String formatDate(Date date) {
         if (date == null) {
@@ -431,15 +431,15 @@ public final class TimeHelper {
     }
 
     /**
-     * All parameters not null
-     * Combine separated date, hour and minute string into standard format
-     * required parameter format:
+     * Combines separated date, hour and minute string into standard format.
+     *
+     * <p>required parameter format:
      * date: dd/MM/yyyy  hour: hh   min:mm
-     * @return Date String in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}
+     *
+     * @return Date String in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}.<br>
      * Example: If date is 01/04/2014, hour is 23, min is 59
      *          result will be  2014-04-01 11:59 PM UTC
      */
-
     public static String convertToRequiredFormat(String date, String hour, String min) {
 
         if (date == null || hour == null || min == null) {

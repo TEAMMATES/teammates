@@ -38,7 +38,7 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * Returns a HashMap object containing all the parameters key-value pairs
+     * @return a HashMap object containing all the parameters key-value pairs.
      * from a URLFetchRequest object
      */
     public static HashMap<String, String> getParamMap(URLFetchRequest request) {

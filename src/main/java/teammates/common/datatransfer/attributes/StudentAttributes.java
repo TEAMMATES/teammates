@@ -131,7 +131,9 @@ public class StudentAttributes extends EntityAttributes {
         return key;
     }
 
-    /** Format: email%courseId e.g., adam@gmail.com%cs1101 */
+    /**
+     * Format: email%courseId e.g., adam@gmail.com%cs1101.
+     */
     public String getId() {
         return email + "%" + course;
     }

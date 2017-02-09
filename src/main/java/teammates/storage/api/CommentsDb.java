@@ -40,7 +40,6 @@ public class CommentsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Comment: ";
 
     /**
-     * This method is for testing only
      * @param commentsToAdd
      * @throws InvalidParametersException
      */
@@ -74,7 +73,7 @@ public class CommentsDb extends EntitiesDb {
     }
 
     /**
-     * Remove search document for the given comment
+     * Removes search document for the given comment.
      * @param commentToDelete
      */
     public void deleteDocument(CommentAttributes commentToDelete) {
@@ -486,7 +485,7 @@ public class CommentsDb extends EntitiesDb {
     }
 
     /**
-     * Search for comments
+     * Searches for comments.
      * @return {@link CommentSearchResultBundle}
      */
     public CommentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors) {

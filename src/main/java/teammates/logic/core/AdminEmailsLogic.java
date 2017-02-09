@@ -41,7 +41,7 @@ public final class AdminEmailsLogic {
     }
 
     /**
-     * get an admin email by email id
+     * Gets an admin email by email id.
      * @return null if no matched email found
      */
     public AdminEmailAttributes getAdminEmailById(String emailId) {
@@ -50,7 +50,7 @@ public final class AdminEmailsLogic {
     }
 
     /**
-     * get an admin email by subject and createDate
+     * Gets an admin email by subject and createDate.
      * @return null if no matched email found
      */
     public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
@@ -99,7 +99,7 @@ public final class AdminEmailsLogic {
     }
 
     /**
-     * Get all admin emails that have been sent and not in trash bin
+     * Gets all admin emails that have been sent and not in trash bin.
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getSentAdminEmails() {
@@ -107,7 +107,7 @@ public final class AdminEmailsLogic {
     }
 
     /**
-     * Get all admin email drafts that have NOT been sent and NOT in trash bin
+     * Gets all admin email drafts that have NOT been sent and NOT in trash bin.
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailDrafts() {
@@ -115,7 +115,7 @@ public final class AdminEmailsLogic {
     }
 
     /**
-     * Get all admin emails that have been moved into trash bin
+     * Gets all admin emails that have been moved into trash bin.
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {
@@ -126,6 +126,13 @@ public final class AdminEmailsLogic {
         return adminEmailsDb.creatAdminEmail(newAdminEmail);
     }
 
+    /**
+     * Updates an admin email by email id.
+     * @param newAdminEmail
+     * @param emailId
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
     public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(emailId);
@@ -135,14 +142,14 @@ public final class AdminEmailsLogic {
     }
 
     /**
-     * deletes all emails in trash bin
+     * Deletes all emails in trash bin.
      */
     public void deleteAllEmailsInTrashBin() {
         adminEmailsDb.deleteAllEmailsInTrashBin();
     }
 
     /**
-     * deletes files uploaded in admin email compose page
+     * Deletes files uploaded in admin email compose page.
      * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
      */
     public void deleteAdminEmailUploadedFile(BlobKey key) {

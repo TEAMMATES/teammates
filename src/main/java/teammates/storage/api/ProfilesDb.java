@@ -142,7 +142,7 @@ public class ProfilesDb extends EntitiesDb {
     /**
      * Deletes the profile picture from GCS and
      * updates the profile entity:
-     *     empties the key and updates the modifiedDate
+     *     empties the key and updates the modifiedDate.
      *
      * @param googleId
      * @throws EntityDoesNotExistException

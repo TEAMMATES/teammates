@@ -123,7 +123,7 @@ public abstract class FeedbackQuestionDetails {
     }
 
     /**
-     * Validates the question details
+     * Validates the question details.
      *
      * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
      * empty list if question details are valid.
@@ -152,7 +152,7 @@ public abstract class FeedbackQuestionDetails {
     public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);
 
     /**
-     * Extract question details and sets details accordingly
+     * Extract question details and sets details accordingly.
      *
      * @param requestParameters
      * @param questionType

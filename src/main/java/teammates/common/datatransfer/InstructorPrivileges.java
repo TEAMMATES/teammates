@@ -221,7 +221,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * set privilege for the privilege specified by privilegeName
+     * Sets privilege for the privilege specified by privilegeName.
      *
      * @param privilegeName
      * @param isAllowed
@@ -231,7 +231,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * set privilege for the privilege specified by privilegeName for sectionName
+     * Sets privilege for the privilege specified by privilegeName for sectionName.
      *
      * @param sectionName
      * @param privilegeName
@@ -242,7 +242,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * set privilege for the privilege specified by privilegeName for sessionName in sectionName
+     * Sets privilege for the privilege specified by privilegeName for sessionName in sectionName.
      *
      * @param sectionName
      * @param sessionName
@@ -283,8 +283,6 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * used for bulk update of privileges for sectionName
-     *
      * @param sectionName
      * @param privileges
      */
@@ -293,8 +291,6 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * used for bulk update of privileges for sessionName in sectionName
-     *
      * @param sectionName
      * @param sessionName
      * @param privileges
@@ -437,7 +433,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * remove special settings for sectionName
+     * Removes special settings for sectionName.
      * @param sectionName
      */
     public void removeSectionLevelPrivileges(String sectionName) {
@@ -448,7 +444,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * remove special settings for all sessionNames in sectionName
+     * Removes special settings for all sessionNames in sectionName.
      * @param sectionName
      */
     public void removeSessionsPrivilegesForSection(String sectionName) {
@@ -458,7 +454,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * remove special settings for sessionName in sectionName
+     * Removes special settings for sessionName in sectionName.
      * @param sectionName
      * @param sessionName
      */
@@ -521,9 +517,10 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * validate the privileges in course level, section level and session level
-     * make sure there is nothing wrong with privileges hierarchy by adding the
-     * prerequisite privileges if they have not been granted yet
+     * Validates the privileges in course level, section level and session level.
+     *
+     * <p>Makes sure there is nothing wrong with privileges hierarchy by adding the
+     * prerequisite privileges if they have not been granted yet.
      */
     public void validatePrivileges() {
         if (this.courseLevel.containsKey(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)

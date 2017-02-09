@@ -31,7 +31,7 @@ import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogService.LogLevel;
 
 /**
- * SUT: {@link EmailGenerator}
+ * SUT: {@link EmailGenerator}.
  */
 public class EmailGeneratorTest extends BaseLogicTest {
 

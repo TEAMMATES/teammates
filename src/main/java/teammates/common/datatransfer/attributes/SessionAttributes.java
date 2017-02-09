@@ -7,15 +7,15 @@ import teammates.common.util.Assumption;
 
 /**
  * Interface for Sessions, to be used for grouping
- * sessions together and sort them based on common attributes (time and name)
- * Current implementing classes:
- * - {@link FeedbackSessionAttributes}
+ * sessions together and sort them based on common attributes (time and name).
+ *
+ * <p>Current implementing classes: {@link FeedbackSessionAttributes}
  */
 public interface SessionAttributes {
 
     /**
      * Comparator to sort SessionAttributes on ASCENDING order based on
-     * end time, followed by start time and session name
+     * end time, followed by start time and session name.
      */
     Comparator<SessionAttributes> ASCENDING_ORDER = new Comparator<SessionAttributes>() {
         @Override
@@ -48,7 +48,7 @@ public interface SessionAttributes {
 
     /**
      * Comparator to sort SessionAttributes on DESCENDING order based on
-     * end time, followed by start time and session name
+     * end time, followed by start time and session name.
      */
     Comparator<SessionAttributes> DESCENDING_ORDER = new Comparator<SessionAttributes>() {
         @Override

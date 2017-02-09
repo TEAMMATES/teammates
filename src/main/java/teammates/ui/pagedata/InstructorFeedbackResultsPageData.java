@@ -92,9 +92,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Prepares question tables for viewing
+     * Prepares question tables for viewing.
      *
-     * {@code bundle} should be set before this method
+     * <p>{@code bundle} should be set before this method
      */
     public void initForViewByQuestion(InstructorAttributes instructor,
                                       String selectedSection, String showStats,

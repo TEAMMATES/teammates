@@ -30,7 +30,7 @@ public class AdminEmailLogPageData extends PageData {
         this.shouldShowAll = shouldShowAll;
     }
 
-    /************* Getter methods *************/
+    // Getter methods
 
     public String getFilterQuery() {
         return filterQuery;
@@ -56,7 +56,7 @@ public class AdminEmailLogPageData extends PageData {
         return statusForAjax;
     }
 
-    /************* Setter methods *************/
+    // Setter methods
 
     public void setFilterQuery(String filterQuery) {
         this.filterQuery = filterQuery;
@@ -83,7 +83,7 @@ public class AdminEmailLogPageData extends PageData {
     }
 
     /**
-     * Creates a QueryParameters object used for filtering
+     * Creates a QueryParameters object used for filtering.
      */
     public void generateQueryParameters(String query) {
 
@@ -95,8 +95,7 @@ public class AdminEmailLogPageData extends PageData {
     }
 
     /**
-     * Converts the query string into a QueryParameters object
-     *
+     * Converts the query string into a QueryParameters object.
      */
     private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();
@@ -138,8 +137,9 @@ public class AdminEmailLogPageData extends PageData {
     }
 
     /**
-     * Performs the actual filtering, based on QueryParameters
-     * returns false if the logEntry fails the filtering process
+     * Performs the actual filtering, based on QueryParameters.
+     *
+     * @return false if the logEntry fails the filtering process
      */
     public boolean shouldShowLog(EmailLogEntry logEntry) {
 

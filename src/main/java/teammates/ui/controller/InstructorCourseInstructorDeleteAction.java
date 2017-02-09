@@ -9,7 +9,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 /**
- * Action: deleting an instructor for a course by another instructor
+ * Action: deleting an instructor for a course by another instructor.
  */
 public class InstructorCourseInstructorDeleteAction extends Action {
 

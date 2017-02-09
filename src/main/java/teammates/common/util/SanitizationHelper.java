@@ -186,8 +186,8 @@ public final class SanitizationHelper {
     }
 
     /**
-     * This recovers a html-sanitized string using {@link #sanitizeForHtml}
-     * to original encoding for appropriate display in files such as csv file <br>
+     * Recovers a html-sanitized string using {@link #sanitizeForHtml}
+     * to original encoding for appropriate display in files such as csv file.<br>
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
      *
@@ -210,7 +210,7 @@ public final class SanitizationHelper {
 
     /**
      * This recovers a set of html-sanitized string using {@link #sanitizeForHtml}
-     * to original encoding for appropriate display in files such as csv file <br>
+     * to original encoding for appropriate display in files such as csv file.<br>
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
      *
@@ -236,7 +236,7 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Converts a string to be put in URL (replaces some characters)
+     * Converts a string to be put in URL (replaces some characters).
      */
     public static String sanitizeForUri(String uri) {
         try {

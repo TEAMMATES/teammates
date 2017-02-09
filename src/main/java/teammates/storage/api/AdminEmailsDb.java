@@ -74,7 +74,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     /**
-     * deletes files uploaded in admin email compose page
+     * Deletes files uploaded in admin email compose page.
      * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
      */
     public void deleteAdminEmailUploadedFile(BlobKey key) {
@@ -82,8 +82,8 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     /**
-     * deletes all emails in trash bin, related group receiver text file will be removed from
-     * Google Cloud Storage
+     * Deletes all emails in trash bin, related group receiver text file will be removed from
+     * Google Cloud Storage.
      */
     public void deleteAllEmailsInTrashBin() {
 
@@ -144,7 +144,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     /**
-     * get an admin email by email id
+     * Gets an admin email by email id.
      * @return null if no matched email found
      */
     public AdminEmailAttributes getAdminEmailById(String emailId) {
@@ -159,7 +159,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     /**
-     * get an admin email by subject and createDate
+     * Gets an admin email by subject and createDate.
      * @return null if no matched email found
      */
     public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
@@ -174,7 +174,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     /**
-     * Get all admin email drafts that have NOT been sent and NOT in trash bin
+     * Gets all admin email drafts that have NOT been sent and NOT in trash bin.
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailDrafts() {
@@ -204,7 +204,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     /**
-     * Get all admin emails that have been sent and not in trash bin
+     * Gets all admin emails that have been sent and not in trash bin.
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getSentAdminEmails() {
@@ -234,7 +234,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     /**
-     * Get all admin emails(including sent and draft mails) that have been moved into trash bin
+     * Gets all admin emails (including sent and draft mails) that have been moved into trash bin.
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {

@@ -20,7 +20,7 @@ import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorCommentsPageData;
 
 /**
- * Action: Showing the InstructorCommentsPage for an instructor
+ * Action: Showing the InstructorCommentsPage for an instructor.
  */
 public class InstructorCommentsPageAction extends Action {
 

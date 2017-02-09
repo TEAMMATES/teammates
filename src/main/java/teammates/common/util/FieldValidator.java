@@ -190,7 +190,7 @@ public class FieldValidator {
     ///////////////////////////////////////
 
     /**
-     * Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%)
+     * Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%).
      */
     public static final String REGEX_NAME = "^[\\p{IsL}\\p{IsN}][^|%]*+$";
 
@@ -247,7 +247,7 @@ public class FieldValidator {
     /////////////////////////////////////////
 
     /**
-     * Checks if {@code emailContent} is not null and not empty
+     * Checks if {@code emailContent} is not null and not empty.
      * @param emailContent
      * @return An explanation of why the {@code emailContent} is not acceptable.
      *         Returns an empty string if the {@code emailContent} is acceptable.
@@ -274,7 +274,7 @@ public class FieldValidator {
 
     /**
      * Checks if {@code email} is not null, not empty, not longer than {@code EMAIL_MAX_LENGTH}, and is a
-     * valid email address according to {@code REGEX_EMAIL}
+     * valid email address according to {@code REGEX_EMAIL}.
      * @param email
      * @return An explanation of why the {@code email} is not acceptable.
      *         Returns an empty string if the {@code email} is acceptable.
@@ -302,7 +302,7 @@ public class FieldValidator {
     /**
      * Checks if {@code googleId} is not null, not empty, not longer than {@code GOOGLE_ID_MAX_LENGTH}, does
      * not contain any invalid characters (| or %), AND is either a Google username (without the "@gmail.com")
-     * or a valid email address that does not end in "@gmail.com"
+     * or a valid email address that does not end in "@gmail.com".
      * @param googleId
      * @return An explanation of why the {@code googleId} is not acceptable.
      *         Returns an empty string if the {@code googleId} is acceptable.
@@ -334,7 +334,7 @@ public class FieldValidator {
 
     /**
      * Checks if {@code courseId} is not null, not empty, has no surrounding whitespaces, not longer than
-     * {@code COURSE_ID_MAX_LENGTH}, is sanitized for HTML, and match the REGEX {@code REGEX_COURSE_ID}
+     * {@code COURSE_ID_MAX_LENGTH}, is sanitized for HTML, and match the REGEX {@code REGEX_COURSE_ID}.
      * @param courseId
      * @return An explanation of why the {@code courseId} is not acceptable.
      *         Returns an empty string if the {@code courseId} is acceptable.
@@ -399,7 +399,7 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if {@code gender} is one of the recognized genders {@code GENDER_ACCEPTED_VALUES}
+     * Checks if {@code gender} is one of the recognized genders {@code GENDER_ACCEPTED_VALUES}.
      * @param gender
      * @return An explanation of why the {@code gender} is not acceptable.
      *         Returns an empty string if the {@code gender} is acceptable.
@@ -417,7 +417,7 @@ public class FieldValidator {
     /**
      * Checks if {@code feedbackSessionName} is a non-null non-empty string no longer than the specified length
      * {@code FEEDBACK_SESSION_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %), and has no
-     * unsanitized HTML characters
+     * unsanitized HTML characters.
      * @param feedbackSessionName
      * @return An explanation of why the {@code feedbackSessionName} is not acceptable.
      *         Returns an empty string if the {@code feedbackSessionName} is acceptable.
@@ -613,7 +613,7 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if Session Start Time is before Session End Time
+     * Checks if Session Start Time is before Session End Time.
      * @return Error string if {@code sessionStart} is before {@code sessionEnd}
      *         Empty string if {@code sessionStart} is after {@code sessionEnd}
      */
@@ -623,7 +623,7 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if Session Visibility Start Time is before Session Start Time
+     * Checks if Session Visibility Start Time is before Session Start Time.
      * @return Error string if {@code visibilityStart} is before {@code sessionStart}
      *         Empty string if {@code visibilityStart} is after {@code sessionStart}
      */
@@ -634,7 +634,7 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if Visibility Start Time is before Results Publish Time
+     * Checks if Visibility Start Time is before Results Publish Time.
      * @return Error string if {@code visibilityStart} is before {@code resultsPublish}
      *         Empty string if {@code visibilityStart} is after {@code resultsPublish}
      */

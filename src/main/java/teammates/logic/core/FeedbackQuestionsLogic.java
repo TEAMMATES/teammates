@@ -164,7 +164,7 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     *  Gets a {@link List} of every FeedbackQuestion that the instructor can copy
+     *  Gets a {@link List} of every FeedbackQuestion that the instructor can copy.
      */
     public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId)
             throws EntityDoesNotExistException {
@@ -243,7 +243,7 @@ public final class FeedbackQuestionsLogic {
 
     /**
      * Gets a {@code List} of all questions for the list of questions that an
-     * instructor who is the creator of the course can view/submit
+     * instructor who is the creator of the course can view/submit.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
                                     String feedbackSessionName, String courseId)
@@ -280,7 +280,7 @@ public final class FeedbackQuestionsLogic {
 
     /**
      * Filters through the given list of questions and returns a {@code List} of
-     * questions that an instructor can view/submit
+     * questions that an instructor can view/submit.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
             List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
@@ -321,7 +321,7 @@ public final class FeedbackQuestionsLogic {
 
     /**
      * Filters through the given list of questions and returns a {@code List} of
-     * questions that students can view/submit
+     * questions that students can view/submit.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
             List<FeedbackQuestionAttributes> allQuestions) {

@@ -58,7 +58,7 @@ public class InstructorCopyFsToModal extends AppPage {
     }
 
     /**
-     * Unchecks every course in the course list
+     * Unchecks every course in the course list.
      */
     public void resetCoursesCheckboxes() {
         WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
@@ -80,7 +80,7 @@ public class InstructorCopyFsToModal extends AppPage {
     }
 
     /**
-     * Verifies that the status message on the copy modal is the {@code expectedStatusMessage}
+     * Verifies that the status message on the copy modal is the {@code expectedStatusMessage}.
      */
     public void verifyStatusMessage(String expectedStatusMessage) {
         assertEquals(expectedStatusMessage, getFsCopyStatus());
@@ -102,7 +102,7 @@ public class InstructorCopyFsToModal extends AppPage {
     }
 
     /**
-     * Waits for the error message indicating that the loading of the form modal has failed
+     * Waits for the error message indicating that the loading of the form modal has failed.
      */
     public void waitForModalLoadingError() {
         waitForElementPresence(By.id("fs-copy-modal-error"));

@@ -45,7 +45,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     * Search for students
+     * Searches for students.
      * @return {@link StudentSearchResultBundle}
      */
     public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors) {
@@ -90,8 +90,8 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     * Create students' records without searchability
-     * This function is currently used in testing process only
+     * Creates students' records without searchability.
+     *
      * @param studentsToAdd
      * @throws InvalidParametersException
      */
@@ -264,8 +264,6 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     *  Preconditions: <br>
-     *  All parameters are non-null
      *  @return an empty list if no students in this section
      */
     public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {

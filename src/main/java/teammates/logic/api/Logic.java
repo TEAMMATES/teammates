@@ -295,16 +295,14 @@ public class Logic {
     }
 
     /**
-     * Create or update document for the given Instructor
-     * @param Instructor to be put into documents
+     * @see {@link InstructorsLogic#putDocument(InstructorAttributes)}.
      */
     public void putDocument(InstructorAttributes instructor) {
         instructorsLogic.putDocument(instructor);
     }
 
     /**
-     * Remove document for the given Instructor
-     * @param comment to be removed from documents
+     * @see {@link InstructorsLogic#deleteDocument(InstructorAttributes)}.
      */
     public void deleteDocument(InstructorAttributes instructor) {
         instructorsLogic.deleteDocument(instructor);
@@ -693,7 +691,7 @@ public class Logic {
     }
 
     /**
-     * Updates the details of a course
+     * @see {@link CoursesLogic#updateCourse(CourseAttributes)}.
      */
     public void updateCourse(CourseAttributes course) throws InvalidParametersException,
                                                              EntityDoesNotExistException {
@@ -777,8 +775,7 @@ public class Logic {
     }
 
     /**
-     * Get all students in the database
-     * @return empty list if there is no students
+     * @see {@link StudentsLogic#getAllStudents()}.
      */
     public List<StudentAttributes> getAllStudents() {
         return studentsLogic.getAllStudents();
@@ -876,8 +873,7 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null
+     * @see {@link CoursesLogic#getSectionsNameForCourse(String)}.
      */
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -885,8 +881,7 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null
+     * @see {@link CoursesLogic#getSectionsNameForCourse(CourseAttributes)}.
      */
     public List<String> getSectionNamesForCourse(CourseAttributes course) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
@@ -894,8 +889,7 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null
+     * @see {@link CoursesLogic#getSectionsForCourseWithoutStats(String)}.
      */
     public List<SectionDetailsBundle> getSectionsForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1071,10 +1065,7 @@ public class Logic {
     }
 
     /**
-     * Validates if the list of modified students will not create conflicts for both the sections and teams
-     * in a course
-     * Preconditions: <br>
-     * * All parameters are non-null
+     * @see {@link StudentsLogic#validateSectionsAndTeams(List, String)}.
      */
     public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
@@ -1085,10 +1076,7 @@ public class Logic {
     }
 
     /**
-     * Validates if the list of modified students will not create conflicts for the teams
-     * in a course
-     * Preconditions: <br>
-     * * All parameters are non-null
+     * @see {@link StudentsLogic#validateTeams(List, String)}.
      */
     public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
@@ -1600,9 +1588,7 @@ public class Logic {
     }
 
     /**
-     * Gets the response rate status for a session
-     * Preconditions: <br>
-     * * All parameters are non-null
+     * @see {@link FeedbackSessionsLogic#getFeedbackSessionResponseStatus(String, String)}.
      */
     public FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
@@ -1997,16 +1983,14 @@ public class Logic {
     }
 
     /**
-     * Create or update document for the given FeedbackResponseComment
-     * @param comment to be put into documents
+     * @see {@link FeedbackResponseCommentsLogic#putDocument(FeedbackResponseCommentAttributes)}.
      */
     public void putDocument(FeedbackResponseCommentAttributes comment) {
         feedbackResponseCommentsLogic.putDocument(comment);
     }
 
     /**
-     * Remove document for the given FeedbackResponseComment
-     * @param comment to be removed from documents
+     * @see {@link FeedbackResponseCommentsLogic#deleteDocument(FeedbackResponseCommentAttributes)}.
      */
     public void deleteDocument(FeedbackResponseCommentAttributes comment) {
         feedbackResponseCommentsLogic.deleteDocument(comment);
@@ -2099,16 +2083,14 @@ public class Logic {
     }
 
     /**
-     * Create or update document for the given Comment
-     * @param comment to be put into documents
+     * @see {@link CommentsLogic#putDocument(CommentAttributes)}.
      */
     public void putDocument(CommentAttributes comment) {
         commentsLogic.putDocument(comment);
     }
 
     /**
-     * Remove document for the given Comment
-     * @param comment to be removed from the documents
+     * @see {@link CommentsLogic#deleteDocument(CommentAttributes)}.
      */
     public void deleteDocument(CommentAttributes comment) {
         commentsLogic.deleteDocument(comment);
@@ -2289,8 +2271,7 @@ public class Logic {
     }
 
     /**
-     * get an admin email by email id
-     * @return null if no matched email found
+     * @see {@link AdminEmailsLogic#getAdminEmailById(String)}.
      */
     public AdminEmailAttributes getAdminEmailById(String emailId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, emailId);
@@ -2331,35 +2312,28 @@ public class Logic {
     }
 
     /**
-     * Get all admin emails that have been sent and not in trash bin
-     * @return empty list if no email found
+     * @see {@link AdminEmailsLogic#getSentAdminEmails()}.
      */
     public List<AdminEmailAttributes> getSentAdminEmails() {
         return adminEmailsLogic.getSentAdminEmails();
     }
 
     /**
-     * Get all admin email drafts that have NOT been sent and NOT in trash bin
-     * @return empty list if no email found
+     * @see {@link AdminEmailsLogic#getAdminEmailDrafts()}.
      */
     public List<AdminEmailAttributes> getAdminEmailDrafts() {
         return adminEmailsLogic.getAdminEmailDrafts();
     }
 
     /**
-     * Get all admin emails that have been moved into trash bin
-     * @return empty list if no email found
+     * @see {@link AdminEmailsLogic#getAdminEmailsInTrashBin()}.
      */
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {
         return adminEmailsLogic.getAdminEmailsInTrashBin();
     }
 
     /**
-     * Update an admin email by email id
-     * @param newAdminEmail
-     * @param emailId
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
+     * @see {@link AdminEmailsLogic#updateAdminEmailById(AdminEmailAttributes, String)}.
      */
     public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -2371,8 +2345,7 @@ public class Logic {
     }
 
     /**
-     * get an admin email by subject and createDate
-     * @return null if no matched email found
+     * @see {@link AdminEmailsLogic#getAdminEmail(String, Date)}.
      */
     public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
         Assumption.assertNotNull(subject);
@@ -2382,15 +2355,14 @@ public class Logic {
     }
 
     /**
-     * deletes all emails in trash bin
+     * @see {@link AdminEmailsLogic#deleteAllEmailsInTrashBin()}.
      */
     public void deleteAllEmailsInTrashBin() {
         adminEmailsLogic.deleteAllEmailsInTrashBin();
     }
 
     /**
-     * deletes files uploaded in admin email compose page
-     * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
+     * @see {@link AdminEmailsLogic#deleteAdminEmailUploadedFile(BlobKey)}.
      */
     public void deleteAdminEmailUploadedFile(BlobKey key) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
@@ -2398,7 +2370,7 @@ public class Logic {
     }
 
     /**
-     * Deletes uploaded file
+     * Deletes uploaded file.
      * @param key the GCS blobkey used to fetch the file in Google Cloud Storage
      */
     public void deleteUploadedFile(BlobKey key) {

@@ -55,7 +55,7 @@ public final class CommentsLogic {
         return instance;
     }
 
-    /************ CRUD ************/
+    // CRUD
 
     public CommentAttributes createComment(CommentAttributes comment)
            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
@@ -177,7 +177,7 @@ public final class CommentsLogic {
     }
 
     /**
-     * updates comment's giver and last editor email (assume to be an instructor)
+     * Updates comment's giver and last editor email (assumed to be an instructor).
      * @param courseId
      * @param oldInstrEmail
      * @param updatedInstrEmail
@@ -187,7 +187,7 @@ public final class CommentsLogic {
     }
 
     /**
-     * update comment's recipient email (assume to be a student)
+     * Update comment's recipient email (assumed to be a student).
      * @param courseId
      * @param oldStudentEmail
      * @param updatedStudentEmail
@@ -225,6 +225,10 @@ public final class CommentsLogic {
         commentsDb.deleteEntity(comment);
     }
 
+    /**
+     * Removes document for the given comment.
+     * @param comment to be removed from the documents
+     */
     public void deleteDocument(CommentAttributes comment) {
         commentsDb.deleteDocument(comment);
     }
@@ -234,7 +238,7 @@ public final class CommentsLogic {
     }
 
     /**
-     * Create or update document for comment
+     * Creates or updates document for comment.
      * @param comment
      */
     public void putDocument(CommentAttributes comment) {
@@ -260,10 +264,8 @@ public final class CommentsLogic {
         }
     }
 
-    /************ Get Comments For an Instructor ************/
-
     /**
-     * Get comments visible for the given instructor
+     * Gets comments visible for the given instructor.
      * @param instructor
      * @return list of {@link CommentAttributes}
      * @throws EntityDoesNotExistException when the course doesn't exist
@@ -316,10 +318,8 @@ public final class CommentsLogic {
         return commentsDb.getCommentsForGiverAndStatus(courseId, giverEmail, status);
     }
 
-    /************ Get Comments For a Student ************/
-
     /**
-     * Get comments visible to the given student
+     * Gets comments visible to the given student.
      * @param student
      * @return list of {@link CommentAttributes}
      * @throws EntityDoesNotExistException when the course doesn't exist

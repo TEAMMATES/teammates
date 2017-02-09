@@ -168,7 +168,7 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Create or update document for the given comment
+     * Creates or updates document for the given comment.
      * @param comment
      */
     public void putDocument(FeedbackResponseCommentAttributes comment) {
@@ -198,7 +198,7 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Remove document for the given comment
+     * Removes document for the given comment.
      * @param commentToDelete
      */
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
@@ -206,7 +206,7 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Verify whether the comment's giver name is visible to certain user
+     * Verifies whether the comment's giver name is visible to certain user.
      * @param comment
      * @param response
      * @param userEmail
@@ -283,7 +283,7 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Verify whether the comment is visible to certain user
+     * Verifies whether the comment is visible to certain user.
      * @return true/false
      */
     public boolean isResponseCommentVisibleForUser(String userEmail, UserRole role,

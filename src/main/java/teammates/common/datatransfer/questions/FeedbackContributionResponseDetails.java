@@ -43,7 +43,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     }
 
     /**
-     * Get answer in integer form
+     * Gets answer in integer form.
      * @return
      */
     public int getAnswer() {

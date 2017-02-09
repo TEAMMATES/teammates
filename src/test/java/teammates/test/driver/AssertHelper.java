@@ -22,7 +22,7 @@ public final class AssertHelper {
     }
 
     /**
-     * Assert date is now +- 1 min
+     * Assert date is now +- 1 min.
      */
     public static void assertDateIsNow(Date date) {
         assertDateWithinRange(date, TimeHelper.getMsOffsetToCurrentTime(-1000 * 60),

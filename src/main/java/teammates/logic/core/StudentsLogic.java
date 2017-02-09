@@ -75,6 +75,9 @@ public final class StudentsLogic {
 
     }
 
+    /**
+     * Gets all students in the database.
+     */
     @SuppressWarnings("deprecation")
     public List<StudentAttributes> getAllStudents() {
         return studentsDb.getAllStudents();
@@ -360,7 +363,7 @@ public final class StudentsLogic {
     }
 
     /**
-     * Validates teams for any team name violations
+     * Validates teams for any team name violations.
      * @param studentList
      * @param courseId
      * @throws EnrollException

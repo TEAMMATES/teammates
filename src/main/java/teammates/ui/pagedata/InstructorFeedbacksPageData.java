@@ -39,7 +39,7 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     /**
-     * Initializes the PageData
+     * Initializes the PageData.
      * @param courses                    courses that the user is an instructor of
      * @param courseIdForNewSession      the course id to automatically select in the dropdown
      * @param existingFeedbackSessions   list of existing feedback sessions

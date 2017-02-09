@@ -1,8 +1,6 @@
 package teammates.test.driver;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.mail.BodyPart;
 import javax.mail.Flags;
@@ -84,32 +82,6 @@ public final class EmailAccount {
         }
 
         inbox.close(true);
-    }
-
-    /**
-     * Count the number of stress test emails
-     *
-     */
-    public static int mailStressTestCount(String username, String password)
-            throws Exception {
-        Folder inbox = getGmailInbox(username, password);
-        Message[] messages = getMessages(inbox);
-
-        int count = 0;
-        Pattern pattern = Pattern.compile("^Teammates Mail Stree Testing ");
-        for (Message message : messages) {
-            System.out.println(message.getSubject());
-            Matcher m = pattern.matcher(message.getSubject());
-
-            if (!m.find()) {
-                continue;
-            }
-            count++;
-
-        }
-
-        inbox.close(true);
-        return count;
     }
 
     private static Folder getGmailInbox(String username, String password)

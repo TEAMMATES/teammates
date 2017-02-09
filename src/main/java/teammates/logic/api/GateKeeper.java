@@ -71,7 +71,9 @@ public class GateKeeper {
      * These methods ensures the logged in user is of a particular type.
      */
 
-    /** Verifies the user is logged in */
+    /**
+     * Verifies the user is logged in.
+     */
     public void verifyLoggedInUserPrivileges() {
         if (isUserLoggedOn()) {
             return;
@@ -161,9 +163,9 @@ public class GateKeeper {
     }
 
     /**
-     * verify the instructor and course are not null, the instructor belongs to
+     * Verifies the instructor and course are not null, the instructor belongs to
      * the course and the instructor has the privilege specified by
-     * privilegeName
+     * privilegeName.
      *
      * @param instructor
      * @param course
@@ -187,9 +189,9 @@ public class GateKeeper {
     }
 
     /**
-     * verify the instructor and course are not null, the instructor belongs to
+     * Verifies the instructor and course are not null, the instructor belongs to
      * the course and the instructor has the privilege specified by
-     * privilegeName for sectionName
+     * privilegeName for sectionName.
      *
      * @param instructor
      * @param course
@@ -236,9 +238,9 @@ public class GateKeeper {
     }
 
     /**
-     * verify the instructor and course are not null, the instructor belongs to
+     * Verifies the instructor and course are not null, the instructor belongs to
      * the course and the instructor has the privilege specified by
-     * privilegeName for feedbackSession
+     * privilegeName for feedbackSession.
      *
      * @param instructor
      * @param feedbacksession

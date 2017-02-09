@@ -353,7 +353,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * delete the instructor specified by courseId and email
+     * Deletes the instructor specified by courseId and email.
      * @param courseId
      * @param email
      */
@@ -413,7 +413,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * delete all instructors with the given googleId
+     * Deletes all instructors with the given googleId.
      * @param googleId
      */
     public void deleteInstructorsForGoogleId(String googleId) {
@@ -432,7 +432,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * delete all instructors for the course specified by courseId
+     * Deletes all instructors for the course specified by courseId.
      * @param courseId
      */
     public void deleteInstructorsForCourse(String courseId) {

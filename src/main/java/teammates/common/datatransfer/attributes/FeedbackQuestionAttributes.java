@@ -24,7 +24,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public String courseId;
     public String creatorEmail;
     /**
-     * Contains the JSON formatted string that holds the information of the question details <br>
+     * Contains the JSON formatted string that holds the information of the question details.<br>
      * Don't use directly unless for storing/loading from data store <br>
      * To get the question text use {@code getQuestionDetails().questionText}
      */
@@ -552,7 +552,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     /**
-     * This method converts the given Feedback*QuestionDetails object to JSON for storing
+     * Converts the given Feedback*QuestionDetails object to JSON for storing.
      *
      * @param questionDetails
      */
@@ -561,7 +561,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     /**
-     * This method retrieves the Feedback*QuestionDetails object for this question
+     * Retrieves the Feedback*QuestionDetails object for this question.
      *
      * @return The Feedback*QuestionDetails object representing the question's details
      */

@@ -177,7 +177,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         // nothing to sanitize before saving
     }
 
-    /** This method converts the given Feedback*ResponseDetails object to JSON for storing
+    /**
+     * Converts the given Feedback*ResponseDetails object to JSON for storing.
      * @param responseDetails
      */
     public void setResponseDetails(FeedbackResponseDetails responseDetails) {
@@ -193,7 +194,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         }
     }
 
-    /** This method retrieves the Feedback*ResponseDetails object for this response
+    /**
+     * Retrieves the Feedback*ResponseDetails object for this response.
      * @return The Feedback*ResponseDetails object representing the response's details
      */
     public FeedbackResponseDetails getResponseDetails() {

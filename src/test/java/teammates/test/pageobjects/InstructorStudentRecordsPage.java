@@ -211,7 +211,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     /**
-     * Checks if the body of all the record panels are hidden
+     * Checks if the body of all the record panels are hidden.
      * @return true if all record panel bodies are hidden
      */
     public boolean areRecordsHidden() {

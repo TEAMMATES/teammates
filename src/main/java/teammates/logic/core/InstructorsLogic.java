@@ -47,10 +47,18 @@ public final class InstructorsLogic {
      * ====================================
      */
 
+    /**
+     * Creates or updates document for the given Instructor.
+     * @param instructor to be put into documents
+     */
     public void putDocument(InstructorAttributes instructor) {
         instructorsDb.putDocument(instructor);
     }
 
+    /**
+     * Removes document for the given Instructor.
+     * @param instructor to be removed from documents
+     */
     public void deleteDocument(InstructorAttributes instructor) {
         instructorsDb.deleteDocument(instructor);
     }

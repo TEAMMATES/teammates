@@ -803,16 +803,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                + Const.FeedbackQuestionTypeNames.RUBRIC + "</a></li>";
     }
 
-    /**
-     * For rubric questions,
-     *      1) Description size should be valid
-     *      2) At least 2 choices
-     *      3) At least 1 sub-question
-     *      4) Choices and sub-questions should not be empty
-     *      5) Choices must have corresponding weights if weights are assigned
-     */
     @Override
     public List<String> validateQuestionDetails() {
+        // For rubric questions,
+        // 1) Description size should be valid
+        // 2) At least 2 choices
+        // 3) At least 1 sub-question
+        // 4) Choices and sub-questions should not be empty
+        // 5) Choices must have corresponding weights if weights are assigned
+
         List<String> errors = new ArrayList<String>();
 
         if (!isValidDescriptionSize()) {

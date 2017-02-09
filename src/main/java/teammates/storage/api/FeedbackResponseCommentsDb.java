@@ -36,7 +36,6 @@ import com.google.appengine.api.search.ScoredDocument;
 public class FeedbackResponseCommentsDb extends EntitiesDb {
 
     /**
-     * This method is for testing only
      * @param commentsToAdd
      * @throws InvalidParametersException
      */
@@ -431,7 +430,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /**
-     * Search for response comments
+     * Searches for response comments.
      * @return {@link FeedbackResponseCommentSearchResultBundle}
      */
     public FeedbackResponseCommentSearchResultBundle search(String queryString,

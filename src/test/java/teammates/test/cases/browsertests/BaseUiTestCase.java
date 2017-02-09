@@ -29,8 +29,7 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
     protected DataBundle testData;
 
     /**
-     * Checks if the current test-run should use godmode,
-     * if yes, enables GodMode
+     * Checks if the current test-run should use godmode, if yes, enables GodMode.
      */
     @BeforeSuite
     public static void checkAndEnableGodMode() {

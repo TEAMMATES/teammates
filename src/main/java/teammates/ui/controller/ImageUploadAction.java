@@ -14,7 +14,7 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 /**
- * Action: uploads an image to Google Cloud Storage
+ * Action: uploads an image to Google Cloud Storage.
  */
 public class ImageUploadAction extends Action {
 

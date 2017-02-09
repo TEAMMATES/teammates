@@ -129,14 +129,14 @@ public enum FeedbackParticipantType {
     }
 
     /**
-     * Gets {@code displayNameGiver} property
+     * Gets {@code displayNameGiver} property.
      */
     public String getDisplayNameGiver() {
         return displayNameGiver;
     }
 
     /**
-     * Gets {@code displayNameRecipient} property
+     * Gets {@code displayNameRecipient} property.
      */
     public String getDisplayNameRecipient() {
         return displayNameRecipient;

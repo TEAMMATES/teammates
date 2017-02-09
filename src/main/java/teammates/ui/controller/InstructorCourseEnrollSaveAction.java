@@ -23,7 +23,7 @@ import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 
 /**
- * Action: saving the list of enrolled students for a course of an instructor
+ * Action: saving the list of enrolled students for a course of an instructor.
  */
 public class InstructorCourseEnrollSaveAction extends Action {
 

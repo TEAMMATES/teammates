@@ -10,7 +10,8 @@ import java.util.regex.Pattern;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-/** Holds String-related helper functions
+/**
+ * Holds String-related helper functions.
  */
 public final class StringHelper {
 
@@ -36,7 +37,7 @@ public final class StringHelper {
     }
 
     /**
-     * Check whether the input string matches the regex
+     * Checks whether the input string matches the regex.
      * @param input The string to be matched
      * @param regex The regex  used for the matching
      */
@@ -47,9 +48,7 @@ public final class StringHelper {
     }
 
     /**
-     * Check whether any substring of the input string matches any of the group of given regex expressions
-     * Currently only used in header row processing in StudentAttributesFactory: locateColumnIndexes
-     * Case Insensitive
+     * Checks whether any substring of the input string matches any of the group of given regex expressions.
      * @param input The string to be matched
      * @param regexList The regex list used for the matching
      */
@@ -110,7 +109,7 @@ public final class StringHelper {
 
     /**
      * Substitutes the middle third of the given string with dots
-     * and returns the "obscured" string
+     * and returns the "obscured" string.
      *
      * @param inputString
      * @return
@@ -278,8 +277,8 @@ public final class StringHelper {
     }
 
     /**
-     * trims the string and reduces consecutive white spaces to only one space
-     * Example: " a   a  " --> "a a"
+     * Trims the string and reduces consecutive white spaces to only one space.
+     * Example: " a   a  " --> "a a".
      * @return processed string, returns null if parameter is null
      */
     public static String removeExtraSpace(String str) {
@@ -290,7 +289,7 @@ public final class StringHelper {
     }
 
     /**
-     * trims all strings in the set and reduces consecutive white spaces to only one space
+     * Trims all strings in the set and reduces consecutive white spaces to only one space.
      */
     public static Set<String> removeExtraSpace(Set<String> strSet) {
         if (strSet == null) {
@@ -351,7 +350,7 @@ public final class StringHelper {
     }
 
     /**
-     * Convert a csv string to a html table string for displaying
+     * Converts a csv string to a html table string for displaying.
      * @param str
      * @return html table string
      */

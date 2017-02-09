@@ -12,9 +12,8 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Represents emails composed by Admin
+ * Represents emails composed by Admin.
  */
-
 @PersistenceCapable
 public class AdminEmail {
 
@@ -49,7 +48,7 @@ public class AdminEmail {
     private boolean isInTrashBin;
 
     /**
-     * Instantiates a new AdminEmail
+     * Instantiates a new AdminEmail.
      * @param receiver
      *          a string list contaning all receiver (could be email address or characteristics{eg. joined date range} )
      * @param subject

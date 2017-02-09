@@ -645,8 +645,8 @@ public final class CoursesLogic {
     }
 
     /**
-     * Delete a course from its given corresponding ID
-     * This will also cascade the data in other databases which are related to this course
+     * Delete a course from its given corresponding ID.
+     * This will also cascade the data in other databases which are related to this course.
      */
     public void deleteCourseCascade(String courseId) {
         studentsLogic.deleteStudentsForCourse(courseId);

@@ -346,7 +346,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
 
     /**
-     * returns true if the session is closed within the past hour of calling this function
+     * @return true if the session is closed within the past hour of calling this function
      */
     public boolean isClosedWithinPastHour() {
         long timeZoneOffset = (long) timeZone * 60 * 60 * 1000;

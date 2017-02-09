@@ -37,7 +37,7 @@ public class GaeVersionApi {
     }
 
     /**
-     * Gets a number of most recent versions
+     * Gets a number of most recent versions.
      * @return a list of versions.
      */
     public List<String> getMostRecentVersions(int numVersions) {

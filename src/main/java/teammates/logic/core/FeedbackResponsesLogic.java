@@ -343,8 +343,8 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Return true if the responses of the question are visible to students
      * @param question
+     * @return true if the responses of the question are visible to students
      */
     public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestionAttributes question) {
         if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {

@@ -163,7 +163,7 @@ public class PageData {
     }
 
     /**
-     * Returns an element tag representing a HTML option
+     * @return an element tag representing a HTML option
      */
     public static ElementTag createOption(String text, String value, boolean isSelected) {
         if (isSelected) {
@@ -173,14 +173,14 @@ public class PageData {
     }
 
     /**
-     * Returns an element tag representing a HTML option
+     * @return an element tag representing a HTML option
      */
     public static ElementTag createOption(String text, String value) {
         return new ElementTag(text, "value", value);
     }
 
     /**
-     * Returns the grace period options as HTML code.
+     * @return the grace period options as HTML code
      */
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
@@ -506,7 +506,7 @@ public class PageData {
     }
 
     /**
-     * Retrieves the link to load remind modal
+     * Retrieves the link to load remind modal.
      * @param courseId the course ID
      * @param feedbackSessionName the name of the feedback session
      * @return the link to load remind modal
@@ -520,7 +520,7 @@ public class PageData {
     }
 
     /**
-     * Retrieves the link to submit the request to remind a particular student(s)
+     * Retrieves the link to submit the request to remind a particular student(s).
      * @param returnUrl the url to return to after submitting the request
      * @return submit link with return url appended to it
      */
@@ -687,7 +687,6 @@ public class PageData {
     }
 
     /**
-     * Returns the links of actions available for a specific session
      * @param session
      *         The feedback session details
      * @param returnUrl
@@ -696,7 +695,7 @@ public class PageData {
      *         The Instructor details
      * @param sectionsInCourse
      *         The list of sections for the course
-     * @return
+     * @return the links of actions available for a specific session
      * @throws EntityDoesNotExistException
      */
     public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,

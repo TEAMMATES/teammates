@@ -149,7 +149,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     /**
-     * Creates a QueryParameters object used for filtering
+     * Creates a QueryParameters object used for filtering.
      */
     public void generateQueryParameters(String query) {
         filterQuery = query.trim();
