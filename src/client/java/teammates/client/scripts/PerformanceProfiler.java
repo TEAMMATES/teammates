@@ -66,7 +66,7 @@ public class PerformanceProfiler extends Thread {
     private DataBundle data;
     private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
 
-    public PerformanceProfiler(String path) {
+    protected PerformanceProfiler(String path) {
         reportFilePath = path;
     }
 
@@ -121,7 +121,7 @@ public class PerformanceProfiler extends Thread {
      * This function perform the method and print the return value for debugging
      * @param method
      */
-    public void performMethod(Method method) {
+    private void performMethod(Method method) {
         if (method.isAnnotationPresent(PerformanceTest.class)) {
             PerformanceTest test = method.getAnnotation(PerformanceTest.class);
             String name = test.name();
@@ -161,9 +161,10 @@ public class PerformanceProfiler extends Thread {
     /**
      * Run this script as an single-thread Java application (for simple, non-parallel profiling)
      * For parallel profiling, please use ParallelProfiler.java
-     * @param args
      */
     public static void main(String[] args) {
+        // Run this script as an single-thread Java application (for simple, non-parallel profiling)
+        // For parallel profiling, please use ParallelProfiler.java
         new PerformanceProfiler(defaultReportPath).start();
     }
 

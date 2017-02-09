@@ -153,7 +153,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testAddAction() throws Exception {
+    private void testAddAction() throws Exception {
 
         // TODO: possibly remove some of the test cases below in the future
         ______TS("ui test case: test two 'change' links for uncommon settings section");
@@ -448,7 +448,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testCopyFromAction() throws Exception {
+    private void testCopyFromAction() throws Exception {
 
         ______TS("Success case: copy successfully a previous session");
         feedbackPage.copyFeedbackSession("New Session ## (Copied)", newSession.getCourseId());
@@ -490,7 +490,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
     }
 
-    public void testCopyToAction() {
+    private void testCopyToAction() {
         String feedbackSessionName = "Open Session #";
         String courseId = newSession.getCourseId();
 
@@ -555,7 +555,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
     }
 
-    public void testDeleteAction() throws Exception {
+    private void testDeleteAction() throws Exception {
 
         String courseId = newSession.getCourseId();
         String sessionName = "Long Instruction Test ##";
@@ -571,11 +571,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testRemindActions() {
+    private void testRemindActions() {
         //TODO implement this
     }
 
-    public void testPublishAction() throws Exception {
+    private void testPublishAction() throws Exception {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
@@ -605,7 +605,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
     }
 
-    public void testUnpublishAction() throws Exception {
+    private void testUnpublishAction() throws Exception {
         // refresh page
 
         String courseId = testData.feedbackSessions.get("publishedSession").getCourseId();
@@ -649,14 +649,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.getStatus().contains("Failed to load sessions."));
     }
 
-    public void testJScripts() {
+    private void testJScripts() {
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
         testDefaultTimeZone();
         testSessionViewableTable();
         testDatePickerScripts();
     }
 
-    public void testSessionViewableTable() {
+    private void testSessionViewableTable() {
 
         ______TS("all 4 datetime elements enabled when custom is selected");
         feedbackPage.clickEditUncommonSettingsButtons();
@@ -679,7 +679,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyDisabled(By.id("publishtime"));
     }
 
-    public void testDatePickerScripts() {
+    private void testDatePickerScripts() {
 
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
@@ -768,14 +768,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(sdf.format(decreasedStartDate.getTime()), maxValueOfVisibleDate);
     }
 
-    public void testDefaultTimeZone() {
+    private void testDefaultTimeZone() {
         // Uses JavaScript to get client timezone as it is not affected by VM arguments.
         // This test is accurate only if the client is not in the default selected timezone.
         // If the client is, this test will always pass.
         assertEquals(feedbackPage.getClientTimeZone(), feedbackPage.getTimeZone());
     }
 
-    public void testResponseRateLink() {
+    private void testResponseRateLink() {
         ______TS("test response rate link clickable");
 
         feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session #");
@@ -785,7 +785,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS1101", "Open Session #"));
     }
 
-    public void testViewResultsLink() {
+    private void testViewResultsLink() {
         InstructorFeedbackResultsPage feedbackResultsPage;
         FeedbackSessionAttributes fsa;
 
@@ -810,7 +810,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
     }
 
-    public void testEditLink() {
+    private void testEditLink() {
         InstructorFeedbackEditPage feedbackResultsPage;
         FeedbackSessionAttributes fsa;
 
@@ -825,7 +825,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
     }
 
-    public void testSubmitLink() {
+    private void testSubmitLink() {
 
         FeedbackSubmitPage feedbackResultsPage;
         FeedbackSessionAttributes fsa;
@@ -851,7 +851,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
     }
 
-    public void testCopySessionModalButtons() {
+    private void testCopySessionModalButtons() {
         feedbackPage.copyFeedbackSessionTestButtons("Session 1", newSession.getCourseId());
 
         assertFalse(feedbackPage.isCopySubmitButtonEnabled());
@@ -926,7 +926,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.isCopySubmitButtonEnabled());
     }
 
-    public void testValidationReload() throws Exception {
+    private void testValidationReload() throws Exception {
 
         ______TS("form fields do not reset on form validation failure when session type is STANDARD");
 

@@ -39,7 +39,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected abstract Action getAction(String... params);
 
-    public abstract void testExecuteAndPostProcess() throws Exception;
+    protected abstract void testExecuteAndPostProcess() throws Exception;
 
     @BeforeClass
     public void baseClassSetup() {

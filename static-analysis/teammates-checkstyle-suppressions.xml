@@ -8,4 +8,25 @@
 
     <!-- Scripts inherently need main method to run -->
     <suppress checks="UncommentedMain" files="client[/\\]scripts[/\\].*\.java"/>
+
+    <!-- To be implemented slowly -->
+    <suppress checks="JavadocMethod" files="teammates[/\\]common[/\\]datatransfer[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]common[/\\]exception[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]common[/\\]util[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]logic[/\\]api[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]logic[/\\]core[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]logic[/\\]backdoor[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]storage[/\\]api[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]storage[/\\]entity[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]storage[/\\]search[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]ui[/\\]automated[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]ui[/\\]controller[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]ui[/\\]datatransfer[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]ui[/\\]pagedata[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]ui[/\\]template[/\\].*\.java"/>
+    <!--<suppress checks="JavadocMethod" files="teammates[/\\]test[/\\]cases[/\\].*\.java"/>-->
+    <suppress checks="JavadocMethod" files="teammates[/\\]test[/\\]driver[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
+    <!--<suppress checks="JavadocMethod" files="teammates[/\\]client[/\\].*\.java"/>-->
+
 </suppressions>

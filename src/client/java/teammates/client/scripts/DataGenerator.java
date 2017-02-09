@@ -72,7 +72,7 @@ public final class DataGenerator {
      * @param filePath - path to file
      * @throws IOException
      */
-    public static void writeDataToFile(String data, String filePath) throws IOException {
+    private static void writeDataToFile(String data, String filePath) throws IOException {
         File f = new File(filePath);
         // Create file if it does not exist
         if (!f.exists()) {
@@ -95,7 +95,7 @@ public final class DataGenerator {
      * Create data
      *
      */
-    public static String generateData() {
+    private static String generateData() {
         System.out.println("Start generating data!");
         //Create students
         for (int i = 0; i < NUM_OF_STUDENTS; i++) {
@@ -118,7 +118,7 @@ public final class DataGenerator {
      * Randomly create courses, students and evaluations for a particular instructor
      * @param instructorName
      */
-    public static void generateDataForCourse(String courseName) {
+    private static void generateDataForCourse(String courseName) {
         //number of courses for this particular instructor
         long numOfInstr =
                 random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES + 1)
@@ -140,7 +140,7 @@ public final class DataGenerator {
      * Randomly create students for a particular course
      * @param courseName
      */
-    public static void generateStudentsDataForCourse(String courseName) {
+    private static void generateStudentsDataForCourse(String courseName) {
         // randomly get a number for student size for this course
         long numOfStudent = getDeviatedNumberOfStudentInCourse();
         //=====================================================================
@@ -182,7 +182,7 @@ public final class DataGenerator {
     /**
      * @return json string presenting the databundle
      */
-    public static String output() {
+    private static String output() {
         System.out.println("Start writing to file !");
         String output = "{\n" + allAccounts() + "\n\n"
                       + allCourses() + "\n\n"
@@ -193,7 +193,7 @@ public final class DataGenerator {
         return output;
     }
 
-    public static String allAccounts() {
+    private static String allAccounts() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"accounts\":{\n");
         for (String email : studentEmails) {
@@ -208,7 +208,7 @@ public final class DataGenerator {
     /**
      * @return Json string presentation for all instructors
      */
-    public static String allInstructors() {
+    private static String allInstructors() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"instructors\":{\n");
         for (Map.Entry<String, String> entry : instructors.entrySet()) {
@@ -228,7 +228,7 @@ public final class DataGenerator {
     /**
      * @return Json string presentation for all courses
      */
-    public static String allCourses() {
+    private static String allCourses() {
         StringBuilder output = new StringBuilder(100);
         output.append("\"courses\":{\n");
         for (int i = 0; i < courses.size(); i++) {
@@ -245,7 +245,7 @@ public final class DataGenerator {
     /**
      * @return Json string presentation for all students
      */
-    public static String allStudents() {
+    private static String allStudents() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"students\":{\n");
         for (int i = 0; i < students.size(); i++) {
@@ -258,7 +258,7 @@ public final class DataGenerator {
             outputBuilder.append('\t')
                          .append(student(student, email, "Student " + index + " in " + course,
                                         "Team " + team, email.split("@")[0], "comment",
-                                        "courseIdOf_" + course, "profile"));
+                                        "courseIdOf_" + course));
             if (i != students.size() - 1) {
                 outputBuilder.append(",\n");
             }
@@ -266,7 +266,7 @@ public final class DataGenerator {
         return outputBuilder.append("\n},").toString();
     }
 
-    public static String account(String acc) {
+    private static String account(String acc) {
         return "\"" + acc
               + "\":{\"googleId\":\"" + acc
               + "\",\"name\":\"" + acc
@@ -276,7 +276,7 @@ public final class DataGenerator {
     /**
      * @return Json string presentation for a instructor entity
      */
-    public static String instructor(String objName, String googleId, String courseId, String name, String email) {
+    private static String instructor(String objName, String googleId, String courseId, String name, String email) {
         return "\"" + objName + "\":{\"googleId\":\"" + googleId + "\",\"courseId\":\""
                + courseId + "\",\"name\":\"" + name + "\",\"email\":\"" + email + "\"}";
     }
@@ -284,15 +284,15 @@ public final class DataGenerator {
     /**
      * @return Json string presentation for a course entity
      */
-    public static String course(String objName, String id, String name) {
+    private static String course(String objName, String id, String name) {
         return "\"" + objName + "\":{\"id\":\"" + id + "\",\"name\":\"" + name + "\"}";
     }
 
     /**
      * @return Json string presentation for a student entity
      */
-    public static String student(String objName, String email, String name,
-                                  String team, String id, String comments, String course, String profile) {
+    private static String student(String objName, String email, String name,
+                                  String team, String id, String comments, String course) {
         return "\"" + objName + "\":{"
                + "\"email\":\"" + email + "\","
                + "\"name\":\"" + name + "\","
@@ -307,18 +307,9 @@ public final class DataGenerator {
     /*helper methods*/
 
     /**
-     * @param id - id of student
-     * @return email of that student
-     */
-    public static String emailFromStudentId(String id) {
-        String index = id.split("Team")[0].split("Stu")[1];
-        return PREFIX + "Stu" + index + "Email@gmail.com";
-    }
-
-    /**
      * @return a random number of student in course
      */
-    public static int getDeviatedNumberOfStudentInCourse() {
+    private static int getDeviatedNumberOfStudentInCourse() {
         int num = 0;
         do {
             num = (int) Math.floor(random.nextGaussian() * STANDARD_DEVIATION_STUDENT_PER_COURSE

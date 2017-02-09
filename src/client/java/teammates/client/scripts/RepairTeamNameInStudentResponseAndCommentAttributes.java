@@ -266,7 +266,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         return !s.equals(StringHelper.removeExtraSpace(s));
     }
 
-    public void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,
+    private void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,
                                                                                       EntityDoesNotExistException {
         studentsDb.verifyStudentExists(student.course, originalEmail);
         StudentAttributes originalStudent = studentsLogic.getStudentForEmail(student.course, originalEmail);

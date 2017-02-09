@@ -40,7 +40,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithEmailAndCourse();
     }
 
-    public void testActionWithNoParams() {
+    private void testActionWithNoParams() {
 
         ______TS("Failure case: no parameters given");
         gaeSimulation.loginAsStudent(account.googleId);
@@ -107,7 +107,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
      *
      * @throws Exception
      */
-    public void testActionWithEmailAndCourse() throws Exception {
+    private void testActionWithEmailAndCourse() throws Exception {
         AccountAttributes instructor = dataBundle.accounts.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor("idOfInstructor1OfCourse1");
 

@@ -33,7 +33,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
         assertTrue(emailLogPage.isFilterReferenceVisible());
     }
 
-    public void testContent() {
+    private void testContent() {
 
         ______TS("content: typical page");
 

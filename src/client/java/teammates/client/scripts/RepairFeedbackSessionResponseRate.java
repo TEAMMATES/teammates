@@ -159,7 +159,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     /**
      * Return a list of feedback sessions with start time from (now - numDays) and now
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWithStartDateNoOlderThan(int numDays) {
+    private List<FeedbackSessionAttributes> getFeedbackSessionsWithStartDateNoOlderThan(int numDays) {
         Calendar startCal = Calendar.getInstance();
         startCal.add(Calendar.DAY_OF_YEAR, -1 * numDays);
 
