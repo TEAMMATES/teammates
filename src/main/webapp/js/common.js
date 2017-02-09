@@ -1,16 +1,15 @@
-//Status message type
+// Status message type
 var StatusType = {
- SUCCESS: 'success',
- INFO: 'info',
- WARNING: 'warning',
- DANGER: 'danger',
- isValidType: function(type) {
-     return type === StatusType.SUCCESS || type === StatusType.INFO
-            || type === StatusType.WARNING || type === StatusType.DANGER;
- }
+    SUCCESS : 'success',
+    INFO : 'info',
+    WARNING : 'warning',
+    DANGER : 'danger',
+    isValidType : function(type) {
+        return type === StatusType.SUCCESS || type === StatusType.INFO
+                || type === StatusType.WARNING || type === StatusType.DANGER;
+    }
 };
 StatusType.DEFAULT = StatusType.INFO;
-
 
 $(document).on('ajaxComplete ready', function() {
     
