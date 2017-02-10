@@ -1,0 +1,25 @@
+# Reference: https://docs.codecov.io/docs
+
+# Only build on master branch
+codecov:
+  branch: master
+
+# Do not allow the bot to comment on pull requests
+comment: off
+
+coverage:
+
+  # Set up color range for badge (for aesthetic purpose)
+  range: 60..80
+  round: up
+  precision: 2
+
+  # Set up additional statuses for PRs
+  status:
+    project:
+      default: # production-only code coverage
+        paths:
+          - "src/main/"
+      all: # production + test code coverage
+        paths:
+          - "src/"
