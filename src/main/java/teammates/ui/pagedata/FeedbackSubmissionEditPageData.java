@@ -191,6 +191,13 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return result;
     }
     
+    private boolean isResponseRecipientValid(FeedbackResponseAttributes existingResponse) {
+        Map<String, String> emailNamePair =
+                this.bundle.getSortedRecipientList(existingResponse.feedbackQuestionId);
+        
+        return emailNamePair.containsKey(existingResponse.recipient);
+    }
+    
     public String getEncryptedRegkey() {
         return StringHelper.encrypt(student.key);
     }
@@ -230,6 +237,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         int responseIndx = 0;
         
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
+            if (!isResponseRecipientValid(existingResponse)) {
+                // A response recipient can be invalid due to submission adjustment failure
+                continue;
+            }
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
                                                            questionAttributes.getId(), existingResponse.recipient);
             
