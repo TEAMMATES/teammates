@@ -57,6 +57,8 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             
             boolean isSectionChanged = student.isSectionChanged(originalStudentAttribute);
             boolean isTeamChanged = student.isTeamChanged(originalStudentAttribute);
+            boolean isEmailChanged = student.isEmailChanged(originalStudentAttribute);
+            
             if (isSectionChanged) {
                 logic.validateSectionsAndTeams(Arrays.asList(student), courseId);
             } else if (isTeamChanged) {
@@ -64,6 +66,12 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             }
             
             logic.updateStudent(studentEmail, student);
+            
+            if (isEmailChanged) {
+                logic.resetStudentGoogleId(student.email, courseId);
+                taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, student.email, true);
+            }
+            
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + "'s</span> details in "
                             + "Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
