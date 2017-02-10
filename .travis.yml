@@ -36,6 +36,7 @@ before_script:
   - ./gradlew createConfigs testClasses
   - ./gradlew downloadStaticAnalysisTools --continue
   - ./gradlew staticAnalysis --continue
+  - ./gradlew checkstyleJavadoc -P file="`git diff --name-only $TRAVIS_COMMIT_RANGE | grep '\.java$'`"
 
 install: true
 script:

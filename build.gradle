@@ -337,6 +337,24 @@ tasks.withType(FindBugs) {
     }
 }
 
+task checkstyleJavadoc(type: Checkstyle) << {
+    description = "Checking the checkstyle Javadoc rules against changed .java file"
+
+    // includes files to check from command line args
+    def files = file.split('\n')
+    files.each {fileName ->
+        include(fileName.replace("src", ""));
+    }
+    
+    source 'src'
+    ignoreFailures = true;
+    configFile = file("static-analysis/teammates-checkstyle-javadoc.xml")
+    
+    // empty classpath
+    classpath = files()
+    println includes
+}
+
 task installEslint(type: Exec) {
     commandLine "npm", "install", "eslint@3.11.1"
 }
