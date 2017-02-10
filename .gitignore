@@ -43,3 +43,7 @@ gradle-app.setting
 .checkstyle
 .pmd
 .ruleset
+.idea/
+src/client/client.iml
+src/main/main.iml
+src/test/test.iml
