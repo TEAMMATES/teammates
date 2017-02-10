@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -38,11 +36,6 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         
     }
     
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
-
     @Test
     public void testDefaultTimestamp() {
         
@@ -353,8 +346,4 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 }

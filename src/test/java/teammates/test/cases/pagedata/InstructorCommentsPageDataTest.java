@@ -32,7 +32,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         course1 = dataBundle.courses.get("typicalCourse1");
         course2 = dataBundle.courses.get("typicalCourse2");
         instructor1 = dataBundle.instructors.get("instructor3OfCourse1");

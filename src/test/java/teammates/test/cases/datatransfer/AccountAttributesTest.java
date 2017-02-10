@@ -2,8 +2,6 @@ package teammates.test.cases.datatransfer;
 
 import static teammates.common.util.Const.EOL;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -18,11 +16,6 @@ import teammates.test.cases.BaseTestCase;
 public class AccountAttributesTest extends BaseTestCase {
     
     //TODO: test toString() method
-    
-    @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testGetInvalidStateInfo() throws Exception {
@@ -186,9 +179,4 @@ public class AccountAttributesTest extends BaseTestCase {
         
     }
     
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
-    }
-
 }

@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CommentAttributes;
@@ -35,11 +34,6 @@ public class CommentsDbTest extends BaseComponentTestCase {
     private CommentParticipantType recipientType = CommentParticipantType.PERSON;
     
     private CommentsDb commentsDb = new CommentsDb();
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testCreateComment() throws Exception {

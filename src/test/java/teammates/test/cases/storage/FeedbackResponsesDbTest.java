@@ -31,7 +31,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() throws Exception {
-        printTestClassHeader();
         addResponsesToDb();
         fras = dataBundle.feedbackResponses;
     }
@@ -848,8 +847,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
+    public void classTearDown() {
         deleteResponsesFromDb();
     }
     
