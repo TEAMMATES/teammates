@@ -47,3 +47,4 @@ gradle-app.setting
 src/client/client.iml
 src/main/main.iml
 src/test/test.iml
+out/
