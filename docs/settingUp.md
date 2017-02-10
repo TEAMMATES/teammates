@@ -63,9 +63,11 @@ More information can be found at [this documentation](https://help.github.com/ar
       Append a **same** unique id (e.g your name) to **each** of the default accounts found at the bottom of this file,
       e.g change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`.
 
-## Step 4: Set up Eclipse IDE
+## Step 4: Set up an IDE
 
-Eclipse IDE is our preferred development environment. Support requests related to other IDEs will not be entertained.
+[Eclipse IDE](#eclipse) is our preferred development environment and will get full support. [IntelliJ IDEA](#intellij) support is currently experimental and will receive limited support. Support requests related to other IDEs will not be entertained.
+
+### Eclipse <a name="eclipse"></a>
 
 > Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows.
 
@@ -109,6 +111,23 @@ Eclipse IDE is our preferred development environment. Support requests related t
    * Start Eclipse and go to `File → Import...`.
    * Select `Existing Projects into Workspace` under `General`.
    * Set the `root directory` to the location where the repo is cloned.
+   * Click `Finish`.
+
+### IntelliJ IDEA <a name="intellij"></a>
+1. Download and install [IntelliJ IDEA Ultimate Edition](https://www.jetbrains.com/idea/).
+   * You will need an Ultimate Edition license in order to work with Google App Engine in IntelliJ IDEA.
+   * Sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a registered student.
+1. Configure IntelliJ
+   * Click `Configure → Project Defaults → Project Structure`.
+   * Under `Project SDK`, click `New → JDK`. Locate the `Java` folder where you have installed the `JDK 1.7`.
+   *  Select `jdk1.7.0_80` and click `OK`.
+   * Click `OK`.
+
+1. Import the project into IntelliJ.
+   * Click `Import existing project` and select the `teammates` folder.
+   * Click `Import project from external model`.
+   * Click `Next`.
+   * Check `Use auto-import`.
    * Click `Finish`.
 
 If you followed every step correctly, you should have successfully set up the development environment.
