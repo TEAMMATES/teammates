@@ -230,7 +230,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         String originalEmail = s.email;
         s.name = "new-name-2";
         s.team = "new-team-2";
-        s.email = "new-email-2";
+        s.email = "new-email-2@email.com";
         s.googleId = "new-id-2";
         s.comments = "this are new comments";
         studentsDb.updateStudentWithoutSearchability(s.course, originalEmail, s.name, s.team, s.section,
