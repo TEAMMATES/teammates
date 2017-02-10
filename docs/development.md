@@ -28,7 +28,32 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 * To stop the dev server, click the "Terminate" icon on the Eclipse console.
 
-### Outside Eclipse
+### With IntelliJ
+
+> If this is your first time urnning the dev server, you will need to set up the required `Run Configuration`.
+
+#### Set up the Run Configuration
+
+1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
+1. Go to `File → Project Struvture...`.
+1. Under `Artifacts → Gradle : teammates.war (exploded)`, check `Include in project build`.
+1. Click `OK`.
+1. Got to `Run → Edit Configurations...`.
+1. Click `+ → Google AppEngine Dev Server`.
+1. Name it `Dev Server`.
+1. Click `Configure` next to `Application server`.
+1. Click `+ → ...`. Select the App Engine SDK you downloaded in Step 3 of the `Setting up a development environment` guide.
+1. Under `Open browser`, uncheck `After launch`.
+1. Set the `JRE` to `1.7`.
+1 Set the `Port`to `8888`.
+1. Click `OK`.
+
+#### Run the dev server
+
+1. Ensure `Dev Server` is selected in the dropdown menu next to the `Play` icon.
+1. Click the `Play` icon.
+
+### Outside Eclipse and IntelliJ
 
 * Change the value of `org.gradle.daemon` in `gradle.properties` to `true`.
 
