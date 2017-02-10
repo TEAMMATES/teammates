@@ -46,7 +46,8 @@ after_failure:
   - ./gradlew generateFailedCmd
 
 after_success:
-  - ./gradlew jacocoTestReport
+  - ./gradlew jacocoReport
+  - bash <(curl -s https://codecov.io/bash)
 
 after_script:
   - ./gradlew appengineStop
