@@ -2,11 +2,10 @@ package teammates.test.cases.storage;
 
 import java.io.IOException;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -23,11 +22,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     
     private ProfilesDb profilesDb = new ProfilesDb();
     private AccountsDb accountsDb = new AccountsDb();
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testGetStudentProfile() {

@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import teammates.common.datatransfer.attributes.StudentAttributes;
+
 import java.util.ArrayList;
 import java.util.List;
 

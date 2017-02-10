@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -34,7 +34,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() throws Exception {
-        printTestClassHeader();
         addSessionsToDb();
     }
     
@@ -301,16 +300,16 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() {
+    public void classTearDown() {
         deleteSessionsFromDb();
-        printTestClassFooter();
     }
     
-    private static void deleteSessionsFromDb() {
+    private void deleteSessionsFromDb() {
         Set<String> keys = dataBundle.feedbackSessions.keySet();
         for (String i : keys) {
             fsDb.deleteEntity(dataBundle.feedbackSessions.get(i));
         }
+        fsDb.deleteEntity(getNewFeedbackSession());
     }
     
 }

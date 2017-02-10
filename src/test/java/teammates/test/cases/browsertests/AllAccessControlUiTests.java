@@ -4,7 +4,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
@@ -98,13 +98,13 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     @Test
     public void testStudentAccessToAdminPages() {
-        loginStudent(TestProperties.TEST_STUDENT1_ACCOUNT, TestProperties.TEST_STUDENT2_ACCOUNT);
+        loginStudent(TestProperties.TEST_STUDENT1_ACCOUNT, TestProperties.TEST_STUDENT1_PASSWORD);
         verifyCannotAccessAdminPages();
     }
 
     @Test
     public void testStudentHome() {
-        loginStudent(TestProperties.TEST_STUDENT1_ACCOUNT, TestProperties.TEST_STUDENT2_ACCOUNT);
+        loginStudent(TestProperties.TEST_STUDENT1_ACCOUNT, TestProperties.TEST_STUDENT1_PASSWORD);
         
         ______TS("cannot view other homepage");
         

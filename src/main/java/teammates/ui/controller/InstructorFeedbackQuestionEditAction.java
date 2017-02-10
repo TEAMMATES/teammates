@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
@@ -193,11 +193,11 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
         
-        newQuestion.showResponsesTo = getParticipantListFromParams(
+        newQuestion.showResponsesTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
-        newQuestion.showGiverNameTo = getParticipantListFromParams(
+        newQuestion.showGiverNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
-        newQuestion.showRecipientNameTo = getParticipantListFromParams(
+        newQuestion.showRecipientNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
         
         String questionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
@@ -227,20 +227,5 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         
         return "custom".equals(nEntityTypes);
     }
-
-    private static List<FeedbackParticipantType> getParticipantListFromParams(String params) {
-        List<FeedbackParticipantType> list = new ArrayList<FeedbackParticipantType>();
-        
-        if (params.isEmpty()) {
-            return list;
-        }
-        
-        String[] splitString = params.split(",");
-        
-        for (String str : splitString) {
-            list.add(FeedbackParticipantType.valueOf(str));
-        }
-        
-        return list;
-    }
+    
 }

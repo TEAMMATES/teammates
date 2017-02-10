@@ -1,11 +1,10 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorFeedbackQuestionVisibilityMessagePageData;
@@ -57,11 +56,11 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
 
-        newQuestion.showResponsesTo = getParticipantListFromParams(
+        newQuestion.showResponsesTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
-        newQuestion.showGiverNameTo = getParticipantListFromParams(
+        newQuestion.showGiverNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
-        newQuestion.showRecipientNameTo = getParticipantListFromParams(
+        newQuestion.showRecipientNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
 
         String questionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
@@ -74,20 +73,4 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
         return newQuestion;
     }
 
-    private static List<FeedbackParticipantType> getParticipantListFromParams(String participantListParam) {
-        List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
-
-        if (participantListParam == null || participantListParam.isEmpty()) {
-            // null not covered, even when set to null, action receives it as an empty string
-            return participantList;
-        }
-
-        String[] splitString = participantListParam.split(",");
-
-        for (String str : splitString) {
-            participantList.add(FeedbackParticipantType.valueOf(str));
-        }
-
-        return participantList;
-    }
 }

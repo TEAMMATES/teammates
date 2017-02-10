@@ -1,14 +1,15 @@
 package teammates.common.datatransfer;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 public class FeedbackQuestionBundle {
     public FeedbackSessionAttributes feedbackSession;
@@ -44,15 +45,5 @@ public class FeedbackQuestionBundle {
         for (Map.Entry<String, String> entry : sortedRecipientList) {
             this.recipientList.put(entry.getKey(), entry.getValue());
         }
-    }
-
-    public Set<String> getRecipientEmails(String feedbackQuestionId) {
-        HashSet<String> result = new HashSet<String>();
-
-        for (Entry<String, String> entry : this.recipientList.entrySet()) {
-            result.add(entry.getKey());
-        }
-
-        return result;
     }
 }

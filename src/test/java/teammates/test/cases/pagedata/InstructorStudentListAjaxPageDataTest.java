@@ -7,12 +7,12 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorStudentListAjaxPageData;
@@ -68,8 +68,8 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
     private void testStudentContent(StudentListStudentData student) {
         assertEquals(sampleStudent.name, student.getStudentName());
         assertEquals(sampleStudent.email, student.getStudentEmail());
-        assertEquals(Sanitizer.sanitizeForJs(sampleStudent.name), student.getStudentNameForJs());
-        assertEquals(Sanitizer.sanitizeForJs(sampleStudent.course), student.getCourseIdForJs());
+        assertEquals(SanitizationHelper.sanitizeForJs(sampleStudent.name), student.getStudentNameForJs());
+        assertEquals(SanitizationHelper.sanitizeForJs(sampleStudent.course), student.getCourseIdForJs());
         assertEquals(photoUrl, student.getPhotoUrl());
         assertEquals(getCourseStudentDetailsLink(sampleStudent.course, sampleStudent.email, acct.googleId),
                      student.getCourseStudentDetailsLink());

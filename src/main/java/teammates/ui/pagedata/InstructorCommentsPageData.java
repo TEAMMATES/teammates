@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.StringHelper;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
@@ -119,13 +119,13 @@ public class InstructorCommentsPageData extends PageData {
     private List<CommentRow> createCommentRows(
             String giverEmail, String giverName, List<CommentAttributes> commentsForGiver,
             Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster) {
-        String unsanitizedGiverName = StringHelper.recoverFromSanitizedText(giverName);
+        String unsanitizedGiverName = SanitizationHelper.desanitizeFromHtml(giverName);
         
         List<CommentRow> rows = new ArrayList<CommentRow>();
         for (int i = 0; i < commentsForGiver.size(); i++) {
             CommentAttributes comment = commentsForGiver.get(i);
             String recipientDetails = getRecipientNames(comment.recipients, courseId, null, roster);
-            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
+            String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
             
             Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);

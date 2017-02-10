@@ -3,9 +3,9 @@ package teammates.test.cases.action;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -24,7 +24,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
+        // extra test data used on top of typical data bundle
         removeAndRestoreDataBundle(dataBundle);
     }
 

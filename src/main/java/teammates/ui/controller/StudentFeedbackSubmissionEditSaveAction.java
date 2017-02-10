@@ -1,12 +1,12 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
+import teammates.common.util.SanitizationHelper;
 
 public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionEditSaveAction {
     @Override
@@ -39,7 +39,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
     
     @Override
     protected String getUserTeamForCourse() {
-        return StringHelper.recoverFromSanitizedText(getStudent().team);
+        return SanitizationHelper.desanitizeFromHtml(getStudent().team);
     }
 
     @Override

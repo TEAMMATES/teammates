@@ -2,8 +2,8 @@ package teammates.ui.pagedata;
 
 import java.util.List;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 

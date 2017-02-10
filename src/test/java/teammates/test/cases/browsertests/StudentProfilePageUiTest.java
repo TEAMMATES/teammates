@@ -3,7 +3,7 @@ package teammates.test.cases.browsertests;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -113,20 +113,20 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: no picture");
 
-        profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "Singaporean",
-                                         "male", "this is enough!$%&*</>");
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "Singaporean", "male",
+                                         "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Singaporean",
                                           "male", "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
         ______TS("Typical case: changing genders for complete coverage");
 
-        profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "American",
-                                         "other", "this is enough!$%&*</>");
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", "other",
+                                         "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                           "other", "this is enough!$%&*</>");
-        profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "American",
-                                        "female", "this is enough!$%&*</>");
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", "female",
+                                         "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                          "female", "this is enough!$%&*</>");
 
@@ -136,8 +136,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                                                     "<script>alert(\"Hello world!\");</script>",
                                                                     "e@email.tmt", " inst", "American",
                                                                     "male", "this is enough!$%&*</>", "");
-        profilePage.editProfileThroughUi(spa.googleId, spa.shortName, spa.email, spa.institute, spa.nationality,
-                                         spa.gender, spa.moreInfo);
+        profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
+                                         spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                           "female", "this is enough!$%&*</>");
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " ")
@@ -149,8 +149,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         spa = new StudentProfileAttributes("valid.id", "$$short.name", "e@email.tmt", " inst  ", "American",
                                            "male", "this is enough!$%&*</>", "");
-        profilePage.editProfileThroughUi("", spa.shortName, spa.email, spa.institute, spa.nationality,
-                                         spa.gender, spa.moreInfo);
+        profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
+                                         spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                           "female", "this is enough!$%&*</>");
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));

@@ -5,17 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
@@ -34,17 +33,16 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     private Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
     private Map<String, String> recipients = new HashMap<String, String>();
     
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
-    
     public void createData(StudentAttributes student) {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
         question = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        
+
         responses.add(dataBundle.feedbackResponses.get("response1ForQ1S1C1"));
         responses.add(dataBundle.feedbackResponses.get("response2ForQ1S1C1"));
+
+        // create a dummy questionId for question,
+        // otherwise it would be uninitialised as this is normally done by the database
+        setDummyQuestionId(question, responses);
         
         questionResponseBundle.put(question, responses);
         
@@ -53,6 +51,15 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         
         pageData.bundle = new FeedbackSessionQuestionsBundle(feedbackSession, questionResponseBundle, recipientList);
         pageData.bundle.questionResponseBundle.put(question, responses);
+    }
+
+    private void setDummyQuestionId(
+            FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responses) {
+        String dummyQuestionId = "dummy";
+        question.setId(dummyQuestionId);
+        for (FeedbackResponseAttributes response : responses) {
+            response.feedbackQuestionId = dummyQuestionId;
+        }
     }
     
     @Test

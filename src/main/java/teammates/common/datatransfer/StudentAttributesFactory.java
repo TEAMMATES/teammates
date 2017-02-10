@@ -1,5 +1,6 @@
 package teammates.common.datatransfer;
 
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;

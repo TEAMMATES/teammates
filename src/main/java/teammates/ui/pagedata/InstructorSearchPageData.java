@@ -5,20 +5,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentSearchResultBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.FeedbackResponseCommentRow;
@@ -66,9 +66,9 @@ public class InstructorSearchPageData extends PageData {
         this.isSearchCommentForResponses = isSearchCommentForResponses;
         this.isSearchForStudents = isSearchForStudents;
         
-        this.isCommentsForStudentsEmpty = commentSearchResultBundle.getResultSize() == 0;
-        this.isCommentsForResponsesEmpty = frcSearchResultBundle.getResultSize() == 0;
-        this.isStudentsEmpty = studentSearchResultBundle.getResultSize() == 0;
+        this.isCommentsForStudentsEmpty = commentSearchResultBundle.numberOfResults == 0;
+        this.isCommentsForResponsesEmpty = frcSearchResultBundle.numberOfResults == 0;
+        this.isStudentsEmpty = studentSearchResultBundle.numberOfResults == 0;
         
         setSearchCommentsForStudentsTables(commentSearchResultBundle);
         setSearchCommentsForResponsesTables(frcSearchResultBundle);
@@ -207,13 +207,13 @@ public class InstructorSearchPageData extends PageData {
         
         List<CommentRow> rows = new ArrayList<CommentRow>();
         String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
-        String unsanitizedGiverDetails = StringHelper.recoverFromSanitizedText(giverDetails);
+        String unsanitizedGiverDetails = SanitizationHelper.desanitizeFromHtml(giverDetails);
         String instructorCommentsLink = getInstructorCommentsLink();
         
         for (CommentAttributes comment : commentSearchResultBundle.giverCommentTable.get(giverEmailPlusCourseId)) {
             String recipientDetails = commentSearchResultBundle.recipientTable
                                                                    .get(comment.getCommentId().toString());
-            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
+            String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
             String link = instructorCommentsLink + "&" + Const.ParamsNames.COURSE_ID
                                             + "=" + comment.courseId + "#" + comment.getCommentId();
             CommentRow commentRow = new CommentRow(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails);

@@ -3,7 +3,7 @@ package teammates.ui.pagedata;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.util.Const;
 import teammates.ui.template.CourseTable;
