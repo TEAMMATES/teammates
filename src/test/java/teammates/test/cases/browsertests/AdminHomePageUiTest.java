@@ -3,8 +3,8 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.AppUrl;
@@ -103,6 +103,27 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         assertEquals(instructor.getName(), instructorInBackend.getName());
         assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
         homePage.clearInstructorDetailsSingleLineForm();
+        
+        ______TS("action success: displayed instructor details are properly HTML-encoded");
+        
+        InstructorAttributes dangerousInstructor = new InstructorAttributes();
+        
+        String shortNameDangerous = "<b>MaliciousInstrúctör</b>";
+        dangerousInstructor.name = "Malicious <script>alert('dangerous');</script>Instrúctör";
+        dangerousInstructor.email = "malicious.instr1<>!@gmail.tmt";
+        String dangerousInstitute = "TEAMMATES Malicious Institute <!@!@!>";
+        String dangerousDemoCourseId = "malicious.instr1___.gma-demo";
+        
+        BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
+        BackDoor.deleteCourse(dangerousDemoCourseId);
+        BackDoor.deleteInstructor(dangerousDemoCourseId, dangerousInstructor.email);
+        
+        homePage.createInstructor(shortNameDangerous, dangerousInstructor, dangerousInstitute);
+        
+        assertEquals(shortNameDangerous, homePage.getShortNameFromResultTable(1));
+        assertEquals(dangerousInstructor.name, homePage.getNameFromResultTable(1));
+        assertEquals(dangerousInstructor.email, homePage.getEmailFromResultTable(1));
+        assertEquals(dangerousInstitute, homePage.getInstitutionFromResultTable(1));
         
         ______TS("action success : create instructor account and the account is created successfully "
                  + "after user's verification");
@@ -312,6 +333,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
+        
+        BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
+        BackDoor.deleteCourse(dangerousDemoCourseId);
+        BackDoor.deleteInstructor(dangerousDemoCourseId, dangerousInstructor.email);
 
     }
     

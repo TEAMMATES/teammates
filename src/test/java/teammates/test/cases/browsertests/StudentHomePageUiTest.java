@@ -2,7 +2,7 @@ package teammates.test.cases.browsertests;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;

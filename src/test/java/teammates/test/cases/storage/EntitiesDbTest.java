@@ -5,7 +5,7 @@ import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;

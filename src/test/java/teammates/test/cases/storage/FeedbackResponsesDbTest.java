@@ -10,10 +10,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseDetails;
-import teammates.common.datatransfer.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -31,7 +31,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() throws Exception {
-        printTestClassHeader();
         addResponsesToDb();
         fras = dataBundle.feedbackResponses;
     }
@@ -848,8 +847,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
+    public void classTearDown() {
         deleteResponsesFromDb();
     }
     

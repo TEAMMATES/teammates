@@ -15,18 +15,18 @@ import java.util.Set;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.FeedbackSessionType;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -37,7 +37,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -858,14 +858,15 @@ public final class FeedbackSessionsLogic {
         
         StringBuilder exportBuilder = new StringBuilder(100);
 
-        exportBuilder.append(String.format("Course,%s", Sanitizer.sanitizeForCsv(results.feedbackSession.getCourseId())))
+        exportBuilder.append(String.format("Course,%s",
+                             SanitizationHelper.sanitizeForCsv(results.feedbackSession.getCourseId())))
                      .append(Const.EOL)
                      .append(String.format("Session Name,%s",
-                             Sanitizer.sanitizeForCsv(results.feedbackSession.getFeedbackSessionName())))
+                             SanitizationHelper.sanitizeForCsv(results.feedbackSession.getFeedbackSessionName())))
                      .append(Const.EOL);
         
         if (section != null) {
-            exportBuilder.append(String.format("Section Name,%s", Sanitizer.sanitizeForCsv(section)))
+            exportBuilder.append(String.format("Section Name,%s", SanitizationHelper.sanitizeForCsv(section)))
                          .append(Const.EOL);
         }
 
@@ -913,7 +914,7 @@ public final class FeedbackSessionsLogic {
         StringBuilder exportBuilder = new StringBuilder();
         
         exportBuilder.append("Question " + Integer.toString(question.questionNumber) + ","
-                + Sanitizer.sanitizeForCsv(questionDetails.getQuestionText())
+                + SanitizationHelper.sanitizeForCsv(questionDetails.getQuestionText())
                 + Const.EOL + Const.EOL);
         
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
@@ -1067,14 +1068,14 @@ public final class FeedbackSessionsLogic {
             String possibleRecipientEmail = results.getDisplayableEmailFromRoster(possibleRecipient);
             
             if (questionDetails.shouldShowNoResponseText(question)) {
-                exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(giver))
-                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverName))
-                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
-                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
-                        + "," + Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(possibleRecipient))
-                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientName))
-                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
-                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientEmail))
+                exportBuilder.append(SanitizationHelper.sanitizeForCsv(results.getTeamNameFromRoster(giver))
+                        + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverName))
+                        + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                        + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
+                        + "," + SanitizationHelper.sanitizeForCsv(results.getTeamNameFromRoster(possibleRecipient))
+                        + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientName))
+                        + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
+                        + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientEmail))
                         + "," + questionDetails.getNoResponseTextInCsv(giver, possibleRecipient, results, question)
                         + Const.EOL);
             }

@@ -531,16 +531,22 @@ task downloadFailedXml {
 // COVERAGE TASKS
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = "0.7.8"
 }
 
-jacocoTestReport {
+task jacocoMerge(type: JacocoMerge) {
+    destinationFile = file("${buildDir}/jacocoMerge/jacocoMerge.exec")
+    executionData fileTree("${buildDir}/jacoco").files
+}
+
+task jacocoReport(type: JacocoReport) {
     description "Runs coverage session from available test run data."
     group "Test"
     sourceDirectories = files(sourceSets.main.java.srcDirs, sourceSets.test.java.srcDirs)
-    classDirectories =  files(sourceSets.main.output, sourceSets.test.output)
+    classDirectories = files(sourceSets.main.output, sourceSets.test.output)
+    executionData jacocoMerge.destinationFile
     reports {
-        xml.enabled false
+        xml.enabled true
         html.enabled true
     }
     afterEvaluate {
@@ -548,4 +554,5 @@ jacocoTestReport {
             fileTree(dir: it, exclude: ["**/*.jar", "teammates/client/**/*", "**/*Filter.class", "**/*Servlet.class"])
         })
     }
+    dependsOn jacocoMerge
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.util.Const;
 import teammates.ui.template.StudentListSectionData;

@@ -6,33 +6,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.AdminEmailAttributes;
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.CourseSummaryBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
@@ -285,14 +285,12 @@ public class Logic {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      * @param queryString
-     * @param cursorString
      * @return Null if no match found.
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
         
-        return instructorsLogic.searchInstructorsInWholeSystem(queryString, cursorString);
+        return instructorsLogic.searchInstructorsInWholeSystem(queryString);
     }
     
     /**
@@ -770,15 +768,12 @@ public class Logic {
      * @param queryString
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
-     * @param cursorString  used to support the pagination
      * @return Null if no match found
      */
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
-                                                    String cursorString) {
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructors);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
-        return studentsLogic.searchStudents(queryString, instructors, cursorString);
+        return studentsLogic.searchStudents(queryString, instructors);
     }
     
     /**
@@ -786,14 +781,12 @@ public class Logic {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
      * @param queryString
-     * @param cursorString
      * @return Null if no match found.
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
         
-        return studentsLogic.searchStudentsInWholeSystem(queryString, cursorString);
+        return studentsLogic.searchStudentsInWholeSystem(queryString);
     }
     
     /**
@@ -2037,16 +2030,13 @@ public class Logic {
      * @param queryString
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
-     * @param cursorString  used to support the pagination
      * @return Null if no match found
      */
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString,
-                                                                         List<InstructorAttributes> instructors,
-                                                                         String cursorString) {
+                                                                         List<InstructorAttributes> instructors) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructors);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
-        return feedbackResponseCommentsLogic.searchFeedbackResponseComments(queryString, instructors, cursorString);
+        return feedbackResponseCommentsLogic.searchFeedbackResponseComments(queryString, instructors);
     }
     
     /**
@@ -2142,15 +2132,12 @@ public class Logic {
      * @param queryString
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
-     * @param cursorString  used to support the pagination
      * @return Null if no match found
      */
-    public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors,
-                                                   String cursorString) {
+    public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors) {
         Assumption.assertNotNull(queryString);
         Assumption.assertNotNull(instructors);
-        Assumption.assertNotNull(cursorString);
-        return commentsLogic.searchComment(queryString, instructors, cursorString);
+        return commentsLogic.searchComment(queryString, instructors);
     }
     
     /**

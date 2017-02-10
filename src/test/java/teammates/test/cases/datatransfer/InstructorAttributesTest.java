@@ -2,11 +2,9 @@ package teammates.test.cases.datatransfer;
 
 import static teammates.common.util.Const.EOL;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -16,11 +14,6 @@ import teammates.test.cases.BaseTestCase;
 
 public class InstructorAttributesTest extends BaseTestCase {
 
-    @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
-    }
-    
     @Test
     public void testConstructor() {
         @SuppressWarnings("deprecation")
@@ -243,9 +236,4 @@ public class InstructorAttributesTest extends BaseTestCase {
         // TODO: find ways to test this method more thoroughly
     }
     
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
-    }
-
 }

@@ -3,8 +3,8 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorFeedbackEditCopyPageData;

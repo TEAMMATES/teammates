@@ -9,23 +9,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.CommentsDb;
 
 /**
@@ -241,9 +241,8 @@ public final class CommentsLogic {
         commentsDb.putDocument(comment);
     }
     
-    public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors,
-                                                   String cursorString) {
-        return commentsDb.search(queryString, instructors, cursorString);
+    public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors) {
+        return commentsDb.search(queryString, instructors);
     }
     
     private void verifyIsCoursePresent(String courseId, String action) throws EntityDoesNotExistException {
@@ -462,7 +461,7 @@ public final class CommentsLogic {
                 }
             //for team
             } else if (c.recipientType == CommentParticipantType.TEAM
-                       && c.recipients.contains(Sanitizer.sanitizeForHtml(student.team))) {
+                       && c.recipients.contains(SanitizationHelper.sanitizeForHtml(student.team))) {
                 if (c.showCommentTo.contains(CommentParticipantType.TEAM)) {
                     removeGiverNameByVisibilityOptions(c, CommentParticipantType.TEAM);
                     appendComments(c, comments, commentsVisitedSet);

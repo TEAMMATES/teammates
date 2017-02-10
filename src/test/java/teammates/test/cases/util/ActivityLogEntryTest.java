@@ -2,7 +2,7 @@ package teammates.test.cases.util;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.ActivityLogEntry;
 import teammates.test.cases.BaseTestCase;

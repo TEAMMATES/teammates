@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -27,7 +27,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.CoursesDb;
 
@@ -700,8 +700,8 @@ public final class CoursesLogic {
         boolean hasSection = hasIndicatedSections(courseId);
         
         StringBuilder export = new StringBuilder(100);
-        String courseInfo = "Course ID," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL
-                      + "Course Name," + Sanitizer.sanitizeForCsv(course.course.getName()) + Const.EOL
+        String courseInfo = "Course ID," + SanitizationHelper.sanitizeForCsv(courseId) + Const.EOL
+                      + "Course Name," + SanitizationHelper.sanitizeForCsv(course.course.getName()) + Const.EOL
                       + Const.EOL + Const.EOL;
         export.append(courseInfo);
         
@@ -719,14 +719,14 @@ public final class CoursesLogic {
                     }
                     
                     if (hasSection) {
-                        export.append(Sanitizer.sanitizeForCsv(section.name)).append(',');
+                        export.append(SanitizationHelper.sanitizeForCsv(section.name)).append(',');
                     }
 
-                    export.append(Sanitizer.sanitizeForCsv(team.name) + ','
-                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
-                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ','
-                            + Sanitizer.sanitizeForCsv(studentStatus) + ','
-                            + Sanitizer.sanitizeForCsv(student.email) + Const.EOL);
+                    export.append(SanitizationHelper.sanitizeForCsv(team.name) + ','
+                            + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
+                            + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ','
+                            + SanitizationHelper.sanitizeForCsv(studentStatus) + ','
+                            + SanitizationHelper.sanitizeForCsv(student.email) + Const.EOL);
                 }
             }
         }

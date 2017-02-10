@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
@@ -45,16 +45,16 @@ public class AdminSearchPageAction extends Action {
             return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
         }
         
-        data.searchKey = Sanitizer.sanitizeForHtml(searchKey);
+        data.searchKey = SanitizationHelper.sanitizeForHtml(searchKey);
        
-        data.studentResultBundle = logic.searchStudentsInWholeSystem(searchKey, "");
+        data.studentResultBundle = logic.searchStudentsInWholeSystem(searchKey);
         
         data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putStudentHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putStudentRecordsPageLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putStudentInsitituteIntoMap(data.studentResultBundle.studentList, data);
                    
-        data.instructorResultBundle = logic.searchInstructorsInWholeSystem(searchKey, "");
+        data.instructorResultBundle = logic.searchInstructorsInWholeSystem(searchKey);
         data = putInstructorInsitituteIntoMap(data.instructorResultBundle.instructorList, data);
         data = putInstructorHomePageLinkIntoMap(data.instructorResultBundle.instructorList, data);
         data = putInstructorCourseJoinLinkIntoMap(data.instructorResultBundle.instructorList, data);
@@ -63,8 +63,8 @@ public class AdminSearchPageAction extends Action {
                                     data.instructorResultBundle.instructorList,
                                     data);
 
-        int numOfResults = data.studentResultBundle.getResultSize()
-                           + data.instructorResultBundle.getResultSize();
+        int numOfResults = data.studentResultBundle.numberOfResults
+                           + data.instructorResultBundle.numberOfResults;
         
         if (numOfResults > 0) {
             statusToUser.add(new StatusMessage("Total results found: " + numOfResults, StatusMessageColor.INFO));

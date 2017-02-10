@@ -5,16 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.StringHelper;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
@@ -150,13 +150,13 @@ public class StudentCommentsPageData extends PageData {
         
         for (CommentAttributes comment : comments) {
             String recipientDetails = getRecipientNames(comment.recipients, courseId, studentEmail, roster);
-            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
+            String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
             InstructorAttributes instructor = roster.getInstructorForEmail(comment.giverEmail);
             String giverDetails = comment.giverEmail;
             if (instructor != null) {
                 giverDetails = instructor.displayedName + " " + instructor.name;
             }
-            String unsanitizedGiverDetails = StringHelper.recoverFromSanitizedText(giverDetails);
+            String unsanitizedGiverDetails = SanitizationHelper.desanitizeFromHtml(giverDetails);
             CommentRow commentRow = new CommentRow(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails);
             
             commentRows.add(commentRow);

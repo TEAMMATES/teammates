@@ -2,8 +2,8 @@ package teammates.ui.automated;
 
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.ActivityLogEntry;

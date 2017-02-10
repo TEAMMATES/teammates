@@ -6,17 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -27,23 +25,14 @@ import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
-public class CoursesLogicTest extends BaseComponentTestCase {
+public class CoursesLogicTest extends BaseLogicTest {
  
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
-    
-    private static DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-    }
     
     @Test
     public void testAll() throws Exception {

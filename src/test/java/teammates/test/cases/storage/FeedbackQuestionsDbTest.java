@@ -3,15 +3,13 @@ package teammates.test.cases.storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -23,11 +21,6 @@ import teammates.test.driver.AssertHelper;
 public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-    }
-    
     @Test
     public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
                                        EntityDoesNotExistException {
@@ -441,8 +434,4 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         }
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 }

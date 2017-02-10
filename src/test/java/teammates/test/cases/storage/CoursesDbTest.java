@@ -1,9 +1,8 @@
 package teammates.test.cases.storage;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -19,11 +18,6 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
     private CoursesDb coursesDb = new CoursesDb();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-    }
-
     @Test
     public void testCreateCourse() throws EntityAlreadyExistsException, InvalidParametersException {
         
