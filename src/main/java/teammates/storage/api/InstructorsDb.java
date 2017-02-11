@@ -68,8 +68,8 @@ public class InstructorsDb extends EntitiesDb {
     /**
      * Searches instructors in the whole system without visibility checking.
      * 
-     * @param queryString
-     * @return InstructorSearchResultBundle with empty instructor list if no result found
+     * @param queryString query string
+     * @return if no result is found, InstructorSearchResultBundle with empty instructor list will be returned
      */
     public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
         // This method should be only used by admin
