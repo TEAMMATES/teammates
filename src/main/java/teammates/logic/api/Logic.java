@@ -2467,13 +2467,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
-    
-    public void sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(String courseId,
-            StudentAttributes student) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
-        feedbackSessionsLogic.sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(courseId, student);
-    }
      
     /**
      * This method is not scalable. Not to be used unless for admin features.

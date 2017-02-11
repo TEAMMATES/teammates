@@ -1480,23 +1480,6 @@ public class FeedbackSessionsLogic {
         sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         updateFeedbackSession(sessionToUnpublish);
     }
-    
-    /**
-     * Sends session submission and session response links (sent previously in the course) to
-     * the new email address of the student.
-     * @param courseId - feedback session summary of the course to send
-     * @param student
-     */
-    public void sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(String courseId,
-            StudentAttributes student) throws EntityDoesNotExistException {
-
-        try {
-            EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, student);
-            new EmailSender().sendEmail(email);
-        } catch (Exception e) {
-            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
-        }
-    }
 
     public EmailWrapper sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName,
                                                            String userId, String unregisteredStudentEmail,

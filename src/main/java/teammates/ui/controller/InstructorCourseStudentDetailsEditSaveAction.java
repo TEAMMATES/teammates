@@ -9,10 +9,13 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.core.EmailGenerator;
+import teammates.logic.core.EmailSender;
 
 public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 
@@ -68,7 +71,13 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             
             boolean isSessionSummarySendEmail = getRequestParamAsBoolean(Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK);
             if (isEmailChanged && isSessionSummarySendEmail) {
-                logic.sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(courseId, student);
+                try {
+                    EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, student);
+                    new EmailSender().sendEmail(email);
+                } catch (Exception e) {
+                    log.severe("Error while sending session summary email");
+                }
+                //logic.sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(courseId, student);
             }
             
             statusToUser.add(new StatusMessage(isSessionSummarySendEmail
