@@ -437,7 +437,7 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
 
 /**
  * Selects contents inside an element.
- * @param elementNode a HTML DOM element object, not a jQuery object
+ * @param elementNode The HTML DOM object to select contents from
  */
 function selectElementContents(elementNode) {
     var body = document.body;
