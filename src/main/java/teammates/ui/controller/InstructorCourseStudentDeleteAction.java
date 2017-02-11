@@ -1,11 +1,10 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDeleteAction extends InstructorCoursesPageAction {
     
@@ -19,7 +18,7 @@ public class InstructorCourseStudentDeleteAction extends InstructorCoursesPageAc
         Assumption.assertNotNull(studentEmail);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         logic.deleteStudent(courseId, studentEmail);

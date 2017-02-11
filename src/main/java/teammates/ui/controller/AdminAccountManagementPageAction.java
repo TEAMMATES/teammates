@@ -5,16 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.AdminAccountManagementPageData;
 
 public class AdminAccountManagementPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         String instructorGoogleId = this.getRequestParamValue("googleId");
         if (instructorGoogleId == null) {

@@ -8,7 +8,7 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
-import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -26,6 +26,9 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
 
+/**
+ * Base class for all classes performing CRUD operations against the Datastore.
+ */
 public abstract class EntitiesDb {
 
     public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create a %s that exists: ";
@@ -319,10 +322,6 @@ public abstract class EntitiesDb {
         }
     }
     
-    protected void getDocument(String indexName, String documentId) {
-        SearchManager.getDocument(indexName, documentId);
-    }
-    
     protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
         try {
             if (query.getFilterSize() > 0) {
@@ -343,7 +342,4 @@ public abstract class EntitiesDb {
         }
     }
     
-    protected void deleteDocuments(String indexName, String[] documentId) {
-        SearchManager.deleteDocuments(indexName, documentId);
-    }
 }

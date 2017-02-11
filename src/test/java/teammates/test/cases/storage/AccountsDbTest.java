@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -25,11 +24,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
     private AccountsDb accountsDb = new AccountsDb();
     private ProfilesDb profilesDb = new ProfilesDb();
-    
-    @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testGetAccount() throws Exception {
@@ -121,7 +115,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
-        spa.nationality = "test.nationality";
+        spa.nationality = "American";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
         spa.googleId = a.googleId;
@@ -201,7 +195,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         Date expectedModifiedDate = actualAccount.studentProfile.modifiedDate;
         
         String expectedNationality = actualAccount.studentProfile.nationality;
-        actualAccount.studentProfile.nationality = "New Nationality";
+        actualAccount.studentProfile.nationality = "Andorran";
         actualAccount.institute = "newer institute";
         
         accountsDb.updateAccount(actualAccount);

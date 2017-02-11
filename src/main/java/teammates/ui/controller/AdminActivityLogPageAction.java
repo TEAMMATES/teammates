@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.AdminLogQuery;
@@ -18,8 +18,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Version;
-import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
+import teammates.ui.pagedata.AdminActivityLogPageData;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -45,7 +44,7 @@ public class AdminActivityLogPageAction extends Action {
     
     @Override
     protected ActionResult execute() {
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         AdminActivityLogPageData data = new AdminActivityLogPageData(account);
         
@@ -78,7 +77,7 @@ public class AdminActivityLogPageAction extends Action {
         
         // This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
         // to show all testing logs. This will keep showing all logs from testing data despite any action
-        // or change in the page unless the the page is reloaded with "?testdata=false"
+        // or change in the page unless the page is reloaded with "?testdata=false"
         // or simply reloaded with this parameter omitted.
         boolean ifShowTestData = getRequestParamAsBoolean("testdata");
         
@@ -281,7 +280,6 @@ public class AdminActivityLogPageAction extends Action {
             return Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
         }
         
-        Logic logic = new Logic();
         double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         if (userGoogleId != null && !userGoogleId.isEmpty()) {
             localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));
@@ -311,8 +309,6 @@ public class AdminActivityLogPageAction extends Action {
             return localTimeZone;
         }
         
-        Logic logic = new Logic();
-        
         for (CourseAttributes course : courses) {
             List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.getId());
             if (fsl != null && !fsl.isEmpty()) {
@@ -329,8 +325,6 @@ public class AdminActivityLogPageAction extends Action {
         if (courseId == null || courseId.isEmpty()) {
             return localTimeZone;
         }
-        
-        Logic logic = new Logic();
         
         List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(courseId);
         if (fsl != null && !fsl.isEmpty()) {

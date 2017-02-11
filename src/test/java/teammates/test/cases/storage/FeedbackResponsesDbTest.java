@@ -10,10 +10,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseDetails;
-import teammates.common.datatransfer.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -30,8 +30,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     private static Map<String, FeedbackResponseAttributes> fras;
     
     @BeforeClass
-    public void classSetUp() throws Exception {
-        printTestClassHeader();
+    public void classSetup() throws Exception {
         addResponsesToDb();
         fras = dataBundle.feedbackResponses;
     }
@@ -55,7 +54,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         frDb.deleteEntity(fra);
         
         frDb.createEntity(fra);
-        verifyPresentInDatastore(fra, true);
+        verifyPresentInDatastore(fra);
         
         String feedbackQuestionId = fra.feedbackQuestionId;
         String giverEmail = fra.giver;
@@ -106,7 +105,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         frDb.createEntity(fra);
         
         // sets the id for fra
-        verifyPresentInDatastore(fra, true);
+        verifyPresentInDatastore(fra);
         
         ______TS("duplicate - with same id.");
         
@@ -848,8 +847,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
+    public void classTearDown() {
         deleteResponsesFromDb();
     }
     

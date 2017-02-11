@@ -105,12 +105,43 @@ $(document).ready(function() {
     prepareRankQuestions();
 
     focusModeratedQuestion();
+    
+    bindModerationHintButton();
 
     showModalWarningIfSessionClosed();
 });
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
+}
+
+function isModeration() {
+    return $('#moderationHintButton').length !== 0;
+}
+
+function bindModerationHintButton() {
+    if (!isModeration()) {
+        return;
+    }
+    
+    var expandText = '[More]';
+    var closeText = '[Less]';
+    var $moderationHintButton = $('#moderationHintButton');
+    var $moderationHint = $('#moderationHint');
+    
+    $moderationHintButton.text(expandText);
+    
+    $moderationHintButton.click(function(event) {
+        event.preventDefault();
+        
+        if ($moderationHint.hasClass('hidden')) {
+            $moderationHintButton.text(closeText);
+            $moderationHint.removeClass('hidden');
+        } else {
+            $moderationHintButton.text(expandText);
+            $moderationHint.addClass('hidden');
+        }
+    });
 }
 
 // Saves the value in the other option textbox for MCQ questions

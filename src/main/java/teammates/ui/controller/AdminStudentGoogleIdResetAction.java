@@ -1,13 +1,12 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
+import teammates.ui.pagedata.AdminStudentGoogleIdResetPageData;
 
 /**
  * This Action is used in AdminSearchPage to reset the google id of a
@@ -21,8 +20,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         
-        Logic logic = new Logic();
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String studentCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -33,7 +31,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
         if (studentEmail != null && studentCourseId != null) {
             try {
                 logic.resetStudentGoogleId(studentEmail, studentCourseId);
-                logic.sendRegistrationInviteToStudentAfterGoogleIdReset(studentCourseId, studentEmail);
+                taskQueuer.scheduleCourseRegistrationInviteToStudent(studentCourseId, studentEmail, true);
             } catch (InvalidParametersException e) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL,
                                                    StatusMessageColor.DANGER));
@@ -84,8 +82,6 @@ public class AdminStudentGoogleIdResetAction extends Action {
     }
 
     private void deleteAccountIfNeeded(String wrongGoogleId) {
-        Logic logic = new Logic();
-        
         if (logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
                 && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
             logic.deleteAccount(wrongGoogleId);

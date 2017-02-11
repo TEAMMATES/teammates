@@ -3,15 +3,13 @@ package teammates.test.cases.storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -23,11 +21,6 @@ import teammates.test.driver.AssertHelper;
 public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
-    
     @Test
     public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
                                        EntityDoesNotExistException {
@@ -40,7 +33,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqDb.deleteEntity(fq);
         
         fqDb.createEntity(fq);
-        verifyPresentInDatastore(fq, true);
+        verifyPresentInDatastore(fq);
         
         String feedbackSessionName = fq.feedbackSessionName;
         String courseId = fq.courseId;
@@ -88,7 +81,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqDb.deleteEntity(fqa);
         
         fqDb.createEntity(fqa);
-        verifyPresentInDatastore(fqa, true);
+        verifyPresentInDatastore(fqa);
 
         ______TS("duplicate - with same id.");
 
@@ -331,7 +324,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes modifiedQuestion = getNewFeedbackQuestionAttributes();
         fqDb.deleteEntity(modifiedQuestion);
         fqDb.createEntity(modifiedQuestion);
-        verifyPresentInDatastore(modifiedQuestion, true);
+        verifyPresentInDatastore(modifiedQuestion);
 
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
                                                     modifiedQuestion.courseId,
@@ -441,8 +434,4 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         }
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 }

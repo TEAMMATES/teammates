@@ -4,7 +4,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 import com.google.apphosting.api.DeadlineExceededException;
 
@@ -14,7 +13,7 @@ public class AdminExceptionTestAction extends Action {
     @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
     protected ActionResult execute() throws EntityDoesNotExistException {
 
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
 
         String error = getRequestParamValue(Const.ParamsNames.ERROR);
 

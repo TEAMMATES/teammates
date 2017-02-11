@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorCoursesPageData;
 
 /**
  * Action: loading of the 'Courses' page for an instructor.
@@ -26,7 +26,7 @@ public class InstructorCoursesPageAction extends Action {
          * In this Action, there are no parameters.*/
         
         /* Explanation: Next, check if the user has rights to execute the action.*/
-        new GateKeeper().verifyInstructorPrivileges(account);
+        gateKeeper.verifyInstructorPrivileges(account);
         
         /* Explanation: This is a 'show page' type action. Therefore, we
          * prepare the matching PageData object, accessing the Logic

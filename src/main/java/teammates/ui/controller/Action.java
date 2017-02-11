@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
@@ -19,12 +19,15 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.EmailSender;
+import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
+import teammates.ui.pagedata.PageData;
 
 /** An 'action' to be performed by the system. If the logged in user is allowed
  * to perform the requested action, this object can talk to the back end to
@@ -46,7 +49,9 @@ public abstract class Action {
     public StudentAttributes student;
     
     protected Logic logic;
+    protected GateKeeper gateKeeper;
     protected TaskQueuer taskQueuer;
+    protected EmailSender emailSender;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
     protected String requestUrl;
@@ -89,7 +94,9 @@ public abstract class Action {
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
+        gateKeeper = new GateKeeper();
         setTaskQueuer(new TaskQueuer());
+        setEmailSender(new EmailSender());
         requestParameters = request.getParameterMap();
         session = request.getSession();
         
@@ -105,8 +112,16 @@ public abstract class Action {
         this.taskQueuer = taskQueuer;
     }
 
+    public EmailSender getEmailSender() {
+        return emailSender;
+    }
+    
+    public void setEmailSender(EmailSender emailSender) {
+        this.emailSender = emailSender;
+    }
+    
     protected void authenticateUser() {
-        UserType currentUser = logic.getCurrentUser();
+        UserType currentUser = gateKeeper.getCurrentUser();
         loggedInUser = authenticateAndGetActualUser(currentUser);
         if (isValidUser()) {
             account = authenticateAndGetNominalUser(currentUser);
@@ -166,7 +181,7 @@ public abstract class Action {
                 expectedId = StringHelper.encrypt(expectedId);
                 String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
                                           .withUserId(StringHelper.encrypt(loggedInUserId))
-                                          .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
+                                          .withParam(Const.ParamsNames.NEXT_URL, gateKeeper.getLoginUrl(requestUrl))
                                           .withParam(Const.ParamsNames.HINT, expectedId)
                                           .toString();
                 
@@ -190,7 +205,7 @@ public abstract class Action {
         if (isUnknownKey) {
             throw new UnauthorizedAccessException("Unknown Registration Key " + regkey);
         } else if (isARegisteredUser) {
-            setRedirectPage(Logic.getLoginUrl(requestUrl));
+            setRedirectPage(gateKeeper.getLoginUrl(requestUrl));
             return null;
         } else if (isNotLegacyLink() && isMissingAdditionalAuthenticationInfo) {
             throw new UnauthorizedAccessException("Insufficient information to authenticate user");
@@ -216,7 +231,7 @@ public abstract class Action {
         boolean noRegkeyGiven = getRegkeyFromRequest() == null;
         
         if (userIsNotLoggedIn && (userNeedsGoogleAccountForPage || noRegkeyGiven)) {
-            setRedirectPage(Logic.getLoginUrl(requestUrl));
+            setRedirectPage(gateKeeper.getLoginUrl(requestUrl));
             return true;
         }
         
@@ -323,7 +338,7 @@ public abstract class Action {
         statusToAdmin = "Redirecting user to " + redirectUrl;
     }
     
-    protected String getAuthenticationRedirectUrl() {
+    public String getAuthenticationRedirectUrl() {
         return authenticationRedirectUrl;
     }
     
@@ -356,7 +371,7 @@ public abstract class Action {
         response.isError = isError;
         
         // Set the common parameters for the response
-        if (logic.getCurrentUser() != null) {
+        if (gateKeeper.getCurrentUser() != null) {
             response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
         }
         
@@ -417,7 +432,7 @@ public abstract class Action {
      *   the 'activity log' for the Admin.
      */
     public String getLogMessage() {
-        UserType currentUser = logic.getCurrentUser();
+        UserType currentUser = gateKeeper.getCurrentUser();
         
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(account,
                                                                  isInMasqueradeMode(),
@@ -505,7 +520,7 @@ public abstract class Action {
     }
 
     protected ActionResult createPleaseJoinCourseResponse(String courseId) {
-        String errorMessage = "You are not registered in the course " + Sanitizer.sanitizeForHtml(courseId);
+        String errorMessage = "You are not registered in the course " + SanitizationHelper.sanitizeForHtml(courseId);
         statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
         isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage;

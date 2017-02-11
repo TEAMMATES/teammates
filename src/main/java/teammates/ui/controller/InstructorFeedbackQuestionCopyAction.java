@@ -1,12 +1,12 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.PageData;
 
 public class InstructorFeedbackQuestionCopyAction extends Action {
 
@@ -16,9 +16,9 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, account.googleId);
 
-        new GateKeeper().verifyAccessible(instructorDetailForCourse,
-                                          logic.getFeedbackSession(feedbackSessionName, courseId),
-                                          false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(instructorDetailForCourse,
+                                    logic.getFeedbackSession(feedbackSessionName, courseId),
+                                    false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         String instructorEmail = instructorDetailForCourse.email;
 

@@ -3,7 +3,7 @@ package teammates.logic.core;
 import java.util.Date;
 import java.util.List;
 
-import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -12,18 +12,22 @@ import teammates.storage.api.AdminEmailsDb;
 import com.google.appengine.api.blobstore.BlobKey;
 
 /**
- * Handles the logic related to admin emails
- *
+ * Handles operations related to emails sent by the admin.
+ * 
+ * @see {@link AdminEmailAttributes}
+ * @see {@link AdminEmailsDb}
  */
-
-public class AdminEmailsLogic {
-    private static AdminEmailsLogic instance;
+public final class AdminEmailsLogic {
+    
+    private static AdminEmailsLogic instance = new AdminEmailsLogic();
+    
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
     
+    private AdminEmailsLogic() {
+        // prevent initialization
+    }
+    
     public static AdminEmailsLogic inst() {
-        if (instance == null) {
-            instance = new AdminEmailsLogic();
-        }
         return instance;
     }
 

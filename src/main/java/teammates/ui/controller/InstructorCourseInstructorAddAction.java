@@ -1,16 +1,14 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: add another instructor to a course that already exists
@@ -18,7 +16,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorCourseInstructorAddAction extends InstructorCourseInstructorAbstractAction {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
@@ -28,7 +26,7 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         Assumption.assertNotNull(instructorEmail);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
         
         InstructorAttributes instructorToAdd = extractCompleteInstructor(
@@ -36,8 +34,8 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         
         /* Process adding the instructor and setup status to be shown to user and admin */
         try {
-            InstructorAttributes newInstructor = logic.createInstructor(instructorToAdd);
-            logic.sendRegistrationInviteToInstructor(courseId, newInstructor);
+            logic.createInstructor(instructorToAdd);
+            taskQueuer.scheduleCourseRegistrationInviteToInstructor(courseId, instructorEmail);
 
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                                                              instructorName, instructorEmail),
@@ -72,8 +70,8 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         if (displayedName == null || displayedName.isEmpty()) {
             displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         }
-        instructorRole = Sanitizer.sanitizeName(instructorRole);
-        displayedName = Sanitizer.sanitizeName(displayedName);
+        instructorRole = SanitizationHelper.sanitizeName(instructorRole);
+        displayedName = SanitizationHelper.sanitizeName(displayedName);
         
         InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId, instructorName,
                 instructorEmail, instructorRole, isDisplayedToStudents, displayedName);
@@ -105,10 +103,10 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
     private InstructorAttributes createInstructorWithBasicAttributes(String courseId, String instructorName,
             String instructorEmail, String instructorRole,
             boolean isDisplayedToStudents, String displayedName) {
-        String instrName = Sanitizer.sanitizeName(instructorName);
-        String instrEmail = Sanitizer.sanitizeEmail(instructorEmail);
-        String instrRole = Sanitizer.sanitizeName(instructorRole);
-        String instrDisplayedName = Sanitizer.sanitizeName(displayedName);
+        String instrName = SanitizationHelper.sanitizeName(instructorName);
+        String instrEmail = SanitizationHelper.sanitizeEmail(instructorEmail);
+        String instrRole = SanitizationHelper.sanitizeName(instructorRole);
+        String instrDisplayedName = SanitizationHelper.sanitizeName(displayedName);
         InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
         
         InstructorAttributes instructorToAdd = new InstructorAttributes(null, courseId, instrName, instrEmail,

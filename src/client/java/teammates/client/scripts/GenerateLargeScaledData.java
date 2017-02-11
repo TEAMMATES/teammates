@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.FileHelper;
 
 public class GenerateLargeScaledData extends RemoteApiClient {
     

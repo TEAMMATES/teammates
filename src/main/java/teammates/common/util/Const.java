@@ -31,7 +31,6 @@ public final class Const {
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
     public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
     
-    public static final String FEEDBACK_SESSION_QUESTIONS_HIDDEN = "Some questions may be hidden due to visibility options";
     public static final String NONE_OF_THE_ABOVE = "None of the above";
 
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
@@ -477,6 +476,7 @@ public final class Const {
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS =
                 "Too little options for " + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION
                 + ". Minimum number of options is: ";
+        public static final String CONST_SUM_ERROR_DUPLICATE_OPTIONS = "Duplicate options are not allowed.";
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_POINTS =
                 "Too little points for " + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT
                 + ". Minimum number of points is: ";
@@ -542,6 +542,7 @@ public final class Const {
     public static class ParamsNames {
         
         public static final String IS_USING_AJAX = "isusingAjax";
+        public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
         
         public static final String BLOB_KEY = "blob-key";
         
@@ -591,7 +592,9 @@ public final class Const {
         public static final String COURSE_TO_LOAD = "coursetoload";
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
-        
+
+        public static final String IMAGE_TO_UPLOAD = "imagetoupload";
+
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
         
@@ -912,7 +915,10 @@ public final class Const {
         
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
-        
+
+        public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
+        public static final String IMAGE_UPLOAD = "/page/imageUpload";
+
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
         public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
@@ -956,7 +962,8 @@ public final class Const {
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD = "/admin/adminEmailGroupReceiverListUpload";
         public static final String ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL =
                 "/admin/adminEmailCreateGroupReceiverListUploadUrl";
-        
+
+        public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
@@ -984,9 +991,6 @@ public final class Const {
         public static final String ADMIN_SEND_EMAIL_QUEUE_NAME = "admin-send-email-queue";
         public static final String ADMIN_SEND_EMAIL_WORKER_URL = "/worker/adminSendEmail";
         
-        public static final String COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME = "course-join-remind-email-queue";
-        public static final String COURSE_JOIN_REMIND_EMAIL_WORKER_URL = "/worker/courseJoinRemindEmail";
-        
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
         public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
         
@@ -1008,6 +1012,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionUnpublishedEmail";
         
+        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
+        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/instructorCourseJoinEmail";
+        
         public static final String PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME =
                 "pending-comment-cleared-email-queue";
         public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
@@ -1015,6 +1022,9 @@ public final class Const {
         
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
+        
+        public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
+        public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/studentCourseJoinEmail";
         
     }
     
@@ -1361,7 +1371,7 @@ public final class Const {
                             + " to search for an exact phrase in an exact order.</li>"
                 + "</ul>";
         
-        public static final String COMMENT_ADDED = "New comment has been added";
+        public static final String COMMENT_ADDED = "Added new comment: %s";
         public static final String COMMENT_EDITED = "Comment edited";
         public static final String COMMENT_DELETED = "Comment deleted";
         public static final String COMMENT_CLEARED = "Notification for all pending comments have been sent to recipients";
@@ -1397,6 +1407,9 @@ public final class Const {
         public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course %s.";
         
         /** Template String. Parameters:  Course ID */
+        public static final String NON_EXISTENT_STUDENT_ATTEMPTING_TO_JOIN_COURSE =
+                "Unable to join course %s as you are currently not in the student list of that course. "
+                + "Please contact your course instructor for assistance.";
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
         public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";

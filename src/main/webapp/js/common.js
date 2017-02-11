@@ -241,6 +241,15 @@ function toggleSort(divElement, comparator) {
     }
 }
 
+/**
+* Encodes a string for displaying in a HTML document.
+* Uses an in-memory element created with jQuery.
+* @param the string to be encoded
+*/
+function encodeHtmlString(stringToEncode) {
+    return $('<div>').text(stringToEncode).html();
+}
+
 // http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
 /**
  * Sorts a table based on certain column and comparator
@@ -451,33 +460,32 @@ function sortByDiff(a, b) {
  */
 function getPointValue(s, ditchZero) {
     var s0 = s;
-    if (s0.lastIndexOf('<') !== -1) {
-        s0 = s0.substring(0, s0.lastIndexOf('<'));
-        s0 = s0.substring(s0.lastIndexOf('>') + 1);
-    }
+    var baseValue = 100;
     
     if (s0.indexOf('/') !== -1) {
+        // magic expressions below as these cases will only be compared with
+        // case E +(-)X% (0 <= X <= 100)
         if (s0.indexOf('S') !== -1) {
-            return 999; // Case N/S
+            return 2 * baseValue + 1; // Case N/S (feedback contribution not sure)
         }
         
-        return 1000; // Case N/A
+        return 2 * baseValue + 2; // Case N/A
     }
     
     if (s0 === '0%') { // Case 0%
         if (ditchZero) {
             return 0;
         }
-        return 100;
+        return baseValue;
     }
     
-    s0 = s0.replace('E', '').replace('%', '');
+    s0 = s0.replace('E', '').replace('%', ''); // Case E +(-)X%
     
     if (s0 === '') {
-        return 100; // Case E
+        return baseValue; // Case E
     }
     
-    return 100 + parseInt(s0); // Other typical cases
+    return baseValue + parseFloat(s0); // Other typical cases
 }
 
 /** -----------------------UI Related Helper Functions-----------------------* */
@@ -485,20 +493,22 @@ function getPointValue(s, ditchZero) {
 /**
  * Checks if element is within browser's viewport.
  * @return true if it is within the viewport, false otherwise
+ * @see http://stackoverflow.com/q/123999
  */
 function isWithinView(element) {
-    var viewHeight = window.innerHeight;
-    var viewTop = window.scrollY;
-    var viewBottom = viewTop + viewHeight;
+    var baseElement = $(element)[0]; // unwrap jquery element
+    var rect = baseElement.getBoundingClientRect();
     
-    var elementHeight = element.offsetHeight;
-    var elementTop = element.offsetTop;
-    var elementBottom = elementTop + elementHeight;
+    var $viewport = $(window);
     
-    return viewHeight >= elementHeight
-           ? viewTop <= elementTop && viewBottom >= elementBottom          // all within view
-           : viewTop <= elementTop && viewBottom >= elementTop             // top within view
-             || viewTop <= elementBottom && viewBottom >= elementBottom;   // btm within view
+    // makes the viewport size slightly larger to account for rounding errors
+    var tolerance = 0.25;
+    return (
+        rect.top >= 0 - tolerance    // below the top of viewport
+        && rect.left >= 0 - tolerance    // within the left of viewport
+        && rect.right <= $viewport.width() + tolerance    // within the right of viewport
+        && rect.bottom <= $viewport.height() + tolerance    // above the bottom of viewport
+    );
 }
 
 /**

@@ -8,8 +8,8 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.datatransfer.AdminEmailAttributes;
-import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -21,6 +21,12 @@ import teammates.storage.entity.AdminEmail;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
+/**
+ * Handles CRUD operations for emails sent by the admin.
+ * 
+ * @see {@link AdminEmail}
+ * @see {@link AdminEmailAttributes}
+ */
 public class AdminEmailsDb extends EntitiesDb {
     
     public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {

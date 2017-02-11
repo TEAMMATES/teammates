@@ -1,14 +1,14 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.AdminHomePageData;
 
 public class AdminHomePageAction extends Action {
 
     @Override
     protected ActionResult execute() {
         
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         
         AdminHomePageData data = new AdminHomePageData(account);
         

@@ -7,11 +7,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
@@ -19,13 +19,13 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.common.util.TimeHelper;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorFeedbacksPageData;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.reflect.TypeToken;
@@ -42,10 +42,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        new GateKeeper().verifyAccessible(
-                instructor,
-                logic.getCourse(courseId),
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(
+                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         FeedbackSessionAttributes fs = extractFeedbackSessionData();
 
@@ -59,6 +57,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
      
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
 
+        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         try {
             logic.createFeedbackSession(fs);
             
@@ -84,7 +83,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             //TODO: add a condition to include the status due to inconsistency problem of database
             //      (similar to the one below)
             return createRedirectResult(
-                    new PageData(account).getInstructorFeedbackEditLink(
+                    data.getInstructorFeedbackEditLink(
                             fs.getCourseId(), fs.getFeedbackSessionName()));
             
         } catch (EntityAlreadyExistsException e) {
@@ -106,7 +105,6 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                                                StatusMessageColor.WARNING));
         }
         
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs,
                                        feedbackSessionType);
         
@@ -155,7 +153,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
         newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
-        newSession.setFeedbackSessionName(Sanitizer.sanitizeTitle(
+        newSession.setFeedbackSessionName(SanitizationHelper.sanitizeTitle(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         
         newSession.setCreatedTime(new Date());

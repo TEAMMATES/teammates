@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
 public class InstructorFeedbackPreviewAsInstructorAction extends Action {
 
@@ -24,7 +24,7 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
                                                Const.ParamsNames.PREVIEWAS),
                                                previewInstructorEmail);
 
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);

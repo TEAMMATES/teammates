@@ -6,24 +6,24 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.StringHelper;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.EmailChecker;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -32,7 +32,7 @@ import com.google.appengine.api.log.LogService.LogLevel;
 /**
  * SUT: {@link EmailGenerator}
  */
-public class EmailGeneratorTest extends BaseComponentTestCase {
+public class EmailGeneratorTest extends BaseLogicTest {
     
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -43,9 +43,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     private static boolean isGodModeEnabled;
     
     @BeforeClass
-    public void classSetUp() throws Exception {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+    public void classSetup() {
         if (isGodModeEnabled) {
             System.setProperty("godmode", "true");
         }
@@ -272,18 +270,23 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("instructor new account email");
         
+        String instructorEmail = "instructor@email.tmt";
+        String shortName = "Instr";
+        String regkey = "skxxxxxxxxxks";
         @SuppressWarnings("deprecation")
         InstructorAttributes instructor =
-                new InstructorAttributes("googleId", "courseId", "Instructor Name", "instructor@email.tmt");
-        instructor.key = "skxxxxxxxxxks";
-        String shortName = "Instr";
-        String institute = "Test Institute";
+                new InstructorAttributes("googleId", "courseId", "Instructor Name", instructorEmail);
+        instructor.key = regkey;
+        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                .withRegistrationKey(StringHelper.encrypt(regkey))
+                                .withInstructorInstitution("Test Institute")
+                                .toAbsoluteString();
         
         EmailWrapper email = new EmailGenerator()
-                .generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
+                .generateNewInstructorAccountJoinEmail(instructorEmail, shortName, joinLink);
         String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), shortName);
         
-        verifyEmail(email, instructor.email, subject, "/instructorNewAccountEmail.html");
+        verifyEmail(email, instructorEmail, subject, "/instructorNewAccountEmail.html");
         assertEquals(email.getBcc(), Config.SUPPORT_EMAIL);
         
         ______TS("instructor course join email");
@@ -426,11 +429,6 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         // check email body for no left placeholders
         assertFalse(emailContent.contains("${"));
-    }
-    
-    @AfterClass
-    public void classTearDown() {
-        printTestClassFooter();
     }
     
 }

@@ -6,34 +6,38 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
-import teammates.logic.api.GateKeeper;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.ui.pagedata.AdminHomePageData;
 
 public class AdminInstructorAccountAddAction extends Action {
     
     @Override
     protected ActionResult execute() {
 
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
 
         AdminHomePageData data = new AdminHomePageData(account);
 
@@ -118,19 +122,28 @@ public class AdminInstructorAccountAddAction extends Action {
         }
         
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName,
-                                                            data.instructorInstitution);
-        data.statusForAjax = "Instructor " + data.instructorName
+        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
+                                .withInstructorInstitution(data.instructorInstitution)
+                                .toAbsoluteString();
+        EmailWrapper email = new EmailGenerator().generateNewInstructorAccountJoinEmail(
+                instructorList.get(0).email, data.instructorShortName, joinLink);
+        try {
+            emailSender.sendEmail(email);
+        } catch (EmailSendingException e) {
+            log.severe("Instructor welcome email failed to send: " + TeammatesException.toStringWithStackTrace(e));
+        }
+        data.statusForAjax = "Instructor " + SanitizationHelper.sanitizeForHtml(data.instructorName)
                              + " has been successfully created with join link:<br>" + joinLink;
         statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.SUCCESS));
         statusToAdmin = "A New Instructor <span class=\"bold\">"
-                + data.instructorName + "</span> has been created.<br>"
+                + SanitizationHelper.sanitizeForHtmlTag(data.instructorName) + "</span> has been created.<br>"
                 + "<span class=\"bold\">Id: </span>"
                 + "ID will be assigned when the verification link was clicked and confirmed"
                 + "<br>"
-                + "<span class=\"bold\">Email: </span>" + data.instructorEmail
+                + "<span class=\"bold\">Email: </span>" + SanitizationHelper.sanitizeForHtmlTag(data.instructorEmail)
                 + "<span class=\"bold\">Institution: </span>"
-                + data.instructorInstitution;
+                + SanitizationHelper.sanitizeForHtmlTag(data.instructorInstitution);
  
         
         return createAjaxResult(data);
@@ -261,11 +274,15 @@ public class AdminInstructorAccountAddAction extends Action {
     * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
     */
     private String getDemoCourseIdRoot(String instructorEmail) {
-        final String[] splitedEmail = instructorEmail.split("@");
-        final String head = splitedEmail[0];
-        final String emailAbbreviation = splitedEmail[1].substring(0, 3);
-        return head + "." + emailAbbreviation
-                + "-demo";
+        String[] emailSplit = instructorEmail.split("@");
+        
+        String username = emailSplit[0];
+        String host = emailSplit[1];
+        
+        String head = StringHelper.replaceIllegalChars(username, FieldValidator.REGEX_COURSE_ID, '_');
+        String hostAbbreviation = host.substring(0, 3);
+        
+        return head + "." + hostAbbreviation + "-demo";
     }
     
     /** 

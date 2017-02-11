@@ -10,17 +10,18 @@ public final class Templates {
     
     /**
      * Populates the HTML templates by replacing variables in the template string
-     * with the given value string.
+     * with the given value strings.
      * @param template The template html to be populated
-     * @param values Array of a variable, even number of key-value pairs:
+     * @param keyValuePairs Array of a variable, even number of key-value pairs:
      *                   { "key1", "val1", "key2", "val2", ... }
      * @return The populated template
      */
-    public static String populateTemplate(String template, String... values) {
-        Assumption.assertTrue("The number of values passed in must be even", values.length % 2 == 0);
+    public static String populateTemplate(String template, String... keyValuePairs) {
+        Assumption.assertTrue("The number of elements in keyValuePairs passed in must be even",
+                keyValuePairs.length % 2 == 0);
         String populatedTemplate = template;
-        for (int i = 0; i < values.length; i += 2) {
-            populatedTemplate = populatedTemplate.replace(values[i], values[i + 1]);
+        for (int i = 0; i < keyValuePairs.length; i += 2) {
+            populatedTemplate = populatedTemplate.replace(keyValuePairs[i], keyValuePairs[i + 1]);
         }
         return populatedTemplate;
     }

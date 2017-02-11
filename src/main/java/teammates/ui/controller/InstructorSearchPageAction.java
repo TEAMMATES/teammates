@@ -6,21 +6,21 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorSearchPageData;
 
 /**
  * Action: Showing the InstructorSearchPage for an instructor
@@ -29,7 +29,7 @@ public class InstructorSearchPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        new GateKeeper().verifyInstructorPrivileges(account);
+        gateKeeper.verifyInstructorPrivileges(account);
         String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         if (searchKey == null) {
             searchKey = "";
@@ -64,17 +64,17 @@ public class InstructorSearchPageAction extends Action {
             //Start searching
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
             if (isSearchCommentForStudents) {
-                commentSearchResults = logic.searchComment(searchKey, instructors, "");
+                commentSearchResults = logic.searchComment(searchKey, instructors);
             }
             if (isSearchCommentForResponses) {
-                frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, instructors, "");
+                frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, instructors);
             }
             if (isSearchForStudents) {
-                studentSearchResults = logic.searchStudents(searchKey, instructors, "");
+                studentSearchResults = logic.searchStudents(searchKey, instructors);
             }
             
-            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize()
-                                            + studentSearchResults.getResultSize();
+            totalResultsSize = commentSearchResults.numberOfResults + frCommentSearchResults.numberOfResults
+                                            + studentSearchResults.numberOfResults;
             
             Set<String> instructorEmails = new HashSet<String>();
             

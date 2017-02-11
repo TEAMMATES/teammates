@@ -1,5 +1,29 @@
 QUnit.module('common.js');
 
+/**
+ * Warning: This test must be the first because it tests on the visibility
+ * of the elements. Testing later may push the elements out of view.
+ */
+QUnit.test('isWithinView()', function(assert) {
+    var testDiv = $('#visible');
+    
+    // Applies style to visible element and asserts whether it should be visible
+    function assertWithStyle(style, condition) {
+        testDiv.attr('style', 'position: absolute;' + style);
+
+        var testString = 'Element with style ' + style + (condition ? ' is within view' : ' is not within view');
+        assert.equal(isWithinView(testDiv), condition, testString);
+    }
+    assertWithStyle('top: 0%;', true);
+    assertWithStyle('top: 100%;', false);
+    assertWithStyle('bottom: 0%;', true);
+    assertWithStyle('bottom: 100%;', false);
+    assertWithStyle('top: 0%; left: 0%;', true);
+    assertWithStyle('top: 0%; left: -100%;', false);
+    assertWithStyle('top: 0%; right: -100%;', false);
+    assertWithStyle('top: 0%; right: 0%;', true);
+});
+
 QUnit.test('isNumber(num)', function(assert) {
     assert.equal(isNumber('-0.001'), true, 'Negative double');
     assert.equal(isNumber('12.056'), true, 'Positive double');
@@ -76,6 +100,70 @@ QUnit.test('sortDate(x, y)', function(assert) {
         '25 April 1999 2:00PM - 25 April 1999 2:00PM');
     assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 2:01'), -1,
         '25 April 1999 2:00PM - 25 April 1999 2:01PM');
+});
+
+QUnit.test('getPointValue(s, ditchZero)', function(assert) {
+    // getPointValue() is used by the application itself, thus
+    // the inputs are always valid.
+    assert.equal(getPointValue('N/S', false), 201,
+            'Case N/S (feedback contribution not sure)');
+    
+    assert.equal(getPointValue('N/A', false), 202, 'Case N/A');
+    
+    assert.equal(getPointValue('0%', true), 0, 'Case 0% ditchZero true');
+    assert.equal(getPointValue('0%', false), 100, 'Case 0% ditchZero false');
+    assert.equal(getPointValue('1%', true), 101, 'Case 1%');
+    assert.equal(getPointValue('-1%', true), 99, 'Case -1%');
+    
+    assert.equal(getPointValue('E -1%', false), 99, 'Case E -1%');
+    assert.equal(getPointValue('E +1%', false), 101, 'Case E +1%');
+    assert.equal(getPointValue('E +100%', false), 200, 'Case E +100%');
+    assert.equal(getPointValue('E -100%', false), 0, 'Case E -100%');
+    
+    assert.equal(getPointValue('E', false), 100, 'Case E');
+    
+    assert.equal(getPointValue('0', false), 100, 'Integer 0');
+    assert.equal(getPointValue('-1', false), 99, 'Integer -1');
+    assert.equal(getPointValue('1', false), 101, 'Integer 1');
+    
+    function isCloseEnough(numberA, numberB) {
+        var tolerance = 0.0001;
+        return Math.abs(numberA - numberB) < tolerance;
+    }
+    assert.ok(isCloseEnough(getPointValue('0.0', false), 100), 'Float 0');
+    assert.ok(isCloseEnough(getPointValue('0.1', false), 100.1), 'Float 0.1');
+    assert.ok(isCloseEnough(getPointValue('-0.1', false), 99.9), 'Float -0.1');
+    assert.ok(isCloseEnough(getPointValue('1.91', false), 101.91), 'Float 1.91');
+    assert.ok(isCloseEnough(getPointValue('-1.22', false), 98.78), 'Float -1.22');
+    assert.ok(isCloseEnough(getPointValue('3.833333', false), 103.833333), 'Float 3.833333');
+    assert.ok(isCloseEnough(getPointValue('-3.833333', false), 96.166667), 'Float -3.833333');
+});
+
+QUnit.test('sortByPoint(a, b)', function(assert) {
+    assert.ok(sortByPoint('N/S', 'N/A') < 0, 'Case N/S less than N/A');
+    assert.ok(sortByPoint('N/S', 'E') > 0, 'N/S more than E');
+    assert.ok(sortByPoint('N/A', 'E +1%') > 0, 'N/A more than E +(-)X%');
+    assert.ok(sortByPoint('N/S', 'E -1%') > 0, 'N/S more than E +(-)X%');
+    
+    assert.ok(sortByPoint('0%', '0%') === 0, 'Case 0% equal 0%');
+    assert.ok(sortByPoint('-1%', '0%') > 0, 'Case 0% less than every X%');
+    assert.ok(sortByPoint('1%', '0%') > 0, 'Case 0% less than every X%');
+    assert.ok(sortByPoint('3%', '-2%') > 0, 'Case 3% more than -2%');
+    
+    assert.ok(sortByPoint('E +1%', 'E') > 0, 'Case E +1% more than E');
+    assert.ok(sortByPoint('E -1%', 'E') < 0, 'Case E -1% less than E');
+    assert.ok(sortByPoint('E +33%', 'E -23%') > 0, 'Case E +33% more than E -23%');
+    
+    assert.ok(sortByPoint('0', '-1') > 0, 'Case Integer 0 more than -1');
+    assert.ok(sortByPoint('1', '0') > 0, 'Case Integer 1 more than 0');
+    assert.ok(sortByPoint('2', '-3') > 0, 'Case Integer 2 more than -3');
+    
+    assert.ok(sortByPoint('0.0', '1.0') < 0, 'Case Float 0.0 less than 1.0');
+    assert.ok(sortByPoint('0.3', '-1.1') > 0, 'Case Float 0.3 more than -1.1');
+    assert.ok(sortByPoint('0.3', '0.33338') < 0, 'Case Float 0.3 less than 0.33338');
+    assert.ok(sortByPoint('-4.33333', '-4.5') > 0, 'Case Float -4.33333 more than -4.5');
+    
+    assert.ok(sortByPoint('NotNumber', 'Random') === 0, 'Equality for NaN');
 });
 
 QUnit.test('setStatusMessage(message,status)', function(assert) {

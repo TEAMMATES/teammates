@@ -4,12 +4,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
-import teammates.ui.controller.PageData;
+import teammates.ui.pagedata.PageData;
 
 /**
  * Data model for the form for creating/editing a feedback session.
@@ -79,7 +79,7 @@ public class FeedbackSessionsForm {
       
         fsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(existingFs.getTimeZone());
 
-        fsForm.instructions = Sanitizer.sanitizeForRichText(existingFs.getInstructions().getValue());
+        fsForm.instructions = SanitizationHelper.sanitizeForRichText(existingFs.getInstructions().getValue());
         
         fsForm.fsStartDate = TimeHelper.formatDate(existingFs.getStartTime());
         fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getStartTime());
@@ -131,7 +131,7 @@ public class FeedbackSessionsForm {
         
         newFsForm.instructions = feedbackSession == null
                                ? "Please answer all the given questions."
-                               : Sanitizer.sanitizeForRichText(feedbackSession.getInstructions().getValue());
+                               : SanitizationHelper.sanitizeForRichText(feedbackSession.getInstructions().getValue());
         
         newFsForm.fsStartDate = feedbackSession == null
                               ? TimeHelper.formatDate(TimeHelper.getNextHour())

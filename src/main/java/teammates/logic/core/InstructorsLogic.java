@@ -3,42 +3,42 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.InstructorsDb;
 
 /**
- * Handles  operations related to instructor roles.
+ * Handles operations related to instructors.
+ * 
+ * @see {@link InstructorAttributes}
+ * @see {@link InstructorsDb}
  */
-public class InstructorsLogic {
-    //The API of this class doesn't have header comments because it sits behind
-    //  the API of the logic class. Those who use this class is expected to be
-    //  familiar with the its code and Logic's code. Hence, no need for header
-    //  comments.
-    
-    private static final InstructorsDb instructorsDb = new InstructorsDb();
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+public final class InstructorsLogic {
     
     private static final Logger log = Logger.getLogger();
     
-    private static InstructorsLogic instance;
+    private static InstructorsLogic instance = new InstructorsLogic();
+    
+    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    
+    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    
+    private InstructorsLogic() {
+        // prevent initialization
+    }
     
     public static InstructorsLogic inst() {
-        if (instance == null) {
-            instance = new InstructorsLogic();
-        }
         return instance;
     }
     
@@ -60,11 +60,10 @@ public class InstructorsLogic {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      * @param queryString
-     * @param cursorString
      * @return null if no result found
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
-        return instructorsDb.searchInstructorsInWholeSystem(queryString, cursorString);
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
+        return instructorsDb.searchInstructorsInWholeSystem(queryString);
     }
     
     /* ====================================
@@ -216,7 +215,7 @@ public class InstructorsLogic {
         // cascade comments
         if (!instructorInDb.email.equals(instructor.email)) {
             commentsLogic.updateInstructorEmail(instructor.courseId, instructorInDb.email, instructor.email);
-            FeedbackResponseCommentsLogic.inst().updateFeedbackResponseCommentsEmails(
+            frcLogic.updateFeedbackResponseCommentsEmails(
                     instructor.courseId, instructorInDb.email, instructor.email);
         }
     }
@@ -239,77 +238,6 @@ public class InstructorsLogic {
         instructorsDb.updateInstructorByEmail(instructor);
     }
     
-    /**
-     * Sends a registration email to the instructor
-     * Vulnerable to eventual consistency
-     */
-    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, String instructorEmail)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to instructor [" + instructorEmail + "]");
-        }
-        
-        InstructorAttributes instructorData = getInstructorForEmail(courseId, instructorEmail);
-        if (instructorData == null) {
-            throw new EntityDoesNotExistException(
-                    "Instructor [" + instructorEmail + "] does not exist in course [" + courseId + "]");
-        }
-
-        try {
-            EmailWrapper email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructorData);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
-    /**
-     * Sends a registration email using the instructor attributes provided instead of retrieving the instructor
-     * object from the datastore
-     * @param courseId
-     * @param instructor InstructorAttributes object containing the details of the instructor
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
-     */
-    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to student [" + instructor.email + "]");
-        }
-
-        try {
-            EmailWrapper email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
-    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) {
-        
-        EmailGenerator emailGenerator = new EmailGenerator();
-
-        try {
-            EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
-            new EmailSender().sendEmail(email);
-            return emailGenerator.generateNewInstructorAccountJoinLink(instructor, institute);
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-    }
-
     public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name,
                                                               String institute, String email) {
         

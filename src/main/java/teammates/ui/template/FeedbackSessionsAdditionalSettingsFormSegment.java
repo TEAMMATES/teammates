@@ -2,10 +2,10 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.ui.controller.PageData;
+import teammates.ui.pagedata.PageData;
 
 public class FeedbackSessionsAdditionalSettingsFormSegment {
     private boolean isSessionVisibleDateButtonChecked;

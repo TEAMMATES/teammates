@@ -1,13 +1,13 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.AdminEmailTrashPageData;
 
 public class AdminEmailTrashPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        new GateKeeper().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
         AdminEmailTrashPageData data = new AdminEmailTrashPageData(account);
         
         data.adminTrashEmailList = logic.getAdminEmailsInTrashBin();

@@ -1,5 +1,9 @@
 package teammates.common.datatransfer;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

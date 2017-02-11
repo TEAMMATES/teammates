@@ -5,8 +5,8 @@ import java.util.Date;
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 
-import teammates.common.datatransfer.EntityAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -21,9 +21,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Handles CRUD Operations for profiles.
- * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
+ * Handles CRUD operations for student profiles.
  * 
+ * @see {@link StudentProfile}
+ * @see {@link StudentProfileAttributes}
  */
 public class ProfilesDb extends EntitiesDb {
     

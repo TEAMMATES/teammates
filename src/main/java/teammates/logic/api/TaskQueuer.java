@@ -10,6 +10,7 @@ import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.common.util.TaskWrapper;
 import teammates.logic.core.TaskQueuesLogic;
 
 /**
@@ -24,25 +25,46 @@ public class TaskQueuer {
     // while at the same time allowing this API to be mocked during test.
     
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap) {
-        new TaskQueuesLogic().addTask(queueName, workerUrl, paramMap);
+        Map<String, String[]> multisetParamMap = new HashMap<String, String[]>();
+        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+            multisetParamMap.put(entry.getKey(), new String[] { entry.getValue() });
+        }
+        TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap);
+        new TaskQueuesLogic().addTask(task);
     }
     
     protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap,
                                    long countdownTime) {
-        new TaskQueuesLogic().addDeferredTask(queueName, workerUrl, paramMap, countdownTime);
+        Map<String, String[]> multisetParamMap = new HashMap<String, String[]>();
+        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+            multisetParamMap.put(entry.getKey(), new String[] { entry.getValue() });
+        }
+        TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap);
+        new TaskQueuesLogic().addDeferredTask(task, countdownTime);
     }
     
     protected void addTaskMultisetParam(String queueName, String workerUrl, Map<String, String[]> paramMap) {
-        new TaskQueuesLogic().addTaskMultisetParam(queueName, workerUrl, paramMap);
+        TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap);
+        new TaskQueuesLogic().addTask(task);
     }
     
     /**
      * Gets the tasks added to the queue.
      * This method is used only for testing, where it is overridden.
      * 
-     * @throws UnsupporedOperationException if used in production, where it is not meant to be
+     * @throws UnsupportedOperationException if used in production, where it is not meant to be
      */
-    public Map<String, Integer> getTasksAdded() {
+    public List<TaskWrapper> getTasksAdded() {
+        throw new UnsupportedOperationException("Method is used only for testing");
+    }
+    
+    /**
+     * Gets the number of tasks added for each queue name.
+     * This method is used only for testing, where it is overridden.
+     * 
+     * @throws UnsupportedOperationException if used in production, where it is not meant to be
+     */
+    public Map<String, Integer> getNumberOfTasksAdded() {
         throw new UnsupportedOperationException("Method is used only for testing");
     }
     
@@ -197,17 +219,34 @@ public class TaskQueuer {
     }
     
     /**
+     * Schedules for course registration to be sent to the specified instructor.
+     * 
+     * @param courseId the target course ID
+     * @param instructorEmail the email address of the instructor
+     */
+    public void scheduleCourseRegistrationInviteToInstructor(String courseId, String instructorEmail) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.COURSE_ID, courseId);
+        paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
+        
+        addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,
+                TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);
+    }
+    
+    /**
      * Schedules for course registration to be sent to the specified student.
      * 
      * @param courseId the target course ID
      * @param studentEmail the email address of the student
      */
-    public void scheduleCourseRegistrationInviteToStudent(String courseId, String studentEmail) {
+    public void scheduleCourseRegistrationInviteToStudent(String courseId, String studentEmail, boolean isRejoining) {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.COURSE_ID, courseId);
         paramMap.put(ParamsNames.STUDENT_EMAIL, studentEmail);
+        paramMap.put(ParamsNames.IS_STUDENT_REJOINING, String.valueOf(isRejoining));
         
-        addTask(TaskQueue.COURSE_JOIN_REMIND_EMAIL_QUEUE_NAME, TaskQueue.COURSE_JOIN_REMIND_EMAIL_WORKER_URL, paramMap);
+        addTask(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME,
+                TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);
     }
     
     /**

@@ -2,16 +2,15 @@ package teammates.ui.automated;
 
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.UserType;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
+import teammates.logic.api.GateKeeper;
 import teammates.common.util.JsonUtils;
-import teammates.logic.core.FeedbackResponsesLogic;
-import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.logic.core.StudentsLogic;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -44,8 +43,7 @@ public class FeedbackResponseAdjustmentWorkerAction extends AutomatedAction {
         
         log.info("Adjusting submissions for feedback session :" + sessionName + "in course : " + courseId);
         
-        FeedbackSessionAttributes feedbackSession =
-                FeedbackSessionsLogic.inst().getFeedbackSession(sessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(sessionName, courseId);
         
         String errorString = "Error encountered while adjusting feedback session responses of %s in course %s: %s\n%s";
         
@@ -56,16 +54,17 @@ public class FeedbackResponseAdjustmentWorkerAction extends AutomatedAction {
         }
         
         List<FeedbackResponseAttributes> allResponses =
-                FeedbackResponsesLogic.inst().getFeedbackResponsesForSession(feedbackSession.getFeedbackSessionName(),
-                                                                             feedbackSession.getCourseId());
+                logic.getFeedbackResponsesForSession(feedbackSession.getFeedbackSessionName(),
+                                                     feedbackSession.getCourseId());
         List<StudentEnrollDetails> enrollmentList =
                 JsonUtils.fromJson(enrollmentDetails, new TypeToken<List<StudentEnrollDetails>>(){}.getType());
         for (FeedbackResponseAttributes response : allResponses) {
             try {
-                StudentsLogic.inst().adjustFeedbackResponseForEnrollments(enrollmentList, response);
+                logic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
             } catch (Exception e) {
+                UserType userType = new GateKeeper().getCurrentUser();
                 log.severe(String.format(errorString, sessionName, courseId, e.getMessage(),
-                                         ActivityLogEntry.generateServletActionFailureLogMessage(request, e)));
+                                         ActivityLogEntry.generateServletActionFailureLogMessage(request, e, userType)));
                 setForRetry();
                 return;
             }

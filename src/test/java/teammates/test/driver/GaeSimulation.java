@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.logic.api.Logic;
+import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
 import teammates.ui.automated.AutomatedActionFactory;
 import teammates.ui.controller.Action;
@@ -103,9 +103,9 @@ public class GaeSimulation {
      */
     public void loginAsInstructor(String userId) {
         loginUser(userId);
-        Logic logic = new Logic();
-        assertTrue(logic.getCurrentUser().isInstructor);
-        assertFalse(logic.getCurrentUser().isAdmin);
+        GateKeeper gateKeeper = new GateKeeper();
+        assertTrue(gateKeeper.getCurrentUser().isInstructor);
+        assertFalse(gateKeeper.getCurrentUser().isAdmin);
     }
 
     /**Logs in the user to the GAE simulation environment as a student
@@ -113,10 +113,10 @@ public class GaeSimulation {
      */
     public void loginAsStudent(String userId) {
         loginUser(userId);
-        Logic logic = new Logic();
-        assertTrue(logic.getCurrentUser().isStudent);
-        assertFalse(logic.getCurrentUser().isInstructor);
-        assertFalse(logic.getCurrentUser().isAdmin);
+        GateKeeper gateKeeper = new GateKeeper();
+        assertTrue(gateKeeper.getCurrentUser().isStudent);
+        assertFalse(gateKeeper.getCurrentUser().isInstructor);
+        assertFalse(gateKeeper.getCurrentUser().isAdmin);
     }
     
     /** 
@@ -128,6 +128,7 @@ public class GaeSimulation {
         HttpServletRequest req = createWebRequest(uri, parameters);
         Action action = new ActionFactory().getAction(req);
         action.setTaskQueuer(new MockTaskQueuer());
+        action.setEmailSender(new MockEmailSender());
         return action;
     }
     
@@ -140,15 +141,8 @@ public class GaeSimulation {
         HttpServletRequest req = createWebRequest(uri, parameters);
         AutomatedAction action = new AutomatedActionFactory().getAction(req, null);
         action.setTaskQueuer(new MockTaskQueuer());
+        action.setEmailSender(new MockEmailSender());
         return action;
-    }
-
-    /** Refreshes the datastore by recreating it from scratch. */
-    public void resetDatastore() {
-        if (helper != null) {
-            helper.tearDown();
-        }
-        helper.setUp();
     }
 
     public void tearDown() {

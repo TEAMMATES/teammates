@@ -13,7 +13,7 @@ import org.w3c.dom.NodeList;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
@@ -131,7 +131,7 @@ public final class HtmlHelper {
     private static String generateNodeTextContent(Node currentNode, String indentation) {
         String text = currentNode.getNodeValue().trim();
         text = text.replaceAll("[ ]*(\\r?\\n[ ]*)+[ ]*", " ");
-        text = Sanitizer.sanitizeForHtmlTag(text);
+        text = SanitizationHelper.sanitizeForHtmlTag(text);
         // line breaks in text are removed as they are ignored in HTML
         // the lines separated by line break will be joined with a single whitespace character
         return text.isEmpty() ? "" : indentation + text + Const.EOL;

@@ -3,14 +3,13 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -20,37 +19,37 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 
 /**
- * Handles  operations related to student roles.
+ * Handles operations related to students.
+ * 
+ * @see {@link StudentAttributes}
+ * @see {@link StudentsDb}
  */
-public class StudentsLogic {
-    //The API of this class doesn't have header comments because it sits behind
-    //  the API of the logic class. Those who use this class is expected to be
-    //  familiar with the its code and Logic's code. Hence, no need for header
-    //  comments.
+public final class StudentsLogic {
     
     private static final int SECTION_SIZE_LIMIT = 100;
     private static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
-    private static StudentsLogic instance;
-    private StudentsDb studentsDb = new StudentsDb();
+    private static StudentsLogic instance = new StudentsLogic();
     
-    private CoursesLogic coursesLogic = CoursesLogic.inst();
-    private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private ProfilesLogic profilesLogic = ProfilesLogic.inst();
-    private CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final StudentsDb studentsDb = new StudentsDb();
+    
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    
+    private StudentsLogic() {
+        // prevent initialization
+    }
     
     public static StudentsLogic inst() {
-        if (instance == null) {
-            instance = new StudentsLogic();
-        }
         return instance;
     }
 
@@ -118,9 +117,8 @@ public class StudentsLogic {
         studentsDb.deleteDocument(student);
     }
 
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
-                                                    String cursorString) {
-        return studentsDb.search(queryString, instructors, cursorString);
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
+        return studentsDb.search(queryString, instructors);
     }
 
     /**
@@ -128,11 +126,10 @@ public class StudentsLogic {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
      * @param queryString
-     * @param cursorString
      * @return null if no result found
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
-        return studentsDb.searchStudentsInWholeSystem(queryString, cursorString);
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
+        return studentsDb.searchStudentsInWholeSystem(queryString);
     }
     
     public StudentProfileAttributes getStudentProfile(String googleId) {
@@ -480,7 +477,7 @@ public class StudentsLogic {
         StringBuilder errorMessage = new StringBuilder(100);
         for (String team : invalidTeamList) {
             errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,
-                                              Sanitizer.sanitizeForHtml(team)));
+                                              SanitizationHelper.sanitizeForHtml(team)));
         }
 
         if (errorMessage.length() != 0) {
@@ -490,59 +487,6 @@ public class StudentsLogic {
         return errorMessage.toString();
     }
 
-    public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to student [" + studentEmail + "]");
-        }
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
-        if (studentData == null) {
-            throw new EntityDoesNotExistException(
-                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
-        }
-        
-        try {
-            EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
-    public EmailWrapper sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
-            throws EntityDoesNotExistException {
-        
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to student [" + studentEmail + "]");
-        }
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
-        if (studentData == null) {
-            throw new EntityDoesNotExistException(
-                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
-        }
-        
-        try {
-            EmailWrapper email =
-                    new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
-            new EmailSender().sendEmail(email);
-            return email;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
-        }
-        
-    }
-    
     public void deleteStudentCascade(String courseId, String studentEmail) {
         deleteStudentCascade(courseId, studentEmail, true);
     }
@@ -660,7 +604,7 @@ public class StudentsLogic {
         
         for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
-            String sanitizedLine = Sanitizer.sanitizeForHtml(line);
+            String sanitizedLine = SanitizationHelper.sanitizeForHtml(line);
             try {
                 if (StringHelper.isWhiteSpace(line)) {
                     continue;
@@ -668,7 +612,7 @@ public class StudentsLogic {
                 StudentAttributes student = saf.makeStudent(line, courseId);
                 
                 if (!student.isValid()) {
-                    String info = StringHelper.toString(Sanitizer.sanitizeForHtml(student.getInvalidityInfo()),
+                    String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
                                                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }

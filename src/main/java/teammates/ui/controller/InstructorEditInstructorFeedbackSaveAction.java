@@ -1,19 +1,17 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 /**
  * The {@code InstructorEditInstructorFeedbackSaveAction} class handles incoming requests to
@@ -30,10 +28,8 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
 
-        new GateKeeper().verifyAccessible(instructor,
-                session,
-                false,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(
+                instructor, session, false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
     }
     
     /**
@@ -45,7 +41,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail);
 
         moderatedInstructor = logic.getInstructorForEmail(courseId, moderatedInstructorEmail);
-        isSendEmail = false;
+        isSendSubmissionEmail = false;
         
         // If the instructor doesn't exist
         if (moderatedInstructor == null) {
@@ -67,7 +63,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
 
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
             String paramMapKey = Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx;
-            String questionId = HttpRequestHelper.getValueFromParamMap(requestParameters, paramMapKey);
+            String questionId = getRequestParamValue(paramMapKey);
             
             if (questionId == null) {
                 // we do not throw an error if the question was not present on the page for instructors to edit

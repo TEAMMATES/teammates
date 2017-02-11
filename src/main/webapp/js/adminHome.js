@@ -12,10 +12,10 @@
  * @returns {String} a HTML row of action result table
  */
 function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
-    var result = '<td>' + shortName + '</td>';
-    result += '<td>' + name + '</td>';
-    result += '<td>' + email + '</td>';
-    result += '<td>' + institution + '</td>';
+    var result = '<td>' + encodeHtmlString(shortName) + '</td>';
+    result += '<td>' + encodeHtmlString(name) + '</td>';
+    result += '<td>' + encodeHtmlString(email) + '</td>';
+    result += '<td>' + encodeHtmlString(institution) + '</td>';
     if (isSuccess) {
         result += '<td>Success</td>';
     } else {
@@ -124,7 +124,7 @@ function addInstructorFromFirstFormByAjax() {
         paramsList = [];
         for (var i = 0; i < instructorDetailsList.length; i++) {
             instructorDetailsList[i] = instructorDetailsList[i].replace(/\t/g, '|');
-            paramsList[i] = 'instructordetailssingleline=' + instructorDetailsList[i];
+            paramsList[i] = 'instructordetailssingleline=' + encodeURIComponent(instructorDetailsList[i]);
         }
     }
     paramsCounter = 0;
@@ -143,13 +143,15 @@ function addInstructorFromSecondFormByAjax() {
     $('#addInstructorResultPanel').show();    // show the hidden panel
     isInputFromFirstPanel = false;
     
-    var instructorDetails = $('#instructorName').val() + '|' + $('#instructorEmail').val()
-                            + '|' + $('#instructorInstitution').val();
+    var instructorDetails = encodeURIComponent($('#instructorName').val() + '|' + $('#instructorEmail').val()
+                            + '|' + $('#instructorInstitution').val());
     instructorDetailsList = [instructorDetails];
-    var params = 'instructorshortname=' + $('#instructorShortName').val()
-               + '&instructorname=' + $('#instructorName').val()
-               + '&instructoremail=' + $('#instructorEmail').val()
-               + '&instructorinstitution=' + $('#instructorInstitution').val();
+    var params = $.param({
+        instructorshortname: $('#instructorShortName').val(),
+        instructorname: $('#instructorName').val(),
+        instructoremail: $('#instructorEmail').val(),
+        instructorinstitution: $('#instructorInstitution').val()
+    });
     paramsList = [params];
     
     paramsCounter = 0;

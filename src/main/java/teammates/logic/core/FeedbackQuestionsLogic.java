@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -25,23 +25,31 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackQuestionsDb;
 
-public class FeedbackQuestionsLogic {
+/**
+ * Handles operations related to feedback questions.
+ * 
+ * @see {@link FeedbackQuestionAttributes}
+ * @see {@link FeedbackQuestionsDb}
+ */
+public final class FeedbackQuestionsLogic {
     
     private static final Logger log = Logger.getLogger();
-
-    private static FeedbackQuestionsLogic instance;
+    
+    private static FeedbackQuestionsLogic instance = new FeedbackQuestionsLogic();
     
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    
+    private FeedbackQuestionsLogic() {
+        // prevent initialization
+    }
     
     public static FeedbackQuestionsLogic inst() {
-        if (instance == null) {
-            instance = new FeedbackQuestionsLogic();
-        }
         return instance;
     }
     
@@ -275,8 +283,8 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
-     * Gets a {@code List} of all questions for the list of questions that an
-     * instructor can view/submit
+     * Filters through the given list of questions and returns a {@code List} of
+     * questions that an instructor can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
             List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
@@ -319,8 +327,8 @@ public class FeedbackQuestionsLogic {
     
     
     /**
-     * Gets a {@code List} of all questions from the given list of questions
-     * that students can view/submit
+     * Filters through the given list of questions and returns a {@code List} of
+     * questions that students can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
             List<FeedbackQuestionAttributes> allQuestions) {
@@ -356,17 +364,7 @@ public class FeedbackQuestionsLogic {
         
         FeedbackParticipantType recipientType = question.recipientType;
         
-        String giverTeam = null;
-        
-        boolean isStudentGiver = studentGiver != null;
-        boolean isInstructorGiver = instructorGiver != null;
-        if (isStudentGiver) {
-            giverTeam = studentGiver.team;
-        } else if (isInstructorGiver) {
-            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-        } else {
-            giverTeam = giver;
-        }
+        String giverTeam = getGiverTeam(giver, instructorGiver, studentGiver);
         
         switch (recipientType) {
         case SELF:
@@ -430,8 +428,21 @@ public class FeedbackQuestionsLogic {
         }
         return recipients;
     }
+
+    private String getGiverTeam(String defaultTeam, InstructorAttributes instructorGiver,
+            StudentAttributes studentGiver) {
+        String giverTeam = defaultTeam;
+        boolean isStudentGiver = studentGiver != null;
+        boolean isInstructorGiver = instructorGiver != null;
+        if (isStudentGiver) {
+            giverTeam = studentGiver.team;
+        } else if (isInstructorGiver) {
+            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+        }
+        return giverTeam;
+    }
     
-    public boolean isQuestionHasResponses(String feedbackQuestionId) {
+    public boolean areThereResponsesForQuestion(String feedbackQuestionId) {
         return !frLogic.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, 1)
                        .isEmpty();
     }
@@ -448,7 +459,7 @@ public class FeedbackQuestionsLogic {
             numberOfResponsesNeeded = getRecipientsForQuestion(question, email).size();
         }
         
-        return numberOfResponsesGiven >= numberOfResponsesNeeded ? true : false;
+        return numberOfResponsesGiven >= numberOfResponsesNeeded;
     }
 
     /**
@@ -464,11 +475,11 @@ public class FeedbackQuestionsLogic {
         List<StudentAttributes> studentsInTeam =
                 studentsLogic.getStudentsForTeam(question.courseId, teamName);
         
-        int numberOfResponsesNeeded =
+        int numberOfPendingResponses =
                 question.numberOfEntitiesToGiveFeedbackTo;
         
-        if (numberOfResponsesNeeded == Const.MAX_POSSIBLE_RECIPIENTS) {
-            numberOfResponsesNeeded = getRecipientsForQuestion(question, teamName).size();
+        if (numberOfPendingResponses == Const.MAX_POSSIBLE_RECIPIENTS) {
+            numberOfPendingResponses = getRecipientsForQuestion(question, teamName).size();
         }
                 
         for (StudentAttributes student : studentsInTeam) {
@@ -476,11 +487,11 @@ public class FeedbackQuestionsLogic {
                     frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
             for (FeedbackResponseAttributes response : responses) {
                 if (response.giver.equals(student.email)) {
-                    numberOfResponsesNeeded -= 1;
+                    numberOfPendingResponses -= 1;
                 }
             }
         }
-        return numberOfResponsesNeeded <= 0 ? true : false;
+        return numberOfPendingResponses <= 0;
     }
     
     
@@ -525,30 +536,17 @@ public class FeedbackQuestionsLogic {
      */
     private void adjustQuestionNumbers(int oldQuestionNumber,
             int newQuestionNumber, List<FeedbackQuestionAttributes> questions) {
-        
         if (oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1) {
             for (int i = oldQuestionNumber - 1; i >= newQuestionNumber; i--) {
                 FeedbackQuestionAttributes question = questions.get(i - 1);
                 question.questionNumber += 1;
-                try {
-                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
-                } catch (InvalidParametersException e) {
-                    Assumption.fail("Invalid question.");
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared.");
-                }
+                updateFeedbackQuestionWithoutResponseRateUpdate(question);
             }
         } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()) {
             for (int i = oldQuestionNumber + 1; i <= newQuestionNumber; i++) {
                 FeedbackQuestionAttributes question = questions.get(i - 1);
                 question.questionNumber -= 1;
-                try {
-                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
-                } catch (InvalidParametersException e) {
-                    Assumption.fail("Invalid question.");
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared.");
-                }
+                updateFeedbackQuestionWithoutResponseRateUpdate(question);
             }
         }
     }
@@ -563,10 +561,14 @@ public class FeedbackQuestionsLogic {
      * Precondition: <br>
      * {@code newAttributes} is not {@code null}
      */
-    private void updateFeedbackQuestionWithoutResponseRateUpdate(FeedbackQuestionAttributes newAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        updateFeedbackQuestion(newAttributes, false);
+    private void updateFeedbackQuestionWithoutResponseRateUpdate(FeedbackQuestionAttributes newAttributes) {
+        try {
+            updateFeedbackQuestion(newAttributes, false);
+        } catch (InvalidParametersException e) {
+            Assumption.fail("Invalid question.");
+        } catch (EntityDoesNotExistException e) {
+            Assumption.fail("Question disappeared.");
+        }
     }
 
     /**
@@ -600,7 +602,7 @@ public class FeedbackQuestionsLogic {
                     "Trying to update a feedback question that does not exist.");
         }
         
-        if (oldQuestion.isChangesRequiresResponseDeletion(newAttributes)) {
+        if (oldQuestion.areResponseDeletionsRequiredForChanges(newAttributes)) {
             frLogic.deleteFeedbackResponsesForQuestionAndCascade(oldQuestion.getId(), hasResponseRateUpdate);
         }
         
@@ -715,13 +717,7 @@ public class FeedbackQuestionsLogic {
         for (FeedbackQuestionAttributes question : questionsToShift) {
             if (question.questionNumber > questionNumberToShiftFrom) {
                 question.questionNumber -= 1;
-                try {
-                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
-                } catch (InvalidParametersException e) {
-                    Assumption.fail("Invalid question.");
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared.");
-                }
+                updateFeedbackQuestionWithoutResponseRateUpdate(question);
             }
         }
     }

@@ -1,6 +1,6 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -47,6 +47,9 @@ public class StudentProfileEditSaveAction extends Action {
         editedProfile.email = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_EMAIL);
         editedProfile.institute = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_INSTITUTION);
         editedProfile.nationality = getRequestParamValue(Const.ParamsNames.STUDENT_NATIONALITY);
+        if ("".equals(editedProfile.nationality)) {
+            editedProfile.nationality = getRequestParamValue("existingNationality");
+        }
         editedProfile.gender = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";

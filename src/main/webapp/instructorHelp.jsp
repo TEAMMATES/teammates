@@ -32,10 +32,10 @@
                             <a href="#faq7">What to do if a student says his/her courses have disappeared from the system?</a>
                         </li>
                         <li>
-                            <a href="#faq8">What to do if a student says he cannot submit responses due to some technical glitch?</a>
+                            <a href="#faq7a">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
                         </li>
                         <li>
-                            <a href="#faq7a">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
+                            <a href="#faq8">What to do if a student says he cannot submit responses due to some technical glitch?</a>
                         </li>
                         <li>
                             <a href="#faq9">How come the actual contribution values entered by the student is different from the values shown in the results?</a>
@@ -229,7 +229,7 @@
                             Go to the ‘Home’ page, click on the ‘Students‘ button on the corresponding course, and choose ‘Enroll’
                         </li>
                         <li>
-                            Go the the ‘Courses’ page and click the ‘Enroll‘ button of the corresponding course
+                            Go to the ‘Courses’ page and click the ‘Enroll‘ button of the corresponding course
                         </li>
                     </ul>
                     <br>
@@ -661,7 +661,7 @@
                         This may be a good policy to adopt (If students know this policy, they will be more honest in reporting contribution values):
                         <br>
                         <br>
-                        <span class="italic">It is OK to do less than an equal share of the the work, as long as you are willing to accept a lower grade than your team members. It is your right to decide how much time you allocate to this course. How you prioritize your work is your own business.</span>
+                        <span class="italic">It is OK to do less than an equal share of the work, as long as you are willing to accept a lower grade than your team members. It is your right to decide how much time you allocate to this course. How you prioritize your work is your own business.</span>
                         <br>
                         <br>
                     </div>
@@ -797,7 +797,7 @@
                     <div class="bs-example">
                         <div class="panel panel-primary" id="panelAddInstructor" style="">
                             <div class="panel-heading">
-                                <strong>Instructors 2:</strong>
+                                <strong>Instructor 2:</strong>
                             </div>
 
                             <div class="panel-body fill-plain">
@@ -6585,7 +6585,7 @@
                                                     </div>
                                                     <div class="col-sm-3 pull-right">
                                                         [
-                                                        <a href="#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
+                                                        <a href="#faq7a" target="_blank" rel="noopener noreferrer" id="interpret_help_link">How do I interpret/use these values?</a>]
                                                     </div>
                                                 </div>
                                                 <div class="row">

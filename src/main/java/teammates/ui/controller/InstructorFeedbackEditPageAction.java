@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 
 public class InstructorFeedbackEditPageAction extends Action {
 
@@ -26,7 +26,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         Assumption.assertNotNull(feedbackSessionName);
         
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 feedbackSession,
                 false,
@@ -38,7 +38,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         Map<String, Boolean> questionHasResponses = new HashMap<String, Boolean>();
         
         for (FeedbackQuestionAttributes question : questions) {
-            boolean hasResponse = logic.isQuestionHasResponses(question.getId());
+            boolean hasResponse = logic.areThereResponsesForQuestion(question.getId());
             questionHasResponses.put(question.getId(), hasResponse);
         }
         

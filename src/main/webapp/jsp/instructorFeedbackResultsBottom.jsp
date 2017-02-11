@@ -9,7 +9,7 @@
 <c:set var="isLoadingStructure" value="${not empty data.bundle.questions}" />
 
 <c:if test="${data.allSectionsSelected}">
-    <div class="panel panel-warning">
+    <div class="panel panel-default">
         <%-- see instructorFeedbackResultsAjaxResponse.js --%>
         <div class="panel-heading ${data.largeNumberOfResponses ? 'ajax-response-submit' : 'ajax-response-auto'}">
             <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">

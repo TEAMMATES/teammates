@@ -7,17 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorCommentsPageData;
 
 /**
  * Action: Showing the InstructorCommentsPage for an instructor
@@ -89,10 +89,10 @@ public class InstructorCommentsPageAction extends Action {
         isViewingDraft = courseId == null;
         if (isViewingDraft) {
             courseId = "";
-            new GateKeeper().verifyInstructorPrivileges(account);
+            gateKeeper.verifyInstructorPrivileges(account);
         } else { //view by Course
             instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-            new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
         }
         isViewingDraft = false; //TODO: handle the draft page
     }

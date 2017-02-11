@@ -3,14 +3,14 @@ package teammates.ui.automated;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.core.EmailGenerator;
+import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: sends feedback session reminder email to particular students of a course.

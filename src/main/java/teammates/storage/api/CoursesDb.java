@@ -7,8 +7,8 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -16,8 +16,10 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 
 /**
- * Handles CRUD Operations for course entities.
- * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
+ * Handles CRUD operations for courses.
+ * 
+ * @see {@link Course}
+ * @see {@link CourseAttributes}
  */
 public class CoursesDb extends EntitiesDb {
     

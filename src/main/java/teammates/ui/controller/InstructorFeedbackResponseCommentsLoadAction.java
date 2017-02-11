@@ -8,15 +8,15 @@ import java.util.Map;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorFeedbackResponseCommentsLoadPageData;
 
 public class InstructorFeedbackResponseCommentsLoadAction extends Action {
 
@@ -42,7 +42,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         
         instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
         
         CourseRoster roster = new CourseRoster(logic.getStudentsForCourse(courseId),
                                                logic.getInstructorsForCourse(courseId));

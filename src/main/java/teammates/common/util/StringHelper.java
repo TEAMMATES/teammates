@@ -2,7 +2,6 @@ package teammates.common.util;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -307,6 +306,31 @@ public final class StringHelper {
         }
         return result;
     }
+
+    /**
+     * Replaces every character in {@code str} that does not match
+     * {@code regex} with the character {@code replacement}.
+     * 
+     * @param str String to be replaced.
+     * @param regex Pattern that every character is to be matched against.
+     * @param replacement Character unmatching characters should be replaced with.
+     * @return String with all unmatching characters replaced; null if input is null.
+     */
+    public static String replaceIllegalChars(String str, String regex, char replacement) {
+        if (str == null) {
+            return null;
+        }
+        
+        char[] charArray = str.toCharArray();
+        
+        for (int i = 0; i < charArray.length; i++) {
+            if (!isMatching(Character.toString(charArray[i]), regex)) {
+                charArray[i] = replacement;
+            }
+        }
+        
+        return String.valueOf(charArray);
+    }
     
     private static String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
@@ -329,44 +353,7 @@ public final class StringHelper {
         }
         return b;
     }
-    
-    
-    
-    /**
-     * This recovers a html-sanitized string to original encoding for appropriate display in files such as csv file <br>
-     * It restores encoding for < > \ / ' &  <br>
-     * @param sanitized string
-     * @return recovered string
-     */
-    public static String recoverFromSanitizedText(String str) {
-        
-        if (str == null) {
-            return null;
-        }
-        
-        return str.replace("&lt;", "<")
-                  .replace("&gt;", ">")
-                  .replace("&quot;", "\"")
-                  .replace("&#x2f;", "/")
-                  .replace("&#39;", "'")
-                  .replaceAll("&amp;", "&");
-    }
-    
-    /**
-     * This recovers a set of html-sanitized string to original encoding for appropriate display in files
-     * such as csv file <br>
-     * It restores encoding for < > \ / ' &  <br>
-     * @param sanitized string set
-     * @return recovered string set
-     */
-    public static Set<String> recoverFromSanitizedText(Set<String> textSet) {
-        Set<String> textSetTemp = new HashSet<String>();
-        for (String text : textSet) {
-            textSetTemp.add(StringHelper.recoverFromSanitizedText(text));
-        }
-        return textSetTemp;
-    }
-    
+
     /**
      * Convert a csv string to a html table string for displaying
      * @param str
@@ -387,7 +374,7 @@ public final class StringHelper {
             
             result.append("<tr>");
             for (String td : rowData) {
-                result.append(String.format("<td>%s</td>\n", Sanitizer.sanitizeForHtml(td)));
+                result.append(String.format("<td>%s</td>\n", SanitizationHelper.sanitizeForHtml(td)));
             }
             result.append("</tr>");
         }
@@ -489,22 +476,22 @@ public final class StringHelper {
         }
         return result.reverse().toString();
     }
-    
+
     /**
-     * Trim the given string if it is not equals to null
+     * Trims the string if it is not null.
+     *
+     * @param string
+     * @return the trimmed string or null (if the parameter was null).
      */
-    public static String trimIfNotNull(String untrimmedString) {
-        if (untrimmedString != null) {
-            return untrimmedString.trim();
-        }
-        return untrimmedString;
+    public static String trimIfNotNull(String string) {
+        return string == null ? null : string.trim();
     }
 
     /**
      * Counts the number of empty strings passed as the argument. Null is
      * considered an empty string, while whitespace is not.
      * 
-     * @param String...
+     * @param strings
      * @return number of empty strings passed
      */
     public static int countEmptyStrings(String... strings) {
@@ -521,7 +508,7 @@ public final class StringHelper {
      * Converts null input to empty string. Non-null inputs will be left as is.
      * This method is for displaying purpose.
      * 
-     * @param String
+     * @param str
      * @return empty string if null, the string itself otherwise
      */
     public static String convertToEmptyStringIfNull(String str) {
@@ -560,5 +547,12 @@ public final class StringHelper {
             stringsAfterTrim[i++] = stringToTrim.trim();
         }
         return stringsAfterTrim;
+    }
+
+    /**
+     * @return text with all non-ASCII characters removed
+     */
+    public static String removeNonAscii(String text) {
+        return text.replaceAll("[^\\x00-\\x7F]", "");
     }
 }

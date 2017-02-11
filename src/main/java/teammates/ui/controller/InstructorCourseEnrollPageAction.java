@@ -1,11 +1,11 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 
 /**
  * Action: showing page to enroll students into a course for an instructor
@@ -20,7 +20,7 @@ public class InstructorCourseEnrollPageAction extends Action {
         Assumption.assertNotNull(courseId);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         /* Setup page data for 'Enroll' page of a course */
@@ -41,7 +41,7 @@ public class InstructorCourseEnrollPageAction extends Action {
     }
 
     private boolean hasExistingResponses(String courseId) {
-        return logic.isCourseHasResponses(courseId);
+        return logic.hasResponsesForCourse(courseId);
     }
 
 }

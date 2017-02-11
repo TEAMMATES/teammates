@@ -6,14 +6,15 @@ import java.util.List;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseSummaryBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessages;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorHomeCourseAjaxPageData;
+import teammates.ui.pagedata.InstructorHomePageData;
 
 public class InstructorHomePageAction extends Action {
     @Override
@@ -27,7 +28,7 @@ public class InstructorHomePageAction extends Action {
             return response;
         }
         
-        new GateKeeper().verifyInstructorPrivileges(account);
+        gateKeeper.verifyInstructorPrivileges(account);
         
         String courseToLoad = getRequestParamValue(Const.ParamsNames.COURSE_TO_LOAD);
         return courseToLoad == null ? loadPage() : loadCourse(courseToLoad);

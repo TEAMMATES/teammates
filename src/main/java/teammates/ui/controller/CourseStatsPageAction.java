@@ -3,7 +3,7 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.CourseStatsPageData;
 
 public class CourseStatsPageAction extends Action {
 
@@ -14,7 +14,7 @@ public class CourseStatsPageAction extends Action {
         
         CourseStatsPageData data = new CourseStatsPageData(account);
         
-        new GateKeeper().verifyInstructorPrivileges(account);
+        gateKeeper.verifyInstructorPrivileges(account);
         
         data.courseDetails = logic.getCourseDetails(courseId);
         

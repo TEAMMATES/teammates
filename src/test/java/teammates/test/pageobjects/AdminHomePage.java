@@ -3,29 +3,29 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 
 public class AdminHomePage extends AppPage {
     @FindBy (id = "addInstructorDetailsSingleLine")
-    WebElement detailsSingleLineTextBox;
+    private WebElement detailsSingleLineTextBox;
     
     @FindBy (id = "instructorShortName")
-    WebElement shortNameTextBox;
+    private WebElement shortNameTextBox;
 
     @FindBy (id = "instructorName")
-    WebElement nameTextBox;
+    private WebElement nameTextBox;
     
     @FindBy (id = "instructorEmail")
-    WebElement emailTextBox;
+    private WebElement emailTextBox;
     
     @FindBy (id = "instructorInstitution")
-    WebElement institutionTextBox;
+    private WebElement institutionTextBox;
     
     @FindBy (id = "btnAddInstructor")
-    WebElement submitButton;
+    private WebElement submitButton;
     
     @FindBy (id = "btnAddInstructorDetailsSingleLineForm")
-    WebElement submitButtonDetailsSingleLineForm;
+    private WebElement submitButtonDetailsSingleLineForm;
     
     public AdminHomePage(Browser browser) {
         super(browser);
@@ -71,6 +71,26 @@ public class AdminHomePage extends AppPage {
     
     public void clearInstructorDetailsSingleLineForm() {
         fillTextBox(detailsSingleLineTextBox, "");
+    }
+    
+    public String getShortNameFromResultTable(int index) {
+        return getCellValueFromDataTable(index, 0);
+    }
+    
+    public String getNameFromResultTable(int index) {
+        return getCellValueFromDataTable(index, 1);
+    }
+    
+    public String getEmailFromResultTable(int index) {
+        return getCellValueFromDataTable(index, 2);
+    }
+    
+    public String getInstitutionFromResultTable(int index) {
+        return getCellValueFromDataTable(index, 3);
+    }
+    
+    public String getStatusFromResultTable(int index) {
+        return getCellValueFromDataTable(index, 4);
     }
     
     public String getMessageFromResultTable(int index) {

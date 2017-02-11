@@ -1,10 +1,10 @@
 package teammates.logic.api;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -19,16 +19,12 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 public class GateKeeper {
+    
     private static UserService userService = UserServiceFactory.getUserService();
-
-    private static GateKeeper instance;
-
-    public static GateKeeper inst() {
-        if (instance == null) {
-            instance = new GateKeeper();
-        }
-        return instance;
-    }
+    
+    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     public boolean isUserLoggedOn() {
         return userService.getCurrentUser() != null;
@@ -326,24 +322,35 @@ public class GateKeeper {
     private boolean isInstructor() {
         User user = userService.getCurrentUser();
         Assumption.assertNotNull(user);
-        return AccountsLogic.inst().isAccountAnInstructor(user.getNickname());
+        return accountsLogic.isAccountAnInstructor(user.getNickname());
     }
 
     private boolean isStudent() {
         User user = userService.getCurrentUser();
         Assumption.assertNotNull(user);
 
-        return StudentsLogic.inst().isStudentInAnyCourse(user.getNickname());
+        return studentsLogic.isStudentInAnyCourse(user.getNickname());
     }
 
-    public void verifyAccessibleForCurrentUserAsInstructor(AccountAttributes account, String courseId, String section) {
-        InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForGoogleId(courseId, account.googleId);
-
-        if (instructor == null) {
-            throw new UnauthorizedAccessException("User is not instructor of the course that student belongs to");
-        } else if (!instructor.isAllowedForPrivilege(section,
-                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-            throw new UnauthorizedAccessException("User does not have enough privileges to view the photo");
+    public void verifyAccessibleForCurrentUserAsInstructorOrTeamMember(AccountAttributes account, String courseId,
+            String section, String email) {
+        InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, account.googleId);
+        if (instructor != null) {
+            if (!instructor.isAllowedForPrivilege(section,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+                throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the photo");
+            }
+            return;
         }
+        
+        StudentAttributes student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, account.googleId);
+        if (student != null) {
+            if (!studentsLogic.isStudentsInSameTeam(courseId, email, student.email)) {
+                throw new UnauthorizedAccessException("Student does not have enough privileges to view the photo");
+            }
+            return;
+        }
+        
+        throw new UnauthorizedAccessException("User is not in the course that student belongs to");
     }
 }

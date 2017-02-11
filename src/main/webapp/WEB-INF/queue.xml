@@ -33,16 +33,6 @@
     </queue>
 
     <queue>
-        <name>course-join-remind-email-queue</name>
-        <!-- Configuration allows for 5 course join reminder emails to be queued when the bucket is not full -->
-        <rate>5/s</rate>
-        <bucket-size>20</bucket-size>
-        <retry-parameters>
-            <task-retry-limit>2</task-retry-limit>
-        </retry-parameters>
-    </queue>
-
-    <queue>
         <name>feedback-response-adjustment-queue</name>
         <!-- Processes each feedback adjustment sequentially -->
         <rate>1/s</rate>
@@ -88,6 +78,16 @@
     </queue>
 
     <queue>
+        <name>instructor-course-join-email-queue</name>
+        <!-- Configuration allows for 5 instructor course join emails to be queued when the bucket is not full -->
+        <rate>5/s</rate>
+        <bucket-size>20</bucket-size>
+        <retry-parameters>
+            <task-retry-limit>2</task-retry-limit>
+        </retry-parameters>
+    </queue>
+
+    <queue>
         <name>pending-comment-cleared-email-queue</name>
         <!-- Configuration allows for comments notifications for 1 course to be queued for execution every second when the bucket is empty -->
         <rate>1/s</rate>
@@ -105,6 +105,16 @@
             <min-backoff-seconds>30</min-backoff-seconds>
             <max-backoff-seconds>300</max-backoff-seconds>
             <max-doublings>0</max-doublings>
+        </retry-parameters>
+    </queue>
+
+    <queue>
+        <name>student-course-join-email-queue</name>
+        <!-- Configuration allows for 5 student course join emails to be queued when the bucket is not full -->
+        <rate>5/s</rate>
+        <bucket-size>20</bucket-size>
+        <retry-parameters>
+            <task-retry-limit>2</task-retry-limit>
         </retry-parameters>
     </queue>
 

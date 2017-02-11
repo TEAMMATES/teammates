@@ -2,14 +2,12 @@ package teammates.test.cases.logic;
 
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
@@ -22,24 +20,15 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.Priority;
+import teammates.test.driver.Priority;
 
-public class AccountsLogicTest extends BaseComponentTestCase {
+public class AccountsLogicTest extends BaseLogicTest {
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final Logic logic = new Logic();
-    private static DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public static void classSetUp() throws Exception {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
-        
-    }
 
     @SuppressWarnings("deprecation")
     @Test
@@ -68,7 +57,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
-        spa.nationality = "test.nationality";
+        spa.nationality = "American";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
         
@@ -231,10 +220,10 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: without encryption and account already exists");
 
         StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                "ABC", "personal@gmail.com", "nus", "Singapore", "male", "", "");
+                "", "", "TEAMMATES Test Institute 1", "", "other", "", "");
         
         AccountAttributes accountData = new AccountAttributes(correctStudentId,
-                "nameABC", false, "real@gmail.com", "nus", spa);
+                "nameABC", false, "real@gmail.com", "TEAMMATES Test Institute 1", spa);
         
         accountsLogic.createAccount(accountData);
         accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), correctStudentId);

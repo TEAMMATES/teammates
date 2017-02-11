@@ -2,20 +2,20 @@ package teammates.ui.controller;
 
 import java.util.Arrays;
 
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
-import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.EmailSender;
+import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
+import teammates.logic.api.EmailGenerator;
+import teammates.logic.api.EmailSender;
 
 public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 
@@ -29,7 +29,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
@@ -48,11 +48,11 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
         student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);
         boolean hasSection = logic.hasIndicatedSections(courseId);
         
-        student.name = Sanitizer.sanitizeName(student.name);
-        student.email = Sanitizer.sanitizeEmail(student.email);
-        student.team = Sanitizer.sanitizeName(student.team);
-        student.section = Sanitizer.sanitizeName(student.section);
-        student.comments = Sanitizer.sanitizeTextField(student.comments);
+        student.name = SanitizationHelper.sanitizeName(student.name);
+        student.email = SanitizationHelper.sanitizeEmail(student.email);
+        student.team = SanitizationHelper.sanitizeName(student.team);
+        student.section = SanitizationHelper.sanitizeName(student.section);
+        student.comments = SanitizationHelper.sanitizeTextField(student.comments);
         
         try {
             StudentAttributes originalStudentAttribute = logic.getStudentForEmail(courseId, studentEmail);

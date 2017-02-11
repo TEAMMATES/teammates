@@ -14,11 +14,11 @@ import java.util.TreeSet;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -39,8 +39,8 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();
-    private FeedbackResponsesLogic responsesLogic = new FeedbackResponsesLogic();
-    private CommentsLogic commentsLogic = new CommentsLogic();
+    private FeedbackResponsesLogic responsesLogic = FeedbackResponsesLogic.inst();
+    private CommentsLogic commentsLogic = CommentsLogic.inst();
 
     public static void main(String[] args) throws IOException {
         RepairTeamNameInStudentResponseAndCommentAttributes migrator =

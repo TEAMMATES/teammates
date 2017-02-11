@@ -6,17 +6,14 @@ import javax.mail.internet.MimeMessage;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.EmailWrapper;
-import teammates.logic.core.EmailSender;
+import teammates.logic.api.EmailSender;
 import teammates.logic.core.JavamailService;
 import teammates.logic.core.MailgunService;
 import teammates.logic.core.MailjetService;
 import teammates.logic.core.SendgridService;
-import teammates.test.cases.BaseComponentTestCase;
 
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.resource.Email;
@@ -30,11 +27,11 @@ import com.sun.jersey.multipart.FormDataMultiPart;
  *      {@link MailgunService}
  *      {@link MailjetService}
  */
-public class EmailSenderTest extends BaseComponentTestCase {
+public class EmailSenderTest extends BaseLogicTest {
     
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
     }
     
     private EmailWrapper getTypicalEmailWrapper() {
@@ -114,11 +111,6 @@ public class EmailSenderTest extends BaseComponentTestCase {
                      ((JSONObject) email.get(Email.HEADERS)).getString("Reply-To"));
         assertEquals(wrapper.getSubject(), email.get(Email.SUBJECT));
         assertEquals(wrapper.getContent(), email.get(Email.HTMLPART));
-    }
-    
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
     }
     
 }

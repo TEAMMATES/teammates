@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
 /**
  * The {@code InstructorEditInstructorFeedbackPageAction} class handles incoming requests to the page.
@@ -18,10 +18,9 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String instructorUnderModerationEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         
-        new GateKeeper().verifyAccessible(
-                                        logic.getInstructorForGoogleId(courseId, account.googleId),
-                                        logic.getFeedbackSession(feedbackSessionName, courseId),
-                                        false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
+                                    logic.getFeedbackSession(feedbackSessionName, courseId),
+                                    false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
                                 
         InstructorAttributes instructorUnderModeration =
                 logic.getInstructorForEmail(courseId, instructorUnderModerationEmail);

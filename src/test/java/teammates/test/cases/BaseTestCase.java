@@ -5,13 +5,14 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.testng.AssertJUnit;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.logic.backdoor.BackDoorLogic;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.FileHelper;
 
 /** Base class for all test cases */
 public class BaseTestCase {
@@ -30,18 +31,16 @@ public class BaseTestCase {
     }
     // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
-    public static void printTestCaseHeader() {
-        print("[TestCase]---:" + Thread.currentThread().getStackTrace()[2].getMethodName());
-    }
-
-    public static void printTestClassHeader() {
+    @BeforeClass
+    public void printTestClassHeader() {
         print("[============================="
-                + Thread.currentThread().getStackTrace()[2].getClassName()
+                + getClass().getCanonicalName()
                 + "=============================]");
     }
 
-    public static void printTestClassFooter() {
-        print(Thread.currentThread().getStackTrace()[2].getClassName() + " completed");
+    @AfterClass
+    public void printTestClassFooter() {
+        print(getClass().getCanonicalName() + " completed");
     }
 
     protected static void print(String message) {
@@ -64,46 +63,6 @@ public class BaseTestCase {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Creates in the datastore a fresh copy of data in typicalDataBundle.json
-     */
-    protected static void restoreTypicalDataInDatastore() throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        DataBundle dataBundle = getTypicalDataBundle();
-        backDoorLogic.persistDataBundle(dataBundle);
-    }
-
-    protected static void removeAndRestoreTypicalDataInDatastore() throws Exception {
-        DataBundle dataBundle = getTypicalDataBundle();
-        removeAndRestoreData(dataBundle);
-    }
-    
-    protected static void removeTypicalDataInDatastore() {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        DataBundle dataBundle = getTypicalDataBundle();
-        backDoorLogic.removeDataBundle(dataBundle);
-    }
-    
-    /**
-     * Creates in the datastore a fresh copy of data in the given json file
-     */
-    protected static void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        DataBundle dataBundle = loadDataBundle(pathToJsonFile);
-        backDoorLogic.persistDataBundle(dataBundle);
-    }
-
-    protected static void removeAndRestoreDatastoreFromJson(String pathToJsonFile) throws Exception {
-        DataBundle dataBundle = loadDataBundle(pathToJsonFile);
-        removeAndRestoreData(dataBundle);
-    }
-
-    protected static void removeAndRestoreData(DataBundle dataBundle) throws Exception {
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        backDoorLogic.removeDataBundle(dataBundle);
-        backDoorLogic.persistDataBundle(dataBundle);
     }
 
     protected void signalFailureToDetectException(String... messages) {

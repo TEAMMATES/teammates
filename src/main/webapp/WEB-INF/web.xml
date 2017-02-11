@@ -127,12 +127,13 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     
     <servlet>
         <servlet-name>PublicImageServlet</servlet-name>
-        <servlet-class>teammates.logic.publicresource.PublicImageServlet</servlet-class>
+        <servlet-class>teammates.ui.controller.PublicImageServlet</servlet-class>
     </servlet>
     
      <servlet-mapping>
         <servlet-name>PublicImageServlet</servlet-name>
         <url-pattern>/public/publicEmailImageServe</url-pattern>
+        <url-pattern>/public/publicImageServe</url-pattern>
     </servlet-mapping>
     
     <security-constraint>

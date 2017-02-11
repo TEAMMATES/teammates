@@ -9,54 +9,45 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.FeedbackSessionStats;
 import teammates.common.datatransfer.FeedbackSessionType;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailType;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.storage.api.StudentsDb;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
-public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
+public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private DataBundle dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
 
-    @BeforeClass
-    public static void classSetUp() throws Exception {
-        printTestClassHeader();
-        gaeSimulation.resetDatastore();
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionsLogicTest.json");
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/FeedbackSessionsLogicTest.json");
+        removeAndRestoreDataBundle(dataBundle);
     }
     
     @Test
@@ -85,7 +76,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         testIsFeedbackSessionCompletedByInstructor();
         testIsFeedbackSessionFullyCompletedByStudent();
                 
-        testSendFeedbackSessionSubmissionConfirmationEmail();
         testDeleteFeedbackSessionsForCourse();
     }
     
@@ -366,7 +356,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // This file contains a session with a private session + a standard
         // session + a special session with all questions without recipients.
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionDetailsTest.json");
-        removeAndRestoreData(newDataBundle);
+        removeAndRestoreDataBundle(newDataBundle);
         
         Map<String, FeedbackSessionDetailsBundle> detailsMap =
                 new HashMap<String, FeedbackSessionDetailsBundle>();
@@ -766,7 +756,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // session which needs to have enough qn/response combinations to cover as much
         // of the SUT as possible
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
-        removeAndRestoreData(responseBundle);
+        removeAndRestoreDataBundle(responseBundle);
         
         ______TS("standard session with varied visibilities");
         
@@ -1219,8 +1209,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         ______TS("MCQ results");
         
-        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(newDataBundle);
         session = newDataBundle.feedbackSessions.get("mcqSession");
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
@@ -1433,8 +1423,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "Summary Statistics,",
                 "Team, Recipient, Average Points",
-                "\"\",\"Team 1.2\",20",
                 "\"\",\"Team 1.1</td></div>'\"\"\",80",
+                "\"\",\"Team 1.2\",20",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
@@ -1446,11 +1436,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "Summary Statistics,",
                 "Team, Recipient, Average Points",
-                "\"Team 1.2\",\"student5 In Course1\",10",
-                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",10",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",20",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",30",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",20",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",30",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",10",
+                "\"Team 1.2\",\"student5 In Course1\",10",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
@@ -1686,6 +1676,36 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "",
+                "",
+                "Question 2,\"Please choose the best choice for the following sub-questions. Only first subquestion has responses\"",
+                "",
+                "Summary Statistics,",
+                ",\"Yes (Weight: 1.25)\",\"No (Weight: 1)\",Average",
+                "\"a) This student has done a good job.\",67% (2),33% (1),1.17",
+                "\"b) This student has tried his/her best.\",- (0),- (0),-",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"b\",\"No Response\",\"\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"a\",\"No\",\"2\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"b\",\"No Response\",\"\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"b\",\"No Response\",\"\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
@@ -1971,71 +1991,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                                                                      student3OfCourse1.email));
     }
     
-    private void testSendFeedbackSessionSubmissionConfirmationEmail() throws Exception {
-        // private method. no need to check for authentication.
-        
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        String courseName = CoursesLogic.inst().getCourse(fs.getCourseId()).getName();
-        
-        ______TS("success: registered student");
-        
-        StudentAttributes studentToSendConfirmation = dataBundle.students.get("student5InCourse1");
-        
-        EmailWrapper emailSent = fsLogic.sendConfirmationEmailForSubmission(fs.getCourseId(), fs.getFeedbackSessionName(),
-                                                                            studentToSendConfirmation.googleId, null, null);
-
-        String errorMessage = "No feedback submission confirmation email sent to selected student "
-                              + studentToSendConfirmation.email;
-        assertNotNull(errorMessage, emailSent);
-        assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
-                                   fs.getFeedbackSessionName()),
-                     emailSent.getSubject());
-        
-        ______TS("success: unregistered student");
-        
-        StudentAttributes unregStudent = new StudentAttributes("1", "Team0.1", "Unreg Student",
-                                                               "unreg@stud.ent", "asdf", "idOfTypicalCourse1");
-
-        StudentsDb stDb = new StudentsDb();
-        stDb.createStudentWithoutDocument(unregStudent);
-        unregStudent = stDb.getStudentForEmail("idOfTypicalCourse1", "unreg@stud.ent");
-        gaeSimulation.logoutUser();
-
-        emailSent = fsLogic.sendConfirmationEmailForSubmission(fs.getCourseId(), fs.getFeedbackSessionName(),
-                                                               null, unregStudent.email, unregStudent.key);
-
-        assertNotNull(errorMessage, emailSent);
-        assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
-                                   fs.getFeedbackSessionName()),
-                     emailSent.getSubject());
-        
-        ______TS("success: instructor");
-        
-        InstructorAttributes instructor = dataBundle.instructors.get("helperOfCourse1");
-        
-        emailSent = fsLogic.sendConfirmationEmailForSubmission(fs.getCourseId(), fs.getFeedbackSessionName(),
-                                                               instructor.googleId, null, null);
-
-        errorMessage = "No feedback submission confirmation email sent to selected instructor " + instructor.email;
-        assertNotNull(errorMessage, emailSent);
-        assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
-                                   fs.getFeedbackSessionName()),
-                     emailSent.getSubject());
-        
-        ______TS("failure: non-existent Feedback session");
-        
-        String nonExistentFsName = "non-ExIsTENT FsnaMe123";
-        
-        try {
-            fsLogic.sendConfirmationEmailForSubmission(fs.getCourseId(), nonExistentFsName,
-                                                       studentToSendConfirmation.googleId, null, null);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to confirm submission a non-existent feedback session: "
-                         + fs.getCourseId() + "/" + nonExistentFsName, edne.getMessage());
-        }
-    }
-    
     private FeedbackSessionAttributes getNewFeedbackSession() {
         FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
         fsa.setFeedbackSessionType(FeedbackSessionType.STANDARD);
@@ -2115,9 +2070,4 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
-
 }

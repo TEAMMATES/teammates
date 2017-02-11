@@ -9,8 +9,8 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.datatransfer.EntityAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -28,9 +28,10 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 /**
- * Handles CRUD Operations for instructor roles.
- * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
+ * Handles CRUD operations for instructors.
  * 
+ * @see {@link Instructor}
+ * @see {@link InstructorAttributes}
  */
 public class InstructorsDb extends EntitiesDb {
     
@@ -69,20 +70,19 @@ public class InstructorsDb extends EntitiesDb {
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search instructors in the whole system.
      * @param queryString
-     * @param cursorString
      * @return null if no result found
      */
     
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
         
         if (queryString.trim().isEmpty()) {
             return new InstructorSearchResultBundle();
         }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.INSTRUCTOR,
-                                                          new InstructorSearchQuery(queryString, cursorString));
+                                                          new InstructorSearchQuery(queryString));
         
-        return new InstructorSearchResultBundle().getInstructorsfromResults(results);
+        return InstructorSearchDocument.fromResults(results);
     }
 
     /* =========================================================================

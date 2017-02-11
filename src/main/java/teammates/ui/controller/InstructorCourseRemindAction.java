@@ -7,17 +7,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
-import teammates.logic.core.EmailGenerator;
+import teammates.logic.api.EmailGenerator;
 
 /**
  * Action: remind instructor or student to register for a course by sending reminder emails
@@ -30,23 +30,27 @@ public class InstructorCourseRemindAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
+        CourseAttributes course = logic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException("Course with ID " + courseId + " does not exist!");
+        }
+        
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        CourseAttributes course = logic.getCourse(courseId);
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
         if (isSendingToStudent) {
-            new GateKeeper().verifyAccessible(
+            gateKeeper.verifyAccessible(
                     instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         } else if (isSendingToInstructor) {
-            new GateKeeper().verifyAccessible(
+            gateKeeper.verifyAccessible(
                     instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
         } else {
             // this is sending registration emails to all students in the course and we will check if the instructor
             // canmodifystudent for course level since for modifystudent privilege there is only course level setting for now
-            new GateKeeper().verifyAccessible(
+            gateKeeper.verifyAccessible(
                     instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         }
         
@@ -54,14 +58,26 @@ public class InstructorCourseRemindAction extends Action {
         List<EmailWrapper> emailsSent = new ArrayList<EmailWrapper>();
         String redirectUrl = "";
         if (isSendingToStudent) {
-            EmailWrapper emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
+            taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, false);
+            StudentAttributes studentData = logic.getStudentForEmail(courseId, studentEmail);
+            if (studentData == null) {
+                throw new EntityDoesNotExistException("Student with email " + studentEmail + " does not exist "
+                                                      + "in course " + courseId + "!");
+            }
+            EmailWrapper emailSent = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
             emailsSent.add(emailSent);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
                                                StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         } else if (isSendingToInstructor) {
-            EmailWrapper emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
+            taskQueuer.scheduleCourseRegistrationInviteToInstructor(courseId, instructorEmail);
+            InstructorAttributes instructorData = logic.getInstructorForEmail(courseId, instructorEmail);
+            if (instructorData == null) {
+                throw new EntityDoesNotExistException("Instructor with email " + instructorEmail + " does not exist "
+                                                      + "in course " + courseId + "!");
+            }
+            EmailWrapper emailSent = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructorData);
             emailsSent.add(emailSent);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail,
@@ -70,7 +86,7 @@ public class InstructorCourseRemindAction extends Action {
         } else {
             List<StudentAttributes> studentDataList = logic.getUnregisteredStudentsForCourse(courseId);
             for (StudentAttributes student : studentDataList) {
-                taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail());
+                taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail(), false);
                 EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
                 emailsSent.add(email);
             }
@@ -127,7 +143,7 @@ public class InstructorCourseRemindAction extends Action {
     private String extractUserName(String emailContent) {
         int startIndex = emailContent.indexOf("Hello ") + "Hello ".length();
         int endIndex = emailContent.indexOf(',');
-        return emailContent.substring(startIndex, endIndex);
+        return SanitizationHelper.desanitizeFromHtml(emailContent.substring(startIndex, endIndex));
     }
     
     private String extractRegistrationKey(String emailContent) {

@@ -1,12 +1,11 @@
 package teammates.test.pageobjects;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 
 public class FeedbackSubmitPage extends AppPage {
 
@@ -43,10 +42,9 @@ public class FeedbackSubmitPage extends AppPage {
         String id = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                 + "-" + qnNumber + "-" + responseNumber;
         fillRichTextEditor(id, text);
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                                 + "    tinyMCE.get('" + id + "').fire('change');"
-                                 + "}");
+        executeScript("  if (typeof tinyMCE !== 'undefined') {"
+                      + "    tinyMCE.get('" + id + "').fire('change');"
+                      + "}");
     }
 
     public void fillResponseTextBox(int qnNumber, int responseNumber, String text) {
@@ -55,8 +53,7 @@ public class FeedbackSubmitPage extends AppPage {
         fillTextBox(element, text);
         // Fire the change event using javascript since firefox with selenium
         // might be buggy and fail to trigger.
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", element);
+        executeScript("$(arguments[0]).change();", element);
     }
     
     public void fillResponseTextBox(int qnNumber, int responseNumber, int responseSubNumber, String text) {
@@ -64,8 +61,7 @@ public class FeedbackSubmitPage extends AppPage {
                 By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                       + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
         fillTextBox(element, text);
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).change();", element);
+        executeScript("$(arguments[0]).change();", element);
     }
     
     public String getResponseTextBoxValue(int qnNumber, int responseNumber) {
@@ -97,8 +93,8 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = Sanitizer.convertStringForXPath(name);
-        String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
+        name = SanitizationHelper.sanitizeStringForXPath(name);
+        String sanitizedChoiceName = SanitizationHelper.sanitizeStringForXPath(choiceName);
         WebElement element = browser.driver.findElement(
                 By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         click(element);
@@ -112,8 +108,8 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = Sanitizer.convertStringForXPath(name);
-        String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
+        name = SanitizationHelper.sanitizeStringForXPath(name);
+        String sanitizedChoiceName = SanitizationHelper.sanitizeStringForXPath(choiceName);
         WebElement element = browser.driver.findElement(
                 By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         click(element);
@@ -127,7 +123,7 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void chooseContribOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = Sanitizer.convertStringForXPath(name);
+        name = SanitizationHelper.sanitizeStringForXPath(name);
         selectDropdownByVisibleValue(browser.driver.findElement(By.xpath("//select[@name=" + name + "]")), choiceName);
     }
     
@@ -196,4 +192,5 @@ public class FeedbackSubmitPage extends AppPage {
                 By.cssSelector("input[id$='OptionText-" + qnNumber + "-" + responseNumber + "']"));
         waitForElementToBeClickable(element);
     }
+    
 }

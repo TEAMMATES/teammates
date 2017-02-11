@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -46,8 +45,11 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "graceperiod")
     private WebElement gracePeriodDropdown;
 
-    @FindBy(id = "editUncommonSettingsButton")
-    private WebElement uncommonSettingsButton;
+    @FindBy(id = "editUncommonSettingsSessionResponsesVisibleButton")
+    private WebElement uncommonSettingsSessionResponsesVisibleButton;
+    
+    @FindBy(id = "editUncommonSettingsSendEmailsButton")
+    private WebElement uncommonSettingsSendEmailsButton;
     
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
     private WebElement customSessionVisibleTimeButton;
@@ -137,8 +139,17 @@ public class InstructorFeedbacksPage extends AppPage {
         waitForPageToLoad();
     }
     
-    public void clickEditUncommonSettingsButton() {
-        click(uncommonSettingsButton);
+    public void clickEditUncommonSettingsButtons() {
+        clickEditUncommonSettingsSessionResponsesVisibleButton();
+        clickEditUncommonSettingsSendEmailsButton();
+    }
+    
+    public void clickEditUncommonSettingsSessionResponsesVisibleButton() {
+        click(uncommonSettingsSessionResponsesVisibleButton);
+    }
+    
+    public void clickEditUncommonSettingsSendEmailsButton() {
+        click(uncommonSettingsSendEmailsButton);
     }
     
     public void clickCustomVisibleTimeButton() {
@@ -275,32 +286,28 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void fillStartTime(Date startTime) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startTime, startTimeDropdown, js);
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startTime, startTimeDropdown);
     }
     
     public void fillEndTime(Date endTime) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, endTime, endTimeDropdown, js);
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, endTime, endTimeDropdown);
     }
     
     public void fillVisibleTime(Date visibleTime) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, visibleTime, visibleTimeDropdown, js);
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, visibleTime, visibleTimeDropdown);
     }
     
     public void fillPublishTime(Date publishTime) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown, js);
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown);
     }
     
-    public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown, JavascriptExecutor js) {
+    public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown) {
         if (datetimeValue != null) {
-            js.executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
+            executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
             
             String timeDropdownId = timeDropdown.getAttribute("id");
             int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
-            js.executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
+            executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }
     
@@ -323,24 +330,21 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public String getValueOfDate(String timeId) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        return (String) js.executeScript("return $('#" + timeId + "').datepicker('getDate') == null ? "
-                                         + "null : "
-                                         + "$('#" + timeId + "').datepicker('getDate').toDateString();");
+        return (String) executeScript("return $('#" + timeId + "').datepicker('getDate') == null ? "
+                                      + "null : "
+                                      + "$('#" + timeId + "').datepicker('getDate').toDateString();");
     }
     
     public String getMinDateOf(String timeId) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        return (String) js.executeScript("return $('#" + timeId + "').datepicker('option', 'minDate') == null ? "
-                                         + "null : "
-                                         + "$('#" + timeId + "').datepicker('option', 'minDate').toDateString();");
+        return (String) executeScript("return $('#" + timeId + "').datepicker('option', 'minDate') == null ? "
+                                      + "null : "
+                                      + "$('#" + timeId + "').datepicker('option', 'minDate').toDateString();");
     }
     
     public String getMaxDateOf(String timeId) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        return (String) js.executeScript("return $('#" + timeId + "').datepicker('option', 'maxDate') == null ? "
-                                         + "null : "
-                                         + "$('#" + timeId + "').datepicker('option', 'maxDate').toDateString();");
+        return (String) executeScript("return $('#" + timeId + "').datepicker('option', 'maxDate') == null ? "
+                                      + "null : "
+                                      + "$('#" + timeId + "').datepicker('option', 'maxDate').toDateString();");
     }
     
     public String getSessionType() {
@@ -384,8 +388,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public String getClientTimeZone() {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        return (String) js.executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
+        return (String) executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
     }
     
     public void addFeedbackSession(String feedbackSessionName, String courseId, Date startTime,
@@ -570,12 +573,11 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void changeUserIdInAjaxForSessionsForm(String newUserId) {
-        String script = "$('#ajaxForSessions [name=\"user\"]').val('" + newUserId + "')";
-        ((JavascriptExecutor) browser.driver).executeScript(script);
+        executeScript("$('#ajaxForSessions [name=\"user\"]').val('" + newUserId + "');");
     }
     
     public void reloadSessionsList() {
-        ((JavascriptExecutor) browser.driver).executeScript("isSessionsAjaxSending = false");
-        ((JavascriptExecutor) browser.driver).executeScript("$('#ajaxForSessions').submit()");
+        executeScript("isSessionsAjaxSending = false;");
+        executeScript("$('#ajaxForSessions').submit();");
     }
 }
