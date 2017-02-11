@@ -127,7 +127,8 @@ public class InstructorCourseRemindAction extends Action {
 
     private String extractStudentRegistrationKey(StudentAttributes student) {
         String joinLink = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
-        int startIndex = joinLink.indexOf("key=") + "key=".length();
+        String keyParam = Const.ParamsNames.REGKEY + "=";
+        int startIndex = joinLink.indexOf(keyParam) + keyParam.length();
         return joinLink.substring(startIndex);
     }
     
