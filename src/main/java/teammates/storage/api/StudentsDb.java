@@ -177,13 +177,17 @@ public class StudentsDb extends EntitiesDb {
      *
      * @return null if no matching student.
      */
-    public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, registrationKey);
-
+    public StudentAttributes getStudentForRegistrationKey(String encryptedRegistrationKey) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedRegistrationKey);
+        String decryptedKey;
         try {
-            // CourseStudent
-            String originalKey = StringHelper.decrypt(registrationKey.trim());
-            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(originalKey);
+            String decryptedKey = StringHelper.decrypt(encryptedRegistrationKey.trim());
+        } catch (RuntimeException e) {
+            return null; // decryption failed
+        }
+        
+        try {
+            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(decryptedKey);
             if (courseStudent == null) {
                 return null;
             }

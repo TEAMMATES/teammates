@@ -7,12 +7,17 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
+
+import teammates.common.exception.InvalidParametersException;
 
 /**
  * Holds String-related helper functions.
  */
+
 public final class StringHelper {
 
     private StringHelper() {
@@ -129,6 +134,14 @@ public final class StringHelper {
         }
     }
 
+    /*
+     * Decrypts the supplied string.
+     *
+     * @param message the encrypted ciphertext
+     * @return the plaintext
+     * @throws InvalidParameterException if the message is not valid ciphertext.
+     * @throws RuntimeException if the decryption fails for any other reason, such as Cipher initialization failure.
+     */
     public static String decrypt(String message) {
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
@@ -136,6 +149,8 @@ public final class StringHelper {
             cipher.init(Cipher.DECRYPT_MODE, sks);
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
             return new String(decrypted);
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            throw new InvalidParametersException (e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
