@@ -437,7 +437,7 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
 
 /**
  * Selects contents inside an element.
- * @param elementNode The HTML DOM object to select contents from
+ * @param {HTML DOM Object} elementNode The element to select contents from.
  */
 function selectElementContents(elementNode) {
     var body = document.body;
