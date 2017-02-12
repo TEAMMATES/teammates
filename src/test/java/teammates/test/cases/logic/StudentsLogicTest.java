@@ -651,7 +651,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         verifyEnrollmentResultForStudent(saf.makeStudent(line4, courseIdForEnrollTest),
                                          enrollResults.studentList.get(4), StudentUpdateStatus.NEW);
             
-        CourseDetailsBundle cd = coursesLogic.getCourseDetails(courseIdForEnrollTest);
+        CourseDetailsBundle cd = coursesLogic
+                .getCourseSummary(courseIdForEnrollTest);
         assertEquals(5, cd.stats.unregisteredTotal);
         
         

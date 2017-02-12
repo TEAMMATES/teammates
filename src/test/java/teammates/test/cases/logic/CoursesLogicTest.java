@@ -328,7 +328,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-        CourseDetailsBundle courseDetails = coursesLogic.getCourseDetails(course.getId());
+        CourseDetailsBundle courseDetails = coursesLogic
+                .getCourseSummary(course.getId());
         assertEquals(course.getId(), courseDetails.course.getId());
         assertEquals(course.getName(), courseDetails.course.getName());
         assertEquals(course.getTimeZone(), courseDetails.course.getTimeZone());
@@ -348,7 +349,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Australia/Adelaide");
-        courseDetails = coursesLogic.getCourseDetails("course1");
+        courseDetails = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseDetails.course.getId());
         assertEquals("course 1", courseDetails.course.getName());
         assertEquals("Australia/Adelaide", courseDetails.course.getTimeZone());
@@ -365,7 +366,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("non-existent");
 
         try {
-            coursesLogic.getCourseDetails("non-existent-course");
+            coursesLogic.getCourseSummary("non-existent-course");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("The course does not exist:", e.getMessage());
@@ -374,7 +375,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("null parameter");
 
         try {
-            coursesLogic.getCourseDetails(null);
+            String nullableCourseId = null;
+            coursesLogic.getCourseSummary(nullableCourseId);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
