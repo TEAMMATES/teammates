@@ -242,8 +242,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         //fail to enroll, if exceed the range
         enrollStringBuilder.append(Const.EOL).append(
                 "section" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\tteam" + Const.SIZE_LIMIT_PER_ENROLLMENT
-                 + "\tname" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\temail"
-                 + Const.SIZE_LIMIT_PER_ENROLLMENT
+                 + "\tname" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\temail" + Const.SIZE_LIMIT_PER_ENROLLMENT
                  + "@nonexistemail.nonexist");
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
