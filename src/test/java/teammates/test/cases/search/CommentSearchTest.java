@@ -59,8 +59,7 @@ public class CommentSearchTest extends BaseSearchTest {
         bundle = commentsDb.search("\"Comment 1\"", Arrays.asList(ins1InCourse1));
         
         assertEquals(1, bundle.numberOfResults);
-        assertSameCommentContentIgnoreOrder(
-                     Arrays.asList(comment1FromI1C1toS1C1),
+        assertSameCommentContentIgnoreOrder(Arrays.asList(comment1FromI1C1toS1C1),
                      bundle.giverCommentTable.get("instructor1@course1.tmtidOfTypicalCourse1"));
         
         // giver email
@@ -87,8 +86,7 @@ public class CommentSearchTest extends BaseSearchTest {
         
         assertEquals(1, bundle.numberOfResults);
         assertEquals(1, bundle.giverCommentTable.size());
-        assertSameCommentContentIgnoreOrder(
-                 Arrays.asList(comment1FromI1C2toS1C2),
+        assertSameCommentContentIgnoreOrder(Arrays.asList(comment1FromI1C2toS1C2),
                  bundle.giverCommentTable.get("instructor1@course2.tmtidOfTypicalCourse2"));
         
         // recipients team
@@ -96,8 +94,7 @@ public class CommentSearchTest extends BaseSearchTest {
         
         assertEquals(1, bundle.numberOfResults);
         assertEquals(1, bundle.giverCommentTable.size());
-        assertSameCommentContentIgnoreOrder(
-                 Arrays.asList(comment1FromI1C1toT11C1),
+        assertSameCommentContentIgnoreOrder(Arrays.asList(comment1FromI1C1toT11C1),
                  bundle.giverCommentTable.get("instructor1@course1.tmtidOfTypicalCourse1"));
         
         // recipients section
@@ -116,8 +113,7 @@ public class CommentSearchTest extends BaseSearchTest {
         
         assertEquals(1, bundle.numberOfResults);
         assertEquals(1, bundle.giverCommentTable.size());
-        assertSameCommentContentIgnoreOrder(
-                 Arrays.asList(comment1FromI1C2toS1C2),
+        assertSameCommentContentIgnoreOrder(Arrays.asList(comment1FromI1C2toS1C2),
                  bundle.giverCommentTable.get("instructor1@course2.tmtidOfTypicalCourse2"));
         
         // course name
@@ -125,11 +121,9 @@ public class CommentSearchTest extends BaseSearchTest {
         
         assertEquals(3, bundle.numberOfResults);
         assertEquals(2, bundle.giverCommentTable.size());
-        assertSameCommentContentIgnoreOrder(
-                 Arrays.asList(comment1FromI1C2toS1C2),
+        assertSameCommentContentIgnoreOrder(Arrays.asList(comment1FromI1C2toS1C2),
                  bundle.giverCommentTable.get("instructor1@course2.tmtidOfTypicalCourse2"));
-        assertSameCommentContentIgnoreOrder(
-                 Arrays.asList(comment1FromI3C1toS2C1, comment1FromI3C1toC1),
+        assertSameCommentContentIgnoreOrder(Arrays.asList(comment1FromI3C1toS2C1, comment1FromI3C1toC1),
                  bundle.giverCommentTable.get("instructor3@course1.tmtidOfTypicalCourse1"));
         
         ______TS("success: search for comments; query string should be case-insensitive");
@@ -156,8 +150,7 @@ public class CommentSearchTest extends BaseSearchTest {
         
         assertEquals(1, bundle.numberOfResults);
         assertEquals(1, bundle.giverCommentTable.size());
-        assertSameCommentContentIgnoreOrder(
-                 Arrays.asList(comment1FromI1C2toS1C2),
+        assertSameCommentContentIgnoreOrder(Arrays.asList(comment1FromI1C2toS1C2),
                  bundle.giverCommentTable.get("AnonymousidOfTypicalCourse2"));
         assertEquals(1, bundle.giverTable.size());
         assertEquals("Anonymous (idOfTypicalCourse2)", bundle.giverTable.get("AnonymousidOfTypicalCourse2"));
@@ -181,8 +174,7 @@ public class CommentSearchTest extends BaseSearchTest {
         bundle = commentsDb.search("instructor3@course1.tmt", Arrays.asList(ins3InCourse1));
         
         assertEquals(1, bundle.numberOfResults);
-        assertSameCommentContentIgnoreOrder(
-                Arrays.asList(comment1FromI3C1toC1),
+        assertSameCommentContentIgnoreOrder(Arrays.asList(comment1FromI3C1toC1),
                 bundle.giverCommentTable.get("instructor3@course1.tmtidOfTypicalCourse1"));
     }
     
