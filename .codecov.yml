@@ -17,9 +17,10 @@ coverage:
   # Set up additional statuses for PRs
   status:
     project:
-      default: # production-only code coverage
+      default: off
+      production-only: # production-only code coverage
         paths:
           - "src/main/"
-      all: # production + test code coverage
+      all-codes: # production + test code coverage
         paths:
           - "src/"
