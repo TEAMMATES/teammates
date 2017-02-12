@@ -6,10 +6,9 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
@@ -29,7 +28,6 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @Override
     protected String getActionUri() {
@@ -109,9 +107,8 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
     }
     
     @Override
-    protected FeedbackSessionRemindEmailWorkerAction getAction(String... submissionParams) {
-        return (FeedbackSessionRemindEmailWorkerAction)
-                gaeSimulation.getAutomatedActionObject(getActionUri(), submissionParams);
+    protected FeedbackSessionRemindEmailWorkerAction getAction(String... params) {
+        return (FeedbackSessionRemindEmailWorkerAction) gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
     
 }

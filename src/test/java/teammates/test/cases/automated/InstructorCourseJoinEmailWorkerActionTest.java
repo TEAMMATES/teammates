@@ -2,9 +2,8 @@ package teammates.test.cases.automated;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
@@ -15,8 +14,6 @@ import teammates.ui.automated.InstructorCourseJoinEmailWorkerAction;
  * SUT: {@link InstructorCourseJoinEmailWorkerAction}.
  */
 public class InstructorCourseJoinEmailWorkerActionTest extends BaseAutomatedActionTest {
-    
-    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @Override
     protected String getActionUri() {
@@ -48,9 +45,8 @@ public class InstructorCourseJoinEmailWorkerActionTest extends BaseAutomatedActi
     }
     
     @Override
-    protected InstructorCourseJoinEmailWorkerAction getAction(String... submissionParams) {
-        return (InstructorCourseJoinEmailWorkerAction)
-                gaeSimulation.getAutomatedActionObject(getActionUri(), submissionParams);
+    protected InstructorCourseJoinEmailWorkerAction getAction(String... params) {
+        return (InstructorCourseJoinEmailWorkerAction) gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
     
 }

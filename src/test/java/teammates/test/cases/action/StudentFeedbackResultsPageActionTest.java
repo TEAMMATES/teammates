@@ -3,13 +3,11 @@ package teammates.test.cases.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -20,15 +18,13 @@ import teammates.ui.controller.StudentFeedbackResultsPageAction;
 import teammates.ui.pagedata.StudentFeedbackResultsPageData;
 
 public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -210,7 +206,8 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals(student1InCourse1.getIdentificationString(), pageData.student.getIdentificationString());
     }
 
-    private StudentFeedbackResultsPageAction getAction(String... params) {
-        return (StudentFeedbackResultsPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentFeedbackResultsPageAction getAction(String... params) {
+        return (StudentFeedbackResultsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

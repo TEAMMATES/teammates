@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.Priority;
@@ -17,15 +15,12 @@ import teammates.ui.pagedata.StudentCommentsPageData;
 @Priority(-1)
 public class StudentCommentsPageActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_COMMENTS_PAGE;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -38,7 +33,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         
         gaeSimulation.loginUser(studentId);
         StudentCommentsPageAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
         AssertHelper.assertContainsRegex(Const.ViewURIs.STUDENT_COMMENTS, result.getDestinationWithParams());
         assertFalse(result.isError);
         
@@ -58,7 +53,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         studentId = dataBundle.students.get("student2InCourse2").googleId;
         
         action = getAction(addUserIdToParams(studentId, submissionParams));
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         AssertHelper.assertContainsRegex(Const.ViewURIs.STUDENT_COMMENTS, result.getDestinationWithParams());
         assertFalse(result.isError);
         
@@ -73,7 +68,8 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
     
-    private StudentCommentsPageAction getAction(String... params) {
-        return (StudentCommentsPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentCommentsPageAction getAction(String... params) {
+        return (StudentCommentsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

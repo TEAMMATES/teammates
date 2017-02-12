@@ -10,21 +10,21 @@ import java.util.Set;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.StudentCommentsPageData;
@@ -44,8 +44,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
     private static InstructorAttributes sampleInstructor;
     
     @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
+    public void classSetup() {
         sampleCourse = dataBundle.courses.get("typicalCourse1");
         sampleStudent = dataBundle.students.get("student1InCourse1");
         sampleInstructor = dataBundle.instructors.get("instructor1OfCourse1");
@@ -101,11 +100,11 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
     private static CommentsForStudentsTable getCommentsForStudentsTable(
             String giverDetails, String studentEmail, List<CommentAttributes> comments, CourseRoster roster) {
         List<CommentRow> commentRows = new ArrayList<CommentRow>();
-        String unsanitizedGiverDetails = StringHelper.recoverFromSanitizedText(giverDetails);
+        String unsanitizedGiverDetails = SanitizationHelper.desanitizeFromHtml(giverDetails);
         for (CommentAttributes comment : comments) {
             String recipientDetails = data.getRecipientNames(comment.recipients, sampleCourse.getId(),
                                                              studentEmail, roster);
-            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
+            String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
             commentRows.add(new CommentRow(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails));
         }
         CommentsForStudentsTable commentsForStudentsTable =

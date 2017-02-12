@@ -5,8 +5,7 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
@@ -23,7 +22,6 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
     
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @Override
     protected String getActionUri() {
@@ -99,7 +97,7 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
     }
     
     @Override
-    protected FeedbackSessionClosingRemindersAction getAction(String... submissionParams) {
+    protected FeedbackSessionClosingRemindersAction getAction(String... params) {
         return (FeedbackSessionClosingRemindersAction) gaeSimulation.getAutomatedActionObject(getActionUri());
     }
     

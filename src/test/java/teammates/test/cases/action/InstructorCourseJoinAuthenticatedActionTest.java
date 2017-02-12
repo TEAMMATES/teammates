@@ -1,11 +1,9 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
@@ -16,22 +14,20 @@ import teammates.ui.controller.InstructorCourseJoinAuthenticatedAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
-    private final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED;
     }
     
     @SuppressWarnings("deprecation")
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         instructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
+        String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
         
         gaeSimulation.loginAsInstructor(instructor.googleId);
             
@@ -42,7 +38,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         };
         
         InstructorCourseJoinAuthenticatedAction joinAction = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
+        RedirectResult redirectResult = getRedirectResult(joinAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?error=true&user=idOfInstructor1OfCourse1"
@@ -66,7 +62,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         };
         
         joinAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(joinAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=" + instructor.courseId
@@ -91,7 +87,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         };
         
         joinAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(joinAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=" + instructor2.courseId
@@ -124,7 +120,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         };
         
         joinAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(joinAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=idOfTypicalCourse1"
@@ -160,7 +156,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         };
         
         joinAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(joinAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=idOfTypicalCourse1"
@@ -179,7 +175,8 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());
     }
     
-    private InstructorCourseJoinAuthenticatedAction getAction(String... params) {
-        return (InstructorCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCourseJoinAuthenticatedAction getAction(String... params) {
+        return (InstructorCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

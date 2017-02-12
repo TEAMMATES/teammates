@@ -3,11 +3,9 @@ package teammates.test.cases.action;
 import java.util.Date;
 import java.util.Map;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.TaskWrapper;
@@ -17,17 +15,13 @@ import teammates.ui.controller.InstructorFeedbackUnpublishAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
-    private static final boolean PUBLISHED = true;
-    private static final boolean UNPUBLISHED = false;
-    private final DataBundle dataBundle = getTypicalDataBundle();
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
@@ -49,7 +43,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         makeFeedbackSessionPublished(session);
 
         InstructorFeedbackUnpublishAction unpublishAction = getAction(paramsNormal);
-        RedirectResult result = (RedirectResult) unpublishAction.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(unpublishAction);
 
         String expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?error=false"
                                      + "&user=idOfInstructor1OfCourse1";
@@ -97,7 +91,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         makeFeedbackSessionUnpublished(session);
 
         unpublishAction = getAction(paramsNormal);
-        result = (RedirectResult) unpublishAction.executeAndPostProcess();
+        result = getRedirectResult(unpublishAction);
 
         expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?error=true"
                               + "&user=idOfInstructor1OfCourse1";
@@ -134,14 +128,15 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
     }
 
     private void makeFeedbackSessionPublished(FeedbackSessionAttributes session) throws Exception {
-        modifyFeedbackSessionPublishState(session, PUBLISHED);
+        modifyFeedbackSessionPublishState(session, true);
     }
 
     private void makeFeedbackSessionUnpublished(FeedbackSessionAttributes session) throws Exception {
-        modifyFeedbackSessionPublishState(session, UNPUBLISHED);
+        modifyFeedbackSessionPublishState(session, false);
     }
 
-    private InstructorFeedbackUnpublishAction getAction(String[] params) {
-        return (InstructorFeedbackUnpublishAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackUnpublishAction getAction(String... params) {
+        return (InstructorFeedbackUnpublishAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

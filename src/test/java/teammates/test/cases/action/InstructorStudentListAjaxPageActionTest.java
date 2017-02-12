@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorStudentListAjaxPageAction;
 import teammates.ui.controller.ShowPageResult;
@@ -12,15 +10,12 @@ import teammates.ui.pagedata.InstructorStudentListAjaxPageData;
 
 public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_AJAX_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_AJAX_PAGE;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
@@ -45,7 +40,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
         };
 
         InstructorStudentListAjaxPageAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
         InstructorStudentListAjaxPageData data = (InstructorStudentListAjaxPageData) result.data;
         assertEquals(2, data.getSections().size());
         assertTrue(data.isHasSection());
@@ -53,8 +48,9 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
         assertEquals(instructor.courseId, data.getCourseId());
     }
 
-    private InstructorStudentListAjaxPageAction getAction(String... params) {
-        return (InstructorStudentListAjaxPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorStudentListAjaxPageAction getAction(String... params) {
+        return (InstructorStudentListAjaxPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

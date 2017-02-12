@@ -1,12 +1,10 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.AccountsDb;
@@ -20,15 +18,13 @@ import teammates.ui.pagedata.StudentHomePageData;
 // StudentHomePageActionTest, and StudentCommentsPageActionTest.
 @Priority(-2)
 public class StudentHomePageActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_HOME_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_HOME_PAGE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String unregUserId = "unreg.user";
@@ -167,8 +163,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade("typicalCourse2");
     }
 
-    private StudentHomePageAction getAction(String... params) {
-        return (StudentHomePageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentHomePageAction getAction(String... params) {
+        return (StudentHomePageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
     
 }

@@ -2,11 +2,9 @@ package teammates.test.cases.action;
 
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
@@ -18,16 +16,13 @@ import teammates.ui.pagedata.InstructorCourseEditPageData;
 import teammates.ui.template.CourseEditInstructorPanel;
 
 public class InstructorCourseEditPageActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -127,8 +122,9 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         }
     }
     
-    private InstructorCourseEditPageAction getAction(String... params) {
-        return (InstructorCourseEditPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCourseEditPageAction getAction(String... params) {
+        return (InstructorCourseEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
     
     private void verifySameInstructorList(List<InstructorAttributes> list1, List<CourseEditInstructorPanel> list2) {

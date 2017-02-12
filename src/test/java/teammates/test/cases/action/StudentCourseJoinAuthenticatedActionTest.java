@@ -3,9 +3,9 @@ package teammates.test.cases.action;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -17,15 +17,18 @@ import teammates.ui.controller.StudentCourseJoinAuthenticatedAction;
 public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     private static DataBundle dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED;
+    }
+    
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
-        
+        // extra test data used on top of typical data bundle
         removeAndRestoreDataBundle(dataBundle);
-        
-        uri = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED;
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         StudentsDb studentsDb = new StudentsDb();
@@ -272,7 +275,8 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
     }
 
-    private StudentCourseJoinAuthenticatedAction getAction(String... params) {
-        return (StudentCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentCourseJoinAuthenticatedAction getAction(String... params) {
+        return (StudentCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -1,11 +1,9 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackQuestionCopyPageAction;
@@ -13,15 +11,12 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest {
     
-    private final DataBundle dataBundle = getTypicalDataBundle();
-        
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -38,7 +33,7 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
         };
         
         InstructorFeedbackQuestionCopyPageAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
         
         String expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_MODAL
                          + "?error=false&user=" + instructor1OfCourse1.googleId;
@@ -55,7 +50,7 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
         
         action = getAction(submissionParams);
         try {
-            result = (ShowPageResult) action.executeAndPostProcess();
+            result = getShowPageResult(action);
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
@@ -72,7 +67,7 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
         
         action = getAction(submissionParams);
         try {
-            result = (ShowPageResult) action.executeAndPostProcess();
+            result = getShowPageResult(action);
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             assertEquals("Feedback session [First feedback session] is not accessible "
@@ -81,7 +76,8 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
         }
     }
     
-    private InstructorFeedbackQuestionCopyPageAction getAction(String... params) {
-        return (InstructorFeedbackQuestionCopyPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackQuestionCopyPageAction getAction(String... params) {
+        return (InstructorFeedbackQuestionCopyPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

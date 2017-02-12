@@ -1,11 +1,11 @@
 package teammates.ui.automated;
 
-import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.StringHelper;
+import teammates.common.util.SanitizationHelper;
 import teammates.logic.api.EmailGenerator;
 
 /**
@@ -48,7 +48,7 @@ public class AdminSendEmailWorkerAction extends AutomatedAction {
         
         try {
             EmailWrapper email =
-                    new EmailGenerator().generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),
+                    new EmailGenerator().generateAdminEmail(SanitizationHelper.desanitizeFromHtml(emailContent),
                                                             emailSubject, receiverEmail);
             emailSender.sendEmail(email);
             log.info("Email sent to " + receiverEmail);

@@ -2,11 +2,9 @@ package teammates.test.cases.action;
 
 import static teammates.ui.controller.StudentCourseJoinAction.getPageTypeOfUrl;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
@@ -16,15 +14,13 @@ import teammates.ui.controller.StudentCourseJoinAction;
 import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
 
 public class StudentCourseJoinActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         
@@ -106,7 +102,25 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         
         // delete the new student
         studentsDb.deleteStudentWithoutDocument(newStudentData.course, newStudentData.email);
+        
+        ______TS("Non-existent student attempting to join course displays error");
 
+        gaeSimulation.loginUser(idOfNewStudent);
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, newStudentKey,
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_PROFILE_PAGE,
+                Const.ParamsNames.STUDENT_EMAIL, newStudentData.email,
+                Const.ParamsNames.COURSE_ID, newStudentData.course
+        };
+        joinAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(joinAction);
+
+        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE, redirectResult.destination);
+        assertEquals(
+                String.format(Const.StatusMessages.NON_EXISTENT_STUDENT_ATTEMPTING_TO_JOIN_COURSE, newStudentData.course),
+                redirectResult.getStatusMessage());
+        assertEquals("warning", redirectResult.getStatusMessageColor());
+        assertTrue(redirectResult.isError);
     }
     
     @Test
@@ -125,8 +139,9 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         assertEquals("/page/somePage/somePage?key=abcdef", getPageTypeOfUrl("/page/somePage/somePage?key=abcdef"));
     }
 
-    private StudentCourseJoinAction getAction(String... params) {
-        return (StudentCourseJoinAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentCourseJoinAction getAction(String... params) {
+        return (StudentCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

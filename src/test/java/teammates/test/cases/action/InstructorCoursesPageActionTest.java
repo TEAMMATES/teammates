@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
@@ -14,33 +12,12 @@ import teammates.ui.pagedata.InstructorCoursesPageData;
 
 public class InstructorCoursesPageActionTest extends BaseActionTest {
 
-    /* Explanation: The parent class has method for @BeforeTest and @AfterTest
-     */
-    
-    /* Explanation: we obtain an object, containing the typical data,
-     * to be used as a quick access to the values that are expected to be
-     * found in the database. We specify final so that multiple tests, if any,
-     * can use these values without fear of dependency caused by modification */
-    private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public void classSetup() {
-        
-        /* Explanation: This is just to display the test class name in the console */
-        printTestClassHeader();
-        
-        /* Explanation: we set the Action URI once as a static variable, to avoid passing
-         * it as a parameter multiple times. This is for convenience. Any other
-         * test code can pick up the URI from this variable.
-         */
-        uri = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
-        /* Explanation: Before every test-class, we put a standard set of test data into the
-         * simulated GAE datastore. A replica of this can be found in the 'dataBundle' variable
-         * declared above
-         */
-        removeAndRestoreTypicalDataBundle();
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         //TODO: find a way to test status message from session
@@ -124,8 +101,9 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
-    private InstructorCoursesPageAction getAction(String... params) {
-        return (InstructorCoursesPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCoursesPageAction getAction(String... params) {
+        return (InstructorCoursesPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
     
 }

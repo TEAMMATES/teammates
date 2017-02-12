@@ -1,27 +1,23 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
 import teammates.ui.controller.InstructorFeedbackRemindParticularStudentsAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseActionTest {
-    private static final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -49,7 +45,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         
         InstructorFeedbackRemindParticularStudentsAction action = getAction(paramsNoUserToRemind);
         
-        RedirectResult rr = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult rr = getRedirectResult(action);
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT));
         verifyNoTasksAdded(action);
         
@@ -63,7 +59,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         
         action = getAction(paramsTypical);
         
-        rr = (RedirectResult) action.executeAndPostProcess();
+        rr = getRedirectResult(action);
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT));
         
         verifySpecifiedTasksAdded(action,
@@ -71,7 +67,8 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         
     }
     
-    private InstructorFeedbackRemindParticularStudentsAction getAction(String... params) {
-        return (InstructorFeedbackRemindParticularStudentsAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackRemindParticularStudentsAction getAction(String... params) {
+        return (InstructorFeedbackRemindParticularStudentsAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -1,16 +1,15 @@
 package teammates.test.cases.testdriver;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
@@ -26,7 +25,6 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
 
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
         removeAndRestoreDataBundle(dataBundle);
         
         // verifies that typical bundle is restored by the above operation
@@ -317,8 +315,4 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
         verifyAbsentInDatastore(fr);
     }
 
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
-    }
 }

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.template.ActiveCoursesTable;
 import teammates.ui.template.ActiveCoursesTableRow;
 import teammates.ui.template.ArchivedCoursesTable;
@@ -98,8 +98,8 @@ public class InstructorCoursesPageData extends PageData {
             actionsParam.add(unarchivedButton);
             actionsParam.add(deleteButton);
             
-            ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(Sanitizer.sanitizeForHtml(course.getId()),
-                                                                      Sanitizer.sanitizeForHtml(course.getName()),
+            ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(SanitizationHelper.sanitizeForHtml(course.getId()),
+                                                                      SanitizationHelper.sanitizeForHtml(course.getName()),
                                                                                                 actionsParam);
             archivedCoursesTable.getRows().add(row);
             
@@ -150,8 +150,8 @@ public class InstructorCoursesPageData extends PageData {
             actionsParam.add(archiveButton);
             actionsParam.add(deleteButton);
             
-            ActiveCoursesTableRow row = new ActiveCoursesTableRow(Sanitizer.sanitizeForHtml(course.getId()),
-                                                                  Sanitizer.sanitizeForHtml(course.getName()),
+            ActiveCoursesTableRow row = new ActiveCoursesTableRow(SanitizationHelper.sanitizeForHtml(course.getId()),
+                                                                  SanitizationHelper.sanitizeForHtml(course.getName()),
                                                                   this.getInstructorCourseStatsLink(course.getId()),
                                                                   actionsParam);
             activeCourses.getRows().add(row);

@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ShowPageResult;
@@ -13,15 +11,12 @@ import teammates.ui.pagedata.PageData;
 
 public class StudentProfilePageActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_PROFILE_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_PROFILE_PAGE;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
@@ -34,7 +29,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         ______TS("Typical case");
         String[] submissionParams = new String[] {};
         StudentProfilePageAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
 
         AssertHelper.assertContains("/jsp/studentProfilePage.jsp?error=false&user="
                                     + student.googleId, result.getDestinationWithParams());
@@ -55,7 +50,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
 
         StudentProfilePageAction action = getAction(addUserIdToParams(
                 student.googleId, submissionParams));
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
 
         AssertHelper.assertContains(Const.ViewURIs.STUDENT_PROFILE_PAGE
                                     + "?error=false&user=" + student.googleId,
@@ -90,8 +85,9 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private StudentProfilePageAction getAction(String... params) {
-        return (StudentProfilePageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentProfilePageAction getAction(String... params) {
+        return (StudentProfilePageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

@@ -3,8 +3,8 @@ package teammates.test.cases.browsertests;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackRankOptionsQuestionDetails;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
@@ -258,11 +258,11 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
         
-        feedbackEditPage.fillNewQuestionBox("Rank qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Rank qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1 <>");
         
-        assertEquals(2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
+        assertEquals(2, feedbackEditPage.getNumOfOptionsInRankOptionsForNewQuestion());
         // try to submit with insufficient non-blank option
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
@@ -271,15 +271,15 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
         
-        feedbackEditPage.fillNewQuestionBox("Rank qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Rank qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         
         // blank option at the start and end, to check they are removed
-        feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
+        feedbackEditPage.clickAddMoreRankOptionLinkForNewQuestion();
         feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 1 <>");
         feedbackEditPage.fillRankOptionForNewQuestion(2, "  Option 2  ");
-        feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
-        assertEquals(4, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
+        feedbackEditPage.clickAddMoreRankOptionLinkForNewQuestion();
+        assertEquals(4, feedbackEditPage.getNumOfOptionsInRankOptionsForNewQuestion());
         
         feedbackEditPage.tickDuplicatesAllowedCheckboxForNewQuestion();
         
@@ -287,7 +287,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
         
-        assertEquals("Blank options should have been removed", 2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(1));
+        assertEquals("Blank options should have been removed", 2, feedbackEditPage.getNumOfOptionsInRankOptions(1));
         
         ______TS("Rank edit: add rank recipient question action success");
         feedbackEditPage.clickNewQuestionButton();
@@ -297,8 +297,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(0);
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(1);
-        feedbackEditPage.fillNewQuestionBox("Rank recipients qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Rank recipients qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
@@ -316,23 +316,23 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlPart(By.id("questionTable-1"),
                                         "/instructorFeedbackRankQuestionEdit.html");
         
-        feedbackEditPage.fillEditQuestionBox("edited Rank qn text", 1);
-        feedbackEditPage.fillEditQuestionDescription("more details", 1);
+        feedbackEditPage.fillQuestionTextBox("edited Rank qn text", 1);
+        feedbackEditPage.fillQuestionDescription("more details", 1);
 
         feedbackEditPage.clickRemoveRankOptionLink(1, 0);
         assertEquals("Should still remain with 2 options,"
                          + "less than 2 options should not be permitted",
-                     2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(1));
+                     2, feedbackEditPage.getNumOfOptionsInRankOptions(1));
         
-        feedbackEditPage.fillRankOptionForQuestion(1, 1, " (Edited) Option 2 ");
+        feedbackEditPage.fillRankOption(1, 1, " (Edited) Option 2 ");
         
         // Should end up with 4 choices, including (1) and (2)
         feedbackEditPage.clickAddMoreRankOptionLink(1);
         feedbackEditPage.clickAddMoreRankOptionLink(1);
-        feedbackEditPage.fillRankOptionForQuestion(1, 2, "  <New> Option 3 ");
-        feedbackEditPage.fillRankOptionForQuestion(1, 3, "Option 4 (slightly longer text for this one)");
+        feedbackEditPage.fillRankOption(1, 2, "  <New> Option 3 ");
+        feedbackEditPage.fillRankOption(1, 3, "Option 4 (slightly longer text for this one)");
         
-        feedbackEditPage.untickDuplicatesAllowedCheckboxForQuestion(1);
+        feedbackEditPage.untickDuplicatesAllowedCheckbox(1);
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
@@ -341,7 +341,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("rank edit: edit rank recipients question success");
         feedbackEditPage.clickEditQuestionButton(2);
         
-        feedbackEditPage.tickDuplicatesAllowedCheckboxForQuestion(2);
+        feedbackEditPage.tickDuplicatesAllowedCheckbox(2);
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertTrue(feedbackEditPage.isRankDuplicatesAllowedChecked(2));

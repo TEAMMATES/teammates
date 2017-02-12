@@ -3,12 +3,10 @@ package teammates.test.cases.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackEditCopyPageAction;
 import teammates.ui.controller.ShowPageResult;
@@ -16,16 +14,18 @@ import teammates.ui.pagedata.InstructorFeedbackEditCopyPageData;
 
 public class InstructorFeedbackEditCopyPageActionTest extends BaseActionTest {
     
-    private static DataBundle dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreDataBundle(dataBundle);
-        
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE;
     }
     
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+    }
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
@@ -66,7 +66,8 @@ public class InstructorFeedbackEditCopyPageActionTest extends BaseActionTest {
         
     }
     
-    private InstructorFeedbackEditCopyPageAction getAction(String... params) {
-        return (InstructorFeedbackEditCopyPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackEditCopyPageAction getAction(String... params) {
+        return (InstructorFeedbackEditCopyPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

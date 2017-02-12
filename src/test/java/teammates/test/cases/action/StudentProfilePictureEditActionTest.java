@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.RedirectResult;
@@ -12,15 +10,12 @@ import teammates.ui.controller.StudentProfilePictureEditAction;
 
 public class StudentProfilePictureEditActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
 
@@ -45,7 +40,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         submissionParams[1] = "";
 
         StudentProfilePictureEditAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
 
         String expectedLogMessage = getExpectedLogMessageEmptyCoords(student);
 
@@ -63,7 +58,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         submissionParams[3] = "";
 
         StudentProfilePictureEditAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
@@ -78,7 +73,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         submissionParams[5] = "";
 
         StudentProfilePictureEditAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
@@ -93,7 +88,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         submissionParams[7] = "";
 
         StudentProfilePictureEditAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
@@ -108,7 +103,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         submissionParams[9] = "";
 
         StudentProfilePictureEditAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
@@ -123,7 +118,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         submissionParams[11] = "";
 
         StudentProfilePictureEditAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
@@ -138,7 +133,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         submissionParams[9] = "0";
 
         StudentProfilePictureEditAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
@@ -153,7 +148,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         submissionParams[11] = "0";
 
         StudentProfilePictureEditAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
@@ -165,7 +160,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         String[] submissionParams = createValidParamsForProfilePictureEdit();
 
         StudentProfilePictureEditAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
 
         String expectedLogMessage = getExpectedLogMessageNonExistentBlob(student);
 
@@ -222,8 +217,9 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         };
     }
 
-    private StudentProfilePictureEditAction getAction(String... params) {
-        return (StudentProfilePictureEditAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentProfilePictureEditAction getAction(String... params) {
+        return (StudentProfilePictureEditAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

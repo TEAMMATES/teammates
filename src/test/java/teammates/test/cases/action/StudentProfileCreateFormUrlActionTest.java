@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AjaxResult;
@@ -13,15 +11,12 @@ import teammates.ui.pagedata.StudentProfileCreateFormUrlAjaxPageData;
 
 public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
@@ -36,7 +31,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         String[] submissionParams = new String[] {};
         gaeSimulation.loginAsStudent(student.googleId);
         StudentProfileCreateFormUrlAction action = getAction(submissionParams);
-        AjaxResult result = (AjaxResult) action.executeAndPostProcess();
+        AjaxResult result = getAjaxResult(action);
 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -54,7 +49,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
 
         StudentProfileCreateFormUrlAction action = getAction(addUserIdToParams(student.googleId,
                                                                                submissionParams));
-        AjaxResult result = (AjaxResult) action.executeAndPostProcess();
+        AjaxResult result = getAjaxResult(action);
 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -71,8 +66,9 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private StudentProfileCreateFormUrlAction getAction(String... params) {
-        return (StudentProfileCreateFormUrlAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentProfileCreateFormUrlAction getAction(String... params) {
+        return (StudentProfileCreateFormUrlAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

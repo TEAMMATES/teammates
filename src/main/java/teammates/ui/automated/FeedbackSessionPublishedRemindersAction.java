@@ -2,7 +2,7 @@ package teammates.ui.automated;
 
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 
 /**
  * Cron job: schedules feedback session published emails to be sent.

@@ -3,7 +3,7 @@ package teammates.test.cases.browsertests;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;

@@ -2,8 +2,7 @@ package teammates.test.cases.automated;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -15,7 +14,6 @@ import teammates.ui.automated.FeedbackSessionPublishedRemindersAction;
 public class FeedbackSessionPublishedRemindersActionTest extends BaseAutomatedActionTest {
     
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @Override
     protected String getActionUri() {
@@ -86,7 +84,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseAutomatedAc
     }
     
     @Override
-    protected FeedbackSessionPublishedRemindersAction getAction(String... submissionParams) {
+    protected FeedbackSessionPublishedRemindersAction getAction(String... params) {
         return (FeedbackSessionPublishedRemindersAction) gaeSimulation.getAutomatedActionObject(getActionUri());
     }
     

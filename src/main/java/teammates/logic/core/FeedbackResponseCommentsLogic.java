@@ -8,13 +8,13 @@ import java.util.Set;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -181,9 +181,8 @@ public final class FeedbackResponseCommentsLogic {
     }
     
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString,
-                                                             List<InstructorAttributes> instructors,
-                                                             String cursorString) {
-        return frcDb.search(queryString, instructors, cursorString);
+                                                             List<InstructorAttributes> instructors) {
+        return frcDb.search(queryString, instructors);
     }
     
     public void deleteFeedbackResponseCommentsForCourse(String courseId) {

@@ -7,11 +7,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
@@ -19,7 +19,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Templates;
@@ -153,7 +153,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
         newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
-        newSession.setFeedbackSessionName(Sanitizer.sanitizeTitle(
+        newSession.setFeedbackSessionName(SanitizationHelper.sanitizeTitle(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         
         newSession.setCreatedTime(new Date());

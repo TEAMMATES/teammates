@@ -10,7 +10,7 @@ import java.util.Set;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.StringHelper;

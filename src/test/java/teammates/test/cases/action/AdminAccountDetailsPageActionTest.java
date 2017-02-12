@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.AdminAccountDetailsPageAction;
 import teammates.ui.controller.ShowPageResult;
@@ -12,15 +10,12 @@ import teammates.ui.pagedata.AdminAccountDetailsPageData;
 
 public class AdminAccountDetailsPageActionTest extends BaseActionTest {
 
-    private static final DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        uri = Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE;
-        removeAndRestoreTypicalDataBundle();
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         
@@ -36,7 +31,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
 
         AdminAccountDetailsPageAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
 
         assertEquals("", result.getStatusMessage());
         assertEquals("/jsp/adminAccountDetails.jsp?error=false&user=admin.user",
@@ -48,8 +43,9 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
                 
     }
 
-    private AdminAccountDetailsPageAction getAction(String... params) {
-        return (AdminAccountDetailsPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected AdminAccountDetailsPageAction getAction(String... params) {
+        return (AdminAccountDetailsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

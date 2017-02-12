@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.ui.controller.AdminAccountDeleteAction;
@@ -12,15 +10,12 @@ import teammates.ui.controller.RedirectResult;
 
 public class AdminAccountDeletePageActionTest extends BaseActionTest {
 
-    private static final DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        uri = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
-        removeAndRestoreTypicalDataBundle();
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         
@@ -37,7 +32,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
         
         AdminAccountDeleteAction deleteAction = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) deleteAction.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(deleteAction);
          
         assertNull(AccountsLogic.inst().getAccount(instructor1OfCourse1.googleId));
         assertEquals(Const.StatusMessages.INSTRUCTOR_ACCOUNT_DELETED, result.getStatusMessage());
@@ -46,7 +41,8 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
                 
     }
 
-    private AdminAccountDeleteAction getAction(String... params) {
-        return (AdminAccountDeleteAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected AdminAccountDeleteAction getAction(String... params) {
+        return (AdminAccountDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

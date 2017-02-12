@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -14,16 +12,18 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTest {
 
-    private static DataBundle dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreDataBundle(dataBundle);
-        
-        uri = Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE;
     }
     
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+    }
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("IEIFPTCourseinstr");
@@ -47,7 +47,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         };
         
         editInstructorFpAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) editInstructorFpAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(editInstructorFpAction);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
@@ -69,7 +69,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         };
         
         editInstructorFpAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) editInstructorFpAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(editInstructorFpAction);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
@@ -120,7 +120,8 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         }
     }
 
-    private InstructorEditInstructorFeedbackPageAction getAction(String... params) {
-        return (InstructorEditInstructorFeedbackPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorEditInstructorFeedbackPageAction getAction(String... params) {
+        return (InstructorEditInstructorFeedbackPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -16,15 +14,12 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackAddActionTest extends BaseActionTest {
     
-    private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 =
@@ -48,7 +43,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                                   instructor1ofCourse1.courseId, "ifaat tca fs", 0);
         
         InstructorFeedbackAddAction a = getAction(params);
-        RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
+        RedirectResult rr = getRedirectResult(a);
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?courseid=" + instructor1ofCourse1.courseId
@@ -78,7 +73,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, "ifaat tca fs", 0);
         a = getAction(params);
-        ShowPageResult pr = (ShowPageResult) a.executeAndPostProcess();
+        ShowPageResult pr = getShowPageResult(a);
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACKS
                          + "?error=true"
                          + "&user=idOfInstructor1OfCourse1";
@@ -93,7 +88,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, longFsName, 0);
         a = getAction(params);
-        pr = (ShowPageResult) a.executeAndPostProcess();
+        pr = getShowPageResult(a);
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACKS
                          + "?error=true"
                          + "&user=idOfInstructor1OfCourse1";
@@ -114,7 +109,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                          instructor1ofCourse1.courseId, "Course with extra  space ", 1);
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        rr = getRedirectResult(a);
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?courseid=" + instructor1ofCourse1.courseId
@@ -145,7 +140,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         params[25] = "5.5";
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        rr = getRedirectResult(a);
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?courseid=" + instructor1ofCourse1.courseId
@@ -180,7 +175,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        rr = getRedirectResult(a);
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?courseid=" + instructor1ofCourse1.courseId
@@ -210,7 +205,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         
         try {
             a = getAction(params);
-            rr = (RedirectResult) a.executeAndPostProcess();
+            rr = getRedirectResult(a);
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.COURSE_ID),
                          e.getMessage());
@@ -219,7 +214,8 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourseCascade(instructor1ofCourse1.courseId);
     }
     
-    private InstructorFeedbackAddAction getAction(String... params) {
-        return (InstructorFeedbackAddAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackAddAction getAction(String... params) {
+        return (InstructorFeedbackAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

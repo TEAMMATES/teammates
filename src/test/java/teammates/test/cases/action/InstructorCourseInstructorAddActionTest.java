@@ -2,33 +2,27 @@ package teammates.test.cases.action;
 
 import java.util.Map;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TaskWrapper;
 import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorCourseInstructorAddAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -60,8 +54,8 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
         };
         
-        Action addAction = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) addAction.executeAndPostProcess();
+        InstructorCourseInstructorAddAction addAction = getAction(submissionParams);
+        RedirectResult redirectResult = getRedirectResult(addAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
@@ -88,7 +82,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         ______TS("Error: try to add an existing instructor");
         
         addAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) addAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(addAction);
         
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
@@ -117,7 +111,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         };
         
         addAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) addAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(addAction);
         
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
@@ -162,7 +156,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
         };
         addAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        redirectResult = (RedirectResult) addAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(addAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
@@ -188,8 +182,9 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         
     }
     
-    private InstructorCourseInstructorAddAction getAction(String... parameters) {
-        return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(uri, parameters);
+    @Override
+    protected InstructorCourseInstructorAddAction getAction(String... params) {
+        return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

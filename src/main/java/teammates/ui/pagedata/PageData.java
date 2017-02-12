@@ -7,21 +7,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.NationalityHelper;
 import teammates.common.util.Logger;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -72,11 +72,11 @@ public class PageData {
      * those *Helper classes.
      */
     public static String sanitizeForHtml(String unsanitizedStringLiteral) {
-        return Sanitizer.sanitizeForHtml(unsanitizedStringLiteral);
+        return SanitizationHelper.sanitizeForHtml(unsanitizedStringLiteral);
     }
     
     public static String sanitizeForJs(String unsanitizedStringLiteral) {
-        return Sanitizer.sanitizeForJs(unsanitizedStringLiteral);
+        return SanitizationHelper.sanitizeForJs(unsanitizedStringLiteral);
     }
     
     public static String truncate(String untruncatedString, int truncateLength) {

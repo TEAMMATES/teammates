@@ -10,19 +10,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.logic.backdoor.BackDoorOperation;
 
 import com.google.gson.reflect.TypeToken;
@@ -360,7 +360,7 @@ public final class BackDoor {
     private static String encodeParameters(Map<String, String> map) {
         StringBuilder dataStringBuilder = new StringBuilder();
         for (Map.Entry<String, String> e : map.entrySet()) {
-            dataStringBuilder.append(e.getKey() + "=" + Sanitizer.sanitizeForUri(e.getValue().toString()) + "&");
+            dataStringBuilder.append(e.getKey() + "=" + SanitizationHelper.sanitizeForUri(e.getValue().toString()) + "&");
         }
         return dataStringBuilder.toString();
     }

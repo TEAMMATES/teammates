@@ -3,12 +3,10 @@ package teammates.test.cases.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -17,16 +15,13 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentProfileEditSaveAction;
 
 public class StudentProfileEditSaveActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
@@ -45,7 +40,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         expectedProfile.googleId = student.googleId;
         
         StudentProfileEditSaveAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
         
         assertTrue(result.isError);
         AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE
@@ -81,7 +76,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         ______TS("Typical case");
         
         StudentProfileEditSaveAction action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
         expectedProfile.googleId = student.googleId;
         
         assertFalse(result.isError);
@@ -102,7 +97,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         expectedProfile.googleId = student.googleId;
         
         StudentProfileEditSaveAction action = getAction(addUserIdToParams(student.googleId, submissionParams));
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
         
         assertFalse(result.isError);
         assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, result.getStatusMessage());
@@ -143,8 +138,9 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         return spa;
     }
 
-    private StudentProfileEditSaveAction getAction(String[] submissionParams) {
-        return (StudentProfileEditSaveAction) gaeSimulation.getActionObject(uri, submissionParams);
+    @Override
+    protected StudentProfileEditSaveAction getAction(String... params) {
+        return (StudentProfileEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

@@ -4,13 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
@@ -24,8 +23,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     private static StudentProfileAttributes profile;
 
     @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
+    public void classSetup() {
         profile = new StudentProfileAttributes();
         profile.googleId = "valid.googleId";
         profile.shortName = "shor";
@@ -115,19 +113,19 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         StudentProfileAttributes profileToSanitizeExpected = getStudentProfileAttributesToSanitize();
         profileToSanitize.sanitizeForSaving();
 
-        assertEquals(Sanitizer.sanitizeGoogleId(profileToSanitizeExpected.googleId),
+        assertEquals(SanitizationHelper.sanitizeGoogleId(profileToSanitizeExpected.googleId),
                      profileToSanitize.googleId);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.shortName),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.shortName),
                      profileToSanitize.shortName);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.institute),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.institute),
                      profileToSanitize.institute);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.email),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.email),
                      profileToSanitize.email);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.nationality),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.nationality),
                      profileToSanitize.nationality);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.gender),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.gender),
                      profileToSanitize.gender);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.moreInfo),
+        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.moreInfo),
                      profileToSanitize.moreInfo);
     }
 
@@ -155,11 +153,6 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
         // the toString must be unique to the values in the object
         assertEquals(profile.toString(), spa.toString());
-    }
-
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
     }
 
     // -------------------------------------------------------------------------------------------------------

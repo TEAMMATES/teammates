@@ -1,12 +1,10 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
@@ -16,16 +14,18 @@ import teammates.ui.pagedata.InstructorFeedbackEditCopyData;
 
 public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
     
-    private static DataBundle dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreDataBundle(dataBundle);
-        
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
     }
     
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+    }
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
@@ -51,7 +51,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         InstructorFeedbackEditCopyAction a = getAction(params);
-        AjaxResult ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        AjaxResult ajaxResult = getAjaxResult(a);
         InstructorFeedbackEditCopyData editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, editCopyData.errorMessage);
@@ -64,7 +64,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
@@ -78,7 +78,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
   
         
@@ -92,7 +92,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, editCopyData.errorMessage);
@@ -109,7 +109,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         a = getAction(params);
         
         try {
-            ajaxResult = (AjaxResult) a.executeAndPostProcess();
+            ajaxResult = getAjaxResult(a);
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
@@ -128,7 +128,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         a = getAction(params);
         
         try {
-            ajaxResult = (AjaxResult) a.executeAndPostProcess();
+            ajaxResult = getAjaxResult(a);
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
@@ -147,7 +147,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         a = getAction(params);
         
         try {
-            ajaxResult = (AjaxResult) a.executeAndPostProcess();
+            ajaxResult = getAjaxResult(a);
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
@@ -165,7 +165,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         a = getAction(params);
         
         try {
-            ajaxResult = (AjaxResult) a.executeAndPostProcess();
+            ajaxResult = getAjaxResult(a);
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent instructor entity",
@@ -184,7 +184,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
         assertEquals("", editCopyData.redirectUrl);
@@ -204,7 +204,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
         assertEquals("", editCopyData.redirectUrl);
@@ -224,7 +224,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
     
@@ -245,7 +245,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
       
@@ -266,7 +266,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
 
@@ -296,7 +296,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
 
         assertEquals("", editCopyData.redirectUrl);
@@ -325,7 +325,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
 
@@ -355,7 +355,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
  
         assertEquals("", editCopyData.redirectUrl);
@@ -387,7 +387,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
@@ -411,7 +411,8 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         
     }
     
-    private InstructorFeedbackEditCopyAction getAction(String... params) {
-        return (InstructorFeedbackEditCopyAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackEditCopyAction getAction(String... params) {
+        return (InstructorFeedbackEditCopyAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -3,10 +3,9 @@ package teammates.test.cases.action;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -19,19 +18,21 @@ import teammates.ui.controller.StudentProfilePictureAction;
 
 public class StudentProfilePictureActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-    private StudentProfilePictureAction action;
-    private ImageResult result;
-    private final AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
-    private final StudentAttributes student = dataBundle.students.get("student1InCourse1");
+    private AccountAttributes account;
+    private StudentAttributes student;
 
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_PROFILE_PICTURE;
+    }
+    
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_PROFILE_PICTURE;
+        account = dataBundle.accounts.get("student1InCourse1");
+        student = dataBundle.students.get("student1InCourse1");
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         testActionWithNoParams();
@@ -46,7 +47,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
 
         String[] submissionParams = new String[] {};
 
-        action = getAction(submissionParams);
+        StudentProfilePictureAction action = getAction(submissionParams);
         try {
             action.executeAndPostProcess();
             signalFailureToDetectException();
@@ -75,13 +76,13 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.BLOB_KEY, account.studentProfile.pictureKey
         };
-        action = getAction(submissionParams);
-        result = (ImageResult) action.executeAndPostProcess();
+        StudentProfilePictureAction action = getAction(submissionParams);
+        ImageResult result = getImageResult(action);
 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
         assertEquals(account.studentProfile.pictureKey, result.blobKey);
-        verifyLogMessageForActionWithBlobKey(false);
+        verifyLogMessageForActionWithBlobKey(false, action.getLogMessage());
     }
 
     protected void testActionWithBlobKeySuccessMasquerade() {
@@ -92,12 +93,12 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                 Const.ParamsNames.USER_ID, account.googleId,
                 Const.ParamsNames.BLOB_KEY, account.studentProfile.pictureKey
         };
-        action = getAction(addUserIdToParams(account.googleId, submissionParams));
-        result = (ImageResult) action.executeAndPostProcess();
+        StudentProfilePictureAction action = getAction(addUserIdToParams(account.googleId, submissionParams));
+        ImageResult result = getImageResult(action);
 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
-        verifyLogMessageForActionWithBlobKey(true);
+        verifyLogMessageForActionWithBlobKey(true, action.getLogMessage());
     }
 
     /**
@@ -126,13 +127,13 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
         };
 
-        action = getAction(submissionParams);
-        result = (ImageResult) action.executeAndPostProcess();
+        StudentProfilePictureAction action = getAction(submissionParams);
+        ImageResult result = getImageResult(action);
 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
         assertEquals("asdf34&hfn3!@", result.blobKey);
-        verifyLogMessageForActionWithEmailAndCourse(instructor, false);
+        verifyLogMessageForActionWithEmailAndCourse(instructor, false, action.getLogMessage());
     }
 
     protected void testActionWithEmailAndCourseNoStudent() {
@@ -143,7 +144,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
         };
 
-        action = getAction(submissionParams);
+        StudentProfilePictureAction action = getAction(submissionParams);
         try {
             action.executeAndPostProcess();
             signalFailureToDetectException("Entity Does not exist");
@@ -184,8 +185,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
         };
 
-        action = getAction(submissionParams);
-        result = (ImageResult) action.executeAndPostProcess();
+        StudentProfilePictureAction action = getAction(submissionParams);
+        ImageResult result = getImageResult(action);
 
         assertEquals("", result.blobKey);
     }
@@ -200,7 +201,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         AccountAttributes unauthInstructor = dataBundle.accounts.get("instructor1OfCourse2");
         gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
 
-        action = getAction(submissionParams);
+        StudentProfilePictureAction action = getAction(submissionParams);
         try {
             action.executeAndPostProcess();
             signalFailureToDetectException("Unauthorised Access");
@@ -256,7 +257,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         AccountAttributes unauthStudent = dataBundle.accounts.get("student1InArchivedCourse");
         gaeSimulation.loginAsStudent(unauthStudent.googleId);
         try {
-            action = getAction(addUserIdToParams(student.googleId, submissionParams));
+            getAction(addUserIdToParams(student.googleId, submissionParams));
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             assertEquals("User student1InArchivedCourse is trying to masquerade as"
@@ -268,7 +269,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         AccountAttributes instructor = dataBundle.accounts.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
         try {
-            action = getAction(addUserIdToParams(instructor.googleId, submissionParams));
+            getAction(addUserIdToParams(instructor.googleId, submissionParams));
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             assertEquals("User idOfInstructor1OfCourse2 is trying to masquerade as"
@@ -277,7 +278,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         
         gaeSimulation.loginAsAdmin("admin.user");
         ______TS("Failure case: masqueraded instructor not from same course");
-        action = getAction(addUserIdToParams(unauthInstructor.googleId, submissionParams));
+        StudentProfilePictureAction action = getAction(addUserIdToParams(unauthInstructor.googleId, submissionParams));
         try {
             action.executeAndPostProcess();
             signalFailureToDetectException("Unauthorised Access");
@@ -311,24 +312,26 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     // -------------------------------------------------------------------------------------------------------
 
     private void verifyLogMessageForActionWithEmailAndCourse(AccountAttributes instructor,
-                                                             boolean isMasquerade) {
+                                                             boolean isMasquerade,
+                                                             String actualLogMessage) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePic|||studentProfilePic"
                                   + "|||true|||Instructor" + (isMasquerade ? "(M)" : "") + "|||"
                                   + instructor.name + "|||" + instructor.googleId + "|||" + instructor.email
                                   + "|||Requested Profile Picture by instructor/other students|||/page/studentProfilePic";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, actualLogMessage);
     }
 
-    private void verifyLogMessageForActionWithBlobKey(boolean isMasquerade) {
+    private void verifyLogMessageForActionWithBlobKey(boolean isMasquerade, String actualLogMessage) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePic|||studentProfilePic"
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
                                   + account.name + "|||" + account.googleId + "|||" + student.email
                                   + "|||Requested Profile Picture by student directly|||/page/studentProfilePic";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, actualLogMessage);
     }
 
-    private StudentProfilePictureAction getAction(String... params) {
-        return (StudentProfilePictureAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentProfilePictureAction getAction(String... params) {
+        return (StudentProfilePictureAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

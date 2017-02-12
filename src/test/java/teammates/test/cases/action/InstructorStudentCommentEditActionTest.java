@@ -3,31 +3,26 @@ package teammates.test.cases.action;
 import java.util.Iterator;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentEditAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
@@ -390,7 +385,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         comments = backDoorLogic.getCommentsForReceiver(
                                          instructor.courseId,
                                          CommentParticipantType.TEAM,
-                                         Sanitizer.sanitizeForHtml(student.team));
+                                         SanitizationHelper.sanitizeForHtml(student.team));
         iterator = comments.iterator();
         while (iterator.hasNext()) {
             CommentAttributes commentAttributes = iterator.next();
@@ -426,7 +421,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
                 + "|||instr3@course1n2.tmt|||"
                 + "Edited Comment for Student:"
-                + "<span class=\"bold\">([" + Sanitizer.sanitizeForHtml(student.team) + "])</span> "
+                + "<span class=\"bold\">([" + SanitizationHelper.sanitizeForHtml(student.team) + "])</span> "
                 + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
                 + "<span class=\"bold\">Comment:</span> <Text: some text>"
                 + "|||/page/instructorStudentCommentEdit";
@@ -520,7 +515,8 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
     }
     
-    private InstructorStudentCommentEditAction getAction(String... params) {
-        return (InstructorStudentCommentEditAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorStudentCommentEditAction getAction(String... params) {
+        return (InstructorStudentCommentEditAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

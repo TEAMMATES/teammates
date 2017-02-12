@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.StudentProfile;
@@ -121,7 +121,7 @@ public class InstructorStudentRecordsPageData extends PageData {
         
         for (CommentAttributes comment : comments) {
             String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
-            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
+            String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
             CommentRow commentDiv = new CommentRow(comment, giverEmail, unsanitizedRecipientDetails);
             String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
             commentDiv.setVisibilityIcon(whoCanSeeComment);

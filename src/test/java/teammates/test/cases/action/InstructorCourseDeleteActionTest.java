@@ -2,12 +2,10 @@ package teammates.test.cases.action;
 
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
@@ -15,16 +13,13 @@ import teammates.ui.controller.InstructorCourseDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseDeleteActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_DELETE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_DELETE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -109,7 +104,8 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         
     }
     
-    private InstructorCourseDeleteAction getAction(String... params) {
-        return (InstructorCourseDeleteAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCourseDeleteAction getAction(String... params) {
+        return (InstructorCourseDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

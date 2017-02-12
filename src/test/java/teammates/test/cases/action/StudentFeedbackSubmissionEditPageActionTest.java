@@ -1,11 +1,9 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
@@ -18,15 +16,19 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditPageAction;
 
 public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest {
-    private static DataBundle dataBundle = loadDataBundle("/StudentFeedbackSubmissionEditPageActionTest.json");
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
+    }
+    
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/StudentFeedbackSubmissionEditPageActionTest.json");
         removeAndRestoreDataBundle(dataBundle);
-        uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -66,7 +68,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
         try {
             pageAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) pageAction.executeAndPostProcess();
+            redirectResult = getRedirectResult(pageAction);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -82,7 +84,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
         try {
             pageAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) pageAction.executeAndPostProcess();
+            redirectResult = getRedirectResult(pageAction);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -215,7 +217,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
                      redirectResult.getStatusMessage());
     }
 
-    private StudentFeedbackSubmissionEditPageAction getAction(String... params) {
-        return (StudentFeedbackSubmissionEditPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentFeedbackSubmissionEditPageAction getAction(String... params) {
+        return (StudentFeedbackSubmissionEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -1,12 +1,10 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -16,17 +14,19 @@ import teammates.ui.controller.InstructorEditInstructorFeedbackSaveAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTest {
-
-    private static DataBundle dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE;
+    }
+    
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
-        
-        uri = Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE;
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         testModifyResponses();
@@ -68,7 +68,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
         
         editInstructorFsAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(editInstructorFsAction);
         
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
@@ -96,7 +96,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
         
         editInstructorFsAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(editInstructorFsAction);
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
@@ -122,7 +122,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
 
         editInstructorFsAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(editInstructorFsAction);
         
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
@@ -145,7 +145,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
 
         editInstructorFsAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(editInstructorFsAction);
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
@@ -295,7 +295,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
         
         editInstructorFsAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(editInstructorFsAction);
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
@@ -413,7 +413,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         };
 
         editInstructorFsAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) editInstructorFsAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(editInstructorFsAction);
         
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
@@ -424,7 +424,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
     
-    private InstructorEditInstructorFeedbackSaveAction getAction(String... params) {
-        return (InstructorEditInstructorFeedbackSaveAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorEditInstructorFeedbackSaveAction getAction(String... params) {
+        return (InstructorEditInstructorFeedbackSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

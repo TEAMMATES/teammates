@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
 public class InstructorFeedbackResultsModerationButton {
     

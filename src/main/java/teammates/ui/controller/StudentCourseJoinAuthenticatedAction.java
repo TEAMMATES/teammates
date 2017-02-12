@@ -2,17 +2,17 @@ package teammates.ui.controller;
 
 import java.util.List;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
@@ -41,7 +41,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
             nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         }
         Assumption.assertNotNull(nextUrl);
-        nextUrl = Sanitizer.desanitizeFromNextUrl(nextUrl);
+        nextUrl = SanitizationHelper.desanitizeFromNextUrl(nextUrl);
         
         ensureStudentExists();
         

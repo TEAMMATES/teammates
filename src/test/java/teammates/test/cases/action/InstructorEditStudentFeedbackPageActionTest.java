@@ -1,11 +1,9 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -14,16 +12,19 @@ import teammates.ui.controller.InstructorEditStudentFeedbackPageAction;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest {
-    private static DataBundle dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreDataBundle(dataBundle);
-        
-        uri = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
     }
     
+    @Override
+    protected void prepareTestData() {
+        dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+    }
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
@@ -47,7 +48,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         };
 
         InstructorEditStudentFeedbackPageAction editPageAction = getAction(submissionParams);
-        ShowPageResult showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+        ShowPageResult showPageResult = getShowPageResult(editPageAction);
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
                 + "?error=false"
@@ -76,7 +77,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         };
 
         editPageAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(editPageAction);
         
         ______TS("success case: closed session");
 
@@ -91,7 +92,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         };
 
         editPageAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(editPageAction);
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
                 + "?error=false"
@@ -114,7 +115,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         };
 
         editPageAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(editPageAction);
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
                 + "?error=false"
@@ -146,7 +147,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         
         try {
             editPageAction = getAction(submissionParams);
-            showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+            showPageResult = getShowPageResult(editPageAction);
         } catch (UnauthorizedAccessException e) {
             assertEquals(
                     "Feedback session [First feedback session] is not accessible to instructor ["
@@ -170,7 +171,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         try {
             editPageAction = getAction(submissionParams);
-            showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+            showPageResult = getShowPageResult(editPageAction);
             signalFailureToDetectException();
         } catch (EntityNotFoundException enfe) {
             assertEquals("An entity with the identifier "
@@ -181,7 +182,8 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         }
     }
             
-    private InstructorEditStudentFeedbackPageAction getAction(String... params) {
-        return (InstructorEditStudentFeedbackPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorEditStudentFeedbackPageAction getAction(String... params) {
+        return (InstructorEditStudentFeedbackPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

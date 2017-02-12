@@ -1,31 +1,27 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.Action;
+import teammates.ui.controller.InstructorCourseInstructorEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor1OfCourse1");
@@ -53,8 +49,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
         };
-        Action saveAction = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
+        InstructorCourseInstructorEditSaveAction saveAction = getAction(submissionParams);
+        RedirectResult redirectResult = getRedirectResult(saveAction);
         
         AssertHelper.assertContains(
                     Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
@@ -100,7 +96,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         };
         
         saveAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(saveAction);
         
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
@@ -137,7 +133,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         };
         
         saveAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(saveAction);
         
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
@@ -179,7 +175,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
+            redirectResult = getRedirectResult(saveAction);
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COURSE_ID), e.getMessage());
@@ -206,7 +202,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
+            redirectResult = getRedirectResult(saveAction);
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.INSTRUCTOR_NAME), e.getMessage());
@@ -233,14 +229,15 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
+            redirectResult = getRedirectResult(saveAction);
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail), e.getMessage());
         }
     }
     
-    private Action getAction(String... parameters) {
-        return gaeSimulation.getActionObject(uri, parameters);
+    @Override
+    protected InstructorCourseInstructorEditSaveAction getAction(String... params) {
+        return (InstructorCourseInstructorEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

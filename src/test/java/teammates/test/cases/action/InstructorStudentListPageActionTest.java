@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.Priority;
@@ -17,15 +15,12 @@ import teammates.ui.pagedata.InstructorStudentListPageData;
 @Priority(-3)
 public class InstructorStudentListPageActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
@@ -130,8 +125,9 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
     }
 
-    private InstructorStudentListPageAction getAction(String... params) {
-        return (InstructorStudentListPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorStudentListPageAction getAction(String... params) {
+        return (InstructorStudentListPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

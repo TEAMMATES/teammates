@@ -1,28 +1,24 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.Action;
+import teammates.ui.controller.InstructorCourseInstructorDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");
@@ -42,8 +38,8 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
         };
         
-        Action deleteAction = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
+        InstructorCourseInstructorDeleteAction deleteAction = getAction(submissionParams);
+        RedirectResult redirectResult = getRedirectResult(deleteAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                          + "?error=false&user=idOfInstructor1OfCourse1&courseid=idOfTypicalCourse1",
@@ -67,7 +63,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         };
         
         deleteAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(deleteAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
                         redirectResult.getDestinationWithParams());
@@ -94,7 +90,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         };
         
         deleteAction = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
-        redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
+        redirectResult = getRedirectResult(deleteAction);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                              + "?error=true&user=idOfInstructor4&courseid=idOfCourseNoEvals",
@@ -110,7 +106,8 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, deleteAction.getLogMessage());
     }
     
-    private Action getAction(String... params) {
-        return gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCourseInstructorDeleteAction getAction(String... params) {
+        return (InstructorCourseInstructorDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

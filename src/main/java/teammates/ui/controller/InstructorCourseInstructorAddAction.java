@@ -1,12 +1,12 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
@@ -70,8 +70,8 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         if (displayedName == null || displayedName.isEmpty()) {
             displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         }
-        instructorRole = Sanitizer.sanitizeName(instructorRole);
-        displayedName = Sanitizer.sanitizeName(displayedName);
+        instructorRole = SanitizationHelper.sanitizeName(instructorRole);
+        displayedName = SanitizationHelper.sanitizeName(displayedName);
         
         InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId, instructorName,
                 instructorEmail, instructorRole, isDisplayedToStudents, displayedName);
@@ -103,10 +103,10 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
     private InstructorAttributes createInstructorWithBasicAttributes(String courseId, String instructorName,
             String instructorEmail, String instructorRole,
             boolean isDisplayedToStudents, String displayedName) {
-        String instrName = Sanitizer.sanitizeName(instructorName);
-        String instrEmail = Sanitizer.sanitizeEmail(instructorEmail);
-        String instrRole = Sanitizer.sanitizeName(instructorRole);
-        String instrDisplayedName = Sanitizer.sanitizeName(displayedName);
+        String instrName = SanitizationHelper.sanitizeName(instructorName);
+        String instrEmail = SanitizationHelper.sanitizeEmail(instructorEmail);
+        String instrRole = SanitizationHelper.sanitizeName(instructorRole);
+        String instrDisplayedName = SanitizationHelper.sanitizeName(displayedName);
         InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
         
         InstructorAttributes instructorToAdd = new InstructorAttributes(null, courseId, instrName, instrEmail,

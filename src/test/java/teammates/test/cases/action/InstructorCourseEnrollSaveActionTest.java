@@ -3,18 +3,16 @@ package teammates.test.cases.action;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
@@ -26,16 +24,13 @@ import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 import teammates.ui.template.EnrollResultPanel;
 
 public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String enrollString = "";
@@ -114,7 +109,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         verifyStudentEnrollmentStatus(unmodifiedStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
 
         String expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]"
-                                    + ":</span><br>" + Sanitizer.sanitizeForHtml(enrollString).replace("\n", "<br>");
+                                    + ":</span><br>"
+                                    + SanitizationHelper.sanitizeForHtml(enrollString).replace("\n", "<br>");
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Masquerade mode, enrollment into empty course");
@@ -187,7 +183,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         String expectedStatusMessage = "<p>"
                                             + "<span class=\"bold\">Problem in line : "
                                                 + "<span class=\"invalidLine\">"
-                                                    + Sanitizer.sanitizeForHtml(studentWithoutEnoughParam)
+                                                    + SanitizationHelper.sanitizeForHtml(studentWithoutEnoughParam)
                                                 + "</span>"
                                             + "</span>"
                                             + "<br>"
@@ -199,12 +195,12 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                                         + "<p>"
                                             + "<span class=\"bold\">Problem in line : "
                                                 + "<span class=\"invalidLine\">"
-                                                    + Sanitizer.sanitizeForHtml(studentWithInvalidEmail)
+                                                    + SanitizationHelper.sanitizeForHtml(studentWithInvalidEmail)
                                                 + "</span>"
                                             + "</span>"
                                             + "<br>"
                                             + "<span class=\"problemDetail\">&bull; "
-                                                + Sanitizer.sanitizeForHtml(
+                                                + SanitizationHelper.sanitizeForHtml(
                                                         getPopulatedErrorMessage(
                                                             FieldValidator.EMAIL_ERROR_MESSAGE,
                                                             invalidEmail,
@@ -305,8 +301,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertTrue(result);
     }
     
-    private InstructorCourseEnrollSaveAction getAction(String... params) {
-        return (InstructorCourseEnrollSaveAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCourseEnrollSaveAction getAction(String... params) {
+        return (InstructorCourseEnrollSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

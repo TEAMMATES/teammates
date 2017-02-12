@@ -133,8 +133,9 @@ public class FieldValidator {
             "The provided ${fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
             + "or contains extra spaces at the beginning or at the end of the text.";
     public static final String NON_HTML_FIELD_ERROR_MESSAGE =
-            Sanitizer.sanitizeForHtml("The provided ${fieldName} is not acceptable to TEAMMATES as it cannot contain"
-                                      + " the following special html characters in brackets: (< > \\ / ' &)");
+            SanitizationHelper.sanitizeForHtml("The provided ${fieldName} is not acceptable to TEAMMATES "
+                                                + "as it cannot contain the following special html characters"
+                                                + " in brackets: (< > \\ / ' &)");
     public static final String NON_NULL_FIELD_ERROR_MESSAGE =
             "The provided ${fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
 
@@ -274,7 +275,7 @@ public class FieldValidator {
     public String getInvalidityInfoForEmail(String email) {
 
         Assumption.assertTrue("Non-null value expected", email != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(email);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(email);
 
         if (email.isEmpty()) {
             return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME, REASON_EMPTY,
@@ -304,7 +305,7 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", googleId != null);
         Assumption.assertTrue("\"" + googleId + "\"" + "is not expected to be a gmail address.",
                 !googleId.toLowerCase().endsWith("@gmail.com"));
-        String sanitizedValue = Sanitizer.sanitizeForHtml(googleId);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(googleId);
 
         boolean isValidFullEmail = StringHelper.isMatching(googleId, REGEX_EMAIL);
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
@@ -343,7 +344,7 @@ public class FieldValidator {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}",
                     COURSE_NAME_FIELD_NAME);
         }
-        String sanitizedValue = Sanitizer.sanitizeForHtml(courseId);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(courseId);
         if (courseId.length() > COURSE_ID_MAX_LENGTH) {
             return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, sanitizedValue, COURSE_ID_FIELD_NAME,
                                             REASON_TOO_LONG, COURSE_ID_MAX_LENGTH);
@@ -398,7 +399,7 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForGender(String gender) {
         Assumption.assertTrue("Non-null value expected", gender != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(gender);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(gender);
         
         if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
             return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
@@ -518,7 +519,7 @@ public class FieldValidator {
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
         }
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
         if (value.length() > maxLength) {
             return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue,
                                             fieldName, REASON_TOO_LONG, maxLength);
@@ -552,7 +553,7 @@ public class FieldValidator {
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
         }
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
         if (value.length() > maxLength) {
             return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue,
                                             fieldName, REASON_TOO_LONG, maxLength);
@@ -597,7 +598,7 @@ public class FieldValidator {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
         }
         if (value.length() > maxLength) {
-            String sanitizedValue = Sanitizer.sanitizeForHtml(value);
+            String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
             return getPopulatedErrorMessage(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue,
                                             fieldName, REASON_TOO_LONG, maxLength);
         }

@@ -1,11 +1,9 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.controller.AjaxResult;
@@ -13,15 +11,13 @@ import teammates.ui.controller.FeedbackSessionStatsPageAction;
 import teammates.ui.pagedata.FeedbackSessionStatsPageData;
 
 public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -39,7 +35,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         };
         
         FeedbackSessionStatsPageAction a = getAction(addUserIdToParams(instructorId, submissionParams));
-        AjaxResult r = (AjaxResult) a.executeAndPostProcess();
+        AjaxResult r = getAjaxResult(a);
         FeedbackSessionStatsPageData data = (FeedbackSessionStatsPageData) r.data;
        
         assertEquals("?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
@@ -61,7 +57,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         
         try {
-            r = (AjaxResult) a.executeAndPostProcess();
+            r = getAjaxResult(a);
         } catch (UnauthorizedAccessException e) {
             doesThrowUnauthorizedAccessException = true;
             exceptionMessage = e.getMessage();
@@ -72,7 +68,8 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         assertEquals("", r.getStatusMessage());
     }
     
-    private FeedbackSessionStatsPageAction getAction(String... params) {
-        return (FeedbackSessionStatsPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected FeedbackSessionStatsPageAction getAction(String... params) {
+        return (FeedbackSessionStatsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

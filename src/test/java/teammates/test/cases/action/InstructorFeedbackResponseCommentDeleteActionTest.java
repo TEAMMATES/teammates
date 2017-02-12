@@ -1,13 +1,11 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
@@ -18,15 +16,12 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
 public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
@@ -77,7 +72,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         };
         
         InstructorFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
-        AjaxResult result = (AjaxResult) action.executeAndPostProcess();
+        AjaxResult result = getAjaxResult(action);
         
         InstructorFeedbackResponseCommentAjaxPageData data =
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
@@ -99,7 +94,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         };
         
         action = getAction(submissionParams);
-        result = (AjaxResult) action.executeAndPostProcess();
+        result = getAjaxResult(action);
         
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         
@@ -133,7 +128,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         };
         
         action = getAction(submissionParams);
-        result = (AjaxResult) action.executeAndPostProcess();
+        result = getAjaxResult(action);
         
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         
@@ -143,7 +138,8 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         assertEquals("", result.getStatusMessage());
     }
     
-    private InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
+        return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

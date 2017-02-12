@@ -1,11 +1,9 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
@@ -17,23 +15,21 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseJoinActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
-    private final String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
     }
     
     @SuppressWarnings("deprecation")
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         // Reassign to let "key" variable in "instructor" not to be null
         instructor = instrDb.getInstructorForGoogleId(instructor.courseId, instructor.googleId);
+        String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
@@ -44,7 +40,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         };
         
         InstructorCourseJoinAction confirmAction = getAction(submissionParams);
-        ShowPageResult pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
+        ShowPageResult pageResult = getShowPageResult(confirmAction);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
                 + "?error=false&user=idOfInstructor1OfCourse1"
@@ -64,7 +60,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         };
         
         confirmAction = getAction(submissionParams);
-        RedirectResult redirectResult = (RedirectResult) confirmAction.executeAndPostProcess();
+        RedirectResult redirectResult = getRedirectResult(confirmAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
                         + "?key=" + StringHelper.encrypt(instructor.key)
@@ -97,7 +93,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         };
         
         confirmAction = getAction(submissionParams);
-        pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
+        pageResult = getShowPageResult(confirmAction);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
                      + "?error=false&user=ICJAT.instr"
@@ -112,7 +108,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
     }
     
-    private InstructorCourseJoinAction getAction(String... params) {
-        return (InstructorCourseJoinAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCourseJoinAction getAction(String... params) {
+        return (InstructorCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

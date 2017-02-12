@@ -1,26 +1,21 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseArchiveAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseArchiveActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_ARCHIVE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_ARCHIVE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         String[] submissionParams = new String[]{};
@@ -184,8 +179,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         
     }
     
-    private InstructorCourseArchiveAction getAction(String... params) {
-        return (InstructorCourseArchiveAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCourseArchiveAction getAction(String... params) {
+        return (InstructorCourseArchiveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

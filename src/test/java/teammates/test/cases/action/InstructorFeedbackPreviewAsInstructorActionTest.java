@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -13,15 +11,13 @@ import teammates.ui.controller.InstructorFeedbackPreviewAsInstructorAction;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -46,7 +42,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         };
         
         InstructorFeedbackPreviewAsInstructorAction paia = getAction(submissionParams);
-        ShowPageResult showPageResult = (ShowPageResult) paia.executeAndPostProcess();
+        ShowPageResult showPageResult = getShowPageResult(paia);
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
                      + "?error=false"
@@ -79,7 +75,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         };
         
         paia = getAction(submissionParams);
-        showPageResult = (ShowPageResult) paia.executeAndPostProcess();
+        showPageResult = getShowPageResult(paia);
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
                      + "?error=false"
@@ -113,7 +109,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         
         try {
             paia = getAction(submissionParams);
-            showPageResult = (ShowPageResult) paia.executeAndPostProcess();
+            showPageResult = getShowPageResult(paia);
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                          + instructorHelper.email + "] for privilege [canmodifysession]", e.getMessage());
@@ -133,7 +129,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         
         try {
             paia = getAction(submissionParams);
-            showPageResult = (ShowPageResult) paia.executeAndPostProcess();
+            showPageResult = getShowPageResult(paia);
             signalFailureToDetectException();
         } catch (EntityNotFoundException enfe) {
             assertEquals("Instructor Email " + previewAsEmail + " does not exist in " + courseId + ".",
@@ -141,7 +137,8 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         }
     }
     
-    private InstructorFeedbackPreviewAsInstructorAction getAction(String... params) {
-        return (InstructorFeedbackPreviewAsInstructorAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackPreviewAsInstructorAction getAction(String... params) {
+        return (InstructorFeedbackPreviewAsInstructorAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

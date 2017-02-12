@@ -6,14 +6,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -25,7 +24,6 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.EmailChecker;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -34,7 +32,7 @@ import com.google.appengine.api.log.LogService.LogLevel;
 /**
  * SUT: {@link EmailGenerator}
  */
-public class EmailGeneratorTest extends BaseComponentTestCase {
+public class EmailGeneratorTest extends BaseLogicTest {
     
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -46,8 +44,6 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
         if (isGodModeEnabled) {
             System.setProperty("godmode", "true");
         }
@@ -417,11 +413,6 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         // check email body for no left placeholders
         assertFalse(emailContent.contains("${"));
-    }
-    
-    @AfterClass
-    public void classTearDown() {
-        printTestClassFooter();
     }
     
 }

@@ -1,28 +1,23 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackRemindParticularStudentsPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorFeedbackRemindParticularStudentsPageData;
 
-public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
-        BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
+public class InstructorFeedbackRemindParticularStudentsPageActionTest extends BaseActionTest {
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -65,7 +60,8 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         assertTrue(pageData.getResponseStatus().noResponse.contains("helper@course1.tmt"));
     }
     
-    private InstructorFeedbackRemindParticularStudentsPageAction getAction(String... params) {
-        return (InstructorFeedbackRemindParticularStudentsPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackRemindParticularStudentsPageAction getAction(String... params) {
+        return (InstructorFeedbackRemindParticularStudentsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

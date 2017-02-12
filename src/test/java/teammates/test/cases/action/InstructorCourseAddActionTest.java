@@ -1,10 +1,8 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
@@ -19,16 +17,13 @@ import teammates.ui.pagedata.InstructorCoursesPageData;
  * This also will be tested in UI testing.
  */
 public class InstructorCourseAddActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_ADD;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_ADD;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -48,7 +43,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         InstructorCourseAddAction addAction = getAction(Const.ParamsNames.COURSE_ID, invalidCourseId,
                                                         Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
                                                         Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
-        ShowPageResult pageResult = (ShowPageResult) addAction.executeAndPostProcess();
+        ShowPageResult pageResult = getShowPageResult(addAction);
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
@@ -78,7 +73,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
                               Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
                               Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
-        pageResult = (ShowPageResult) addAction.executeAndPostProcess();
+        pageResult = getShowPageResult(addAction);
         
         pageData = (InstructorCoursesPageData) pageResult.data;
         assertEquals(2, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
@@ -100,7 +95,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
                               Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
                               Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
-        pageResult = (ShowPageResult) addAction.executeAndPostProcess();
+        pageResult = getShowPageResult(addAction);
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
@@ -125,7 +120,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                               Const.ParamsNames.COURSE_ID, "ticac.tpa2.id",
                               Const.ParamsNames.COURSE_NAME, "ticac tpa2 name",
                               Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
-        pageResult = (ShowPageResult) addAction.executeAndPostProcess();
+        pageResult = getShowPageResult(addAction);
         
         String expectedDestination = Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, pageResult.getDestinationWithParams());
@@ -158,7 +153,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac.tpa2.id",
                               Const.ParamsNames.COURSE_NAME, "ticac tpa2 name",
                               Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
-        pageResult = (ShowPageResult) addAction.executeAndPostProcess();
+        pageResult = getShowPageResult(addAction);
         
         pageData = (InstructorCoursesPageData) pageResult.data;
         assertEquals(2, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
@@ -178,7 +173,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         assertEquals(expected, pageResult.getStatusMessage());
     }
     
-    private InstructorCourseAddAction getAction(String... parameters) {
-        return (InstructorCourseAddAction) gaeSimulation.getActionObject(uri, parameters);
+    @Override
+    protected InstructorCourseAddAction getAction(String... params) {
+        return (InstructorCourseAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -7,8 +7,8 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;

@@ -3,7 +3,7 @@
 <%@ page import="teammates.common.util.StringHelper" %>
 <%@ page import="teammates.logic.core.FeedbackQuestionsLogic" %>
 <%@ page import="teammates.logic.api.Logic" %>
-<%@ page import="teammates.common.datatransfer.StudentAttributes" %>
+<%@ page import="teammates.common.datatransfer.attributes.StudentAttributes" %>
 
 <!DOCTYPE html>
 <html>

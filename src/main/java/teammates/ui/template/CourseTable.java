@@ -2,8 +2,8 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.util.Sanitizer;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.util.SanitizationHelper;
 
 public class CourseTable {
     private String courseId;
@@ -23,7 +23,7 @@ public class CourseTable {
     }
     
     public String getCourseName() {
-        return Sanitizer.sanitizeForHtml(courseName);
+        return SanitizationHelper.sanitizeForHtml(courseName);
     }
     
     public List<ElementTag> getButtons() {

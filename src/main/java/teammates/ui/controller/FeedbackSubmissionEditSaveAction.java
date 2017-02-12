@@ -8,15 +8,15 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseDetails;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -25,9 +25,9 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
@@ -101,7 +101,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         
             Set<String> emailSet = data.bundle.getRecipientEmails(questionAttributes.getId());
             emailSet.add("");
-            emailSet = StringHelper.recoverFromSanitizedText(emailSet);
+            emailSet = SanitizationHelper.desanitizeFromHtml(emailSet);
             
             ArrayList<String> responsesRecipients = new ArrayList<String>();
             List<String> errors = new ArrayList<String>();

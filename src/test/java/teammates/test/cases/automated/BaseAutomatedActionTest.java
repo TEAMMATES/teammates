@@ -3,9 +3,9 @@ package teammates.test.cases.automated;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.EmailWrapper;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.automated.AutomatedAction;
@@ -15,20 +15,21 @@ import teammates.ui.automated.AutomatedAction;
  */
 public abstract class BaseAutomatedActionTest extends BaseComponentTestCase {
     
+    protected DataBundle dataBundle;
+    
     protected abstract String getActionUri();
     
-    protected abstract AutomatedAction getAction(String... submissionParams);
+    protected abstract AutomatedAction getAction(String... params);
     
     @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
+    public void baseClassSetup() {
+        prepareTestData();
         loginAsAdmin();
     }
     
-    @AfterClass
-    public void classTearDown() {
-        printTestClassFooter();
+    protected void prepareTestData() {
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreTypicalDataBundle();
     }
     
     protected void loginAsAdmin() {

@@ -1,27 +1,23 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.ui.controller.ActionResult;
+import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackQuestionVisibilityMessageAction;
 
 public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         String instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1").googleId;
@@ -52,7 +48,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         InstructorFeedbackQuestionVisibilityMessageAction a = getAction(typicalParams);
-        ActionResult r = a.executeAndPostProcess();
+        AjaxResult r = getAjaxResult(a);
 
         assertFalse(r.isError);
 
@@ -76,7 +72,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(customParams);
-        r = a.executeAndPostProcess();
+        r = getAjaxResult(a);
 
         assertFalse(r.isError);
 
@@ -103,7 +99,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(customParams);
-        r = a.executeAndPostProcess();
+        r = getAjaxResult(a);
 
         assertFalse(r.isError);
 
@@ -130,7 +126,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(customParams);
-        r = a.executeAndPostProcess();
+        r = getAjaxResult(a);
 
         assertFalse(r.isError);
 
@@ -162,7 +158,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(privateParams);
-        r = a.executeAndPostProcess();
+        r = getAjaxResult(a);
 
         assertFalse(r.isError);
 
@@ -186,12 +182,13 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         };
 
         a = getAction(privateParams);
-        r = a.executeAndPostProcess();
+        r = getAjaxResult(a);
 
         assertFalse(r.isError);
     }
 
-    private InstructorFeedbackQuestionVisibilityMessageAction getAction(String... params) {
-        return (InstructorFeedbackQuestionVisibilityMessageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackQuestionVisibilityMessageAction getAction(String... params) {
+        return (InstructorFeedbackQuestionVisibilityMessageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

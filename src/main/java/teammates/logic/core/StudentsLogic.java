@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -20,7 +20,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 
@@ -117,9 +117,8 @@ public final class StudentsLogic {
         studentsDb.deleteDocument(student);
     }
 
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
-                                                    String cursorString) {
-        return studentsDb.search(queryString, instructors, cursorString);
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
+        return studentsDb.search(queryString, instructors);
     }
 
     /**
@@ -127,11 +126,10 @@ public final class StudentsLogic {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
      * @param queryString
-     * @param cursorString
      * @return null if no result found
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
-        return studentsDb.searchStudentsInWholeSystem(queryString, cursorString);
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
+        return studentsDb.searchStudentsInWholeSystem(queryString);
     }
     
     public StudentProfileAttributes getStudentProfile(String googleId) {
@@ -479,7 +477,7 @@ public final class StudentsLogic {
         StringBuilder errorMessage = new StringBuilder(100);
         for (String team : invalidTeamList) {
             errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,
-                                              Sanitizer.sanitizeForHtml(team)));
+                                              SanitizationHelper.sanitizeForHtml(team)));
         }
 
         if (errorMessage.length() != 0) {
@@ -606,7 +604,7 @@ public final class StudentsLogic {
         
         for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
-            String sanitizedLine = Sanitizer.sanitizeForHtml(line);
+            String sanitizedLine = SanitizationHelper.sanitizeForHtml(line);
             try {
                 if (StringHelper.isWhiteSpace(line)) {
                     continue;
@@ -614,7 +612,7 @@ public final class StudentsLogic {
                 StudentAttributes student = saf.makeStudent(line, courseId);
                 
                 if (!student.isValid()) {
-                    String info = StringHelper.toString(Sanitizer.sanitizeForHtml(student.getInvalidityInfo()),
+                    String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
                                                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }

@@ -1,14 +1,12 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CommentSendingState;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -18,20 +16,16 @@ import teammates.ui.controller.InstructorFeedbackResponseCommentAddAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
-public class InstructorFeedbackResponseCommentAddActionTest extends
-        BaseActionTest {
+public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
     }
     
+    @Override
     @Test
-    public void testExcecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() throws Exception {
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
 
@@ -75,7 +69,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         };
         
         InstructorFeedbackResponseCommentAddAction action = getAction(submissionParams);
-        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+        ShowPageResult result = getShowPageResult(action);
         InstructorFeedbackResponseCommentAjaxPageData data =
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
@@ -96,7 +90,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -115,7 +109,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -133,7 +127,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -151,7 +145,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -169,7 +163,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -187,7 +181,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -205,7 +199,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -223,7 +217,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -245,7 +239,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         };
         
         action = getAction(submissionParams);
-        result = (ShowPageResult) action.executeAndPostProcess();
+        result = getShowPageResult(action);
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -264,7 +258,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         };
         
         action = getAction(submissionParams);
-        AjaxResult ajaxResult = (AjaxResult) action.executeAndPostProcess();
+        AjaxResult ajaxResult = getAjaxResult(action);
         assertEquals("", ajaxResult.getStatusMessage());
         data = (InstructorFeedbackResponseCommentAjaxPageData) ajaxResult.data;
         assertTrue(data.isError);
@@ -273,7 +267,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
     }
     
-    private InstructorFeedbackResponseCommentAddAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentAddAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackResponseCommentAddAction getAction(String... params) {
+        return (InstructorFeedbackResponseCommentAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

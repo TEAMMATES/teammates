@@ -1,13 +1,11 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.test.driver.AssertHelper;
@@ -15,12 +13,15 @@ import teammates.ui.controller.InstructorFeedbackQuestionCopyAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
-    private DataBundle dataBundle;
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY;
+    }
+    
+    @Override
+    protected void prepareTestData() {
+        // test data is refreshed before each test case
     }
 
     @BeforeMethod
@@ -40,6 +41,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         verifyUnaccessibleWithoutModifyCoursePrivilege(params);
     }
 
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -76,7 +78,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         };
 
         InstructorFeedbackQuestionCopyAction a = getAction(params);
-        RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
+        RedirectResult rr = getRedirectResult(a);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
@@ -107,7 +109,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         };
 
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        rr = getRedirectResult(a);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
@@ -138,7 +140,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
 
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        rr = getRedirectResult(a);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
@@ -157,7 +159,8 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
-    private InstructorFeedbackQuestionCopyAction getAction(String... params) {
-        return (InstructorFeedbackQuestionCopyAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackQuestionCopyAction getAction(String... params) {
+        return (InstructorFeedbackQuestionCopyAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

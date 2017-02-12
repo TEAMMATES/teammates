@@ -1,28 +1,23 @@
 package teammates.test.cases.action;
 
 import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorCourseStudentListDownloadAction;
 
 public class InstructorCourseStudentListDownloadActionTest extends BaseActionTest {
-
-    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
@@ -40,7 +35,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         
         ______TS("Typical case: student list downloaded successfully");
         InstructorCourseStudentListDownloadAction a = getAction(submissionParams);
-        FileDownloadResult r = (FileDownloadResult) a.executeAndPostProcess();
+        FileDownloadResult r = getFileDownloadResult(a);
         
         String expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());
@@ -73,7 +68,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         StudentsLogic.inst().updateStudentCascade(student1InCourse1.email, student1InCourse1);
         
         a = getAction(submissionParams);
-        r = (FileDownloadResult) a.executeAndPostProcess();
+        r = getFileDownloadResult(a);
         
         expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());
@@ -109,7 +104,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         StudentsLogic.inst().updateStudentCascade("student1InCourse1@gmail.tmt", student1InCourse1);
         
         a = getAction(submissionParams);
-        r = (FileDownloadResult) a.executeAndPostProcess();
+        r = getFileDownloadResult(a);
         
         expectedFileName = "idOfTypicalCourse1_studentList";
         assertEquals(expectedFileName, r.getFileName());
@@ -137,7 +132,8 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         
     }
     
-    private InstructorCourseStudentListDownloadAction getAction(String... params) {
-        return (InstructorCourseStudentListDownloadAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCourseStudentListDownloadAction getAction(String... params) {
+        return (InstructorCourseStudentListDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

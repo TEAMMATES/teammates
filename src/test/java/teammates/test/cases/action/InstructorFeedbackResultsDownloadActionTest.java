@@ -1,12 +1,10 @@
 package teammates.test.cases.action;
 
 import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.logic.core.StudentsLogic;
@@ -14,15 +12,13 @@ import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorFeedbackResultsDownloadAction;
 
 public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
@@ -66,7 +62,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         ______TS("Typical case: results downloadable");
 
         InstructorFeedbackResultsDownloadAction action = getAction(paramsNormal);
-        FileDownloadResult result = (FileDownloadResult) action.executeAndPostProcess();
+        FileDownloadResult result = getFileDownloadResult(action);
         
         String expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
@@ -85,7 +81,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         studentsLogic.updateStudentCascade(student1InCourse1.email, student1InCourse1);
 
         action = getAction(paramsNormal);
-        result = (FileDownloadResult) action.executeAndPostProcess();
+        result = getFileDownloadResult(action);
 
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
@@ -101,7 +97,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         ______TS("Typical case: results within section downloadable");
 
         action = getAction(paramsNormalWithinSection);
-        result = (FileDownloadResult) action.executeAndPostProcess();
+        result = getFileDownloadResult(action);
 
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
@@ -115,7 +111,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         try {
             action = getAction(paramsWithNullCourseId);
-            result = (FileDownloadResult) action.executeAndPostProcess();
+            result = getFileDownloadResult(action);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -127,7 +123,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         try {
             action = getAction(paramsWithNullFeedbackSessionName);
-            result = (FileDownloadResult) action.executeAndPostProcess();
+            result = getFileDownloadResult(action);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -137,7 +133,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         ______TS("Typical case: results with a filter text");
 
         action = getAction(paramsWithFilterText);
-        result = (FileDownloadResult) action.executeAndPostProcess();
+        result = getFileDownloadResult(action);
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
@@ -148,7 +144,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         ______TS("Typical case: results with missing responses shown");
         action = getAction(paramsWithMissingResponsesShown);
-        result = (FileDownloadResult) action.executeAndPostProcess();
+        result = getFileDownloadResult(action);
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
@@ -159,7 +155,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         ______TS("Typical case: results with missing responses hidden");
         action = getAction(paramsWithMissingResponsesHidden);
-        result = (FileDownloadResult) action.executeAndPostProcess();
+        result = getFileDownloadResult(action);
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
@@ -322,8 +318,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
     }
 
-    private InstructorFeedbackResultsDownloadAction getAction(String[] params) {
-        return (InstructorFeedbackResultsDownloadAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackResultsDownloadAction getAction(String... params) {
+        return (InstructorFeedbackResultsDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

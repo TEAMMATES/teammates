@@ -1,11 +1,9 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditPageAction;
@@ -14,15 +12,12 @@ import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 
 public class InstructorCourseStudentDetailsEditPageActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         
@@ -83,8 +78,9 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
 
     }
     
-    private InstructorCourseStudentDetailsEditPageAction getAction(String... params) {
-        return (InstructorCourseStudentDetailsEditPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorCourseStudentDetailsEditPageAction getAction(String... params) {
+        return (InstructorCourseStudentDetailsEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
 }

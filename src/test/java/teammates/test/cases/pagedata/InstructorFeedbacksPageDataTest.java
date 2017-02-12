@@ -8,14 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
@@ -29,11 +28,6 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
     
     private static DataBundle dataBundle = getTypicalDataBundle();
     private static final int NUMBER_OF_HOURS_IN_DAY = 24;
-    
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testInitWithoutDefaultFormValues() {

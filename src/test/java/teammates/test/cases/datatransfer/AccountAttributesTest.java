@@ -2,14 +2,12 @@ package teammates.test.cases.datatransfer;
 
 import static teammates.common.util.Const.EOL;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
@@ -18,11 +16,6 @@ import teammates.test.cases.BaseTestCase;
 public class AccountAttributesTest extends BaseTestCase {
     
     //TODO: test toString() method
-    
-    @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testGetInvalidStateInfo() throws Exception {
@@ -114,10 +107,10 @@ public class AccountAttributesTest extends BaseTestCase {
         AccountAttributes expectedAccount = createAccountAttributesToSanitize();
         actualAccount.sanitizeForSaving();
         
-        assertEquals(Sanitizer.sanitizeForHtml(expectedAccount.googleId), actualAccount.googleId);
-        assertEquals(Sanitizer.sanitizeForHtml(expectedAccount.name), actualAccount.name);
-        assertEquals(Sanitizer.sanitizeForHtml(expectedAccount.email), actualAccount.email);
-        assertEquals(Sanitizer.sanitizeForHtml(expectedAccount.institute), actualAccount.institute);
+        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.googleId), actualAccount.googleId);
+        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.name), actualAccount.name);
+        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.email), actualAccount.email);
+        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.institute), actualAccount.institute);
         expectedAccount.studentProfile.sanitizeForSaving();
         assertEquals(expectedAccount.studentProfile.toString(), actualAccount.studentProfile.toString());
     }
@@ -186,9 +179,4 @@ public class AccountAttributesTest extends BaseTestCase {
         
     }
     
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
-    }
-
 }

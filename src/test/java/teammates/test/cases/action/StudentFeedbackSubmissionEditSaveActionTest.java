@@ -3,18 +3,16 @@ package teammates.test.cases.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -25,21 +23,18 @@ import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditSaveAction;
 
 public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private final DataBundle dataBundle = getTypicalDataBundle();
 
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         ______TS("edit existing answer");
@@ -69,7 +64,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
-        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
+        RedirectResult r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -91,7 +86,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -112,7 +107,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -137,7 +132,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -178,7 +173,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertTrue(r.isError);
         assertEquals("You did not specify a recipient for your response in question 2.", r.getStatusMessage());
@@ -204,7 +199,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -228,7 +223,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertTrue(r.isError);
         assertEquals("You did not specify a recipient for your response in question 2.", r.getStatusMessage());
@@ -265,7 +260,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -286,7 +281,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -316,7 +311,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
         
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -352,7 +347,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -373,7 +368,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -403,7 +398,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
         
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -432,7 +427,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
         
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -461,7 +456,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
         
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -501,7 +496,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -526,7 +521,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -565,7 +560,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -587,7 +582,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -620,7 +615,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -642,7 +637,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -658,7 +653,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -674,7 +669,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         try {
             a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
+            r = getRedirectResult(a);
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
@@ -695,7 +690,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
 
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertTrue(r.isError);
         assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1"
@@ -718,7 +713,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
         
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertTrue(r.isError);
         assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1"
@@ -753,7 +748,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         };
         
         a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        r = getRedirectResult(a);
         
         assertTrue(r.isError);
 
@@ -782,15 +777,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         fsa = fsDb.getFeedbackSession(unregisteredStudent.course, fsa.getFeedbackSessionName());
         assertNotNull("Feedback session not found in database", fsa);
 
-        // Setting uri for unregistered student which contains the key of the student
         String studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course,
                                                                            unregisteredStudent.email);
-        uri = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
-                                          .withCourseId(unregisteredStudent.course)
-                                          .withSessionName(fsa.getFeedbackSessionName())
-                                          .withRegistrationKey(studentKey)
-                                          .withStudentEmail(unregisteredStudent.email)
-                                          .toString();
 
         // Valid response from unregistered student
         String[] validSubmissionParams = new String[]{
@@ -806,7 +794,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
                         StringHelper.toDecimalFormatString(fqd.getStep()),
-                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on"
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on",
+                
+                Const.ParamsNames.REGKEY, studentKey,
+                Const.ParamsNames.STUDENT_EMAIL, unregisteredStudent.email
         };
 
         StudentFeedbackSubmissionEditSaveAction submissionAction = getAction(validSubmissionParams);
@@ -833,14 +824,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         ______TS("Unregistered student with invalid submission of response remains at submission page");
 
-        // Setting uri for unregistered student which contains the key of the student
         studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
-        uri = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
-                                          .withCourseId(unregisteredStudent.course)
-                                          .withSessionName(fsa.getFeedbackSessionName())
-                                          .withRegistrationKey(studentKey)
-                                          .withStudentEmail(unregisteredStudent.email)
-                                          .toString();
 
         // Invalid response from unregistered student
         String[] invalidSubmissionParams = new String[]{
@@ -854,7 +838,11 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "100",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.getMinScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0", StringHelper.toDecimalFormatString(fqd.getStep())
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
+                        StringHelper.toDecimalFormatString(fqd.getStep()),
+                
+                Const.ParamsNames.REGKEY, studentKey,
+                Const.ParamsNames.STUDENT_EMAIL, unregisteredStudent.email
         };
 
         submissionAction = getAction(invalidSubmissionParams);
@@ -869,9 +857,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("100 is out of the range for Numerical-scale question.(min=1, max=5)",
                      redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();
-
-        // reset uri to normal submission page uri as it might be used by other testing methods
-        uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
 
     @Test
@@ -895,7 +880,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(fs.isInGracePeriod());
 
         StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
-        ActionResult r = a.executeAndPostProcess();
+        RedirectResult r = getRedirectResult(a);
 
         assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE + "?error=false&user=student1InCourse1",
                      r.getDestinationWithParams());
@@ -911,7 +896,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertTrue(fs.isInGracePeriod());
 
         a = getAction(submissionParams);
-        r = a.executeAndPostProcess();
+        r = getRedirectResult(a);
         assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE + "?error=false&user=student1InCourse1",
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
@@ -926,12 +911,13 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(fs.isInGracePeriod());
 
         a = getAction(submissionParams);
-        r = a.executeAndPostProcess();
+        r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
     }
 
-    private StudentFeedbackSubmissionEditSaveAction getAction(String... params) {
-        return (StudentFeedbackSubmissionEditSaveAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentFeedbackSubmissionEditSaveAction getAction(String... params) {
+        return (StudentFeedbackSubmissionEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

@@ -1,11 +1,9 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
@@ -14,15 +12,12 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
     
-    private final DataBundle dataBundle = getTypicalDataBundle();
-        
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -45,7 +40,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         };
         
         instructorFeedbackEditPageAction = getAction(submissionParams);
-        showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
+        showPageResult = getShowPageResult(instructorFeedbackEditPageAction);
         
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT
                          + "?error=false&user=" + instructor1OfCourse1.googleId;
@@ -72,7 +67,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         
         instructorFeedbackEditPageAction = getAction(submissionParams);
         try {
-            showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
+            showPageResult = getShowPageResult(instructorFeedbackEditPageAction);
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
@@ -80,7 +75,8 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         }
     }
     
-    private InstructorFeedbackEditPageAction getAction(String... params) {
-        return (InstructorFeedbackEditPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackEditPageAction getAction(String... params) {
+        return (InstructorFeedbackEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

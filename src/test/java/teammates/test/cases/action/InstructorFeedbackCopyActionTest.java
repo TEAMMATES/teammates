@@ -1,11 +1,9 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -14,12 +12,15 @@ import teammates.ui.controller.InstructorFeedbackCopyAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackCopyActionTest extends BaseActionTest {
-    DataBundle dataBundle;
     
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY;
+    }
+    
+    @Override
+    protected void prepareTestData() {
+        // test data is refreshed before each test case
     }
 
     @BeforeMethod
@@ -42,6 +43,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         verifyUnaccessibleWithoutModifyCoursePrivilege(params);
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         //TODO: find a way to test status message from session
@@ -69,7 +71,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         };
         
         InstructorFeedbackCopyAction a = getAction(params);
-        RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
+        RedirectResult rr = getRedirectResult(a);
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?courseid=" + instructor1ofCourse1.courseId
@@ -103,7 +105,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        RedirectResult pageResult = (RedirectResult) a.executeAndPostProcess();
+        RedirectResult pageResult = getRedirectResult(a);
         
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                            .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
@@ -132,7 +134,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        pageResult = (RedirectResult) a.executeAndPostProcess();
+        pageResult = getRedirectResult(a);
         
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                            .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
@@ -164,7 +166,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        rr = getRedirectResult(a);
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?courseid=" + instructor1ofCourse1.courseId
@@ -188,7 +190,8 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
     
-    private InstructorFeedbackCopyAction getAction(String... params) {
-        return (InstructorFeedbackCopyAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackCopyAction getAction(String... params) {
+        return (InstructorFeedbackCopyAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

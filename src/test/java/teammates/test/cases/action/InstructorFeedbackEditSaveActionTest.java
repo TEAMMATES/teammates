@@ -1,12 +1,10 @@
 package teammates.test.cases.action;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AjaxResult;
@@ -15,15 +13,12 @@ import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 
 public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-        
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE;
     }
     
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -47,7 +42,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                                                                 session.getFeedbackSessionName());
         
         InstructorFeedbackEditSaveAction a = getAction(params);
-        AjaxResult ar = (AjaxResult) a.executeAndPostProcess();
+        AjaxResult ar = getAjaxResult(a);
         InstructorFeedbackEditPageData pageData = (InstructorFeedbackEditPageData) ar.data;
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
@@ -73,7 +68,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         params[15] = "01/03/2012";
         
         a = getAction(params);
-        ar = (AjaxResult) a.executeAndPostProcess();
+        ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
         
         expectedString = "The start time for this feedback session cannot be "
@@ -92,7 +87,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         //remove instructions, grace period, start time to test null conditions
         
         a = getAction(params);
-        ar = (AjaxResult) a.executeAndPostProcess();
+        ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
@@ -125,7 +120,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         params = ArrayUtils.remove(params, 24);
         
         a = getAction(params);
-        ar = (AjaxResult) a.executeAndPostProcess();
+        ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
@@ -159,7 +154,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
         
         a = getAction(params);
-        ar = (AjaxResult) a.executeAndPostProcess();
+        ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
@@ -180,7 +175,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
     
-    private InstructorFeedbackEditSaveAction getAction(String... params) {
-        return (InstructorFeedbackEditSaveAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected InstructorFeedbackEditSaveAction getAction(String... params) {
+        return (InstructorFeedbackEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 }

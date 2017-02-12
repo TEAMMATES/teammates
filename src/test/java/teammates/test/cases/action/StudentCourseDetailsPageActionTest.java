@@ -2,20 +2,17 @@ package teammates.test.cases.action;
 
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.Action;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCourseDetailsPageAction;
@@ -24,15 +21,12 @@ import teammates.ui.pagedata.StudentCourseDetailsPageData;
 
 public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-        uri = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
+    @Override
+    protected String getActionUri() {
+        return Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
     }
-
+    
+    @Override
     @Test
     public void testExecuteAndPostProcess() {
 
@@ -96,7 +90,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse2"
         };
         
-        Action redirectAction = getAction(submissionParams);
+        StudentCourseDetailsPageAction redirectAction = getAction(submissionParams);
         RedirectResult redirectResult = this.getRedirectResult(redirectAction);
 
         assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE + "?error=true&user=student1InCourse1",
@@ -126,7 +120,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         
         // adding profile picture for student1InCourse1
         StudentProfileEditSaveAction action = getStudentProfileEditSaveAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        RedirectResult result = getRedirectResult(action);
         expectedProfile.googleId = student.googleId;
         assertFalse(result.isError);
         
@@ -169,8 +163,9 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         return spa;
     }
     
-    private StudentCourseDetailsPageAction getAction(String... params) {
-        return (StudentCourseDetailsPageAction) gaeSimulation.getActionObject(uri, params);
+    @Override
+    protected StudentCourseDetailsPageAction getAction(String... params) {
+        return (StudentCourseDetailsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
     
     private StudentProfileEditSaveAction getStudentProfileEditSaveAction(String[] submissionParams) {

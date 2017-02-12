@@ -29,7 +29,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @BeforeClass
-    protected void classSetup() {
+    public void classSetup() {
         feedbackEditPage = getFeedbackEditPage();
     }
 
@@ -43,11 +43,18 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     private void testStudentResultsPage() throws Exception {
-        ______TS("test rubric question student results page");
+        ______TS("test rubric question simple student results page");
 
-        StudentFeedbackResultsPage studentResultsPage =
+        StudentFeedbackResultsPage simpleResultsPage =
                                         loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
-        studentResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
+        simpleResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
+
+        ______TS("test rubric question extended student results page");
+
+        StudentFeedbackResultsPage extendedResultsPage =
+                loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession4");
+        extendedResultsPage.verifyHtmlMainContent("/studentExtendedFeedbackResultsPageRubric.html");
+
     }
     
     private void testInstructorResultsPage() throws Exception {
@@ -75,14 +82,14 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGQRView.html");
         
-        // Recipient Giver Question View
+        // Recipient Question Giver View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "recipient-question-giver");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRQGView.html");
         
-        // Recipient Question Giver View
+        // Recipient Giver Question View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "recipient-giver-question");
@@ -125,9 +132,11 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                                                     + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
         
         // Select table cell
+
+        submitPage.clickRubricRadio(1, 0, 0, 1);
+
         submitPage.clickRubricRadio(1, 1, 0, 1);
         submitPage.clickRubricRadio(1, 1, 1, 0);
-        submitPage.clickRubricRadio(1, 1, 0, 0);
 
         // Submit
         submitPage.clickSubmitButton();
@@ -146,6 +155,13 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         submitPage.clickRubricRadio(1, 1, 0, 0);
         submitPage.clickRubricRadio(1, 1, 1, 0);
+
+        submitPage.clickSubmitButton();
+
+        submitPage = loginToStudentFeedbackSubmitPage("colin.tmms@FRubricQnUiT.CS2104", "openSession2");
+
+        submitPage.clickRubricRadio(1, 0, 0, 1);
+        submitPage.clickRubricRadio(1, 0, 1, 0);
 
         submitPage.clickSubmitButton();
     }
@@ -179,10 +195,10 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("empty weight test");
 
-        feedbackEditPage.fillNewQuestionBox("empty weight test");
-        feedbackEditPage.fillNewQuestionDescription("more details");
-        feedbackEditPage.clickAssignWeightsCheckbox(-1);
-        feedbackEditPage.fillRubricWeightBox("", -1, 3);
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("empty weight test");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 3);
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.verifyStatus(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
@@ -201,8 +217,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RUBRIC");
-        feedbackEditPage.fillNewQuestionBox("RUBRIC qn");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("RUBRIC qn");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
@@ -220,8 +236,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         // Check that fields are editable
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEdit.html");
         
-        feedbackEditPage.fillEditQuestionBox("edited RUBRIC qn text", 1);
-        feedbackEditPage.fillEditQuestionDescription("more details", 1);
+        feedbackEditPage.fillQuestionTextBox("edited RUBRIC qn text", 1);
+        feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         
@@ -334,8 +350,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectNewQuestionType("RUBRIC");
         
         // start editing it
-        feedbackEditPage.fillNewQuestionBox("RUBRIC qn JS validation test");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("RUBRIC qn JS validation test");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
         
         feedbackEditPage.clickEditQuestionButton(1);
