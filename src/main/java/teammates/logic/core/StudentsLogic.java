@@ -351,7 +351,8 @@ public final class StudentsLogic {
         return new CourseEnrollmentResult(returnList, enrollmentList);
     }
 
-    private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students) throws EnrollException {
+    private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students)
+            throws EnrollException {
         if (students.size() > Const.SIZE_LIMIT_PER_ENROLLMENT) {
             throw new EnrollException(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED);
         }

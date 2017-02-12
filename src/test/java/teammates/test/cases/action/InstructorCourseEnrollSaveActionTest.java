@@ -227,7 +227,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollStringBuilder.append("Section\tTeam\tName\tEmail");
         for (int i = 0; i < Const.SIZE_LIMIT_PER_ENROLLMENT; i++) {
             enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i
-                                                         + "\temail" + i + "@nonexistemail.nonexist");
+                    + "\temail" + i + "@nonexistemail.nonexist");
         }
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -240,9 +240,11 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         verifyNoTasksAdded(enrollAction);
         
         //fail to enroll, if exceed the range
-        enrollStringBuilder.append(Const.EOL).append("section" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\tteam" + Const.SIZE_LIMIT_PER_ENROLLMENT
-                                                     + "\tname" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\temail" + Const.SIZE_LIMIT_PER_ENROLLMENT
-                                                     + "@nonexistemail.nonexist");
+        enrollStringBuilder.append(Const.EOL).append(
+                "section" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\tteam" + Const.SIZE_LIMIT_PER_ENROLLMENT
+                        + "\tname" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\temail"
+                        + Const.SIZE_LIMIT_PER_ENROLLMENT
+                        + "@nonexistemail.nonexist");
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()
