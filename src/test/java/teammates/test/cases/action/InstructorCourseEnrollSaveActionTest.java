@@ -227,7 +227,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollStringBuilder.append("Section\tTeam\tName\tEmail");
         for (int i = 0; i < Const.SIZE_LIMIT_PER_ENROLLMENT; i++) {
             enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i
-                    + "\temail" + i + "@nonexistemail.nonexist");
+                                                         + "\temail" + i + "@nonexistemail.nonexist");
         }
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
