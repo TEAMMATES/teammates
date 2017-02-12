@@ -18,9 +18,20 @@ coverage:
   status:
     project:
       default: off
-      production-only: # production-only code coverage
+
+      # production-only code coverage
+      production_only:
+        threshold: 0.5% # allow small drop in coverage
         paths:
           - "src/main/"
-      all-codes: # production + test code coverage
+
+      # production + test code coverage
+      all_codes:
+        threshold: 0.5% # allow small drop in coverage
         paths:
           - "src/"
+
+    patch:
+      default:
+        # enforce manually; sometimes used codes are not "covered" e.g. back-end codes used in front-end
+        threshold: 100%
