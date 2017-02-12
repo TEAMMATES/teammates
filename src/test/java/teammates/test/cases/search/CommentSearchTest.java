@@ -106,8 +106,7 @@ public class CommentSearchTest extends BaseSearchTest {
                  Arrays.asList(comment1FromI1C1toS1C1, comment2FromI1C1toS1C1, comment1FromI1C1toT11C1,
                          comment1FromI1C1toSE1C1),
                  bundle.giverCommentTable.get("instructor1@course1.tmtidOfTypicalCourse1"));
-        
-        
+                
         // course id
         bundle = commentsDb.search("idOfTypicalCourse2", Arrays.asList(ins1InCourse1, ins1InCourse2));
         
@@ -139,9 +138,9 @@ public class CommentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for comments; query string matches some comments based on comment visibility");
         
-        // Test case : not in the same course
+        // Test case : instructor not in the same course cannot view comment
         
-        // Test case : comment not visible to instructorS
+        // Test case : instructor cannot view comment that is not visible to instructors
 
         // The above cases are tested in the previous test case
         
@@ -166,7 +165,7 @@ public class CommentSearchTest extends BaseSearchTest {
         assertTrue(bundle.giverTable.isEmpty());
         assertTrue(bundle.recipientTable.isEmpty());
         
-        ______TS("success: search for students; deleted comment without deleted comment: the document "
+        ______TS("success: search for comments; deleted comment without deleted comment: the document "
                  + "will be deleted during the search");
         
         commentsDb.deleteEntity(comment1FromI3C1toS2C1);
