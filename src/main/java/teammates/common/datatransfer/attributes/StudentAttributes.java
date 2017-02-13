@@ -374,10 +374,7 @@ public class StudentAttributes extends EntityAttributes {
     }
     
     /**
-     * Checks whether the edit form of student has changed the email value.
-     * 
-     * @param originalStudentAttribute
-     * @return true if email value has changed from its original value.
+     * Returns true if email value has changed from its original value.
      */
     public boolean isEmailChanged(StudentAttributes originalStudentAttribute) {
         return this.email != null && !this.email.equals(originalStudentAttribute.email);
