@@ -12,8 +12,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 /**
- * Task queue worker action: Puts the necessary items into documents
- * to reduce calls to database made by AdminAccountInstructorAddAction
+ * Task queue worker action: Puts searchable documents for entities in a specified course
  */
 public class SearchableDocumentsProductionWorkerAction extends AutomatedAction {
     

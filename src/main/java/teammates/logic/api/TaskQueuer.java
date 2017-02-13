@@ -296,11 +296,9 @@ public class TaskQueuer {
     
     /**
      * Schedules production of searchable documents
-     * Task queue handles this so that instructor account creation depends on less database calls
      * 
      * @param courseId the course ID of the feedback session
-     * @param feedbackSessionName the name of the feedback session
-     * @param enrollmentList the list of enrollment details
+     * @param instructorEmail email address of instructor
      */
     public void scheduleSearchableDocumentsProduction(String courseId, String instructorEmail) {
         Map<String, String> paramMap = new HashMap<String, String>();

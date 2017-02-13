@@ -202,7 +202,7 @@ public class AdminInstructorAccountAddAction extends Action {
             log.warning("Data Persistence was Checked Twice in This Request");
         }
         
-        //produce searchable documents
+        //task queue is used here to reduce calls to database so that action can finish in time
         taskQueuer.scheduleSearchableDocumentsProduction(
                 courseId, pageData.instructorEmail);
         

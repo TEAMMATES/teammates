@@ -96,7 +96,7 @@
     
     <queue>
         <name>searchable-documents-production-queue</name>
-        <!-- Configuration allows for 5 sets of documents to be queued when the bucket is not full -->
+        <!-- Configuration allows for 10 sets of documents to be queued when the bucket is not full -->
         <rate>10/s</rate>
         <bucket-size>20</bucket-size>
         <retry-parameters>
