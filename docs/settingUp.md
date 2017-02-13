@@ -120,12 +120,13 @@ More information can be found at [this documentation](https://help.github.com/ar
 1. Configure IntelliJ
    * Click `Configure → Project Defaults → Project Structure`.
    * Under `Project SDK`, click `New → JDK`. Locate the `Java` folder where you have installed the `JDK 1.7`.
-   *  Select `jdk1.7.0_80` and click `OK`.
+   * Select `jdk1.7.0_80` and click `OK`.
    * Click `OK`.
-
+1. Configure Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
+   * Go to `File → Settings → Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `HTML`, `CSS` and `XML`.
 1. Import the project into IntelliJ.
    * Click `Import existing project` and select the `teammates` folder.
-   * Click `Import project from external model`.
+   * Click `Import project from external model → Gradle`.
    * Click `Next`.
    * Check `Use auto-import`.
    * Click `Finish`.
