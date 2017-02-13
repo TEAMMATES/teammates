@@ -434,3 +434,35 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
 }
 
 // --------------------------------------------------------------------------
+
+/**
+ * Selects contents inside an element.
+ * @param {HTML DOM Object} elementNode The element to select contents from.
+ */
+function selectElementContents(elementNode) {
+    var body = document.body;
+    var range;
+    if (document.createRange && window.getSelection) {
+        range = document.createRange();
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        try {
+            range.selectNodeContents(elementNode);
+            selection.addRange(range);
+        } catch (e) {
+            range.selectNode(elementNode);
+            selection.addRange(range);
+        }
+    } else if (body.createTextRange) {
+        range = body.createTextRange();
+        range.moveToElementText(elementNode);
+        range.select();
+    }
+}
+
+/**
+ * Simulates the copy action in the right-click menu, typically 'Ctrl + C'.
+ */
+function executeCopyCommand() {
+    document.execCommand('copy');
+}

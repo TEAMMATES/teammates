@@ -57,6 +57,8 @@ public final class Const {
     public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
     public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
     
+    public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
+    
     // for course sorting in instructorHomePage
     public static final String SORT_BY_COURSE_ID = "id";
     public static final String SORT_BY_COURSE_NAME = "name";

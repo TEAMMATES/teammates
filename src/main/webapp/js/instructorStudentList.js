@@ -24,12 +24,48 @@ $(document).ready(function() {
 
     // Binding for 'Show Emails' check box.
     $('#show_email').on('change', function() {
+        var $copyEmailButton = $('#copy-email-button');
+        var $emails = $('#emails');
+        
         if (this.checked) {
-            $('#emails').show();
+            $emails.show();
+            $copyEmailButton.show();
         } else {
-            $('#emails').hide();
+            $emails.hide();
+            $copyEmailButton.hide();
         }
+        
         filterEmails();
+    });
+    
+    // Binding for copy email button
+    var copyEmailPopoverTimeout;
+    $('#copy-email-button').click(function(e) {
+        e.preventDefault();
+        clearTimeout(copyEmailPopoverTimeout);
+        var $copyEmailButton = $(this);
+        var tips = 'Emails now are copied. If it doesn\'t work, you can also use <kbd>Ctrl + C</kbd> to COPY.<br>'
+                   + 'You may use <kbd>Ctrl + V</kbd> to PASTE to your email client. <br>'
+                   + '<small class="text-muted">This message will disappear in 10 seconds</small>';
+        
+        $copyEmailButton
+            .popover('destroy')
+            .popover({
+                html: true,
+                trigger: 'manual',
+                placement: 'top',
+                content: function() {
+                    return tips;
+                }
+            })
+            .popover('show');
+        
+        selectElementContents($('#emails').get(0));
+        executeCopyCommand();
+        
+        copyEmailPopoverTimeout = setTimeout(function() {
+            $copyEmailButton.popover('destroy');
+        }, 10000); // popover will disappear in 10 seconds
     });
 
     // Binding for changes in the Courses checkboxes.

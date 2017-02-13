@@ -8,7 +8,7 @@ import teammates.common.util.StatusMessageColor;
 /**
  * Action: Delete a course for an instructor
  */
-public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
+public class InstructorCourseDeleteAction extends Action {
         
     @Override
     public ActionResult execute() {
