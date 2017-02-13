@@ -60,10 +60,22 @@ public class InstructorSearchTest extends BaseSearchTest {
         verifySearchResults(results, ins1InCourse2);
     }
 
+    // verifies that search results match with expected output
+    // To ignore keys in comparisons, this method modifies instructors passed into it to set keys to null
     private static void verifySearchResults(InstructorSearchResultBundle actual,
             InstructorAttributes... expected) {
         assertEquals(expected.length, actual.numberOfResults);
         assertEquals(expected.length, actual.instructorList.size());
+        standardizeInstructorsForComparison(expected);
+        standardizeInstructorsForComparison(
+                actual.instructorList.toArray(new InstructorAttributes[actual.instructorList.size()]));
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual.instructorList);
+    }
+    
+    // Sets the key field to null to ignore keys in instructor comparisons
+    private static void standardizeInstructorsForComparison(InstructorAttributes... instructors) {
+        for (InstructorAttributes instructor : instructors) {
+            instructor.key = null;
+        }
     }
 }
