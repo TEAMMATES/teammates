@@ -69,7 +69,6 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             
             if (isEmailChanged) {
                 logic.resetStudentGoogleId(student.email, courseId);
-                taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, student.email, true);
             }
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
