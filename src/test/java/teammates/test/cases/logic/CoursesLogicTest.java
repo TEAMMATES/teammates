@@ -375,8 +375,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("null parameter");
 
         try {
-            String nullableCourseId = null;
-            coursesLogic.getCourseSummary(nullableCourseId);
+            String nullCourseId = null;
+            coursesLogic.getCourseSummary(nullCourseId);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
