@@ -299,30 +299,17 @@ public final class StudentsLogic {
         if (enrollLines.isEmpty()) {
             throw new EnrollException(Const.StatusMessages.ENROLL_LINE_EMPTY);
         }
+
+        // Student is built in getInvalidityInfoInEnrollLines 
+        ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+        List<String> invalidityInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId, studentList);
         
-        List<String> invalidityInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
         if (!invalidityInfo.isEmpty()) {
             throw new EnrollException(StringHelper.toString(invalidityInfo, "<br>"));
         }
         
         ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
         ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
-        ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-        
-        String[] linesArray = enrollLines.split(Const.EOL);
-
-        StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
-        
-        for (int i = 1; i < linesArray.length; i++) {
-            String line = linesArray[i];
-            
-            if (StringHelper.isWhiteSpace(line)) {
-                continue;
-            }
-            
-            StudentAttributes student = saf.makeStudent(line, courseId);
-            studentList.add(student);
-        }
 
         verifyIsWithinSizeLimitPerEnrollment(studentList);
         validateSectionsAndTeams(studentList, courseId);
@@ -594,7 +581,7 @@ public final class StudentsLogic {
     /* All empty lines or lines with only white spaces will be skipped.
      * The invalidity info returned are in HTML format.
      */
-    private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws EnrollException {
+    private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId, List<StudentAttributes> studentList) throws EnrollException {
         List<String> invalidityInfo = new ArrayList<String>();
         String[] linesArray = lines.split(Const.EOL);
         ArrayList<String> studentEmailList = new ArrayList<String>();
@@ -625,6 +612,7 @@ public final class StudentsLogic {
                 }
                 
                 studentEmailList.add(student.email);
+                studentList.add(student);
             } catch (EnrollException e) {
                 String info = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, e.getMessage());
                 invalidityInfo.add(info);
