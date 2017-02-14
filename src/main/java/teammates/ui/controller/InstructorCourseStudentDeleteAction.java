@@ -6,7 +6,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
-public class InstructorCourseStudentDeleteAction extends InstructorCoursesPageAction {
+public class InstructorCourseStudentDeleteAction extends Action {
     
     @Override
     public ActionResult execute() {
