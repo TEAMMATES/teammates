@@ -79,29 +79,4 @@ function attachEventToSendInviteLink() {
     });
 }
 
-/**
- * function that select the whole table
- * @param el
- */
-function selectElementContents(el) {
-    var body = document.body;
-    var range;
-    if (document.createRange && window.getSelection) {
-        range = document.createRange();
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        try {
-            range.selectNodeContents(el);
-            sel.addRange(range);
-        } catch (e) {
-            range.selectNode(el);
-            sel.addRange(range);
-        }
-    } else if (body.createTextRange) {
-        range = body.createTextRange();
-        range.moveToElementText(el);
-        range.select();
-    }
-}
-
 var isShowCommentBox = false;
