@@ -456,7 +456,7 @@ public abstract class Action {
      *
      * @param paramName  a constant from the {@link Const.ParamsNames} class.
      * @return the value of the specified parameter.
-     * @throws @link{NullPostParameterException} if the parameter is not present in the http request.
+     * @throws NullPostParameterException if the parameter is not present in the http request.
      */
     public String getNonNullRequestParamValue(String paramName) {
         String value = getRequestParamValue(paramName);
@@ -476,7 +476,7 @@ public abstract class Action {
      *
      * @param paramName  a constant from the {@link Const.ParamsNames} class.
      * @return the values of the specified parameter.
-     * @throws @link{NullPostParameterException} if the parameter is not present in the http request.
+     * @throws NullPostParameterException if the parameter is not present in the http request.
      */
     public String[] getNonNullRequestParamValues(String paramName) {
         String[] values = getRequestParamValues(paramName);
