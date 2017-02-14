@@ -737,6 +737,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asponde25"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Anthony Schneider
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ABr35Ba56"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Aravind Putrevu
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AAravindPutrevu"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
@@ -868,6 +872,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AMynk96"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Megan Belle
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aonealml"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Meng Lingyao
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Alingyaomeng1"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
@@ -885,6 +893,10 @@
                 </li>
                 <li>Paramsothy Sanshayan 
                     [bug reporting/fixing, enhancements]
+                </li>
+                <li>Pratyush Talreja
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3APratyushTalreja"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Prithviraj Billa 
                     [bug reporting/fixing, enhancements]
@@ -931,6 +943,10 @@
                 </li>
                 <li>Steven Khong 
                     [bug reporting/fixing, enhancements]
+                </li>
+                <li>Taras Sakharchuk
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ALimeTheCoder"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Tarun Bansal 
                     [bug reporting/fixing, enhancements]
