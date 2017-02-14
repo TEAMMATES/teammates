@@ -134,9 +134,15 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
                                       "newemail@gmail.tmt");
         assertEquals("New name", student.name);
         assertEquals("New team", student.team);
-        assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);
         assertEquals("newemail@gmail.tmt", student.email);
         assertEquals("New comments", student.comments);
+        assertTrue(student.googleId.isEmpty()); // Due to Google ID reset
+        
+        // Verify adding the original student again does not overwrite the edited entity
+        BackDoor.createStudent(testData.students.get("registeredStudent"));
+        student = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
+                                      "newemail@gmail.tmt");
+        assertNotNull(student);
     }
 
 }

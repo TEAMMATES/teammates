@@ -153,10 +153,6 @@ public final class CoursesLogic {
         }
     }
 
-    public CourseDetailsBundle getCourseDetails(String courseId) throws EntityDoesNotExistException {
-        return getCourseSummary(courseId);
-    }
-
     /**
      * @param googleId The Google ID of the student
      * @return a list of {@link CourseDetailsBundle course details} for all
