@@ -8,26 +8,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CommentsDb;
@@ -221,7 +220,13 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students.values()) {
             StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.course, student.email);
             studentsDb.putDocument(studentInDb);
-            ThreadHelper.waitFor(50);
+        }
+        
+        Map<String, InstructorAttributes> instructors = dataBundle.instructors;
+        for (InstructorAttributes instructor : instructors.values()) {
+            InstructorAttributes instructorInDb =
+                    instructorsDb.getInstructorForEmail(instructor.courseId, instructor.email);
+            instructorsDb.putDocument(instructorInDb);
         }
         
         Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;

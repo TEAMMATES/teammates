@@ -3,8 +3,8 @@ package teammates.ui.pagedata;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
 import teammates.ui.template.InstructorStudentListFilterBox;
 import teammates.ui.template.InstructorStudentListFilterCourse;

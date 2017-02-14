@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -33,7 +33,6 @@ import teammates.storage.api.StudentsDb;
 public final class StudentsLogic {
     
     private static final int SECTION_SIZE_LIMIT = 100;
-    private static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
     private static StudentsLogic instance = new StudentsLogic();
     
@@ -117,9 +116,8 @@ public final class StudentsLogic {
         studentsDb.deleteDocument(student);
     }
 
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
-                                                    String cursorString) {
-        return studentsDb.search(queryString, instructors, cursorString);
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
+        return studentsDb.search(queryString, instructors);
     }
 
     /**
@@ -127,11 +125,10 @@ public final class StudentsLogic {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
      * @param queryString
-     * @param cursorString
      * @return null if no result found
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
-        return studentsDb.searchStudentsInWholeSystem(queryString, cursorString);
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
+        return studentsDb.searchStudentsInWholeSystem(queryString);
     }
     
     public StudentProfileAttributes getStudentProfile(String googleId) {
@@ -355,7 +352,7 @@ public final class StudentsLogic {
     }
 
     private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students) throws EnrollException {
-        if (students.size() > SIZE_LIMIT_PER_ENROLLMENT) {
+        if (students.size() > Const.SIZE_LIMIT_PER_ENROLLMENT) {
             throw new EnrollException(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED);
         }
     }

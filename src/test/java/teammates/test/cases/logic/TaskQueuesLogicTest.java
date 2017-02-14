@@ -10,7 +10,6 @@ import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.TaskWrapper;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.core.TaskQueuesLogic;
-import teammates.test.cases.BaseComponentTestCase;
 
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
@@ -18,7 +17,7 @@ import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 /**
  * SUT: {@link TaskQueuesLogic}.
  */
-public class TaskQueuesLogicTest extends BaseComponentTestCase {
+public class TaskQueuesLogicTest extends BaseLogicTest {
     
     private static final TaskQueuesLogic taskQueuesLogic = new TaskQueuesLogic();
     
@@ -26,6 +25,11 @@ public class TaskQueuesLogicTest extends BaseComponentTestCase {
     @BeforeTest
     public void testSetup() {
         gaeSimulation.setupWithTaskQueueCallbackClass(MockTaskQueueCallback.class);
+    }
+    
+    @Override
+    protected void prepareTestData() {
+        // no test data used in this test
     }
     
     @SuppressWarnings("serial")

@@ -5,8 +5,8 @@ import java.io.File;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -100,7 +100,15 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(1);
         // This is the full HTML verification for Instructor Student List Page, the rest can all be verifyMainHtml
         viewPage.verifyHtml("/instructorStudentListWithHelperView.html");
-
+        
+        // verify copy email functionality
+        viewPage.toggleShowEmailCheckbox();
+        assertFalse(viewPage.isCopyEmailButtonVisible());
+        viewPage.toggleShowEmailCheckbox();
+        viewPage.clickCopyEmailButton();
+        assertTrue(viewPage.isCopyEmailPopoverVisible());
+        assertEquals(viewPage.getShownEmailsText(), viewPage.getSelectedText().trim());
+        
         // update current instructor privileges
         BackDoor.deleteInstructor(instructorWith2Courses.courseId, instructorWith2Courses.email);
         instructorWith2Courses.privileges.setDefaultPrivilegesForCoowner();

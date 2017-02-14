@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -30,7 +30,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void classSetup() throws Exception {
-        printTestClassHeader();
         addInstructorsToDb();
     }
     
@@ -499,7 +498,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     @AfterClass
     public void classTearDown() {
         deleteInstructorsFromDb();
-        printTestClassFooter();
     }
     
     private static void deleteInstructorsFromDb() {

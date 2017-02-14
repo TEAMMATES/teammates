@@ -6,15 +6,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -38,11 +36,6 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         
     }
     
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
-
     @Test
     public void testDefaultTimestamp() {
         
@@ -353,8 +346,4 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 }

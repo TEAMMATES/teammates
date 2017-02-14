@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -40,7 +39,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     @BeforeClass
     public void classSetup() throws Exception {
-        printTestClassHeader();
         frcDb.createEntity(frcaData);
         frcDb.createEntity(anotherFrcaData);
         frcaData = frcDb.getFeedbackResponseComment(frcaData.feedbackResponseId,
@@ -460,11 +458,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         
         AssertHelper.assertSameContentIgnoreOrder(expectedFrcas, actualFrcas);
         
-    }
-
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
     }
 
 }

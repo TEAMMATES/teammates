@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
@@ -35,7 +35,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
 
         ______TS("Typical case: Send email to remind an instructor to register for the course");
         gaeSimulation.loginAsInstructor(instructorId);
-        InstructorAttributes anotherInstructorOfCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
+        InstructorAttributes anotherInstructorOfCourse1 = dataBundle.instructors.get("instructorNotYetJoinCourse1");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email
@@ -48,11 +48,12 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + anotherInstructorOfCourse1.email,
                      redirectResult.getStatusMessage());
-             
+
         String expectedLogSegment = "Registration Key sent to the following users "
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
                 + anotherInstructorOfCourse1.name + "<span class=\"bold\"> ("
-                + anotherInstructorOfCourse1.email + ")" + "</span>.<br>";
+                + anotherInstructorOfCourse1.email + ")" + "</span>.<br>"
+                + StringHelper.encrypt(anotherInstructorOfCourse1.key) + "<br>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
 
         verifySpecifiedTasksAdded(remindAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);

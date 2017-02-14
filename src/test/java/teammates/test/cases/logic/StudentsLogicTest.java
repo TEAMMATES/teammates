@@ -6,22 +6,20 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
@@ -41,24 +39,16 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.entity.CourseStudent;
-import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
-public class StudentsLogicTest extends BaseComponentTestCase {
+public class StudentsLogicTest extends BaseLogicTest {
     
     private static StudentsLogic studentsLogic = StudentsLogic.inst();
     private static AccountsLogic accountsLogic = AccountsLogic.inst();
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static DataBundle dataBundle = getTypicalDataBundle();
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-        removeAndRestoreTypicalDataBundle();
-    }
     
     @Test
     public void testAll() throws Exception {
@@ -1137,9 +1127,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     }
         
     @AfterClass
-    public static void classTearDown() {
+    public void classTearDown() {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
-        printTestClassFooter();
     }
     
     private void verifyEnrollmentDetailsForStudent(StudentAttributes expectedStudent, String oldTeam,

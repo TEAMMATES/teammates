@@ -6,14 +6,14 @@ import java.util.TimeZone;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackConstantSumResponseDetails;
-import teammates.common.datatransfer.FeedbackContributionResponseDetails;
-import teammates.common.datatransfer.FeedbackMsqResponseDetails;
-import teammates.common.datatransfer.FeedbackNumericalScaleResponseDetails;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
@@ -630,6 +630,29 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(19, 2, "100");
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        
+        ______TS("Responses with invalid recipients do not prevent submission");
+        StudentAttributes alice = testData.students.get("Alice");
+        
+        FeedbackQuestionAttributes questionFromDataBundle = testData.feedbackQuestions.get("qn4InSession1");
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(
+                questionFromDataBundle.courseId, questionFromDataBundle.feedbackSessionName,
+                questionFromDataBundle.questionNumber);
+        
+        FeedbackResponseAttributes existingResponse =
+                BackDoor.getFeedbackResponse(question.getId(), alice.team, "Team 2");
+        FeedbackResponseAttributes response = new FeedbackResponseAttributes(existingResponse);
+        response.recipient = "invalidRecipient";
+
+        String backDoorStatusForCreatingResponse = BackDoor.createFeedbackResponse(response);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorStatusForCreatingResponse);
+
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+
+        submitPage.submitWithoutConfirmationEmail();
+        // verify that existing responses with invalid recipients do not affect submission
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(StudentAttributes s, String fsDataId) {

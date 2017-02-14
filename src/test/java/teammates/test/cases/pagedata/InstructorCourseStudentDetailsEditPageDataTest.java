@@ -1,10 +1,9 @@
 package teammates.test.cases.pagedata;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 import teammates.ui.template.StudentInfoTable;
@@ -14,11 +13,6 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
     private StudentAttributes inputStudent;
     private boolean hasSection = true;
 
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
-    
     @Test
     public void allTests() {
         InstructorCourseStudentDetailsEditPageData data = createData();

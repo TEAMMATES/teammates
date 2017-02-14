@@ -1,7 +1,7 @@
 package teammates.ui.pagedata;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 
 public class AdminEmailComposePageData extends AdminEmailPageData {
     public boolean isFileUploaded;

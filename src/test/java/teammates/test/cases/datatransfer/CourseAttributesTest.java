@@ -2,11 +2,9 @@ package teammates.test.cases.datatransfer;
 
 import static teammates.common.util.Const.EOL;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
@@ -15,11 +13,6 @@ public class CourseAttributesTest extends BaseTestCase {
 
     //TODO: add test for constructor
     
-    @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
-    }
-
     @Test
     public void testValidate() throws Exception {
         
@@ -67,11 +60,6 @@ public class CourseAttributesTest extends BaseTestCase {
     
     public static CourseAttributes generateValidCourseAttributesObject() {
         return new CourseAttributes("valid-id-$_abc", "valid-name", "UTC");
-    }
-
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
     }
 
 }

@@ -5,13 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
@@ -44,18 +43,12 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void baseClassSetup() {
-        printTestClassHeader();
         prepareTestData();
     }
     
     protected void prepareTestData() {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreTypicalDataBundle();
-    }
-    
-    @AfterClass
-    public void baseClassTearDown() {
-        printTestClassFooter();
     }
     
     /** Executes the action and returns the result.

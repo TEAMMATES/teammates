@@ -9,13 +9,13 @@ import java.util.Set;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
-import teammates.common.datatransfer.EntityAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -490,17 +490,15 @@ public class CommentsDb extends EntitiesDb {
      * Search for comments
      * @return {@link CommentSearchResultBundle}
      */
-    public CommentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors,
-                                            String cursorString) {
+    public CommentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors) {
         if (queryString.trim().isEmpty()) {
             return new CommentSearchResultBundle();
         }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.COMMENT,
-                                                          new CommentSearchQuery(instructors, queryString,
-                                                                                 cursorString));
+                                                          new CommentSearchQuery(instructors, queryString));
         
-        return new CommentSearchResultBundle().fromResults(results, instructors);
+        return CommentSearchDocument.fromResults(results, instructors);
     }
     
     /**
