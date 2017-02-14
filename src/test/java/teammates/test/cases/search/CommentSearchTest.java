@@ -59,14 +59,14 @@ public class CommentSearchTest extends BaseSearchTest {
         bundle = commentsDb.search("instructor1@course1.tmt", Arrays.asList(ins1InCourse1, ins1InCourse2));
         
         expectedComments = Arrays.asList(comment1FromI1C1toS1C1, comment2FromI1C1toS1C1, comment1FromI1C1toT11C1,
-                comment1FromI1C1toSE1C1, comment1FromI1C1toC1);
+                                         comment1FromI1C1toSE1C1, comment1FromI1C1toC1);
         assertHasOwnComments(bundle, Arrays.asList(expectedComments), Arrays.asList(ins1InCourse1));
         
         // recipient's email
         bundle = commentsDb.search("student1InCourse1@gmail.tmt", Arrays.asList(ins1InCourse1, ins1InCourse2));
         
         expectedComments = Arrays.asList(comment1FromI1C1toS1C1, comment2FromI1C1toS1C1, comment1FromI1C1toT11C1,
-                comment1FromI1C1toSE1C1); // recipients also in the section and team
+                                         comment1FromI1C1toSE1C1); // recipients also in the section and team
         assertHasOwnComments(bundle, Arrays.asList(expectedComments), Arrays.asList(ins1InCourse1));
         
         // recipient's name
@@ -84,8 +84,8 @@ public class CommentSearchTest extends BaseSearchTest {
         // recipient's section
         bundle = commentsDb.search("\"Section 1\"", Arrays.asList(ins1InCourse1, ins1InCourse2));
         
-        expectedComments = Arrays.asList(comment1FromI1C1toS1C1, comment2FromI1C1toS1C1, comment1FromI1C1toT11C1,
-                comment1FromI1C1toSE1C1);
+        expectedComments = Arrays.asList(comment1FromI1C1toS1C1, comment2FromI1C1toS1C1,
+                                         comment1FromI1C1toT11C1, comment1FromI1C1toSE1C1);
         assertHasOwnComments(bundle, Arrays.asList(expectedComments), Arrays.asList(ins1InCourse1));
                 
         // course id
@@ -98,34 +98,35 @@ public class CommentSearchTest extends BaseSearchTest {
         bundle = commentsDb.search("Course", Arrays.asList(ins1InCourse2, ins3InCourse1));
         
         expectedComments = Arrays.asList(comment1FromI1C2toS1C2);
-        List<CommentAttributes> expectedCommentsForI3 = Arrays.asList(comment1FromI3C1toS2C1, comment1FromI3C1toC1);
+        List<CommentAttributes> expectedCommentsForI3 =
+                Arrays.asList(comment1FromI3C1toS2C1, comment1FromI3C1toC1);
         assertHasOwnComments(bundle, Arrays.asList(expectedComments, expectedCommentsForI3),
-                Arrays.asList(ins1InCourse2, ins3InCourse1));
+                             Arrays.asList(ins1InCourse2, ins3InCourse1));
         
         ______TS("success: search for comments; query string should be case-insensitive");
 
         bundle = commentsDb.search("sTuDeNt1INCourSe1@gMaIl.Tmt", Arrays.asList(ins1InCourse1, ins1InCourse2));
         
-        expectedComments = Arrays.asList(comment1FromI1C1toS1C1, comment2FromI1C1toS1C1, comment1FromI1C1toT11C1,
-                comment1FromI1C1toSE1C1);
+        expectedComments = Arrays.asList(comment1FromI1C1toS1C1, comment2FromI1C1toS1C1,
+                                         comment1FromI1C1toT11C1, comment1FromI1C1toSE1C1);
         assertHasOwnComments(bundle, Arrays.asList(expectedComments), Arrays.asList(ins1InCourse1));
 
         ______TS("success: search for comments; query string matches some comments based on comment visibility");
         
-        // Test case : instructor not in the same course cannot view comment
+        // Test case: instructor not in the same course cannot view comment
         
-        // Test case : instructor cannot view comment that is not visible to instructors
+        // Test case: instructor cannot view comment that is not visible to instructors
 
         // The above cases are tested in the previous test case
         
-        // instructors beside the giver can view the comment due to the visibility setting
+        // instructors besides the giver can view the comment due to the visibility setting
         bundle = commentsDb.search("idOfTypicalCourse2", Arrays.asList(ins2InCourse2));
         
         String giverAsKey = "Anonymous" + ins2InCourse2.courseId;
         assertEquals(1, bundle.numberOfResults);
         assertEquals(1, bundle.giverCommentTable.size());
-        assertSameCommentContentIgnoreOrder(Arrays.asList(comment1FromI1C2toS1C2),
-                 bundle.giverCommentTable.get(giverAsKey));
+        assertSameCommentContentIgnoreOrder(
+                Arrays.asList(comment1FromI1C2toS1C2), bundle.giverCommentTable.get(giverAsKey));
         assertEquals("Anonymous" + " (" + ins2InCourse2.courseId + ")", bundle.giverTable.get(giverAsKey));
         
         ______TS("success: search for comments; deleted comment no longer searchable");
@@ -154,9 +155,10 @@ public class CommentSearchTest extends BaseSearchTest {
         assertTrue(bundle.recipientTable.isEmpty());
     }
     
-    private void assertHasOwnComments(CommentSearchResultBundle bundle, List<List<CommentAttributes>> commentsList,
-            List<InstructorAttributes> instructorsList) {
-        assertEquals(commentsList.size(), instructorsList.size()); // every instructor has one comment List
+    private void assertHasOwnComments(CommentSearchResultBundle bundle,
+            List<List<CommentAttributes>> commentsList, List<InstructorAttributes> instructorsList) {
+        assertEquals(commentsList.size(), instructorsList.size()); // every instructor has one comments list
+        
         int totalComments = 0;
         for (int i = 0; i < commentsList.size(); i++) {
             List<CommentAttributes> comments = commentsList.get(i);
@@ -174,16 +176,16 @@ public class CommentSearchTest extends BaseSearchTest {
         assertEquals(totalComments, bundle.numberOfResults);
     }
     
-    private void assertSameCommentContentIgnoreOrder(List<CommentAttributes> commentsListA,
-            List<CommentAttributes> commentListB) {
+    private void assertSameCommentContentIgnoreOrder(
+            List<CommentAttributes> expectedCommentsList, List<CommentAttributes> actualCommentsList) {
         // as comment content is unique for every comment in test data,
         // we can assume same contents means same comments.
-        AssertHelper.assertSameContentIgnoreOrder(getCommentContentAsList(commentsListA),
-                getCommentContentAsList(commentListB));
+        AssertHelper.assertSameContentIgnoreOrder(
+                getCommentContentAsList(expectedCommentsList), getCommentContentAsList(actualCommentsList));
     }
 
     private List<String> getCommentContentAsList(List<CommentAttributes> commentsList) {
-        ArrayList<String> comments = new ArrayList<String>();
+        List<String> comments = new ArrayList<String>();
         for (CommentAttributes comment : commentsList) {
             comments.add(comment.commentText.getValue());
         }
