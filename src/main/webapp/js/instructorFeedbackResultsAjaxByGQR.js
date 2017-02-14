@@ -74,5 +74,4 @@ $(document).ready(function() {
     };
     var $sectionPanelHeadings = $('.ajax_auto');
     $sectionPanelHeadings.click(seeMoreRequest);
-    $('.ajax_auto').click();
 });

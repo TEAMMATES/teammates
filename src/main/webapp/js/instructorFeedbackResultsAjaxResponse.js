@@ -31,7 +31,6 @@ $(document).ready(function() {
     // ajax-response-auto automatically loads the noResponsePanel when the page is loaded
     $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
     $responseRatePanel.click(responseRateRequest);
-    $('.ajax-response-auto').click();
 });
 
 function getAppendedResponseRateData(data) {
