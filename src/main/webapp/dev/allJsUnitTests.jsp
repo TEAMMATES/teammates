@@ -1,54 +1,19 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
+<!DOCTYPE html>
 <html>
 <head>
-  <title>QUnit Testing Result</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" href="../../javascript/lib/qunit.css" type="text/css" media="screen" />
-  <script type="text/javascript" src="../../javascript/lib/qunit.js"></script>
-  <script type="text/javascript" src="../../javascript/lib/blanket.min.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/lib/jquery.min.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/lib/bootstrap.min.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/lib/tinymce.min.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/richTextEditor.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/common.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorCourses.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorCourseEnrollPage.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorCourseDetails.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbacks.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit/questionConstSum.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit/questionContrib.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit/questionMcq.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit/questionMsq.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit/questionNumScale.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit/questionRank.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit/questionRubric.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit/visibilityOptions.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit/feedbackPath.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorStudentList.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructor.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/student.js" data-cover></script>
-  <script type="text/javascript" src="../../../main/webapp/js/index.js"></script>
-
-  <script type="text/javascript" src="../../javascript/CommonTestFunctions.js"></script>
-  <!-- Test scripts -->
-  <script type="text/javascript" src="../../javascript/CommonJsTest.js"></script>
-  <script type="text/javascript" src="../../javascript/InstructorCourseDetailsJsTest.js"></script>
-  <script type="text/javascript" src="../../javascript/InstructorEnrolmentJsTest.js"></script>
-  <script type="text/javascript" src="../../javascript/InstructorFeedbacksJsTest.js"></script>
-  <script type="text/javascript" src="../../javascript/InstructorStudentListJsTest.js"></script>
-  <script type="text/javascript" src="../../javascript/InstructorJsTest.js"></script>
-  <script type="text/javascript" src="../../javascript/StudentJsTest.js"></script>
-  <script type="text/javascript" src="../../javascript/SubmissionCountJsTest.js"></script>
+    <title>QUnit Testing Result</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="<%= FrontEndLibrary.QUNIT_CSS %>" type="text/css" media="screen">
 </head>
 <body>
-  <div id="qunit"></div>
-  <div id="qunit-fixture"></div>
-  <div id="blanket-main"></div>
-  <hr /><hr /><hr />
-  <h3>Elements required for Testing</h3>
-  <span id= "submissionsNumber" class="submissionsNumber"></span>
-  Any HTML elements required for the above tests are located here. <br><br>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <div id="blanket-main"></div>
+    <hr><hr><hr>
+    <h3>Elements required for Testing</h3>
+    <span id= "submissionsNumber" class="submissionsNumber"></span>
+    Any HTML elements required for the above tests are located here. <br><br>
     <table class="inputTable" id="searchTable">
         <tbody>
             <tr>
@@ -201,8 +166,8 @@
             </div>
             <div class="table table-responsive table-striped table-bordered">
                 <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"
-                    href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
-                    title="<%=Const.Tooltips.COURSE_ENROLL%>"
+                    href=""
+                    title=""
                     data-toggle="tooltip"
                     data-placement="top">
                         <span class="glyphicon glyphicon-list"></span> Enroll
@@ -252,8 +217,8 @@
             </div>
             <div class="table table-responsive table-striped table-bordered">
                 <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"
-                    href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
-                    title="<%=Const.Tooltips.COURSE_ENROLL%>"
+                    href=""
+                    title=""
                     data-toggle="tooltip"
                     data-placement="top">
                         <span class="glyphicon glyphicon-list"></span> Enroll
@@ -334,5 +299,41 @@
         </table>
     </div>
     <div id="visible">Visible</div>
+    <script type="text/javascript" src="<%= FrontEndLibrary.QUNIT %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.BLANKET %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+    <script type="text/javascript" src="/js/richTextEditor.js" data-cover></script>
+    <script type="text/javascript" src="/js/common.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorCourses.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorCourseEnrollPage.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorCourseDetails.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorFeedbacks.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionConstSum.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionContrib.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionMcq.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionMsq.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionNumScale.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionRank.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionRubric.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/visibilityOptions.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/feedbackPath.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructorStudentList.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructor.js" data-cover></script>
+    <script type="text/javascript" src="/js/student.js" data-cover></script>
+    <script type="text/javascript" src="/js/index.js" data-cover></script>
+
+    <script type="text/javascript" src="/dev/CommonTestFunctions.js"></script>
+    <!-- Test scripts -->
+    <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
+    <script type="text/javascript" src="/dev/InstructorCourseDetailsJsTest.js"></script>
+    <script type="text/javascript" src="/dev/InstructorEnrolmentJsTest.js"></script>
+    <script type="text/javascript" src="/dev/InstructorFeedbacksJsTest.js"></script>
+    <script type="text/javascript" src="/dev/InstructorStudentListJsTest.js"></script>
+    <script type="text/javascript" src="/dev/InstructorJsTest.js"></script>
+    <script type="text/javascript" src="/dev/StudentJsTest.js"></script>
+    <script type="text/javascript" src="/dev/SubmissionCountJsTest.js"></script>
 </body>
 </html>
