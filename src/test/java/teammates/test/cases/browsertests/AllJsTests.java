@@ -1,5 +1,9 @@
 package teammates.test.cases.browsertests;
 
+import java.io.File;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -30,6 +34,26 @@ public class AllJsTests extends BaseUiTestCase {
                       .navigateTo(createUrl(Const.ViewURIs.JS_UNIT_TEST))
                       .changePageType(QUnitPage.class);
         page.waitForPageToLoad();
+    }
+
+    @Test
+    public void verifyAllJsTestFilesIncluded() {
+        Document pageSource = Jsoup.parse(page.getPageSource());
+        String testScripts = pageSource.getElementById("test-scripts").html();
+
+        File folder = new File("./src/main/webapp/dev");
+        File[] listOfFiles = folder.listFiles();
+        for (File f : listOfFiles) {
+            String fileName = f.getName();
+            if (fileName.endsWith("Test.js")) {
+                assertTrue(fileName + " is not present in JS test file",
+                           testScripts.contains(getSrcStringForJsTestFile(fileName)));
+            }
+        }
+    }
+
+    private String getSrcStringForJsTestFile(String fileName) {
+        return "src=\"/dev/" + fileName + "\"";
     }
 
     @Test
