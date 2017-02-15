@@ -18,11 +18,14 @@
     Any HTML elements required for the above tests are located here. <br><br>
 
     <input id="team_all" type="checkbox" checked="">
+    <button id="test-bootbox-button"></button>
+    <div id="test-bootbox-modal-stub"></div>
     <div id="visible">Visible</div>
     
     <!-- Library scripts -->
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTBOX %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.QUNIT %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BLANKET %>"></script>
