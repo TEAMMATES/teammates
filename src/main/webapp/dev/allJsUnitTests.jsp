@@ -305,6 +305,7 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js" data-cover></script>
+    <script type="text/javascript" src="/js/adminHome.js" data-cover></script>
     <script type="text/javascript" src="/js/common.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorCourses.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorCourseEnrollPage.js" data-cover></script>
