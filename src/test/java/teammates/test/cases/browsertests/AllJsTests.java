@@ -1,10 +1,9 @@
 package teammates.test.cases.browsertests;
 
-import java.io.IOException;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.util.Const;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.QUnitPage;
@@ -25,9 +24,10 @@ public class AllJsTests extends BaseUiTestCase {
     }
     
     @BeforeClass
-    public void classSetup() throws IOException {
+    public void classSetup() {
+        loginAdmin();
         page = AppPage.getNewPageInstance(browser)
-                      .navigateTo(createLocalUrl("/allJsUnitTests.html?coverage"))
+                      .navigateTo(createUrl(Const.ViewURIs.JS_UNIT_TEST))
                       .changePageType(QUnitPage.class);
         page.waitForPageToLoad();
     }
