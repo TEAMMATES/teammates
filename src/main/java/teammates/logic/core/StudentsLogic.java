@@ -33,7 +33,6 @@ import teammates.storage.api.StudentsDb;
 public final class StudentsLogic {
     
     private static final int SECTION_SIZE_LIMIT = 100;
-    private static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
     private static StudentsLogic instance = new StudentsLogic();
     
@@ -353,7 +352,7 @@ public final class StudentsLogic {
     }
 
     private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students) throws EnrollException {
-        if (students.size() > SIZE_LIMIT_PER_ENROLLMENT) {
+        if (students.size() > Const.SIZE_LIMIT_PER_ENROLLMENT) {
             throw new EnrollException(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED);
         }
     }
