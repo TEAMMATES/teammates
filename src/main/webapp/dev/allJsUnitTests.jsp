@@ -4,6 +4,8 @@
 <head>
     <title>QUnit Testing Result</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" type="text/css" media="screen">
+    <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" type="text/css" media="screen">
     <link rel="stylesheet" href="<%= FrontEndLibrary.QUNIT_CSS %>" type="text/css" media="screen">
 </head>
 <body>
@@ -299,14 +301,24 @@
         </table>
     </div>
     <div id="visible">Visible</div>
-    <script type="text/javascript" src="<%= FrontEndLibrary.QUNIT %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.BLANKET %>"></script>
+    
+    <!-- Library scripts -->
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.QUNIT %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.BLANKET %>"></script>
+
+    <!-- This contains helper functions for test -->
+    <script type="text/javascript" src="/dev/CommonTestFunctions.js"></script>
+
+    <!-- Own scripts; they should be equipped with data-cover attribute -->
+    <script type="text/javascript" src="/js/const.js" data-cover></script>
+    <script type="text/javascript" src="/js/common.js" data-cover></script>
     <script type="text/javascript" src="/js/richTextEditor.js" data-cover></script>
     <script type="text/javascript" src="/js/adminHome.js" data-cover></script>
-    <script type="text/javascript" src="/js/common.js" data-cover></script>
+    <script type="text/javascript" src="/js/index.js" data-cover></script>
+    <script type="text/javascript" src="/js/instructor.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorCourses.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorCourseEnrollPage.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorCourseDetails.js" data-cover></script>
@@ -322,11 +334,8 @@
     <script type="text/javascript" src="/js/instructorFeedbackEdit/visibilityOptions.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit/feedbackPath.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorStudentList.js" data-cover></script>
-    <script type="text/javascript" src="/js/instructor.js" data-cover></script>
     <script type="text/javascript" src="/js/student.js" data-cover></script>
-    <script type="text/javascript" src="/js/index.js" data-cover></script>
 
-    <script type="text/javascript" src="/dev/CommonTestFunctions.js"></script>
     <!-- Test scripts -->
     <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
     <script type="text/javascript" src="/dev/AdminHomeJsTest.js"></script>
