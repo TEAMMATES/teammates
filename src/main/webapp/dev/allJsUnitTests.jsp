@@ -328,6 +328,7 @@
     <script type="text/javascript" src="/dev/CommonTestFunctions.js"></script>
     <!-- Test scripts -->
     <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
+    <script type="text/javascript" src="/dev/AdminHomeJsTest.js"></script>
     <script type="text/javascript" src="/dev/InstructorCourseDetailsJsTest.js"></script>
     <script type="text/javascript" src="/dev/InstructorEnrolmentJsTest.js"></script>
     <script type="text/javascript" src="/dev/InstructorFeedbacksJsTest.js"></script>
