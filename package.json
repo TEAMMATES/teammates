@@ -1,0 +1,47 @@
+{
+  "dependencies": {
+    "bootbox": "4.4.0",
+    "bootstrap": "3.1.1",
+    "d3": "3.5.17",
+    "datamaps": "0.5.8",
+    "guillotine": "1.3.1",
+    "html5shiv": "3.7.3",
+    "jquery": "1.12.4",
+    "jquery-highlight": "3.3.0",
+    "jquery-ui-dist": "1.12.1",
+    "moment": "2.17.1",
+    "moment-timezone": "0.5.9",
+    "printthis": "0.1.5",
+    "respond.js": "1.4.2",
+    "tinymce": "4.5.1",
+    "topojson": "1.6.27"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-env": "^1.1.8",
+    "blanket": "1.2.3",
+    "eslint": "3.11.1",
+    "eslint-plugin-json": "1.2.0",
+    "stylelint": "7.6.0",
+    "qunitjs": "2.1.0"
+  },
+  "babel": {
+    "presets": [
+      ["env", {
+        "targets": {
+          "browsers": ["ie >= 9"]
+        }
+      }]
+    ]
+  },
+  "scripts": {
+    "build:test": "babel src/main/webapp/dev/ -x \".es6\" -d src/main/webapp/dev/",
+    "build:src": "babel src/main/webapp/js/ -x \".es6\" -d src/main/webapp/js/",
+    "build": "npm run build:src && npm run build:test",
+    "lint:src": "eslint src/main/webapp/js -c static-analysis/teammates-eslint.yml --ext es6",
+    "lint:test": "eslint src/main/webapp/dev/*.js -c static-analysis/teammates-eslint.yml",
+    "lint:json": "eslint src/main/webapp/js/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint.yml",
+    "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
+    "lint": "npm run lint:src && npm run lint:test && npm run lint:json && npm run lint:css"
+  }
+}
