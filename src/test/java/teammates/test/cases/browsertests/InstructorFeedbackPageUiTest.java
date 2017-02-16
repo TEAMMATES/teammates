@@ -752,7 +752,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(sdf.format(changedStartDate.getTime()), minValueOfPublishDate);
         
         
-        ______TS("decreasing end date does not affects start time or visible time");
+        ______TS("decreasing end date does not affect start time or visible time");
         Calendar changedEndDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         changedEndDate.set(2014, 1, 20, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, changedEndDate);
@@ -800,8 +800,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
         
         //check if maxDate is start time and not publish time
-        valueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(changedStartDate.getTime()), valueOfVisibleDate);
+        maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
+        assertEquals(sdf.format(changedStartDate.getTime()), maxValueOfVisibleDate);
     }
     
     public void testDefaultTimeZone() {
