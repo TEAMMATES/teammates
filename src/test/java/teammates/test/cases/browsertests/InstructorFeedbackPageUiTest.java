@@ -734,8 +734,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, changedStartDate);
         
         valueOfEndDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE);
-        assertEquals(sdf.format(initialCal.getTime()),
-                     valueOfEndDate);
+        assertEquals(sdf.format(initialCal.getTime()), valueOfEndDate);
         
         
         ______TS("decreasing start date affects visible time, end date range and publish date range");
@@ -744,8 +743,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, changedStartDate);
         
         valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(changedStartDate.getTime()),
-                     valueOfVisibleDate);
+        assertEquals(sdf.format(changedStartDate.getTime()), valueOfVisibleDate);
         
         maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(sdf.format(changedStartDate.getTime()), maxValueOfVisibleDate);
