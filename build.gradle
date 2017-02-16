@@ -267,6 +267,16 @@ task removeDuplicateLibs(type: Delete) {
             "${buildDir}/exploded-app/WEB-INF/lib/appengine-api-labs.jar"
 }
 
+task installJsDependencies(type: Exec) {
+    commandLine "npm", "install"
+}
+
+task transpile(type: Exec) {
+    commandLine "npm", "run", "build"
+}
+
+transpile.dependsOn installJsDependencies
+removeDuplicateLibs.dependsOn transpile
 appengineExplodeApp.finalizedBy removeDuplicateLibs
 
 task enhancerRun << {
@@ -332,6 +342,7 @@ task downloadStaticAnalysisTools {
     doFirst {
         configurations.staticAnalysis.resolve()
     }
+    finalizedBy installJsDependencies
 }
 
 task staticAnalysisMain {
