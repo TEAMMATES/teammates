@@ -4,13 +4,13 @@ This document describes the steps to compress an image to be used in the TEAMMAT
 
 ## Installation
 
-In order to start the commands below, you would need to install the follow:
+In order to start the commands below, you would need to install the following:
 
 - [ImageMagick](https://www.imagemagick.org/script/download.php)
 - [optipng](http://optipng.sourceforge.net/)
 - [gifsicle](https://www.lcdf.org/gifsicle/)
 
-Or, if you are on the Mac, and you use Homebrew, you can do the following:
+Or, if you are on the Mac, and you use Homebrew, you can use this instead:
 
 ```sh
 brew update && brew install imagemagick optipng gifsicle
@@ -18,7 +18,7 @@ brew update && brew install imagemagick optipng gifsicle
 
 ## Compressing
 
-Once you are done, you are ready to begin. 
+Once you are done installing, you are ready to begin. 
 
 The commands below assume you are already in the directory where the image belongs.
 
