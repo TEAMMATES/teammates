@@ -51,13 +51,15 @@ public class InstructorStudentListPage extends AppPage {
         return copyEmailButton.isDisplayed();
     }
     
-    public boolean isCopyEmailPopoverVisible() {
+    public void waitForCopyEmailPopoverVisible() {
         String selector = "#copy-email-button + div.popover";
-        return isElementVisible(By.cssSelector(selector));
+        waitForElementPresence(By.cssSelector(selector));
     }
     
     public String getSelectedText() {
-        return (String) executeScript("return window.getSelection().toString();");
+        String selectedText = (String) executeScript("return window.getSelection().toString();");
+        selectedText = selectedText.replace(Const.EOL, "\n"); // standardize line separator
+        return selectedText;
     }
     
     public String getShownEmailsText() {
