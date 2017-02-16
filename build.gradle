@@ -295,10 +295,9 @@ def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
 task eslint(type: Exec) {
     def command = ["eslint"]
-    def jsDirs = ["src/main/webapp/js", "src/test/javascript"]
+    def jsDirs = ["src/main/webapp/js/*.js", "src/main/webapp/dev/*.js"]
     def configFile = ["-c", "static-analysis/teammates-eslint.yml"]
-    def ignore = ["--ignore-pattern", "lib/"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile + ignore
+    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile
 }
 
 task stylelint(type: Exec) {
@@ -531,16 +530,22 @@ task downloadFailedXml {
 // COVERAGE TASKS
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = "0.7.8"
 }
 
-jacocoTestReport {
+task jacocoMerge(type: JacocoMerge) {
+    destinationFile = file("${buildDir}/jacocoMerge/jacocoMerge.exec")
+    executionData fileTree("${buildDir}/jacoco").files
+}
+
+task jacocoReport(type: JacocoReport) {
     description "Runs coverage session from available test run data."
     group "Test"
     sourceDirectories = files(sourceSets.main.java.srcDirs, sourceSets.test.java.srcDirs)
-    classDirectories =  files(sourceSets.main.output, sourceSets.test.output)
+    classDirectories = files(sourceSets.main.output, sourceSets.test.output)
+    executionData jacocoMerge.destinationFile
     reports {
-        xml.enabled false
+        xml.enabled true
         html.enabled true
     }
     afterEvaluate {
@@ -548,4 +553,5 @@ jacocoTestReport {
             fileTree(dir: it, exclude: ["**/*.jar", "teammates/client/**/*", "**/*Filter.class", "**/*Servlet.class"])
         })
     }
+    dependsOn jacocoMerge
 }

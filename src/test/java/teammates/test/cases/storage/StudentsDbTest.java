@@ -3,7 +3,6 @@ package teammates.test.cases.storage;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -20,11 +19,6 @@ import teammates.test.driver.AssertHelper;
 public class StudentsDbTest extends BaseComponentTestCase {
     
     private StudentsDb studentsDb = new StudentsDb();
-    
-    @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
-    }
     
     @Test
     public void testTimestamp() throws InvalidParametersException, EntityDoesNotExistException {
@@ -236,7 +230,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         String originalEmail = s.email;
         s.name = "new-name-2";
         s.team = "new-team-2";
-        s.email = "new-email-2";
+        s.email = "new-email-2@email.com";
         s.googleId = "new-id-2";
         s.comments = "this are new comments";
         studentsDb.updateStudentWithoutSearchability(s.course, originalEmail, s.name, s.team, s.section,

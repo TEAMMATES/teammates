@@ -6,14 +6,18 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.ProfilesLogic;
-import teammates.test.cases.BaseComponentTestCase;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
-public class ProfilesLogicTest extends BaseComponentTestCase {
+public class ProfilesLogicTest extends BaseLogicTest {
     
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    
+    @Override
+    protected void prepareTestData() {
+        // no test data used for this test
+    }
     
     @Test
     public void testStudentProfileFunctions() throws Exception {

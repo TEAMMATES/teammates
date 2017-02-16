@@ -18,8 +18,6 @@ import teammates.ui.template.InstructorHomeFeedbackSessionRow;
 
 public class InstructorHomeCourseAjaxPageData extends PageData {
 
-    private static final int MAX_CLOSED_SESSION_STATS = 3;
-    
     private CourseTable courseTable;
     private int index;
     
@@ -142,16 +140,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
             InstructorAttributes instructor) {
         List<HomeFeedbackSessionRow> rows = new ArrayList<>();
         
-        int statsToDisplayLeft = MAX_CLOSED_SESSION_STATS;
         for (FeedbackSessionAttributes session : sessions) {
-            
-            boolean isRecent = session.isOpened() || session.isWaitingToOpen();
-            if (!isRecent && statsToDisplayLeft > 0
-                          && !TimeHelper.isOlderThanAYear(session.getCreatedTime())) {
-                isRecent = true;
-                --statsToDisplayLeft;
-            }
-            
             InstructorHomeFeedbackSessionRow row = new InstructorHomeFeedbackSessionRow(
                     sanitizeForHtml(session.getFeedbackSessionName()),
                     getInstructorHoverMessageForFeedbackSession(session),
@@ -161,7 +150,6 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                     TimeHelper.formatDateTimeForInstructorHomePage(session.getEndTime()),
                     session.getEndTimeString(),
                     getInstructorFeedbackStatsLink(session.getCourseId(), session.getFeedbackSessionName()),
-                    isRecent,
                     getInstructorFeedbackSessionActions(
                             session, Const.ActionURIs.INSTRUCTOR_HOME_PAGE, instructor));
 

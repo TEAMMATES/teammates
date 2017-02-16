@@ -3,7 +3,6 @@ package teammates.test.cases.automated;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
@@ -24,7 +23,6 @@ public abstract class BaseAutomatedActionTest extends BaseComponentTestCase {
     
     @BeforeClass
     public void baseClassSetup() {
-        printTestClassHeader();
         prepareTestData();
         loginAsAdmin();
     }
@@ -32,11 +30,6 @@ public abstract class BaseAutomatedActionTest extends BaseComponentTestCase {
     protected void prepareTestData() {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreTypicalDataBundle();
-    }
-    
-    @AfterClass
-    public void baseClassTearDown() {
-        printTestClassFooter();
     }
     
     protected void loginAsAdmin() {

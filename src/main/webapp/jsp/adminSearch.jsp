@@ -6,7 +6,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/search" prefix="adminSearch" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_HIGHLIGHT.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_HIGHLIGHT %>"></script>
     <script type="text/javascript" src="/js/administrator.js"></script>
     <script type="text/javascript" src="/js/adminSearch.js"></script>
 </c:set>

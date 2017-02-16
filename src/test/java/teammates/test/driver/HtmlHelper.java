@@ -31,8 +31,6 @@ public final class HtmlHelper {
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( UTC)?";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
-    private static final String REGEX_EXTERNAL_LIBRARY =
-            "(?:/(?:stylesheets|js)/lib/|https://(?:[a-z0-9.@-]+/)+)([A-Za-z0-9.-]{3,}\\.(css|js))";
     
     private HtmlHelper() {
         // utility class
@@ -432,11 +430,6 @@ public final class HtmlHelper {
                       .replace(dateOfNextHour, "${date.nexthour}")
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
-                      // third-party library directories
-                      .replaceAll(REGEX_EXTERNAL_LIBRARY, "\\${lib.path}/$1")
-                      // TinyMCE CSS skin on dev server
-                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/",
-                               "${lib.path}/")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",

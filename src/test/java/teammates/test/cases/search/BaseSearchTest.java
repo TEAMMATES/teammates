@@ -1,6 +1,5 @@
 package teammates.test.cases.search;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
@@ -14,8 +13,7 @@ public abstract class BaseSearchTest extends BaseComponentTestCase {
     protected DataBundle dataBundle;
     
     @BeforeClass
-    public void classSetup() {
-        printTestClassHeader();
+    public void baseClassSetup() {
         prepareTestData();
     }
     
@@ -23,11 +21,6 @@ public abstract class BaseSearchTest extends BaseComponentTestCase {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreTypicalDataBundle();
         putDocuments(dataBundle);
-    }
-    
-    @AfterClass
-    public void classTearDown() {
-        printTestClassFooter();
     }
     
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -40,9 +39,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     private static FeedbackSessionAttributes fsa;
     
     @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-        
+    public void classSetup() {
         feedbackSessionName = null;
         courseId = null;
         creatorId = null;
@@ -107,8 +104,4 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         
     }
     
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 }
