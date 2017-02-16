@@ -28,6 +28,7 @@ before_install:
       fi
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
     --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1440x900x16"
+  - nvm install node
 
 before_script:
   - export DISPLAY=:99.0

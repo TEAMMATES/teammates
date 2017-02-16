@@ -1,51 +1,46 @@
-const instructorCourseAjaxRequest = (function() {
-    const MESSAGES = {
-        error: 'Courses could not be loaded. Click <a href="#" id="retryAjax">here</a> to retry.'
-    };
+var isFetchingCourses = false;
+var needsRetrying = false;
 
-    let isFetchingCourses = false;
-    let needsRetrying = false;
-
-    function showLoadingImage() {
-        $('#coursesList').html(
-            '<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>'
-        );
-    }
-
-    function ajaxRequest(e) {
+$(document).ready(function() {
+    var ajaxRequest = function(e) {
         if (isFetchingCourses) {
             return;
         }
         e.preventDefault();
-        const formData = $(this).serialize();
+        var formData = $(this).serialize();
         $.ajax({
             type: 'POST',
             cache: false,
             url: $(this).attr('action') + '?' + formData,
-            beforeSend: () => {
-                showLoadingImage();
+            beforeSend: function() {
+                $('#coursesList').html(
+                    '<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>'
+                );
                 isFetchingCourses = true;
             },
-            error: () => {
+            error: function() {
                 isFetchingCourses = false;
                 needsRetrying = true;
                 $('#coursesList').html('');
-                setStatusMessage(MESSAGES.error, StatusType.WARNING);
+                setStatusMessage(
+                    'Courses could not be loaded. Click <a href="#" id="retryAjax">here</a> to retry.'
+                , StatusType.WARNING);
                 $('#retryAjax').click(function(e) {
                     e.preventDefault();
                     $('#ajaxForCourses').trigger('submit');
                 });
             },
-            success: (data) => {
+            success: function(data) {
                 isFetchingCourses = false;
                 if (needsRetrying) {
                     clearStatusMessages();
                     needsRetrying = false;
                 }
-                const statusMessages = $(data).find('.statusMessage');
+                
+                var statusMessages = $(data).find('.statusMessage');
                 appendStatusMessage(statusMessages);
 
-                const appendedCoursesTable = $(data).find('#coursesList').html();
+                var appendedCoursesTable = $(data).find('#coursesList').html();
                 $('#coursesList')
                     .removeClass('align-center')
                     .html(appendedCoursesTable);
@@ -53,12 +48,6 @@ const instructorCourseAjaxRequest = (function() {
                 linkAjaxForCourseStats();
             }
         });
-    }
-    return {
-        ajaxRequest
     };
-})();
-
-$(document).ready(function() {
-    $('#ajaxForCourses').submit(instructorCourseAjaxRequest.ajaxRequest);
+    $('#ajaxForCourses').submit(ajaxRequest);
 });
