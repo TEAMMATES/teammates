@@ -65,9 +65,9 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 ## Step 4: Set up an IDE
 
-[Eclipse IDE](#eclipse) is our preferred development environment and will get full support. [IntelliJ IDEA](#intellij) support is currently experimental and will receive limited support. Support requests related to other IDEs will not be entertained.
+[Eclipse IDE](#eclipse) is our preferred development environment and will get full support. [IntelliJ IDEA](#intellij-idea) support is currently experimental and will receive limited support. Support requests related to other IDEs will not be entertained.
 
-### Eclipse <a name="eclipse"></a>
+### Eclipse
 
 > Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows.
 
@@ -113,7 +113,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Set the `root directory` to the location where the repo is cloned.
    * Click `Finish`.
 
-### IntelliJ IDEA <a name="intellij"></a>
+### IntelliJ IDEA
 1. Download and install [IntelliJ IDEA Ultimate Edition](https://www.jetbrains.com/idea/).
    * You will need an Ultimate Edition license in order to work with Google App Engine in IntelliJ IDEA.
    * Sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.
