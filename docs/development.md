@@ -30,7 +30,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 ### With IntelliJ
 
-> If this is your first time urnning the dev server, you will need to set up the required `Run Configuration`.
+> If this is your first time running the dev server, you will need to set up the required `Run Configuration`.
 
 #### Set up the Run Configuration
 
