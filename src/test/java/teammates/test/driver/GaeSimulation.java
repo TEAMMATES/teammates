@@ -18,7 +18,9 @@ import teammates.ui.controller.ActionFactory;
 
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalLogServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalModulesServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalSearchServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
@@ -69,7 +71,10 @@ public class GaeSimulation {
         LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
         LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
         localSearch.setPersistent(false);
-        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localTasks, localSearch);
+        LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
+        LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
+        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
+                                            localTasks, localSearch, localModules, localLog);
         helper.setUp();
 
         sc = new ServletRunner().newClient();
