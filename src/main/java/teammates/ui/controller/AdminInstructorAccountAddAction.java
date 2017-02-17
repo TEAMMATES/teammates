@@ -203,8 +203,7 @@ public class AdminInstructorAccountAddAction extends Action {
         }
         
         //task queue is used here to reduce calls to database so that action can finish in time
-        taskQueuer.scheduleSearchableDocumentsProduction(
-                courseId, pageData.instructorEmail);
+        taskQueuer.scheduleSearchableDocumentsProduction(courseId, pageData.instructorEmail);
         
         return courseId;
     }

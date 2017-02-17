@@ -297,7 +297,7 @@ public class TaskQueuer {
     /**
      * Schedules production of searchable documents
      * 
-     * @param courseId the course ID of the feedback session
+     * @param courseId the course ID of the documents
      * @param instructorEmail email address of instructor
      */
     public void scheduleSearchableDocumentsProduction(String courseId, String instructorEmail) {
