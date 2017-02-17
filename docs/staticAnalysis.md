@@ -26,13 +26,21 @@ Conversely, when updating any tool, ensure that the tool version is supported by
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-checkstyle.xml).
 The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
 
-#####Configuring Checkstyle Eclipse plugin  
+#####Configuring Checkstyle Eclipse plugin
 
 1. In `Project > Properties`, go to the `Checkstyle` tab.
 2. In the `Local Check Configurations tab`, create a new Check Configuration. Select `Project Relative Configuration` for its Type, enter any Name you wish and set the Location to the `teammates-checkstyle.xml` file in the Project Folder. Click OK.
 3. In the `Main` tab, uncheck `Use simple configuration`.
 4. Add a new File Set. It should include only the `.java$` file. Enter any name you wish for the `File Set Name`, and select the Check Configuration that you created earlier for `Check Configuration`. Click OK.
 5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK. You have successfully setup the Checkstyle Eclipse plugin.
+
+##### Configuring Checkstyle in IntelliJ IDEA
+1. Install the [CheckStyle-IDEA](https://plugins.jetbrains.com/idea/plugin/1065-checkstyle-idea) plugin if you have not already done so.
+1. Go to `File → Settings → Other Settings → Checkstyle`.
+1. Set `Scan Scope` to `Only Java sources (including tests)`.
+1. Click the `+` to add a new configuration file. Browse for `teammates-checkstyle.xml` in the `static-analysis` folder.
+1. Click `Next`. Set the value of `basedir` to the path of your `teammates` folder.
+1. Click `Finish`.
 
 #####Suppressing Checkstyle warnings
 
@@ -63,8 +71,8 @@ The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/
 
 1. In `Project > Properties`, go to the `PMD` tab.
 2. Check `Enable PMD`.
-3. Under `Rule Source`, check `Use the ruleset configured in a project file`. Click `Browse`,  
-   navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK. 
+3. Under `Rule Source`, check `Use the ruleset configured in a project file`. Click `Browse`,
+   navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK.
    You have successfully setup the PMD Eclipse plugin.
 
 
