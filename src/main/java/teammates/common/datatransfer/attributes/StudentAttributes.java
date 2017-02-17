@@ -372,4 +372,11 @@ public class StudentAttributes extends EntityAttributes {
     public boolean isTeamChanged(StudentAttributes originalStudentAttribute) {
         return this.team != null && !this.team.equals(originalStudentAttribute.team);
     }
+    
+    /**
+     * Returns true if email value has changed from its original value.
+     */
+    public boolean isEmailChanged(StudentAttributes originalStudentAttribute) {
+        return this.email != null && !this.email.equals(originalStudentAttribute.email);
+    }
 }
