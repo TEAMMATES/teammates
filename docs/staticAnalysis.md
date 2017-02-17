@@ -35,6 +35,7 @@ The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/
 5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK. You have successfully setup the Checkstyle Eclipse plugin.
 
 ##### Configuring Checkstyle in IntelliJ IDEA
+
 1. Install the [CheckStyle-IDEA](https://plugins.jetbrains.com/idea/plugin/1065-checkstyle-idea) plugin if you have not already done so.
 1. Go to `File → Settings → Other Settings → Checkstyle`.
 1. Set `Scan Scope` to `Only Java sources (including tests)`.
@@ -75,6 +76,13 @@ The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/
    navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK.
    You have successfully setup the PMD Eclipse plugin.
 
+##### Configuring PMD for IntelliJ
+
+1. Install the [PMDPlugin](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin) if you have not already done so.
+1. Go to `File → Settings → Other Settings → PMD`.
+1. Click the `+` to add a new rule set. Browse for `teammates-pmd.xml`. Click OK.
+1. In the `Options` tab, set `Target JDK` to 1.7.
+1. Click `OK`.
 
 #####Suppressing PMD warnings
 To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://pmd.sourceforge.net/snapshot/usage/suppressing.html).
@@ -110,6 +118,12 @@ To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (v
 # Remember to use the correct tool version
 npm install -g eslint@{version}
 ```
+
+#### Configuring ESLint for IntelliJ
+
+1. Install the [ESLint](https://plugins.jetbrains.com/idea/plugin/7494-eslint) plugin if you have not already done so.
+1. Refer to [this guide](https://github.com/idok/eslint-plugin/blob/master/README.md#settings) to set up the ESLint plugin.
+1. Set the `Rules directory` to the location of `teammates-eslint.yml`.
 
 ##### Suppressing ESLint warnings
 
