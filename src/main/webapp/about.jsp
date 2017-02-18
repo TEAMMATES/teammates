@@ -174,7 +174,7 @@
         <br><br>
 
         <p class="bold">Past Team Members:</p>
-        <div style="margin: 0 auto; padding: 0 52px 15px;">
+        <div style="margin: 0 auto; padding: 0 52px 15px;" id="firstList">
             <ol>
                 <li>
                     <img src="images/teammembers/weilin.png" width="80px"><br> 

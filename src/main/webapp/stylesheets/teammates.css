@@ -25,6 +25,18 @@ time, mark, audio, video {
     vertical-align: baseline;
 }
 
+#firstList {
+   counter-reset:contributors;
+}
+
+li{
+   list-style-type:none;
+   counter-increment: contributors;
+}
+li:before {
+   content:counter(contributors) ". ";
+}
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -104,6 +116,8 @@ h2 {
     margin: 0 auto;
     width: 1000px;
 }
+
+
 
 #imageHolder {
     padding: 5px 15px;
