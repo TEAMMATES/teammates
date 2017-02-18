@@ -2,6 +2,8 @@ package teammates.ui.controller;
 
 import java.util.List;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -11,8 +13,6 @@ import teammates.common.util.EmailType;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorFeedbackEditPageData;
-
-import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstractAction {
 
@@ -59,18 +59,13 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         }
         return createAjaxResult(data);
     }
-
-    @Override
-    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(FeedbackSessionAttributes newSession) {
-        newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
-        newSession.setInstructions(new Text(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
-        return newSession;
-    }
-
+    
     @Override
     protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
             FeedbackSessionAttributes newSession, List<String> sendReminderEmailsList) {
+        newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
+        newSession.setInstructions(new Text(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
         newSession.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING
                 .toString()));
         return newSession;
