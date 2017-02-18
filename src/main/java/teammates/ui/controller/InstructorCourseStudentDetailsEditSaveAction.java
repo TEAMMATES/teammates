@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -15,7 +16,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
 
 public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 
@@ -75,9 +75,9 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
                 logic.resetStudentGoogleId(student.email, courseId);
                 try {
                     EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, student);
-                    new EmailSender().sendEmail(email);
+                    emailSender.sendEmail(email);
                 } catch (Exception e) {
-                    log.severe("Error while sending session summary email");
+                    log.severe("Error while sending session summary email" + TeammatesException.toStringWithStackTrace(e));
                 }
             }
             

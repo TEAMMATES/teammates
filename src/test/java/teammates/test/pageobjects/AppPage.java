@@ -286,20 +286,24 @@ public abstract class AppPage {
     }
     
     /**
-     * Waits for a first confirmation modal to appear and click the confirm button and
-     * then wait for second confirmation modal to appear and click no button
+     * Waits for a confirmation modal to appear and click the No button
      */
-    public void waitForTwoConfirmationModalAndClickOnOkAndNo() {
-        waitForModalPresence();
-        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
-        waitForElementToBeClickable(okayButton);
-        click(okayButton);
-        
+    public void clickNoOnModal() {
         waitForModalPresence();
         WebElement noButton = browser.driver.findElement(By.cssSelector("[data-bb-handler='no']"));
         waitForElementToBeClickable(noButton);
         click(noButton);
         waitForModalToDisappear();
+    }
+    
+    /**
+     * Waits for a confirmation modal to appear and click the confirm button, but doesn't wait for modal to disappear
+     */
+    public void waitForConfirmationModalAndClickOkWithoutWaitingForModalDisappearance() {
+        waitForModalPresence();
+        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
+        waitForElementToBeClickable(okayButton);
+        click(okayButton);
     }
 
     /**
@@ -676,13 +680,13 @@ public abstract class AppPage {
     }
     
     /**
-     * Clicks the element and clicks 'Yes' in the follow up dialog boxes.
+     * Clicks the element and clicks 'Yes' in the follow up dialog box and will not wait for modal to disappear
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
-    public AppPage clickAndConfirmTwoTimes(WebElement elementToClick) {
+    public AppPage clickAndConfirmWithoutWaitingForModalDisappearance(WebElement elementToClick) {
         click(elementToClick);
-        waitForTwoConfirmationModalAndClickOnOkAndNo();
+        waitForConfirmationModalAndClickOkWithoutWaitingForModalDisappearance();
         waitForPageToLoad();
         return this;
     }
