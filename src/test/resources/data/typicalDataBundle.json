@@ -1526,6 +1526,24 @@
       "commentText": {
         "value": "Comment from Instructor 3 to course 1"
       }
+    },
+    "comment1FromI1C2toS1C2": {
+      "courseId": "idOfTypicalCourse2",
+      "giverEmail": "instructor1@course2.tmt",
+      "recipientType": "PERSON",
+      "recipients": [
+        "student1InCourse2@gmail.tmt"
+      ],
+      "status": "FINAL",
+      "showCommentTo": [
+        "INSTRUCTOR"
+      ],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": [],
+      "createdAt": "2012-08-01 11:30 PM UTC",
+      "commentText": {
+        "value": "Comment1 from Instructor 1 to Student 1 in course 2"
+      }
     }
   },
   "profiles": {}

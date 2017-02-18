@@ -61,6 +61,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             boolean isSectionChanged = student.isSectionChanged(originalStudentAttribute);
             boolean isTeamChanged = student.isTeamChanged(originalStudentAttribute);
             boolean isEmailChanged = student.isEmailChanged(originalStudentAttribute);
+            
             if (isSectionChanged) {
                 logic.validateSectionsAndTeams(Arrays.asList(student), courseId);
             } else if (isTeamChanged) {
@@ -70,14 +71,14 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             logic.updateStudent(studentEmail, student);
             
             boolean isSessionSummarySendEmail = getRequestParamAsBoolean(Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK);
-            if (isEmailChanged && isSessionSummarySendEmail) {
+            if (isEmailChanged) {
+                logic.resetStudentGoogleId(student.email, courseId);
                 try {
                     EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, student);
                     new EmailSender().sendEmail(email);
                 } catch (Exception e) {
                     log.severe("Error while sending session summary email");
                 }
-                //logic.sendFeedbackSessionsSummaryOfCourseToNewStudentEmail(courseId, student);
             }
             
             statusToUser.add(new StatusMessage(isSessionSummarySendEmail

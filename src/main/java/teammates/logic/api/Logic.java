@@ -591,7 +591,7 @@ public class Logic {
      */
     public CourseDetailsBundle getCourseDetails(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        return coursesLogic.getCourseDetails(courseId);
+        return coursesLogic.getCourseSummary(courseId);
     }
     
     /**
