@@ -358,7 +358,7 @@ public class StudentAttributes extends EntityAttributes {
      * @param originalStudentAttribute
      * @return true if section value has changed from its original value.
      */
-    public boolean isSectionChanged(StudentAttributes originalStudentAttribute) {
+    public boolean isEmailChanged(StudentAttributes originalStudentAttribute) {
         return this.section != null && !this.section.equals(originalStudentAttribute.section);
     }
     
@@ -368,7 +368,7 @@ public class StudentAttributes extends EntityAttributes {
      * @param originalStudentAttribute
      * @return true if team value has changed from its original value.
      */
-    public boolean isTeamChanged(StudentAttributes originalStudentAttribute) {
+    public boolean isEmailChanged(StudentAttributes originalStudentAttribute) {
         return this.team != null && !this.team.equals(originalStudentAttribute.team);
     }
 }
