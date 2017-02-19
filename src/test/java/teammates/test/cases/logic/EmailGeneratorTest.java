@@ -203,11 +203,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
         
         ______TS("send summary of all feedback sessions of course email");
         
-        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
-                session.getCourseId(), student1);
-
+        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
-        
         hasStudent1ReceivedEmail = false;
         
         if (email.getRecipient().equals(student1.email)) {
@@ -225,8 +222,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         time.set(Calendar.HOUR_OF_DAY, 5);
         time.set(Calendar.MINUTE, 30);
         time.set(Calendar.YEAR, 2016);
-        email = new EmailGenerator()
-                .generateFeedbackSubmissionConfirmationEmailForStudent(session, student1, time);
+        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session, student1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
         verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailPositiveTimeZone.html");

@@ -201,8 +201,7 @@ public final class FeedbackSessionsLogic {
     }
     
     /**
-     * checks if there is open or published email sent from the course
-     * @param courseId
+     * @param courseId - ID of the course
      * @return true if there is some open or published email sent for the course.
      */
     public boolean isOpenOrPublishedEmailSentForTheCourse(String courseId) {

@@ -58,7 +58,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
                 Const.ParamsNames.NEW_STUDENT_EMAIL, newStudentEmail,
                 Const.ParamsNames.COMMENTS, newStudentComments,
-                Const.ParamsNames.TEAM_NAME, newStudentTeam
+                Const.ParamsNames.TEAM_NAME, newStudentTeam,
+                Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK, "true"
         };
 
         InstructorCourseStudentDetailsEditSaveAction a = getAction(submissionParams);
@@ -70,7 +71,9 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                      r.getDestinationWithParams());
         
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.STUDENT_EDITED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT, r.getStatusMessage());
+        
+        verifyNumberOfEmailsSent(a, 1);
         
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
@@ -108,6 +111,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         
         assertFalse(rToBeTrimmed.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, rToBeTrimmed.getStatusMessage());
+        
+        verifyNoEmailsSent(aToBeTrimmed);
         
         String expectedLogMessageToBeTrimmed =
                 "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"

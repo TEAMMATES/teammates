@@ -73,11 +73,14 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             boolean isSessionSummarySendEmail = getRequestParamAsBoolean(Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK);
             if (isEmailChanged) {
                 logic.resetStudentGoogleId(student.email, courseId);
-                try {
-                    EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, student);
-                    emailSender.sendEmail(email);
-                } catch (Exception e) {
-                    log.severe("Error while sending session summary email" + TeammatesException.toStringWithStackTrace(e));
+                if (isSessionSummarySendEmail) {
+                    try {
+                        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, student);
+                        emailSender.sendEmail(email);
+                    } catch (Exception e) {
+                        log.severe("Error while sending session summary email"
+                                    + TeammatesException.toStringWithStackTrace(e));
+                    }
                 }
             }
             

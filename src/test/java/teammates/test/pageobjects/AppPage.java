@@ -295,16 +295,6 @@ public abstract class AppPage {
         click(noButton);
         waitForModalToDisappear();
     }
-    
-    /**
-     * Waits for a confirmation modal to appear and click the confirm button, but doesn't wait for modal to disappear
-     */
-    public void waitForConfirmationModalAndClickOkWithoutWaitingForModalDisappearance() {
-        waitForModalPresence();
-        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
-        waitForElementToBeClickable(okayButton);
-        click(okayButton);
-    }
 
     /**
      * Waits for a confirmation modal to appear and click the cancel button
@@ -686,7 +676,10 @@ public abstract class AppPage {
      */
     public AppPage clickAndConfirmWithoutWaitingForModalDisappearance(WebElement elementToClick) {
         click(elementToClick);
-        waitForConfirmationModalAndClickOkWithoutWaitingForModalDisappearance();
+        waitForModalPresence();
+        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
+        waitForElementToBeClickable(okayButton);
+        click(okayButton);
         waitForPageToLoad();
         return this;
     }
