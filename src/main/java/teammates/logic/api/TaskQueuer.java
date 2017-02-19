@@ -295,7 +295,7 @@ public class TaskQueuer {
     }
     
     /**
-     * Schedules production of searchable documents
+     * Schedules production of searchable documents of all demo data for new instructor
      * 
      * @param courseId the course ID of the documents
      * @param instructorEmail email address of instructor
