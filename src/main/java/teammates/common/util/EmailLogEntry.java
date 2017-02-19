@@ -102,13 +102,22 @@ public class EmailLogEntry {
         appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         return TimeHelper.formatTime12H(appCal.getTime());
     }
-    
+    /** @Description
+     @public
+     @param string[] array
+     @param part {string}
+     @param keyStringsToHighlight {string}
+     @returns {null}
+     */
+     
     public void highlightKeyStringInMessageInfoHtml(String[] keyStringsToHighlight, String part) {
         if (keyStringsToHighlight == null) {
-            return;
+            //if there is nothing to highlight return null.
+            return; 
         }
         
         if (part.contains("receiver")) {
+            //if part has the reciever then recurcively call the function
             this.receiver = hightlightTextWithKeyWords(keyStringsToHighlight, this.receiver);
         }
         
@@ -120,19 +129,25 @@ public class EmailLogEntry {
             this.content = hightlightTextWithKeyWords(keyStringsToHighlight, this.content);
         }
         
-        logInfoAsHtml = getLogInfoForTableRowAsHtml();
+        logInfoAsHtml = getLogInfoForTableRowAsHtml();   
     }
-    
+    /** @Description
+     * @private
+     * @param [] string
+     * @param text {string}
+     * @param keyStringsToHighlight
+     * returns {string}
+     */
     private String hightlightTextWithKeyWords(String[] keyStringsToHighlight, String text) {
         if (text == null) {
             return text;
         }
-        String highlightedText = text;
+        String highlightedText = text; 
         for (String stringToHighlight : keyStringsToHighlight) {
             if (highlightedText.toLowerCase().contains(stringToHighlight.toLowerCase())) {
                 
                 int startIndex = highlightedText.toLowerCase().indexOf(stringToHighlight.toLowerCase());
-                int endIndex = startIndex + stringToHighlight.length();
+                int endIndex = startIndex + stringToHighlight.length(); //finding the end index of string.
                 String realStringToHighlight = highlightedText.substring(startIndex, endIndex);
                 highlightedText = highlightedText.replace(realStringToHighlight,
                                                           "<mark>" + realStringToHighlight + "</mark>");
