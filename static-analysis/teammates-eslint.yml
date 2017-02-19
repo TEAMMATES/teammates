@@ -2,6 +2,10 @@ env:
     browser: true
     jquery: true
     qunit: true
+
+plugins:
+    - json
+
 rules:
 
     #################################################################################
