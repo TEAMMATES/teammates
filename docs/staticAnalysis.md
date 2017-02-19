@@ -25,6 +25,7 @@ Conversely, when updating any tool, ensure that the tool version is supported by
 [CheckStyle](http://checkstyle.sourceforge.net/index.html) helps to enforce coding standard in Java source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-checkstyle.xml).
 The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
+The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1065-checkstyle-idea).
 
 #####Configuring Checkstyle Eclipse plugin
 
@@ -36,7 +37,6 @@ The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/
 
 ##### Configuring Checkstyle in IntelliJ IDEA
 
-1. Install the [CheckStyle-IDEA](https://plugins.jetbrains.com/idea/plugin/1065-checkstyle-idea) plugin if you have not already done so.
 1. Go to `File → Settings → Other Settings → Checkstyle`.
 1. Set `Scan Scope` to `Only Java sources (including tests)`.
 1. Click the `+` to add a new configuration file. Browse for `teammates-checkstyle.xml` in the `static-analysis` folder.
@@ -67,6 +67,7 @@ private String ID;
 [PMD](https://pmd.github.io) analyses the Java source code for common programming flaws (e.g unused variables, empty catch block).
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-pmd.xml).
 The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
+The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin).
 
 #####Configuring PMD Eclipse plugin
 
@@ -78,7 +79,6 @@ The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/
 
 ##### Configuring PMD for IntelliJ
 
-1. Install the [PMDPlugin](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin) if you have not already done so.
 1. Go to `File → Settings → Other Settings → PMD`.
 1. Click the `+` to add a new rule set. Browse for `teammates-pmd.xml`. Click OK.
 1. In the `Options` tab, set `Target JDK` to 1.7.
@@ -118,10 +118,10 @@ To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (v
 # Remember to use the correct tool version
 npm install -g eslint@{version}
 ```
+The plugin for IntelliJ can be found  [here](https://plugins.jetbrains.com/idea/plugin/7494-eslint).
 
 #### Configuring ESLint for IntelliJ
 
-1. Install the [ESLint](https://plugins.jetbrains.com/idea/plugin/7494-eslint) plugin if you have not already done so.
 1. Refer to [this guide](https://github.com/idok/eslint-plugin/blob/master/README.md#settings) to set up the ESLint plugin.
 1. Set the `Rules directory` to the location of `teammates-eslint.yml`.
 

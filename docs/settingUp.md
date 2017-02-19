@@ -65,7 +65,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 ## Step 4: Set up an IDE
 
-[Eclipse IDE](#eclipse) is our preferred development environment and will get full support. [IntelliJ IDEA](#intellij-idea) support is currently experimental and will receive limited support. Support requests related to other IDEs will not be entertained.
+[Eclipse IDE](#eclipse) is our preferred development environment and will get full support. [IntelliJ IDEA](#intellij-idea) usage is currently experimental and will receive limited support. Support requests related to other IDEs will not be entertained.
 
 ### Eclipse
 
