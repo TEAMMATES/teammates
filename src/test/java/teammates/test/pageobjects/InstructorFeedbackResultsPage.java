@@ -59,9 +59,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @Override
     public void waitForPageToLoad() {
         super.waitForPageToLoad();
-        // results page has panels that are loaded by ajax,
-        // and these panels expand when their contents are loaded
-        waitForPanelsToExpand();
     }
     
     /**
