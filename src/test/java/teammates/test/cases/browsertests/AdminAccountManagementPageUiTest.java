@@ -17,7 +17,7 @@ import teammates.test.pageobjects.AdminActivityLogPage;
  * SUT: {@link AdminAccountManagementPage}
  */
 public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
-    private static AdminAccountManagementPage accountsPage;
+    private AdminAccountManagementPage accountsPage;
     
     @Override
     protected void prepareTestData() {

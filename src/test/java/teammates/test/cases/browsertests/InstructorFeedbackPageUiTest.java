@@ -33,10 +33,10 @@ import com.google.appengine.api.datastore.Text;
  */
 @Priority(-1)
 public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
-    private static InstructorFeedbacksPage feedbackPage;
-    private static String idOfInstructorWithSessions;
+    private InstructorFeedbacksPage feedbackPage;
+    private String idOfInstructorWithSessions;
     /** This contains data for the new feedback session to be created during testing */
-    private static FeedbackSessionAttributes newSession;
+    private FeedbackSessionAttributes newSession;
     
     @Override
     protected void prepareTestData() {

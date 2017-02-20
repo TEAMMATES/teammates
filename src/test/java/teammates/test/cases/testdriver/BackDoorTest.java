@@ -21,7 +21,7 @@ import com.google.appengine.api.datastore.Text;
 @Priority(2)
 public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
 
-    private static DataBundle dataBundle = getTypicalDataBundle();
+    private DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public void classSetup() {

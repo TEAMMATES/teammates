@@ -12,7 +12,7 @@ import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
-    private static InstructorCourseJoinConfirmationPage confirmationPage;
+    private InstructorCourseJoinConfirmationPage confirmationPage;
 
     @Override
     protected void prepareTestData() {
