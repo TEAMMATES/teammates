@@ -106,7 +106,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         assertFalse(viewPage.isCopyEmailButtonVisible());
         viewPage.toggleShowEmailCheckbox();
         viewPage.clickCopyEmailButton();
-        assertTrue(viewPage.isCopyEmailPopoverVisible());
+        viewPage.waitForCopyEmailPopoverVisible();
         assertEquals(viewPage.getShownEmailsText(), viewPage.getSelectedText().trim());
         
         // update current instructor privileges
