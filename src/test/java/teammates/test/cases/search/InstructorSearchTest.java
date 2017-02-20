@@ -61,9 +61,9 @@ public class InstructorSearchTest extends BaseSearchTest {
     }
 
     /*
-     * verifies that search results match with expected output.
-     * 
+     * Verifies that search results match with expected output.
      * Parameters are modified to standardize {@link InstructorAttributes} for comparison.
+     * 
      * @param actual the results from the search query.
      * @param expected the expected results for the search query.
      */
