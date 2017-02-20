@@ -265,8 +265,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
         receiver.key = regkey;
         
         AccountAttributes sender = new AccountAttributes();
-        sender.email = "Email";
-        sender.name = "Name";
+        sender.email = "instructor-joe@gmail.com";
+        sender.name = "Joe Wilson";
         
         String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                 .withRegistrationKey(StringHelper.encrypt(regkey))
