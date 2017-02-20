@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertTrue;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -25,7 +27,7 @@ public class InstructorCourseEnrollPage extends AppPage {
     }
 
     public InstructorCourseEnrollPage verifyIsCorrectPage(String courseId) {
-        getPageSource().contains("Enroll Students for " + courseId);
+        assertTrue(getPageSource().contains("Enroll Students for " + courseId));
         return this;
     }
 
