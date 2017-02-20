@@ -832,11 +832,13 @@ public final class FeedbackSessionsLogic {
 
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId,
-            String userEmail, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionNumber)
+            String userEmail, String filterText, boolean isMissingResponsesShown,
+            boolean isStatsShown, String questionNumber)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, userEmail, null, filterText, isMissingResponsesShown, isStatsShown, questionNumber);
+                feedbackSessionName, courseId, userEmail, null, filterText,
+                isMissingResponsesShown, isStatsShown, questionNumber);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
@@ -878,7 +880,7 @@ public final class FeedbackSessionsLogic {
         if (filterText != null && !filterText.isEmpty()) {
             entrySet = filterQuestions(entrySet, filterText.toLowerCase());
         }
-        if(questionNumber == null) {
+        if (questionNumber == null) {
             for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
                 exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
                         results, entry, isMissingResponsesShown, isStatsShown));
@@ -886,7 +888,7 @@ public final class FeedbackSessionsLogic {
             return exportBuilder.toString();
         } else {
             for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
-                if(Integer.toString(entry.getKey().questionNumber).equals(questionNumber)) {
+                if (Integer.toString(entry.getKey().questionNumber).equals(questionNumber)) {
                     exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
                             results, entry, isMissingResponsesShown, isStatsShown));
                     return exportBuilder.toString();
