@@ -407,8 +407,8 @@ public class StudentsDb extends EntitiesDb {
             String lastName = StringHelper.splitName(newName)[1];
             
             if (isEmailChanged) {
-                updateStudentChangeEmail(courseId, email, newName, newTeamName, newSectionName, newEmail, newGoogleId, newComments, 
-                        hasDocument, keepUpdateTimestamp, courseStudent, lastName);
+                updateStudentChangeEmail(courseId, email, newName, newTeamName, newSectionName, newEmail, newGoogleId,
+                        newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
             } else {
                 updateStudentDetails(newName, newTeamName, newSectionName, newEmail, newGoogleId,
                         newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
