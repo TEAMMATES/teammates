@@ -374,12 +374,12 @@ public final class StringHelper {
             
             result.append("<tr>");
             for (String td : rowData) {
-                result.append(String.format("<td>%s</td>\n", SanitizationHelper.sanitizeForHtml(td)));
+                result.append(String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td)));
             }
             result.append("</tr>");
         }
 
-        return String.format("<table class=\"table table-bordered table-striped table-condensed\">\n%s</table>",
+        return String.format("<table class=\"table table-bordered table-striped table-condensed\">%s</table>",
                              result.toString());
     }
 

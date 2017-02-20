@@ -426,7 +426,7 @@ public final class CoursesLogic {
      * @throws EntityDoesNotExistException
      */
     public CourseDetailsBundle getCourseSummary(CourseAttributes cd) {
-        Assumption.assertNotNull("Supplied parameter was null\n", cd);
+        Assumption.assertNotNull("Supplied parameter was null", cd);
         
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
         cdd.sections = (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
@@ -469,7 +469,7 @@ public final class CoursesLogic {
      * @throws EntityDoesNotExistException
      */
     public CourseSummaryBundle getCourseSummaryWithoutStats(CourseAttributes course) {
-        Assumption.assertNotNull("Supplied parameter was null\n", course);
+        Assumption.assertNotNull("Supplied parameter was null", course);
 
         return new CourseSummaryBundle(course);
     }
@@ -536,7 +536,7 @@ public final class CoursesLogic {
      * @throws EntityDoesNotExistException
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull("Supplied parameter was null\n", instructorList);
+        Assumption.assertNotNull("Supplied parameter was null", instructorList);
         List<String> courseIdList = new ArrayList<String>();
 
         for (InstructorAttributes instructor : instructorList) {

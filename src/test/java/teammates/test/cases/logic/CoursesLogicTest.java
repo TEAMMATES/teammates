@@ -18,6 +18,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -77,7 +78,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.getCourse(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -112,14 +113,14 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.getCoursesForInstructor((String) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         
         try {
             coursesLogic.getCoursesForInstructor((List<InstructorAttributes>) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals("Supplied parameter was null", e.getMessage());
         }
     }
 
@@ -172,7 +173,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.isCoursePresent(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -200,7 +201,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.verifyCourseIsPresent(null);
             signalFailureToDetectException();
         } catch (AssertionError | EntityDoesNotExistException e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -257,14 +258,14 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.getCourseSummary((CourseAttributes) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         
         try {
             coursesLogic.getCourseSummary((String) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -308,14 +309,14 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.getCourseSummaryWithoutStats((CourseAttributes) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         
         try {
             coursesLogic.getCourseSummaryWithoutStats((String) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -375,7 +376,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.getCourseSummary(nullCourseId);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -420,7 +421,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.getTeamsForCourse(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -471,7 +472,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.getCoursesForStudentAccount(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -514,7 +515,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.getCourseDetailsListForStudent(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -559,7 +560,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.getCourseSummariesForInstructor(null, false);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
        
     }
@@ -594,7 +595,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.getCoursesSummaryWithoutStatsForInstructor(null, false);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -698,7 +699,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.getCourseStudentListAsCsv(courseId, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -730,7 +731,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.hasIndicatedSections(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
 
     }
@@ -884,7 +885,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                                                    courseWithDuplicateInstructor.getTimeZone());
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
@@ -934,7 +935,7 @@ public class CoursesLogicTest extends BaseLogicTest {
             coursesLogic.deleteCourseCascade(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            assertEquals("Supplied parameter was null\n", e.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 }

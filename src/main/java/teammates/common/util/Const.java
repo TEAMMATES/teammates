@@ -1455,10 +1455,10 @@ public final class Const {
         public static final String KEY_BELONGS_TO_DIFFERENT_USER = "ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER";
         
         // Error message used across DB level
-        public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null\n";
+        public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";
     
         // POST parameter null message
-        public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
+        public static final String NULL_POST_PARAMETER = "The %s POST parameter is null%n";
     }
 
     public static class PlaceholderText {
