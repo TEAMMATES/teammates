@@ -52,8 +52,9 @@ public class InstructorStudentListPage extends AppPage {
     }
     
     public void waitForCopyEmailPopoverVisible() {
-        String selector = "#copy-email-button + div.popover";
-        waitForElementPresence(By.cssSelector(selector));
+        String cssSelector = "#copy-email-button + div.popover";
+        WebElement copyEmailPopover = browser.driver.findElement(By.cssSelector(cssSelector));
+        waitForElementVisibility(copyEmailPopover);
     }
     
     public String getSelectedText() {
