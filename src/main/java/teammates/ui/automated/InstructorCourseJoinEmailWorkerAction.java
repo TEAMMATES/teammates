@@ -1,5 +1,6 @@
 package teammates.ui.automated;
 
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Assumption;
@@ -24,17 +25,25 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
     
     @Override
     public void execute() {
+        String senderId = getRequestParamValue(ParamsNames.SENDER_ID);
+        Assumption.assertNotNull(senderId);
         String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        String instructorEmail = getRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
-        Assumption.assertNotNull(instructorEmail);
+        String receiverInstructorEmail = getRequestParamValue(ParamsNames.EMAIL_RECEIVER);
+        Assumption.assertNotNull(receiverInstructorEmail);
+
+        AccountAttributes sender = logic.getAccount(senderId);
+        Assumption.assertNotNull(sender);
         
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
-        InstructorAttributes instructor = logic.getInstructorForEmail(courseId, instructorEmail);
-        Assumption.assertNotNull(instructor);
         
-        EmailWrapper email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
+        InstructorAttributes receiver = logic.getInstructorForEmail(courseId, receiverInstructorEmail);
+        Assumption.assertNotNull(receiver);
+        
+        EmailWrapper email = new EmailGenerator()
+                .generateInstructorCourseJoinEmail(sender, receiver, course);
+        
         try {
             emailSender.sendEmail(email);
         } catch (Exception e) {
