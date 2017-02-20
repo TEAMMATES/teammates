@@ -12,7 +12,6 @@ import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -49,14 +48,10 @@ public class AdminInstructorAccountAddAction extends Action {
         // If there is input from the instructorDetailsSingleLine form,
         // that data will be prioritized over the data from the 3-parameter form
         if (data.instructorDetailsSingleLine == null) {
-            data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
-            Assumption.assertNotNull(data.instructorShortName);
-            data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
-            Assumption.assertNotNull(data.instructorName);
-            data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-            Assumption.assertNotNull(data.instructorEmail);
-            data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-            Assumption.assertNotNull(data.instructorInstitution);
+            data.instructorShortName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
+            data.instructorName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
+            data.instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+            data.instructorInstitution = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         } else {
             try {
                 String[] instructorInfo = extractInstructorInfo(data.instructorDetailsSingleLine);
