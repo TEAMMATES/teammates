@@ -452,10 +452,32 @@ public abstract class Action {
     }
     
     /**
+     * Returns the value for the specified parameter expected to be present in the http request.
+     * Assumption: the requested parameter is not null.
+     * 
+     * @param paramName  a constant from the {@link Const.ParamsNames} class.
+     */
+    public String getNonNullRequestParamValue(String paramName) {
+        return getNonNullRequestParamValues(paramName)[0];
+    }
+    
+    /**
      * @return null if the specified parameter was not found in the request.
      */
     public String[] getRequestParamValues(String paramName) {
         return HttpRequestHelper.getValuesFromParamMap(requestParameters, paramName);
+    }
+    
+    /**
+     * Returns the values for the specified parameter expected to be present in the http request.
+     * Assumption: the requested parameter is not null.
+     *
+     * @param paramName  a constant from the {@link Const.ParamsNames} class.
+     */
+    public String[] getNonNullRequestParamValues(String paramName) {
+        String[] values = getRequestParamValues(paramName);
+        Assumption.assertPostParamNotNull(paramName, values);
+        return values;
     }
     
     public boolean getRequestParamAsBoolean(String paramName) {
