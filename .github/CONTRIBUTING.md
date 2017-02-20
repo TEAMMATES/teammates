@@ -7,8 +7,8 @@
 Search [the issue tracker][issue tracker] to ensure that there is no similar open issue.
 If that is the case, [open a new issue][new issue]. Use the following templates:
 
-* For feature requests, refer [here](template-featureRequest.md).
 * For bug reports, refer [here](template-bugReport.md).
+* For feature requests, refer [here](template-featureRequest.md).
 * For new contributor introduction, refer [here](template-contributorIntro.md).
 * For help requests, refer [here](template-helpRequest.md).
 * For other work like refactoring, updating documentation, or performance improvement, simply provide a clear **issue title** and **description** of the work to be done.
