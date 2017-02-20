@@ -232,7 +232,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
             redirectResult = getRedirectResult(saveAction);
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
-                    Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail), e.getMessage());
+                    Const.ParamsNames.INSTRUCTOR_EMAIL), e.getMessage());
         }
     }
     
