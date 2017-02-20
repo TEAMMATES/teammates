@@ -832,16 +832,16 @@ public final class FeedbackSessionsLogic {
 
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId,
-            String userEmail, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionId)
+            String userEmail, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionNumber)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, userEmail, null, filterText, isMissingResponsesShown, isStatsShown, questionId);
+                feedbackSessionName, courseId, userEmail, null, filterText, isMissingResponsesShown, isStatsShown, questionNumber);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
             String feedbackSessionName, String courseId, String userEmail,
-            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionId)
+            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionNumber)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         long indicatedRange = section == null ? 2000 : -1;
@@ -878,8 +878,7 @@ public final class FeedbackSessionsLogic {
         if (filterText != null && !filterText.isEmpty()) {
             entrySet = filterQuestions(entrySet, filterText.toLowerCase());
         }
-        
-        if(questionId == null) {
+        if(questionNumber == null) {
             for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
                 exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
                         results, entry, isMissingResponsesShown, isStatsShown));
@@ -887,7 +886,7 @@ public final class FeedbackSessionsLogic {
             return exportBuilder.toString();
         } else {
             for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
-                if(Integer.toString(entry.getKey().questionNumber) == questionId) {
+                if(Integer.toString(entry.getKey().questionNumber).equals(questionNumber)) {
                     exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
                             results, entry, isMissingResponsesShown, isStatsShown));
                     return exportBuilder.toString();

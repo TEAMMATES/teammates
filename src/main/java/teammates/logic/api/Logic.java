@@ -1349,7 +1349,7 @@ public class Logic {
      */
     public String getFeedbackSessionResultSummaryInSectionAsCsv(
             String courseId, String feedbackSessionName, String instructorEmail,
-            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionId)
+            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionNumber)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1358,7 +1358,7 @@ public class Logic {
 
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsCsv(
                 feedbackSessionName, courseId, instructorEmail, section,
-                filterText, isMissingResponsesShown, isStatsShown, null);
+                filterText, isMissingResponsesShown, isStatsShown, questionNumber);
     }
     
     /**

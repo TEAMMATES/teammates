@@ -31,16 +31,16 @@
                 <div id="DownloadQuestion">
                     <input id="button_download" type="submit" class="btn btn-primary pull-right"
                         name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                        value="Download Results">
+                        value="Download Question Results">
                 </div>
                 <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${questionPanel.feedbackSessionName}">
                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}">
-                <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${sessionPanel.selectedSection}">
+                <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${data.selectedSection}">
                 <input type="hidden" id="filterTextForDownload" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT %>">
-                <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${sessionPanel.isStatsShown}">
-                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${sessionPanel.isMissingResponsesShown}">
-                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="${questionPanel.question.feedbackQuestionId}">
+                <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${showStats}"/>>
+                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${data.missingResponsesShown}">
+                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="${questionPanel.question.questionNumber}">
             </form>
         </c:if>
         <c:choose>
