@@ -24,30 +24,24 @@
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="${questionPanel.question.feedbackQuestionId}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${data.selectedSection}">
             </form>
-            <!--  form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
-                <div id="feedbackDataButtons">
-                    <input id="button_download" type="submit" class="btn btn-primary btn-block"
-                           name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                           value="Download Results">
+            <div class='display-icon pull-right'>
+                <span class="glyphicon ${ isShowingResponses ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
+            </div>
+            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_RESULTS_DOWNLOAD%>">
+                <div id="DownloadQuestion">
+                    <input id="button_download" type="submit" class="btn btn-primary pull-right"
+                        name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
+                        value="Download Results">
                 </div>
                 <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
-                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${sessionPanel.feedbackSessionName}">
-                <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${sessionPanel.courseId}">
+                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${questionPanel.feedbackSessionName}">
+                <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}">
                 <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${sessionPanel.selectedSection}">
                 <input type="hidden" id="filterTextForDownload" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT %>">
                 <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${sessionPanel.isStatsShown}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${sessionPanel.isMissingResponsesShown}">
-            </form-->
-            
-            <div class='display-icon pull-right'>
-                <span class="glyphicon ${ isShowingResponses ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
-            </div>
-            <div id="DownloadQuestion" class="display-icon pull-right">
-                <input id="button_download" type="submit" class="btn btn-primary"
-                       name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                       value="Download Results">
-            </div>
-            
+                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="${questionPanel.question.feedbackQuestionId}">
+            </form>
         </c:if>
         <c:choose>
             <c:when test="${questionPanel.boldQuestionNumber}">
