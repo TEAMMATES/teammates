@@ -38,14 +38,14 @@ public class InstructorFeedbackQuestionResultsDownloadAction extends Action {
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
                         courseId, feedbackSessionName, instructor.email, filterText,
                         isMissingResponsesShown, isStatsShown, questionNumber);
-                fileName = courseId + "_" + feedbackSessionName;
+                fileName = courseId + "_" + feedbackSessionName + "_question" + questionNumber;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
                               + " in Course " + courseId + " was downloaded";
             } else {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                         courseId, feedbackSessionName, instructor.email, section,
                         filterText, isMissingResponsesShown, isStatsShown, questionNumber);
-                fileName = courseId + "_" + feedbackSessionName + "_" + section;
+                fileName = courseId + "_" + feedbackSessionName + "_" + section + "_question" + questionNumber;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
                               + " in Course " + courseId + " within " + section + " was downloaded";
             }
