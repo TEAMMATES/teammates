@@ -62,6 +62,9 @@ public class Version implements Comparable<Version> {
      */
     @Override
     public boolean equals(Object anotherVersion) {
+        if (anotherVersion == null) {
+            return false;
+        }
         return toString().equals(anotherVersion.toString());
     }
     
