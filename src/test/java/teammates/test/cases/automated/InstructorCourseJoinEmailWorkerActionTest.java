@@ -24,11 +24,13 @@ public class InstructorCourseJoinEmailWorkerActionTest extends BaseAutomatedActi
     public void allTests() {
         
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
-        InstructorAttributes instr1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes receiver = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes sender = dataBundle.instructors.get("instructor2OfCourse1");
         
         String[] submissionParams = new String[] {
                 ParamsNames.COURSE_ID, course1.getId(),
-                ParamsNames.INSTRUCTOR_EMAIL, instr1InCourse1.email
+                ParamsNames.EMAIL_RECEIVER, receiver.email,
+                ParamsNames.SENDER_ID, sender.googleId
         };
         
         InstructorCourseJoinEmailWorkerAction action = getAction(submissionParams);
@@ -40,7 +42,7 @@ public class InstructorCourseJoinEmailWorkerActionTest extends BaseAutomatedActi
         assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course1.getName(),
                                    course1.getId()),
                      email.getSubject());
-        assertEquals(instr1InCourse1.email, email.getRecipient());
+        assertEquals(receiver.email, email.getRecipient());
         
     }
     
