@@ -277,8 +277,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(course.getId(), courseSummary.course.getId());
         assertEquals(course.getName(), courseSummary.course.getName());
 
-        assertEquals(0, courseSummary.sections.size());
-       
         ______TS("course without students");
         
         StudentProfileAttributes spa = new StudentProfileAttributes();
@@ -291,8 +289,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals("course1", courseSummary.course.getId());
         assertEquals("course 1", courseSummary.course.getName());
         assertEquals("America/Los_Angeles", courseSummary.course.getTimeZone());
-         
-        assertEquals(0, courseSummary.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
         accountsDb.deleteAccount("instructor1");
