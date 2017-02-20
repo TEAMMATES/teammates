@@ -1331,14 +1331,15 @@ public class Logic {
                                                        String instructorEmail,
                                                        String filterText,
                                                        boolean isMissingResponsesShown,
-                                                       boolean isStatsShown)
+                                                       boolean isStatsShown,
+                                                       String questionId)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                feedbackSessionName, courseId, instructorEmail, filterText, isMissingResponsesShown, isStatsShown);
+                feedbackSessionName, courseId, instructorEmail, filterText, isMissingResponsesShown, isStatsShown, questionId);
     }
 
     /**
@@ -1348,7 +1349,7 @@ public class Logic {
      */
     public String getFeedbackSessionResultSummaryInSectionAsCsv(
             String courseId, String feedbackSessionName, String instructorEmail,
-            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
+            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionId)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1357,7 +1358,7 @@ public class Logic {
 
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsCsv(
                 feedbackSessionName, courseId, instructorEmail, section,
-                filterText, isMissingResponsesShown, isStatsShown);
+                filterText, isMissingResponsesShown, isStatsShown, null);
     }
     
     /**
