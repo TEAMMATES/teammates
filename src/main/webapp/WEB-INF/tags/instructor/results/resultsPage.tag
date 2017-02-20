@@ -7,7 +7,7 @@
 <%@ attribute name="jsIncludes" %>
 <ti:instructorPage pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
     <jsp:attribute name="jsIncludes">
-        <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_PRINTTHIS.getLibrarySource() %>"></script>
+        <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_PRINTTHIS %>"></script>
         <script type="text/javascript" src="/js/instructor.js"></script>
         <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
         <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponse.js"></script>
