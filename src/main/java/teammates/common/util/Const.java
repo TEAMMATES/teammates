@@ -712,6 +712,7 @@ public final class Const {
         public static final String PREVIEWAS = "previewas";
         
         public static final String STUDENT_ID = "googleid";
+        public static final String SENDER_ID = "senderGoogleId";
         
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";

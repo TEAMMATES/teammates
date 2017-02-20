@@ -221,13 +221,18 @@ public class TaskQueuer {
     /**
      * Schedules for course registration to be sent to the specified instructor.
      * 
+     * @param senderGoogleId googleId of instructor or administrator, which send invite
      * @param courseId the target course ID
      * @param instructorEmail the email address of the instructor
      */
-    public void scheduleCourseRegistrationInviteToInstructor(String courseId, String instructorEmail) {
+    public void scheduleCourseRegistrationInviteToInstructor(String senderGoogleId, 
+            String receiverEmail, String courseId) {
+        
         Map<String, String> paramMap = new HashMap<String, String>();
+        
+        paramMap.put(ParamsNames.SENDER_ID, senderGoogleId);
+        paramMap.put(ParamsNames.EMAIL_RECEIVER, receiverEmail);
         paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         
         addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,
                 TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);

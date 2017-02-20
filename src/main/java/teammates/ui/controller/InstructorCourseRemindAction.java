@@ -70,12 +70,15 @@ public class InstructorCourseRemindAction extends Action {
                                                StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         } else if (isSendingToInstructor) {
-            taskQueuer.scheduleCourseRegistrationInviteToInstructor(courseId, instructorEmail);
+            taskQueuer.scheduleCourseRegistrationInviteToInstructor(loggedInUser.googleId, 
+                    instructorEmail, courseId);
+            
             InstructorAttributes instructorData = logic.getInstructorForEmail(courseId, instructorEmail);
             if (instructorData == null) {
                 throw new EntityDoesNotExistException("Instructor with email " + instructorEmail + " does not exist "
                                                       + "in course " + courseId + "!");
             }
+            
             emailDataMap.put(instructorEmail,
                     new JoinEmailData(instructorData.getName(), StringHelper.encrypt(instructorData.key)));
             
