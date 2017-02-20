@@ -55,12 +55,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public String getFeedbackSessionName() {
         return browser.driver.findElement(By.name("fsname")).getAttribute("value");
     }
-    
-    @Override
-    public void waitForPageToLoad() {
-        super.waitForPageToLoad();
-    }
-    
+
     /**
      * Waits until the page structure is loaded.
      * Does not wait for all the content that are loaded by ajax to load.
