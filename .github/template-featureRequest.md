@@ -1,23 +1,17 @@
-**Feature / Enhancement Request**
+**Issue Title:** Feature: [your request in a line] OR Enhancement: [your suggestion in a line]
 
-**Issue Title:** Feature Request: [your request in a line]
+Copy-and-paste the following template to the issue tracker and fill it in with relevant details:
+```markdown
+**Description of feature/enhancement**
 
-**Proposed Feature / Enhancement**
 
-> Give us a brief description of the feature / enhancement you would like to see added to TEAMMATES,
->
-> e.g. A mobile web app for TEAMMATES
 
-**Problem it solves**
+**Justification**
+<!-- Explain who will benefit (instructors, students, developers, etc.) and in what way. -->
 
-> Tell us how your proposed feature / enhancement will benefit TEAMMATES,
->
-> e.g. Many students use TEAMMATES on their phones and the current mobile version is not ideal because...
 
-**Developer/User-facing**
 
-> Let us know if the proposed feature is for the benefit of the developer or user
-
-**Existing similar features (if any), and their shortcomings**
-
-> Let us know if there already are similar features in TEAMMATES, and why they fall short of your expectations
+**Existing similar features and their shortcomings**
+<!-- Explain why existing similar features fall short of your expectation. -->
+<!-- This section can be skipped if there are no existing similar features. -->
+```
