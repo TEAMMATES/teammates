@@ -70,7 +70,7 @@ public class InstructorCourseRemindAction extends Action {
                                                StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         } else if (isSendingToInstructor) {
-            taskQueuer.scheduleCourseRegistrationInviteToInstructor(loggedInUser.googleId, 
+            taskQueuer.scheduleCourseRegistrationInviteToInstructor(loggedInUser.googleId,
                     instructorEmail, courseId);
             
             InstructorAttributes instructorData = logic.getInstructorForEmail(courseId, instructorEmail);

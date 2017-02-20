@@ -523,7 +523,7 @@ public class EmailGenerator {
      * Generates the course join email for the given {@code instructor} in {@code course}.
      * Also specifies contact information of {@code sender} instructor or admin.
      */
-    public EmailWrapper generateInstructorCourseJoinEmail(AccountAttributes sender, 
+    public EmailWrapper generateInstructorCourseJoinEmail(AccountAttributes sender,
             InstructorAttributes receiver, CourseAttributes course) {
         
         String emailBody = Templates.populateTemplate(

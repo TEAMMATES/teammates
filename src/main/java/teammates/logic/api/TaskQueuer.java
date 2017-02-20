@@ -225,7 +225,7 @@ public class TaskQueuer {
      * @param courseId the target course ID
      * @param instructorEmail the email address of the instructor
      */
-    public void scheduleCourseRegistrationInviteToInstructor(String senderGoogleId, 
+    public void scheduleCourseRegistrationInviteToInstructor(String senderGoogleId,
             String receiverEmail, String courseId) {
         
         Map<String, String> paramMap = new HashMap<String, String>();
