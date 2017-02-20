@@ -16,7 +16,6 @@ import teammates.ui.template.AdminFilter;
 import teammates.ui.template.InstitutionPanel;
 
 public class AdminSessionsPageData extends PageData {
-    private static final String UNKNOWN_INSTITUTION = "Unknown";
     private int totalOngoingSessions;
     private int totalOpenStatusSessions;
     private int totalClosedStatusSessions;
@@ -199,21 +198,10 @@ public class AdminSessionsPageData extends PageData {
     public void setInstitutionPanels(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap) {
         institutionPanels = new ArrayList<InstitutionPanel>();
-        for (String key : map.keySet()) {
-            if (!key.equals(UNKNOWN_INSTITUTION)) {
-                institutionPanels.add(new InstitutionPanel(
-                                              key, getFeedbackSessionRows(
-                                                           map.get(key),
-                                                           sessionToInstructorIdMap)));
-            }
-        }
-        String key = UNKNOWN_INSTITUTION;
-        List<FeedbackSessionAttributes> feedbackSessions = map.get(key);
-        if (feedbackSessions != null) {
-            institutionPanels.add(new InstitutionPanel(
-                                          key, getFeedbackSessionRows(
-                                                       feedbackSessions,
-                                                       sessionToInstructorIdMap)));
+        for (Map.Entry<String, List<FeedbackSessionAttributes>> entry : map.entrySet()) {
+            institutionPanels.add(
+                    new InstitutionPanel(
+                            entry.getKey(), getFeedbackSessionRows(entry.getValue(), sessionToInstructorIdMap)));
         }
     }
 }

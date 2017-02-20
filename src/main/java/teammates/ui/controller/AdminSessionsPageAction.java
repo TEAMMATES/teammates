@@ -229,8 +229,8 @@ public class AdminSessionsPageAction extends Action {
     }
     
     private void constructSessionToInstructorIdMap() {
-        for (String institute : this.map.keySet()) {
-            for (FeedbackSessionAttributes fs : this.map.get(institute)) {
+        for (Map.Entry<String, List<FeedbackSessionAttributes>> entry : this.map.entrySet()) {
+            for (FeedbackSessionAttributes fs : entry.getValue()) {
                 String googleId = findAvailableInstructorGoogleIdForCourse(fs.getCourseId());
                 this.sessionToInstructorIdMap.put(fs.getIdentificationString(), googleId);
             }

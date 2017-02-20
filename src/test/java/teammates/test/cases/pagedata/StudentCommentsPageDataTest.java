@@ -117,9 +117,11 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         FeedbackSessionAttributes session = bundle.feedbackSession;
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponsesMap =
                 bundle.getQuestionResponseMap();
-        for (FeedbackQuestionAttributes question : questionToResponsesMap.keySet()) {
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry
+                : questionToResponsesMap.entrySet()) {
             List<ResponseRow> responseRows = new ArrayList<ResponseRow>();
-            List<FeedbackResponseAttributes> responses = questionToResponsesMap.get(question);
+            FeedbackQuestionAttributes question = entry.getKey();
+            List<FeedbackResponseAttributes> responses = entry.getValue();
             for (FeedbackResponseAttributes response : responses) {
                 List<FeedbackResponseCommentRow> feedbackResponseCommentRows = new ArrayList<FeedbackResponseCommentRow>();
                 List<FeedbackResponseCommentAttributes> responseComments =

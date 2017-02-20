@@ -99,11 +99,12 @@ public class InstructorCommentsPageData extends PageData {
         Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap(comments, roster);
         commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();
           
-        for (String giverEmail : comments.keySet()) {
+        for (Map.Entry<String, List<CommentAttributes>> entry : comments.entrySet()) {
+            String giverEmail = entry.getKey();
             String giverName = giverEmailToGiverNameMap.get(giverEmail);
             CommentsForStudentsTable table =
                     new CommentsForStudentsTable(
-                            giverName, createCommentRows(giverEmail, giverName, comments.get(giverEmail),
+                            giverName, createCommentRows(giverEmail, giverName, entry.getValue(),
                                                          commentModifyPermissions, roster));
             String extraClass;
             if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {

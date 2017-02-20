@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -217,9 +218,9 @@ public final class DataGenerator {
     public static String allInstructors() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"instructors\":{\n");
-        for (String instructor : instructors.keySet()) {
-            String course = PREFIX + instructors.get(instructor);
-            String instructorWithPrefix = PREFIX + instructor;
+        for (Map.Entry<String, String> entry : instructors.entrySet()) {
+            String course = PREFIX + instructors.get(entry.getValue());
+            String instructorWithPrefix = PREFIX + entry.getKey();
             outputBuilder.append('\t')
                          .append(instructor(instructorWithPrefix, "googleIdOf_" + instructorWithPrefix,
                                             "courseIdOf_" + course, "nameOf_" + instructorWithPrefix,
