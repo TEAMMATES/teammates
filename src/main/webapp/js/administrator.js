@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Contains functions common to the administrator pages.
  */

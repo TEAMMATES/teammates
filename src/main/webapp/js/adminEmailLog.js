@@ -1,3 +1,5 @@
+'use strict';
+
 var retryTimes = 0;
 var numOfEntriesPerPage = 50;
 

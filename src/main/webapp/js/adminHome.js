@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Generates HTML text for a row containing instructor's information
  * and status of the action.
