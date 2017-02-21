@@ -33,7 +33,7 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 2. In the `Local Check Configurations tab`, create a new Check Configuration. Select `Project Relative Configuration` for its Type, enter any Name you wish and set the Location to the `teammates-checkstyle.xml` file in the Project Folder. Click OK.
 3. In the `Main` tab, uncheck `Use simple configuration`.
 4. Add a new File Set. It should include only the `.java$` file. Enter any name you wish for the `File Set Name`, and select the Check Configuration that you created earlier for `Check Configuration`. Click OK.
-5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK. You have successfully setup the Checkstyle Eclipse plugin.
+5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK.
 
 ##### Configuring Checkstyle in IntelliJ IDEA
 
@@ -75,7 +75,6 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 2. Check `Enable PMD`.
 3. Under `Rule Source`, check `Use the ruleset configured in a project file`. Click `Browse`,
    navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK.
-   You have successfully setup the PMD Eclipse plugin.
 
 ##### Configuring PMD for IntelliJ
 
@@ -93,6 +92,7 @@ The suppression should be as specific as possible, and the reason for violating 
 [FindBugs](http://findbugs.sourceforge.net) analyses Java source code for potential bugs at bytecode level, thus able to find potential bugs that PMD cannot find.
 In Gradle build, the rules are configured by specifying the classes in the `visitors` variable.
 The plugin for Eclipse can be found [here](http://findbugs.cs.umd.edu/eclipse/).
+The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea).
 
 ### Macker
 
