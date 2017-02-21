@@ -101,6 +101,13 @@ public class InstructorSearchTest extends BaseSearchTest {
         instructorsDb.createInstructorsWithoutSearchability(Arrays.asList(ins1InCourse1));
         results = instructorsDb.searchInstructorsInWholeSystem("instructor1");
         verifySearchResults(results, ins1InCourse2);
+        
+        ______TS("success: search for instructors in whole system; deleting instructor without deleting document:"
+                + "document deleted during search, instructor unsearchable");
+        
+        instructorsDb.deleteEntity(ins2InCourse1);
+        results = instructorsDb.searchInstructorsInWholeSystem("instructor2");
+        verifySearchResults(results, ins2InCourse2);
     }
 
     /*
