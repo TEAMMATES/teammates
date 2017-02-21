@@ -34,7 +34,6 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 #### Set up the Run Configuration
 
-1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
 1. Go to `File → Project Structure...`.
 1. Under `Artifacts → Gradle : teammates.war (exploded)`, check `Include in project build`.
 1. Click `OK`.

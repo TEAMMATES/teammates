@@ -128,6 +128,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Click `Next`.
    * Check `Use auto-import`.
    * Click `Finish`.
+1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
 
 If you followed every step correctly, you should have successfully set up the development environment.
 You may proceed to the development routine as lined out in [this document](development.md).
