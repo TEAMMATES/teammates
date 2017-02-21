@@ -189,6 +189,9 @@ To run all static analysis tasks in one sitting, run the following command:
 
 ### Travis CI
 
+For Java tests, if your build and run is successful, [Codecov](https://codecov.io) will pull the test coverage data and generate a report on their server.
+The link to the report will be displayed in each PR, or by clicking the badge on the repository homepage.
+
 For JavaScript unit tests, coverage is done concurrently with the tests themselves.
 A coverage lower bound is enforced via `AllJsTests.java`, lower than which the build will fail.
 
@@ -197,12 +200,12 @@ A coverage lower bound is enforced via `AllJsTests.java`, lower than which the b
 For Java tests, choose `Coverage as TestNG Test` instead of the usual `Run as TestNG Test` to run the specified test or test suite.
 The coverage will be reported in Eclipse after the test run is over.
 
-Alternatively, use Gradle to run the tests, and obtain the coverage data with `jacocoTestReport` task, i.e:
-```
+Alternatively, use Gradle to run the tests, and obtain the coverage data with `jacocoReport` task, i.e:
+```sh
 ./gradlew ciTests
-./gradlew jacocoTestReport
+./gradlew jacocoReport
 ```
-The report can be found in the `build/reports/jacoco/test/` directory.
+The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
 
 For JavaScript unit tests, simply open `allJsUnitTests.html` and tick `Enable coverage`, or run `AllJsTests.java`.
 The coverage will be reported immediately in the test page.

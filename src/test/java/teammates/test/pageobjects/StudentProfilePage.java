@@ -150,7 +150,7 @@ public class StudentProfilePage extends AppPage {
         }
     }
 
-    public void editProfileThroughUi(String fileName, String shortName, String email, String institute,
+    public void editProfileThroughUi(String shortName, String email, String institute,
                                      String nationality, String gender, String moreInfo) {
         fillShortName(shortName);
         fillEmail(email);

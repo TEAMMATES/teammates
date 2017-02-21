@@ -4,7 +4,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
-public class InstructorFeedbackRemindAction extends InstructorFeedbacksPageAction {
+public class InstructorFeedbackRemindAction extends Action {
 
     @Override
     protected ActionResult execute() {
