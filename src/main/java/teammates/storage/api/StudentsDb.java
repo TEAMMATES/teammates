@@ -407,17 +407,18 @@ public class StudentsDb extends EntitiesDb {
             String lastName = StringHelper.splitName(newName)[1];
             
             if (isEmailChanged) {
-                CourseStudent newCourseStudent = new CourseStudent(newEmail, newName, newGoogleId, newComments,
-                                                                   courseId, newTeamName, newSectionName);
-               try{
-                   updateStudentChangeEmail(newCourseStudent, lastName, courseStudent, hasDocument,
-                                         keepUpdateTimestamp, courseId, email);
-               } catch (EntityAlreadyExistsException e) {
-                   StudentAttributes existingStudent = (StudentAttributes) e.existingEntity;
-                   String error = ERROR_UPDATE_EMAIL_ALREADY_USED
-                           + existingStudent.getName() + "/" + existingStudent.getEmail();
-                   throw new InvalidParametersException(error);
-               }
+                CourseStudent newCourseStudent = new CourseStudent(newEmail, newName, newGoogleId,
+                        newComments,
+                        courseId, newTeamName, newSectionName);
+                try {
+                    updateStudentChangeEmail(newCourseStudent, lastName, courseStudent, hasDocument,
+                            keepUpdateTimestamp, courseId, email);
+                } catch (EntityAlreadyExistsException e) {
+                    StudentAttributes existingStudent = (StudentAttributes) e.existingEntity;
+                    String error = ERROR_UPDATE_EMAIL_ALREADY_USED
+                            + existingStudent.getName() + "/" + existingStudent.getEmail();
+                    throw new InvalidParametersException(error);
+                }
             } else {
                 updateStudentDetails(newName, newTeamName, newSectionName, newEmail, newGoogleId,
                         newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
