@@ -27,8 +27,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         super(account);
     }
     
-    public void init(int tableIndex, CourseSummaryBundle courseSummary, InstructorAttributes instructor, int pendingComments,
-                     List<String> sectionNames) {
+    public void init(int tableIndex, CourseSummaryBundle courseSummary, InstructorAttributes instructor, int pendingComments) {
         this.index = tableIndex;
         this.courseTable = createCourseTable(
                 courseSummary.course, instructor, courseSummary.feedbackSessions, pendingComments);
