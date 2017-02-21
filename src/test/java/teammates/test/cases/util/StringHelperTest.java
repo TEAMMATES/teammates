@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -115,7 +116,7 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testKeyEncryption() {
+    public void testKeyEncryption() throws InvalidParametersException {
         String msg = "Test decryption";
         String decrptedMsg;
 

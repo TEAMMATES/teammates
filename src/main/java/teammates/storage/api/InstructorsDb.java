@@ -177,11 +177,15 @@ public class InstructorsDb extends EntitiesDb {
      * Returns null if no matching instructor.
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
-
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
-
-        String decryptedKey = StringHelper.decrypt(encryptedKey.trim());
-
+        
+        String decryptedKey;
+        try {
+            decryptedKey = StringHelper.decrypt(encryptedKey.trim());
+        } catch (InvalidParametersException e) {
+            return null;
+        }
+        
         Instructor instructor = getInstructorEntityForRegistrationKey(decryptedKey);
         if (instructor == null || JDOHelper.isDeleted(instructor)) {
             return null;

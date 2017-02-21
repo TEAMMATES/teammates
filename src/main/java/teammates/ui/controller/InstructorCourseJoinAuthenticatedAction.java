@@ -40,9 +40,15 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         }
 
         /* Set status to be shown to admin */
-        final String joinedCourseMsg = "Action Instructor Joins Course"
-                + "<br>Google ID: " + account.googleId
-                + "<br>Key : " + StringHelper.decrypt(regkey);
+        String joinedCourseMsg = "Action Instructor Joins Course"
+                + "<br>Google ID: " + account.googleId;
+        try {
+            joinedCourseMsg += "<br>Key : " + StringHelper.decrypt(regkey);
+        } catch (InvalidParametersException e) {
+            joinedCourseMsg += "<br>Key could not be decrypted.";
+            // no need to do setStatusForException and logging, as this case is already caught above
+        }
+        
         if (statusToAdmin == null) {
             statusToAdmin = joinedCourseMsg;
         } else {

@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -42,8 +43,15 @@ public class StudentProfilePictureAction extends Action {
 
     private ActionResult handleRequestWithEmailAndCourse()
             throws EntityDoesNotExistException {
-        String email = getStudentEmailFromRequest();
-        String courseId = getCourseIdFromRequest();
+        String email;
+        String courseId;
+        try {
+            email = getStudentEmailFromRequest();
+            courseId = getCourseIdFromRequest();
+        } catch (InvalidParametersException e) {
+            throw new EntityDoesNotExistException(e.getMessage());
+        }
+        
         log.info("email: " + email + ", course: " + courseId);
 
         StudentAttributes student = getStudentForGivenParameters(courseId, email);
@@ -67,14 +75,14 @@ public class StudentProfilePictureAction extends Action {
         return blobKey;
     }
 
-    private String getCourseIdFromRequest() {
+    private String getCourseIdFromRequest() throws InvalidParametersException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         courseId = StringHelper.decrypt(courseId);
         return courseId;
     }
 
-    private String getStudentEmailFromRequest() {
+    private String getStudentEmailFromRequest() throws InvalidParametersException {
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, email);
         email = StringHelper.decrypt(email);
