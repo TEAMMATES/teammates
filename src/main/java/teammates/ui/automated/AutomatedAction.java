@@ -3,6 +3,7 @@ package teammates.ui.automated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.logic.api.EmailSender;
@@ -58,8 +59,30 @@ public abstract class AutomatedAction {
         return HttpRequestHelper.getValueFromRequestParameterMap(request, paramName);
     }
     
+    /**
+     * Returns the value for the specified parameter expected to be present in the http request.
+     * Assumption: the requested parameter is not null.
+     *
+     * @param paramName  a constant from the {@link Const.ParamsNames} class.
+     */
+    protected String getNonNullRequestParamValue(String paramName) {
+        return getNonNullRequestParamValues(paramName)[0];
+    }
+    
     protected String[] getRequestParamValues(String paramName) {
         return HttpRequestHelper.getValuesFromRequestParameterMap(request, paramName);
+    }
+    
+    /**
+     * Returns the values for the specified parameter expected to be present in the http request.
+     * Assumption: the requested parameter is not null.
+     *
+     * @param paramName  a constant from the {@link Const.ParamsNames} class.
+     */
+    protected String[] getNonNullRequestParamValues(String paramName) {
+        String[] values = getRequestParamValues(paramName);
+        Assumption.assertPostParamNotNull(paramName, values);
+        return values;
     }
     
     protected void setForRetry() {
