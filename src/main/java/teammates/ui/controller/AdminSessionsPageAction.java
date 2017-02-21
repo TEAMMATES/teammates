@@ -245,21 +245,14 @@ public class AdminSessionsPageAction extends Action {
      */
     private String findAvailableInstructorGoogleIdForCourse(String courseId) {
         
-        String googleId = "";
-        
-        if (logic.getInstructorsForCourse(courseId) == null) {
-            return googleId;
-        }
-        
         for (InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)) {
           
             if (instructor.googleId != null) {
-                googleId = instructor.googleId;
-                break;
+                return instructor.googleId;
             }
         }
         
-        return googleId;
+        return "";
     }
 
     private AccountAttributes getRegisteredInstructorAccountFromInstructors(List<InstructorAttributes> instructors) {

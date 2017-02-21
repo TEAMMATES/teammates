@@ -35,13 +35,6 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
         data.bundle = logic.getFeedbackSessionQuestionsBundleForStudent(
                 feedbackSessionName, courseId, previewStudent.email);
         
-        // the following condition is not tested as typically the GateKeeper above handles
-        // the case and it wont happen
-        if (data.bundle == null) {
-            throw new EntityDoesNotExistException(
-                    "Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".");
-        }
-        
         data.setSessionOpenForSubmission(true);
         data.setPreview(true);
         data.setHeaderHidden(true);
