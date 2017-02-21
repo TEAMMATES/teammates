@@ -632,7 +632,7 @@ public class StudentsDb extends EntitiesDb {
         
             return studentList.get(0);
         } catch (Exception e) {
-            log.severe("Exception : " + e.getMessage() + "\n" + e.getStackTrace());
+            log.severe("Exception: " + TeammatesException.toStringWithStackTrace(e));
             return null;
         }
     }
