@@ -93,6 +93,9 @@ public class UploadBackupData extends RemoteApiClient {
     private static String[] getFolders() {
         File backupFolder = new File(BACKUP_FOLDER);
         String[] folders = backupFolder.list();
+        if (folders == null) {
+            return new String[] {};
+        }
         List<String> listOfFolders = Arrays.asList(folders);
         Collections.sort(listOfFolders, new Comparator<String>() {
             @Override
