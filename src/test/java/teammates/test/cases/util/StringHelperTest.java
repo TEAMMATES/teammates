@@ -1,6 +1,7 @@
 package teammates.test.cases.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -40,54 +41,54 @@ public class StringHelperTest extends BaseTestCase {
         //this method is used in header row processing in StudentAttributesFactory: locateColumnIndexes
         //so use this to test the various header field regex expressions here
 
-        String[] regexArray = FieldValidator.REGEX_COLUMN_NAME;
+        List<String> regexList = FieldValidator.REGEX_COLUMN_NAME;
         String[] stringsToMatch = {"names", "name", " name ", " names ", "student name", "students names",
                                    "student names", "students name", "full name", "full names", "full   names",
                                    "student full names", "students full    names", "Names", "NAMES", "Full Names",
                                    "FULL NAMES", "Full Name", "Student Full Name", "Name"};
-        verifyRegexMatch(stringsToMatch, regexArray, true);
+        verifyRegexMatch(stringsToMatch, regexList, true);
         
         stringsToMatch = new String[]{"namess", "nam", "student", "full"};
-        verifyRegexMatch(stringsToMatch, regexArray, false);
+        verifyRegexMatch(stringsToMatch, regexList, false);
 
-        regexArray = FieldValidator.REGEX_COLUMN_SECTION;
+        regexList = FieldValidator.REGEX_COLUMN_SECTION;
         stringsToMatch = new String[]{"section", "sections", "sect", "sec", "course sections", "courses sections",
                                       "course section", "course sections", "course sec", "courses sec", "Section",
                                       "SECTIONS", "Sect", "Sec", "Course Section", "Course Sections"};
-        verifyRegexMatch(stringsToMatch, regexArray, true);
+        verifyRegexMatch(stringsToMatch, regexList, true);
         
         stringsToMatch = new String[]{"secc", "Section 1", "Course 1"};
-        verifyRegexMatch(stringsToMatch, regexArray, false);
+        verifyRegexMatch(stringsToMatch, regexList, false);
 
-        regexArray = FieldValidator.REGEX_COLUMN_TEAM;
+        regexList = FieldValidator.REGEX_COLUMN_TEAM;
         stringsToMatch = new String[]{"team", "teams", "Team", "TEAMS", "group", "Group",
                                       "Groups", "GROUPS", "student teams", "students teams ", "student team",
                                       "students team", "STUDENT TEAM", "Student Teams ", "Student groups",
                                       "Student Groups", "student   groups", "student   teams", "Course Teams",
                                       "courses teams", "course   team", "courses team", "COURSE TEAM"};
-        verifyRegexMatch(stringsToMatch, regexArray, true);
+        verifyRegexMatch(stringsToMatch, regexList, true);
         
         stringsToMatch = new String[]{"tea", "Team 1", "Group 1"};
-        verifyRegexMatch(stringsToMatch, regexArray, false);
+        verifyRegexMatch(stringsToMatch, regexList, false);
 
-        regexArray = FieldValidator.REGEX_COLUMN_EMAIL;
+        regexList = FieldValidator.REGEX_COLUMN_EMAIL;
         stringsToMatch = new String[]{"email", "emails", " email ", " Email ", " Emails", "EMAILS", "EMAIL",
                                       "mail", "Mail", "MAIL", "MAILS", "E-mail", "E-MAILS", "E-mail", "E-mails",
                                       "e mails", "E mails", "E  mail", "E MAIL", "E MAILS", "Email address",
                                       "email addresses", "EMAIL addresses", "email   addresses", "E-mail addresses",
                                       "E-mail  addresses", "Contact", "CONTACT", "contacts"};
-        verifyRegexMatch(stringsToMatch, regexArray, true);
+        verifyRegexMatch(stringsToMatch, regexList, true);
         
         stringsToMatch = new String[]{"emai", "test@gmail.com", "address1"};
-        verifyRegexMatch(stringsToMatch, regexArray, false);
+        verifyRegexMatch(stringsToMatch, regexList, false);
         
-        regexArray = FieldValidator.REGEX_COLUMN_COMMENT;
+        regexList = FieldValidator.REGEX_COLUMN_COMMENT;
         stringsToMatch = new String[]{"comment", "Comment", "COMMENT", "comments", "Comments", " COMMENTS ",
                                       "note", "Note", "NOTE", "notes", "Notes", "  NOTES  "};
-        verifyRegexMatch(stringsToMatch, regexArray, true);
+        verifyRegexMatch(stringsToMatch, regexList, true);
         
         stringsToMatch = new String[]{"this is a comment", "this is a note", "one comment, one note"};
-        verifyRegexMatch(stringsToMatch, regexArray, false);
+        verifyRegexMatch(stringsToMatch, regexList, false);
 
     }
     
@@ -140,7 +141,7 @@ public class StringHelperTest extends BaseTestCase {
         fullName = null;
         splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName, null);
+        assertNull(splitName);
 
         fullName = "two words";
         splitName = StringHelper.splitName(fullName);
@@ -275,9 +276,9 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
     }
 
-    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult) {
+    private void verifyRegexMatch(String[] stringsToMatch, List<String> regexList, boolean expectedResult) {
         for (String str : stringsToMatch) {
-            assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
+            assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexList));
         }
     }
     

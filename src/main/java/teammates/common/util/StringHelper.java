@@ -52,10 +52,10 @@ public final class StringHelper {
      * Currently only used in header row processing in StudentAttributesFactory: locateColumnIndexes
      * Case Insensitive
      * @param input The string to be matched
-     * @param regexArray The regex array used for the matching
+     * @param regexList The regex list used for the matching
      */
-    public static boolean isAnyMatching(String input, String[] regexArray) {
-        for (String regex : regexArray) {
+    public static boolean isAnyMatching(String input, List<String> regexList) {
+        for (String regex : regexList) {
             if (isMatching(input.trim().toLowerCase(), regex)) {
                 return true;
             }
