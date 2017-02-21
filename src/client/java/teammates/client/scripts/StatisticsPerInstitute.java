@@ -280,7 +280,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             @Override
             public int compare(InstituteStats inst1, InstituteStats inst2) {
                 //the two objects are swapped, to sort in descending order
-                return Integer.valueOf(inst2.studentTotal).compareTo(Integer.valueOf(inst1.studentTotal));
+                return Integer.compare(inst2.studentTotal, inst1.studentTotal);
             }
         });
     }

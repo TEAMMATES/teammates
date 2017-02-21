@@ -33,7 +33,7 @@ public class Version implements Comparable<Version> {
     private String major;
     private String minor;
     private String patch;
-    private Boolean isRcVersion;
+    private boolean isRcVersion;
     
     /**
      * Creates a new instance of Version from string.
@@ -139,6 +139,6 @@ public class Version implements Comparable<Version> {
         if (patchComparisonResult != 0) {
             return patchComparisonResult;
         }
-        return -isRcVersion.compareTo(anotherVersion.isRcVersion);
+        return Boolean.compare(anotherVersion.isRcVersion, isRcVersion);
     }
 }
