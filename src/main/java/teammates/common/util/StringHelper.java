@@ -142,7 +142,7 @@ public final class StringHelper {
      * @throws InvalidParameterException if the ciphertext is invalid.
      * @throws RuntimeException if the decryption fails for any other reason, such as {@code Cipher} initialization failure.
      */
-    public static String decrypt(String message) {
+    public static String decrypt(String message) throws InvalidParametersException {
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
             Cipher cipher = Cipher.getInstance("AES");
@@ -150,7 +150,7 @@ public final class StringHelper {
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
             return new String(decrypted);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
-            throw new InvalidParametersException (e.getMessage());
+            throw new InvalidParametersException(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
