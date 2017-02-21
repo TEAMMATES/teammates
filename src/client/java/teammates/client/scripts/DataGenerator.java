@@ -121,8 +121,8 @@ public final class DataGenerator {
     public static void generateDataForCourse(String courseName) {
         //number of courses for this particular instructor
         long numOfInstr =
-                Math.round(random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES + 1)
-                           + MIN_NUM_OF_INSTRUCTOR_PER_COURSES);
+                random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES + 1)
+                + MIN_NUM_OF_INSTRUCTOR_PER_COURSES;
         
         for (int j = 0; j < numOfInstr; j++) {
             // Add an Instructor
@@ -160,7 +160,7 @@ public final class DataGenerator {
         //Add teams
         int teamCount = 1;
         while (!studentEmailInCourse.isEmpty()) {
-            long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE + 1) + MIN_TEAM_SIZE);
+            long teamSize = random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE + 1) + MIN_TEAM_SIZE;
             ArrayList<String> team = new ArrayList<String>();
             for (int k = 0; !studentEmailInCourse.isEmpty() && k < teamSize; k++) {
                 
