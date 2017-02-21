@@ -408,11 +408,10 @@ public class StudentsDb extends EntitiesDb {
             
             if (isEmailChanged) {
                 CourseStudent newCourseStudent = new CourseStudent(newEmail, newName, newGoogleId,
-                        newComments,
-                        courseId, newTeamName, newSectionName);
+                        newComments, courseId, newTeamName, newSectionName);
                 try {
                     updateStudentChangeEmail(newCourseStudent, lastName, courseStudent, hasDocument,
-                            keepUpdateTimestamp, courseId, email);
+                                             keepUpdateTimestamp, courseId, email);
                 } catch (EntityAlreadyExistsException e) {
                     StudentAttributes existingStudent = (StudentAttributes) e.existingEntity;
                     String error = ERROR_UPDATE_EMAIL_ALREADY_USED
@@ -431,8 +430,7 @@ public class StudentsDb extends EntitiesDb {
     
     public void updateStudentChangeEmail(CourseStudent newCourseStudent, String lastName,
             CourseStudent courseStudent, boolean hasDocument, boolean keepUpdateTimestamp, String courseId,
-            String email)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            String email) throws InvalidParametersException, EntityAlreadyExistsException {
         newCourseStudent.setLastName(lastName);
         newCourseStudent.setCreatedAt(courseStudent.getCreatedAt());
         if (keepUpdateTimestamp) {
@@ -443,10 +441,9 @@ public class StudentsDb extends EntitiesDb {
         deleteStudent(courseId, email);
     }
     
-    public void updateStudentDetails(String newName,
-            String newTeamName, String newSectionName, String newEmail, String newGoogleId,
-            String newComments, boolean hasDocument, boolean keepUpdateTimestamp,
-            CourseStudent courseStudent, String lastName) {
+    public void updateStudentDetails(String newName, String newTeamName, String newSectionName,
+            String newEmail, String newGoogleId, String newComments, boolean hasDocument,
+            boolean keepUpdateTimestamp, CourseStudent courseStudent, String lastName) {
         courseStudent.setName(newName);
         courseStudent.setLastName(lastName);
         courseStudent.setComments(newComments);
