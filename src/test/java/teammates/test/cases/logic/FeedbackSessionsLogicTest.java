@@ -2052,7 +2052,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private String tableToString(Map<String, boolean[]> table) {
         StringBuilder tableStringBuilder = new StringBuilder();
         for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
-            tableStringBuilder.append('{' + entry.getKey().toString() + "={"
+            tableStringBuilder.append('{' + entry.getKey() + "={"
                                       + entry.getValue()[0] + ','
                                       + entry.getValue()[1] + "}},");
         }
