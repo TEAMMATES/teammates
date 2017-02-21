@@ -141,7 +141,7 @@ public class StringHelperTest extends BaseTestCase {
         fullName = null;
         splitName = StringHelper.splitName(fullName);
         
-        assertNull(splitName);
+        assertEquals(0, splitName.length);
 
         fullName = "two words";
         splitName = StringHelper.splitName(fullName);

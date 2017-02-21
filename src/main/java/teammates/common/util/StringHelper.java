@@ -254,7 +254,7 @@ public final class StringHelper {
     public static String[] splitName(String fullName) {
         
         if (fullName == null) {
-            return null;
+            return new String[] {};
         }
            
         String lastName;
