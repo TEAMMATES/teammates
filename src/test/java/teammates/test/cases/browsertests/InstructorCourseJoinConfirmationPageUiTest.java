@@ -12,7 +12,6 @@ import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
-    private InstructorCourseJoinConfirmationPage confirmationPage;
 
     @Override
     protected void prepareTestData() {
@@ -60,7 +59,9 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                         .toAbsoluteString();
         logout();
         browser.driver.get(joinLink);
-        confirmationPage = AppPage.createCorrectLoginPageType(browser)
+        
+        InstructorCourseJoinConfirmationPage confirmationPage =
+                AppPage.createCorrectLoginPageType(browser)
                            .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
                                                      TestProperties.TEST_INSTRUCTOR_PASSWORD);
         
@@ -98,7 +99,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         // the rest can all be verifyMainHtml
         confirmationPage.verifyHtml("/instructorCourseJoinConfirmationHTML.html");
         
-        instructorHome = confirmationPage.clickConfirmButton();
+        confirmationPage.clickConfirmButton();
         
         ______TS("Already joined, no confirmation page");
                 

@@ -1943,24 +1943,20 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     
     public void testIsFeedbackSessionCompletedByInstructor() throws Exception {
         
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
-        
         ______TS("success: empty session");
         
-        fs = dataBundle.feedbackSessions.get("empty.session");
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
         
         assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs, instructor.email));
     }
     
     public void testIsFeedbackSessionCompletedByStudent() {
         
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes student = dataBundle.students.get("student2InCourse1");
-        
         ______TS("success: empty session");
         
-        fs = dataBundle.feedbackSessions.get("empty.session");
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
+        StudentAttributes student = dataBundle.students.get("student2InCourse1");
         
         assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.email));
     }

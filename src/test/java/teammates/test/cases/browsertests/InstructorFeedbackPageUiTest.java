@@ -591,17 +591,13 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        String courseId = testData.feedbackSessions.get("publishedSession").getCourseId();
-        String sessionName = testData.feedbackSessions.get("publishedSession").getFeedbackSessionName();
-
         ______TS("PRIVATE: publish link unclickable");
         
-        courseId = testData.feedbackSessions.get("privateSession").getCourseId();
-        sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
+        String courseId = testData.feedbackSessions.get("privateSession").getCourseId();
+        String sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
 
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
         feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
-        
         
         ______TS("MANUAL: publish link clickable");
         

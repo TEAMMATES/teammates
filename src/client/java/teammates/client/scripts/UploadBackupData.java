@@ -245,7 +245,7 @@ public class UploadBackupData extends RemoteApiClient {
         
         try {
             for (FeedbackResponseAttributes response : responses.values()) {
-                response = adjustFeedbackResponseId(response);
+                adjustFeedbackResponseId(response);
             }
             
             frDb.createFeedbackResponses(responses.values());
@@ -259,7 +259,7 @@ public class UploadBackupData extends RemoteApiClient {
 
         try {
             for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-                responseComment = adjustFeedbackResponseCommentId(responseComment);
+                adjustFeedbackResponseCommentId(responseComment);
             }
             
             fcDb.createFeedbackResponseComments(responseComments.values());
@@ -286,7 +286,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static FeedbackResponseAttributes adjustFeedbackResponseId(FeedbackResponseAttributes response) {
+    private static void adjustFeedbackResponseId(FeedbackResponseAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
         
         if (feedbackQuestionIds.containsKey(question.getId())) {
@@ -298,12 +298,9 @@ public class UploadBackupData extends RemoteApiClient {
             response.feedbackQuestionId = newId;
             feedbackQuestionIds.put(question.getId(), newId);
         }
-        
-        return response;
     }
     
-    private static FeedbackResponseCommentAttributes
-            adjustFeedbackResponseCommentId(FeedbackResponseCommentAttributes response) {
+    private static void adjustFeedbackResponseCommentId(FeedbackResponseCommentAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
         
         if (feedbackQuestionIds.containsKey(question.getId())) {
@@ -315,7 +312,5 @@ public class UploadBackupData extends RemoteApiClient {
             response.feedbackQuestionId = newId;
             feedbackQuestionIds.put(question.getId(), newId);
         }
-        
-        return response;
     }
 }

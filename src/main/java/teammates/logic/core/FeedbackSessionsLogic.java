@@ -1996,37 +1996,32 @@ public final class FeedbackSessionsLogic {
         boolean isToSection = Boolean.parseBoolean(params.get(PARAM_TO_SECTION));
         boolean isFromSection = Boolean.parseBoolean(params.get(PARAM_FROM_SECTION));
         
-        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
         if (params.get(PARAM_RANGE) == null) {
             if (isInSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
-                                                                               courseId, section);
+                return frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
             } else if (isFromSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName,
-                                                                                 courseId, section);
+                return frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, section);
             } else if (isToSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName,
-                                                                               courseId, section);
+                return frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, section);
             } else {
                 Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
             }
         } else {
             long range = Long.parseLong(params.get(PARAM_RANGE));
             if (isInSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
-                                                                                          courseId, section, range);
+                return frLogic.getFeedbackResponsesForSessionInSectionWithinRange(
+                        feedbackSessionName, courseId, section, range);
             } else if (isFromSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(feedbackSessionName,
-                                                                                            courseId, section, range);
+                return frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(
+                        feedbackSessionName, courseId, section, range);
             } else if (isToSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName,
-                                                                                          courseId, section, range);
+                return frLogic.getFeedbackResponsesForSessionToSectionWithinRange(
+                        feedbackSessionName, courseId, section, range);
             } else {
                 Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
             }
         }
-            
-        return allResponses;
+        return new ArrayList<FeedbackResponseAttributes>();
     }
 
     private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,
