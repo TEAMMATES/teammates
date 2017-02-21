@@ -11,7 +11,7 @@
 
 
 <div class="panel ${questionPanel.panelClass}">
-    <div class="panel-heading${questionPanel.ajaxClass}">
+    <div class="panel-heading overflow-auto${questionPanel.ajaxClass}">
         <c:if test="${questionPanel.collapsible}">
             <form style="display:none;" id="seeMore-${questionPanel.question.questionNumber}" class="seeMoreForm-${questionPanel.question.questionNumber}" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}">
