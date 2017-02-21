@@ -43,7 +43,7 @@ public class InstructorSearchDocument extends SearchDocument {
         String delim = ",";
         
         // produce searchableText for this instructor document:
-        // it contains courseId, courseName, instructorName, instructorEmail, instructorGoogleId, instructorRole
+        // contains courseId, courseName, instructorName, instructorEmail, instructorGoogleId, instructorRole, displayedName
         String searchableText = instructor.courseId + delim
                                 + (course == null ? "" : course.getName()) + delim
                                 + instructor.name + delim
