@@ -407,36 +407,38 @@ public class StudentsDb extends EntitiesDb {
             String lastName = StringHelper.splitName(newName)[1];
             
             if (isEmailChanged) {
-                CourseStudent newCourseStudent = new CourseStudent(newEmail, newName, newGoogleId,
-                        newComments, courseId, newTeamName, newSectionName);
-                try {
-                    updateStudentChangeEmail(newCourseStudent, lastName, courseStudent, hasDocument,
-                                             keepUpdateTimestamp, courseId, email);
-                } catch (EntityAlreadyExistsException e) {
-                    StudentAttributes existingStudent = (StudentAttributes) e.existingEntity;
-                    String error = ERROR_UPDATE_EMAIL_ALREADY_USED
-                            + existingStudent.getName() + "/" + existingStudent.getEmail();
-                    throw new InvalidParametersException(error);
-                }
+                CourseStudent newCourseStudent = new CourseStudent(newEmail, newName, newGoogleId, newComments,
+                                                                   courseId, newTeamName, newSectionName);
+                updateStudentChangeEmail(newCourseStudent, lastName, courseStudent, hasDocument,
+                                         keepUpdateTimestamp, courseId, email);
             } else {
                 updateStudentDetails(newName, newTeamName, newSectionName, newEmail, newGoogleId,
-                        newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
+                                     newComments,hasDocument, keepUpdateTimestamp, courseStudent, lastName);
             }
         }
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPm().close();
     }
-    
+
+    @SuppressWarnings("PMD.PreserveStackTrace")    
     public void updateStudentChangeEmail(CourseStudent newCourseStudent, String lastName,
             CourseStudent courseStudent, boolean hasDocument, boolean keepUpdateTimestamp, String courseId,
-            String email) throws InvalidParametersException, EntityAlreadyExistsException {
+            String email) throws InvalidParametersException, EntityDoesNotExistException {
         newCourseStudent.setLastName(lastName);
         newCourseStudent.setCreatedAt(courseStudent.getCreatedAt());
         if (keepUpdateTimestamp) {
             newCourseStudent.setLastUpdate(courseStudent.getUpdatedAt());
         }
-        createStudent(new StudentAttributes(newCourseStudent), hasDocument);
+
+        try {
+            createStudent(new StudentAttributes(newCourseStudent), hasDocument);
+        } catch (EntityAlreadyExistsException e) {
+            StudentAttributes existingStudent = (StudentAttributes) e.existingEntity;
+            String error = ERROR_UPDATE_EMAIL_ALREADY_USED
+                    + existingStudent.getName() + "/" + existingStudent.getEmail();
+            throw new InvalidParametersException(error);
+        }
 
         deleteStudent(courseId, email);
     }
