@@ -137,10 +137,10 @@ public final class StringHelper {
     /*
      * Decrypts the supplied string.
      *
-     * @param message the encrypted ciphertext
+     * @param message the ciphertext
      * @return the plaintext
-     * @throws InvalidParameterException if the message is not valid ciphertext.
-     * @throws RuntimeException if the decryption fails for any other reason, such as Cipher initialization failure.
+     * @throws InvalidParameterException if the ciphertext is invalid.
+     * @throws RuntimeException if the decryption fails for any other reason, such as {@code Cipher} initialization failure.
      */
     public static String decrypt(String message) {
         try {
