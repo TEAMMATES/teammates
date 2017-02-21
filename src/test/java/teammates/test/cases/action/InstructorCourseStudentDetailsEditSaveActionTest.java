@@ -6,9 +6,12 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
 import teammates.ui.controller.RedirectResult;
@@ -16,6 +19,8 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseActionTest {
 
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE;
@@ -75,6 +80,12 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         
         verifyNumberOfEmailsSent(a, 1);
         
+        EmailWrapper email = getEmailsSent(a).get(0);
+        String courseName = coursesLogic.getCourse(instructor1OfCourse1.courseId).getName();
+        assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName, instructor1OfCourse1.courseId),
+                     email.getSubject());
+        assertEquals(newStudentEmail, email.getRecipient());
+        
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
                 + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
@@ -98,7 +109,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
                 Const.ParamsNames.NEW_STUDENT_EMAIL, newStudentEmailToBeTrimmed,
                 Const.ParamsNames.COMMENTS, newStudentCommentsToBeTrimmed,
-                Const.ParamsNames.TEAM_NAME, newStudentTeamToBeTrimmed
+                Const.ParamsNames.TEAM_NAME, newStudentTeamToBeTrimmed,
+                Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK, "true"
         };
        
         InstructorCourseStudentDetailsEditSaveAction aToBeTrimmed = getAction(submissionParamsToBeTrimmed);

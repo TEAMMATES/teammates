@@ -674,14 +674,12 @@ public abstract class AppPage {
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
-    public AppPage clickAndConfirmWithoutWaitingForModalDisappearance(WebElement elementToClick) {
+    public void clickAndConfirmWithoutWaitingForModalDisappearance(WebElement elementToClick) {
         click(elementToClick);
         waitForModalPresence();
         WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
         waitForElementToBeClickable(okayButton);
         click(okayButton);
-        waitForPageToLoad();
-        return this;
     }
     
     /**

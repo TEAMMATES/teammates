@@ -84,7 +84,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
                 }
             }
             
-            statusToUser.add(new StatusMessage(isSessionSummarySendEmail
+            statusToUser.add(new StatusMessage(isSessionSummarySendEmail && isEmailChanged
                                 ? Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT
                                 : Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
             
