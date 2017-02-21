@@ -29,7 +29,7 @@
             </div>
             <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_RESULTS_DOWNLOAD%>">
                 <div id="DownloadQuestion">
-                    <input id="button_download" type="submit" class="btn btn-primary pull-right"
+                    <input id="button_download" type="submit" class="btn btn-primary pull-right margin-right-10px"
                         name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
                         value="Download Question Results">
                 </div>
