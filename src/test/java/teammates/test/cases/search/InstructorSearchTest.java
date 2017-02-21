@@ -23,12 +23,13 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         InstructorAttributes ins1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes ins2InCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
+        InstructorAttributes helperInCourse1 = dataBundle.instructors.get("helperOfCourse1");
         InstructorAttributes ins1InCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
         InstructorAttributes ins2InCourse2 = dataBundle.instructors.get("instructor2OfCourse2");
         InstructorAttributes ins3InCourse2 = dataBundle.instructors.get("instructor3OfCourse2");
         InstructorAttributes insInArchivedCourse = dataBundle.instructors.get("instructorOfArchivedCourse");
         InstructorAttributes insInUnregCourse = dataBundle.instructors.get("instructor5");
-
+        
         ______TS("success: search for instructors in whole system; query string does not match anyone");
 
         InstructorSearchResultBundle results =
@@ -87,8 +88,19 @@ public class InstructorSearchTest extends BaseSearchTest {
         
         ______TS("success: search for instructors in whole system; instructors should be searchable by their role");
         
-        results = instructorsDb.searchInstructorsInWholeSystem("Manager");
-        verifySearchResults(results, ins2InCourse1);
+        results = instructorsDb.searchInstructorsInWholeSystem("Custom");
+        verifySearchResults(results, helperInCourse1);
+        
+        ______TS("success: search for instructors in whole system; instructors should be searchable by displayed name");
+        
+        // create a new instructor with unique displayed name to test that field
+        // current displayed names in data bundle are either helper or instructor, which matches on many other fields
+        InstructorAttributes assistantProf = helperInCourse1.getCopy();
+        String displayedName = "Assistant Prof Smith";
+        assistantProf.displayedName = displayedName;
+        instructorsDb.createInstructors(Arrays.asList(assistantProf));
+        results = instructorsDb.searchInstructorsInWholeSystem(displayedName);
+        verifySearchResults(results, assistantProf);
         
         ______TS("success: search for instructors in whole system; deleted instructors no longer searchable");
         
