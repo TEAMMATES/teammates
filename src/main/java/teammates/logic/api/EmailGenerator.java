@@ -520,21 +520,21 @@ public class EmailGenerator {
     }
     
     /**
-     * Generates the course join email for the given {@code instructor} in {@code course}.
-     * Also specifies contact information of {@code sender} instructor or admin.
+     * Generates the course join email for the given {@code inviteReceiver} for {@code course}.
+     * Also specifies contact information of {@code inviter} instructor or admin.
      */
-    public EmailWrapper generateInstructorCourseJoinEmail(AccountAttributes sender,
-            InstructorAttributes receiver, CourseAttributes course) {
+    public EmailWrapper generateInstructorCourseJoinEmail(AccountAttributes inviter,
+            InstructorAttributes inviteReceiver, CourseAttributes course) {
         
         String emailBody = Templates.populateTemplate(
-                fillUpInstructorJoinFragment(receiver, EmailTemplates.USER_COURSE_JOIN),
-                "${userName}", SanitizationHelper.sanitizeForHtml(receiver.getName()),
+                fillUpInstructorJoinFragment(inviteReceiver, EmailTemplates.USER_COURSE_JOIN),
+                "${userName}", SanitizationHelper.sanitizeForHtml(inviteReceiver.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${inviterName}", SanitizationHelper.sanitizeForHtml(sender.getName()),
-                "${inviterEmail}", SanitizationHelper.sanitizeForHtml(sender.getEmail()),
+                "${inviterName}", SanitizationHelper.sanitizeForHtml(inviter.getName()),
+                "${inviterEmail}", SanitizationHelper.sanitizeForHtml(inviter.getEmail()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
-        EmailWrapper email = getEmptyEmailAddressedToEmail(receiver.getEmail());
+        EmailWrapper email = getEmptyEmailAddressedToEmail(inviteReceiver.getEmail());
         email.setSubject(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(),
                                        course.getName(), course.getId()));
         email.setContent(emailBody);

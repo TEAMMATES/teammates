@@ -25,24 +25,24 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
     
     @Override
     public void execute() {
-        String senderId = getRequestParamValue(ParamsNames.SENDER_ID);
-        Assumption.assertNotNull(senderId);
+        String inviterId = getRequestParamValue(ParamsNames.INVITER_ID);
+        Assumption.assertNotNull(inviterId);
         String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        String receiverInstructorEmail = getRequestParamValue(ParamsNames.EMAIL_RECEIVER);
-        Assumption.assertNotNull(receiverInstructorEmail);
+        String inviteReceiverEmail = getRequestParamValue(ParamsNames.INVITE_RECEIVER_EMAIL);
+        Assumption.assertNotNull(inviteReceiverEmail);
 
-        AccountAttributes sender = logic.getAccount(senderId);
-        Assumption.assertNotNull(sender);
+        AccountAttributes inviter = logic.getAccount(inviterId);
+        Assumption.assertNotNull(inviter);
         
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
         
-        InstructorAttributes receiver = logic.getInstructorForEmail(courseId, receiverInstructorEmail);
-        Assumption.assertNotNull(receiver);
+        InstructorAttributes inviteReceiver = logic.getInstructorForEmail(courseId, inviteReceiverEmail);
+        Assumption.assertNotNull(inviteReceiver);
         
         EmailWrapper email = new EmailGenerator()
-                .generateInstructorCourseJoinEmail(sender, receiver, course);
+                .generateInstructorCourseJoinEmail(inviter, inviteReceiver, course);
         
         try {
             emailSender.sendEmail(email);

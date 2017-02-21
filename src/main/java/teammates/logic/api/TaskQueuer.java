@@ -225,13 +225,13 @@ public class TaskQueuer {
      * @param courseId the target course ID
      * @param instructorEmail the email address of the instructor
      */
-    public void scheduleCourseRegistrationInviteToInstructor(String senderGoogleId,
-            String receiverEmail, String courseId) {
+    public void scheduleCourseRegistrationInviteToInstructor(String inviterGoogleId,
+            String inviteReceiverEmail, String courseId) {
         
         Map<String, String> paramMap = new HashMap<String, String>();
         
-        paramMap.put(ParamsNames.SENDER_ID, senderGoogleId);
-        paramMap.put(ParamsNames.EMAIL_RECEIVER, receiverEmail);
+        paramMap.put(ParamsNames.INVITER_ID, inviterGoogleId);
+        paramMap.put(ParamsNames.INVITE_RECEIVER_EMAIL, inviteReceiverEmail);
         paramMap.put(ParamsNames.COURSE_ID, courseId);
         
         addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,

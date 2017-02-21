@@ -260,13 +260,13 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String regkey = "skxxxxxxxxxks";
         
         @SuppressWarnings("deprecation")
-        InstructorAttributes receiver =
+        InstructorAttributes inviteReceiver =
                 new InstructorAttributes("googleId", "courseId", "Instructor Name", instructorEmail);
-        receiver.key = regkey;
+        inviteReceiver.key = regkey;
         
-        AccountAttributes sender = new AccountAttributes();
-        sender.email = "instructor-joe@gmail.com";
-        sender.name = "Joe Wilson";
+        AccountAttributes inviter = new AccountAttributes();
+        inviter.email = "instructor-joe@gmail.com";
+        inviter.name = "Joe Wilson";
         
         String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                 .withRegistrationKey(StringHelper.encrypt(regkey))
@@ -284,10 +284,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
         
         CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
         
-        email = new EmailGenerator().generateInstructorCourseJoinEmail(sender, receiver, course);
+        email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, inviteReceiver, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
         
-        verifyEmail(email, receiver.email, subject, "/instructorCourseJoinEmail.html");
+        verifyEmail(email, inviteReceiver.email, subject, "/instructorCourseJoinEmail.html");
         
     }
     
