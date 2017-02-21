@@ -12,7 +12,7 @@ QUnit.test('createRowForResultTable(shortName, name, email, institution, isSucce
     function testCreateRowForResultTable(isSuccess) {
         var testProperties = ['test', 'testName', 'testMail', 'testInstitution', isSuccess, 'testStatus'];
         var result = createRowForResultTable.apply(null, testProperties);
-        var expected = testProperties.slice();
+        var expected = testProperties.slice();  // deep clone testProperties
         expected[boolIndex] = isSuccess ? successClass : failureClass;
         expected.forEach(function(property) {
             assert.contains(result, property, 'should contain ' + property);
