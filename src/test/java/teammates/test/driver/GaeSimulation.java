@@ -16,6 +16,7 @@ import teammates.ui.automated.AutomatedActionFactory;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionFactory;
 
+import com.google.appengine.api.log.dev.LocalLogService;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalLogServiceTestConfig;
@@ -48,6 +49,8 @@ public class GaeSimulation {
 
     protected LocalServiceTestHelper helper;
 
+    protected LocalLogService localLogService;
+
     public static GaeSimulation inst() {
         return instance;
     }
@@ -78,6 +81,7 @@ public class GaeSimulation {
         helper.setUp();
 
         sc = new ServletRunner().newClient();
+        localLogService = LocalLogServiceTestConfig.getLocalLogService();
     }
 
     /**Logs in the user to the GAE simulation environment without admin rights.
@@ -122,6 +126,51 @@ public class GaeSimulation {
         assertTrue(gateKeeper.getCurrentUser().isStudent);
         assertFalse(gateKeeper.getCurrentUser().isInstructor);
         assertFalse(gateKeeper.getCurrentUser().isAdmin);
+    }
+
+    /**
+     * Clears all logs in GAE.
+     */
+    public void clearLogs() {
+        localLogService.clear();
+    }
+
+    /**
+     * Adds a request info in log service.
+     *
+     * @param appId
+     * @param versionId
+     * @param requestId
+     * @param ip
+     * @param nickname
+     * @param startTimeUsec
+     * @param endTimeUsec
+     * @param method
+     * @param resource
+     * @param httpVersion
+     * @param userAgent
+     * @param complete
+     * @param status
+     * @param referrer
+     */
+    public void addLogRequestInfo(String appId, String versionId, String requestId, String ip, String nickname,
+                                  long startTimeUsec, long endTimeUsec, String method, String resource,
+                                  String httpVersion, String userAgent, boolean complete, Integer status,
+                                  String referrer) {
+        localLogService.addRequestInfo(appId, versionId, requestId, ip, nickname, startTimeUsec, endTimeUsec,
+                                       method, resource, httpVersion, userAgent, complete, status, referrer);
+    }
+
+    /**
+     * Adds a App log line in GAE.
+     *
+     * @param requestId
+     * @param time
+     * @param level
+     * @param message
+     */
+    public void addAppLogLine(String requestId, long time, int level, String message) {
+        localLogService.addAppLogLine(requestId, time, level, message);
     }
 
     /**

@@ -23,8 +23,6 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.AdminActivityLogPageData;
 import teammates.ui.pagedata.PageData;
 
-import com.google.appengine.api.log.dev.LocalLogService;
-import com.google.appengine.tools.development.testing.LocalLogServiceTestConfig;
 import com.google.gson.reflect.TypeToken;
 
 public class AdminActivityLogPageActionTest extends BaseActionTest {
@@ -39,7 +37,6 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
 
     private static final int LOG_MESSAGE_INTERVAL_MANY_LOGS = 130;
 
-    private LocalLogService localLogService;
     private List<List<String>> logMessages;
 
     private SimpleDateFormat formatterAdminTime;
@@ -52,13 +49,23 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     @Override
     protected void prepareTestData() {
         super.prepareTestData();
+        loadLogMessages();
         initVariable();
     }
 
-    private void initVariable() {
-        localLogService = LocalLogServiceTestConfig.getLocalLogService();
-        logMessages = loadLogMessages();
+    private void loadLogMessages() {
+        try {
+            String pathToJsonFile = TestProperties.TEST_DATA_FOLDER + TYPICAL_LOG_MESSAGE;
+            String jsonString = FileHelper.readFile(pathToJsonFile);
+            Type listType = new TypeToken<List<List<String>>>(){}.getType();
 
+            logMessages = JsonUtils.fromJson(jsonString, listType);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void initVariable() {
         formatterAdminTime = new SimpleDateFormat("dd/MM/yy");
         formatterAdminTime.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
     }
@@ -261,7 +268,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyStatusMessage(statusMessage, 12, 1, yesterday);
         // TODO: fix the bug
         // Currently when the `person:xxx` like query is present,
-        // status message is supposed to contains the time in that person's timezone.
+        // status message is supposed to contain the time in that person's timezone.
         // But this function gets a huge bug: The query will be processed as lower case.
         // The person google id contains upper case. And thus the information could be lost.
         // In this case, person's google id will become `person:idofinstructor1ofcourse1`
@@ -483,7 +490,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     private void removeAndRestoreLogMessage() {
-        localLogService.clear();
+        gaeSimulation.clearLogs();
 
         Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
         insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TWO_DAYS_AGO), twoDaysAgo.getTime());
@@ -494,7 +501,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     private void removeAndRestoreManyLogs() {
-        localLogService.clear();
+        gaeSimulation.clearLogs();
 
         Date today = TimeHelper.getDateOffsetToCurrentTime(0);
         insertLogMessageAtTimeWithInterval(logMessages.get(LOG_MESSAGE_INDEX_MANY_LOGS),
@@ -512,7 +519,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         long logTimeInMillis = timeMillis - msgList.size() * intervalInSecond * 1000;
         for (int i = msgList.size() - 1; i >= 0; i--) {
             createDummyRequestInfoAtTime(logTimeInMillis);
-            localLogService.addAppLogLine(String.valueOf(logTimeInMillis),
+            gaeSimulation.addAppLogLine(String.valueOf(logTimeInMillis),
                                           logTimeInMillis * 1000, levelInfo, msgList.get(i));
             logTimeInMillis += intervalInSecond * 1000;
         }
@@ -521,21 +528,9 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     private void createDummyRequestInfoAtTime(long timeMillis) {
         String dummyStr = "TEST";
         String defaultVersion = "1";
-        localLogService.addRequestInfo(dummyStr, defaultVersion, String.valueOf(timeMillis), dummyStr,
+        gaeSimulation.addLogRequestInfo(dummyStr, defaultVersion, String.valueOf(timeMillis), dummyStr,
                                        dummyStr, timeMillis * 1000, timeMillis * 1000, dummyStr,
                                        dummyStr, dummyStr, dummyStr, true, 200, dummyStr);
-    }
-
-    private List<List<String>> loadLogMessages() {
-        try {
-            String pathToJsonFile = TestProperties.TEST_DATA_FOLDER + TYPICAL_LOG_MESSAGE;
-            String jsonString = FileHelper.readFile(pathToJsonFile);
-            Type listType = new TypeToken<List<List<String>>>(){}.getType();
-
-            return JsonUtils.fromJson(jsonString, listType);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private Calendar getBeginOfTheDayOffsetNowInAdminTimeZone(int dayOffset) {
