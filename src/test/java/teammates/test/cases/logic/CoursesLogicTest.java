@@ -372,8 +372,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("null parameter");
 
         try {
-            String nullCourseId = null;
-            coursesLogic.getCourseSummary(nullCourseId);
+            coursesLogic.getCourseSummary((String) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());

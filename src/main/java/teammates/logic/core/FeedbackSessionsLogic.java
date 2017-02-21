@@ -304,13 +304,12 @@ public final class FeedbackSessionsLogic {
                         courseId, userEmail);
         
         InstructorAttributes instructorGiver = instructor;
-        StudentAttributes studentGiver = null;
 
         for (FeedbackQuestionAttributes question : questions) {
 
             updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                     userEmail, fsa, instructor, bundle, recipientList,
-                    question, instructorGiver, studentGiver);
+                    question, instructorGiver, null);
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
@@ -335,11 +334,10 @@ public final class FeedbackSessionsLogic {
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
         
         InstructorAttributes instructorGiver = instructor;
-        StudentAttributes studentGiver = null;
 
         updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                 userEmail, fsa, instructor, bundle, recipientList,
-                question, instructorGiver, studentGiver);
+                question, instructorGiver, null);
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
@@ -1843,11 +1841,8 @@ public final class FeedbackSessionsLogic {
                             if (role == UserRole.INSTRUCTOR) {
                                 instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
                             }
-                            StudentAttributes student = null;
-                            Set<String> studentsEmailInTeam = null;
                             boolean isVisibleResponse = isResponseVisibleForUser(userEmail,
-                                    role, student, studentsEmailInTeam, response,
-                                    question, instructor);
+                                    role, null, null, response, question, instructor);
                             if (isVisibleResponse) {
                                 responses.add(response);
                                 addEmailNamePairsToTable(emailNameTable, response,

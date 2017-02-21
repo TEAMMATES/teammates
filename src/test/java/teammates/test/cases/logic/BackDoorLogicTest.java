@@ -33,9 +33,8 @@ public class BackDoorLogicTest extends BaseLogicTest {
         verifyPresentInDatastore(loadDataBundle("/FeedbackSessionResultsTest.json"));
         
         ______TS("null parameter");
-        DataBundle nullDataBundle = null;
         try {
-            backDoorLogic.persistDataBundle(nullDataBundle);
+            backDoorLogic.persistDataBundle(null);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(Const.StatusCodes.NULL_PARAMETER, e.errorCode);

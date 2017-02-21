@@ -138,9 +138,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(splitName[0], "");
         assertEquals(splitName[1], "");
         
-        fullName = null;
-        splitName = StringHelper.splitName(fullName);
-        
+        splitName = StringHelper.splitName(null);
         assertEquals(0, splitName.length);
 
         fullName = "two words";
@@ -172,11 +170,10 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testRemoveExtraSpace() {
         
+        assertEquals(null, StringHelper.removeExtraSpace((String) null));
+        
         String str = "";
         assertEquals("", StringHelper.removeExtraSpace(str));
-       
-        str = null;
-        assertEquals(null, StringHelper.removeExtraSpace(str));
        
         str = "a    a";
         assertEquals("a a", StringHelper.removeExtraSpace(str));
@@ -195,10 +192,9 @@ public class StringHelperTest extends BaseTestCase {
     public void testReplaceIllegalChars() {
         String regex = "[a-zA-Z0-9_.$-]+";
         
-        String str = null;
-        assertEquals(null, StringHelper.replaceIllegalChars(str, regex, '_'));
+        assertEquals(null, StringHelper.replaceIllegalChars(null, regex, '_'));
         
-        str = "";
+        String str = "";
         assertEquals("", StringHelper.replaceIllegalChars(str, regex, '_'));
         
         str = "abc";
@@ -224,11 +220,10 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testConvertToEmptyStringIfNull() {
-        String nul = null;
         String empty = "";
         String whitespace = " ";
         String nonEmpty = "non-empty";
-        assertEquals("", StringHelper.convertToEmptyStringIfNull(nul));
+        assertEquals("", StringHelper.convertToEmptyStringIfNull(null));
         assertEquals("non-empty", StringHelper.convertToEmptyStringIfNull(nonEmpty));
         assertEquals("", StringHelper.convertToEmptyStringIfNull(empty));
         assertEquals(" ", StringHelper.convertToEmptyStringIfNull(whitespace));

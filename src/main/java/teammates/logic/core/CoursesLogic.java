@@ -185,7 +185,7 @@ public final class CoursesLogic {
                 
                 //TODO Failing might not be the best course of action here.
                 //Maybe throw a custom exception and tell user to wait due to eventual consistency?
-                Assumption.assertNotNull("Student should not be null at this point.", s);
+                Assumption.fail("Student should not be null at this point.");
             }
             
             // Skip the course existence check since the course ID is obtained from a
