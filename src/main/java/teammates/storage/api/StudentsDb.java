@@ -436,7 +436,7 @@ public class StudentsDb extends EntitiesDb {
         } catch (EntityAlreadyExistsException e) {
             StudentAttributes existingStudent = (StudentAttributes) e.existingEntity;
             String error = ERROR_UPDATE_EMAIL_ALREADY_USED
-                    + existingStudent.getName() + "/" + existingStudent.getEmail();
+                           + existingStudent.getName() + "/" + existingStudent.getEmail();
             throw new InvalidParametersException(error);
         }
 
