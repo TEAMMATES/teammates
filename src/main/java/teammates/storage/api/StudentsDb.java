@@ -390,7 +390,6 @@ public class StudentsDb extends EntitiesDb {
                 newEmail, newGoogleId, newComments, false, false);
     }
 
-    @SuppressWarnings("PMD.PreserveStackTrace")
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail, String newGoogleId,
             String newComments, boolean hasDocument, boolean keepUpdateTimestamp)
