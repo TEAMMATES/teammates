@@ -66,15 +66,13 @@ public class InstructorsDb extends EntitiesDb {
     }
     
     /**
-     * This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID. This is used by amdin to
-     * search instructors in the whole system.
-     * @param queryString
-     * @return null if no result found
+     * Searches instructors in the whole system without visibility checking.
+     * 
+     * @param queryString query string
+     * @return if no result is found, InstructorSearchResultBundle with empty instructor list will be returned
      */
-    
     public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
-        
+        // This method should be only used by admin
         if (queryString.trim().isEmpty()) {
             return new InstructorSearchResultBundle();
         }

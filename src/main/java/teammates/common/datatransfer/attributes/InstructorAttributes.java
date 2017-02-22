@@ -240,7 +240,7 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Override
     public String toString() {
-        return JsonUtils.toJson(this, InstructorAttributes.class);
+        return getEntityTypeAsString() + ":" + getIdentificationString();
     }
  
     @Override
