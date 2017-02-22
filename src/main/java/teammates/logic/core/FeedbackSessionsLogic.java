@@ -1720,9 +1720,9 @@ public final class FeedbackSessionsLogic {
         for (FeedbackResponseCommentAttributes frc : allResponseComments) {
             FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
             FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
-            boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(userEmail, courseId,
-                    role, section, student, studentsEmailInTeam, relatedResponse,
-                    relatedQuestion, frc, instructor);
+            boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(userEmail,
+                    role, student, studentsEmailInTeam, relatedResponse,
+                    relatedQuestion, frc);
             if (isVisibleResponseComment) {
                 if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
                     frc.giverEmail = "Anonymous";
@@ -1953,9 +1953,9 @@ public final class FeedbackSessionsLogic {
             for (FeedbackResponseCommentAttributes frc : allResponseComments) {
                 FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
                 FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
-                boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(userEmail, courseId,
-                        role, section, student, studentsEmailInTeam, relatedResponse,
-                        relatedQuestion, frc, instructor);
+                boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(userEmail,
+                        role, student, studentsEmailInTeam, relatedResponse,
+                        relatedQuestion, frc);
                 if (isVisibleResponseComment) {
                     if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
                         frc.giverEmail = "Anonymous";
