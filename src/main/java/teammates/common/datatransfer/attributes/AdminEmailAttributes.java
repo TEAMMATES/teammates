@@ -96,7 +96,6 @@ public class AdminEmailAttributes extends EntityAttributes {
     @Override
     public void sanitizeForSaving() {
         this.subject = SanitizationHelper.sanitizeTextField(subject);
-        this.content = new Text(SanitizationHelper.sanitizeForHtml(content.getValue()));
     }
     
     public String getEmailId() {
@@ -152,7 +151,7 @@ public class AdminEmailAttributes extends EntityAttributes {
     }
     
     public String getContentForDisplay() {
-        return SanitizationHelper.desanitizeFromHtml(this.getContent().getValue());
+        return this.getContent().getValue();
     }
     
     public String getFirstAddressReceiver() {
