@@ -114,6 +114,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Click `Finish`.
 
 ### IntelliJ IDEA
+
 1. Download and install [IntelliJ IDEA Ultimate Edition](https://www.jetbrains.com/idea/).
    * You will need an Ultimate Edition license in order to work with Google App Engine in IntelliJ IDEA.
    * You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.

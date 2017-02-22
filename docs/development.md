@@ -44,7 +44,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 1. Click `+ → ...`. Select the App Engine SDK you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
 1. Under `Open browser`, uncheck `After launch`.
 1. Set the `JRE` to `1.7`.
-1. Set the `Port`to `8888`.
+1. Set the `Port` to `8888`.
 1. Under `Before launch`, click `+ → Run Gradle task`.
 1. Select `teammates` as the Gradle project and type "assemble" into the `Tasks` field.
 1. Click `OK`.
