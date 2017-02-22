@@ -221,9 +221,9 @@ public class TaskQueuer {
     /**
      * Schedules for course registration to be sent to the specified instructor.
      * 
-     * @param senderGoogleId googleId of instructor or administrator, which send invite
+     * @param inviterGoogleId googleId of instructor or administrator, which send invite
      * @param courseId the target course ID
-     * @param instructorEmail the email address of the instructor
+     * @param inviteReceiverEmail the email address of invited instructor
      */
     public void scheduleCourseRegistrationInviteToInstructor(String inviterGoogleId,
             String inviteReceiverEmail, String courseId) {

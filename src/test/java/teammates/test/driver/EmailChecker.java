@@ -3,7 +3,10 @@ package teammates.test.driver;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 
@@ -14,6 +17,11 @@ import teammates.common.util.Const;
 public final class EmailChecker {
     
     private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
+    
+    /** Regex, used for fetching information about inviter from email content. */
+    private static final String INVITER_INFO_REGEX = 
+            "for the course by (.+), who can be reached at (.+)\\.";
+    private static final Pattern INVITER_INFO_PATTERN = Pattern.compile(INVITER_INFO_REGEX);
     
     private EmailChecker() {
         // Utility class
@@ -38,6 +46,25 @@ public final class EmailChecker {
                 throw e;
             }
         }
+    }
+    
+    /**
+     * Verifies that given {@code emailContent} contains information about {@code inviter}.
+     * 
+     * @param inviter
+     * @param emailContent
+     * 
+     * @see EmailGenerator#generateInstructorCourseJoinEmail()
+     */
+    public static void verifyEmailContainsInviterInfo(AccountAttributes inviter, String emailContent) {
+        Matcher matcher = INVITER_INFO_PATTERN.matcher(emailContent);
+        matcher.find();
+        
+        String actualName = matcher.group(1);
+        String actualEmail = matcher.group(2);
+        
+        assertEquals(inviter.getName(), actualName);
+        assertEquals(inviter.getEmail(), actualEmail);
     }
     
     private static boolean testAndRunGodMode(String filePath, String emailContent) throws IOException {
