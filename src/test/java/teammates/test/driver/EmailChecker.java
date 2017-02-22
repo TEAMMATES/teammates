@@ -19,7 +19,7 @@ public final class EmailChecker {
     private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
     
     /** Regex, used for fetching information about inviter from email content. */
-    private static final String INVITER_INFO_REGEX = 
+    private static final String INVITER_INFO_REGEX =
             "for the course by (.+), who can be reached at (.+)\\.";
     private static final Pattern INVITER_INFO_PATTERN = Pattern.compile(INVITER_INFO_REGEX);
     
