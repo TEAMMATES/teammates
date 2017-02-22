@@ -195,7 +195,7 @@ public class InstructorAttributes extends EntityAttributes {
     @Override
     public Instructor toEntity() {
         if (key != null) {
-            return new Instructor(googleId, courseId, name, email, key, role,
+            return new Instructor(googleId, courseId, isArchived, name, email, key, role,
                                   isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
         }
         return new Instructor(googleId, courseId, isArchived, name, email, role,
