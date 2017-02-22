@@ -97,6 +97,14 @@ body {
     color: gray;
 }
 
+.color_orange {
+    color: #e46d0b;
+}
+
+.color_blue {
+    color: #4379D1;
+}
+
 .cursor-pointer {
     cursor: pointer;
     cursor: hand;
@@ -105,6 +113,20 @@ body {
 .constSumOptionsLabel {
     padding-right: 15px;
     max-width: 75%;
+}
+
+.ordered-table {
+    counter-reset: rownumber;
+}
+
+.ordered-table tr:not(.skip) {
+    counter-increment: rownumber;
+}
+
+.ordered-table tr td:first-child::before {
+    content: counter(rownumber) ".";
+    min-width: 1em;
+    margin-right: .5em;
 }
 
 /*
@@ -546,6 +568,41 @@ Apply to thead to make headers not bold.
 
 .affix-bottom {
     position: absolute;
+}
+
+/*////////////////////////////////////////////////////////////
+/////////////////////// Static page /////////////////////////
+//////////////////////////////////////////////////////////*/
+.navbar-brand {
+    padding: 0;
+}
+
+.btn-login {
+    color: #00FF00;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.btn-login:focus, .btn-login:hover, .btn-login:active {
+    color: #00FF00;
+}
+
+@media (max-width: 768px) {
+    .btn-login {
+        width: 100%;
+        text-align: right;
+    }
+}
+
+/* prevent dom height from jumping, adjust as needed */
+#testimonialContainer {
+    min-height: 14rem;
+}
+
+#raisedEdge {
+    position: relative;
+    z-index: -1;
+    top: -2em;
 }
 
 /*////////////////////////////////////////////////////////////
