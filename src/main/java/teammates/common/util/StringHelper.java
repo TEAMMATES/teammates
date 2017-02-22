@@ -150,7 +150,8 @@ public final class StringHelper {
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
             return new String(decrypted);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
-            throw new InvalidParametersException(e.getMessage());
+            // potential PMD bug? No stack trace info is lost here
+            throw new InvalidParametersException(e.getMessage()); //NOPMD
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

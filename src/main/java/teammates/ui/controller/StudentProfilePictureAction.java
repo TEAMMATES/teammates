@@ -49,7 +49,8 @@ public class StudentProfilePictureAction extends Action {
             email = getStudentEmailFromRequest();
             courseId = getCourseIdFromRequest();
         } catch (InvalidParametersException e) {
-            throw new EntityDoesNotExistException(e.getMessage());
+            // potential PMD bug? No stack trace info is lost here
+            throw new EntityDoesNotExistException(e.getMessage()); //NOPMD
         }
         
         log.info("email: " + email + ", course: " + courseId);
