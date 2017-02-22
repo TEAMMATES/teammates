@@ -705,21 +705,19 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomPublishTimeButton();
         
         // setup various dates
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar initialCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        cal.set(2014, 3, 16, 0, 0, 0);
+        initialCal.set(2014, 3, 16, 0, 0, 0);
         
         // fill in defaut values
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, cal);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, cal);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, cal);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, initialCal);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, initialCal);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, initialCal);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, initialCal);
         
 
         ______TS("increasing start date does not affect end date value");
-        Calendar initialCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        initialCal.setTime(cal.getTime());
         
         Calendar increasedStartDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         increasedStartDate.set(2014, 4, 16, 0, 0, 0);
