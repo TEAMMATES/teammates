@@ -14,7 +14,6 @@ import teammates.ui.template.FeedbackResponseCommentRow;
 public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public FeedbackResponseCommentAttributes comment;
     public String commentId;
-    public String commentTime;
     public String giverName;
     public String recipientName;
     public String showCommentToString;

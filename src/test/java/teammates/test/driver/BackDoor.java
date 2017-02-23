@@ -360,7 +360,7 @@ public final class BackDoor {
     private static String encodeParameters(Map<String, String> map) {
         StringBuilder dataStringBuilder = new StringBuilder();
         for (Map.Entry<String, String> e : map.entrySet()) {
-            dataStringBuilder.append(e.getKey() + "=" + SanitizationHelper.sanitizeForUri(e.getValue().toString()) + "&");
+            dataStringBuilder.append(e.getKey() + "=" + SanitizationHelper.sanitizeForUri(e.getValue()) + "&");
         }
         return dataStringBuilder.toString();
     }

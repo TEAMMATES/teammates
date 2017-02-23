@@ -21,7 +21,7 @@ import teammates.test.pageobjects.StudentProfilePicturePage;
 
 @Priority(-3)
 public class StudentProfilePageUiTest extends BaseUiTestCase {
-    private static StudentProfilePage profilePage;
+    private StudentProfilePage profilePage;
 
     @Override
     protected void prepareTestData() {

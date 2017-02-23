@@ -49,7 +49,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
     private void updateProgressIndicator(int total) {
         counter++;
         if (counter % PROGRESS_STEP == 0 || counter == total) {
-            System.out.printf("total accounts modified %d/%d \n", counter, total);
+            System.out.printf("total accounts modified %d/%d %n", counter, total);
         }
     }
 

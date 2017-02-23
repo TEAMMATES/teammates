@@ -39,7 +39,7 @@ import com.google.appengine.api.datastore.Text;
  */
 @Priority(6)
 public class AdminHomePageUiTest extends BaseUiTestCase {
-    private static AdminHomePage homePage;
+    private AdminHomePage homePage;
 
     @Override
     protected void prepareTestData() {

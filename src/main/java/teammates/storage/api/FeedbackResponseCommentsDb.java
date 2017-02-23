@@ -159,12 +159,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntityForGiver(courseId, giverEmail);
         
-        if (frcList == null) {
-            log.info("Trying to get non-existent response comment: from: " + giverEmail
-                    + " in the course: " + courseId);
-            return null;
-        }
-        
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
             if (!JDOHelper.isDeleted(frc)) {

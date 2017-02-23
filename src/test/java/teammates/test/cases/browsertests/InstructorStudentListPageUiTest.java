@@ -28,7 +28,7 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
  */
 @Priority(-1)
 public class InstructorStudentListPageUiTest extends BaseUiTestCase {
-    private static InstructorStudentListPage viewPage;
+    private InstructorStudentListPage viewPage;
 
     @Override
     protected void prepareTestData() throws Exception {
@@ -100,7 +100,15 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(1);
         // This is the full HTML verification for Instructor Student List Page, the rest can all be verifyMainHtml
         viewPage.verifyHtml("/instructorStudentListWithHelperView.html");
-
+        
+        // verify copy email functionality
+        viewPage.toggleShowEmailCheckbox();
+        assertFalse(viewPage.isCopyEmailButtonVisible());
+        viewPage.toggleShowEmailCheckbox();
+        viewPage.clickCopyEmailButton();
+        viewPage.waitForCopyEmailPopoverVisible();
+        assertEquals(viewPage.getShownEmailsText(), viewPage.getSelectedText().trim());
+        
         // update current instructor privileges
         BackDoor.deleteInstructor(instructorWith2Courses.courseId, instructorWith2Courses.email);
         instructorWith2Courses.privileges.setDefaultPrivilegesForCoowner();

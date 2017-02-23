@@ -17,7 +17,7 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
  * SUT: {@link FeedbackSubmitPage}.
  */
 public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
-    private static FeedbackSubmitPage submitPage;
+    private FeedbackSubmitPage submitPage;
 
     @Override
     protected void prepareTestData() {

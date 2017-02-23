@@ -20,10 +20,10 @@ import teammates.test.pageobjects.InstructorCoursesPage;
  * SUT {@link InstructorCourseEditPage}. <br>
  */
 public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
-    private static InstructorCourseEditPage courseEditPage;
+    private InstructorCourseEditPage courseEditPage;
     
-    private static String instructorId;
-    private static String courseId;
+    private String instructorId;
+    private String courseId;
     
     @Override
     protected void prepareTestData() {

@@ -34,7 +34,6 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String enrollString = "";
-        String[] submissionParams = new String[]{};
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
@@ -59,7 +58,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                        // An existing student, now with extra spaces, should cause no modification
                        + "Section 1 \t Team   1.1</td></div>'\"\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t";
         
-        submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
@@ -222,13 +221,10 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         ______TS("Boundary test for size limit per enrollment");
         
-        //TODO: sync this var with SIZE_LIMIT_PER_ENROLLMENT defined in StudentsLogic, by putting it in config or Const class
-        int sizeLimitBoundary = 150;
-        
         //can enroll, if within the size limit
         StringBuilder enrollStringBuilder = new StringBuilder(200);
         enrollStringBuilder.append("Section\tTeam\tName\tEmail");
-        for (int i = 0; i < sizeLimitBoundary; i++) {
+        for (int i = 0; i < Const.SIZE_LIMIT_PER_ENROLLMENT; i++) {
             enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i
                                                          + "\temail" + i + "@nonexistemail.nonexist");
         }
@@ -243,9 +239,10 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         verifyNoTasksAdded(enrollAction);
         
         //fail to enroll, if exceed the range
-        enrollStringBuilder.append(Const.EOL).append("section" + sizeLimitBoundary + "\tteam" + sizeLimitBoundary
-                                                     + "\tname" + sizeLimitBoundary + "\temail" + sizeLimitBoundary
-                                                     + "@nonexistemail.nonexist");
+        enrollStringBuilder.append(Const.EOL).append(
+                "section" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\tteam" + Const.SIZE_LIMIT_PER_ENROLLMENT
+                 + "\tname" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\temail" + Const.SIZE_LIMIT_PER_ENROLLMENT
+                 + "@nonexistemail.nonexist");
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()

@@ -233,7 +233,7 @@ public class FeedbackSession {
      */
     public double getTimeZone() {
         if (timeZone != Const.INT_UNINITIALIZED) {
-            timeZoneDouble = new Double(timeZone);
+            timeZoneDouble = Double.valueOf(timeZone);
             timeZone = Const.INT_UNINITIALIZED;
         }
         return timeZoneDouble;

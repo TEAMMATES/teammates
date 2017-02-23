@@ -1828,19 +1828,17 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
     
     public void testUpdateFeedbackSession() throws Exception {
-
-        FeedbackSessionAttributes fsa = null;
         
         ______TS("failure 1: null object");
         try {
-            fsLogic.updateFeedbackSession(fsa);
+            fsLogic.updateFeedbackSession(null);
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             AssertHelper.assertContains(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
         }
         
         ______TS("failure 2: non-existent session name");
-        fsa = new FeedbackSessionAttributes();
+        FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
         fsa.setFeedbackSessionName("asdf_randomName1423");
         fsa.setCourseId("idOfTypicalCourse1");
         
@@ -1943,24 +1941,20 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     
     public void testIsFeedbackSessionCompletedByInstructor() throws Exception {
         
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
-        
         ______TS("success: empty session");
         
-        fs = dataBundle.feedbackSessions.get("empty.session");
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
         
         assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs, instructor.email));
     }
     
     public void testIsFeedbackSessionCompletedByStudent() {
         
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes student = dataBundle.students.get("student2InCourse1");
-        
         ______TS("success: empty session");
         
-        fs = dataBundle.feedbackSessions.get("empty.session");
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
+        StudentAttributes student = dataBundle.students.get("student2InCourse1");
         
         assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.email));
     }
@@ -2052,7 +2046,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private String tableToString(Map<String, boolean[]> table) {
         StringBuilder tableStringBuilder = new StringBuilder();
         for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
-            tableStringBuilder.append('{' + entry.getKey().toString() + "={"
+            tableStringBuilder.append('{' + entry.getKey() + "={"
                                       + entry.getValue()[0] + ','
                                       + entry.getValue()[1] + "}},");
         }

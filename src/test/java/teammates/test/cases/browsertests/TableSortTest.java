@@ -4,12 +4,13 @@ import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.util.Const;
 import teammates.test.pageobjects.AppPage;
 
 /** Covers the table sorting functionality
  */
 public class TableSortTest extends BaseUiTestCase {
-    private static AppPage page;
+    private AppPage page;
 
     @Override
     protected void prepareTestData() {
@@ -17,8 +18,9 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @BeforeClass
-    public void classSetup() throws Exception {
-        page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/tableSort.html"));
+    public void classSetup() {
+        loginAdmin();
+        page = AppPage.getNewPageInstance(browser).navigateTo(createUrl(Const.ViewURIs.TABLE_SORT));
     }
     
     @Test

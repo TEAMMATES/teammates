@@ -10,7 +10,7 @@ import teammates.test.pageobjects.AppPage;
 
 public class TimezoneSyncerTest extends BaseUiTestCase {
     
-    private static AppPage page;
+    private AppPage page;
     
     @Override
     protected void prepareTestData() {

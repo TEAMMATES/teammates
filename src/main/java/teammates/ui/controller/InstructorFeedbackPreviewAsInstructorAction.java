@@ -14,15 +14,9 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String previewInstructorEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
-                                               Const.ParamsNames.COURSE_ID),
-                                               courseId);
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
-                                               Const.ParamsNames.FEEDBACK_SESSION_NAME),
-                                               feedbackSessionName);
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
-                                               Const.ParamsNames.PREVIEWAS),
-                                               previewInstructorEmail);
+        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, courseId);
+        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, previewInstructorEmail);
 
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -42,13 +36,6 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
                 feedbackSessionName,
                 courseId,
                 previewInstructor.email);
-        
-        // the following condition is not tested as typically the GateKeeper above handles
-        // the case and it wont happen
-        if (data.bundle == null) {
-            throw new EntityDoesNotExistException(
-                    "Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".");
-        }
         
         data.setSessionOpenForSubmission(true);
         data.setPreview(true);

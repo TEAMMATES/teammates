@@ -128,7 +128,7 @@ public final class Assumption {
         }
         
         if (Math.abs(expected - actual) > delta) {
-            failNotEquals(message, new Double(expected), new Double(actual));
+            failNotEquals(message, Double.valueOf(expected), Double.valueOf(actual));
         }
     }
 
@@ -152,7 +152,7 @@ public final class Assumption {
         }
         
         if (Math.abs(expected - actual) > delta) {
-            failNotEquals(message, new Float(expected), new Float(actual));
+            failNotEquals(message, Float.valueOf(expected), Float.valueOf(actual));
         }
     }
 
@@ -216,7 +216,7 @@ public final class Assumption {
      * is thrown with the given message.
      */
     public static void assertEquals(String message, char expected, char actual) {
-        assertEquals(message, new Character(expected), new Character(actual));
+        assertEquals(message, Character.valueOf(expected), Character.valueOf(actual));
     }
 
     /**
@@ -365,7 +365,7 @@ public final class Assumption {
         return formatted + "expected:<" + expected + "> but was:<" + actual + ">";
     }
 
-    public static void assertPostParamNotNull(String parameterName, String postParameter) {
+    public static <T> void assertPostParamNotNull(String parameterName, T postParameter) {
         if (postParameter == null) {
             throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     parameterName));
