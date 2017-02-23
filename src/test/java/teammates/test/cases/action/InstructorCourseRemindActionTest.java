@@ -61,7 +61,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         TaskWrapper taskAdded = remindAction.getTaskQueuer().getTasksAdded().get(0);
         Map<String, String[]> paramMap = taskAdded.getParamMap();
         assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
-        assertEquals(anotherInstructorOfCourse1.email, paramMap.get(ParamsNames.INVITE_RECEIVER_EMAIL)[0]);
+        assertEquals(anotherInstructorOfCourse1.email, paramMap.get(ParamsNames.INSTRUCTOR_EMAIL)[0]);
         
         ______TS("Typical case: Send email to remind a student to register for the course");
         

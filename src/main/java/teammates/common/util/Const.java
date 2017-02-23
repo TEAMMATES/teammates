@@ -712,9 +712,7 @@ public final class Const {
         public static final String PREVIEWAS = "previewas";
         
         public static final String STUDENT_ID = "googleid";
-        
-        public static final String INVITER_ID = "inviterGoogleId";
-        public static final String INVITE_RECEIVER_EMAIL = "inviteReceiverEmail";
+        public static final String INVITER_ID = "invitergoogleid";
         
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";

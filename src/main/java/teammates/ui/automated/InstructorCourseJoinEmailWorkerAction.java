@@ -29,7 +29,7 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
         Assumption.assertNotNull(inviterId);
         String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        String instructorEmail = getRequestParamValue(ParamsNames.INVITE_RECEIVER_EMAIL);
+        String instructorEmail = getRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertNotNull(instructorEmail);
 
         AccountAttributes inviter = logic.getAccount(inviterId);

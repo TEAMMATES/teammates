@@ -231,7 +231,7 @@ public class TaskQueuer {
         Map<String, String> paramMap = new HashMap<String, String>();
         
         paramMap.put(ParamsNames.INVITER_ID, inviterGoogleId);
-        paramMap.put(ParamsNames.INVITE_RECEIVER_EMAIL, instructorEmail);
+        paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         paramMap.put(ParamsNames.COURSE_ID, courseId);
         
         addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,

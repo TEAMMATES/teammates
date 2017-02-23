@@ -78,7 +78,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         Map<String, String[]> paramMap = taskAdded.getParamMap();
         
         assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
-        assertEquals(instructorAdded.email, paramMap.get(ParamsNames.INVITE_RECEIVER_EMAIL)[0]);
+        assertEquals(instructorAdded.email, paramMap.get(ParamsNames.INSTRUCTOR_EMAIL)[0]);
         assertEquals(instructorId, paramMap.get(ParamsNames.INVITER_ID)[0]);
         
         ______TS("Error: try to add an existing instructor");
@@ -181,7 +181,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         paramMap = taskAdded.getParamMap();
         
         assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
-        assertEquals(instructorAdded.email, paramMap.get(ParamsNames.INVITE_RECEIVER_EMAIL)[0]);
+        assertEquals(instructorAdded.email, paramMap.get(ParamsNames.INSTRUCTOR_EMAIL)[0]);
         assertEquals(adminUserId, paramMap.get(ParamsNames.INVITER_ID)[0]);
     }
     

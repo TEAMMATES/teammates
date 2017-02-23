@@ -288,6 +288,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
         
         verifyEmail(email, instructor.email, subject, "/instructorCourseJoinEmail.html");
+        
     }
     
     @Test
