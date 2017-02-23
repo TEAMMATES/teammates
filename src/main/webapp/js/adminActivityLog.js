@@ -67,7 +67,7 @@ function submitFormAjax(searchTimeOffset) {
             button.html("<img src='/images/ajax-loader.gif'/>");
         },
         error: function() {
-            setFormErrorMessage(olderButton, 'Failed to load older logs. Please try again.');
+            setFormErrorMessage(button, 'Failed to load older logs. Please try again.');
             button.html('Retry');
         },
         success: function(data) {
