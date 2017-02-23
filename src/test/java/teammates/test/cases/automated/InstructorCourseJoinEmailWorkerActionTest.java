@@ -10,7 +10,6 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.AccountsLogic;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.test.driver.EmailChecker;
 import teammates.ui.automated.InstructorCourseJoinEmailWorkerAction;
 
 /**
