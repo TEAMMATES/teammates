@@ -13,17 +13,17 @@ public class AdminLogQuery {
      * A flag to decide whether to include application logs in result or not.
      */
     private static final boolean INCLUDE_APP_LOG = true;
-    
+
     /**
      * Affects the internal strategy to get logs. It doesn't affect the result.
      */
     private static final int BATCH_SIZE = 1000;
     private static final LogLevel MIN_LOG_LEVEL = LogLevel.INFO;
-    
+
     private LogQuery query;
     private long startTime;
     private long endTime;
-    
+
     /**
      * Sets values for query.
      * If startTime is null, it will be considered as 0.
@@ -35,7 +35,7 @@ public class AdminLogQuery {
      */
     public AdminLogQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
         Assumption.assertNotNull(versionsToQuery);
-        
+
         query = LogQuery.Builder.withDefaults();
         query.includeAppLogs(INCLUDE_APP_LOG);
         query.batchSize(BATCH_SIZE);
@@ -43,14 +43,14 @@ public class AdminLogQuery {
         setTimePeriod(startTime, endTime);
         query.majorVersionIds(versionsToQuery);
     }
-    
+
     /**
      * Gets query to retrieve logs.
      */
     public LogQuery getQuery() {
         return query;
     }
-    
+
     /**
      * Sets time period to search for query.
      * If startTime is null, it will be considered as 0.
@@ -70,21 +70,21 @@ public class AdminLogQuery {
         this.startTime = startTime;
         this.endTime = endTime;
     }
-    
+
     /**
      * Gets end time of the query.
      */
     public long getEndTime() {
         return endTime;
     }
-    
+
     /**
      * Gets start time of the query.
      */
     public long getStartTime() {
         return startTime;
     }
-    
+
     /**
      * Moves the time period to query logs to the next period in the past with a length of timeInMillis.
      * @param timeInMillis the length of the next period in milliseconds.

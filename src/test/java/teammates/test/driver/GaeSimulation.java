@@ -43,27 +43,27 @@ public class GaeSimulation {
 
     /** This is used only to generate an HttpServletRequest for given parameters */
     protected ServletUnitClient sc;
-    
+
     protected LocalServiceTestHelper helper;
 
     public static GaeSimulation inst() {
         return instance;
     }
-    
+
     public synchronized void setup() {
         setupWithTaskQueueCallbackClass(null);
     }
-    
+
     public synchronized void setupWithTaskQueueCallbackClass(Class<? extends LocalTaskQueueCallback> callbackClass) {
         System.out.println("Setting up GAE simulation");
-        
+
         LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
         localTasks.setQueueXmlPath(QUEUE_XML_PATH);
         if (callbackClass != null) {
             localTasks.setCallbackClass(callbackClass)
                       .setDisableAutoTaskExecution(false);
         }
-        
+
         LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
         LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
         LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
@@ -71,7 +71,7 @@ public class GaeSimulation {
         localSearch.setPersistent(false);
         helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localTasks, localSearch);
         helper.setUp();
-        
+
         sc = new ServletRunner().newClient();
     }
 
@@ -118,7 +118,7 @@ public class GaeSimulation {
         assertFalse(gateKeeper.getCurrentUser().isInstructor);
         assertFalse(gateKeeper.getCurrentUser().isAdmin);
     }
-    
+
     /** 
      * @param parameters Parameters that appear in a HttpServletRequest
      * received by the app.
@@ -131,7 +131,7 @@ public class GaeSimulation {
         action.setEmailSender(new MockEmailSender());
         return action;
     }
-    
+
     /** 
      * @param parameters Parameters that appear in a HttpServletRequest
      * received by the app.
@@ -157,9 +157,9 @@ public class GaeSimulation {
     }
 
     private HttpServletRequest createWebRequest(String uri, String... parameters) {
-        
+
         WebRequest request = new PostMethodWebRequest("http://localhost:8888" + uri);
-        
+
         Map<String, List<String>> paramMultiMap = new HashMap<String, List<String>>();
         for (int i = 0; i < parameters.length; i = i + 2) {
             String key = parameters[i];

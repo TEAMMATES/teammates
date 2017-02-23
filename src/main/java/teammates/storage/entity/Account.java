@@ -31,7 +31,7 @@ public class Account {
 
     @Persistent
     private Date createdAt;
-    
+
     @Persistent(dependent = "true", defaultFetchGroup = "false")
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private StudentProfile studentProfile;
@@ -116,13 +116,13 @@ public class Account {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-    
+
     public StudentProfile getStudentProfile() {
         return this.studentProfile;
     }
-    
+
     public void setStudentProfile(StudentProfile studentProfile) {
         this.studentProfile = studentProfile;
-        
+
     }
 }

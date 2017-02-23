@@ -22,7 +22,7 @@ import teammates.common.util.EmailWrapper;
  * @see {@link MimeMessage}
  */
 public class JavamailService extends EmailSenderService {
-    
+
     /**
      * {@inheritDoc}
      */
@@ -44,11 +44,11 @@ public class JavamailService extends EmailSenderService {
         email.setContent(wrapper.getContent(), "text/html");
         return email;
     }
-    
+
     @Override
     protected void sendEmailWithService(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
         MimeMessage email = parseToEmail(wrapper);
         Transport.send(email);
     }
-    
+
 }

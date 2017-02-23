@@ -11,9 +11,9 @@ import teammates.common.util.FieldValidator;
  *
  */
 public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFeedbackResultsParticipantPanel {
-        
+
     private List<InstructorFeedbackResultsQuestionTable> questionTables;
-    
+
     public InstructorFeedbackResultsGroupByQuestionPanel(List<InstructorFeedbackResultsQuestionTable> questionTables,
                                     String profilePictureLink,
                                     boolean isGiver, String participantIdentifier, String participantName,
@@ -21,19 +21,19 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
         this.participantIdentifier = participantIdentifier;
         this.name = participantName;
         this.isGiver = isGiver;
-        
+
         this.isEmailValid = new FieldValidator()
                                     .getInvalidityInfoForEmail(participantIdentifier)
                                     .isEmpty();
         this.profilePictureLink = profilePictureLink;
-        
+
         this.questionTables = questionTables;
-        
+
         this.moderationButton = moderationButton;
-        
+
         this.isHasResponses = true;
     }
-    
+
     /**
      * Constructs a GroupByQuestionPanel without a moderation button
      */
@@ -44,7 +44,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
         this(questionTables, profilePictureLink, isGroupedByGiver,
              participantIdentifier, participantName, null);
     }
-    
+
     /**
      * Constructs a GroupByQuestionPanel with a moderation button
      */

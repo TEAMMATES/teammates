@@ -16,12 +16,12 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/StudentCourseDetailsPageUiTest.json");
         removeAndRestoreDataBundle(testData);
     }
-    
+
     @Test
     public void testAll() throws Exception {
 
         ______TS("content");
-        
+
         //with teammates"
         // This is the full HTML verification for Student Course Details Page, the rest can all be verifyMainHtml
         verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.alice", "/studentCourseDetailsWithTeammatesHTML.html", true);
@@ -29,9 +29,9 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         //without teammates
         verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie",
                       "/studentCourseDetailsWithoutTeammatesHTML.html", false);
-        
+
         ______TS("links, inputValidation, actions");
-        
+
         //nothing to test here.
 
     }

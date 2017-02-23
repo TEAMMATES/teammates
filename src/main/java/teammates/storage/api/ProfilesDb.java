@@ -27,7 +27,7 @@ import com.google.appengine.api.datastore.Text;
  * @see {@link StudentProfileAttributes}
  */
 public class ProfilesDb extends EntitiesDb {
-    
+
     /**
      * Gets the datatransfer (*Attributes) version of the profile
      * corresponding to the googleId given. Returns null if the
@@ -40,10 +40,10 @@ public class ProfilesDb extends EntitiesDb {
         if (sp == null) {
             return null;
         }
-        
+
         return new StudentProfileAttributes(sp);
     }
-    
+
     /**
      * Updates the entire profile based on the given new profile attributes.
      * Assumes that the googleId remains the same and so updates the profile
@@ -57,9 +57,9 @@ public class ProfilesDb extends EntitiesDb {
      */
     public void updateStudentProfile(StudentProfileAttributes newSpa)
             throws InvalidParametersException, EntityDoesNotExistException {
-        
+
         validateNewProfile(newSpa);
-        
+
         StudentProfile profileToUpdate = getCurrentProfileFromDb(newSpa.googleId);
         if (hasNoNewChangesToProfile(newSpa, profileToUpdate)) {
             return;
@@ -80,14 +80,14 @@ public class ProfilesDb extends EntitiesDb {
     private boolean hasNoNewChangesToProfile(StudentProfileAttributes newSpa,
             StudentProfile profileToUpdate) {
         StudentProfileAttributes existingProfile = new StudentProfileAttributes(profileToUpdate);
-        
+
         newSpa.modifiedDate = existingProfile.modifiedDate;
         return existingProfile.toString().equals(newSpa.toString());
     }
 
     private void updateProfileWithNewValues(StudentProfileAttributes newSpa,
             StudentProfile profileToUpdate) {
-        
+
         newSpa.sanitizeForSaving();
         profileToUpdate.setShortName(newSpa.shortName);
         profileToUpdate.setEmail(newSpa.email);
@@ -96,15 +96,15 @@ public class ProfilesDb extends EntitiesDb {
         profileToUpdate.setGender(newSpa.gender);
         profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
         profileToUpdate.setModifiedDate(new Date());
-        
+
         boolean hasNewNonEmptyPictureKey = !newSpa.pictureKey.isEmpty()
                 && !newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
-        
+
         if (hasNewNonEmptyPictureKey) {
             profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
         }
     }
-    
+
     /**
      * Udates the pictureKey of the profile with given GoogleId.
      * Deletes existing picture if key is different and updates
@@ -114,21 +114,21 @@ public class ProfilesDb extends EntitiesDb {
      * @param newPictureKey
      * @throws EntityDoesNotExistException
      */
-    
+
     public void updateStudentProfilePicture(String googleId,
             String newPictureKey) throws EntityDoesNotExistException {
-        
+
         validateParametersForUpdatePicture(googleId, newPictureKey);
         StudentProfile profileToUpdate = getCurrentProfileFromDb(googleId);
-        
+
         boolean hasNewNonEmptyPictureKey = !newPictureKey.isEmpty()
                 && !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
-        
+
         if (hasNewNonEmptyPictureKey) {
             profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
             profileToUpdate.setModifiedDate(new Date());
         }
-        
+
         closePm();
     }
 
@@ -139,7 +139,7 @@ public class ProfilesDb extends EntitiesDb {
         Assumption.assertNotEmpty("GoogleId is empty", googleId);
         Assumption.assertNotEmpty("PictureKey is empty", newPictureKey);
     }
-    
+
     /**
      * Deletes the profile picture from GCS and
      * updates the profile entity:
@@ -150,17 +150,16 @@ public class ProfilesDb extends EntitiesDb {
      */
     public void deleteStudentProfilePicture(String googleId) throws EntityDoesNotExistException {
         StudentProfile sp = getCurrentProfileFromDb(googleId);
-        
+
         if (!sp.getPictureKey().equals(new BlobKey(""))) {
             deletePicture(sp.getPictureKey());
             sp.setPictureKey(new BlobKey(""));
             sp.setModifiedDate(new Date());
         }
-        
+
         closePm();
     }
-    
-    
+
     //-------------------------------------------------------------------------------------------------------
     //-------------------------------------- Helper Functions -----------------------------------------------
     //-------------------------------------------------------------------------------------------------------
@@ -169,7 +168,7 @@ public class ProfilesDb extends EntitiesDb {
             throws EntityDoesNotExistException {
         StudentProfile profileToUpdate = getStudentProfileEntityFromDb(googleId);
         ensureUpdatingProfileExists(googleId, profileToUpdate);
-        
+
         return profileToUpdate;
     }
 
@@ -200,15 +199,15 @@ public class ProfilesDb extends EntitiesDb {
                     || JDOHelper.isDeleted(account)) {
                 return null;
             }
-            
+
             account.setStudentProfile(new StudentProfile(account.getGoogleId()));
             return account.getStudentProfile();
-            
+
         } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }
-    
+
     /**
      * Gets the profile entity associated with given googleId.
      * If the profile does not exist, it tries to get the
@@ -221,20 +220,20 @@ public class ProfilesDb extends EntitiesDb {
     private StudentProfile getStudentProfileEntityFromDb(String googleId) {
         Key childKey = KeyFactory.createKey(Account.class.getSimpleName(), googleId)
                                  .getChild(StudentProfile.class.getSimpleName(), googleId);
-        
+
         try {
             StudentProfile profile = getPm().getObjectById(StudentProfile.class, childKey);
             if (profile == null
                     || JDOHelper.isDeleted(profile)) {
                 return null;
             }
-            
+
             return profile;
         } catch (JDOObjectNotFoundException je) {
             return getStudentProfileEntityForLegacyData(googleId);
         }
     }
-    
+
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         // this method is never used and is here only for future expansion and completeness

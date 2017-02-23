@@ -50,7 +50,7 @@ public class BackDoorLogic extends Logic {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
-    
+
     /**
      * Persists given data in the datastore Works ONLY if the data is correct.
      *  //Any existing copies of the data in the datastore will be overwritten.
@@ -62,12 +62,12 @@ public class BackDoorLogic extends Logic {
      */
     public String persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityDoesNotExistException {
-        
+
         if (dataBundle == null) {
             throw new InvalidParametersException(
                     Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
-        
+
         Map<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
             if (account.studentProfile == null) {
@@ -76,7 +76,7 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.createAccounts(accounts.values(), true);
-        
+
         Map<String, CourseAttributes> courses = dataBundle.courses;
         coursesDb.createCourses(courses.values());
 
@@ -115,21 +115,21 @@ public class BackDoorLogic extends Logic {
         }
         accountsDb.createAccounts(studentAccounts, false);
         studentsDb.createStudentsWithoutSearchability(students.values());
-        
+
         Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
         for (FeedbackSessionAttributes session : sessions.values()) {
             cleanSessionData(session);
         }
         fbDb.createFeedbackSessions(sessions.values());
-        
+
         Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
-        
+
         for (FeedbackQuestionAttributes question : questionList) {
             question.removeIrrelevantVisibilityOptions();
         }
         fqDb.createFeedbackQuestions(questionList);
-        
+
         Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
         for (FeedbackResponseAttributes response : responses.values()) {
             response = injectRealIds(response);
@@ -137,26 +137,26 @@ public class BackDoorLogic extends Logic {
         frDb.createFeedbackResponses(responses.values());
 
         Set<String> sessionIds = new HashSet<String>();
-        
+
         for (FeedbackResponseAttributes response : responses.values()) {
-            
+
             String sessionId = response.feedbackSessionName + "%" + response.courseId;
-            
+
             if (!sessionIds.contains(sessionId)) {
                 updateRespondents(response.feedbackSessionName, response.courseId);
                 sessionIds.add(sessionId);
             }
         }
-        
+
         Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
             injectRealIds(responseComment);
         }
         fcDb.createFeedbackResponseComments(responseComments.values());
-        
+
         Map<String, CommentAttributes> comments = dataBundle.comments;
         commentsDb.createComments(comments.values());
-        
+
         // any Db can be used to commit the changes.
         // accountsDb is used as it is already used in the file
         accountsDb.commitOutstandingChanges();
@@ -215,33 +215,33 @@ public class BackDoorLogic extends Logic {
      */
     public String putDocuments(DataBundle dataBundle) {
         // query the entity in db first to get the actual data and create document for actual entity
-        
+
         Map<String, StudentAttributes> students = dataBundle.students;
         for (StudentAttributes student : students.values()) {
             StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.course, student.email);
             studentsDb.putDocument(studentInDb);
         }
-        
+
         Map<String, InstructorAttributes> instructors = dataBundle.instructors;
         for (InstructorAttributes instructor : instructors.values()) {
             InstructorAttributes instructorInDb =
                     instructorsDb.getInstructorForEmail(instructor.courseId, instructor.email);
             instructorsDb.putDocument(instructorInDb);
         }
-        
+
         Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
             FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
                     responseComment.courseId, responseComment.createdAt, responseComment.giverEmail);
             fcDb.putDocument(fcInDb);
         }
-        
+
         Map<String, CommentAttributes> comments = dataBundle.comments;
         for (CommentAttributes comment : comments.values()) {
             CommentAttributes commentInDb = commentsDb.getComment(comment);
             commentsDb.putDocument(commentInDb);
         }
-        
+
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
@@ -254,12 +254,12 @@ public class BackDoorLogic extends Logic {
         StudentProfileAttributes profileData = getStudentProfile(googleId);
         return JsonUtils.toJson(profileData);
     }
-    
+
     public String getInstructorAsJsonById(String instructorId, String courseId) {
         InstructorAttributes instructorData = getInstructorForGoogleId(courseId, instructorId);
         return JsonUtils.toJson(instructorData);
     }
-    
+
     public String getInstructorAsJsonByEmail(String instructorEmail, String courseId) {
         InstructorAttributes instructorData = getInstructorForEmail(courseId, instructorEmail);
         return JsonUtils.toJson(instructorData);
@@ -274,23 +274,23 @@ public class BackDoorLogic extends Logic {
         StudentAttributes student = getStudentForEmail(courseId, email);
         return JsonUtils.toJson(student);
     }
-    
+
     public String getAllStudentsAsJson(String courseId) {
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
         return JsonUtils.toJson(studentList);
     }
-    
+
     public String getFeedbackSessionAsJson(String feedbackSessionName, String courseId) {
         FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
         return JsonUtils.toJson(fs);
     }
-    
+
     public String getFeedbackQuestionAsJson(String feedbackSessionName, String courseId, int qnNumber) {
         FeedbackQuestionAttributes fq =
                 feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
         return JsonUtils.toJson(fq);
     }
-    
+
     public String getFeedbackQuestionForIdAsJson(String questionId) {
         FeedbackQuestionAttributes fq = feedbackQuestionsLogic.getFeedbackQuestion(questionId);
         return JsonUtils.toJson(fq);
@@ -301,46 +301,46 @@ public class BackDoorLogic extends Logic {
                 feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
         return JsonUtils.toJson(fq);
     }
-    
+
     public String getFeedbackResponsesForGiverAsJson(String courseId, String giverEmail) {
         List<FeedbackResponseAttributes> responseList =
                 feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
         return JsonUtils.toJson(responseList);
     }
-    
+
     public String getFeedbackResponsesForReceiverAsJson(String courseId, String recipient) {
         List<FeedbackResponseAttributes> responseList =
                 feedbackResponsesLogic.getFeedbackResponsesForReceiverForCourse(courseId, recipient);
         return JsonUtils.toJson(responseList);
     }
-    
+
     public void editAccountAsJson(String newValues)
             throws InvalidParametersException, EntityDoesNotExistException {
         AccountAttributes account = JsonUtils.fromJson(newValues, AccountAttributes.class);
         updateAccount(account);
     }
-    
+
     public void editStudentAsJson(String originalEmail, String newValues)
             throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = JsonUtils.fromJson(newValues, StudentAttributes.class);
         student.section = student.section == null ? "None" : student.section;
         updateStudentWithoutDocument(originalEmail, student);
     }
-    
+
     public void editFeedbackSessionAsJson(String feedbackSessionJson)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession =
                 JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
         updateFeedbackSession(feedbackSession);
     }
-    
+
     public void editFeedbackQuestionAsJson(String feedbackQuestionJson)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackQuestionAttributes feedbackQuestion =
                 JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
         updateFeedbackQuestion(feedbackQuestion);
     }
-    
+
     /**
      * This method ensures consistency for private feedback sessions
      * between the type and visibility times. This allows easier creation
@@ -354,7 +354,7 @@ public class BackDoorLogic extends Logic {
         }
         return session;
     }
-                
+
     /**
     * This method is necessary to generate the feedbackQuestionId of the
     * question the response is for.<br>
@@ -369,21 +369,21 @@ public class BackDoorLogic extends Logic {
             throws EntityDoesNotExistException {
         try {
             int qnNumber = Integer.parseInt(response.feedbackQuestionId);
-        
+
             FeedbackQuestionAttributes question = feedbackQuestionsLogic.getFeedbackQuestion(
                     response.feedbackSessionName, response.courseId, qnNumber);
             if (question == null) {
                 throw new EntityDoesNotExistException("question has not persisted yet");
             }
             response.feedbackQuestionId = question.getId();
-            
+
         } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
-        
+
         return response;
     }
-    
+
     /**
     * This method is necessary to generate the feedbackQuestionId
     * and feedbackResponseId of the question and response the comment is for.<br>
@@ -398,7 +398,7 @@ public class BackDoorLogic extends Logic {
     private void injectRealIds(FeedbackResponseCommentAttributes responseComment) {
         try {
             int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);
-            
+
             responseComment.feedbackQuestionId =
                     feedbackQuestionsLogic.getFeedbackQuestion(
                             responseComment.feedbackSessionName,
@@ -407,20 +407,20 @@ public class BackDoorLogic extends Logic {
         } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
-        
+
         String[] responseIdParam = responseComment.feedbackResponseId.split("%");
-        
+
         responseComment.feedbackResponseId =
                 responseComment.feedbackQuestionId
                 + "%" + responseIdParam[1] + "%" + responseIdParam[2];
     }
 
     public void removeDataBundle(DataBundle dataBundle) {
-                
+
         // Questions and responses will be deleted automatically.
         // We don't attempt to delete them again, to save time.
         deleteCourses(dataBundle.courses.values());
-        
+
         for (AccountAttributes account : dataBundle.accounts.values()) {
             if (account.studentProfile == null) {
                 account.studentProfile = new StudentProfileAttributes();

@@ -70,7 +70,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         } catch (EnrollException e) {
             assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_REPEATED, e.getMessage());
         }
-        
+
         // adding this for complete coverage
         ______TS("Failure case: repeated required columns");
         headerRow = "name \t email \t team \t comments \t section \t email \t team \t comments \t section ";

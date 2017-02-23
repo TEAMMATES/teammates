@@ -83,7 +83,7 @@ public class InstructorStudentRecordsPage extends AppPage {
         waitForPageToLoad();
         return this;
     }
-    
+
     public void clickAllCheckboxes(int id) {
         List<WebElement> answerCheckboxes = browser.driver
                                             .findElement(By.id("visibility-options" + id))
@@ -108,12 +108,12 @@ public class InstructorStudentRecordsPage extends AppPage {
                        && !getCommentEditLink(id).isDisplayed();
         return display;
     }
-    
+
     public void clickEditCommentAndCancel(int id) {
         click(getCommentEditLink(id));
         click(getCommentEditCancelLink(id));
     }
-    
+
     public void verifyCommentEditBoxNotVisible(int id) {
         assertFalse(isElementVisible(By.id("commentTextEdit" + id)));
     }
@@ -138,57 +138,57 @@ public class InstructorStudentRecordsPage extends AppPage {
     private WebElement getCommentSaveLink(int id) {
         return browser.driver.findElement(By.id("commentsave-" + id));
     }
-    
+
     private WebElement getVisibilityToggleLink(int id) {
         return browser.driver.findElement(By.id("visibility-options-trigger" + id));
     }
 
     // Visibility options
-    
+
     public void clickVisibilityOptionsButton(int id) {
         click(getVisibilityOptions(id));
     }
-    
+
     public void clickAnswerCheckboxForCourse(int id) {
         click(getAnswerCheckboxForCourse(id));
     }
-    
+
     public void clickGiverCheckboxForCourse(int id) {
         click(getGiverCheckboxForCourse(id));
     }
-    
+
     public void clickRecipientCheckboxForCourse(int id) {
         click(getRecipientCheckboxForCourse(id));
     }
-    
+
     public boolean isAnswerCheckboxForCourseSelected(int id) {
         return getAnswerCheckboxForCourse(id).isSelected();
     }
-    
+
     public boolean isGiverCheckboxForCourseSelected(int id) {
         return getGiverCheckboxForCourse(id).isSelected();
     }
-    
+
     public boolean isRecipientCheckboxForCourseSelected(int id) {
         return getRecipientCheckboxForCourse(id).isSelected();
     }
-    
+
     private WebElement getVisibilityOptions(int id) {
         return browser.driver.findElement(By.id("visibility-options-trigger" + id));
     }
-    
+
     private WebElement getCourseVisibilityRow(int id) {
         return browser.driver.findElement(By.id("recipient-course" + id));
     }
-    
+
     private WebElement getAnswerCheckboxForCourse(int id) {
         return getCourseVisibilityRow(id).findElement(By.className("answerCheckbox"));
     }
-    
+
     private WebElement getGiverCheckboxForCourse(int id) {
         return getCourseVisibilityRow(id).findElement(By.className("giverCheckbox"));
     }
-    
+
     private WebElement getRecipientCheckboxForCourse(int id) {
         return getCourseVisibilityRow(id).findElement(By.className("recipientCheckbox"));
     }

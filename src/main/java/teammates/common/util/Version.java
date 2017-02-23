@@ -34,7 +34,7 @@ public class Version implements Comparable<Version> {
     private String minor;
     private String patch;
     private boolean isRcVersion;
-    
+
     /**
      * Creates a new instance of Version from string.
      * It accepts either XX-XX-XXXXX or XX.XX.XXXX format.
@@ -42,7 +42,7 @@ public class Version implements Comparable<Version> {
     public Version(String versionInString) {
         originalRepresentation = versionInString;
         isRcVersion = versionInString.endsWith("rc");
-        
+
         String[] list = versionInString.contains("-") // split to at most 3 parts
                       ? versionInString.replace("rc", "").split("-", 3)
                       : versionInString.replace("rc", "").split("\\.", 3); // regex escape for dots '.'
@@ -56,7 +56,7 @@ public class Version implements Comparable<Version> {
             patch = list[2];
         }
     }
-    
+
     /**
      * Compares by string representation.
      */
@@ -67,7 +67,7 @@ public class Version implements Comparable<Version> {
         }
         return toString().equals(anotherVersion.toString());
     }
-    
+
     /**
      * Gets hash code for this version.
      */
@@ -75,7 +75,7 @@ public class Version implements Comparable<Version> {
     public int hashCode() {
         return toString().hashCode();
     }
-    
+
     /**
      * Converts Version to String in format XX.XX.XXXX
      */
@@ -83,14 +83,14 @@ public class Version implements Comparable<Version> {
     public String toString() {
         return originalRepresentation.replace('-', '.');
     }
-    
+
     /**
      * Converts to String in format XX-XX-XXXX
      */
     public String toStringWithDashes() {
         return originalRepresentation.replace('.', '-');
     }
-    
+
     /**
      * Compares version numbers.
      * If their length are different, 0s will be appended in front of shorter string until
@@ -120,7 +120,7 @@ public class Version implements Comparable<Version> {
         }
         return convertedS2.compareTo(convertedS1);
     }
-    
+
     /**
      * Compares versions by major, minor then by patch.
      * The version with greater major, minor or patch will be smaller.

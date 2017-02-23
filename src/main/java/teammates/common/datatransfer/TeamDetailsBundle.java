@@ -12,7 +12,7 @@ import java.util.List;
  * <br> * {@link StudentAttributes} objects for all students in the team.
  */
 public class TeamDetailsBundle {
-    
+
     public String name;
     public List<StudentAttributes> students = new ArrayList<StudentAttributes>();
 

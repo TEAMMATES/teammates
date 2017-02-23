@@ -10,11 +10,11 @@ import java.util.List;
 public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
     private String secondaryParticipantIdentifier;
     private String secondaryParticipantDisplayableName;
-    
+
     private String profilePictureLink;
-    
+
     private InstructorFeedbackResultsModerationButton moderationButton;
-    
+
     private List<InstructorFeedbackResultsResponsePanel> responsePanels;
 
     public InstructorFeedbackResultsSecondaryParticipantPanelBody(
@@ -53,5 +53,5 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
     public void setModerationButton(InstructorFeedbackResultsModerationButton moderationButton) {
         this.moderationButton = moderationButton;
     }
-    
+
 }

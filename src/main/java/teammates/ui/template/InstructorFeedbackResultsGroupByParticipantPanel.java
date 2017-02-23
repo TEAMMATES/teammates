@@ -2,7 +2,6 @@ package teammates.ui.template;
 
 import java.util.List;
 
-
 /**
  * Data model for the giver panel in InstructorFeedbackResults for Giver > Recipient > Question,
  * and for the recipient panel in Recipient > Giver > Question
@@ -20,5 +19,5 @@ public class InstructorFeedbackResultsGroupByParticipantPanel extends Instructor
     public List<InstructorFeedbackResultsSecondaryParticipantPanelBody> getSecondaryParticipantPanels() {
         return secondaryParticipantPanels;
     }
-    
+
 }

@@ -20,12 +20,12 @@ import teammates.logic.api.GateKeeper;
  */
 @SuppressWarnings("serial")
 public abstract class PublicResourcesServlet extends HttpServlet {
-    
+
     protected static final Logger log = Logger.getLogger();
-    
+
     protected String servletName = "Unspecified";
     protected String action = "unspecified";
-    
+
     /** Parameters received with the request */
     protected Map<String, String[]> requestParameters;
 
@@ -34,13 +34,13 @@ public abstract class PublicResourcesServlet extends HttpServlet {
 
     @Override
     public final void doPost(HttpServletRequest req, HttpServletResponse resp) {
-              
+
         try {
             doGet(req, resp);
         } catch (Exception e) {
             log.severe("Exception occured while performing " + servletName + e.getMessage());
         }
-        
+
     }
 
     protected String getBlobKeyFromRequest() {
@@ -48,11 +48,11 @@ public abstract class PublicResourcesServlet extends HttpServlet {
         Assumption.assertPostParamNotNull(Const.ParamsNames.BLOB_KEY, blobKey);
         return blobKey;
     }
-    
+
     protected String getRequestParamValue(String paramName) {
         return HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
     }
-    
+
     protected void logMessage(HttpServletRequest request, String message) {
         UserType userType = new GateKeeper().getCurrentUser();
         String url = HttpRequestHelper.getRequestedUrl(request);

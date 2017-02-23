@@ -16,7 +16,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        
+
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
@@ -24,7 +24,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
-        
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
@@ -32,14 +32,14 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructorToEdit =
                 extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
-        
+
         try {
             if (instructorId == null) {
                 logic.updateInstructorByEmail(instructorEmail, instructorToEdit);
             } else {
                 logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
             }
-            
+
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName),
                                                StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorName + "</span>"
@@ -48,13 +48,13 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
-        
+
         /* Create redirection to 'Edit' page with corresponding course id */
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         return result;
     }
-    
+
     /**
      * Checks if there are any other registered instructors that can modify instructors.
      * If there are none, the instructor currently being edited will be granted the privilege
@@ -83,7 +83,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
         }
     }
-    
+
     /**
      * Creates a new instructor representing the updated instructor with all information filled in,
      * using request parameters.
@@ -106,22 +106,22 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         }
         instructorRole = SanitizationHelper.sanitizeName(instructorRole);
         displayedName = SanitizationHelper.sanitizeName(displayedName);
-        
+
         InstructorAttributes instructorToEdit =
                 updateBasicInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
                                                 instructorRole, isDisplayedToStudents, displayedName);
-        
+
         if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToEdit);
         }
-        
+
         updateInstructorWithSectionLevelPrivileges(courseId, instructorToEdit);
-        
+
         instructorToEdit.privileges.validatePrivileges();
-        
+
         return instructorToEdit;
     }
-    
+
     /**
      * Edits an existing instructor's basic information.
      * This consists of everything apart from custom privileges.
@@ -151,7 +151,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         instructorToEdit.displayedName = SanitizationHelper.sanitizeName(displayedName);
         instructorToEdit.isDisplayedToStudents = isDisplayedToStudents;
         instructorToEdit.privileges = new InstructorPrivileges(instructorToEdit.role);
-        
+
         return instructorToEdit;
     }
 }

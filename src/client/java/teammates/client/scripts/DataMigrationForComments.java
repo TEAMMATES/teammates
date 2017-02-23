@@ -59,7 +59,7 @@ public class DataMigrationForComments extends RemoteApiClient {
         }
         PM.close();
     }
-    
+
     protected List<Comment> getCommentEntitiesForInstructor(
             InstructorAttributes instructor) {
         Query q = PM.newQuery(Comment.class);

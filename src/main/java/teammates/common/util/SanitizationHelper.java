@@ -43,7 +43,7 @@ public final class SanitizationHelper {
     private SanitizationHelper() {
         // utility class
     }
-    
+
     /**
      * Sanitizes a google ID by removing leading/trailing whitespace
      * and the trailing "@gmail.com".
@@ -55,14 +55,14 @@ public final class SanitizationHelper {
         if (rawGoogleId == null) {
             return null;
         }
-        
+
         String sanitized = rawGoogleId.trim();
         if (sanitized.toLowerCase().endsWith("@gmail.com")) {
             sanitized = sanitized.split("@")[0];
         }
         return sanitized.trim();
     }
-    
+
     /**
      * Sanitizes an email address by removing leading/trailing whitespace.
      * 
@@ -72,7 +72,7 @@ public final class SanitizationHelper {
     public static String sanitizeEmail(String rawEmail) {
         return StringHelper.trimIfNotNull(rawEmail);
     }
-    
+
     /**
      * Sanitizes name by removing leading, trailing, and duplicate internal whitespace.
      * 
@@ -82,7 +82,7 @@ public final class SanitizationHelper {
     public static String sanitizeName(String rawName) {
         return StringHelper.removeExtraSpace(rawName);
     }
-    
+
     /**
      * Sanitizes title by removing leading, trailing, and duplicate internal whitespace.
      * 
@@ -92,7 +92,7 @@ public final class SanitizationHelper {
     public static String sanitizeTitle(String rawTitle) {
         return StringHelper.removeExtraSpace(rawTitle);
     }
-    
+
     /**
      * Sanitizes a user input text field by removing leading/trailing whitespace.
      * i.e. comments, instructions, etc.
@@ -132,7 +132,7 @@ public final class SanitizationHelper {
         }
         return richTextPolicy.sanitize(sanitizeTextField(content));
     }
-    
+
     /**
      * Sanitizes the {@link Text} with rich-text.
      * Removes disallowed elements based on defined policy.
@@ -234,7 +234,7 @@ public final class SanitizationHelper {
         }
         return string.replace("<", "&lt;").replace(">", "&gt;");
     }
-    
+
     /**
      * Converts a string to be put in URL (replaces some characters)
      */
@@ -247,7 +247,7 @@ public final class SanitizationHelper {
             return uri;
         }
     }
-    
+
     /**
      * Sanitizes the given URL for the parameter {@link Const.ParamsNames.NEXT_URL}.
      * The following characters will be sanitized:
@@ -305,7 +305,7 @@ public final class SanitizationHelper {
                 .replace("<", "&lt;")
                 .replace(">", "&gt;");
     }
-    
+
     /**
      * Sanitizes the string for comma-separated values (CSV) file output.<br>
      * We follow the definition described by RFC 4180:<br>
@@ -314,7 +314,7 @@ public final class SanitizationHelper {
     public static String sanitizeForCsv(String str) {
         return "\"" + str.replace("\"", "\"\"") + "\"";
     }
-    
+
     /**
      * Sanitizes the list of strings for comma-separated values (CSV) file output.<br>
      * We follow the definition described by RFC 4180:<br>
@@ -322,15 +322,15 @@ public final class SanitizationHelper {
      */
     public static List<String> sanitizeListForCsv(List<String> strList) {
         List<String> sanitizedStrList = new ArrayList<String>();
-        
+
         Iterator<String> itr = strList.iterator();
         while (itr.hasNext()) {
             sanitizedStrList.add(sanitizeForCsv(itr.next()));
         }
-        
+
         return sanitizedStrList;
     }
-    
+
     /**
      * Convert the string to a safer version for XPath
      * For example:

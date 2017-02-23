@@ -27,25 +27,25 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        
+
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        
+
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                                     logic.getFeedbackSession(feedbackSessionName, courseId),
                                     false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         String editType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
         Assumption.assertNotNull("Null editType", editType);
-        
+
         FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData();
-        
+
         try {
             if ("edit".equals(editType)) {
                 String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
                 Assumption.assertNotNull("Null question text", questionText);
                 Assumption.assertNotEmpty("Empty question text", questionText);
-                
+
                 editQuestion(updatedQuestion);
             } else if ("delete".equals(editType)) {
                 // branch not tested because if it's not edit or delete, Assumption.fail will cause test failure
@@ -59,7 +59,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             // extremely difficult to replicate a situation whereby it gets past GateKeeper
             setStatusForException(e);
         }
-        
+
         return createRedirectResult(new PageData(account)
                                             .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
@@ -75,12 +75,12 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException,
                                                                                  EntityDoesNotExistException {
         String err = validateQuestionGiverRecipientVisibility(updatedQuestion);
-        
+
         if (!err.isEmpty()) {
             statusToUser.add(new StatusMessage(err, StatusMessageColor.DANGER));
             isError = true;
         }
-   
+
         FeedbackQuestionDetails updatedQuestionDetails = updatedQuestion.getQuestionDetails();
         List<String> questionDetailsErrors = updatedQuestionDetails.validateQuestionDetails();
         List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
@@ -91,7 +91,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 
         if (questionDetailsErrors.isEmpty()) {
             logic.updateFeedbackQuestionNumber(updatedQuestion);
-            
+
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber
                           + " for session:<span class=\"bold\">("
@@ -105,7 +105,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             isError = true;
         }
     }
-    
+
     /**
      * Validates that the giver and recipient for the given FeedbackQuestionAttributes is valid for its question type.
      * Validates that the visibility for the given FeedbackQuestionAttributes is valid for its question type.
@@ -115,19 +115,19 @@ public class InstructorFeedbackQuestionEditAction extends Action {
      */
     public static String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         String errorMsg = "";
-        
+
         FeedbackQuestionDetails questionDetails = null;
         Class<? extends FeedbackQuestionDetails> questionDetailsClass = feedbackQuestionAttributes
                                                                             .questionType.getQuestionDetailsClass();
         Constructor<? extends FeedbackQuestionDetails> questionDetailsClassConstructor;
-        
+
         try {
             questionDetailsClassConstructor = questionDetailsClass.getConstructor();
             questionDetails = questionDetailsClassConstructor.newInstance();
             Method m = questionDetailsClass.getMethod("validateGiverRecipientVisibility",
                                                       FeedbackQuestionAttributes.class);
             errorMsg = (String) m.invoke(questionDetails, feedbackQuestionAttributes);
-            
+
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                  | InvocationTargetException | InstantiationException e) {
             log.severe(TeammatesException.toStringWithStackTrace(e));
@@ -135,26 +135,26 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for "
                             + feedbackQuestionAttributes.questionType.toString() + " question type.");
         }
-        
+
         return errorMsg;
     }
 
     private FeedbackQuestionAttributes extractFeedbackQuestionData() {
         FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
-        
+
         newQuestion.setId(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID));
         Assumption.assertNotNull("Null question id", newQuestion.getId());
-        
+
         newQuestion.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("Null course id", newQuestion.courseId);
-        
+
         newQuestion.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("Null feedback session name", newQuestion.feedbackSessionName);
-        
+
         // TODO thoroughly investigate when and why these parameters can be null
         // and check all possibilities in the tests
         // should only be null when deleting. might be good to separate the delete action from this class
-        
+
         // When editing, usually the following fields are not null. If they are null somehow(edit from browser),
         // Then the field will not update and take on its old value.
         // When deleting, the following fields are null.
@@ -164,13 +164,13 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         // recipienttype
         // receiverLeaderCheckbox
         // givertype
-        
+
         // Can be null
         String giverType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
         if (giverType != null) {
             newQuestion.giverType = FeedbackParticipantType.valueOf(giverType);
         }
-        
+
         // Can be null
         String recipientType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
         if (recipientType != null) {
@@ -181,10 +181,10 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         Assumption.assertNotNull("Null question number", questionNumber);
         newQuestion.questionNumber = Integer.parseInt(questionNumber);
         Assumption.assertTrue("Invalid question number", newQuestion.questionNumber >= 1);
-        
+
         // Can be null
         String nEntityTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
-        
+
         if (numberOfEntitiesIsUserDefined(newQuestion.recipientType, nEntityTypes)) {
             String nEntities = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
             Assumption.assertNotNull(nEntities);
@@ -192,18 +192,18 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         } else {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
-        
+
         newQuestion.showResponsesTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
         newQuestion.showGiverNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
         newQuestion.showRecipientNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
-        
+
         String questionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
         Assumption.assertNotNull(questionType);
         newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
-        
+
         // Can be null
         String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
         if (questionText != null && !questionText.isEmpty()) {
@@ -218,14 +218,14 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 
         return newQuestion;
     }
-    
+
     private static boolean numberOfEntitiesIsUserDefined(FeedbackParticipantType recipientType, String nEntityTypes) {
         if (recipientType != FeedbackParticipantType.STUDENTS
                 && recipientType != FeedbackParticipantType.TEAMS) {
             return false;
         }
-        
+
         return "custom".equals(nEntityTypes);
     }
-    
+
 }

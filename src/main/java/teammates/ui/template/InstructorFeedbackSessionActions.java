@@ -6,7 +6,7 @@ import teammates.common.util.Const;
 import teammates.ui.pagedata.PageData;
 
 public class InstructorFeedbackSessionActions {
-    
+
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
     private boolean privateSession;
@@ -57,12 +57,12 @@ public class InstructorFeedbackSessionActions {
                     instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
                             Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         }
-        
+
         this.allowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
         this.allowedToRemind =
                 session.isOpened()
                 && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-            
+
         this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);
     }

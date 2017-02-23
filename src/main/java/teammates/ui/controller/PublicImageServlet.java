@@ -24,13 +24,13 @@ public class PublicImageServlet extends PublicResourcesServlet {
     @SuppressWarnings("unchecked")
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        
+
         servletName = Const.PublicActionNames.PUBLIC_IMAGE_SERVE_ACTION;
         action = Const.PublicActionNames.PUBLIC_IMAGE_SERVE_ACTION;
-        
+
         requestParameters = req.getParameterMap();
         String blobKey = getBlobKeyFromRequest();
-        
+
         try {
             if (blobKey.isEmpty()) {
                 String message = "Failed to serve image with URL : blobKey is missing";
@@ -41,15 +41,15 @@ public class PublicImageServlet extends PublicResourcesServlet {
                 BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
                 blobstoreService.serve(new BlobKey(blobKey), resp);
                 // TODO : restrict image request to those "public" files only
-                
+
                 String url = req.getRequestURL().toString() + "?blob-key=" + blobKey;
-          
+
                 String message = "Public image request with URL: <br>"
                                + "<a href=\"" + url + "\" target=\"_blank\" rel=\"noopener noreferrer\" >"
                                + url + "</a>";
                 logMessage(req, message);
             }
-            
+
         } catch (IOException e) {
             UserType userType = new GateKeeper().getCurrentUser();
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));

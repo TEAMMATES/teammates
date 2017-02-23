@@ -6,13 +6,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class InstructorCourseEnrollPage extends AppPage {
-    
+
     @FindBy(id = "spreadsheet-link")
     private WebElement spreadsheetLink;
-    
+
     @FindBy(id = "enrollstudents")
     private WebElement enrollTextBox;
-    
+
     @FindBy(id = "button_enroll")
     private WebElement enrollButton;
 
@@ -39,7 +39,7 @@ public class InstructorCourseEnrollPage extends AppPage {
         click(spreadsheetLink);
         waitForPageToLoad();
     }
-    
+
     public InstructorCourseEnrollResultPage enroll(String enrollString) {
         fillTextBox(enrollTextBox, enrollString);
         click(enrollButton);

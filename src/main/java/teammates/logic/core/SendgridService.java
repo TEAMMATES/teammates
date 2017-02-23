@@ -17,7 +17,7 @@ import com.sendgrid.SendGridException;
  * @see {@link SendGrid}
  */
 public class SendgridService extends EmailSenderService {
-    
+
     /**
      * {@inheritDoc}
      */
@@ -38,7 +38,7 @@ public class SendgridService extends EmailSenderService {
         email.setText(Jsoup.parse(wrapper.getContent()).text());
         return email;
     }
-    
+
     @Override
     protected void sendEmailWithService(EmailWrapper wrapper) throws SendGridException {
         Email email = parseToEmail(wrapper);
@@ -48,5 +48,5 @@ public class SendgridService extends EmailSenderService {
             log.severe("Email failed to send: " + response.getMessage());
         }
     }
-    
+
 }

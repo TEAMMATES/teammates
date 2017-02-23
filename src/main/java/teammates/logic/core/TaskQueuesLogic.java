@@ -12,7 +12,7 @@ import com.google.appengine.api.taskqueue.TaskOptions;
  * Handles operations related to task queues.
  */
 public class TaskQueuesLogic {
-    
+
     /**
      * Adds the given task to the specified queue.
      * 
@@ -21,7 +21,7 @@ public class TaskQueuesLogic {
     public void addTask(TaskWrapper task) {
         addDeferredTask(task, 0);
     }
-    
+
     /**
      * Adds the given task, to be run after the specified time, to the specified queue.
      * 
@@ -34,17 +34,17 @@ public class TaskQueuesLogic {
         if (countdownTime > 0) {
             taskToBeAdded.countdownMillis(countdownTime);
         }
-        
+
         for (Map.Entry<String, String[]> entry : task.getParamMap().entrySet()) {
             String name = entry.getKey();
             String[] values = entry.getValue();
-            
+
             for (String value : values) {
                 taskToBeAdded = taskToBeAdded.param(name, value);
             }
         }
-        
+
         requiredQueue.add(taskToBeAdded);
     }
-    
+
 }

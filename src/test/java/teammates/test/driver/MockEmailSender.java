@@ -13,17 +13,17 @@ import teammates.logic.api.EmailSender;
  * the API will perform some operations that allow the sent emails to be tracked.
  */
 public class MockEmailSender extends EmailSender {
-    
+
     private List<EmailWrapper> sentEmails = new ArrayList<EmailWrapper>();
-    
+
     @Override
     public void sendEmail(EmailWrapper email) {
         sentEmails.add(email);
     }
-    
+
     @Override
     public List<EmailWrapper> getEmailsSent() {
         return sentEmails;
     }
-    
+
 }

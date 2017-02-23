@@ -77,11 +77,11 @@ public final class Assumption {
         if (expected == null && actual == null) {
             return;
         }
-        
+
         if (expected != null && expected.equals(actual)) {
             return;
         }
-        
+
         failNotEquals(message, expected, actual);
     }
 
@@ -101,11 +101,11 @@ public final class Assumption {
         if (expected == null && actual == null) {
             return;
         }
-        
+
         if (expected != null && expected.equals(actual)) {
             return;
         }
-        
+
         throw new AssertionError(format(message, expected, actual));
     }
 
@@ -126,7 +126,7 @@ public final class Assumption {
         if (Double.compare(expected, actual) == 0) {
             return;
         }
-        
+
         if (Math.abs(expected - actual) > delta) {
             failNotEquals(message, Double.valueOf(expected), Double.valueOf(actual));
         }
@@ -150,7 +150,7 @@ public final class Assumption {
         if (Float.compare(expected, actual) == 0) {
             return;
         }
-        
+
         if (Math.abs(expected - actual) > delta) {
             failNotEquals(message, Float.valueOf(expected), Float.valueOf(actual));
         }
@@ -297,7 +297,7 @@ public final class Assumption {
         if (expected == actual) {
             return;
         }
-        
+
         failNotSame(message, expected, actual);
     }
 
@@ -371,19 +371,19 @@ public final class Assumption {
                     parameterName));
         }
     }
-    
+
     public static void assertNotEmpty(String str) {
         assertFalse(str.isEmpty());
     }
-    
+
     public static void assertNotEmpty(String message, String str) {
         assertFalse(message, str.isEmpty());
     }
-    
+
     public static void assertIsEmpty(String str) {
         assertTrue(str.isEmpty());
     }
-    
+
     public static void assertIsEmpty(String message, String str) {
         assertTrue(message, str.isEmpty());
     }

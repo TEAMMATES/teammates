@@ -12,7 +12,7 @@ import teammates.common.util.StringHelper;
  * It exposes the result via some public variables.
  */
 public class TeamEvalResult {
-    
+
     /** submitted value is uninitialized */
     public static final int NA = Const.INT_UNINITIALIZED;
     /** submitted 'Not SUre' */
@@ -32,7 +32,7 @@ public class TeamEvalResult {
 
     /** the values that were used to calculate normalizedAveragePerceived values*/
     public int[][] normalizedPeerContributionRatio;
-    
+
     // List of student email's.
     // The index of the student in the list is used as the index for the int arrays.
     // The 2d int arrays are of the format [giverIndex][recipientIndex]
@@ -287,7 +287,7 @@ public class TeamEvalResult {
             actualSum += value;
             count++;
         }
-    
+
         double idealSum = count * 100.0;
         double factor = actualSum == 0 ? 0 : idealSum / actualSum;
         log.fine("Factor = " + idealSum + "/" + actualSum + " = " + factor);

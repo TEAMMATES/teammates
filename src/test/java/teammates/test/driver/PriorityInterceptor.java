@@ -25,7 +25,7 @@ import org.testng.ITestContext;
 
 public class PriorityInterceptor implements IMethodInterceptor {
     static String packageOrder;
-    
+
     static {
         try {
             packageOrder = FileHelper.readFile("src/test/testng-ci.xml");
@@ -33,7 +33,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
             throw new RuntimeException(e);
         }
     }
-    
+
     @Override
     @SuppressWarnings("deprecation")
     public List<IMethodInstance> intercept(List<IMethodInstance> methods,
@@ -49,7 +49,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
                 }
                 return result;
             }
-            
+
             private int getClassPriority(IMethodInstance mi) {
                 int result = 0;
                 Method method = mi.getMethod().getMethod();
@@ -60,15 +60,15 @@ public class PriorityInterceptor implements IMethodInterceptor {
                 }
                 return result;
             }
-            
+
             private String getPackageName(IMethodInstance mi) {
                 return mi.getMethod().getMethod().getDeclaringClass().getPackage().getName();
             }
-            
+
             private String getClassName(IMethodInstance mi) {
                 return mi.getMethod().getMethod().getDeclaringClass().getName();
             }
-            
+
             private int packagePriorityOffset(String packageName) {
                 int index = packageOrder.indexOf(packageName);
 
@@ -81,7 +81,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
             @Override
             public int compare(IMethodInstance m1, IMethodInstance m2) {
                 int val = 0;
-                
+
                 //Compare by package name
                 String p1 = getPackageName(m1);
                 String p2 = getPackageName(m2);
@@ -91,25 +91,25 @@ public class PriorityInterceptor implements IMethodInterceptor {
                 if (val != 0) {
                     return val;
                 }
-                
+
                 //Compare by class priority
                 val = getClassPriority(m1) - getClassPriority(m2);
                 if (val != 0) {
                     return val;
                 }
-                
+
                 //Compare by class name
                 val = getClassName(m1).compareTo(getClassName(m2));
                 if (val != 0) {
                     return val;
                 }
-                
+
                 //Compare by method priority
                 val = getMethodPriority(m1) - getMethodPriority(m2);
                 if (val != 0) {
                     return val;
                 }
-                
+
                 return 0;
             }
 

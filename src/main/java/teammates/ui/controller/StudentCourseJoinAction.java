@@ -18,15 +18,15 @@ import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
  * his registration key with another student's google account.
  */
 public class StudentCourseJoinAction extends Action {
-    
+
     @Override
     public ActionResult execute() {
         Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
-        
+
         statusToAdmin = "Action Student Clicked Join Link"
                         + (account.googleId == null ? "<br>Email: " + account.email
                                                     : "<br>Google ID: " + account.googleId + "<br>Key: " + regkey);
-        
+
         if (student == null) {
             statusToAdmin += "<br>Student course join failed as student does not exist.";
             String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -37,12 +37,12 @@ public class StudentCourseJoinAction extends Action {
                     StatusMessageColor.WARNING));
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         }
-        
+
         String nextUrl = getNextUrl();
         if (gateKeeper.getCurrentUser() == null) {
             return createRedirectToAuthenticatedJoinPage(nextUrl);
         }
-        
+
         String confirmUrl = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
                 + "?" + Const.ParamsNames.REGKEY + "=" + regkey
                 + "&" + Const.ParamsNames.NEXT_URL + "=" + SanitizationHelper.sanitizeForNextUrl(nextUrl);
@@ -58,7 +58,7 @@ public class StudentCourseJoinAction extends Action {
                         gateKeeper.getLogoutUrl(SanitizationHelper.sanitizeForNextUrl(confirmUrl)),
                         isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
         excludeStudentDetailsFromResponseParams();
-        
+
         return createShowPageResult(
                 Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION, data);
     }
@@ -68,7 +68,7 @@ public class StudentCourseJoinAction extends Action {
         if (nextUrl == null) {
             nextUrl = Const.ActionURIs.STUDENT_HOME_PAGE;
         }
-        
+
         return nextUrl;
     }
 
@@ -78,12 +78,12 @@ public class StudentCourseJoinAction extends Action {
                 .withRegistrationKey(regkey)
                 .withParam(Const.ParamsNames.NEXT_URL, nextUrl)
                 .toString();
-        
+
         excludeStudentDetailsFromResponseParams();
-        
+
         return createRedirectResult(redirectUrl);
     }
-    
+
     /**
      * Gets the page type out of a URL, e.g the type of
      * <code>/page/xyz?param1=value1&amp;param2=value2</code> is <code>/page/xyz</code>.
@@ -99,5 +99,5 @@ public class StudentCourseJoinAction extends Action {
          */
         return url.replaceFirst("^(/page/[A-Za-z]+)\\?.*$", "$1");
     }
-    
+
 }

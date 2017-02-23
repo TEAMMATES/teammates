@@ -15,7 +15,7 @@ public class FeedbackQuestionFeedbackPathSettings {
     private FeedbackParticipantType selectedRecipient;
 
     private boolean isCommonPathSelected;
-    
+
     private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
     private int numOfEntitiesToGiveFeedbackToValue;
 
@@ -34,7 +34,7 @@ public class FeedbackQuestionFeedbackPathSettings {
     public void setNumOfEntitiesToGiveFeedbackToValue(int numOfEntitiesToGiveFeedbackToValue) {
         this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
     }
-    
+
     public boolean isCommonPathSelected() {
         return isCommonPathSelected;
     }

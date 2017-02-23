@@ -28,7 +28,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
@@ -107,7 +107,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                                   + "Student Profile: " + expectedProfile.toString()
                                   + "|||/page/instructorStudentRecordsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
-        
+
         ______TS("Typical case: instructor cannot view sections");
 
         instructor = dataBundle.instructors.get("helperOfCourse1");

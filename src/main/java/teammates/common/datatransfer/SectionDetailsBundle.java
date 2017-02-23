@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * <br> * {@link TeamDetailsBundle} objects for all teams in the section.
  */
 public class SectionDetailsBundle {
-    
+
     public String name;
     public ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
 

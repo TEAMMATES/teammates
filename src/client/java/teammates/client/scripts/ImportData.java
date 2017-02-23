@@ -26,14 +26,14 @@ public final class ImportData {
     //
     // Data source file name (under src/test/resources/data folder) to import
     private static final String SOURCE_FILE_NAME = "ResultFileName.json";
-    
+
     private static final int MAX_NUMBER_OF_ENTITY_PER_REQUEST = 100;
     private static final int MAX_NUMBER_OF_EVALUATION_PER_REQUEST = 1;
     private static final int WAIT_TIME_BETWEEN_REQUEST = 1000; //ms
-    
+
     private static DataBundle data;
     private static String jsonString;
-    
+
     private ImportData() {
         // script, not meant to be instantiated
     }
@@ -41,7 +41,7 @@ public final class ImportData {
     public static void main(String[] args) throws Exception {
         jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + SOURCE_FILE_NAME);
         data = JsonUtils.fromJson(jsonString, DataBundle.class);
-        
+
         String status = "";
         do {
             long start = System.currentTimeMillis();
@@ -49,7 +49,7 @@ public final class ImportData {
             boolean hasInstructors = !data.instructors.isEmpty();
             boolean hasCourses = !data.courses.isEmpty();
             boolean hasStudents = !data.students.isEmpty();
-            
+
             if (hasAccounts) {
                 // Accounts
                 status = persist(data.accounts);
@@ -74,9 +74,9 @@ public final class ImportData {
             System.out.print(status + " in " + elapsedTimeSec + " s\n");
 
         } while (true);
-        
+
     }
-    
+
     /**
      * This method will persist a number of entity and remove them from the source, return the
      * status of the operation.
@@ -91,7 +91,7 @@ public final class ImportData {
         for (Map.Entry<String, ?> entry : map.entrySet()) {
             String key = entry.getKey();
             Object obj = entry.getValue();
-            
+
             if (obj instanceof AccountAttributes) {
                 type = "AccountData";
                 AccountAttributes accountData = (AccountAttributes) obj;
@@ -117,9 +117,9 @@ public final class ImportData {
             }
         }
         System.out.print(count + " entities of type " + type + " left " + map.size() + " \n");
-        
+
         String status = BackDoor.restoreDataBundle(bundle);
-        
+
         // wait a few seconds to allow data to persist completedly
         try {
             Thread.sleep(WAIT_TIME_BETWEEN_REQUEST);
