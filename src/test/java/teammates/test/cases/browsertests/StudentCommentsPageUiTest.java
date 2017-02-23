@@ -7,7 +7,6 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.StudentCommentsPage;
 
 public class StudentCommentsPageUiTest extends BaseUiTestCase {
-    private static StudentCommentsPage commentsPage;
     
     @Override
     protected void prepareTestData() {
@@ -27,7 +26,7 @@ public class StudentCommentsPageUiTest extends BaseUiTestCase {
         AppUrl commentsPageUrl = createUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
                 .withUserId(testData.accounts.get("student1InCourse1").googleId);
 
-        commentsPage = loginAdminToPage(commentsPageUrl, StudentCommentsPage.class);
+        StudentCommentsPage commentsPage = loginAdminToPage(commentsPageUrl, StudentCommentsPage.class);
 
         // This is the full HTML verification for Student Comments Page, the rest can all be verifyMainHtml
         commentsPage.verifyHtml("/studentCommentsPageForStudent1.html");

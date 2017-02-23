@@ -13,7 +13,7 @@ import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentHomePage;
 
 public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
-    private static StudentCourseJoinConfirmationPage confirmationPage;
+    private StudentCourseJoinConfirmationPage confirmationPage;
 
     @Override
     protected void prepareTestData() {

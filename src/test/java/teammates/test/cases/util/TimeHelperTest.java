@@ -111,7 +111,7 @@ public class TimeHelperTest extends BaseTestCase {
         int gracePeriod = 15;
         timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         timeCalendar.add(Calendar.MINUTE, -10);
-        assertFalse(TimeHelper.isWithinPastHour(new Date(timeCalendar.getTime().getTime() + gracePeriod * 60000),
+        assertFalse(TimeHelper.isWithinPastHour(new Date(timeCalendar.getTime().getTime() + gracePeriod * 60000L),
                     Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
     }
     

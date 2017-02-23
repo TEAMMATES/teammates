@@ -25,10 +25,10 @@ import teammates.ui.template.CoursePagination;
 
 public class InstructorCommentsPageDataTest extends BaseTestCase {
     private static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
-    private static DataBundle dataBundle = getTypicalDataBundle();
-    private static CourseAttributes course1;
-    private static CourseAttributes course2;
-    private static InstructorAttributes instructor1;
+    private DataBundle dataBundle = getTypicalDataBundle();
+    private CourseAttributes course1;
+    private CourseAttributes course2;
+    private InstructorAttributes instructor1;
     
     @BeforeClass
     public void classSetup() {

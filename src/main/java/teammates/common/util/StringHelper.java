@@ -52,10 +52,10 @@ public final class StringHelper {
      * Currently only used in header row processing in StudentAttributesFactory: locateColumnIndexes
      * Case Insensitive
      * @param input The string to be matched
-     * @param regexArray The regex array used for the matching
+     * @param regexList The regex list used for the matching
      */
-    public static boolean isAnyMatching(String input, String[] regexArray) {
-        for (String regex : regexArray) {
+    public static boolean isAnyMatching(String input, List<String> regexList) {
+        for (String regex : regexList) {
             if (isMatching(input.trim().toLowerCase(), regex)) {
                 return true;
             }
@@ -254,7 +254,7 @@ public final class StringHelper {
     public static String[] splitName(String fullName) {
         
         if (fullName == null) {
-            return null;
+            return new String[] {};
         }
            
         String lastName;
@@ -374,12 +374,12 @@ public final class StringHelper {
             
             result.append("<tr>");
             for (String td : rowData) {
-                result.append(String.format("<td>%s</td>\n", SanitizationHelper.sanitizeForHtml(td)));
+                result.append(String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td)));
             }
             result.append("</tr>");
         }
 
-        return String.format("<table class=\"table table-bordered table-striped table-condensed\">\n%s</table>",
+        return String.format("<table class=\"table table-bordered table-striped table-condensed\">%s</table>",
                              result.toString());
     }
 

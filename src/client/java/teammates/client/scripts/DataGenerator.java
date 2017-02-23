@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -29,38 +30,31 @@ import teammates.test.driver.TestProperties;
 
 public final class DataGenerator {
     // Name of the result file, please do not override existing file
-    public static final String FILE_NAME = "ResultFileName.json";
+    private static final String FILE_NAME = "ResultFileName.json";
     // Prefix used in all entities
-    public static final String PREFIX = "D1_";
+    private static final String PREFIX = "D1_";
     
-    public static final Integer NUM_OF_COURSES = 5;
-    public static final Integer NUM_OF_STUDENTS = 1000;
+    private static final Integer NUM_OF_COURSES = 5;
+    private static final Integer NUM_OF_STUDENTS = 1000;
     
-    public static final Integer MIN_NUM_OF_INSTRUCTOR_PER_COURSES = 1;
-    public static final Integer MAX_NUM_OF_INSTRUCTOR_PER_COURSES = 3;
+    private static final Integer MIN_NUM_OF_INSTRUCTOR_PER_COURSES = 1;
+    private static final Integer MAX_NUM_OF_INSTRUCTOR_PER_COURSES = 3;
     
-    public static final Integer MIN_NUM_OF_STUDENTS_PER_COURSE = 50;
-    public static final Integer AVERAGE_NUM_OF_STUDENTS_PER_COURSE = 150;
-    public static final Integer STANDARD_DEVIATION_STUDENT_PER_COURSE = 100;
-    public static final Integer MAX_NUM_OF_STUDENTS_PER_COURSE = 250;
+    private static final Integer MIN_NUM_OF_STUDENTS_PER_COURSE = 50;
+    private static final Integer AVERAGE_NUM_OF_STUDENTS_PER_COURSE = 150;
+    private static final Integer STANDARD_DEVIATION_STUDENT_PER_COURSE = 100;
+    private static final Integer MAX_NUM_OF_STUDENTS_PER_COURSE = 250;
     
-    public static final Integer MAX_TEAM_SIZE = 5;
-    public static final Integer MIN_TEAM_SIZE = 3;
+    private static final Integer MAX_TEAM_SIZE = 5;
+    private static final Integer MIN_TEAM_SIZE = 3;
     
-    public static final Integer MIN_ACTIVE_EVALUATION_PER_COURSE = 0;
-    public static final Integer MAX_ACTIVE_EVALUATION_PER_COURSE = 0;
-
-    public static final String START_TIME = "2012-04-01 11:59 PM UTC";
-    public static final String END_TIME_PASSED = "2012-07-30 11:59 PM UTC";
-    public static final String END_TIME_NOT_PASSED = "2013-012-30 11:59 PM UTC";
-
-    public static ArrayList<String> courses = new ArrayList<String>();
-    public static HashMap<String, String> instructors = new HashMap<String, String>();
-    public static ArrayList<String> studentEmails = new ArrayList<String>();
-    public static ArrayList<String> students = new ArrayList<String>();
-    public static ArrayList<ArrayList<String>> teams = new ArrayList<ArrayList<String>>();
+    private static final ArrayList<String> courses = new ArrayList<String>();
+    private static final HashMap<String, String> instructors = new HashMap<String, String>();
+    private static final ArrayList<String> studentEmails = new ArrayList<String>();
+    private static final ArrayList<String> students = new ArrayList<String>();
+    private static final ArrayList<ArrayList<String>> teams = new ArrayList<ArrayList<String>>();
     
-    public static Random random = new Random();
+    private static final Random random = new Random();
     
     private DataGenerator() {
         // script, not meant to be instantiated
@@ -127,8 +121,8 @@ public final class DataGenerator {
     public static void generateDataForCourse(String courseName) {
         //number of courses for this particular instructor
         long numOfInstr =
-                Math.round(random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES + 1)
-                           + MIN_NUM_OF_INSTRUCTOR_PER_COURSES);
+                random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES + 1)
+                + MIN_NUM_OF_INSTRUCTOR_PER_COURSES;
         
         for (int j = 0; j < numOfInstr; j++) {
             // Add an Instructor
@@ -166,7 +160,7 @@ public final class DataGenerator {
         //Add teams
         int teamCount = 1;
         while (!studentEmailInCourse.isEmpty()) {
-            long teamSize = Math.round(random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE + 1) + MIN_TEAM_SIZE);
+            long teamSize = random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE + 1) + MIN_TEAM_SIZE;
             ArrayList<String> team = new ArrayList<String>();
             for (int k = 0; !studentEmailInCourse.isEmpty() && k < teamSize; k++) {
                 
@@ -217,9 +211,9 @@ public final class DataGenerator {
     public static String allInstructors() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"instructors\":{\n");
-        for (String instructor : instructors.keySet()) {
-            String course = PREFIX + instructors.get(instructor);
-            String instructorWithPrefix = PREFIX + instructor;
+        for (Map.Entry<String, String> entry : instructors.entrySet()) {
+            String course = PREFIX + instructors.get(entry.getValue());
+            String instructorWithPrefix = PREFIX + entry.getKey();
             outputBuilder.append('\t')
                          .append(instructor(instructorWithPrefix, "googleIdOf_" + instructorWithPrefix,
                                             "courseIdOf_" + course, "nameOf_" + instructorWithPrefix,

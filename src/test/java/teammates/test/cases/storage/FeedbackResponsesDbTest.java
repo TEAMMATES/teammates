@@ -26,8 +26,8 @@ import teammates.test.driver.AssertHelper;
 public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-    private static DataBundle dataBundle = getTypicalDataBundle();
-    private static Map<String, FeedbackResponseAttributes> fras;
+    private DataBundle dataBundle = getTypicalDataBundle();
+    private Map<String, FeedbackResponseAttributes> fras;
     
     @BeforeClass
     public void classSetup() throws Exception {
@@ -35,7 +35,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         fras = dataBundle.feedbackResponses;
     }
     
-    private static void addResponsesToDb() throws Exception {
+    private void addResponsesToDb() throws Exception {
         Set<String> keys = dataBundle.feedbackResponses.keySet();
         for (String i : keys) {
             frDb.createEntity(dataBundle.feedbackResponses.get(i));
@@ -851,7 +851,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         deleteResponsesFromDb();
     }
     
-    private static void deleteResponsesFromDb() {
+    private void deleteResponsesFromDb() {
         Set<String> keys = dataBundle.feedbackResponses.keySet();
         for (String i : keys) {
             frDb.deleteEntity(dataBundle.feedbackResponses.get(i));
