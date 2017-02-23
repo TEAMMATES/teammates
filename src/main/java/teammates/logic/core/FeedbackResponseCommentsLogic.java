@@ -49,9 +49,9 @@ public final class FeedbackResponseCommentsLogic {
 
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
-        verifyIsCoursePresent(frComment.courseId);
-        verifyIsInstructorOfCourse(frComment.courseId, frComment.giverEmail);
-        verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
+      //  verifyIsCoursePresent(frComment.courseId);
+        verifyIsInstructorOfCourse(frComment.giverEmail);
+        verifyIsFeedbackSessionOfCourse(frComment.feedbackSessionName);
         
         try {
             return frcDb.createEntity(frComment);
@@ -62,7 +62,7 @@ public final class FeedbackResponseCommentsLogic {
                                   frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail,
                                                                    frComment.createdAt);
                 if (existingComment == null) {
-                    existingComment = frcDb.getFeedbackResponseComment(frComment.courseId, frComment.createdAt,
+                    existingComment = frcDb.getFeedbackResponseComment(frComment.createdAt,
                                                                        frComment.giverEmail);
                 }
                 frComment.setId(existingComment.getId());
@@ -88,17 +88,13 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
     }
     
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,
-                                                                                        String feedbackSessionName) {
-        return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String feedbackSessionName) {
+        return frcDb.getFeedbackResponseCommentsForSession(feedbackSessionName);
     }
 
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSessionInSection(String courseId,
-                                                           String feedbackSessionName, String section) {
-        if (section == null) {
-            return getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
-        }
-        return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSessionInSection(String feedbackSessionName) {
+    
+        return frcDb.getFeedbackResponseCommentsForSessionInSection(feedbackSessionName);
     }
     
     public void updateFeedbackResponseCommentsForChangingResponseId(
@@ -115,9 +111,9 @@ public final class FeedbackResponseCommentsLogic {
     /*
      * Updates all email fields of feedback response comments with the new email
      */
-    public void updateFeedbackResponseCommentsEmails(String courseId, String oldEmail, String updatedEmail) {
-        frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
-        frcDb.updateLastEditorEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
+    public void updateFeedbackResponseCommentsEmails( String oldEmail, String updatedEmail) {
+        frcDb.updateGiverEmailOfFeedbackResponseComments(oldEmail, updatedEmail);
+        frcDb.updateLastEditorEmailOfFeedbackResponseComments(oldEmail, updatedEmail);
     }
     
     // right now this method only updates comment's giverSection and receiverSection for a given response
@@ -138,31 +134,29 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
     }
     
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(
-                                                           String courseId, CommentSendingState state)
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(CommentSendingState state)
                                                            throws EntityDoesNotExistException {
-        verifyIsCoursePresent(courseId);
+      //  verifyIsCoursePresent(courseId);
         
         List<FeedbackResponseCommentAttributes> frcList = new ArrayList<FeedbackResponseCommentAttributes>();
-        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        //List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes fs : feedbackSessions) {
             if (fs.isPublished()) {
                 frcList.addAll(
-                        frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.getFeedbackSessionName(), state));
+                        frcDb.getFeedbackResponseCommentsForSendingState(fs.getFeedbackSessionName(), state));
             }
         }
         return frcList;
     }
     
-    public void updateFeedbackResponseCommentsSendingState(
-            String courseId, CommentSendingState oldState, CommentSendingState newState)
+    public void updateFeedbackResponseCommentsSendingState(CommentSendingState oldState, CommentSendingState newState)
             throws EntityDoesNotExistException {
-        verifyIsCoursePresent(courseId);
+        //verifyIsCoursePresent(courseId);
         
-        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        //List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes fs : feedbackSessions) {
             if (fs.isPublished()) {
-                frcDb.updateFeedbackResponseComments(courseId, fs.getFeedbackSessionName(), oldState, newState);
+                frcDb.updateFeedbackResponseComments(fs.getFeedbackSessionName(), oldState, newState);
             }
         }
     }
@@ -175,9 +169,8 @@ public final class FeedbackResponseCommentsLogic {
         frcDb.putDocument(comment);
     }
     
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String courseId,
-                                                                                       String giverEmail) {
-        return frcDb.getFeedbackResponseCommentForGiver(courseId, giverEmail);
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String giverEmail) {
+        return frcDb.getFeedbackResponseCommentForGiver(giverEmail);
     }
     
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString,
@@ -185,9 +178,9 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.search(queryString, instructors);
     }
     
-    public void deleteFeedbackResponseCommentsForCourse(String courseId) {
-        frcDb.deleteFeedbackResponseCommentsForCourse(courseId);
-    }
+    /*public void deleteFeedbackResponseCommentsForCourse() {
+        frcDb.deleteFeedbackResponseCommentsForCourse();
+    }*/
     
     public void deleteFeedbackResponseCommentsForResponse(String responseId) {
         frcDb.deleteFeedbackResponseCommentsForResponse(responseId);
@@ -286,10 +279,9 @@ public final class FeedbackResponseCommentsLogic {
      * Verify whether the comment is visible to certain user
      * @return true/false
      */
-    public boolean isResponseCommentVisibleForUser(String userEmail, String courseId, UserRole role,
-            String section, StudentAttributes student, Set<String> studentsEmailInTeam,
+    public boolean isResponseCommentVisibleForUser(String userEmail,UserRole role,StudentAttributes student, Set<String> studentsEmailInTeam,
             FeedbackResponseAttributes response, FeedbackQuestionAttributes relatedQuestion,
-            FeedbackResponseCommentAttributes relatedComment, InstructorAttributes instructor) {
+            FeedbackResponseCommentAttributes relatedComment) {
         
         if (response == null || relatedQuestion == null) {
             return false;
@@ -376,27 +368,26 @@ public final class FeedbackResponseCommentsLogic {
         return isVisibleTo;
     }
     
-    private void verifyIsCoursePresent(String courseId) throws EntityDoesNotExistException {
-        if (!coursesLogic.isCoursePresent(courseId)) {
+    private void verifyIsCoursePresent() throws EntityDoesNotExistException {
+        if (!coursesLogic.isCoursePresent()) {
             throw new EntityDoesNotExistException(
                     "Trying to create feedback response comments for a course that does not exist.");
         }
     }
     
-    private void verifyIsInstructorOfCourse(String courseId, String email) throws EntityDoesNotExistException {
-        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
+    private void verifyIsInstructorOfCourse(String email) throws EntityDoesNotExistException {
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(email);
         if (instructor == null) {
-            throw new EntityDoesNotExistException("User " + email + " is not a registered instructor for course "
-                                                + courseId + ".");
+            throw new EntityDoesNotExistException("User " + email + " is not a registered instructor for course " + ".");
         }
     }
     
-    private void verifyIsFeedbackSessionOfCourse(String courseId, String feedbackSessionName)
+    private void verifyIsFeedbackSessionOfCourse(String feedbackSessionName)
             throws EntityDoesNotExistException {
-        FeedbackSessionAttributes session = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes session = fsLogic.getFeedbackSession(feedbackSessionName );
         if (session == null) {
             throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName
-                                                + " is not a session for course " + courseId + ".");
+                                                + " is not a session for course " + ".");
         }
     }
 
