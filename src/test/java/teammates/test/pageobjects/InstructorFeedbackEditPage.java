@@ -536,6 +536,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber + " .visibility-options-dropdown "
                                                         + "a[data-option-name=\"" + optionValue + "\"]")));
     }
+    
+    public void clickVisibilityDropdownForNewQuestion(String optionValue) {
+        clickVisibilityDropdown(optionValue, NEW_QUESTION_NUM);
+    }
 
     public void clickAddQuestionButton() {
         click(addNewQuestionButton);
@@ -1077,6 +1081,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean isRankDuplicatesAllowedChecked(int qnIndex) {
         WebElement checkBox = browser.driver.findElement(By.id("rankAreDuplicatesAllowed-" + qnIndex));
         return checkBox.isSelected();
+    }
+    
+    public boolean isRankDuplicatesAllowedCheckedForNewQuestion() {
+        return isRankDuplicatesAllowedChecked(NEW_QUESTION_NUM);
     }
     
     public void clickAddMoreRankOptionLink(int qnIndex) {

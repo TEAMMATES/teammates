@@ -804,6 +804,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         assertFalse("Expected checkbox to not be checked",
                 feedbackEditPage.isCheckboxChecked("answerCheckbox", "RECEIVER_TEAM_MEMBERS", 1));
+
+        ______TS("Test other checkboxes retain their state (only visibility checkboxes affected)");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
+        feedbackEditPage.tickDuplicatesAllowedCheckboxForNewQuestion();
+        feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS");
+        assertTrue("Expected checkbox to remain checked",
+                feedbackEditPage.isRankDuplicatesAllowedCheckedForNewQuestion());
     }
 
     private void testAjaxOnVisibilityMessageButton() {
