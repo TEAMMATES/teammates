@@ -71,7 +71,7 @@ public class FieldValidator {
      * possible, must be displayed in the same case as user entered. This is
      * because the case of the letters can mean something. Furthermore,
      * converting to same case can reduce readability.
-     * 
+     *
      * Course ID is necessary because the course name is not unique enough to
      * distinguish between courses because the same course can be offered
      * multiple times and courses can be shared between instructors and many
@@ -504,7 +504,7 @@ public class FieldValidator {
     /**
      * Checks if the given string is a non-null non-empty string no longer than
      * the specified length {@code maxLength}.
-     * 
+     *
      * @param fieldName
      *            A descriptive name of the field e.g., "student name", to be
      *            used in the return value to make the explanation more
@@ -538,7 +538,7 @@ public class FieldValidator {
      * Checks if the given name (including person name, institute name, course name, feedback session and team name)
      * is a non-null non-empty string no longer than the specified length {@code maxLength},
      * and also does not contain any invalid characters (| or %).
-     * 
+     *
      * @param fieldName
      *            A descriptive name of the field e.g., "student name", to be
      *            used in the return value to make the explanation more
@@ -587,7 +587,7 @@ public class FieldValidator {
     /**
      * Checks if the given string is a non-null string no longer than
      * the specified length {@code maxLength}. However, this string can be empty.
-     * 
+     *
      * @param fieldName
      *            A descriptive name of the field e.g., "student name", to be
      *            used in the return value to make the explanation more

@@ -29,7 +29,7 @@ import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * Handles CRUD operations for instructors.
- * 
+ *
  * @see {@link Instructor}
  * @see {@link InstructorAttributes}
  */
@@ -215,7 +215,7 @@ public class InstructorsDb extends EntitiesDb {
     /**
      * Preconditions: <br>
      *  * All parameters are non-null.
-     * 
+     *
      * @return empty list if no matching objects.
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {

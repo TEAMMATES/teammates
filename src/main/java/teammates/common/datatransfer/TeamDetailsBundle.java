@@ -5,7 +5,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
-/** 
+/**
  * Represents details of students in a team.
  * <br> Contains:
  * <br> * The team name .

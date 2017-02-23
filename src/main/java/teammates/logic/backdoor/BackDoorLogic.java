@@ -166,7 +166,7 @@ public class BackDoorLogic extends Logic {
 
     /**
      * Checks if the role of {@code instructor} matches its privileges
-     * 
+     *
      * @param instructor
      *            the {@link InstructorAttributes} of an instructor, cannot be
      *            {@code null}

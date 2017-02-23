@@ -355,7 +355,7 @@ public class StudentAttributes extends EntityAttributes {
 
     /**
      * Checks whether the edit form of student has changed the section value.
-     * 
+     *
      * @param originalStudentAttribute
      * @return true if section value has changed from its original value.
      */
@@ -365,7 +365,7 @@ public class StudentAttributes extends EntityAttributes {
 
     /**
      * Checks whether the edit form of student has changed the team value.
-     * 
+     *
      * @param originalStudentAttribute
      * @return true if team value has changed from its original value.
      */

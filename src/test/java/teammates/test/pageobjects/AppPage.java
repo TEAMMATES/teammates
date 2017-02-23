@@ -51,10 +51,10 @@ import teammates.test.driver.TestProperties;
  * An abstract class that represents a browser-loaded page of the app and
  * provides ways to interact with it. Also contains methods to validate some
  * aspects of the page. .e.g, html page source. <br>
- * 
+ *
  * Note: We are using the PageObjects pattern here.
  * https://code.google.com/p/selenium/wiki/PageObjects
- * 
+ *
  */
 @SuppressWarnings("deprecation")
 public abstract class AppPage {
@@ -514,7 +514,7 @@ public abstract class AppPage {
         return textBox.getAttribute("value");
     }
 
-    /** 
+    /**
      * 'check' the check box, if it is not already 'checked'.
      * No action taken if it is already 'checked'.
      */
@@ -525,7 +525,7 @@ public abstract class AppPage {
         }
     }
 
-    /** 
+    /**
      * 'uncheck' the check box, if it is already 'checked'.
      * No action taken if it is not already 'checked'.
      */
@@ -535,7 +535,7 @@ public abstract class AppPage {
         }
     }
 
-    /** 
+    /**
      * 'check' the radio button, if it is not already 'checked'.
      * No action taken if it is already 'checked'.
      */
@@ -546,7 +546,7 @@ public abstract class AppPage {
         }
     }
 
-    /** 
+    /**
      * Selection is based on the value shown to the user.
      * Since selecting an option by clicking on the option doesn't work sometimes
      * in Firefox, we simulate a user typing the value to select the option
@@ -562,7 +562,7 @@ public abstract class AppPage {
         assertEquals(value, selectedVisibleValue);
     }
 
-    /** 
+    /**
      * Selection is based on the actual value.
      * Since selecting an option by clicking on the option doesn't work sometimes
      * in Firefox, we simulate a user typing the value to select the option
@@ -586,7 +586,7 @@ public abstract class AppPage {
         return statusMessage == null ? "" : statusMessage.getText();
     }
 
-    /** 
+    /**
      * @return the value of the cell located at {@code (row,column)}
      * from the first table (which is of type {@code class=table}) in the page.
      */
@@ -594,7 +594,7 @@ public abstract class AppPage {
         return getCellValueFromDataTable(0, row, column);
     }
 
-    /** 
+    /**
      * @return the value of the cell located at {@code (row,column)}
      * from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
@@ -605,7 +605,7 @@ public abstract class AppPage {
         return tdElement.getText();
     }
 
-    /** 
+    /**
      * @return the value of the header located at {@code (row,column)}
      * from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
@@ -616,7 +616,7 @@ public abstract class AppPage {
         return tdElement.getText();
     }
 
-    /** 
+    /**
      * @return the number of rows from the nth(0-index-based) table
      * (which is of type {@code class=table}) in the page.
      */
@@ -625,7 +625,7 @@ public abstract class AppPage {
         return tableElement.findElements(By.tagName("tr")).size();
     }
 
-    /** 
+    /**
      * @return the number of columns from the header in the table
      * (which is of type {@code class=table}) in the page.
      */
@@ -635,7 +635,7 @@ public abstract class AppPage {
         return trElement.findElements(By.tagName("th")).size();
     }
 
-    /** 
+    /**
      * @return the id of the table
      * (which is of type {@code class=table}) in the page.
      */
@@ -952,7 +952,7 @@ public abstract class AppPage {
      * Verify if a file is downloadable based on the given url. If its downloadable,
      * download the file and get the SHA-1 hex of it and verify the hex with the given
      * expected hash.
-     * 
+     *
      * Compute the expected hash of a file from http://onlinemd5.com/ (SHA-1)
      */
     public void verifyDownloadableFile(Url url, String expectedHash) throws Exception {
@@ -999,7 +999,7 @@ public abstract class AppPage {
 
     /**
      * Verifies that the page source does not contain the given searchString.
-     * 
+     *
      * @param searchString the substring that we want to omit from the page source
      * @return the AppPage
      */

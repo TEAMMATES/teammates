@@ -6,11 +6,11 @@ import teammates.common.exception.NullPostParameterException;
  * This class provides a set of static method to verify assumptions about the
  * system. When the real runtime condition differs from the assumed situation,
  * an unchecked AssertionFailedError will be thrown at runtime.
- * 
+ *
  * Normally, we uses Java assertion to do runtime checking, but GAE does not
  * support the assertions.is This file is a copy of org.junit.Assert v4.10.
  * Cannot use default java assert due to GAE environment restriction
- * 
+ *
  * @see org.junit.Assert
  */
 public final class Assumption {

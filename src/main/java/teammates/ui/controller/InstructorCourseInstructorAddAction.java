@@ -56,7 +56,7 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
     /**
      * Creates a new instructor with all information filled in, using request parameters.
      * This includes basic information as well as custom privileges (if applicable).
-     * 
+     *
      * @param courseId        Id of the course the instructor is being added to.
      * @param instructorName  Name of the instructor.
      * @param instructorEmail Email of the instructor.
@@ -90,7 +90,7 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
     /**
      * Creates a new instructor with basic information.
      * This consists of everything apart from custom privileges.
-     * 
+     *
      * @param courseId              Id of the course the instructor is being added to.
      * @param instructorName        Name of the instructor.
      * @param instructorEmail       Email of the instructor.

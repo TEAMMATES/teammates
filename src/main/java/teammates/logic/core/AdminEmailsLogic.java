@@ -13,7 +13,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Handles operations related to emails sent by the admin.
- * 
+ *
  * @see {@link AdminEmailAttributes}
  * @see {@link AdminEmailsDb}
  */

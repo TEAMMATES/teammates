@@ -26,7 +26,7 @@ public final class EmailAccount {
      * Retrieve registration key sent to Gmail inbox. After retrieving, marks
      * the email as read.
      *      * Can be easily modified to support other mail providers
-     * 
+     *
      * @param username
      * @param password
      * @return registration key (null if cannot be found).
@@ -72,7 +72,7 @@ public final class EmailAccount {
 
     /**
      * Helper function - Mark all emails of an account as read.
-     * 
+     *
      */
     public static void markAllEmailsSeen(String username, String password)
             throws Exception {
@@ -88,7 +88,7 @@ public final class EmailAccount {
 
     /**
      * Count the number of stress test emails
-     * 
+     *
      */
     public static int mailStressTestCount(String username, String password)
             throws Exception {

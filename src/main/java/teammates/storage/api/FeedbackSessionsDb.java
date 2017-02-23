@@ -23,7 +23,7 @@ import teammates.storage.entity.FeedbackSession;
 
 /**
  * Handles CRUD operations for feedback sessions.
- * 
+ *
  * @see {@link FeedbackSession}
  * @see {@link FeedbackSessionAttributes}
  */

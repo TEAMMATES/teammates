@@ -93,7 +93,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     /**
      * Prepares question tables for viewing
-     * 
+     *
      * {@code bundle} should be set before this method
      */
     public void initForViewByQuestion(InstructorAttributes instructor,
@@ -164,11 +164,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     /**
      * Creates {@code InstructorFeedbackResultsSectionPanel}s for sectionPanels.
-     * 
+     *
      * Iterates through the responses and creates panels and questions for them. Keeps track
      * of missing sections, teams and participants who do not have responses
      * and create panels for these missing sections, teams and participants.
-     * 
+     *
      * {@code bundle} should be set before this method
      * TODO: simplify the logic in this method
      */
@@ -799,7 +799,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Constructs InstructorFeedbackResultsQuestionTable containing statistics for each team.
      * The statistics tables are added to the sectionPanel.
-     * 
+     *
      * @param sectionPanel
      * @param questions
      * @param responsesGroupedByTeam
@@ -887,7 +887,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     /**
      * Builds a question table for given question, and response rows for the given responses.
-     * 
+     *
      * @param question
      * @param responses
      * @param additionalInfoId
@@ -1054,7 +1054,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * the missing responses between pairs of givers and recipients.
      * @param question
      * @param responses  existing responses for the question
-     * 
+     *
      * @see configureResponseRowForViewType
      */
     private List<InstructorFeedbackResultsResponseRow> buildResponseRowsForQuestion(
@@ -1229,7 +1229,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * Construct missing response rows between the giver identified by {@code giverIdentifier} and
      * {@code possibleReceivers}. The response rows are configured using
      * {@code configureResponseRowForViewType(viewType)}.
-     * 
+     *
      * @see configureResponseRowForViewType
      */
     private List<InstructorFeedbackResultsResponseRow> buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
@@ -1268,7 +1268,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * Construct missing response rows between the recipient identified by {@code recipientIdentifier} and
      * {@code possibleGivers}. The response rows are configured using
      * {@code configureResponseRowForViewType(viewType)}.
-     * 
+     *
      * @see configureResponseRowForViewType
      */
     private List<InstructorFeedbackResultsResponseRow> buildMissingResponseRowsBetweenRecipientAndPossibleGivers(
@@ -1306,7 +1306,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     /**
      * Given a participantIdentifier, remove it from participantIdentifierList.
-     * 
+     *
      * @param participantIdentifierList
      * @param participantIdentifier
      */
@@ -1423,7 +1423,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         return bySecondaryParticipantPanel;
     }
-    /* 
+    /*
      * getInstructorFeedbackSessionPublishAndUnpublishAction()
      * is not covered in action test, but covered in UI tests.
      */

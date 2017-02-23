@@ -241,7 +241,7 @@ public class AdminSearchPageAction extends Action {
      * Finds the googleId of a registered instructor with co-owner privileges.
      * If there is no such instructor, finds the googleId of a registered
      * instructor with the privilege to modify instructors.
-     * 
+     *
      * @param courseId
      *            the ID of the course
      * @return the googleId of a suitable instructor if found, otherwise an

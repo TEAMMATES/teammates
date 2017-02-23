@@ -24,7 +24,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
  * Handles operations related to feedback response comments.
- * 
+ *
  * @see {@link FeedbackResponseCommentAttributes}
  * @see {@link FeedbackResponseCommentsDb}
  */

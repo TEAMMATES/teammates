@@ -21,7 +21,7 @@ public abstract class FeedbackResponseDetails {
 
     /**
      * Extract response details and sets details accordingly.
-     * 
+     *
      * @param questionType
      * @param questionDetails
      * @param answer
@@ -39,10 +39,10 @@ public abstract class FeedbackResponseDetails {
 
     /**
      * getAnswerHtml with an additional parameter (FeedbackSessionResultsBundle)
-     * 
+     *
      * default action is to call getAnswerHtml(FeedbackQuestionDetails questionDetails)
      * override in child class if necessary.
-     * 
+     *
      * @param questionDetails
      * @param feedbackSessionResultsBundle
      * @return
@@ -54,10 +54,10 @@ public abstract class FeedbackResponseDetails {
 
     /**
      * getAnswerCsv with an additional parameter (FeedbackSessionResultsBundle)
-     * 
+     *
      * default action is to call getAnswerCsv(FeedbackQuestionDetails questionDetails)
      * override in child class if necessary.
-     * 
+     *
      * @param questionDetails
      * @param feedbackSessionResultsBundle
      * @return

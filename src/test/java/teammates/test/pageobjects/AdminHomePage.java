@@ -38,7 +38,7 @@ public class AdminHomePage extends AppPage {
 
     /** Fills the form with values from the parameters and clicks the submit button.
      * If an attribute value is null, the existing value in the form is used.
-     * 
+     *
      * @param attributesForNewAccount
      * @param isCreateCourse True if a sample course should be created for this account.
      */

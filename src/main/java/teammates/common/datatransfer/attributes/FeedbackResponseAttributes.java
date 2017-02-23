@@ -35,7 +35,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /** Contains the JSON formatted string that holds the information of the response details <br>
      * Don't use directly unless for storing/loading from data store <br>
      * To get the answer text use {@code getResponseDetails().getAnswerString()}
-     * 
+     *
      * This is set to null to represent a missing response.
      */
     public Text responseMetaData;

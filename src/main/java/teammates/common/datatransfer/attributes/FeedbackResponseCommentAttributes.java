@@ -130,7 +130,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         return feedbackResponseCommentId;
     }
 
-    /** 
+    /**
      * Use only to match existing and known Comment
      */
     public void setId(Long id) {

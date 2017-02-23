@@ -18,7 +18,7 @@ import teammates.storage.entity.FeedbackQuestion;
 
 /**
  * Handles CRUD operations for feedback questions.
- * 
+ *
  * @see {@link FeedbackQuestion}
  * @see {@link FeedbackQuestionAttributes}
  */
@@ -156,7 +156,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      *   and changes the {@code updatedAt} timestamp to be the time of update.
      * For the remaining parameters, the existing value is preserved
      *   if the parameter is null (due to 'keep existing' policy).<br>
-     * 
+     *
      * Preconditions: <br>
      * * {@code newAttributes.getId()} is non-null and
      *  correspond to an existing feedback question. <br>

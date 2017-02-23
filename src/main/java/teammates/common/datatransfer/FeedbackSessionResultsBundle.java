@@ -60,7 +60,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public Map<String, Map<String, TeamEvalResult>> contributionQuestionTeamEvalResults =
             new HashMap<String, Map<String, TeamEvalResult>>();
 
-    /* 
+    /*
      * sectionTeamNameTable takes into account the section viewing privileges of the logged-in instructor
      * and the selected section for viewing
      * whereas rosterSectionTeamNameTable doesn't.
@@ -910,7 +910,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     /**
      * Get the displayable full name from an email.
-     * 
+     *
      * This function is different from getNameForEmail as it obtains the name
      * using the class roster, instead of from the responses.
      * @param participantIdentifier
@@ -925,7 +925,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     /**
      * Get the displayable last name from an email.
-     * 
+     *
      * This function is different from getLastNameForEmail as it obtains the name
      * using the class roster, instead of from the responses.
      * @param participantIdentifier
@@ -941,7 +941,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * Return true if the participantIdentifier is an email of either a student
      * or instructor in the course roster. Otherwise, return false.
-     * 
+     *
      * @param participantIdentifier
      * @return true if the participantIdentifier is an email of either a student
      * or instructor in the course roster, false otherwise.
@@ -955,7 +955,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * If the participantIdentifier identifies a student or instructor,
      * the participantIdentifier is returned.
-     * 
+     *
      * Otherwise, Const.USER_NOBODY_TEXT is returned.
      * @see getDisplayableEmail
      * @param participantIdentifier
@@ -971,7 +971,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * Get the displayable team name from an email.
      * If the email is not an email of someone in the class roster, an empty string is returned.
-     * 
+     *
      * This function is different from getTeamNameForEmail as it obtains the name
      * using the class roster, instead of from the responses.
      * @param participantIdentifier
@@ -994,7 +994,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * Get the displayable section name from an email.
      * If the email is not an email of someone in the class roster, an empty string is returned.
-     * 
+     *
      * If the email of an instructor or "%GENERAL%" is passed in, "No specific recipient" is returned.
      * @param participantIdentifier
      */
@@ -1029,7 +1029,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     /**
      * Get the team names in a section. <br>
-     * 
+     *
      * Instructors are not contained in any section.
      * @param sectionName
      * @return a set of team names of the teams in the section
@@ -1054,7 +1054,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * Get the possible givers for a recipient specified by its participant identifier for
      * a question
-     * 
+     *
      * @param fqa
      * @param recipientParticipantIdentifier
      * @return a list of participant identifiers that can give a response to the recipient specified
@@ -1453,7 +1453,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * Get a sorted list of team members, who are in the same team as the student.<br>
      * This list includes the student.
-     * 
+     *
      * @see getSortedListOfTeamMembersEmailsExcludingSelf
      * @param student
      * @return a list of team members, including the original student
@@ -1469,7 +1469,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     /**
      * Get a sorted list of team members, who are in the same team as the student,
      * EXCLUDING the student.
-     * 
+     *
      * @see getSortedListOfTeamMembersEmails
      * @param student
      * @return a list of team members, excluding the original student
@@ -1669,7 +1669,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     // TODO: make responses to the student calling this method always on top.
     /**
      * Gets the questions and responses in this bundle as a map.
-     * 
+     *
      * @return An ordered {@code Map} with keys as {@link FeedbackQuestionAttributes}
      *         sorted by questionNumber.
      *         The mapped values for each key are the corresponding

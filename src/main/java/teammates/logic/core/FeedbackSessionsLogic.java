@@ -44,7 +44,7 @@ import teammates.storage.api.FeedbackSessionsDb;
 
 /**
  * Handles operations related to feedback sessions.
- * 
+ *
  * @see {@link FeedbackSessionAttributes}
  * @see {@link FeedbackSessionsDb}
  */
@@ -156,7 +156,7 @@ public final class FeedbackSessionsLogic {
     /**
      * Checks if the specified course exists, then gets the feedback sessions for
      * the specified user in the course if it does exist.
-     * 
+     *
      * @param courseId
      * @param userEmail
      * @return a list of viewable feedback sessions for any user for his course.
@@ -177,7 +177,7 @@ public final class FeedbackSessionsLogic {
      * without checking for the course's existence.<br>
      * This method is usually called after the course's existence is assumed or
      * has been verified.
-     * 
+     *
      * @param courseId
      * @param userEmail
      * @return a list of viewable feedback sessions for any user for his course.
@@ -204,7 +204,7 @@ public final class FeedbackSessionsLogic {
      * Returns a {@code List} of all feedback sessions bundled with their
      * response statistics for a instructor given by his googleId.<br>
      * Does not return private sessions unless the instructor is the creator.
-     * 
+     *
      * @param googleId
      * @return
      * @throws EntityDoesNotExistException
@@ -222,7 +222,7 @@ public final class FeedbackSessionsLogic {
      * Does not return private sessions unless the instructor is the creator.
      * <br>
      * Omits archived sessions if omitArchived == true
-     * 
+     *
      * @param googleId
      * @return
      * @throws EntityDoesNotExistException
@@ -249,7 +249,7 @@ public final class FeedbackSessionsLogic {
      * Does not return private sessions unless the instructor is the creator.
      * <br>
      * Omits sessions from archived courses if omitArchived == true
-     * 
+     *
      * @param googleId
      * @return
      */
@@ -492,7 +492,7 @@ public final class FeedbackSessionsLogic {
      * Removes instructors who are not displayed to students from
      * {@code recipients}. Responses to the hidden instructors are also removed
      * from {@code responses}.
-     * 
+     *
      * @param question
      *            the feedback question
      * @param responses
@@ -975,10 +975,10 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Given a participantIdentifier, remove it from participantIdentifierList.
-     * 
+     *
      * Before removal, FeedbackSessionResultsBundle.getNameFromRoster is used to
      * convert the identifier into a canonical form if the participantIdentifierType is TEAMS.
-     * 
+     *
      * @param participantIdentifierType
      * @param participantIdentifierList
      * @param participantIdentifier
@@ -997,10 +997,10 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Generate rows of missing responses for the remaining possible givers and recipients.
-     * 
+     *
      * If for the prevGiver, possibleRecipientsForGiver is not empty,
      * the remaining missing responses for the prevGiver will be generated first.
-     * 
+     *
      * @param results
      * @param entry
      * @param question
@@ -1043,7 +1043,7 @@ public final class FeedbackSessionsLogic {
     /**
      * For a giver and a list of possibleRecipientsForGiver, generate rows
      * of missing responses between the giver and the possible recipients
-     * 
+     *
      * @param results
      * @param question
      * @param questionDetails
@@ -1084,7 +1084,7 @@ public final class FeedbackSessionsLogic {
     /**
      * Criteria: must be published, publishEmail must be enabled and
      * resultsVisibleTime must be custom.
-     * 
+     *
      * @return returns a list of sessions that require automated emails to be
      *         sent as they are published
      */
@@ -1514,7 +1514,7 @@ public final class FeedbackSessionsLogic {
     /**
      * Deletes all feedback sessions the course specified. This is
      * a non-cascade delete.
-     * 
+     *
      * The responses, questions and the comments of the responses
      * should be handled.
      */

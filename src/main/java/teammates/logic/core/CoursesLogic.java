@@ -33,7 +33,7 @@ import teammates.storage.api.CoursesDb;
 
 /**
  * Handles operations related to courses.
- * 
+ *
  * @see {@link CourseAttributes}
  * @see {@link CoursesDb}
  */
@@ -378,7 +378,7 @@ public final class CoursesLogic {
      * <b>Note:</b><br>
      * This method does not returns any Loner information presently,<br>
      * Loner information must be returned as we decide to support loners<br>in future.
-     * 
+     *
      */
     public List<TeamDetailsBundle> getTeamsForCourse(String courseId) throws EntityDoesNotExistException {
 
@@ -559,7 +559,7 @@ public final class CoursesLogic {
     /**
      * Returns course summaries for instructor.<br>
      * Omits archived courses if omitArchived == true<br>
-     * 
+     *
      * @param googleId The Google ID of the instructor
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
      * Does not include details within the course, such as feedback sessions.
@@ -577,7 +577,7 @@ public final class CoursesLogic {
 
     /**
      * Returns course summaries for instructors.<br>
-     * 
+     *
      * @param instructorAttributesList
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
      * Does not include details within the course, such as feedback sessions.

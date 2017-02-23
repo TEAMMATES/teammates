@@ -18,7 +18,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
 
-        /* 
+        /*
          * In this test, we set the email address of the accounts to be the same as the
          * support email address. When running the test against a production server,
          * email alerts will be sent to the specified support email address.

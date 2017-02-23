@@ -98,7 +98,7 @@ public final class TimeHelper {
 
     /**
      * Convert a date string and time string into a Date object. Returns null on error.
-     * 
+     *
      * @param date
      *            The date in format dd/MM/yyyy
      * @param time

@@ -33,7 +33,7 @@ public class InstructorAttributes extends EntityAttributes {
     /**
      * Creates a new instructor with default access level and default displayedName
      * Deprecated as it is only to be used for testing
-     * 
+     *
      * @param googleId
      * @param courseId
      * @param name
@@ -48,7 +48,7 @@ public class InstructorAttributes extends EntityAttributes {
 
     /**
      * Creates a new instructor with params specified(isDisplayedToStudent is set to true by default)
-     * 
+     *
      * @param googleId
      * @param courseId
      * @param name
@@ -72,7 +72,7 @@ public class InstructorAttributes extends EntityAttributes {
 
     /**
      * Create an instructor(isDisplayedToStudent is set to true by default)
-     * 
+     *
      * @param googleId
      * @param courseId
      * @param name
@@ -96,7 +96,7 @@ public class InstructorAttributes extends EntityAttributes {
 
     /**
      * create an instructor
-     * 
+     *
      * @param googleId
      * @param courseId
      * @param name

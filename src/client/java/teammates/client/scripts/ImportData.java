@@ -15,12 +15,12 @@ import teammates.test.driver.TestProperties;
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
  * appID in the test.properties file.Can use DataGenerator.java to generate random data.
- * 
+ *
  * Notes:
  * -Edit SOURCE_FILE_NAME before use
  * -Should not have any limit on the size of the databundle. However, the number of entities per request
  * should not be set to too large as it may cause Deadline Exception (especially for evaluations)
- * 
+ *
  */
 public final class ImportData {
     //
@@ -80,7 +80,7 @@ public final class ImportData {
     /**
      * This method will persist a number of entity and remove them from the source, return the
      * status of the operation.
-     * 
+     *
      * @param map - HashMap which has data to persist
      * @return status of the Backdoor operation
      */

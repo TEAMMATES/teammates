@@ -47,7 +47,7 @@ public final class SanitizationHelper {
     /**
      * Sanitizes a google ID by removing leading/trailing whitespace
      * and the trailing "@gmail.com".
-     * 
+     *
      * @param rawGoogleId
      * @return the sanitized google ID or null (if the parameter was null).
      */
@@ -65,7 +65,7 @@ public final class SanitizationHelper {
 
     /**
      * Sanitizes an email address by removing leading/trailing whitespace.
-     * 
+     *
      * @param rawEmail
      * @return the sanitized email address or null (if the parameter was null).
      */
@@ -75,7 +75,7 @@ public final class SanitizationHelper {
 
     /**
      * Sanitizes name by removing leading, trailing, and duplicate internal whitespace.
-     * 
+     *
      * @param rawName
      * @return the sanitized name or null (if the parameter was null).
      */
@@ -85,7 +85,7 @@ public final class SanitizationHelper {
 
     /**
      * Sanitizes title by removing leading, trailing, and duplicate internal whitespace.
-     * 
+     *
      * @param rawTitle
      * @return the sanitized title or null (if the parameter was null).
      */
@@ -96,7 +96,7 @@ public final class SanitizationHelper {
     /**
      * Sanitizes a user input text field by removing leading/trailing whitespace.
      * i.e. comments, instructions, etc.
-     * 
+     *
      * @param rawText
      * @return the sanitized text or null (if the parameter was null).
      */
@@ -336,10 +336,10 @@ public final class SanitizationHelper {
      * For example:
      * Will o' The Wisp => concat('Will o' , "'" , ' The Wisp' , '')
      * This will result in the same string when read by XPath.
-     * 
+     *
      * This is used when writing the test case for some special characters
      * such as ' and "
-     * 
+     *
      * @param text
      * @return safer version of the text for XPath
      */

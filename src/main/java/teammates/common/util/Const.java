@@ -19,7 +19,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  */
 public final class Const {
 
-    /* 
+    /*
      * This section holds constants that are defined as constants primarily
      * because they are repeated in many places.
      */
@@ -71,7 +71,7 @@ public final class Const {
 
     public static final String DEFAULT_TIMEZONE = DateTimeZone.UTC.getID();
 
-    /* 
+    /*
      * These constants are used as variable values to mean that the variable
      * is in a 'special' state.
      */
@@ -108,7 +108,7 @@ public final class Const {
         TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
     }
 
-    /* 
+    /*
      * Other Constants
      */
 

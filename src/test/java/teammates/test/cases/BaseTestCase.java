@@ -20,7 +20,7 @@ public class BaseTestCase {
     /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.
-     * 
+     *
      * @param description
      *            of the logical section. This will be printed.
      */

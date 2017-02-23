@@ -16,7 +16,7 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * 
+     *
      * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
      * @param key
      * @return the first value for the key. Returns null if key not found.
@@ -27,7 +27,7 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * 
+     *
      * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
      * @param key
      * @return all values for the key. Returns null if key not found.
@@ -63,7 +63,7 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * 
+     *
      * @param req An HttpServletRequest which contains the parameters map
      * @param key
      * @return the first value for the key. Returns null if key is not found
@@ -74,7 +74,7 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * 
+     *
      * @param req An HttpServletRequest which contains the parameters map
      * @param key
      * @return the values for the key. Returns null if key is not found

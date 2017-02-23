@@ -27,7 +27,7 @@ import teammates.storage.api.FeedbackQuestionsDb;
 
 /**
  * Handles operations related to feedback questions.
- * 
+ *
  * @see {@link FeedbackQuestionAttributes}
  * @see {@link FeedbackQuestionsDb}
  */
@@ -620,9 +620,9 @@ public final class FeedbackQuestionsLogic {
      * Cascade the deletion of all existing responses for the question and then
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is not updated.
-     * 
+     *
      * Silently fails if question does not exist.
-     * 
+     *
      * @param feedbackQuestionId
      */
     private void deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(String feedbackQuestionId) {
@@ -643,9 +643,9 @@ public final class FeedbackQuestionsLogic {
      * Cascade the deletion of all existing responses for the question and then
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is updated accordingly.
-     * 
+     *
      * Silently fail if question does not exist.
-     * 
+     *
      * @param feedbackQuestionId
      */
     public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
@@ -665,7 +665,7 @@ public final class FeedbackQuestionsLogic {
      * Deletes all feedback questions in all sessions of the course specified. This is
      * a non-cascade delete. The responses to the questions and the comments of these responses
      * should be handled.
-     * 
+     *
      */
     public void deleteFeedbackQuestionsForCourse(String courseId) {
         fqDb.deleteFeedbackQuestionsForCourse(courseId);

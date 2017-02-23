@@ -38,7 +38,7 @@ public class TestNgTest extends BaseTestCase {
 
     /**
      * Files to be checked in testng.xml are added to testFiles
-     * 
+     *
      * @param testNgXml    Contents of testng.xml
      * @param rootPath     Root path of test files
      * @return             HashMap containing <class name, package name>
@@ -52,7 +52,7 @@ public class TestNgTest extends BaseTestCase {
 
     /**
      * Exclude files which do not have tests in TestNG
-     * 
+     *
      * @param testFiles                  Files to be checked before excluding tests
      * @param filesExcludedFromTestNg    Files to be excluded
      * @return                           Files to be checked after excluding tests
@@ -72,15 +72,15 @@ public class TestNgTest extends BaseTestCase {
 
     /**
      * Recursively add files from testng.xml which are to be checked
-     * 
+     *
      * @param path                            Check files and directories in the current path
-     * 
+     *
      * @param areFilesInCurrentDirExcluded    If true, files in the current path are not
      *                                        added to tests but sub-directories are still checked
-     * 
+     *
      * @param packageName                     Package name of the current file
      * @param testNgXml                       Contents of testng.xml
-     * 
+     *
      * @return                                HashMap containing <class name, package name> including
      *                                        current file or tests in the current directory
      */

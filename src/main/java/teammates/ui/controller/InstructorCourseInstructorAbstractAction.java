@@ -14,7 +14,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
 
     /**
      * Updates section and session level privileges for the instructor.
-     * 
+     *
      * @param courseId   Course that the instructor is being added to.
      * @param instructor Instructor that will be added.
      *                       This will be modified within the method.
@@ -68,7 +68,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
 
     /**
      * Updates course level privileges for the instructor by retrieving request parameters.
-     * 
+     *
      * @param instructor Instructor that will be edited.
      *                       This will be modified within the method.
      */
@@ -126,7 +126,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
 
     /**
      * Removes session level privileges for the instructor under the given sections.
-     * 
+     *
      * @param instructor   Instructor that will be added.
      *                         This will be modified within the method.
      * @param sectionNames List of section names to be removed.
@@ -139,7 +139,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
 
     /**
      * Gets the sections that are special for the instructor to be added.
-     * 
+     *
      * @param instructor          Instructor that will be added.
      * @param sectionNames             List of section names in the course.
      * @param isSectionSpecialMappings Mapping of names of sections to boolean values indicating if they are special.
@@ -160,7 +160,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
     /**
      * Gets the sections that are special for the custom instructor to be added.
      * Prereq: the added instructor must be given a custom role.
-     * 
+     *
      * @param sectionNames                   List of section names in the course.
      * @param isSectionSpecialMappings       Mapping of names of sections to boolean values indicating if they are special.
      *                                           This will be modified within the method.
@@ -191,7 +191,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
 
     /**
      * Marks {@code sectionToMark} as special in the associated mappings.
-     * 
+     *
      * @param isSectionSpecialMappings       Mapping of names of sections to boolean values indicating if they are special.
      *                                           This will be modified within the method.
      * @param specialSectionsInSectionGroups Mapping of section group names to the special sections that they contain.
@@ -215,7 +215,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
     /**
      * Updates instructor privileges at section level by retrieving request parameters.
      * The parameters that are retrieved are based off {@code sectionGroupName}.
-     * 
+     *
      * @param sectionGroupName              Name of the section group.
      * @param specialSectionsInSectionGroup Sections marked as special under the section group.
      * @param instructor                    Instructor that will be edited.
@@ -274,7 +274,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
     /**
      * Updates instructor privileges at session level by retrieving request parameters.
      * The parameters that are retrieved are based off {@code sectionGroupName} and {@code feedbackNames}.
-     * 
+     *
      * @param sectionGroupName              Name of the section group.
      * @param specialSectionsInSectionGroup Sections marked as special under the section group.
      * @param feedbackNames                 List of feedback names under the course.

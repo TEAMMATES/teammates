@@ -28,7 +28,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         Assumption.assertNotNull(regkey);
         String nextUrl;
         if (regkey.contains("${amp}" + Const.ParamsNames.NEXT_URL + "=")) {
-            /* 
+            /*
              * Here regkey may contain the nextUrl as well. This is due to
              * a workaround which replaces "&" with a placeholder "${amp}", thus the
              * next parameter, nextUrl, is treated as part of the "regkey".

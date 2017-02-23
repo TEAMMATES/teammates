@@ -222,7 +222,7 @@ public final class InstructorPrivileges {
 
     /**
      * set privilege for the privilege specified by privilegeName
-     * 
+     *
      * @param privilegeName
      * @param isAllowed
      */
@@ -232,7 +232,7 @@ public final class InstructorPrivileges {
 
     /**
      * set privilege for the privilege specified by privilegeName for sectionName
-     * 
+     *
      * @param sectionName
      * @param privilegeName
      * @param isAllowed
@@ -243,7 +243,7 @@ public final class InstructorPrivileges {
 
     /**
      * set privilege for the privilege specified by privilegeName for sessionName in sectionName
-     * 
+     *
      * @param sectionName
      * @param sessionName
      * @param privilegeName
@@ -284,7 +284,7 @@ public final class InstructorPrivileges {
 
     /**
      * used for bulk update of privileges for sectionName
-     * 
+     *
      * @param sectionName
      * @param privileges
      */
@@ -294,7 +294,7 @@ public final class InstructorPrivileges {
 
     /**
      * used for bulk update of privileges for sessionName in sectionName
-     * 
+     *
      * @param sectionName
      * @param sessionName
      * @param privileges
@@ -354,7 +354,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * 
+     *
      * @param sectionName
      * @param privilegeName
      * @return whether it is allowed for the privilege specified by privilegeName in sectionName
@@ -364,7 +364,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * 
+     *
      * @param sectionName
      * @param sessionName
      * @param privilegeName
@@ -417,7 +417,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * 
+     *
      * @param sectionName
      * @return whether there are special settings for sectionName
      */
@@ -426,7 +426,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * 
+     *
      * @param sectionName
      * @param sessionName
      * @return whether there are special settings for sessionName in sectionName

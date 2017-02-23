@@ -119,7 +119,7 @@ public class OfflineBackup extends RemoteApiClient {
 
     }
 
-    /** 
+    /**
      *  Looks through all the modified courses and retrieve their respective entities.
      */
     protected void retrieveEntitiesByCourse(Set<String> coursesList) {
@@ -146,7 +146,7 @@ public class OfflineBackup extends RemoteApiClient {
         }
     }
 
-    /** 
+    /**
      *  Retrieves all the accounts from a course and saves them
      */
     protected void retrieveAndSaveAccountsByCourse(String courseId) {
@@ -169,7 +169,7 @@ public class OfflineBackup extends RemoteApiClient {
         hasPreviousEntity = false;
     }
 
-    /** 
+    /**
      *  Retrieves all the comments from a course and saves them
      */
     protected void retrieveAndSaveCommentsByCourse(String courseId) {
@@ -185,7 +185,7 @@ public class OfflineBackup extends RemoteApiClient {
         appendToFile(currentFileName, "\n\t},\n");
     }
 
-    /** 
+    /**
      *  Retrieves the course and saves them
      */
     protected void retrieveAndSaveCourse(String courseId) {
@@ -203,7 +203,7 @@ public class OfflineBackup extends RemoteApiClient {
         appendToFile(currentFileName, "\n\t},\n");
     }
 
-    /** 
+    /**
      *  Retrieves all the feedback questions from a course and saves them
      */
     protected void retrieveAndSaveFeedbackQuestionsByCourse(String courseId) {
@@ -220,7 +220,7 @@ public class OfflineBackup extends RemoteApiClient {
         appendToFile(currentFileName, "\n\t},\n");
     }
 
-    /** 
+    /**
      *  Retrieves all the feedback responses from a course and saves them
      */
     protected void retrieveAndSaveFeedbackResponsesByCourse(String courseId) {
@@ -237,7 +237,7 @@ public class OfflineBackup extends RemoteApiClient {
         appendToFile(currentFileName, "\n\t},\n");
     }
 
-    /** 
+    /**
      *  Retrieves all the feedback responses comments from a course and saves them
      */
     protected void retrieveAndSaveFeedbackResponseCommentsByCourse(String courseId) {
@@ -255,7 +255,7 @@ public class OfflineBackup extends RemoteApiClient {
         appendToFile(currentFileName, "\n\t},\n");
     }
 
-    /** 
+    /**
      *  Retrieves all the feedback sessions from a course and saves them
      */
     protected void retrieveAndSaveFeedbackSessionsByCourse(String courseId) {
@@ -271,7 +271,7 @@ public class OfflineBackup extends RemoteApiClient {
         appendToFile(currentFileName, "\n\t},\n");
     }
 
-    /** 
+    /**
      *  Retrieves all the instructors from a course and saves them
      */
     protected void retrieveAndSaveInstructorsByCourse(String courseId) {
@@ -287,7 +287,7 @@ public class OfflineBackup extends RemoteApiClient {
         appendToFile(currentFileName, "\n\t},\n");
     }
 
-    /** 
+    /**
      *  Retrieves all the students from a course and saves them
      */
     protected void retrieveAndSaveStudentsByCourse(String courseId) {
@@ -303,7 +303,7 @@ public class OfflineBackup extends RemoteApiClient {
         appendToFile(currentFileName, "\n\t},\n");
     }
 
-    /** 
+    /**
      *  Retrieves all the submissions from a course and saves them
      */
     protected void retrieveAndSaveStudentProfilesByCourse(String courseId) {
@@ -326,7 +326,7 @@ public class OfflineBackup extends RemoteApiClient {
         hasPreviousEntity = false;
     }
 
-    /** 
+    /**
      *  Perform formatting of the string to ensure that it conforms to json formatting
      */
     protected String formatJsonString(String entityJsonString, String name) {
@@ -343,7 +343,7 @@ public class OfflineBackup extends RemoteApiClient {
         return formattedString.toString();
     }
 
-    /** 
+    /**
      *  Retrieves all the student accounts and saves them
      */
     protected void saveStudentAccount(StudentAttributes student) {
@@ -362,7 +362,7 @@ public class OfflineBackup extends RemoteApiClient {
         accountsSaved.add(account.email);
     }
 
-    /** 
+    /**
      *  Retrieves all the instructor accounts and saves them
      */
     protected void saveInstructorAccount(InstructorAttributes instructor) {

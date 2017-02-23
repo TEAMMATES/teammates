@@ -2,7 +2,7 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 
-/** 
+/**
  * Represents details of teams in a section.
  * <br> Contains:
  * <br> * The section name .

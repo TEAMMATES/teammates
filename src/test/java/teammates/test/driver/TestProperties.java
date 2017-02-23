@@ -9,7 +9,7 @@ import java.util.Properties;
 import teammates.common.util.Config;
 import teammates.common.util.Url;
 
-/** 
+/**
  * Represents properties in test.properties file
  */
 public final class TestProperties {

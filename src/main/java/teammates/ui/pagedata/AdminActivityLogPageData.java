@@ -245,7 +245,7 @@ public class AdminActivityLogPageData extends PageData {
 
     /**
      * Converts the query string into a QueryParameters object
-     * 
+     *
      */
     private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();
@@ -303,7 +303,7 @@ public class AdminActivityLogPageData extends PageData {
         return q;
     }
 
-    /** 
+    /**
      * @return possible servlet requests list as html
      */
     public String getActionListAsHtml() {

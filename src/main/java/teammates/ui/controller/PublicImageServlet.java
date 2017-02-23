@@ -14,7 +14,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
-/** 
+/**
  * Serves the public image stored in google cloud storage using the blobkey.<br>
  * Correct blobkey is required for image serving.
  */

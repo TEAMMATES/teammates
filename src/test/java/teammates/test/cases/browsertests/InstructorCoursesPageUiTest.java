@@ -56,7 +56,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
     @BeforeClass
     public void classSetup() {
-        /* 
+        /*
          * Any entity that is created in previous test run must be deleted.
          * If that previous test run fails, the entity persists and that will
          * break tests.
@@ -226,7 +226,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         /* Explanation: We test at least one valid case and one invalid case.
          * If the action involves a confirmation dialog, we should test both
          * 'confirm' and 'cancel' cases.
-         * 
+         *
          */
 
         instructorId = testData.accounts.get("instructorWithCourses").googleId;

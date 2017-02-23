@@ -19,7 +19,7 @@ import teammates.storage.entity.FeedbackResponse;
 /**
  * Adds sections to large courses without sections. For use after migrating evaluations
  * to feedback sessions. Handles updating sections in responses, but not comments.
- * 
+ *
  */
 public class AddSectionsToLargeCourses extends RemoteApiClient {
 

@@ -568,7 +568,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * 
+     *
      * @return {@code True} if all elements expected to be enabled
      * in the edit session frame are enabled after edit link is clicked.
      * {@code False} if not.
@@ -687,7 +687,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     /**
      * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}
-     * 
+     *
      * @param dateBox is a {@link WebElement} that triggers a datepicker
      * @param date is a {@link Calendar} that specifies the date that needs to be navigated to
      * @return true if navigated to the {@code date} successfully, otherwise
@@ -783,7 +783,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * 
+     *
      * @return {@code True} if the button was clicked successfully and an element in the new question
      * frame is now visible. {@code False} if not.
      */

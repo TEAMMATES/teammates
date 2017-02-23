@@ -59,7 +59,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
      * Checks if there are any other registered instructors that can modify instructors.
      * If there are none, the instructor currently being edited will be granted the privilege
      * of modifying instructors automatically.
-     * 
+     *
      * @param courseId         Id of the course.
      * @param instructorToEdit Instructor that will be edited.
      *                             This may be modified within the method.
@@ -88,7 +88,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
      * Creates a new instructor representing the updated instructor with all information filled in,
      * using request parameters.
      * This includes basic information as well as custom privileges (if applicable).
-     * 
+     *
      * @param courseId        Id of the course the instructor is being added to.
      * @param instructorId    Id of the instructor.
      * @param instructorName  Name of the instructor.
@@ -125,7 +125,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
     /**
      * Edits an existing instructor's basic information.
      * This consists of everything apart from custom privileges.
-     * 
+     *
      * @param courseId              Id of the course the instructor is being added to.
      * @param instructorId          Id of the instructor.
      * @param instructorName        Name of the instructor.

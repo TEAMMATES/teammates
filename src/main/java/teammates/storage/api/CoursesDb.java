@@ -17,13 +17,13 @@ import teammates.storage.entity.Course;
 
 /**
  * Handles CRUD operations for courses.
- * 
+ *
  * @see {@link Course}
  * @see {@link CourseAttributes}
  */
 public class CoursesDb extends EntitiesDb {
 
-    /* 
+    /*
      * Explanation: Based on our policies for the storage component, this class does not handle cascading.
      * It treats invalid values as an exception.
      */

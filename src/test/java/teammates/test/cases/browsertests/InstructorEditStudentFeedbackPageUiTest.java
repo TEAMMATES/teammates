@@ -11,7 +11,7 @@ import teammates.test.pageobjects.InstructorEditStudentFeedbackPage;
 
 /**
  * Tests Edit(Moderate) Student's Feedback Page of instructors.
- * 
+ *
  */
 public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 

@@ -82,7 +82,7 @@ public abstract class Action {
     /** Initializes variables.
      * Aborts with an {@link UnauthorizedAccessException} if the user is not
      * logged in or if a non-admin tried to masquerade as another user.
-     * 
+     *
      */
     public void init(HttpServletRequest req) {
         initialiseAttributes(req);
@@ -154,7 +154,7 @@ public abstract class Action {
 
     /**
      * Retrieves registration key from the HTTP request
-     * 
+     *
      * @return Registration key or null if key not in HTTP request
      */
     protected String getRegkeyFromRequest() {
@@ -454,7 +454,7 @@ public abstract class Action {
     /**
      * Returns the value for the specified parameter expected to be present in the http request.
      * Assumption: the requested parameter is not null.
-     * 
+     *
      * @param paramName  a constant from the {@link Const.ParamsNames} class.
      */
     public String getNonNullRequestParamValue(String paramName) {

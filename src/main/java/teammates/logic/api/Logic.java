@@ -88,7 +88,7 @@ public class Logic {
      * a default empty profile is created for the user<br>
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      */
     public void createAccount(String googleId, String name, boolean isInstructor, String email, String institute,
                               StudentProfileAttributes studentProfileParam) throws InvalidParametersException {
@@ -138,7 +138,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Details of accounts with instruction privileges. Returns empty
      *         list if no such accounts are found.
      */
@@ -454,10 +454,10 @@ public class Logic {
      *      There is no any course for the instructor.
      *     </li>
      * </ul>
-     * 
+     *
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return true if the instructor is a new user
      */
     public boolean isNewInstructor(String googleId) {
@@ -657,7 +657,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Details of courses the student is in. CourseData objects
      *         returned contain details of feedback sessions too (except the ones
      *         still AWAITING).
@@ -672,7 +672,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Courses the instructor is in.
      */
     public List<CourseAttributes> getCoursesForInstructor(String googleId) {
@@ -684,7 +684,7 @@ public class Logic {
      * Omits archived courses if omitArchived == true<br>
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Courses the instructor is in.
      */
     public List<CourseAttributes> getCoursesForInstructor(String googleId, boolean omitArchived) {
@@ -696,7 +696,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Courses the given instructors is in.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
@@ -800,7 +800,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Null if no match found.
      */
     public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
@@ -811,7 +811,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Null if no match found.
      */
     public StudentAttributes getStudentForEmail(String courseId, String email) {
@@ -824,7 +824,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Null if no match found.
      */
     public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
@@ -837,7 +837,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Null if no match found.
      */
     public StudentProfileAttributes getStudentProfile(String googleId) {
@@ -848,7 +848,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Empty list if no match found.
      */
     public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
@@ -888,7 +888,7 @@ public class Logic {
         return studentsLogic.getStudentsForTeam(team, courseId);
     }
 
-    /** 
+    /**
      * Preconditions: <br>
      * * All parameters are non-null
      */
@@ -897,7 +897,7 @@ public class Logic {
         return coursesLogic.getSectionsNameForCourse(courseId);
     }
 
-    /** 
+    /**
      * Preconditions: <br>
      * * All parameters are non-null
      */
@@ -906,7 +906,7 @@ public class Logic {
         return coursesLogic.getSectionsNameForCourse(course);
     }
 
-    /** 
+    /**
      * Preconditions: <br>
      * * All parameters are non-null
      */
@@ -936,7 +936,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @throws EntityDoesNotExistException
      */
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
@@ -1200,7 +1200,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>
-     * 
+     *
      * @return Details of Instructor's feedback sessions. <br>
      * Returns an empty list if none found.
      */
@@ -1213,7 +1213,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>
-     * 
+     *
      * @return List(without details) of Instructor's feedback sessions. <br>
      * Returns an empty list if none found.
      */
@@ -1225,7 +1225,7 @@ public class Logic {
      * Omits feedback sessions from archived courses if omitArchived == true<br>
      * Preconditions: <br>
      * * All parameters are non-null. <br>
-     * 
+     *
      * @return List(without details) of Instructor's feedback sessions. <br>
      * Returns an empty list if none found.
      */
@@ -1243,7 +1243,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>
-     * 
+     *
      * @return Feedback session information, question + responses bundle for user <br>
      * Returns an empty list if none found.
      */
@@ -1274,7 +1274,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>
-     * 
+     *
      * @return Feedback session information, question + responses bundle for user <br>
      * Returns an empty list if none found.
      */
@@ -1314,7 +1314,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>
-     * 
+     *
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);

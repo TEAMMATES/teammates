@@ -311,7 +311,7 @@ public class InstructorFeedbacksPage extends AppPage {
         }
     }
 
-    /** 
+    /**
      * This method contains an intended mix of Selenium and JavaScript to ensure that the test
      * passes consistently, do not try to click on the datepicker element using Selenium as it will
      * result in a test that passes or fail randomly.

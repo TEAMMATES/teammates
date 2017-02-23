@@ -114,7 +114,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
     /**
      * Separate the StudentData objects in the list into different categories based
      * on their updateStatus. Each category is put into a separate list.<br>
-     * 
+     *
      * @return An array of lists of StudentData objects in which each list contains
      * student with the same updateStatus
      */

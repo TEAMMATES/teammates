@@ -51,7 +51,7 @@ public class TaskQueuer {
     /**
      * Gets the tasks added to the queue.
      * This method is used only for testing, where it is overridden.
-     * 
+     *
      * @throws UnsupportedOperationException if used in production, where it is not meant to be
      */
     public List<TaskWrapper> getTasksAdded() {
@@ -61,7 +61,7 @@ public class TaskQueuer {
     /**
      * Gets the number of tasks added for each queue name.
      * This method is used only for testing, where it is overridden.
-     * 
+     *
      * @throws UnsupportedOperationException if used in production, where it is not meant to be
      */
     public Map<String, Integer> getNumberOfTasksAdded() {
@@ -72,7 +72,7 @@ public class TaskQueuer {
 
     /**
      * Schedules an admin email preparation in address mode, i.e. using the address list given directly.
-     * 
+     *
      * @param emailId the ID of admin email to be retrieved from the database
      * @param addressReceiverListString the list of email receivers given as String
      */
@@ -93,7 +93,7 @@ public class TaskQueuer {
      * namely "email list index" for accessing the {@code List<String>} inside the {@code List<List<String>>}
      * and "email index" for accessing the email {@code String} inside the {@code List<String>}.
      * </p>
-     * 
+     *
      * @param emailId the ID of admin email to be retrieved from the database
      * @param groupReceiverListFileKey the file key for the group receiver list in GCS
      * @param emailListIndex see method description
@@ -113,7 +113,7 @@ public class TaskQueuer {
 
     /**
      * Schedules an admin email to be sent.
-     * 
+     *
      * @param emailId the ID of admin email to be retrieved from the database (if needed)
      * @param emailReceiver the email address of the email receiver
      * @param emailSubject the subject of the email
@@ -142,7 +142,7 @@ public class TaskQueuer {
     /**
      * Schedules for comments notifications (i.e. student has received comment but not yet notified via email)
      * for students in course {@code courseId}.
-     * 
+     *
      * @param courseId the target course ID of the students
      */
     public void scheduleCommentsNotificationsForCourse(String courseId) {
@@ -156,7 +156,7 @@ public class TaskQueuer {
     /**
      * Schedules for feedback session reminders (i.e. student has not submitted responses yet)
      * for the specified feedback session.
-     * 
+     *
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the name of the feedback session
      */
@@ -172,7 +172,7 @@ public class TaskQueuer {
     /**
      * Schedules for feedback session reminders (i.e. student has not submitted responses yet)
      * for the specified feedback session for the specified group of users.
-     * 
+     *
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the name of the feedback session
      * @param usersToRemind the group of users to send the reminders to
@@ -190,7 +190,7 @@ public class TaskQueuer {
 
     /**
      * Schedules for feedback session published email to be sent.
-     * 
+     *
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the name of the feedback session
      */
@@ -205,7 +205,7 @@ public class TaskQueuer {
 
     /**
      * Schedules for feedback session unpublished email to be sent.
-     * 
+     *
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the name of the feedback session
      */
@@ -220,7 +220,7 @@ public class TaskQueuer {
 
     /**
      * Schedules for course registration to be sent to the specified instructor.
-     * 
+     *
      * @param courseId the target course ID
      * @param instructorEmail the email address of the instructor
      */
@@ -235,7 +235,7 @@ public class TaskQueuer {
 
     /**
      * Schedules for course registration to be sent to the specified student.
-     * 
+     *
      * @param courseId the target course ID
      * @param studentEmail the email address of the student
      */
@@ -253,7 +253,7 @@ public class TaskQueuer {
      * Schedules adjustments to be done to responses of a feedback session in the database
      * after change is done to a course, typically after enrollment of new students
      * or re-enrollment of old students, or both.
-     * 
+     *
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the name of the feedback session
      * @param enrollmentList the list of enrollment details
@@ -273,7 +273,7 @@ public class TaskQueuer {
 
     /**
      * Schedules for the given list of emails to be sent.
-     * 
+     *
      * @param emails the list of emails to be sent
      */
     public void scheduleEmailsForSending(List<EmailWrapper> emails) {

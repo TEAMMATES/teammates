@@ -30,7 +30,7 @@ import teammates.storage.api.CommentsDb;
 
 /**
  * Handles operations related to student comments.
- * 
+ *
  * @see {@link CommentAttributes}
  * @see {@link CommentsDb}
  */

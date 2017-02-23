@@ -111,7 +111,7 @@ public final class StringHelper {
     /**
      * Substitutes the middle third of the given string with dots
      * and returns the "obscured" string
-     * 
+     *
      * @param inputString
      * @return
      */
@@ -243,8 +243,8 @@ public final class StringHelper {
      * first name: "Danny" <br>
      * last name: "Tim Lin" <br>
      * processed full name: "Danny Tim Lin" <br>
-     * 
-     * 
+     *
+     *
      * @return split name array{0--> first name, 1--> last name, 2--> processed full name by removing "{}"}
      */
 
@@ -306,7 +306,7 @@ public final class StringHelper {
     /**
      * Replaces every character in {@code str} that does not match
      * {@code regex} with the character {@code replacement}.
-     * 
+     *
      * @param str String to be replaced.
      * @param regex Pattern that every character is to be matched against.
      * @param replacement Character unmatching characters should be replaced with.
@@ -457,7 +457,7 @@ public final class StringHelper {
      * 27 - aa
      * 28 - ab
      * ...
-     * 
+     *
      * @param n - number to convert
      */
     public static String integerToLowerCaseAlphabeticalIndex(int n) {
@@ -486,7 +486,7 @@ public final class StringHelper {
     /**
      * Counts the number of empty strings passed as the argument. Null is
      * considered an empty string, while whitespace is not.
-     * 
+     *
      * @param strings
      * @return number of empty strings passed
      */
@@ -503,7 +503,7 @@ public final class StringHelper {
     /**
      * Converts null input to empty string. Non-null inputs will be left as is.
      * This method is for displaying purpose.
-     * 
+     *
      * @param str
      * @return empty string if null, the string itself otherwise
      */
@@ -513,7 +513,7 @@ public final class StringHelper {
 
     /**
      * Removes the outermost enclosing square brackets surrounding a string.
-     * 
+     *
      * @param str
      * @return the string without the outermost enclosing square brackets
      *         if the given string is enclosed by square brackets <br>

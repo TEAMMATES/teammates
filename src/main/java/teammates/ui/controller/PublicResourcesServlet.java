@@ -14,7 +14,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.logic.api.GateKeeper;
 
-/** 
+/**
  * Serves the public resources stored in google cloud storage using the blobkey.<br>
  * Correct blobkey is required for image serving.
  */

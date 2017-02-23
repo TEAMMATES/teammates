@@ -19,7 +19,7 @@ import teammates.storage.entity.FeedbackResponse;
 
 /**
  * Handles CRUD operations for feedback responses.
- * 
+ *
  * @see {@link FeedbackResponse}
  * @see {@link FeedbackResponseAttributes}
  */
@@ -174,7 +174,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * Preconditions: <br>
      * * All parameters are non-null.This function will find the responses for a
      * specified question within a given range
-     * 
+     *
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(

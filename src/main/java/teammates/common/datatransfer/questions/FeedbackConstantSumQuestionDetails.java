@@ -500,7 +500,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     /**
      * Puts recipients from an unsorted map to a sorted map
-     * 
+     *
      * @param recipientMapping      Original map containing recipients
      * @param identifierMap         Helper map to retrieve email from name concatenated with email string
      * @param sortedOptionPoints    Sorted map to contain recipient info, recipient concatenated with email used as key
@@ -521,7 +521,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     /**
      * Puts options from an unsorted map to a sorted map
-     * 
+     *
      * @param optionPoints          Original mapping of option points
      * @param optionList            List of options in question
      * @param sortedOptionPoints    Sorted map of option points
@@ -563,7 +563,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     /**
      * Used to update the OptionPointsMapping for the option optionReceivingPoints
-     * 
+     *
      * @param optionPoints
      * @param optionReceivingPoints
      * @param pointsReceived

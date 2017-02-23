@@ -24,7 +24,7 @@ import teammates.storage.entity.FeedbackResponse;
 
 /**
  * Handles operations related to feedback responses.
- * 
+ *
  * @see {@link FeedbackResponseAttributes}
  * @see {@link FeedbackResponsesDb}
  */

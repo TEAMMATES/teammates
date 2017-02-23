@@ -22,7 +22,7 @@ import com.google.appengine.api.datastore.Text;
 
 /**
  * Handles CRUD operations for student profiles.
- * 
+ *
  * @see {@link StudentProfile}
  * @see {@link StudentProfileAttributes}
  */
@@ -32,7 +32,7 @@ public class ProfilesDb extends EntitiesDb {
      * Gets the datatransfer (*Attributes) version of the profile
      * corresponding to the googleId given. Returns null if the
      * profile was not found
-     * 
+     *
      * @param accountGoogleId
      */
     public StudentProfileAttributes getStudentProfile(String accountGoogleId) {
@@ -48,7 +48,7 @@ public class ProfilesDb extends EntitiesDb {
      * Updates the entire profile based on the given new profile attributes.
      * Assumes that the googleId remains the same and so updates the profile
      * with the given googleId.
-     * 
+     *
      * TODO: update the profile with whatever given values are valid and
      * ignore those that are not valid.
      * @param newSpa
@@ -109,7 +109,7 @@ public class ProfilesDb extends EntitiesDb {
      * Udates the pictureKey of the profile with given GoogleId.
      * Deletes existing picture if key is different and updates
      * modifiedDate
-     * 
+     *
      * @param googleId
      * @param newPictureKey
      * @throws EntityDoesNotExistException
@@ -144,7 +144,7 @@ public class ProfilesDb extends EntitiesDb {
      * Deletes the profile picture from GCS and
      * updates the profile entity:
      *     empties the key and updates the modifiedDate
-     * 
+     *
      * @param googleId
      * @throws EntityDoesNotExistException
      */
@@ -184,7 +184,7 @@ public class ProfilesDb extends EntitiesDb {
      * Checks if an account entity exists for the given googleId and creates
      * a profile entity for this account. This is only used for porting
      * legacy account entities on the fly.
-     * 
+     *
      * TODO: remove this function once legacy data have been ported over
      * @param googleId
      * @return
@@ -213,7 +213,7 @@ public class ProfilesDb extends EntitiesDb {
      * If the profile does not exist, it tries to get the
      * profile from the function
      * 'getStudentProfileEntityForLegacyData'.
-     * 
+     *
      * TODO: update this function once legacy data have been ported over
      * @param googleId
      */

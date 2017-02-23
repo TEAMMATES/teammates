@@ -15,17 +15,17 @@ import teammates.test.driver.TestProperties;
 /**
  * Class that create a json data file to be used with ImportData script
  * The result file will be saved in src/test/resources/data/ folder.
- * 
+ *
  * @James: This scripts does not use any teamamtes's data structures or json framework for some reasons:
- * 
+ *
  * First - For 5000 or more students, it will consume a lot of memory. Need to store only id
  * of the objects to save memory.
- * 
+ *
  * Second - To make this script portable, if you remove the teammates.common.Common import, and define
  * the path yourself, this become a totally portable script.(this speeds up the process of creating data)
- * 
+ *
  * Third - The format of data bundle is json but quite "strange", no relationships, no arrays.
- * 
+ *
  */
 
 public final class DataGenerator {
@@ -67,7 +67,7 @@ public final class DataGenerator {
 
     /**
      * Write data to file, create new file if necessary
-     * 
+     *
      * @param data - Data string to write
      * @param filePath - path to file
      * @throws IOException
@@ -93,7 +93,7 @@ public final class DataGenerator {
 
     /**
      * Create data
-     * 
+     *
      */
     public static String generateData() {
         System.out.println("Start generating data!");

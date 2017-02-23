@@ -26,7 +26,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 /**
  * Handles CRUD operations for accounts.
- * 
+ *
  * @see {@link Account}
  * @see {@link AccountAttributes}
  */

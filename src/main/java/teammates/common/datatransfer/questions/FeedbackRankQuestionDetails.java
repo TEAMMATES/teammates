@@ -53,7 +53,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
 
     /**
      * Used to update the mapping of ranks for the option optionReceivingPoints
-     * 
+     *
      * @param optionRanks
      * @param optionReceivingRanks
      * @param rankReceived

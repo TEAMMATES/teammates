@@ -32,7 +32,7 @@ import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * Handles CRUD operations for students.
- * 
+ *
  * @see {@link CourseStudent}
  * @see {@link StudentAttributes}
  */
@@ -134,7 +134,7 @@ public class StudentsDb extends EntitiesDb {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return The data for Student with the courseId and email. Returns null if
      *         there is no such student.
      */
@@ -175,7 +175,7 @@ public class StudentsDb extends EntitiesDb {
 
     /**
      * Works only for encrypted keys.
-     * 
+     *
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return null if no matching student.
@@ -453,7 +453,7 @@ public class StudentsDb extends EntitiesDb {
      * Fails silently if no such student. <br>
      * Preconditions: <br>
      *  * All parameters are non-null.
-     * 
+     *
      */
 
     public void deleteStudent(String courseId, String email) {
@@ -503,7 +503,7 @@ public class StudentsDb extends EntitiesDb {
      * Fails silently if no such student. <br>
      * Preconditions: <br>
      *  * All parameters are non-null.
-     * 
+     *
      */
 
     public void deleteStudentsForGoogleId(String googleId) {
@@ -534,7 +534,7 @@ public class StudentsDb extends EntitiesDb {
      * Fails silently if no such student or no such course. <br>
      * Preconditions: <br>
      *  * All parameters are non-null.
-     * 
+     *
      */
 
     public void deleteStudentsForCourse(String courseId) {
@@ -584,9 +584,9 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     * 
+     *
      * Functions for the new CourseStudent class to replace Student class
-     * 
+     *
      */
 
     private CourseStudent getCourseStudentEntityForEmail(String courseId, String email) {

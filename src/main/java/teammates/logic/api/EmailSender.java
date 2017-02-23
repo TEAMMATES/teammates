@@ -79,7 +79,7 @@ public class EmailSender {
     /**
      * Gets the emails sent.
      * This method is used only for testing, where it is overridden.
-     * 
+     *
      * @throws UnsupportedOperationException if used in production, where it is not meant to be
      */
     public List<EmailWrapper> getEmailsSent() {

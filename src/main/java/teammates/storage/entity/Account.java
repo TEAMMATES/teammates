@@ -38,7 +38,7 @@ public class Account {
 
     /**
      * Instantiates a new account.
-     * 
+     *
      * @param googleId
      *            the Google ID of the user.
      * @param name

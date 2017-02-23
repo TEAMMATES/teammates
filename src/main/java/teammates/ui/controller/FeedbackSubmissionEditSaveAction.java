@@ -336,7 +336,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * To be used to test any constraints that a class inheriting FeedbackSubmissionEditSaveAction
      * needs. For example, this is used in moderations that check that instructors did not
      * respond to any question that they did not have access to during moderation.
-     * 
+     *
      * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters
      */
     protected abstract void checkAdditionalConstraints();
@@ -345,7 +345,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * Note that when overriding this method, this should not use {@code respondingStudentList}
      * or {@code respondingInstructorList} of {@code FeedbackSessionAttributes}, because this method
      * is used to update {@code respondingStudentList} and {@code respondingInstructorList}
-     * 
+     *
      * @return true if user has responses in the feedback session
      */
     protected boolean isUserRespondentOfSession() {

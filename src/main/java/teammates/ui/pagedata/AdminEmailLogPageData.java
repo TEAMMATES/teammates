@@ -96,7 +96,7 @@ public class AdminEmailLogPageData extends PageData {
 
     /**
      * Converts the query string into a QueryParameters object
-     * 
+     *
      */
     private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();

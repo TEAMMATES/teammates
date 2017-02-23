@@ -87,7 +87,7 @@ public class CourseStudent implements StoreCallback {
     private String sectionName;
 
     /**
-     * 
+     *
      * @param email
      *            Student's email used for this course.
      * @param name

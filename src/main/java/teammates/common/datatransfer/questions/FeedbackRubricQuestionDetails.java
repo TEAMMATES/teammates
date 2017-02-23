@@ -662,13 +662,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Calculates the statistics for rubric question
-     * 
+     *
      * Returns a 2D float array to indicate the percentage frequency
      * a choice is selected and the average weight for the responses for each sub-question.
      *
      * Values are set to 0 if there are no responses to that sub-question.
      * Average value is set to 0 if there are no assigned weights.
-     * 
+     *
      * e.g.
      * percentageFrequencyAndAverageValue[subQuestionIndex][choiceIndex]
      *  -> is the percentage choiceIndex is chosen for subQuestionIndex, for the given question/responses.

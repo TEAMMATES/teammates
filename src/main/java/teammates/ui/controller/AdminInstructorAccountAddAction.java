@@ -229,7 +229,7 @@ public class AdminInstructorAccountAddAction extends Action {
     *         replace email host with their first 3 chars. eg, gmail.com -> gma
     *         append "-demo"
     *       to sum up: lebron@gmail.com -> lebron.gma-demo
-    * 
+    *
     *   b.  if the generated courseId already exists, create another one by appending a integer to the previous courseId.
     *       if the newly generate id still exists, increment the id, until we find a feasible one
     *       eg.
@@ -239,17 +239,17 @@ public class AdminInstructorAccountAddAction extends Action {
     *       ...
     *       lebron@gmail.com -> lebron.gma-demo99 // already exists!
     *       lebron@gmail.com -> lebron.gma-demo100 // found! a feasible id
-    * 
+    *
     *   c.  in any cases(a or b), if generated Id is longer than FieldValidator.COURSE_ID_MAX_LENGTH, shorten the part
     *       before "@" of the intial input email, by continuously remove its last character
-    * 
+    *
     *    @see #generateDemoCourseId(String)
     *    @see #generateNextDemoCourseId(String, int)
     */
 
-    /** 
+    /**
     * Generate a course ID for demo course, and if the generated id already exists, try another one
-    * 
+    *
     * @param instructorEmail is the instructor email.
     * @return generated course id
     */
@@ -261,9 +261,9 @@ public class AdminInstructorAccountAddAction extends Action {
         return proposedCourseId;
     }
 
-    /** 
+    /**
     * Generate a course ID for demo course from a given email
-    * 
+    *
     * @param instructorEmail is the instructor email.
     * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
     */
@@ -279,11 +279,11 @@ public class AdminInstructorAccountAddAction extends Action {
         return head + "." + hostAbbreviation + "-demo";
     }
 
-    /** 
+    /**
     * Generate a course ID for demo course from a given email or a generated course Id
     * here we check the input string is a email or course Id and handle them accordingly
     * check the resulting course id, and if bigger than maximumIdLength, cut it so that it equals maximumIdLength
-    * 
+    *
     * @param instructorEmailOrProposedCourseId is the instructor email or a proposed course id that already exists.
     * @param maximumIdLength is the maximum resulting id length allowed, above which we will cut the part before "@"
     * @return the proposed course id.

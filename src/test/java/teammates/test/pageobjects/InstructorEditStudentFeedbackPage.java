@@ -12,7 +12,7 @@ import org.openqa.selenium.support.FindBy;
  * <p>
  * It inherits the methods and attributes from {@link FeedbackSubmitPage} as the page is
  * built upon the feedback submission page seen by students/instructors.
- * 
+ *
  * @see {@link FeedbackSubmitPage}
  */
 public class InstructorEditStudentFeedbackPage extends FeedbackSubmitPage {

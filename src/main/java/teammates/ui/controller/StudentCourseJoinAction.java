@@ -91,7 +91,7 @@ public class StudentCourseJoinAction extends Action {
      * (case-insensitive) only, as per the design of {@link Const.ActionURIs}.
      */
     public static String getPageTypeOfUrl(String url) {
-        /* 
+        /*
          * Regex meaning: from the beginning of the string, tries to match /page/
          * followed by one or more case-insensitive alphabets, followed by ? and
          * any amount of any character until the end of the string.

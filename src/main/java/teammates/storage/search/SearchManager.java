@@ -21,7 +21,7 @@ import com.google.appengine.api.search.StatusCode;
 
 /**
  * Manages {@link Document} and {@link Index} in the Datastore for use of search functions.
- * 
+ *
  * @see <a href="https://cloud.google.com/appengine/docs/java/search/">https://cloud.google.com/appengine/docs/java/search/</a>
  */
 public final class SearchManager {

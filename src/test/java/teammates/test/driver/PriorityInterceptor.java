@@ -13,14 +13,14 @@ import org.testng.ITestContext;
 /**
  * By default, testng runs all methods in a test in lexical order.
  * by default, testng allows "@(priority = 1)" to order methods.
- * 
+ *
  * This class prioritizes methods based on the following:
  *      1) Orders methods based on package name as ordered/found in testng.xml
  *      2) Orders methods based on package name in lexical order
  *      3) Orders methods by class priority e.g. Add "@Priority(1)" to class
  *      4) Orders methods by class name in lexical order
  *      5) Orders methods by priority e.g. Add "@Priority(1)" to method
- * 
+ *
  */
 
 public class PriorityInterceptor implements IMethodInterceptor {

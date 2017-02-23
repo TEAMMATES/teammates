@@ -4,7 +4,7 @@ import teammates.test.driver.TestProperties;
 
 /**
  * Usage: to run multiple instances of PerformanceProfiler.java in parallel.
- * 
+ *
  * Notes:
  * - Read instructions in PerfromanceProfiler.java
  * - Remove all the BackDoor(BD) add/delete methods from PerformanceProfiler

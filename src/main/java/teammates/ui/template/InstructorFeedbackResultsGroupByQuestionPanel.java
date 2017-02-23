@@ -7,7 +7,7 @@ import teammates.common.util.FieldValidator;
 /**
  * Data model for the giver panel in InstructorFeedbackResults for Giver > Question > Recipient,
  * and for the recipient panel in Recipient > Question > Giver
- * 
+ *
  *
  */
 public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFeedbackResultsParticipantPanel {
