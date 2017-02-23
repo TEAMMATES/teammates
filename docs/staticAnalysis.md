@@ -118,12 +118,20 @@ To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (v
 # Remember to use the correct tool version
 npm install -g eslint@{version}
 ```
-The plugin for IntelliJ can be found  [here](https://plugins.jetbrains.com/idea/plugin/7494-eslint).
+
+#### Installing ESLint from within IntelliJ
+1. Ensure the [NodeJS Plugin](https://plugins.jetbrains.com/idea/plugin/6098-nodejs) is installed.
+1. Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/using-javascript-code-quality-tools.html#installESLint) to install ESLint.
+1. Follow the same steps outlined in the guide above to install `eslint-plugin-json`.
 
 #### Configuring ESLint for IntelliJ
 
-1. Refer to [this guide](https://github.com/idok/eslint-plugin/blob/master/README.md#settings) to set up the ESLint plugin.
-1. Set the `Rules directory` to the location of `teammates-eslint.yml`.
+1. Go to `File → Settings → Languages & Frameworks → JavaScript → Code Quality Tools → ESLint`.
+1. Check the box next to `Enable`.
+1. Point `Node Interpreter` to where you installed `node.exe` (NodeJS).
+1. `ESLint Package` should already be filled in if you [installed ESLint from within IntelliJ](#installing-eslint-from-within-intellij).
+1. Point `Configuration file` to the location of `teammates-eslint.yml`.
+1. Click `OK`.
 
 ##### Suppressing ESLint warnings
 
