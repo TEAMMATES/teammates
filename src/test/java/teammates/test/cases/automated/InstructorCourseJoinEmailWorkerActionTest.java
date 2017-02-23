@@ -47,7 +47,6 @@ public class InstructorCourseJoinEmailWorkerActionTest extends BaseAutomatedActi
                                    course1.getId()),
                      email.getSubject());
         assertEquals(inviteReceiver.email, email.getRecipient());
-        EmailChecker.verifyEmailContainsInviterInfo(inviter, email.getContent());
     }
     
     @Override
