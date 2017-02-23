@@ -13,11 +13,11 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
  * Covers the 'student records' view for instructors.
  */
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
-    private static InstructorStudentRecordsPage viewPage;
+    private InstructorStudentRecordsPage viewPage;
 
-    private static String instructorId;
-    private static String courseId;
-    private static String studentEmail;
+    private String instructorId;
+    private String courseId;
+    private String studentEmail;
 
     @Override
     protected void prepareTestData() {

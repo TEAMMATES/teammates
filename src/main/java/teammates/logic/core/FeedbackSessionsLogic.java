@@ -304,13 +304,12 @@ public final class FeedbackSessionsLogic {
                         courseId, userEmail);
         
         InstructorAttributes instructorGiver = instructor;
-        StudentAttributes studentGiver = null;
 
         for (FeedbackQuestionAttributes question : questions) {
 
             updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                     userEmail, fsa, instructor, bundle, recipientList,
-                    question, instructorGiver, studentGiver);
+                    question, instructorGiver, null);
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
@@ -335,11 +334,10 @@ public final class FeedbackSessionsLogic {
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
         
         InstructorAttributes instructorGiver = instructor;
-        StudentAttributes studentGiver = null;
 
         updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                 userEmail, fsa, instructor, bundle, recipientList,
-                question, instructorGiver, studentGiver);
+                question, instructorGiver, null);
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
@@ -1843,11 +1841,8 @@ public final class FeedbackSessionsLogic {
                             if (role == UserRole.INSTRUCTOR) {
                                 instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
                             }
-                            StudentAttributes student = null;
-                            Set<String> studentsEmailInTeam = null;
                             boolean isVisibleResponse = isResponseVisibleForUser(userEmail,
-                                    role, student, studentsEmailInTeam, response,
-                                    question, instructor);
+                                    role, null, null, response, question, instructor);
                             if (isVisibleResponse) {
                                 responses.add(response);
                                 addEmailNamePairsToTable(emailNameTable, response,
@@ -1996,37 +1991,32 @@ public final class FeedbackSessionsLogic {
         boolean isToSection = Boolean.parseBoolean(params.get(PARAM_TO_SECTION));
         boolean isFromSection = Boolean.parseBoolean(params.get(PARAM_FROM_SECTION));
         
-        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
         if (params.get(PARAM_RANGE) == null) {
             if (isInSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
-                                                                               courseId, section);
+                return frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
             } else if (isFromSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName,
-                                                                                 courseId, section);
+                return frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, section);
             } else if (isToSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName,
-                                                                               courseId, section);
+                return frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, section);
             } else {
                 Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
             }
         } else {
             long range = Long.parseLong(params.get(PARAM_RANGE));
             if (isInSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
-                                                                                          courseId, section, range);
+                return frLogic.getFeedbackResponsesForSessionInSectionWithinRange(
+                        feedbackSessionName, courseId, section, range);
             } else if (isFromSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(feedbackSessionName,
-                                                                                            courseId, section, range);
+                return frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(
+                        feedbackSessionName, courseId, section, range);
             } else if (isToSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName,
-                                                                                          courseId, section, range);
+                return frLogic.getFeedbackResponsesForSessionToSectionWithinRange(
+                        feedbackSessionName, courseId, section, range);
             } else {
                 Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
             }
         }
-            
-        return allResponses;
+        return new ArrayList<FeedbackResponseAttributes>();
     }
 
     private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,

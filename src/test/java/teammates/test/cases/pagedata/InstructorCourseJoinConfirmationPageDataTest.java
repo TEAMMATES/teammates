@@ -37,9 +37,8 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
         ______TS("test case when institute is null");
         account = dataBundle.accounts.get("instructor1OfCourse1");
         regkey = "someRandomKey";
-        institute = null;
         
-        pageData = new InstructorCourseJoinConfirmationPageData(account, regkey, institute);
+        pageData = new InstructorCourseJoinConfirmationPageData(account, regkey, null);
         
         assertNotNull(pageData.getRegkey());
         assertEquals(regkey, pageData.getRegkey());

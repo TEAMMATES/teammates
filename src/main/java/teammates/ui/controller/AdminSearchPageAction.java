@@ -255,7 +255,7 @@ public class AdminSearchPageAction extends Action {
         
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         
-        if (instructorList == null || instructorList.isEmpty()) {
+        if (instructorList.isEmpty()) {
             return "";
         }
 

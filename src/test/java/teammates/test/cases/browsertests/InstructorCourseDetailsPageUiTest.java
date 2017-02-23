@@ -21,10 +21,10 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
  * This class uses real user accounts for students.
  */
 public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
-    private static InstructorCourseDetailsPage detailsPage;
+    private InstructorCourseDetailsPage detailsPage;
     
-    private static String instructorId;
-    private static String courseId;
+    private String instructorId;
+    private String courseId;
 
     @Override
     protected void prepareTestData() {

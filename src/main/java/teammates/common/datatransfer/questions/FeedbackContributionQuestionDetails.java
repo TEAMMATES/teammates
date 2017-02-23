@@ -483,9 +483,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             int i = 0;
             for (String studentEmail : teamEmails) {
                 StudentResultSummary summary = new StudentResultSummary();
-                summary.claimedFromStudent = teamResult.claimed[i][i];
                 summary.claimedToInstructor = teamResult.normalizedClaimed[i][i];
-                summary.perceivedToStudent = teamResult.denormalizedAveragePerceived[i][i];
                 summary.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
                 
                 studentResults.put(studentEmail, summary);

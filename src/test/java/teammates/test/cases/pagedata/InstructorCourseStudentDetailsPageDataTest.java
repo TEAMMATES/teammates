@@ -38,8 +38,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         testData(data);
         
         ______TS("With null picture key, no comment recipient");
-        pictureKey = null;
-        createStudentData(pictureKey);
+        createStudentData(null);
         data = createData();
         testData(data);
         

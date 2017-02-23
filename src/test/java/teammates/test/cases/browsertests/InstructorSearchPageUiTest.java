@@ -13,7 +13,7 @@ import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.InstructorSearchPage;
 
 public class InstructorSearchPageUiTest extends BaseUiTestCase {
-    private static InstructorSearchPage searchPage;
+    private InstructorSearchPage searchPage;
 
     @Override
     protected void prepareTestData() throws Exception {

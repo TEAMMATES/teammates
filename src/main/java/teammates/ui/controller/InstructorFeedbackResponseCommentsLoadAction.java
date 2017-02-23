@@ -61,10 +61,8 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         FeedbackSessionResultsBundle bundle =
                 logic.getFeedbackSessionResultsForInstructor(
                         fsname, courseId, instructor.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
-        if (bundle != null) {
-            removeQuestionsAndResponsesIfNotAllowed(bundle);
-            removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
-        }
+        removeQuestionsAndResponsesIfNotAllowed(bundle);
+        removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
         
         return bundle.questions.isEmpty() ? null : bundle;
     }

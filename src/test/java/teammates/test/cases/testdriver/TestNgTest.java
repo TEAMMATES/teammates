@@ -91,6 +91,9 @@ public class TestNgTest extends BaseTestCase {
         HashMap<String, String> testFiles = new HashMap<String, String>();
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
+        if (listOfFiles == null) {
+            return testFiles;
+        }
 
         for (File file : listOfFiles) {
             String name = file.getName();

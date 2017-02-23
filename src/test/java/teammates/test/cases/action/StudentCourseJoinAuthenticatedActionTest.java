@@ -15,7 +15,7 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentCourseJoinAuthenticatedAction;
 
 public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
-    private static DataBundle dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
+    private DataBundle dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
 
     @Override
     protected String getActionUri() {

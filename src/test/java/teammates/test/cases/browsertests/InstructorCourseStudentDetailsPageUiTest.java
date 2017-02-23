@@ -11,10 +11,9 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
  * SUT: {@link InstructorCourseStudentDetailsViewPage}.
  */
 public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
-    private static InstructorCourseStudentDetailsViewPage viewPage;
     
-    private static String instructorId;
-    private static String courseId;
+    private String instructorId;
+    private String courseId;
 
     @Override
     protected void prepareTestData() {
@@ -34,7 +33,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: registered student");
         
-        viewPage = getCourseStudentDetailsPage("registeredStudent");
+        InstructorCourseStudentDetailsViewPage viewPage = getCourseStudentDetailsPage("registeredStudent");
 
         // This is the full HTML verification for Instructor Student Details Page, the rest can all be verifyMainHtml
         viewPage.verifyHtml("/instructorCourseStudentDetailsRegistered.html");

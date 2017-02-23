@@ -169,9 +169,9 @@ public class GaeSimulation {
             paramMultiMap.get(key).add(parameters[i + 1]);
         }
 
-        for (String key : paramMultiMap.keySet()) {
-            List<String> values = paramMultiMap.get(key);
-            request.setParameter(key, values.toArray(new String[values.size()]));
+        for (Map.Entry<String, List<String>> entry : paramMultiMap.entrySet()) {
+            List<String> values = entry.getValue();
+            request.setParameter(entry.getKey(), values.toArray(new String[values.size()]));
         }
 
         try {
