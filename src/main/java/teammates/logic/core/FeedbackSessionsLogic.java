@@ -1709,11 +1709,6 @@ public final class FeedbackSessionsLogic {
             }
         }
         
-        InstructorAttributes instructor = null;
-        if (role == UserRole.INSTRUCTOR) {
-            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        }
-        
         List<FeedbackResponseCommentAttributes> allResponseComments =
                 frcLogic.getFeedbackResponseCommentForSession(courseId,
                         feedbackSessionName);
@@ -1721,8 +1716,7 @@ public final class FeedbackSessionsLogic {
             FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
             FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
             boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(userEmail,
-                    role, student, studentsEmailInTeam, relatedResponse,
-                    relatedQuestion, frc);
+                    role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (isVisibleResponseComment) {
                 if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
                     frc.giverEmail = "Anonymous";
@@ -1954,8 +1948,7 @@ public final class FeedbackSessionsLogic {
                 FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
                 FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
                 boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(userEmail,
-                        role, student, studentsEmailInTeam, relatedResponse,
-                        relatedQuestion, frc);
+                        role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
                 if (isVisibleResponseComment) {
                     if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
                         frc.giverEmail = "Anonymous";

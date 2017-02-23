@@ -287,9 +287,8 @@ public final class FeedbackResponseCommentsLogic {
      * @return true/false
      */
     public boolean isResponseCommentVisibleForUser(String userEmail, UserRole role,
-            StudentAttributes student, Set<String> studentsEmailInTeam,
-            FeedbackResponseAttributes response, FeedbackQuestionAttributes relatedQuestion,
-            FeedbackResponseCommentAttributes relatedComment) {
+            StudentAttributes student, Set<String> studentsEmailInTeam, FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes relatedQuestion, FeedbackResponseCommentAttributes relatedComment) {
         
         if (response == null || relatedQuestion == null) {
             return false;
