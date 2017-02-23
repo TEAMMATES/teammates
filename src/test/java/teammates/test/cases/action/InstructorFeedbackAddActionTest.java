@@ -205,7 +205,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         
         try {
             a = getAction(params);
-            rr = getRedirectResult(a);
+            getRedirectResult(a);
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.COURSE_ID),
                          e.getMessage());

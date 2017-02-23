@@ -45,7 +45,7 @@ public class FeedbackResponseAdjustmentWorkerAction extends AutomatedAction {
         
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(sessionName, courseId);
         
-        String errorString = "Error encountered while adjusting feedback session responses of %s in course %s: %s\n%s";
+        String errorString = "Error encountered while adjusting feedback session responses of %s in course %s: %s%n%s";
         
         if (feedbackSession == null) {
             log.severe(String.format(errorString, sessionName, courseId, "feedback session is null", ""));

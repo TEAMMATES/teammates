@@ -36,7 +36,7 @@ public class CourseRosterTest extends BaseTestCase {
         
         assertEquals(roster.getStudentForEmail("s1@gmail.com").email, "s1@gmail.com");
         assertEquals(roster.getStudentForEmail("s1@gmail.com").team, "team 1");
-        assertEquals(roster.getInstructorForEmail("ins@email.com"), null);
+        assertNull(roster.getInstructorForEmail("ins@email.com"));
         
         ______TS("only 1 instructor, no students");
         
@@ -44,8 +44,7 @@ public class CourseRosterTest extends BaseTestCase {
         assertEquals(roster.getInstructorForEmail("ins1@email.com").email, "ins1@email.com");
         assertEquals(roster.getInstructorForEmail("ins1@email.com").name, "John");
         
-        assertEquals(roster.getInstructorForEmail("non-existent@email.com"), null);
-        
+        assertNull(roster.getInstructorForEmail("non-existent@email.com"));
         
         ______TS("multiple students, multiple instructors");
         

@@ -179,8 +179,8 @@ public final class InstructorPrivileges {
     }
     
     private void setDefaultPrivileges(Map<String, Boolean> defaultPrivileges) {
-        for (String privilege : defaultPrivileges.keySet()) {
-            courseLevel.put(privilege, defaultPrivileges.get(privilege));
+        for (Map.Entry<String, Boolean> entry : defaultPrivileges.entrySet()) {
+            courseLevel.put(entry.getKey(), entry.getValue());
         }
     }
     
@@ -399,8 +399,8 @@ public final class InstructorPrivileges {
 
     private boolean hasSamePrivileges(Map<String, Boolean> defaultPrivileges) {
 
-        for (String privilege : defaultPrivileges.keySet()) {
-            if (isAllowedForPrivilege(privilege) != defaultPrivileges.get(privilege)) {
+        for (Map.Entry<String, Boolean> entry : defaultPrivileges.entrySet()) {
+            if (isAllowedForPrivilege(entry.getKey()) != entry.getValue()) {
                 return false;
             }
         }

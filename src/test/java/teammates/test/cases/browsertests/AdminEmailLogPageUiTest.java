@@ -15,7 +15,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
     
     private static final int ADMIN_EMAIL_LOG_TABLE_NUM_COLUMNS = 3;
     
-    private static AdminEmailLogPage emailLogPage;
+    private AdminEmailLogPage emailLogPage;
     
     @Override
     protected void prepareTestData() {

@@ -87,8 +87,6 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                 System.out.print("UNREG\n");
                 break;
             case ALL:
-                System.out.print("ALL\n");
-                break;
             default:
                 System.out.print("ALL\n");
                 break;
@@ -115,8 +113,6 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                 System.out.print("UNREG\n");
                 break;
             case ALL:
-                System.out.print("ALL\n");
-                break;
             default:
                 System.out.print("ALL\n");
                 break;

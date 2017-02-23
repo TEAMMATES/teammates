@@ -176,13 +176,13 @@ public class InstructorCommentsPageAction extends Action {
     private Map<String, List<Boolean>> getGiverEmailToCanModifyCommentListMap(
                                                Map<String, List<CommentAttributes>> comments) {
         Map<String, List<Boolean>> giverEmailToCanModifyCommentListMap = new TreeMap<String, List<Boolean>>();
-        for (String giverEmail : comments.keySet()) {
+        for (Map.Entry<String, List<CommentAttributes>> entry : comments.entrySet()) {
             List<Boolean> canModifyCommentList = new ArrayList<Boolean>();
-            for (CommentAttributes comment : comments.get(giverEmail)) {
-                Boolean canModifyComment = isInstructorAllowedToModifyCommentInSection(comment);
+            for (CommentAttributes comment : entry.getValue()) {
+                boolean canModifyComment = isInstructorAllowedToModifyCommentInSection(comment);
                 canModifyCommentList.add(canModifyComment);
             }
-            giverEmailToCanModifyCommentListMap.put(giverEmail, canModifyCommentList);
+            giverEmailToCanModifyCommentListMap.put(entry.getKey(), canModifyCommentList);
         }
         return giverEmailToCanModifyCommentListMap;
     }
