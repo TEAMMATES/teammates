@@ -106,7 +106,7 @@
             <h2 class="media-heading">Not for Profit:</h2>
             <p>
                 TEAMMATES does not have commercial ambitions. It is funded mainly by education grants from the National University of Singapore.
-                TEAMMATES also received funding support under the <a href="https://developers.google.com/open-source/gsoc/" target="_blank"> Google Summer of Code</a> program in 2014, 2015 and 2016.
+                TEAMMATES also received funding support under the <a href="https://developers.google.com/open-source/gsoc/" target="_blank"> Google Summer of Code</a> program in 2014,2015 and 2016.
             </p>
         </div>
     </div>
