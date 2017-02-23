@@ -121,7 +121,7 @@ npm install -g eslint@{version}
 
 #### Installing ESLint from within IntelliJ
 1. Ensure the [NodeJS Plugin](https://plugins.jetbrains.com/idea/plugin/6098-nodejs) is installed.
-1. Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/using-javascript-code-quality-tools.html#installESLint) to install ESLint.
+1. Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/using-javascript-code-quality-tools.html#ESLint) to install ESLint.
 1. Follow the same steps outlined in the guide above to install `eslint-plugin-json`.
 
 #### Configuring ESLint for IntelliJ
