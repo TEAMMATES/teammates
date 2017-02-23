@@ -59,6 +59,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public void testBackEndActions() throws Exception {
         testFeedbackResponseCommentActions();
         testDownloadAction();
+        testDownloadQuestionResultsAction();
     }
 
     public void testContent() throws Exception {
@@ -666,6 +667,35 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: download report");
 
         AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+                                                  .withUserId("CFResultsUiT.instr")
+                                                  .withCourseId("CFResultsUiT.CS2104")
+                                                  .withSessionName("First Session");
+
+        resultsPage.verifyDownloadLink(reportUrl);
+
+        ______TS("Typical case: download report unsuccessfully");
+
+        reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+                                              .withUserId("CFResultsUiT.instr");
+        browser.driver.get(reportUrl.toAbsoluteString());
+        String afterReportDownloadUrl = browser.driver.getCurrentUrl();
+        assertFalse(reportUrl.equals(afterReportDownloadUrl));
+        // Get an error page due to missing parameters in URL
+        // If admin is an instructor, expected url is InstructorHomePage
+        //                 otherwise, expected url is unauthorised.jsp
+        assertTrue("Expected url is InstructorHomePage or Unauthorised page, but is " + afterReportDownloadUrl,
+                   afterReportDownloadUrl.contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
+                   || afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
+
+        // return to the previous page
+        loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+    }
+    
+    private void testDownloadQuestionResultsAction() {
+
+        ______TS("Typical case: download report for one question");
+
+        AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_RESULTS_DOWNLOAD)
                                                   .withUserId("CFResultsUiT.instr")
                                                   .withCourseId("CFResultsUiT.CS2104")
                                                   .withSessionName("First Session");
