@@ -520,21 +520,21 @@ public class EmailGenerator {
     }
     
     /**
-     * Generates the course join email for the given {@code inviteReceiver} for {@code course}.
-     * Also specifies contact information of {@code inviter} instructor or admin.
+     * Generates the course join email for the given {@code instructor} for {@code course}.
+     * Also specifies contact information of {@code inviter}.
      */
     public EmailWrapper generateInstructorCourseJoinEmail(AccountAttributes inviter,
-            InstructorAttributes inviteReceiver, CourseAttributes course) {
+            InstructorAttributes instructor, CourseAttributes course) {
         
         String emailBody = Templates.populateTemplate(
-                fillUpInstructorJoinFragment(inviteReceiver, EmailTemplates.USER_COURSE_JOIN),
-                "${userName}", SanitizationHelper.sanitizeForHtml(inviteReceiver.getName()),
+                fillUpInstructorJoinFragment(instructor, EmailTemplates.USER_COURSE_JOIN),
+                "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${inviterName}", SanitizationHelper.sanitizeForHtml(inviter.getName()),
                 "${inviterEmail}", SanitizationHelper.sanitizeForHtml(inviter.getEmail()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
-        EmailWrapper email = getEmptyEmailAddressedToEmail(inviteReceiver.getEmail());
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setSubject(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(),
                                        course.getName(), course.getId()));
         email.setContent(emailBody);

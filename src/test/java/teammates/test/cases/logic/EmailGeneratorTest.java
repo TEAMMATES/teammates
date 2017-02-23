@@ -260,9 +260,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String regkey = "skxxxxxxxxxks";
         
         @SuppressWarnings("deprecation")
-        InstructorAttributes inviteReceiver =
+        InstructorAttributes instructor =
                 new InstructorAttributes("googleId", "courseId", "Instructor Name", instructorEmail);
-        inviteReceiver.key = regkey;
+        instructor.key = regkey;
         
         AccountAttributes inviter = new AccountAttributes();
         inviter.email = "instructor-joe@gmail.com";
@@ -284,10 +284,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
         
         CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
         
-        email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, inviteReceiver, course);
+        email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
         
-        verifyEmail(email, inviteReceiver.email, subject, "/instructorCourseJoinEmail.html");
+        verifyEmail(email, instructor.email, subject, "/instructorCourseJoinEmail.html");
     }
     
     @Test

@@ -29,8 +29,8 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
         Assumption.assertNotNull(inviterId);
         String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        String inviteReceiverEmail = getRequestParamValue(ParamsNames.INVITE_RECEIVER_EMAIL);
-        Assumption.assertNotNull(inviteReceiverEmail);
+        String instructorEmail = getRequestParamValue(ParamsNames.INVITE_RECEIVER_EMAIL);
+        Assumption.assertNotNull(instructorEmail);
 
         AccountAttributes inviter = logic.getAccount(inviterId);
         Assumption.assertNotNull(inviter);
@@ -38,11 +38,11 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
         
-        InstructorAttributes inviteReceiver = logic.getInstructorForEmail(courseId, inviteReceiverEmail);
-        Assumption.assertNotNull(inviteReceiver);
+        InstructorAttributes instructor = logic.getInstructorForEmail(courseId, instructorEmail);
+        Assumption.assertNotNull(instructor);
         
         EmailWrapper email = new EmailGenerator()
-                .generateInstructorCourseJoinEmail(inviter, inviteReceiver, course);
+                .generateInstructorCourseJoinEmail(inviter, instructor, course);
         
         try {
             emailSender.sendEmail(email);
