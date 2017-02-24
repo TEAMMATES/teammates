@@ -93,6 +93,9 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
                 feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
         
+        // TODO: remove after PR 6665 is merged; workaround for checkbox getting unchecked after changing visibility options
+        feedbackEditPage.toggleNotSureCheck(-1);
+        
     }
 
     @Override
