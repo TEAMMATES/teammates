@@ -1146,6 +1146,27 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(
                 By.cssSelector("#question-copy-modal-status.alert-danger")).getText();
     }
+
+    public boolean isVisibilityDropdownOptionHidden(String optionValue, int qnNumber) {
+        return browser.driver.findElement(By.id("questionTable-" + qnNumber))
+                             .findElement(By.className("visibility-options-dropdown-option"))
+                             .findElement(By.xpath("//a[@data-option-name='"+optionValue+"']/.."))
+                             .getAttribute("class").contains("hidden");
+    }
+    
+    public boolean isVisibilityDropdownOptionHiddenForNewQuestion(String optionValue) {
+        return isVisibilityDropdownOptionHidden(optionValue, NEW_QUESTION_NUM);
+    }
+    
+    public boolean isVisibilityDropdownSeparatorHidden(int qnNumber) {
+        return browser.driver.findElement(By.id("questionTable-" + qnNumber))
+                             .findElement(By.cssSelector(".visibility-options-dropdown .divider"))
+                             .getAttribute("class").contains("hidden");
+    }
+    
+    public boolean isVisibilityDropdownSeparatorHiddenForNewQuestion() {
+        return isVisibilityDropdownSeparatorHidden(NEW_QUESTION_NUM);
+    }
     
     public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
         WebElement visibilityMessageDiv = getVisibilityMessageDiv(questionNumber);
