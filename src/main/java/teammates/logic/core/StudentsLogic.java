@@ -124,6 +124,7 @@ public final class StudentsLogic {
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
+     * 
      * @param queryString
      * @return null if no result found
      */
@@ -197,7 +198,8 @@ public final class StudentsLogic {
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
         updateStudentCascadeWithSubmissionAdjustmentScheduled(originalEmail, student, hasDocument);
         
-        /* finalEmail is the string to be used to represent a student's email.
+        /*
+         * finalEmail is the string to be used to represent a student's email.
          * This is because:
          *  - originalEmail cannot be used when student's email is being updated with a new valid email
          *  - student.email cannot be used always because it is null when non-email attributes
@@ -232,10 +234,12 @@ public final class StudentsLogic {
     public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail,
             StudentAttributes student, boolean hasDocument)
             throws EntityDoesNotExistException, InvalidParametersException {
-        // Edit student uses KeepOriginal policy, where unchanged fields are set
-        // as null. Hence, we can't do isValid() for student here.
-        // After updateWithReferenceToExistingStudentRecord method called,
-        // the student should be valid
+        /*
+         * Edit student uses KeepOriginal policy, where unchanged fields are set
+         * as null. Hence, we can't do isValid() for student here.
+         * After updateWithReferenceToExistingStudentRecord method called,
+         * the student should be valid.
+         */
     
         // here is like a db access that can be avoided if we really want to optimize the code
         studentsDb.verifyStudentExists(student.course, originalEmail);
@@ -261,11 +265,13 @@ public final class StudentsLogic {
     
     public void resetStudentGoogleId(String originalEmail, String courseId, boolean hasDocument)
             throws EntityDoesNotExistException, InvalidParametersException {
-        // Edit student uses KeepOriginal policy, where unchanged fields are set
-        // as null. Hence, we can't do isValid() for student here.
-        // After updateWithExistingRecordWithGoogleIdReset method called,
-        // the student should be valid
-    
+        /*
+         * Edit student uses KeepOriginal policy, where unchanged fields are set
+         * as null. Hence, we can't do isValid() for student here.
+         * After updateWithExistingRecordWithGoogleIdReset method called,
+         * the student should be valid.
+         */
+
         studentsDb.verifyStudentExists(courseId, originalEmail);
         StudentAttributes originalStudent = getStudentForEmail(courseId, originalEmail);
         originalStudent.googleId = null;
@@ -359,6 +365,7 @@ public final class StudentsLogic {
 
     /**
      * Validates sections for any limit violations and teams for any team name violations.
+     * 
      * @param studentList
      * @param courseId
      * @throws EnrollException
@@ -381,6 +388,7 @@ public final class StudentsLogic {
     
     /**
      * Validates teams for any team name violations
+     * 
      * @param studentList
      * @param courseId
      * @throws EnrollException
@@ -591,7 +599,8 @@ public final class StudentsLogic {
         return enrollmentDetails;
     }
     
-    /* All empty lines or lines with only white spaces will be skipped.
+    /*
+     * All empty lines or lines with only white spaces will be skipped.
      * The invalidity info returned are in HTML format.
      */
     private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws EnrollException {
