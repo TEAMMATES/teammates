@@ -475,10 +475,11 @@ function hideNewQuestionAndShowNewQuestionForm() {
     $('#questionTable-' + NEW_QUESTION).hide();
     $('#addNewQuestionTable').show();
 
-    // re-enables all feedback path options, which may have been hidden by team contribution question
+    // re-enables all feedback path and visibility options, which may have been hidden by team contribution question
     $('#givertype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
     $('#recipienttype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
     $('#questionTable-' + NEW_QUESTION).find('.feedback-path-dropdown > button').removeClass('disabled');
+    $('#questionTable-' + NEW_QUESTION).find('.visibility-options-dropdown .dropdown-menu li').removeClass('hidden');
     FeedbackPath.attachEvents();
 }
 

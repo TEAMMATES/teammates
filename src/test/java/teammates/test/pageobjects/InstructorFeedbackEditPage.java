@@ -805,6 +805,17 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         return true;
     }
+
+    public boolean isAllVisibilityOptionsEnabledForNewQuestion() {
+        List<WebElement> visibilityDropdownItems = browser.driver.findElement(By.id("questionTable-" + NEW_QUESTION_NUM))
+                .findElements(By.cssSelector(".visibility-options-dropdown .dropdown-menu li"));
+        for (WebElement item : visibilityDropdownItems) {
+            if (item.getAttribute("class").contains("hidden")) {
+                return false;
+            }
+        }
+        return true;
+    }
     
     public boolean isAllRecipientOptionsDisplayed(int questionNumber) {
         List<WebElement> recipientOptions =
