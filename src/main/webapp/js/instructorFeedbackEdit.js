@@ -555,7 +555,7 @@ function tallyCheckboxes(questionNum) {
 function showNewQuestionFrame(type) {
     $('#questiontype').val(type);
 
-    copyOptions();
+    copyOptions(type);
     prepareQuestionForm(type);
     $('#questionTable-' + NEW_QUESTION).show();
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
@@ -677,7 +677,7 @@ function prepareQuestionForm(type) {
  * Copy options (Feedback giver, recipient, and all check boxes)
  * from the previous question
  */
-function copyOptions() {
+function copyOptions(newType) {
     // If there is one or less questions, there's no need to copy.
     if ($('.questionTable').size() < 2) {
         return;
@@ -736,11 +736,14 @@ function copyOptions() {
     $newQuestionForm.find('.visibility-options-dropdown > button').text(prevQuestionVisibilityOption);
 
     var isCommonVisibilityOptionSelected = prevQuestionVisibilityOption.trim() !== 'Custom visibility option:';
+    
     var isPrevQnTypeContrib = $('input[name="questiontype"]').eq(-2).val() === 'CONTRIB';
+    var isNewQnTypeNonContrib = newType !== 'CONTRIB';
     var isFirstOptionSelected = prevQuestionVisibilityOption.trim() === 'Shown anonymously to recipient, visible to instructors';
-    var isContribAndFirstOptionSelected = isPrevQnTypeContrib && isFirstOptionSelected;
-    // First option of contrib questions should be interpreted as a custom visibility option
-    if (isCommonVisibilityOptionSelected && !isContribAndFirstCommonVisibilityOptionSelected) {
+    var isContribToNonContribAndFirstOptionSelected = isPrevQnTypeContrib && isNewQnTypeNonContrib && isFirstOptionSelected;
+    
+    // First option of contrib questions should be interpreted as a custom visibility option in non-contrib questions
+    if (isCommonVisibilityOptionSelected && !isContribToNonContribAndFirstOptionSelected) {
         $newQuestionForm.find('.visibilityOptions').hide();
     } else {
         $newQuestionForm.find('.visibilityOptions').show();
