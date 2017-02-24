@@ -7,12 +7,16 @@ $(document).ready(function() {
         }
     });
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#commenttext', {
-            inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-comment-container'
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#commenttext',
+                inline: true,
+                fixed_toolbar_container: '#rich-text-toolbar-comment-container'
+            }
         });
+        richTextEditor.init();
         /* eslint-enable camelcase */
     }
 

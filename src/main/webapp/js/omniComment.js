@@ -415,12 +415,16 @@ function enableComment(commentIdx) {
     $("div[id='commentTextEdit" + commentIdx + "']").show();
     $("textarea[id='commentText" + commentIdx + "']").val($('#plainCommentText' + commentIdx).text());
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#commentText' + commentIdx, {
-            inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-comment-container-' + commentIdx
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#commentText' + commentIdx,
+                inline: true,
+                fixed_toolbar_container: '#rich-text-toolbar-comment-container-' + commentIdx
+            }
         });
+        richTextEditor.init();
         /* eslint-enable camelcase */
     }
 

@@ -4,13 +4,17 @@ var TIMEZONE_SELECT_UNINITIALISED = '-9999';
 $(document).ready(function() {
     var isEdit = typeof readyFeedbackEditPage === 'function';
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-            readonly: isEdit,
-            fixed_toolbar_container: '#richtext-toolbar-container'
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#instructions',
+                inline: true,
+                readonly: isEdit,
+                fixed_toolbar_container: '#richtext-toolbar-container'
+            }
         });
+        richTextEditor.init();
         /* eslint-enable camelcase */
     }
 });

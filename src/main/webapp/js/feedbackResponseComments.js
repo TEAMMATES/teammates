@@ -332,12 +332,16 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, opts) {
 
     $('#responseCommentAddForm' + id).empty();
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#responseCommentAddForm' + id, {
-            inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-comment-container' + id
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#responseCommentAddForm' + id,
+                inline: true,
+                fixed_toolbar_container: '#rich-text-toolbar-comment-container' + id
+            }
         });
+        richTextEditor.init();
         /* eslint-enable camelcase */
     }
 
@@ -385,15 +389,19 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $('#responseCommentEditForm' + id).show();
     $('#responseCommentEditForm' + id + ' > div > textarea').focus();
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         if (tinymce.get('responsecommenttext' + id)) {
             return;
         }
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#responsecommenttext' + id, {
-            inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-comment-container' + id
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#responsecommenttext' + id,
+                inline: true,
+                fixed_toolbar_container: '#rich-text-toolbar-comment-container' + id
+            }
         });
+        richTextEditor.init();
         /* eslint-enable camelcase */
     }
 }

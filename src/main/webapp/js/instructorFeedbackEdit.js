@@ -147,12 +147,16 @@ function disableEditFS() {
     $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         destroyEditor('instructions');
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-            readonly: true
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#instructions',
+                inline: true,
+                readonly: true
+            }
         });
+        richTextEditor.init();
     }
 
     $('#fsEditLink').show();
@@ -190,13 +194,17 @@ function enableEditFS() {
                               .not('.disabled')
                               .prop('disabled', false);
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         destroyEditor('instructions');
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-            fixed_toolbar_container: '#richtext-toolbar-container'
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#instructions',
+                inline: true,
+                fixed_toolbar_container: '#richtext-toolbar-container'
+            }
         });
+        richTextEditor.init();
         /* eslint-enable camelcase */
     }
     $('#fsEditLink').hide();
@@ -245,13 +253,17 @@ function backupQuestion(questionNum) {
  * @param questionNum
  */
 function enableQuestion(questionNum) {
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum, {
-            inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container-' + questionNum
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum,
+                inline: true,
+                fixed_toolbar_container: '#rich-text-toolbar-q-descr-container-' + questionNum
+            }
         });
+        richTextEditor.init();
         /* eslint-enable camelcase */
     }
     $('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum).removeClass('well');
@@ -314,13 +326,17 @@ function enableQuestion(questionNum) {
 }
 
 function enableNewQuestion() {
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + NEW_QUESTION);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + NEW_QUESTION, {
-            inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container'
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + NEW_QUESTION,
+                inline: true,
+                fixed_toolbar_container: '#rich-text-toolbar-q-descr-container'
+            }
         });
+        richTextEditor.init();
         /* eslint-enable camelcase */
     }
 
@@ -365,14 +381,18 @@ function enableNewQuestion() {
  * @param questionNum
  */
 function disableQuestion(questionNum) {
-    if (typeof richTextEditorBuilder !== 'undefined') {
+    if (typeof RichTextEditor !== 'undefined') {
         destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum, {
-            inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container-' + questionNum,
-            readonly: true
+        var richTextEditor = new RichTextEditor({
+            initParams: {
+                selector: '#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum,
+                inline: true,
+                fixed_toolbar_container: '#rich-text-toolbar-q-descr-container-' + questionNum,
+                readonly: true
+            }
         });
+        richTextEditor.init();
         /* eslint-enable camelcase */
     }
     $('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum).addClass('well');
