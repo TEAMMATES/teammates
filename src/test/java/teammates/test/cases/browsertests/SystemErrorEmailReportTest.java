@@ -19,7 +19,7 @@ import com.google.apphosting.api.DeadlineExceededException;
  * three emails to the admin.
  */
 public class SystemErrorEmailReportTest extends BaseUiTestCase {
-    private static AppPage page;
+    private AppPage page;
 
     @Override
     protected void prepareTestData() {

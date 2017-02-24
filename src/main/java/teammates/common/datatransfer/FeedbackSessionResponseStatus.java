@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public class FeedbackSessionResponseStatus {
-    public List<String> hasResponse;
     public List<String> noResponse;
     public Map<String, String> emailNameTable;
     public Map<String, String> emailSectionTable;
@@ -78,7 +77,6 @@ public class FeedbackSessionResponseStatus {
     };
 
     public FeedbackSessionResponseStatus() {
-        hasResponse = new ArrayList<String>();
         noResponse = new ArrayList<String>();
         emailNameTable = new HashMap<String, String>();
         emailSectionTable = new HashMap<String, String>();

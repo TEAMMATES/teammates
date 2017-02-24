@@ -275,11 +275,11 @@ public class InstructorSearchPageData extends PageData {
             }
         }
         List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
-        for (String sectionName : sectionNameToTeamNameMap.keySet()) {
+        for (Map.Entry<String, List<String>> entry : sectionNameToTeamNameMap.entrySet()) {
             SectionDetailsBundle sdb = new SectionDetailsBundle();
-            sdb.name = sectionName;
+            sdb.name = entry.getKey();
             ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
-            for (String teamName : sectionNameToTeamNameMap.get(sectionName)) {
+            for (String teamName : entry.getValue()) {
                 TeamDetailsBundle tdb = new TeamDetailsBundle();
                 tdb.name = teamName;
                 tdb.students = teamNameToStudentsMap.get(teamName);

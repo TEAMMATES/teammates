@@ -19,7 +19,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     public static final int ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS = 5;
     public static final int ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS = 6;
     
-    private static AdminSearchPage searchPage;
+    private AdminSearchPage searchPage;
 
     @Override
     protected void prepareTestData() {

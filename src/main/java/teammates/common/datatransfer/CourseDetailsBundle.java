@@ -24,9 +24,6 @@ public class CourseDetailsBundle {
     
     public ArrayList<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
     public ArrayList<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
-    //TODO: remove this as we do not allow loners anymore
-    //Do not remove as we might cater for situations where there are no teams in future
-    public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
     
     public CourseDetailsBundle(CourseAttributes courseData) {
         this.course = courseData;

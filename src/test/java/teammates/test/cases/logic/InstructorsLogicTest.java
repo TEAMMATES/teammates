@@ -55,7 +55,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
         
         ______TS("success: add an instructor");
         
-        String googleId = null;
         String courseId = "test-course";
         String name = "New Instructor";
         String email = "ILT.instr@email.tmt";
@@ -64,7 +63,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorAttributes instr =
-                new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
+                new InstructorAttributes(null, courseId, name, email, role, displayedName, privileges);
         
         instructorsLogic.createInstructor(instr);
         

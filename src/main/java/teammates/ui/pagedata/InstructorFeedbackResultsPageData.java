@@ -490,7 +490,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     questionToDetailsMap.get(question).getQuestionAdditionalInfoHtml(
                             question.getQuestionNumber(), String.format(
                                     additionalInfoId, giverIndex, recipientIndex));
-            ElementTag rowAttributes = null;
             String displayableResponse = bundle.getResponseAnswerHtml(response, question);
 
             String giverName = bundle.getNameForEmail(response.giver);
@@ -518,7 +517,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             InstructorFeedbackResultsResponsePanel responsePanel =
                     new InstructorFeedbackResultsResponsePanel(
-                            question, response, questionText, sectionId, additionalInfoText, rowAttributes,
+                            question, response, questionText, sectionId, additionalInfoText, null,
                             displayableResponse, comments, isAllowedToSubmitSessionsInBothSection);
 
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
@@ -1570,9 +1569,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             String sectionName = bundle.getSectionFromRoster(giverIdentifier);
             boolean isAllowedToModerate = isAllowedToModerate(instructor, sectionName, feedbackSessionName);
-            String moderateFeedbackLink = isStudent ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE
-                                                            : Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE;
-            moderateFeedbackLink = addUserIdToUrl(moderateFeedbackLink);
+            String moderateFeedbackLink = addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE);
             
             InstructorFeedbackResultsModerationButton moderationButton =
                     new InstructorFeedbackResultsModerationButton(!isAllowedToModerate, "btn btn-default btn-xs",

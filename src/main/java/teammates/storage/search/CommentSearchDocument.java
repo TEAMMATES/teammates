@@ -67,9 +67,7 @@ public class CommentSearchDocument extends SearchDocument {
             for (String team : comment.recipients) {
                 List<StudentAttributes> students =
                         studentsDb.getStudentsForTeam(SanitizationHelper.desanitizeFromHtml(team), comment.courseId);
-                if (students != null) {
-                    relatedStudents.addAll(students);
-                }
+                relatedStudents.addAll(students);
                 commentRecipientNameBuilder.append(delim).append(team);
                 delim = ", ";
             }
@@ -77,9 +75,7 @@ public class CommentSearchDocument extends SearchDocument {
         case SECTION:
             for (String section : comment.recipients) {
                 List<StudentAttributes> students = studentsDb.getStudentsForSection(section, comment.courseId);
-                if (students != null) {
-                    relatedStudents.addAll(students);
-                }
+                relatedStudents.addAll(students);
                 commentRecipientNameBuilder.append(delim).append(section);
                 delim = ", ";
             }

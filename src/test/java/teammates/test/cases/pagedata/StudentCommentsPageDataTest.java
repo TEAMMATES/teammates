@@ -37,11 +37,11 @@ import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
 
 public class StudentCommentsPageDataTest extends BaseTestCase {
-    private static DataBundle dataBundle = getTypicalDataBundle();
-    private static StudentCommentsPageData data;
-    private static CourseAttributes sampleCourse;
-    private static StudentAttributes sampleStudent;
-    private static InstructorAttributes sampleInstructor;
+    private DataBundle dataBundle = getTypicalDataBundle();
+    private StudentCommentsPageData data;
+    private CourseAttributes sampleCourse;
+    private StudentAttributes sampleStudent;
+    private InstructorAttributes sampleInstructor;
     
     @BeforeClass
     public void classSetup() {
@@ -97,7 +97,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         checkFeedbackSessionRowsEqual(expectedFeedbackSessionRow, actualFeedbackSessionRow);
     }
 
-    private static CommentsForStudentsTable getCommentsForStudentsTable(
+    private CommentsForStudentsTable getCommentsForStudentsTable(
             String giverDetails, String studentEmail, List<CommentAttributes> comments, CourseRoster roster) {
         List<CommentRow> commentRows = new ArrayList<CommentRow>();
         String unsanitizedGiverDetails = SanitizationHelper.desanitizeFromHtml(giverDetails);
@@ -112,14 +112,16 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         return commentsForStudentsTable;
     }
     
-    private static FeedbackSessionRow getFeedbackSessionRow(FeedbackSessionResultsBundle bundle) {
+    private FeedbackSessionRow getFeedbackSessionRow(FeedbackSessionResultsBundle bundle) {
         List<QuestionTable> questionTables = new ArrayList<QuestionTable>();
         FeedbackSessionAttributes session = bundle.feedbackSession;
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponsesMap =
                 bundle.getQuestionResponseMap();
-        for (FeedbackQuestionAttributes question : questionToResponsesMap.keySet()) {
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry
+                : questionToResponsesMap.entrySet()) {
             List<ResponseRow> responseRows = new ArrayList<ResponseRow>();
-            List<FeedbackResponseAttributes> responses = questionToResponsesMap.get(question);
+            FeedbackQuestionAttributes question = entry.getKey();
+            List<FeedbackResponseAttributes> responses = entry.getValue();
             for (FeedbackResponseAttributes response : responses) {
                 List<FeedbackResponseCommentRow> feedbackResponseCommentRows = new ArrayList<FeedbackResponseCommentRow>();
                 List<FeedbackResponseCommentAttributes> responseComments =
@@ -160,7 +162,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
     
     /** Creates a single FeedbackSessionResultsBundle object which comprises
       * a single feedback session, a single question, a single response and a single response comment */
-    private static FeedbackSessionResultsBundle getSingleFeedbackSessionResultsBundle(CourseRoster roster) {
+    private FeedbackSessionResultsBundle getSingleFeedbackSessionResultsBundle(CourseRoster roster) {
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         response.setId("1");
@@ -195,7 +197,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
                 visibilityTable, responseStatus, roster, responseComments, isComplete);
     }
 
-    private static void checkRegularDataCorrect(
+    private void checkRegularDataCorrect(
             AccountAttributes account, String courseId, String courseName, List<String> coursePaginationList) {
         String expectedCourseId = courseId;
         String actualCourseId = data.getCourseId();
