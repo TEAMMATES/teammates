@@ -1165,7 +1165,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean isVisibilityDropdownOptionHidden(String optionValue, int qnNumber) {
         return browser.driver.findElement(By.id("questionTable-" + qnNumber))
                              .findElement(By.className("visibility-options-dropdown-option"))
-                             .findElement(By.xpath("//a[@data-option-name='"+optionValue+"']/.."))
+                             .findElement(By.xpath("//a[@data-option-name='" + optionValue + "']/.."))
                              .getAttribute("class").contains("hidden");
     }
     

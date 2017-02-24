@@ -73,8 +73,10 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("CONTRIB: verify only valid visibility options are visible");
         
-        assertTrue(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS"));
-        assertFalse(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS"));
+        assertTrue(feedbackEditPage
+                .isVisibilityDropdownOptionHiddenForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS"));
+        assertFalse(feedbackEditPage
+                .isVisibilityDropdownOptionHiddenForNewQuestion("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS"));
         assertFalse(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY"));
         assertTrue(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS"));
         assertTrue(feedbackEditPage.isVisibilityDropdownSeparatorHiddenForNewQuestion());
