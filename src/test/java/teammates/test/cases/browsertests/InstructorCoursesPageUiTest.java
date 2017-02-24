@@ -30,11 +30,11 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     
     /* Explanation: This is made a global variable for convenience
      * (i.e. no need to declare it multiple times in multiple methods) */
-    private static InstructorCoursesPage coursesPage;
+    private InstructorCoursesPage coursesPage;
     
-    private static String instructorId;
+    private String instructorId;
     
-    private static CourseAttributes validCourse =
+    private CourseAttributes validCourse =
             new CourseAttributes(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", "Asia/Singapore");
     
     @Override

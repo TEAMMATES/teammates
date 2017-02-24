@@ -17,7 +17,7 @@ import teammates.test.pageobjects.AdminSessionsPage;
  * SUT: {@link AdminSessionsPage}
  */
 public class AdminSessionsPageUiTest extends BaseUiTestCase {
-    private static AdminSessionsPage sessionsPage;
+    private AdminSessionsPage sessionsPage;
     
     @Override
     protected void prepareTestData() {

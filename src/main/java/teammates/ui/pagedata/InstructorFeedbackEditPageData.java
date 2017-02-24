@@ -202,7 +202,6 @@ public class InstructorFeedbackEditPageData extends PageData {
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
         boolean giverNameVisibleOnlyToRecipientAndInstructors = question.showGiverNameTo.size() == 2
-                && question.showGiverNameTo.size() == 2
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER);
         boolean recipientNameVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2

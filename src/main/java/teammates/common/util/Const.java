@@ -143,24 +143,23 @@ public final class Const {
         
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
-        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
-                ActionURIs.STUDENT_COURSE_JOIN,
-                ActionURIs.STUDENT_COURSE_JOIN_NEW,
-                ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
-                ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-                ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE
-        );
+        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Collections.unmodifiableList(
+                Arrays.asList(
+                        ActionURIs.STUDENT_COURSE_JOIN,
+                        ActionURIs.STUDENT_COURSE_JOIN_NEW,
+                        ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
+                        ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE));
         
-        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Arrays.asList(
-                ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
-                ActionURIs.STUDENT_HOME_PAGE,
-                ActionURIs.INSTRUCTOR_COURSE_JOIN,
-                ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
-        );
+        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Collections.unmodifiableList(
+                Arrays.asList(
+                        ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+                        ActionURIs.STUDENT_HOME_PAGE,
+                        ActionURIs.INSTRUCTOR_COURSE_JOIN,
+                        ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED));
         
-        public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Arrays.asList(
-                ActionURIs.STUDENT_COURSE_JOIN
-        );
+        public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Collections.unmodifiableList(
+                Arrays.asList(ActionURIs.STUDENT_COURSE_JOIN));
         
         public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
         
@@ -1457,10 +1456,10 @@ public final class Const {
         public static final String KEY_BELONGS_TO_DIFFERENT_USER = "ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER";
         
         // Error message used across DB level
-        public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null\n";
+        public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";
     
         // POST parameter null message
-        public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
+        public static final String NULL_POST_PARAMETER = "The %s POST parameter is null%n";
     }
 
     public static class PlaceholderText {

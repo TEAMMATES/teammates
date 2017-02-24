@@ -175,7 +175,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = getRedirectResult(saveAction);
+            getRedirectResult(saveAction);
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COURSE_ID), e.getMessage());
@@ -202,7 +202,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = getRedirectResult(saveAction);
+            getRedirectResult(saveAction);
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.INSTRUCTOR_NAME), e.getMessage());
@@ -229,10 +229,10 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = getRedirectResult(saveAction);
+            getRedirectResult(saveAction);
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
-                    Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail), e.getMessage());
+                    Const.ParamsNames.INSTRUCTOR_EMAIL), e.getMessage());
         }
     }
     

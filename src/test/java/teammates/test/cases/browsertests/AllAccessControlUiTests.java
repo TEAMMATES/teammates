@@ -24,9 +24,9 @@ import teammates.test.pageobjects.NotFoundPage;
 @Priority(6)
 public class AllAccessControlUiTests extends BaseUiTestCase {
     
-    private static AppPage currentPage;
+    private AppPage currentPage;
 
-    private static InstructorAttributes otherInstructor;
+    private InstructorAttributes otherInstructor;
 
     @Override
     protected void prepareTestData() {

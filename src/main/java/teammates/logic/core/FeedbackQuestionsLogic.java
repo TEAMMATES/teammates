@@ -637,7 +637,7 @@ public final class FeedbackQuestionsLogic {
                         getFeedbackQuestion(feedbackQuestionId);
         
         if (questionToDeleteById == null) {
-            log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
+            log.warning("Trying to delete question that does not exist: " + feedbackQuestionId);
         } else {
             deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
                                             questionToDeleteById.courseId,
@@ -660,7 +660,7 @@ public final class FeedbackQuestionsLogic {
                         getFeedbackQuestion(feedbackQuestionId);
         
         if (questionToDeleteById == null) {
-            log.warning("Trying to delete question that does not exist: " + questionToDeleteById);
+            log.warning("Trying to delete question that does not exist: " + feedbackQuestionId);
         } else {
             deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
                                             questionToDeleteById.courseId,

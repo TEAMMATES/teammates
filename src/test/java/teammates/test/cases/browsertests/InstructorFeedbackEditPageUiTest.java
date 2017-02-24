@@ -34,12 +34,12 @@ import com.google.appengine.api.datastore.Text;
  */
 @Priority(-1)
 public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
-    private static InstructorFeedbackEditPage feedbackEditPage;
-    private static String instructorId;
-    private static String courseId;
-    private static String feedbackSessionName;
+    private InstructorFeedbackEditPage feedbackEditPage;
+    private String instructorId;
+    private String courseId;
+    private String feedbackSessionName;
     /** This contains data for the feedback session to be edited during testing */
-    private static FeedbackSessionAttributes editedSession;
+    private FeedbackSessionAttributes editedSession;
 
     @Override
     protected void prepareTestData() {

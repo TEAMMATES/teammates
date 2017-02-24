@@ -350,7 +350,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      */
     public boolean isClosedWithinPastHour() {
         long timeZoneOffset = (long) timeZone * 60 * 60 * 1000;
-        Date date = new Date(endTime.getTime() + gracePeriod * 60000 - timeZoneOffset);
+        Date date = new Date(endTime.getTime() + gracePeriod * 60000L - timeZoneOffset);
         return TimeHelper.isWithinPastHourFromNow(date);
     }
 

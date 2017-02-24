@@ -70,17 +70,18 @@ public class Logic {
     //TODO: remove this constant
     public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
     
-    protected static AccountsLogic accountsLogic = AccountsLogic.inst();
-    protected static StudentsLogic studentsLogic = StudentsLogic.inst();
-    protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    protected static CoursesLogic coursesLogic = CoursesLogic.inst();
-    protected static CommentsLogic commentsLogic = CommentsLogic.inst();
-    protected static FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-    protected static FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
-    protected static FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
-    protected static FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
-    protected static AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
-    protected static ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    protected static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    protected static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    protected static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    protected static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    protected static final CommentsLogic commentsLogic = CommentsLogic.inst();
+    protected static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    protected static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
+    protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
+    protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
+            FeedbackResponseCommentsLogic.inst();
+    protected static final AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
+    protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
 
     /**
      * Creates a new Account based on given values. If a profile is not given,

@@ -2,7 +2,6 @@ package teammates.common.datatransfer;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,8 +12,6 @@ public class CourseSummaryBundle {
     
     public CourseAttributes course;
     public ArrayList<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
-    public ArrayList<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
-    public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
     
     public CourseSummaryBundle(CourseAttributes courseData) {
         this.course = courseData;

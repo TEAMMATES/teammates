@@ -8,7 +8,7 @@ import teammates.test.pageobjects.AppPage;
 /** Covers the table sorting functionality
  */
 public class AppPageUiTest extends BaseUiTestCase {
-    private static AppPage page;
+    private AppPage page;
 
     @Override
     protected void prepareTestData() {

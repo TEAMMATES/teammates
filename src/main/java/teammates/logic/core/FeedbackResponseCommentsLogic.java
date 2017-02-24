@@ -286,10 +286,9 @@ public final class FeedbackResponseCommentsLogic {
      * Verify whether the comment is visible to certain user
      * @return true/false
      */
-    public boolean isResponseCommentVisibleForUser(String userEmail, String courseId, UserRole role,
-            String section, StudentAttributes student, Set<String> studentsEmailInTeam,
-            FeedbackResponseAttributes response, FeedbackQuestionAttributes relatedQuestion,
-            FeedbackResponseCommentAttributes relatedComment, InstructorAttributes instructor) {
+    public boolean isResponseCommentVisibleForUser(String userEmail, UserRole role,
+            StudentAttributes student, Set<String> studentsEmailInTeam, FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes relatedQuestion, FeedbackResponseCommentAttributes relatedComment) {
         
         if (response == null || relatedQuestion == null) {
             return false;

@@ -74,8 +74,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeHtml_receivesNull_returnsNull() {
-        String nullString = null;
-        assertEquals(null, SanitizationHelper.sanitizeForHtml(nullString));
+        assertEquals(null, SanitizationHelper.sanitizeForHtml((String) null));
     }
 
     private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
@@ -101,8 +100,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void desanitizeFromHtml_receivesNull_returnsNull() {
-        String nullString = null;
-        assertEquals(null, SanitizationHelper.desanitizeFromHtml(nullString));
+        assertEquals(null, SanitizationHelper.desanitizeFromHtml((String) null));
     }
 
     private void desanitizeFromHtml_recievesEmpty_returnsEmpty() {
@@ -130,8 +128,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeHtmlTag_receivesNull_returnsNull() {
-        String nullString = null;
-        assertEquals(null, SanitizationHelper.sanitizeForHtmlTag(nullString));
+        assertEquals(null, SanitizationHelper.sanitizeForHtmlTag(null));
     }
 
     @Test
@@ -174,8 +171,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeForNextUrl_receivesNull_returnsNull() {
-        String nullString = null;
-        assertEquals(null, SanitizationHelper.sanitizeForNextUrl(nullString));
+        assertEquals(null, SanitizationHelper.sanitizeForNextUrl(null));
     }
 
     private void sanitizeForNextUrl_receivesUrl_returnsSanitizedUrl() {
@@ -193,8 +189,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void desanitizeFromNextUrl_receivesNull_returnsNull() {
-        String nullString = null;
-        assertEquals(null, SanitizationHelper.desanitizeFromNextUrl(nullString));
+        assertEquals(null, SanitizationHelper.desanitizeFromNextUrl(null));
     }
 
     private void desanitizeFromNextUrl_receivesSanitized_returnsDesanitized() {

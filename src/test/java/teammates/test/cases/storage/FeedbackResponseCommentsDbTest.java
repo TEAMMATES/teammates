@@ -25,16 +25,14 @@ import com.google.appengine.api.datastore.Text;
 public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-    private static DataBundle dataBundle = getTypicalDataBundle();
+    private DataBundle dataBundle = getTypicalDataBundle();
 
-    private static FeedbackResponseCommentAttributes frcaData = dataBundle.feedbackResponseComments
-                                                                          .get("comment1FromT1C1ToR1Q1S1C1");
-    private static String frId = dataBundle.feedbackResponseComments
-                                           .get("comment1FromT1C1ToR1Q1S1C1")
-                                           .feedbackResponseId;
-    private static FeedbackResponseCommentAttributes anotherFrcaData = dataBundle.feedbackResponseComments
-                                                                       .get("comment1FromT1C1ToR1Q2S1C1");
-    private static ArrayList<FeedbackResponseCommentAttributes> frcasData =
+    private FeedbackResponseCommentAttributes frcaData =
+            dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
+    private String frId = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1").feedbackResponseId;
+    private FeedbackResponseCommentAttributes anotherFrcaData =
+            dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
+    private ArrayList<FeedbackResponseCommentAttributes> frcasData =
             new ArrayList<FeedbackResponseCommentAttributes>();
 
     @BeforeClass

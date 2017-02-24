@@ -33,10 +33,10 @@ import com.google.appengine.api.datastore.Text;
  */
 @Priority(-1)
 public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
-    private static InstructorFeedbacksPage feedbackPage;
-    private static String idOfInstructorWithSessions;
+    private InstructorFeedbacksPage feedbackPage;
+    private String idOfInstructorWithSessions;
     /** This contains data for the new feedback session to be created during testing */
-    private static FeedbackSessionAttributes newSession;
+    private FeedbackSessionAttributes newSession;
     
     @Override
     protected void prepareTestData() {
@@ -591,17 +591,13 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        String courseId = testData.feedbackSessions.get("publishedSession").getCourseId();
-        String sessionName = testData.feedbackSessions.get("publishedSession").getFeedbackSessionName();
-
         ______TS("PRIVATE: publish link unclickable");
         
-        courseId = testData.feedbackSessions.get("privateSession").getCourseId();
-        sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
+        String courseId = testData.feedbackSessions.get("privateSession").getCourseId();
+        String sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
 
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
         feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
-        
         
         ______TS("MANUAL: publish link clickable");
         

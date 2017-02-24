@@ -16,7 +16,7 @@ import teammates.test.pageobjects.InstructorCoursesDetailsPage;
  * SUT: {@link InstructorCourseEnrollPage}.
  */
 public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
-    private static InstructorCourseEnrollPage enrollPage;
+    private InstructorCourseEnrollPage enrollPage;
     
     @Override
     protected void prepareTestData() {

@@ -150,7 +150,7 @@ public class BackDoorLogic extends Logic {
         
         Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-            responseComment = injectRealIds(responseComment);
+            injectRealIds(responseComment);
         }
         fcDb.createFeedbackResponseComments(responseComments.values());
         
@@ -395,7 +395,7 @@ public class BackDoorLogic extends Logic {
     * This method will then generate the correct ID and replace the field.
      * @throws EntityDoesNotExistException
     **/
-    private FeedbackResponseCommentAttributes injectRealIds(FeedbackResponseCommentAttributes responseComment) {
+    private void injectRealIds(FeedbackResponseCommentAttributes responseComment) {
         try {
             int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);
             
@@ -413,8 +413,6 @@ public class BackDoorLogic extends Logic {
         responseComment.feedbackResponseId =
                 responseComment.feedbackQuestionId
                 + "%" + responseIdParam[1] + "%" + responseIdParam[2];
-        
-        return responseComment;
     }
 
     public void removeDataBundle(DataBundle dataBundle) {
