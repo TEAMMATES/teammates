@@ -176,15 +176,15 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private boolean isVisibilitySetToAnonymousToRecipientVisibleToInstructors(FeedbackQuestionAttributes question) {
+        if (question.questionType.equals(FeedbackQuestionType.CONTRIB)) {
+            return question.showResponsesTo.size() > 1;
+        }
+        
         boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
         boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        
-        if (question.questionType.equals(FeedbackQuestionType.CONTRIB)) {
-            return question.showResponsesTo.size() > 1;
-        }
 
         return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToInstructors;
     }
