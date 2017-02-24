@@ -159,6 +159,11 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
         allowInstructorToSee('.answerCheckbox', $containingForm);
         allowInstructorToSee('.giverCheckbox', $containingForm);
         allowInstructorToSee('.recipientCheckbox', $containingForm);
+        
+        if ($containingForm.find('input[name="questiontype"]').val() === 'CONTRIB') {
+            allowGiversTeamToSee('.answerCheckbox', $containingForm);
+            allowRecipientsTeamToSee('.answerCheckbox', $containingForm);
+        }
         break;
     case 'VISIBLE_TO_INSTRUCTORS_ONLY':
         allowInstructorToSee('.answerCheckbox', $containingForm);
@@ -184,10 +189,23 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
  * @param checkboxClass - the CSS class of the checkbox to be checked
  */
 function allowRecipientToSee(checkboxClass, $containingForm) {
-    $containingForm.find('input[type="checkbox"][value="RECEIVER"]' + checkboxClass).prop('checked', true)
-                   .change();
-    // fire change event listeners in charge of ensuring checkboxes are in a consistent state
-    // e.g. contrib questions have some restrictions enforced through change event listeners
+    $containingForm.find('input[type="checkbox"][value="RECEIVER"]' + checkboxClass).prop('checked', true);
+}
+
+/**
+ * Checks the checkboxes for giver's team members
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
+function allowGiversTeamToSee(checkboxClass, $containingForm) {
+    $containingForm.find('input[type="checkbox"][value="OWN_TEAM_MEMBERS"]' + checkboxClass).prop('checked', true);
+}
+
+/**
+ * Checks the checkboxes for recipient's team members
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
+function allowRecipientsTeamToSee(checkboxClass, $containingForm) {
+    $containingForm.find('input[type="checkbox"][value="RECEIVER_TEAM_MEMBERS"]' + checkboxClass).prop('checked', true);
 }
 
 /**
@@ -195,10 +213,7 @@ function allowRecipientToSee(checkboxClass, $containingForm) {
  * @param checkboxClass - the CSS class of the checkbox to be checked
  */
 function allowInstructorToSee(checkboxClass, $containingForm) {
-    $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]' + checkboxClass).prop('checked', true)
-                   .change();
-    // fire change event listeners in charge of ensuring checkboxes are in a consistent state
-    // e.g. contrib questions have some restrictions enforced through change event listeners
+    $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]' + checkboxClass).prop('checked', true);
 }
 
 /**
