@@ -1,19 +1,8 @@
 function setDefaultContribQnVisibility(questionNum) {
     $currentQuestionTable = $('#questionTable-' + questionNum);
 
-    $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);
-    // All except STUDENTS can see answer
-    $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('.answerCheckbox')
-                         .not('[value="STUDENTS"]').prop('checked', true);
-    // Only instructor can see giver
-    $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('.giverCheckbox')
-                         .filter('[value="INSTRUCTORS"]').prop('checked', true);
-    // Recipient and instructor can see recipient
-    $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('.recipientCheckbox')
-                         .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
+    $currentQuestionTable.find('.visibility-options-dropdown-option' +
+                               '[data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS"]').click();
 
 }
 
