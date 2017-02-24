@@ -748,6 +748,9 @@ function copyOptions(newType) {
         $newQuestionForm.find('.visibilityOptions').hide();
     } else {
         $newQuestionForm.find('.visibilityOptions').show();
+        if (isContribToNonContribAndFirstOptionSelected) {
+            $newQuestionForm.find('.visibility-options-dropdown > button').text('Custom visibility option:');
+        }
     }
 
     matchVisibilityOptionToFeedbackPath($currGiver);
