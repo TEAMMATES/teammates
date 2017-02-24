@@ -19,7 +19,7 @@ import teammates.storage.entity.Course;
 
 public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
     
-    public static Map<String, String> timeZoneDoubleToIdMapping = new HashMap<String, String>();
+    private static final Map<String, String> timeZoneDoubleToIdMapping = new HashMap<String, String>();
     
     static {
         map("-12.0", "Etc/GMT+12");

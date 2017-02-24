@@ -12,7 +12,7 @@ import teammates.test.pageobjects.AdminActivityLogPage;
 
 public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     
-    private static AdminActivityLogPage logPage;
+    private AdminActivityLogPage logPage;
        
     @Override
     protected void prepareTestData() {

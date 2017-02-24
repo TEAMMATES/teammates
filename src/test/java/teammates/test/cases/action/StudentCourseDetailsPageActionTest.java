@@ -44,7 +44,6 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         verifyAssumptionFailure(new String[] {});
 
         ______TS("Typical case, student in the same course");
-        String studentId = student1InCourse1.googleId;
         StudentCourseDetailsPageAction pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
@@ -56,7 +55,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         StudentCourseDetailsPageData pageData = (StudentCourseDetailsPageData) pageResult.data;
 
         assertEquals(student1InCourse1.course, pageData.getStudentCourseDetailsPanel().getCourseId());
-        assertEquals(studentId, pageData.account.googleId);
+        assertEquals(student1InCourse1.googleId, pageData.account.googleId);
         assertEquals(student1InCourse1.getIdentificationString(), pageData.student.getIdentificationString());
         assertEquals(student1InCourse1.team, pageData.getStudentCourseDetailsPanel().getStudentTeam());
 
@@ -85,7 +84,6 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
 
         ______TS("Typical case, the student is not in the course");
-        studentId = student1InCourse1.googleId;
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse2"
         };

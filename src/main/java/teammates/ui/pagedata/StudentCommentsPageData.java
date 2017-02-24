@@ -105,8 +105,9 @@ public class StudentCommentsPageData extends PageData {
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = getGiverEmailToCommentsMap(comments);
         commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();
           
-        for (String giverEmail : giverEmailToGiverNameMap.keySet()) {
-            String giverName = giverEmailToGiverNameMap.get(giverEmail);
+        for (Map.Entry<String, String> entry : giverEmailToGiverNameMap.entrySet()) {
+            String giverEmail = entry.getKey();
+            String giverName = entry.getValue();
             List<CommentAttributes> commentsForGiverEmail = giverEmailToCommentsMap.get(giverEmail);
             commentsForStudentsTables
                     .add(new CommentsForStudentsTable(giverName,
@@ -169,12 +170,10 @@ public class StudentCommentsPageData extends PageData {
             Map<String, FeedbackSessionResultsBundle> feedbackResultBundles) {
         feedbackSessionRows = new ArrayList<FeedbackSessionRow>();
         
-        for (String fsName : feedbackResultBundles.keySet()) {
+        for (Map.Entry<String, FeedbackSessionResultsBundle> entry : feedbackResultBundles.entrySet()) {
             
             FeedbackSessionRow feedbackSessionRow =
-                    new FeedbackSessionRow(
-                            fsName, courseId, createFeedbackQuestionTables(
-                                                      feedbackResultBundles.get(fsName)));
+                    new FeedbackSessionRow(entry.getKey(), courseId, createFeedbackQuestionTables(entry.getValue()));
             
             feedbackSessionRows.add(feedbackSessionRow);
         }

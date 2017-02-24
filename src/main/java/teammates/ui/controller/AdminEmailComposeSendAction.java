@@ -109,7 +109,7 @@ public class AdminEmailComposeSendAction extends Action {
         String[] emails = addressReceiverString.split(",");
         for (String email : emails) {
             String error = validator.getInvalidityInfoForEmail(email);
-            if (error != null && !error.isEmpty()) {
+            if (!error.isEmpty()) {
                 isError = true;
                 statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
                 throw new InvalidParametersException("<strong>Email Format Error</strong>");

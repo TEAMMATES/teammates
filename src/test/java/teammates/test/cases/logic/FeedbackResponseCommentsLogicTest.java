@@ -367,8 +367,10 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 break;
             }
         }
-        frComment.setId(existingFrCommentWithId.getId());
-        frComment.feedbackResponseId = existingFrCommentWithId.feedbackResponseId;
+        if (existingFrCommentWithId != null) {
+            frComment.setId(existingFrCommentWithId.getId());
+            frComment.feedbackResponseId = existingFrCommentWithId.feedbackResponseId;
+        }
     }
     
     private String getQuestionIdInDataBundle(String questionInDataBundle) {

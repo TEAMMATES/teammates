@@ -32,6 +32,9 @@ public final class DataBundleRegenerator {
     
     private static void regenerateDataBundleJson(File folder) throws IOException {
         File[] listOfFiles = folder.listFiles();
+        if (listOfFiles == null) {
+            return;
+        }
         for (File file : listOfFiles) {
             if (!file.getName().endsWith(".json") || NON_DATA_BUNDLE_JSON.contains(file.getName())) {
                 continue;

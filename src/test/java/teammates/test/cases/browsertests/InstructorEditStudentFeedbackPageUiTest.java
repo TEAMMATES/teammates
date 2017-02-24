@@ -15,7 +15,7 @@ import teammates.test.pageobjects.InstructorEditStudentFeedbackPage;
  */
 public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
-    private static InstructorEditStudentFeedbackPage submitPage;
+    private InstructorEditStudentFeedbackPage submitPage;
     
     @Override
     protected void prepareTestData() {

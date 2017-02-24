@@ -70,7 +70,7 @@ public final class Config {
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
         GCS_BUCKETNAME = properties.getProperty("app.gcs.bucketname");
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
-        PERSISTENCE_CHECK_DURATION = Integer.valueOf(properties.getProperty("app.persistence.checkduration"));
+        PERSISTENCE_CHECK_DURATION = Integer.parseInt(properties.getProperty("app.persistence.checkduration"));
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         STUDENT_MOTD_URL = properties.getProperty("app.student.motd.url");
         EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");

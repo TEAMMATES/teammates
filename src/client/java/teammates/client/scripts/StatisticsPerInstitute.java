@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
@@ -264,11 +265,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     private List<InstituteStats> convertToList(
             HashMap<String, HashMap<Integer, HashSet<String>>> institutes) {
         List<InstituteStats> list = new ArrayList<InstituteStats>();
-        for (String insName : institutes.keySet()) {
+        for (Map.Entry<String, HashMap<Integer, HashSet<String>>> entry : institutes.entrySet()) {
             InstituteStats insStat = new InstituteStats();
-            insStat.name = insName;
-            insStat.studentTotal = institutes.get(insName).get(STUDENT_INDEX).size();
-            insStat.instructorTotal = institutes.get(insName).get(INSTRUCTOR_INDEX).size();
+            insStat.name = entry.getKey();
+            insStat.studentTotal = entry.getValue().get(STUDENT_INDEX).size();
+            insStat.instructorTotal = entry.getValue().get(INSTRUCTOR_INDEX).size();
             list.add(insStat);
         }
         return list;
@@ -279,7 +280,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             @Override
             public int compare(InstituteStats inst1, InstituteStats inst2) {
                 //the two objects are swapped, to sort in descending order
-                return Integer.valueOf(inst2.studentTotal).compareTo(Integer.valueOf(inst1.studentTotal));
+                return Integer.compare(inst2.studentTotal, inst1.studentTotal);
             }
         });
     }

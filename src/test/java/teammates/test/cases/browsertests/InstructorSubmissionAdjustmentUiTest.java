@@ -23,7 +23,7 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
  */
 @Priority(1)
 public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
-    private static InstructorCourseEnrollPage enrollPage;
+    private InstructorCourseEnrollPage enrollPage;
     
     @Override
     protected void prepareTestData() {

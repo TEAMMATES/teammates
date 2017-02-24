@@ -19,12 +19,12 @@ import teammates.test.cases.BaseTestCase;
 import com.google.appengine.api.datastore.Text;
 
 public class CommentAttributesTest extends BaseTestCase {
-    private static String courseId;
-    private static String giverEmail;
-    private static CommentParticipantType recipientType;
-    private static Set<String> recipients;
-    private static Text commentText;
-    private static Date createdAt;
+    private String courseId;
+    private String giverEmail;
+    private CommentParticipantType recipientType;
+    private Set<String> recipients;
+    private Text commentText;
+    private Date createdAt;
     
     @BeforeClass
     public void classSetup() {

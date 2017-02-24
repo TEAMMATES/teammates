@@ -30,8 +30,8 @@ import com.google.appengine.api.blobstore.BlobKey;
  */
 public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     
-    protected static GaeSimulation gaeSimulation = GaeSimulation.inst();
-    protected static BackDoorLogic backDoorLogic = new BackDoorLogic();
+    protected static final GaeSimulation gaeSimulation = GaeSimulation.inst();
+    protected static final BackDoorLogic backDoorLogic = new BackDoorLogic();
     
     @BeforeTest
     public void testSetup() {

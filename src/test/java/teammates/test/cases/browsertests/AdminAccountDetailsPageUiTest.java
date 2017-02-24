@@ -15,7 +15,7 @@ import teammates.test.pageobjects.AdminAccountDetailsPage;
  */
 @Priority(1)
 public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
-    private static AdminAccountDetailsPage detailsPage;
+    private AdminAccountDetailsPage detailsPage;
     
     @Override
     protected void prepareTestData() {

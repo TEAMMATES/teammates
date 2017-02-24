@@ -18,7 +18,7 @@ import teammates.test.pageobjects.StudentHomePage;
  * SUT: {@link StudentHelpPage} and {@link LoginPage} for students.
  */
 public class StudentHomePageUiTest extends BaseUiTestCase {
-    private static StudentHomePage studentHome;
+    private StudentHomePage studentHome;
 
     @Override
     protected void prepareTestData() {

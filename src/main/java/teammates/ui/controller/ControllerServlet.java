@@ -134,9 +134,7 @@ public class ControllerServlet extends HttpServlet {
                     new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
                                                                   requestUrl, requestParams, userType, t);
             new EmailSender().sendReport(errorReport);
-            if (errorReport != null) {
-                log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, errorReport, userType));
-            }
+            log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, errorReport, userType));
             
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);

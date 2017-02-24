@@ -26,12 +26,12 @@ import teammates.test.pageobjects.InstructorHomePage;
  * 
  */
 public class InstructorHomePageUiTest extends BaseUiTestCase {
-    private static InstructorHomePage homePage;
+    private InstructorHomePage homePage;
     
-    private static FeedbackSessionAttributes feedbackSessionAwaiting;
-    private static FeedbackSessionAttributes feedbackSessionOpen;
-    private static FeedbackSessionAttributes feedbackSessionClosed;
-    private static FeedbackSessionAttributes feedbackSessionPublished;
+    private FeedbackSessionAttributes feedbackSessionAwaiting;
+    private FeedbackSessionAttributes feedbackSessionOpen;
+    private FeedbackSessionAttributes feedbackSessionClosed;
+    private FeedbackSessionAttributes feedbackSessionPublished;
 
     // TODO: refactor this test. try to use admin login or create instructors and courses not using json
     
