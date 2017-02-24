@@ -9,7 +9,7 @@ import teammates.test.pageobjects.InstructorCommentsPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 public class InstructorCommentsPageUiTest extends BaseUiTestCase {
-    private static InstructorCommentsPage commentsPage;
+    private InstructorCommentsPage commentsPage;
 
     @Override
     protected void prepareTestData() {

@@ -1,8 +1,6 @@
 package teammates.client.scripts;
 
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -89,13 +87,10 @@ public final class ImportData {
     private static String persist(Map<String, ?> map) {
         DataBundle bundle = new DataBundle();
         int count = 0;
-        Set<String> set = map.keySet();
-        Iterator<String> itr = set.iterator();
-        
         String type = "";
-        while (itr.hasNext()) {
-            String key = itr.next();
-            Object obj = map.get(key);
+        for (Map.Entry<String, ?> entry : map.entrySet()) {
+            String key = entry.getKey();
+            Object obj = entry.getValue();
             
             if (obj instanceof AccountAttributes) {
                 type = "AccountData";
@@ -115,7 +110,6 @@ public final class ImportData {
                 bundle.students.put(key, studentData);
             }
             count++;
-            itr.remove();
             System.out.print(key + "\n");
             if ("EvaluationData".equals(type) && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST
                     || count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST) {

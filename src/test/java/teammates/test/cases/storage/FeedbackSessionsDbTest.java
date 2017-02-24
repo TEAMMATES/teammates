@@ -30,14 +30,14 @@ import com.google.appengine.api.datastore.Text;
 public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
-    private static DataBundle dataBundle = getTypicalDataBundle();
+    private DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public void classSetup() throws Exception {
         addSessionsToDb();
     }
     
-    private static void addSessionsToDb() throws Exception {
+    private void addSessionsToDb() throws Exception {
         Set<String> keys = dataBundle.feedbackSessions.keySet();
         for (String i : keys) {
             try {

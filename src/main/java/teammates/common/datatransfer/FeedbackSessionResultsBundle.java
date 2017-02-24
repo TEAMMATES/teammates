@@ -1065,9 +1065,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      */
     public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa,
                                           String recipientParticipantIdentifier) {
-        boolean recipientIsAnonymous = recipientParticipantIdentifier.contains("@@");
-
-        if (recipientParticipantIdentifier == null || recipientIsAnonymous) {
+        if (recipientParticipantIdentifier.contains("@@")) {
             return new ArrayList<String>();
         }
 
@@ -1292,9 +1290,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      */
     public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa,
                                               String giverParticipantIdentifier) {
-        boolean giverIsAnonymous = giverParticipantIdentifier.contains("@@");
-
-        if (giverParticipantIdentifier == null || giverIsAnonymous) {
+        if (giverParticipantIdentifier.contains("@@")) {
             return new ArrayList<String>();
         }
 

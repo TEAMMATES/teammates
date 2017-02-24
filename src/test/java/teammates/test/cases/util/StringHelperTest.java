@@ -1,6 +1,7 @@
 package teammates.test.cases.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -40,54 +41,54 @@ public class StringHelperTest extends BaseTestCase {
         //this method is used in header row processing in StudentAttributesFactory: locateColumnIndexes
         //so use this to test the various header field regex expressions here
 
-        String[] regexArray = FieldValidator.REGEX_COLUMN_NAME;
+        List<String> regexList = FieldValidator.REGEX_COLUMN_NAME;
         String[] stringsToMatch = {"names", "name", " name ", " names ", "student name", "students names",
                                    "student names", "students name", "full name", "full names", "full   names",
                                    "student full names", "students full    names", "Names", "NAMES", "Full Names",
                                    "FULL NAMES", "Full Name", "Student Full Name", "Name"};
-        verifyRegexMatch(stringsToMatch, regexArray, true);
+        verifyRegexMatch(stringsToMatch, regexList, true);
         
         stringsToMatch = new String[]{"namess", "nam", "student", "full"};
-        verifyRegexMatch(stringsToMatch, regexArray, false);
+        verifyRegexMatch(stringsToMatch, regexList, false);
 
-        regexArray = FieldValidator.REGEX_COLUMN_SECTION;
+        regexList = FieldValidator.REGEX_COLUMN_SECTION;
         stringsToMatch = new String[]{"section", "sections", "sect", "sec", "course sections", "courses sections",
                                       "course section", "course sections", "course sec", "courses sec", "Section",
                                       "SECTIONS", "Sect", "Sec", "Course Section", "Course Sections"};
-        verifyRegexMatch(stringsToMatch, regexArray, true);
+        verifyRegexMatch(stringsToMatch, regexList, true);
         
         stringsToMatch = new String[]{"secc", "Section 1", "Course 1"};
-        verifyRegexMatch(stringsToMatch, regexArray, false);
+        verifyRegexMatch(stringsToMatch, regexList, false);
 
-        regexArray = FieldValidator.REGEX_COLUMN_TEAM;
+        regexList = FieldValidator.REGEX_COLUMN_TEAM;
         stringsToMatch = new String[]{"team", "teams", "Team", "TEAMS", "group", "Group",
                                       "Groups", "GROUPS", "student teams", "students teams ", "student team",
                                       "students team", "STUDENT TEAM", "Student Teams ", "Student groups",
                                       "Student Groups", "student   groups", "student   teams", "Course Teams",
                                       "courses teams", "course   team", "courses team", "COURSE TEAM"};
-        verifyRegexMatch(stringsToMatch, regexArray, true);
+        verifyRegexMatch(stringsToMatch, regexList, true);
         
         stringsToMatch = new String[]{"tea", "Team 1", "Group 1"};
-        verifyRegexMatch(stringsToMatch, regexArray, false);
+        verifyRegexMatch(stringsToMatch, regexList, false);
 
-        regexArray = FieldValidator.REGEX_COLUMN_EMAIL;
+        regexList = FieldValidator.REGEX_COLUMN_EMAIL;
         stringsToMatch = new String[]{"email", "emails", " email ", " Email ", " Emails", "EMAILS", "EMAIL",
                                       "mail", "Mail", "MAIL", "MAILS", "E-mail", "E-MAILS", "E-mail", "E-mails",
                                       "e mails", "E mails", "E  mail", "E MAIL", "E MAILS", "Email address",
                                       "email addresses", "EMAIL addresses", "email   addresses", "E-mail addresses",
                                       "E-mail  addresses", "Contact", "CONTACT", "contacts"};
-        verifyRegexMatch(stringsToMatch, regexArray, true);
+        verifyRegexMatch(stringsToMatch, regexList, true);
         
         stringsToMatch = new String[]{"emai", "test@gmail.com", "address1"};
-        verifyRegexMatch(stringsToMatch, regexArray, false);
+        verifyRegexMatch(stringsToMatch, regexList, false);
         
-        regexArray = FieldValidator.REGEX_COLUMN_COMMENT;
+        regexList = FieldValidator.REGEX_COLUMN_COMMENT;
         stringsToMatch = new String[]{"comment", "Comment", "COMMENT", "comments", "Comments", " COMMENTS ",
                                       "note", "Note", "NOTE", "notes", "Notes", "  NOTES  "};
-        verifyRegexMatch(stringsToMatch, regexArray, true);
+        verifyRegexMatch(stringsToMatch, regexList, true);
         
         stringsToMatch = new String[]{"this is a comment", "this is a note", "one comment, one note"};
-        verifyRegexMatch(stringsToMatch, regexArray, false);
+        verifyRegexMatch(stringsToMatch, regexList, false);
 
     }
     
@@ -137,10 +138,8 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(splitName[0], "");
         assertEquals(splitName[1], "");
         
-        fullName = null;
-        splitName = StringHelper.splitName(fullName);
-        
-        assertEquals(splitName, null);
+        splitName = StringHelper.splitName(null);
+        assertEquals(0, splitName.length);
 
         fullName = "two words";
         splitName = StringHelper.splitName(fullName);
@@ -171,11 +170,10 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testRemoveExtraSpace() {
         
+        assertEquals(null, StringHelper.removeExtraSpace((String) null));
+        
         String str = "";
         assertEquals("", StringHelper.removeExtraSpace(str));
-       
-        str = null;
-        assertEquals(null, StringHelper.removeExtraSpace(str));
        
         str = "a    a";
         assertEquals("a a", StringHelper.removeExtraSpace(str));
@@ -194,10 +192,9 @@ public class StringHelperTest extends BaseTestCase {
     public void testReplaceIllegalChars() {
         String regex = "[a-zA-Z0-9_.$-]+";
         
-        String str = null;
-        assertEquals(null, StringHelper.replaceIllegalChars(str, regex, '_'));
+        assertEquals(null, StringHelper.replaceIllegalChars(null, regex, '_'));
         
-        str = "";
+        String str = "";
         assertEquals("", StringHelper.replaceIllegalChars(str, regex, '_'));
         
         str = "abc";
@@ -223,11 +220,10 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testConvertToEmptyStringIfNull() {
-        String nul = null;
         String empty = "";
         String whitespace = " ";
         String nonEmpty = "non-empty";
-        assertEquals("", StringHelper.convertToEmptyStringIfNull(nul));
+        assertEquals("", StringHelper.convertToEmptyStringIfNull(null));
         assertEquals("non-empty", StringHelper.convertToEmptyStringIfNull(nonEmpty));
         assertEquals("", StringHelper.convertToEmptyStringIfNull(empty));
         assertEquals(" ", StringHelper.convertToEmptyStringIfNull(whitespace));
@@ -275,9 +271,9 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
     }
 
-    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult) {
+    private void verifyRegexMatch(String[] stringsToMatch, List<String> regexList, boolean expectedResult) {
         for (String str : stringsToMatch) {
-            assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
+            assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexList));
         }
     }
     
@@ -288,30 +284,30 @@ public class StringHelperTest extends BaseTestCase {
                          + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + Const.EOL
                          + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL;
         String htmlText = StringHelper.csvToHtmlTable(csvText);
-        String expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">\n"
+        String expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">"
                                       + "<tr>"
-                                          + "<td>ColHeader1</td>\n"
-                                          + "<td> ColHeader2</td>\n"
-                                          + "<td> ColHeader3</td>\n"
-                                          + "<td>ColHeader4</td>\n"
+                                          + "<td>ColHeader1</td>"
+                                          + "<td> ColHeader2</td>"
+                                          + "<td> ColHeader3</td>"
+                                          + "<td>ColHeader4</td>"
                                       + "</tr>"
                                       + "<tr>"
-                                          + "<td>Data 1-1</td>\n"
-                                          + "<td> Data 1&quot;2</td>\n"
-                                          + "<td> Data 1,3</td>\n"
-                                          + "<td>Data 1&quot;&quot;4</td>\n"
+                                          + "<td>Data 1-1</td>"
+                                          + "<td> Data 1&quot;2</td>"
+                                          + "<td> Data 1,3</td>"
+                                          + "<td>Data 1&quot;&quot;4</td>"
                                       + "</tr>"
                                       + "<tr>"
-                                          + "<td>Data 2-1</td>\n"
-                                          + "<td> Data 2-2</td>\n"
-                                          + "<td> Data 2-3</td>\n"
-                                          + "<td>Data 2-4&quot;</td>\n"
+                                          + "<td>Data 2-1</td>"
+                                          + "<td> Data 2-2</td>"
+                                          + "<td> Data 2-3</td>"
+                                          + "<td>Data 2-4&quot;</td>"
                                       + "</tr>"
                                       + "<tr>"
-                                          + "<td>Data 3-1</td>\n"
-                                          + "<td> Data 3-2</td>\n"
-                                          + "<td> Data 3-3</td>\n"
-                                          + "<td>Data 3-4</td>\n"
+                                          + "<td>Data 3-1</td>"
+                                          + "<td> Data 3-2</td>"
+                                          + "<td> Data 3-3</td>"
+                                          + "<td>Data 3-4</td>"
                                       + "</tr>"
                                   + "</table>";
         assertEquals(expectedHtmlText, htmlText);

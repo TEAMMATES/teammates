@@ -44,8 +44,8 @@ public class InstructorStudentRecordsPageData extends PageData {
         }
         this.commentsForStudentTable = new ArrayList<CommentsForStudentsTable>();
         int commentCount = 0;
-        for (String giverEmail : giverEmailToCommentsMap.keySet()) {
-            commentCount += giverEmailToCommentsMap.get(giverEmail).size();
+        for (Map.Entry<String, List<CommentAttributes>> entry : giverEmailToCommentsMap.entrySet()) {
+            commentCount += entry.getValue().size();
         }
         for (String giverEmail : giverEmailToCommentsMap.keySet()) {
             addCommentsToTable(student, giverEmailToCommentsMap, giverEmailToGiverNameMap,

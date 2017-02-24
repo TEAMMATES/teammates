@@ -12,11 +12,11 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
 public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
-    private static InstructorFeedbackEditPage feedbackEditPage;
+    private InstructorFeedbackEditPage feedbackEditPage;
 
-    private static String courseId;
-    private static String feedbackSessionName;
-    private static String instructorId;
+    private String courseId;
+    private String feedbackSessionName;
+    private String instructorId;
     
     @Override
     protected void prepareTestData() {
