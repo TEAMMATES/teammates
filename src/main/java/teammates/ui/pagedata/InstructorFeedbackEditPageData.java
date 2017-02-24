@@ -181,6 +181,10 @@ public class InstructorFeedbackEditPageData extends PageData {
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
         boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        
+        if (question.questionType.equals(FeedbackQuestionType.CONTRIB)) {
+            return question.showResponsesTo.size() > 1;
+        }
 
         return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToInstructors;
     }
