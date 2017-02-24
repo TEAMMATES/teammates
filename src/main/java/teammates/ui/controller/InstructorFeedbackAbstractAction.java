@@ -19,11 +19,6 @@ import teammates.common.util.TimeHelper;
 
 public abstract class InstructorFeedbackAbstractAction extends Action {
 
-    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(FeedbackSessionAttributes newSession) {
-
-        return this.extractFeedbackSessionDataHelper(newSession);
-    }
-
     protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
             FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
         return this.extractFeedbackSessionDataHelper(newSession, sendRemainderEmailsList);
@@ -38,7 +33,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         newSession.setFeedbackSessionName(SanitizationHelper.sanitizeTitle(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        newSession = extractFeedbackSessionDataHelper(newSession);
+        // newSession = extractFeedbackSessionDataHelper(newSession);
         newSession.setStartTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
@@ -113,11 +108,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         List<String> sendReminderEmailsList =
                 sendReminderEmailsArray == null ? new ArrayList<String>()
                                                 : Arrays.asList(sendReminderEmailsArray);
-        newSession = extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
         newSession.setClosingEmailEnabled(
                 sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
         newSession.setPublishedEmailEnabled(
                 sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
+        newSession = extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
 
         return newSession;
     }
