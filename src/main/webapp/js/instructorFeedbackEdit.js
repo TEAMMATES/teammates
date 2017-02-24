@@ -640,7 +640,7 @@ function prepareQuestionForm(type) {
             setDefaultContribQnVisibility(NEW_QUESTION);
         } else {
             var prevQnType = $('input[name="questiontype"]').eq(-2).val();
-            if (prevQnType  !== 'CONTRIB') {
+            if (prevQnType !== 'CONTRIB') {
                 // Don't copy previous question visibility options if previous question
                 // is not a team contribution question, as these have special restrictions
                 setDefaultContribQnVisibility(NEW_QUESTION);
@@ -740,7 +740,8 @@ function copyOptions(newType) {
     
     var isPrevQnTypeContrib = $('input[name="questiontype"]').eq(-2).val() === 'CONTRIB';
     var isNewQnTypeNonContrib = newType !== 'CONTRIB';
-    var isFirstOptionSelected = prevQuestionVisibilityOption.trim() === 'Shown anonymously to recipient, visible to instructors';
+    var isFirstOptionSelected = prevQuestionVisibilityOption.trim()
+                                === 'Shown anonymously to recipient, visible to instructors';
     var isContribToNonContribAndFirstOptionSelected = isPrevQnTypeContrib && isNewQnTypeNonContrib && isFirstOptionSelected;
     
     // First option of contrib questions should be interpreted as a custom visibility option in non-contrib questions
