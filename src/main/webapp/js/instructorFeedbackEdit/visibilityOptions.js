@@ -184,7 +184,10 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
  * @param checkboxClass - the CSS class of the checkbox to be checked
  */
 function allowRecipientToSee(checkboxClass, $containingForm) {
-    $containingForm.find('input[type="checkbox"][value="RECEIVER"]' + checkboxClass).prop('checked', true);
+    $containingForm.find('input[type="checkbox"][value="RECEIVER"]' + checkboxClass).prop('checked', true)
+                   .change();
+    // fire change event listeners in charge of ensuring checkboxes are in a consistent state
+    // e.g. contrib questions have some restrictions enforced through change event listeners
 }
 
 /**
@@ -192,7 +195,10 @@ function allowRecipientToSee(checkboxClass, $containingForm) {
  * @param checkboxClass - the CSS class of the checkbox to be checked
  */
 function allowInstructorToSee(checkboxClass, $containingForm) {
-    $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]' + checkboxClass).prop('checked', true);
+    $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]' + checkboxClass).prop('checked', true)
+                   .change();
+    // fire change event listeners in charge of ensuring checkboxes are in a consistent state
+    // e.g. contrib questions have some restrictions enforced through change event listeners
 }
 
 /**
