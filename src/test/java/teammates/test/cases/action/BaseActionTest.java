@@ -244,7 +244,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      */
     protected void modifyParamValue(String[] params, String key, String value) {
         for (int i = 0; i < params.length; i += 2) {
-            if (params[i] == key) {
+            if (params[i].equals(key)) {
                 if (i + 1 >= params.length) {
                     fail("Cannot find parameter to modify.");
                 } else {

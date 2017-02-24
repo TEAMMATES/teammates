@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -90,7 +91,8 @@ public class FieldValidator {
     
     public static final String GENDER_FIELD_NAME = "gender";
     public static final List<String> GENDER_ACCEPTED_VALUES =
-            Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER);
+            Collections.unmodifiableList(
+                    Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER));
     
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
@@ -224,15 +226,23 @@ public class FieldValidator {
      * =======================================================================
      * Regex used for checking header column name in enroll lines
      */
-    public static final String[] REGEX_COLUMN_SECTION = {"sections?", "sect?", "courses?\\s+sec(tion)?s?"};
-    public static final String[] REGEX_COLUMN_TEAM =
-            {"teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?", "courses?\\s+teams?"};
-    public static final String[] REGEX_COLUMN_NAME =
-            {"names?", "students?\\s+names?", "full\\s+names?", "students?\\s+full\\s+names?"};
-    public static final String[] REGEX_COLUMN_EMAIL =
-            {"emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
-             "e-mails?\\s+address(es)?", "contacts?"};
-    public static final String[] REGEX_COLUMN_COMMENT = {"comments?", "notes?"};
+    public static final List<String> REGEX_COLUMN_SECTION = Collections.unmodifiableList(
+            Arrays.asList(
+                    new String[] {"sections?", "sect?", "courses?\\s+sec(tion)?s?"}));
+    public static final List<String> REGEX_COLUMN_TEAM = Collections.unmodifiableList(
+            Arrays.asList(
+                    new String[] {"teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?",
+                                  "courses?\\s+teams?"}));
+    public static final List<String> REGEX_COLUMN_NAME = Collections.unmodifiableList(
+            Arrays.asList(
+                    new String[] {"names?", "students?\\s+names?", "full\\s+names?", "students?\\s+full\\s+names?"}));
+    public static final List<String> REGEX_COLUMN_EMAIL = Collections.unmodifiableList(
+            Arrays.asList(
+                    new String[] {"emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
+                                  "e-mails?\\s+address(es)?", "contacts?"}));
+    public static final List<String> REGEX_COLUMN_COMMENT = Collections.unmodifiableList(
+            Arrays.asList(
+                    new String[] {"comments?", "notes?"}));
     
 
     /////////////////////////////////////////

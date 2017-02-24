@@ -26,14 +26,14 @@ import teammates.test.driver.AssertHelper;
 public class InstructorsDbTest extends BaseComponentTestCase {
     
     private static final InstructorsDb instructorsDb = new InstructorsDb();
-    private static DataBundle dataBundle = getTypicalDataBundle();
+    private DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public void classSetup() throws Exception {
         addInstructorsToDb();
     }
     
-    private static void addInstructorsToDb() throws Exception {
+    private void addInstructorsToDb() throws Exception {
         Set<String> keys = dataBundle.instructors.keySet();
         for (String i : keys) {
             try {
@@ -500,7 +500,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         deleteInstructorsFromDb();
     }
     
-    private static void deleteInstructorsFromDb() {
+    private void deleteInstructorsFromDb() {
         Set<String> keys = dataBundle.instructors.keySet();
         for (String i : keys) {
             instructorsDb.deleteEntity(dataBundle.instructors.get(i));

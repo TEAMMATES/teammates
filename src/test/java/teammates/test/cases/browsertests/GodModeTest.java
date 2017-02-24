@@ -22,8 +22,8 @@ public class GodModeTest extends BaseUiTestCase {
     private static final String EXPECTED_PART_FILEPATH =
             TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedPartOutput.html";
     
-    private static AppPage page;
-    private static String initialContent;
+    private AppPage page;
+    private String initialContent;
 
     @Override
     protected void prepareTestData() throws Exception {

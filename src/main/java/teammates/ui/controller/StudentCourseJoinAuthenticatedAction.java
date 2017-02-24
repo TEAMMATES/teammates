@@ -49,7 +49,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
             logic.joinCourseForStudent(regkey, account.googleId);
         } catch (JoinCourseException | InvalidParametersException e) {
             // Does not sanitize for html to allow insertion of mailto link
-            if (e.errorCode == Const.StatusCodes.INVALID_KEY) {
+            if (e.errorCode.equals(Const.StatusCodes.INVALID_KEY)) {
                 setStatusForException(e, String.format(e.getMessage(), requestUrl));
             } else {
                 setStatusForException(e, e.getMessage());

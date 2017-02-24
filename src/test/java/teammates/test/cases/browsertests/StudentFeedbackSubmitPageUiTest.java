@@ -30,7 +30,7 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
  * SUT: {@link StudentFeedbackSubmitPage}.
  */
 public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
-    private static FeedbackSubmitPage submitPage;
+    private FeedbackSubmitPage submitPage;
 
     @Override
     protected void prepareTestData() {

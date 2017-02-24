@@ -8,10 +8,9 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
-    private static InstructorFeedbackEditPage feedbackEditPage;
-    private static String instructorId;
-    private static String courseId;
-    private static String feedbackSessionName;
+    private String instructorId;
+    private String courseId;
+    private String feedbackSessionName;
 
     @Override
     protected void prepareTestData() {
@@ -24,7 +23,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
 
     @Test
     public void allTests() throws Exception {
-        feedbackEditPage = getFeedbackEditPage();
+        InstructorFeedbackEditPage feedbackEditPage = getFeedbackEditPage();
         
         ______TS("Submit empty course list");
         feedbackEditPage.clickFsCopyButton();

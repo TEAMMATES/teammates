@@ -28,7 +28,7 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
  */
 @Priority(-1)
 public class InstructorStudentListPageUiTest extends BaseUiTestCase {
-    private static InstructorStudentListPage viewPage;
+    private InstructorStudentListPage viewPage;
 
     @Override
     protected void prepareTestData() throws Exception {
@@ -106,7 +106,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         assertFalse(viewPage.isCopyEmailButtonVisible());
         viewPage.toggleShowEmailCheckbox();
         viewPage.clickCopyEmailButton();
-        assertTrue(viewPage.isCopyEmailPopoverVisible());
+        viewPage.waitForCopyEmailPopoverVisible();
         assertEquals(viewPage.getShownEmailsText(), viewPage.getSelectedText().trim());
         
         // update current instructor privileges
