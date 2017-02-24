@@ -79,6 +79,20 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS"));
         assertTrue(feedbackEditPage.isVisibilityDropdownSeparatorHiddenForNewQuestion());
         assertTrue(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("OTHER"));
+        
+        ______TS("CONTRIB: verify correct output params for selected visibility option");
+        
+        // default (first option)
+        assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
+                feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        
+        feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+
+        feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS");
+        assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
+                feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        
     }
 
     @Override

@@ -536,6 +536,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber + " .visibility-options-dropdown "
                                                         + "a[data-option-name=\"" + optionValue + "\"]")));
     }
+    
+    public void clickVisibilityDropdownForNewQuestion(String optionValue) {
+        clickVisibilityDropdown(optionValue, NEW_QUESTION_NUM);
+    }
 
     public void clickAddQuestionButton() {
         click(addNewQuestionButton);
@@ -1197,6 +1201,36 @@ public class InstructorFeedbackEditPage extends AppPage {
     public String getVisibilityMessage(int questionNumber) {
         WebElement visibilityMessageDiv = getVisibilityMessageDiv(questionNumber);
         return visibilityMessageDiv.getText();
+    }
+    
+    public String getVisibilityParamShowResponsesTo(int questionNumber) {
+        return browser.driver.findElement(By.id("form_editquestion-" + questionNumber))
+                             .findElement(By.cssSelector("input[name='showresponsesto']"))
+                             .getAttribute("value");
+    }
+    
+    public String getVisibilityParamShowResponsesToForNewQuestion() {
+        return getVisibilityParamShowResponsesTo(NEW_QUESTION_NUM);
+    }
+    
+    public String getVisibilityParamShowGiverTo(int questionNumber) {
+        return browser.driver.findElement(By.id("form_editquestion-" + questionNumber))
+                             .findElement(By.cssSelector("input[name='showgiverto']"))
+                             .getAttribute("value");
+    }
+    
+    public String getVisibilityParamShowGiverToForNewQuestion() {
+        return getVisibilityParamShowGiverTo(NEW_QUESTION_NUM);
+    }
+    
+    public String getVisibilityParamShowRecipientTo(int questionNumber) {
+        return browser.driver.findElement(By.id("form_editquestion-" + questionNumber))
+                             .findElement(By.cssSelector("input[name='showrecipientto']"))
+                             .getAttribute("value");
+    }
+    
+    public String getVisibilityParamShowRecipientToForNewQuestion() {
+        return getVisibilityParamShowRecipientTo(NEW_QUESTION_NUM);
     }
 
     public WebElement getVisibilityOptions(int questionNumber) {
