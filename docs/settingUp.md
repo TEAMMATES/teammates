@@ -89,7 +89,7 @@ Eclipse IDE is our preferred development environment. Support requests related t
      
    * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
    * Trailing whitespace: all forms of trailing whitespace is disallowed, blank lines included.
-     Go to `Eclipse → Preferences` and configure for all the languages used in TEAMMATES:
+   * Go to `Eclipse → Preferences` and configure for all the languages used in TEAMMATES:
      * Java:
         * `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`
         * `Java → Editor → Save Actions → Additional actions → Configure → Remove trailing whitespace → All lines`
