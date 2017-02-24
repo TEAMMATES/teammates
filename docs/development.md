@@ -35,7 +35,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 #### Set up the Run Configuration
 
 1. Go to `File → Project Structure...`.
-1. Under `Artifacts → Gradle : teammates.war (exploded)`, check `Include in project build`.
+1. Under `Artifacts → Gradle : teammates.war (exploded)`*, check `Include in project build`.
 1. Click `OK`.
 1. Got to `Run → Edit Configurations...`.
 1. Click `+ → Google AppEngine Dev Server`.
@@ -46,10 +46,12 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 1. Set the `JRE` to `1.7`.
 1. Set the `Port` to `8888`.
 1. Under `Before launch`, click `+ → Run Gradle task`.
-1. Select `teammates` (or the project's name if you named it differently) as the Gradle project and type "assemble" into the `Tasks` field.
+1. Select `teammates`* as the Gradle project and type "assemble" into the `Tasks` field.
 1. Click `OK`.
 1. Move the item you just created above "Build".
 1. Click `OK`.
+
+*Replace `teammates` with your local repository's name if you named it differently.
 
 #### Run the dev server
 
