@@ -633,8 +633,18 @@ function prepareQuestionForm(type) {
         
         $('#contribForm').show();
         fixContribQnGiverRecipient(NEW_QUESTION);
-        setDefaultContribQnVisibility(NEW_QUESTION);
         setContribQnVisibilityFormat(NEW_QUESTION);
+
+        if ($('.questionTable').size() < 2) {
+            setDefaultContribQnVisibility(NEW_QUESTION);
+        } else {
+            var prevQnType = $('input[name="questiontype"]').eq(-2).val();
+            if (prevQnType  !== 'CONTRIB') {
+                // Don't copy previous question visibility options if previous question
+                // is not a team contribution question, as these have special restrictions
+                setDefaultContribQnVisibility(NEW_QUESTION);
+            }
+        }
         break;
     case 'RUBRIC':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
