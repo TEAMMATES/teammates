@@ -520,7 +520,7 @@ public class EmailGenerator {
     }
     
     /**
-     * Generates the course join email for the given {@code instructor} for {@code course}.
+     * Generates the course join email for the given {@code instructor} in {@code course}.
      * Also specifies contact information of {@code inviter}.
      */
     public EmailWrapper generateInstructorCourseJoinEmail(AccountAttributes inviter,
