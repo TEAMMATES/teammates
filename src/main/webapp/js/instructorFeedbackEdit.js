@@ -736,7 +736,11 @@ function copyOptions() {
     $newQuestionForm.find('.visibility-options-dropdown > button').text(prevQuestionVisibilityOption);
 
     var isCommonVisibilityOptionSelected = prevQuestionVisibilityOption.trim() !== 'Custom visibility option:';
-    if (isCommonVisibilityOptionSelected) {
+    var isPrevQnTypeContrib = $('input[name="questiontype"]').eq(-2).val() === 'CONTRIB';
+    var isFirstOptionSelected = prevQuestionVisibilityOption.trim() === 'Shown anonymously to recipient, visible to instructors';
+    var isContribAndFirstOptionSelected = isPrevQnTypeContrib && isFirstOptionSelected;
+    // First option of contrib questions should be interpreted as a custom visibility option
+    if (isCommonVisibilityOptionSelected && !isContribAndFirstCommonVisibilityOptionSelected) {
         $newQuestionForm.find('.visibilityOptions').hide();
     } else {
         $newQuestionForm.find('.visibilityOptions').show();
