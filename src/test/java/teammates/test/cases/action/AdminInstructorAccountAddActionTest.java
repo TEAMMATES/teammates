@@ -8,6 +8,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Const.TaskQueue;
 import teammates.logic.api.Logic;
 import teammates.logic.core.CommentsLogic;
 import teammates.ui.controller.AdminInstructorAccountAddAction;
@@ -119,6 +120,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         
         r = getAjaxResult(a);
         assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
+        
+        verifySpecifiedTasksAdded(a, TaskQueue.SEARCHABLE_DOCUMENTS_PRODUCTION_QUEUE_NAME, 1);
         
         verifyNumberOfEmailsSent(a, 1);
         

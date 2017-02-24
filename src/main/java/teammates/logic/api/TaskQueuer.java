@@ -294,6 +294,21 @@ public class TaskQueuer {
         }
     }
     
+    /**
+     * Schedules production of searchable documents of all demo data for new instructor
+     * 
+     * @param courseId the course ID of the documents
+     * @param instructorEmail email address of instructor
+     */
+    public void scheduleSearchableDocumentsProduction(String courseId, String instructorEmail) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.COURSE_ID, courseId);
+        paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
+        
+        addTask(TaskQueue.SEARCHABLE_DOCUMENTS_PRODUCTION_QUEUE_NAME,
+                TaskQueue.SEARCHABLE_DOCUMENTS_PRODUCTION_WORKER_URL, paramMap);
+    }
+    
     private void scheduleEmailForSending(EmailWrapper email, long emailDelayTimer) {
         String emailSubject = email.getSubject();
         String emailSenderName = email.getSenderName();
