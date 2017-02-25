@@ -19,40 +19,40 @@ import com.google.gson.reflect.TypeToken;
  * change in student enrollment details of a course.
  */
 public class FeedbackResponseAdjustmentWorkerAction extends AutomatedAction {
-    
+
     @Override
     protected String getActionDescription() {
         return null;
     }
-    
+
     @Override
     protected String getActionMessage() {
         return null;
     }
-    
+
     @Override
     public void execute() {
         String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        
+
         String sessionName = getRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull(sessionName);
-        
+
         String enrollmentDetails = getRequestParamValue(ParamsNames.ENROLLMENT_DETAILS);
         Assumption.assertNotNull(enrollmentDetails);
-        
+
         log.info("Adjusting submissions for feedback session :" + sessionName + "in course : " + courseId);
-        
+
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(sessionName, courseId);
-        
+
         String errorString = "Error encountered while adjusting feedback session responses of %s in course %s: %s%n%s";
-        
+
         if (feedbackSession == null) {
             log.severe(String.format(errorString, sessionName, courseId, "feedback session is null", ""));
             setForRetry();
             return;
         }
-        
+
         List<FeedbackResponseAttributes> allResponses =
                 logic.getFeedbackResponsesForSession(feedbackSession.getFeedbackSessionName(),
                                                      feedbackSession.getCourseId());
@@ -70,5 +70,5 @@ public class FeedbackResponseAdjustmentWorkerAction extends AutomatedAction {
             }
         }
     }
-    
+
 }

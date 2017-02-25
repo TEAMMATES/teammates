@@ -15,25 +15,25 @@ import teammates.test.driver.TestProperties;
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
  * appID in the test.properties file.Can use DataGenerator.java to generate random data.
- * 
+ *
  * Notes:
  * -Edit SOURCE_FILE_NAME before use
  * -Should not have any limit on the size of the databundle. However, the number of entities per request
  * should not be set to too large as it may cause Deadline Exception (especially for evaluations)
- * 
+ *
  */
 public final class ImportData {
     //
     // Data source file name (under src/test/resources/data folder) to import
     private static final String SOURCE_FILE_NAME = "ResultFileName.json";
-    
+
     private static final int MAX_NUMBER_OF_ENTITY_PER_REQUEST = 100;
     private static final int MAX_NUMBER_OF_EVALUATION_PER_REQUEST = 1;
     private static final int WAIT_TIME_BETWEEN_REQUEST = 1000; //ms
-    
+
     private static DataBundle data;
     private static String jsonString;
-    
+
     private ImportData() {
         // script, not meant to be instantiated
     }
@@ -41,7 +41,7 @@ public final class ImportData {
     public static void main(String[] args) throws Exception {
         jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + SOURCE_FILE_NAME);
         data = JsonUtils.fromJson(jsonString, DataBundle.class);
-        
+
         String status = "";
         do {
             long start = System.currentTimeMillis();
@@ -49,7 +49,7 @@ public final class ImportData {
             boolean hasInstructors = !data.instructors.isEmpty();
             boolean hasCourses = !data.courses.isEmpty();
             boolean hasStudents = !data.students.isEmpty();
-            
+
             if (hasAccounts) {
                 // Accounts
                 status = persist(data.accounts);
@@ -74,13 +74,13 @@ public final class ImportData {
             System.out.print(status + " in " + elapsedTimeSec + " s\n");
 
         } while (true);
-        
+
     }
-    
+
     /**
      * This method will persist a number of entity and remove them from the source, return the
      * status of the operation.
-     * 
+     *
      * @param map - HashMap which has data to persist
      * @return status of the Backdoor operation
      */
@@ -91,7 +91,7 @@ public final class ImportData {
         for (Map.Entry<String, ?> entry : map.entrySet()) {
             String key = entry.getKey();
             Object obj = entry.getValue();
-            
+
             if (obj instanceof AccountAttributes) {
                 type = "AccountData";
                 AccountAttributes accountData = (AccountAttributes) obj;
@@ -117,9 +117,9 @@ public final class ImportData {
             }
         }
         System.out.print(count + " entities of type " + type + " left " + map.size() + " \n");
-        
+
         String status = BackDoor.restoreDataBundle(bundle);
-        
+
         // wait a few seconds to allow data to persist completedly
         try {
             Thread.sleep(WAIT_TIME_BETWEEN_REQUEST);

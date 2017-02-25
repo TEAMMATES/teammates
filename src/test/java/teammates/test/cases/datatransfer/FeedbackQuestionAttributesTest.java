@@ -21,32 +21,32 @@ import teammates.test.cases.BaseTestCase;
 import com.google.appengine.api.datastore.Text;
 
 public class FeedbackQuestionAttributesTest extends BaseTestCase {
-    
+
     private DataBundle typicalBundle = getTypicalDataBundle();
 
     private static class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
-        
+
         private void setCreatedAt(Date createdAt) {
             this.createdAt = createdAt;
         }
-        
+
         private void setUpdatedAt(Date updatedAt) {
             this.updatedAt = updatedAt;
         }
-        
+
     }
-    
+
     @Test
     public void testDefaultTimestamp() {
-        
+
         FeedbackQuestionAttributesWithModifiableTimestamp fq =
                 new FeedbackQuestionAttributesWithModifiableTimestamp();
-        
+
         fq.setCreatedAt(null);
         fq.setUpdatedAt(null);
-        
+
         Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        
+
         ______TS("success : defaultTimeStamp for createdAt date");
 
         assertEquals(defaultTimeStamp, fq.getCreatedAt());
@@ -175,21 +175,21 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         assertTrue(fq.isValid());
     }
-    
+
     @Test
     public void testGetQuestionDetails() {
 
         ______TS("Text question: new Json format");
-        
+
         FeedbackQuestionAttributes fq = typicalBundle.feedbackQuestions.get("qn5InSession1InCourse1");
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("New format text question");
         fq.setQuestionDetails(questionDetails);
-        
+
         assertTrue(fq.isValid());
         assertEquals(fq.getQuestionDetails().getQuestionText(), "New format text question");
-        
+
         ______TS("Text question: old string format");
-        
+
         fq = typicalBundle.feedbackQuestions.get("qn2InSession1InCourse1");
         assertEquals(fq.getQuestionDetails().getQuestionText(), "Rate 1 other student's product");
     }
@@ -272,7 +272,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
         assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
         assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
-        
+
         ______TS("test students->instructors");
 
         question.giverType = FeedbackParticipantType.STUDENTS;
@@ -296,7 +296,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
         assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
         assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        
+
         ______TS("test students->own team");
 
         question.giverType = FeedbackParticipantType.STUDENTS;
@@ -320,7 +320,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
         assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
         assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        
+
         ______TS("test students->own team members");
 
         question.giverType = FeedbackParticipantType.STUDENTS;

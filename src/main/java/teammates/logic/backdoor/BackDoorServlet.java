@@ -29,13 +29,13 @@ public class BackDoorServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/plain; charset=utf-8");
-        
+
         String keyReceived = req.getParameter(BackDoorOperation.PARAMETER_BACKDOOR_KEY);
         boolean isAuthorized = keyReceived.equals(Config.BACKDOOR_KEY);
         if (isAuthorized) {
             String action = req.getParameter(BackDoorOperation.PARAMETER_BACKDOOR_OPERATION);
             log.info(action);
-            
+
             BackDoorOperation opCode = BackDoorOperation.valueOf(action);
             String returnValue;
             try {
@@ -192,5 +192,5 @@ public class BackDoorServlet extends HttpServlet {
         }
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
-    
+
 }

@@ -19,15 +19,15 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        
+
         StudentCourseJoinAction joinAction;
         RedirectResult redirectResult;
         String[] submissionParams;
-        
+
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         StudentsDb studentsDb = new StudentsDb();
@@ -41,7 +41,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         verifyAssumptionFailure();
 
         ______TS("typical case");
-        
+
         String idOfNewStudent = "idOfNewStudent";
         StudentAttributes newStudentData = new StudentAttributes(
                 student1InCourse1.section,
@@ -78,18 +78,18 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
                 + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE,
                 ((StudentCourseJoinConfirmationPageData) pageResult.data).getConfirmUrl());
         assertEquals("", pageResult.getStatusMessage());
-        
+
         ______TS("skip confirmation");
-        
+
         gaeSimulation.logoutUser();
-        
+
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, newStudentKey,
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_PROFILE_PAGE,
                 Const.ParamsNames.STUDENT_EMAIL, newStudentData.email,
                 Const.ParamsNames.COURSE_ID, newStudentData.course
         };
-        
+
         joinAction = getAction(submissionParams);
         redirectResult = getRedirectResult(joinAction);
 
@@ -99,10 +99,10 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
                 + "&" + Const.ParamsNames.ERROR + "=false",
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        
+
         // delete the new student
         studentsDb.deleteStudentWithoutDocument(newStudentData.course, newStudentData.email);
-        
+
         ______TS("Non-existent student attempting to join course displays error");
 
         gaeSimulation.loginUser(idOfNewStudent);
@@ -122,7 +122,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         assertEquals("warning", redirectResult.getStatusMessageColor());
         assertTrue(redirectResult.isError);
     }
-    
+
     @Test
     public void testGetUrlType() {
         assertEquals("/page/somePage", getPageTypeOfUrl("/page/somePage"));

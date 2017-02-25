@@ -11,14 +11,14 @@ import teammates.common.util.TimeHelper;
 import teammates.test.pageobjects.AdminActivityLogPage;
 
 public class AdminActivityLogPageUiTest extends BaseUiTestCase {
-    
+
     private AdminActivityLogPage logPage;
-       
+
     @Override
     protected void prepareTestData() {
         // no test data used in this test
     }
-    
+
     @Test
     public void testAll() throws Exception {
         testContent();
@@ -38,17 +38,17 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         ______TS("content: show reference");
         logPage.clickReferenceButton();
         assertTrue(logPage.isFilterReferenceVisible());
-        
+
     }
 
     public void testContent() throws Exception {
-        
+
         ______TS("content: typical page");
-        
+
         AppUrl logPageUrl = createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE);
         logPage = loginAdminToPage(logPageUrl, AdminActivityLogPage.class);
         logPage.verifyIsCorrectPage();
-        
+
         ______TS("content: navigate to other pages to get some logs");
         logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
         logPage.waitForPageToLoad();
@@ -61,14 +61,14 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         assertNotNull(logPage.getFirstActivityLogRow());
         assertTrue(logPage.isLogsTableVisible());
         assertEquals(2, logPage.getNumberOfTableHeaders());
-        
+
         ______TS("content: ensure default search period is not more than one day");
         Calendar yesterday = TimeHelper.now(Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         yesterday.add(Calendar.DAY_OF_MONTH, -1);
-        
+
         assertTrue(logPage.getDateOfEarliestLog()
                                         .after(yesterday.getTime()));
-        
+
         ______TS("content: show the earliest log's date in both Admin Time Zone and local Time Zone");
         assertTrue(logPage.getStatus().contains("The earliest log entry checked on"));
         assertTrue(logPage.getStatus().contains("in Admin Time Zone"));
@@ -77,9 +77,9 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     }
 
     public void testViewActionsLink() {
-        
+
         ______TS("Link: recent actions link");
-        
+
         try {
             String expectedPersonInfo = logPage.getPersonInfoOfFirstEntry();
             logPage.clickViewActionsButtonOfFirstEntry();
@@ -100,30 +100,30 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
             ignorePossibleException();
         }
     }
-    
+
     public void testInputValidation() {
-        
+
         ______TS("invalid query format");
-        
+
         logPage.fillQueryBoxWithText("this is a invalid query");
         logPage.clickSearchSubmitButton();
-        
+
         assertEquals("Error with the query: Invalid format", logPage.getQueryMessage());
-        
+
         ______TS("valid query format");
-        
+
         logPage.fillQueryBoxWithText("role:instructor");
         logPage.clickSearchSubmitButton();
-        
+
         assertTrue(logPage.getStatus().contains("Total Logs gone through in last search:"));
-        
+
     }
-    
+
     private void assertEqualsIfQueryStringNotEmpty(String expected, String actual) {
         String emptyQuery = "person:";
         if (!expected.equals(emptyQuery)) {
             assertEquals(expected, actual);
         }
     }
-    
+
 }

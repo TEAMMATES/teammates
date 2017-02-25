@@ -21,14 +21,14 @@ import java.util.List;
 public class CourseDetailsBundle {
     public CourseAttributes course;
     public CourseStats stats = new CourseStats();
-    
+
     public ArrayList<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
     public ArrayList<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
-    
+
     public CourseDetailsBundle(CourseAttributes courseData) {
         this.course = courseData;
     }
-    
+
     /**
      * Gets all FeedbackSessionAttributes in this CourseDetailsBundle
      * @return
@@ -40,7 +40,7 @@ public class CourseDetailsBundle {
         }
         return feedbackSessionAttributes;
     }
-    
+
     public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
             @Override
@@ -49,8 +49,7 @@ public class CourseDetailsBundle {
             }
         });
     }
-    
-    
+
     /**
      * Sorts courses based on course ID
      */
@@ -62,7 +61,7 @@ public class CourseDetailsBundle {
             }
         });
     }
-    
+
     /**
      * Sorts courses based on course creation date in the order of latest to oldest order
      */
@@ -78,7 +77,7 @@ public class CourseDetailsBundle {
     public CourseStats getStats() {
         return stats;
     }
-    
+
     public CourseAttributes getCourse() {
         return course;
     }
