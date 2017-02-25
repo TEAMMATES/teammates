@@ -25,7 +25,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
@@ -44,7 +44,6 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         verifyAssumptionFailure(new String[] {});
 
         ______TS("Typical case, student in the same course");
-        String studentId = student1InCourse1.googleId;
         StudentCourseDetailsPageAction pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
@@ -56,24 +55,24 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         StudentCourseDetailsPageData pageData = (StudentCourseDetailsPageData) pageResult.data;
 
         assertEquals(student1InCourse1.course, pageData.getStudentCourseDetailsPanel().getCourseId());
-        assertEquals(studentId, pageData.account.googleId);
+        assertEquals(student1InCourse1.googleId, pageData.account.googleId);
         assertEquals(student1InCourse1.getIdentificationString(), pageData.student.getIdentificationString());
         assertEquals(student1InCourse1.team, pageData.getStudentCourseDetailsPanel().getStudentTeam());
 
         List<StudentAttributes> expectedStudentsList = StudentsLogic.inst().getStudentsForTeam(
                                                                     student1InCourse1.team, student1InCourse1.course);
-        
+
         List<StudentAttributes> actualStudentsList = pageData.getStudentCourseDetailsPanel().getTeammates();
-          
+
         AssertHelper.assertSameContentIgnoreOrder(expectedStudentsList, actualStudentsList);
 
         // assertEquals(StudentsLogic.inst().getStudentsForTeam(student1InCourse1.team, student1InCourse1), pageData.);
         // above comparison method failed, so use the one below
-        
+
         List<InstructorAttributes> expectedInstructorsList = InstructorsLogic.inst()
                                                                 .getInstructorsForCourse(student1InCourse1.course);
         List<InstructorAttributes> actualInstructorsList = pageData.getStudentCourseDetailsPanel().getInstructors();
-        
+
         AssertHelper.assertSameContentIgnoreOrder(expectedInstructorsList, actualInstructorsList);
 
         String expectedLogMessage = "TEAMMATESLOG|||studentCourseDetailsPage|||studentCourseDetailsPage|||true|||"
@@ -85,17 +84,16 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
 
         ______TS("Typical case, the student is not in the course");
-        studentId = student1InCourse1.googleId;
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse2"
         };
-        
+
         StudentCourseDetailsPageAction redirectAction = getAction(submissionParams);
         RedirectResult redirectResult = this.getRedirectResult(redirectAction);
 
         assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE + "?error=true&user=student1InCourse1",
                      redirectResult.getDestinationWithParams());
-        
+
         assertTrue(redirectResult.isError);
         assertEquals("You are not registered in the course idOfTypicalCourse2", redirectResult.getStatusMessage());
 
@@ -106,36 +104,35 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
                              + "Typical Course 1 with 2 Evals</span>|||/page/studentCourseDetailsPage";
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
-        
-        
+
     }
 
     @Test
     public void testTeamMemberDetailsOnViewTeamPage() {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
-        
+
         String[] submissionParams = createValidParamsForProfile();
         StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         gaeSimulation.loginAsStudent(student.googleId);
-        
+
         // adding profile picture for student1InCourse1
         StudentProfileEditSaveAction action = getStudentProfileEditSaveAction(submissionParams);
         RedirectResult result = getRedirectResult(action);
         expectedProfile.googleId = student.googleId;
         assertFalse(result.isError);
-        
+
         StudentAttributes student1 = dataBundle.students.get("student1InCourse1");
-        
+
         gaeSimulation.logoutUser();
         gaeSimulation.loginAsStudent(dataBundle.accounts.get("student2InCourse1").googleId);
         String[] submissionParam = new String[] {
                 Const.ParamsNames.COURSE_ID, student1.course
         };
-        
+
         StudentCourseDetailsPageAction pageAction = getAction(submissionParam);
         ShowPageResult pageResult = getShowPageResult(pageAction);
         StudentCourseDetailsPageData pageData = (StudentCourseDetailsPageData) pageResult.data;
-        
+
         List<StudentAttributes> actualStudentsList = pageData.getStudentCourseDetailsPanel().getTeammates();
         boolean isStudentDisplayedOnViewTeam = false;
         for (StudentAttributes stud : actualStudentsList) {
@@ -144,14 +141,14 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
                 isStudentDisplayedOnViewTeam = true;
             }
         }
-        
+
         assertTrue(isStudentDisplayedOnViewTeam);
     }
-    
+
     private StudentProfileAttributes getProfileAttributesFrom(
             String[] submissionParams) {
         StudentProfileAttributes spa = new StudentProfileAttributes();
-        
+
         spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
         spa.institute = StringHelper.trimIfNotNull(submissionParams[5]);
@@ -159,15 +156,15 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         spa.gender = StringHelper.trimIfNotNull(submissionParams[9]);
         spa.moreInfo = StringHelper.trimIfNotNull(submissionParams[11]);
         spa.modifiedDate = null;
-        
+
         return spa;
     }
-    
+
     @Override
     protected StudentCourseDetailsPageAction getAction(String... params) {
         return (StudentCourseDetailsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
-    
+
     private StudentProfileEditSaveAction getStudentProfileEditSaveAction(String[] submissionParams) {
         return (StudentProfileEditSaveAction) gaeSimulation.getActionObject(Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
                 submissionParams);

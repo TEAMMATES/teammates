@@ -31,7 +31,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private String registerMessage;
     private String submitAction;
     private List<StudentFeedbackSubmissionEditQuestionsWithResponses> questionsWithResponses;
-    
+
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
         super(account, student);
         isPreview = false;
@@ -39,7 +39,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         isShowRealQuestionNumber = false;
         isHeaderHidden = false;
     }
-    
+
     /**
      * Generates the register message with join URL containing course ID
      * if the student is unregistered. Also loads the questions with responses.
@@ -49,7 +49,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
         init("", "", courseId);
     }
 
-    
     /**
      * Generates the register message with join URL containing registration key,
      * email and course ID if the student is unregistered. Also loads the questions and responses.
@@ -63,21 +62,21 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                         .withStudentEmail(email)
                                         .withCourseId(courseId)
                                         .toString();
-        
-        registerMessage = student == null || joinUrl == null
+
+        registerMessage = student == null
                         ? ""
                         : String.format(Const.StatusMessages.UNREGISTERED_STUDENT, student.name, joinUrl);
         createQuestionsWithResponses();
     }
-    
+
     public FeedbackSessionQuestionsBundle getBundle() {
         return bundle;
     }
-    
+
     public String getModeratedQuestionId() {
         return moderatedQuestionId;
     }
-   
+
     public boolean isSessionOpenForSubmission() {
         return isSessionOpenForSubmission;
     }
@@ -89,7 +88,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     public boolean isModeration() {
         return isModeration;
     }
-    
+
     public boolean isShowRealQuestionNumber() {
         return isShowRealQuestionNumber;
     }
@@ -101,27 +100,27 @@ public class FeedbackSubmissionEditPageData extends PageData {
     public StudentAttributes getStudentToViewPageAs() {
         return studentToViewPageAs;
     }
-    
+
     public StudentAttributes getStudent() {
         return student;
     }
-    
+
     public InstructorAttributes getPreviewInstructor() {
         return previewInstructor;
     }
-    
+
     public String getRegisterMessage() {
         return registerMessage;
     }
-    
+
     public String getSubmitAction() {
         return submitAction;
     }
-    
+
     public boolean isSubmittable() {
         return isSessionOpenForSubmission || isModeration;
     }
-    
+
     public List<StudentFeedbackSubmissionEditQuestionsWithResponses> getQuestionsWithResponses() {
         return questionsWithResponses;
     }
@@ -161,24 +160,24 @@ public class FeedbackSubmissionEditPageData extends PageData {
     public void setRegisterMessage(String registerMessage) {
         this.registerMessage = registerMessage;
     }
-    
+
     public void setSubmitAction(String submitAction) {
         this.submitAction = submitAction;
     }
 
     public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {
-        
+
         if (this.bundle == null) {
             return null;
         }
-        
+
         Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(feedbackQuestionId);
-        
+
         List<String> result = new ArrayList<String>();
         // Add an empty option first.
         result.add("<option value=\"\" " + (currentlySelectedOption == null ? "selected>" : ">")
                    + "</option>");
-        
+
         for (Map.Entry<String, String> pair : emailNamePair.entrySet()) {
             boolean isSelected = SanitizationHelper.desanitizeFromHtml(pair.getKey())
                                              .equals(currentlySelectedOption);
@@ -190,26 +189,26 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
         return result;
     }
-    
+
     private boolean isResponseRecipientValid(FeedbackResponseAttributes existingResponse) {
         Map<String, String> emailNamePair =
                 this.bundle.getSortedRecipientList(existingResponse.feedbackQuestionId);
-        
+
         return emailNamePair.containsKey(existingResponse.recipient);
     }
-    
+
     public String getEncryptedRegkey() {
         return StringHelper.encrypt(student.key);
     }
-    
+
     private void createQuestionsWithResponses() {
         questionsWithResponses = new ArrayList<StudentFeedbackSubmissionEditQuestionsWithResponses>();
         int qnIndx = 1;
-        
+
         for (FeedbackQuestionAttributes questionAttributes : bundle.getSortedQuestions()) {
             int numOfResponseBoxes = questionAttributes.numberOfEntitiesToGiveFeedbackTo;
             int maxResponsesPossible = bundle.recipientList.get(questionAttributes.getId()).size();
-            
+
             if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS || numOfResponseBoxes > maxResponsesPossible) {
                 numOfResponseBoxes = maxResponsesPossible;
             }
@@ -225,17 +224,17 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
     private FeedbackSubmissionEditQuestion createQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx) {
         boolean isModeratedQuestion = String.valueOf(questionAttributes.getId()).equals(getModeratedQuestionId());
-        
+
         return new FeedbackSubmissionEditQuestion(questionAttributes, qnIndx, isModeratedQuestion);
     }
 
     private List<FeedbackSubmissionEditResponse> createResponses(
                                     FeedbackQuestionAttributes questionAttributes, int qnIndx, int numOfResponseBoxes) {
         List<FeedbackSubmissionEditResponse> responses = new ArrayList<FeedbackSubmissionEditResponse>();
-        
+
         List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
         int responseIndx = 0;
-        
+
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             if (!isResponseRecipientValid(existingResponse)) {
                 // A response recipient can be invalid due to submission adjustment failure
@@ -243,30 +242,30 @@ public class FeedbackSubmissionEditPageData extends PageData {
             }
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
                                                            questionAttributes.getId(), existingResponse.recipient);
-            
+
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithExistingResponseSubmissionFormHtml(
                                                 isSessionOpenForSubmission, qnIndx, responseIndx,
                                                 questionAttributes.courseId, numOfResponseBoxes,
                                                 existingResponse.getResponseDetails());
-            
+
             responses.add(new FeedbackSubmissionEditResponse(responseIndx, true, recipientOptionsForQuestion,
                                                                  submissionFormHtml, existingResponse.getId()));
             responseIndx++;
         }
-        
+
         while (responseIndx < numOfResponseBoxes) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(questionAttributes.getId(), null);
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithoutExistingResponseSubmissionFormHtml(
                                                 isSessionOpenForSubmission, qnIndx, responseIndx,
                                                 questionAttributes.courseId, numOfResponseBoxes);
-            
+
             responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
                                                              submissionFormHtml, ""));
             responseIndx++;
         }
-        
+
         return responses;
     }
 }

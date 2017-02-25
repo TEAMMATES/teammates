@@ -141,7 +141,7 @@ public enum FeedbackParticipantType {
     public String getDisplayNameRecipient() {
         return displayNameRecipient;
     }
-    
+
     /**
      * @return A list of {@link FeedbackParticipantType} objects corresponding to the supplied parameter.
      */

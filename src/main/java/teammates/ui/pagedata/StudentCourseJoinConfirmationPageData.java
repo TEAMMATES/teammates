@@ -9,7 +9,7 @@ public class StudentCourseJoinConfirmationPageData extends PageData {
     private boolean redirectResult;
     private boolean nextUrlAccessibleWithoutLogin;
     private String courseId;
-    
+
     public StudentCourseJoinConfirmationPageData(AccountAttributes account, StudentAttributes student,
                                                  String confirmUrl, String logoutUrl, boolean redirectResult,
                                                  String courseId, boolean nextUrlAccessibleWithoutLogin) {
@@ -28,17 +28,17 @@ public class StudentCourseJoinConfirmationPageData extends PageData {
     public String getLogoutUrl() {
         return logoutUrl;
     }
-    
+
     public boolean isRedirectResult() {
         return redirectResult;
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
-    
+
     public boolean isNextUrlAccessibleWithoutLogin() {
         return nextUrlAccessibleWithoutLogin;
     }
-    
+
 }

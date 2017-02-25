@@ -17,7 +17,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
@@ -76,7 +76,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 
         instructor = dataBundle.instructors.get("helperOfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
-        
+
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
@@ -96,7 +96,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 
         instructor = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
-        
+
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "feedback session that does not exist",

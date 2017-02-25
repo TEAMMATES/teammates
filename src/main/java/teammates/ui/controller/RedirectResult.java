@@ -13,7 +13,7 @@ import teammates.common.util.StatusMessage;
  * another request to the specified {@code destination}.
  */
 public class RedirectResult extends ActionResult {
-    
+
     public RedirectResult(
             String destination,
             AccountAttributes account,

@@ -14,15 +14,15 @@ import teammates.test.pageobjects.QUnitPage;
  * because it is not a regular UI test.
  */
 public class AllJsTests extends BaseUiTestCase {
-    
-    private static QUnitPage page;
+
     private static final float MIN_COVERAGE_REQUIREMENT = 25;
-    
+    private QUnitPage page;
+
     @Override
     protected void prepareTestData() {
         // no test data used in this test
     }
-    
+
     @BeforeClass
     public void classSetup() {
         loginAdmin();
@@ -36,18 +36,18 @@ public class AllJsTests extends BaseUiTestCase {
     public void executeJsTests() {
         int totalCases = page.getTotalCases();
         int failedCases = page.getFailedCases();
-        
+
         print("Executed " + totalCases + " JavaScript Unit tests...");
 
         // Some tests such as date-checking behave differently in Firefox and Chrome.
         int expectedFailedCases = "firefox".equals(TestProperties.BROWSER) ? 0 : 4;
         assertEquals(expectedFailedCases, failedCases);
         assertTrue(totalCases != 0);
-        
+
         print("As expected, " + expectedFailedCases + " failed tests out of " + totalCases + " tests.");
 
         float coverage = page.getCoverage();
-        
+
         print(coverage + "% of scripts covered, the minimum requirement is " + MIN_COVERAGE_REQUIREMENT + "%");
         assertTrue(coverage >= MIN_COVERAGE_REQUIREMENT);
     }

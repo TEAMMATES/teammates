@@ -9,11 +9,11 @@ public class AdminEmailTrashPageAction extends Action {
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
         AdminEmailTrashPageData data = new AdminEmailTrashPageData(account);
-        
+
         data.adminTrashEmailList = logic.getAdminEmailsInTrashBin();
         statusToAdmin = "adminEmailTrashPage Page Load";
         data.init();
-        
+
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
 

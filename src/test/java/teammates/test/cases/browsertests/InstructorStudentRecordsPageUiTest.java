@@ -13,11 +13,11 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
  * Covers the 'student records' view for instructors.
  */
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
-    private static InstructorStudentRecordsPage viewPage;
+    private InstructorStudentRecordsPage viewPage;
 
-    private static String instructorId;
-    private static String courseId;
-    private static String studentEmail;
+    private String instructorId;
+    private String courseId;
+    private String studentEmail;
 
     @Override
     protected void prepareTestData() {
@@ -124,43 +124,43 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         ______TS("edit comment button");
         viewPage.verifyEditCommentButtonClick(1);
     }
-    
+
     private void testVisibilityCheckboxScript() {
         viewPage.clickVisibilityOptionsButton(1);
-        
+
         ______TS("check giver when answer is unchecked");
-        
+
         viewPage.clickGiverCheckboxForCourse(1);
         assertTrue(viewPage.isAnswerCheckboxForCourseSelected(1));
         assertTrue(viewPage.isGiverCheckboxForCourseSelected(1));
         assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
-        
+
         ______TS("uncheck answer when giver is checked");
-        
+
         viewPage.clickAnswerCheckboxForCourse(1);
         assertFalse(viewPage.isAnswerCheckboxForCourseSelected(1));
         assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
         assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
-        
+
         ______TS("check recipient when answer is unchecked");
-        
+
         viewPage.clickRecipientCheckboxForCourse(1);
         assertTrue(viewPage.isAnswerCheckboxForCourseSelected(1));
         assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
         assertTrue(viewPage.isRecipientCheckboxForCourseSelected(1));
-        
+
         ______TS("uncheck answer when recipient is checked");
-        
+
         viewPage.clickAnswerCheckboxForCourse(1);
         assertFalse(viewPage.isAnswerCheckboxForCourseSelected(1));
         assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
         assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
-        
+
         viewPage.clickVisibilityOptionsButton(1);
     }
 
     private void testAction() throws Exception {
-        
+
         ______TS("add comment: failure (empty comment)");
 
         viewPage.addComment("").verifyStatus("Please enter a valid comment. The comment can't be empty.");
@@ -172,7 +172,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
                                             "New comment from teammates.test for Benny C"));
 
         ______TS("add comment with custom visibility: success");
-        
+
         viewPage.addCommentWithVisibility("New comment from teammates.test for Benny C, viewable by everyone", 4);
         viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageAddComment.html");
 
@@ -183,9 +183,9 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         ______TS("delete comment: success");
 
         viewPage.clickDeleteCommentAndConfirm(1).verifyStatus("Comment deleted");
-        
+
         ______TS("edit comment then cancel: success");
-        
+
         viewPage.clickEditCommentAndCancel(1);
         viewPage.verifyCommentEditBoxNotVisible(1);
 
@@ -196,15 +196,15 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         // Edit back so that restoreDataBundle can identify and delete the comment.
         viewPage.editComment(2, "Comment 2 from ISR.CS2104 teammates.test Instructor to Benny");
-        
+
         ______TS("edit other instructor's comment: success");
-        
+
         viewPage.editComment(5, "Edited comment 2 from CS2104 teammates.test.Helper Instructor to Benny, "
                                 + "viewable by instructors")
                 .verifyStatus("Comment edited");
-        
+
         ______TS("delete other instructor's comment: success");
-        
+
         viewPage.clickDeleteCommentAndConfirm(5).verifyStatus("Comment deleted");
 
     }

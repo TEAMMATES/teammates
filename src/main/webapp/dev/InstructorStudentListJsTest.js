@@ -157,4 +157,3 @@ QUnit.test('filterEmails()', function(assert) {
     // The method has been tested by UI test, and testFilter(Course|Team|Name) above.
     assert.expect(0);
 });
-

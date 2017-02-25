@@ -14,14 +14,14 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     public List<String> answers; // answers contain the "other" answer, if any
     private boolean isOther;
     private String otherFieldContent; //content of other field if "other" is selected as the answer
-    
+
     public FeedbackMsqResponseDetails() {
         super(FeedbackQuestionType.MSQ);
         this.answers = new ArrayList<String>();
         isOther = false;
         otherFieldContent = "";
     }
-    
+
     @Override
     public void extractResponseDetails(FeedbackQuestionType questionType,
                                        FeedbackQuestionDetails questionDetails, String[] answer) {
@@ -32,12 +32,12 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
                                     FeedbackQuestionDetails questionDetails, String[] answer,
                                     Map<String, String[]> requestParameters, int questionIndx,
                                     int responseIndx) {
-        
+
         // "1" if other is selected, "0" if other is not selected, null if other is disabled by the instructor
         String isOtherOptionAnswer = HttpRequestHelper.getValueFromParamMap(
                                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER
                                         + "-" + questionIndx + "-" + responseIndx);
-        
+
         if ("1".equals(isOtherOptionAnswer)) {
             isOther = true;
             try {
@@ -46,7 +46,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
                 otherFieldContent = "";
             }
         }
-        
+
         extractResponseDetails(questionType, questionDetails, answer);
     }
 
@@ -58,7 +58,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     public String getAnswerString() {
         return StringHelper.toString(answers, ", ");
     }
-    
+
     public List<String> getAnswerStrings() {
         return answers;
     }
@@ -66,7 +66,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         StringBuilder htmlBuilder = new StringBuilder();
-        
+
         if (isAnswerBlank()) {
             // display an empty string if "None of the above" was selected
             htmlBuilder.append("");
@@ -79,7 +79,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             }
             htmlBuilder.append("</ul>");
         }
-        
+
         return htmlBuilder.toString();
     }
 
@@ -87,7 +87,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) questionDetails;
         StringBuilder csvBuilder = new StringBuilder();
-        
+
         if (isAnswerBlank()) {
             csvBuilder.append("");
         } else {
@@ -101,15 +101,15 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
 
         return csvBuilder.toString();
     }
-    
+
     protected boolean isAnswerBlank() {
         return answers.size() == 1 && answers.get(0).isEmpty();
     }
-    
+
     public Boolean isOtherOptionAnswer() {
         return isOther;
     }
-    
+
     public String getOtherFieldContent() {
         return otherFieldContent;
     }

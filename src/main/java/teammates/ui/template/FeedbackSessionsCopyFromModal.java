@@ -8,10 +8,10 @@ import java.util.List;
  * Contains the options for course to copy to,
  * the name of feedback session to create,
  * and the list of feedback sessions that can be copied from.
- * 
+ *
  */
 public class FeedbackSessionsCopyFromModal {
-    
+
     private List<FeedbackSessionsTableRow> existingFeedbackSessions;
     private String fsName;
     private List<ElementTag> coursesSelectField;
@@ -23,11 +23,11 @@ public class FeedbackSessionsCopyFromModal {
         this.fsName = fsName;
         this.coursesSelectField = coursesSelectField;
     }
-    
+
     public List<FeedbackSessionsTableRow> getExistingFeedbackSessions() {
         return existingFeedbackSessions;
     }
-    
+
     public String getFsName() {
         return fsName;
     }
