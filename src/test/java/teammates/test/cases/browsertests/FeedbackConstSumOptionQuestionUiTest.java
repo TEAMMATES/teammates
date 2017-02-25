@@ -13,30 +13,30 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     private String courseId;
     private String feedbackSessionName;
     private String instructorId;
-    
+
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/FeedbackConstSumOptionQuestionUiTest.json");
         removeAndRestoreDataBundle(testData);
-        
+
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
     }
-    
+
     @BeforeClass
     public void classSetup() {
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName);
     }
-    
+
     @Test
     public void allTests() throws Exception {
         testEditPage();
-        
+
         //TODO: move/create other ConstSumOption question related UI tests here.
         //i.e. results page, submit page.
     }
-    
+
     private void testEditPage() throws Exception {
         testNewQuestionFrame();
         testInputValidation();
@@ -54,26 +54,26 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
     }
-    
+
     @Override
     public void testInputValidation() {
-        
+
         ______TS("empty options");
-        
+
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("ConstSum-option qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
-        
+
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
         assertEquals("1", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
-        
+
         feedbackEditPage.fillConstSumPointsForEachOptionBoxForNewQuestion("");
         assertEquals("1", feedbackEditPage.getConstSumPointsForEachOptionBoxForNewQuestion());
-        
+
         feedbackEditPage.clickAddQuestionButton();
-        
+
         feedbackEditPage.verifyStatus("Too little options for Distribute points (among options) question. "
                                       + "Minimum number of options is: 2.");
-        
+
         ______TS("remove when 1 left");
 
         feedbackEditPage.clickNewQuestionButton();
@@ -111,10 +111,10 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     public void testCustomizeOptions() {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
-        
+
         feedbackEditPage.fillConstSumOptionForNewQuestion(0, "Option 1");
         feedbackEditPage.fillConstSumOptionForNewQuestion(1, "Option 2");
-        
+
         ______TS("CONST SUM: add option");
 
         assertFalse(feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
@@ -140,7 +140,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("CONST SUM: add question action success");
-        
+
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("const sum qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
@@ -150,7 +150,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
-        
+
         assertEquals("30", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("30", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumOptionQuestionAddSuccess.html");
@@ -165,10 +165,10 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.selectConstSumPointsOptions("PerOption", 1);
         feedbackEditPage.fillConstSumPointsForEachOptionBox("200", 1);
-        
+
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        
+
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
 
@@ -183,7 +183,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
     }
-    
+
     @Override
     public void testDeleteQuestionAction() {
         ______TS("CONSTSUM: qn delete then cancel");
@@ -199,5 +199,5 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
-    
+
 }

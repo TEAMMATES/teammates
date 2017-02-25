@@ -12,13 +12,13 @@ import teammates.common.util.Const;
  * support email, app URL.
  */
 public final class EmailChecker {
-    
+
     private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
-    
+
     private EmailChecker() {
         // Utility class
     }
-    
+
     /**
      * Verifies that the given {@code emailContent} is the same as
      * the content given in the file at {@code filePathParam}. <br>
@@ -39,21 +39,21 @@ public final class EmailChecker {
             }
         }
     }
-    
+
     private static boolean testAndRunGodMode(String filePath, String emailContent) throws IOException {
         return Boolean.parseBoolean(System.getProperty("godmode")) && regenerateEmailFile(filePath, emailContent);
     }
-    
+
     private static boolean regenerateEmailFile(String filePath, String emailContent) throws IOException {
         if (emailContent == null || emailContent.isEmpty()) {
             return false;
         }
-        
+
         String processedEmailContent = processEmailForExpectedEmailRegeneration(emailContent);
         FileHelper.saveFile(filePath, processedEmailContent);
         return true;
     }
-    
+
     /**
      * Injects values specified in configuration files to the appropriate placeholders.
      */
@@ -61,14 +61,14 @@ public final class EmailChecker {
         return emailContent.replace("${app.url}", Config.APP_URL)
                            .replace("${support.email}", Config.SUPPORT_EMAIL);
     }
-    
+
     /**
      * Processes the {@code emailContent} for comparison.
      */
     public static String processEmailForComparison(String emailContent) {
         return replaceUnpredictableValuesWithPlaceholders(emailContent);
     }
-    
+
     /**
      * Substitutes values that are different across various test runs with placeholders.
      * These values are identified using their known, unique formats.
@@ -79,12 +79,12 @@ public final class EmailChecker {
                                        Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}");
 
     }
-    
+
     private static String replaceInjectedValuesWithPlaceholders(String emailContent) {
         return emailContent.replace(Config.APP_URL, "${app.url}")
                            .replace(Config.SUPPORT_EMAIL, "${support.email}");
     }
-    
+
     /**
      * Processes the {@code emailContent} string for regeneration of expected email content.<br>
      * Pre-condition: {@code emailContent} has previously been processed with the
@@ -93,5 +93,5 @@ public final class EmailChecker {
     private static String processEmailForExpectedEmailRegeneration(String emailContent) {
         return replaceInjectedValuesWithPlaceholders(emailContent);
     }
-    
+
 }

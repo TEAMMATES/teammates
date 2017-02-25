@@ -11,7 +11,7 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
  * SUT: {@link InstructorCourseStudentDetailsViewPage}.
  */
 public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
-    
+
     private String instructorId;
     private String courseId;
 
@@ -30,27 +30,27 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
     }
 
     private void testContent() throws Exception {
-        
+
         ______TS("content: registered student");
-        
+
         InstructorCourseStudentDetailsViewPage viewPage = getCourseStudentDetailsPage("registeredStudent");
 
         // This is the full HTML verification for Instructor Student Details Page, the rest can all be verifyMainHtml
         viewPage.verifyHtml("/instructorCourseStudentDetailsRegistered.html");
 
         ______TS("content: unregistered student");
-            
+
         viewPage = getCourseStudentDetailsPage("unregisteredStudent");
         viewPage.verifyHtmlMainContent("/instructorCourseStudentDetailsUnregistered.html");
-        
+
         ______TS("content: registered student with helper view");
-        
+
         // the helper here is configured to be able to view studentDetailsPage
         instructorId = testData.instructors.get("CCSDetailsUiT.Helper").googleId;
-        
+
         viewPage = getCourseStudentDetailsPage("registeredStudent");
         viewPage.verifyHtmlMainContent("/instructorCourseStudentDetailsRegisteredWithHelperView.html");
-        
+
         // TODO: add test for the comment box in this page
     }
 
@@ -59,7 +59,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
                 .withUserId(instructorId)
                 .withCourseId(courseId)
                 .withStudentEmail(testData.students.get(studentStr).email);
-        
+
         return loginAdminToPage(viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
     }
 

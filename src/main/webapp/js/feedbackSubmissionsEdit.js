@@ -46,10 +46,10 @@ $(document).ready(function() {
         validationStatus &= validateConstSumQuestions();
         validationStatus &= validateRankQuestions();
         validationStatus &= validateAllAnswersHaveRecipient();
-        
+
         updateMcqOtherOptionField();
         updateMsqOtherOptionField();
-        
+
         if (!validationStatus) {
             return false;
         }
@@ -63,11 +63,11 @@ $(document).ready(function() {
     $('select.participantSelect:hidden').each(function() {
         $(this).after('<span>' + $(this).find('option:selected').html() + '</span>');
     });
-    
+
     $("input[type='radio']").change(function() {
         idOfOtherOptionText = 'otherOptionText' + $(this).attr('name').substr($(this).attr('name').search('-'));
         idOfOtherOptionFlag = 'otherOptionFlag' + $(this).attr('name').substr($(this).attr('name').search('-'));
-    
+
         if ($(this).data('text') === 'otherOptionText') {
             // Other option is selected by the student
             $('#' + idOfOtherOptionText).prop('disabled', false);
@@ -78,12 +78,12 @@ $(document).ready(function() {
             $('#' + idOfOtherOptionFlag).val('0');
         }
     });
-                   
+
     $("input[id^='otherOptionText']").keyup(function() {
         idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
         $('#' + idOfOtherOptionRadioButton).val($(this).val());
     });
-    
+
     disallowNonNumericEntries($('input[type=number]'), true, true);
 
     $('input.pointsBox').off('keydown');
@@ -105,7 +105,7 @@ $(document).ready(function() {
     prepareRankQuestions();
 
     focusModeratedQuestion();
-    
+
     bindModerationHintButton();
 
     showModalWarningIfSessionClosed();
@@ -123,17 +123,17 @@ function bindModerationHintButton() {
     if (!isModeration()) {
         return;
     }
-    
+
     var expandText = '[More]';
     var closeText = '[Less]';
     var $moderationHintButton = $('#moderationHintButton');
     var $moderationHint = $('#moderationHint');
-    
+
     $moderationHintButton.text(expandText);
-    
+
     $moderationHintButton.click(function(event) {
         event.preventDefault();
-        
+
         if ($moderationHint.hasClass('hidden')) {
             $moderationHintButton.text(closeText);
             $moderationHint.removeClass('hidden');
@@ -147,7 +147,7 @@ function bindModerationHintButton() {
 // Saves the value in the other option textbox for MCQ questions
 function updateMcqOtherOptionField() {
     var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
-    
+
     for (var i = 0; i < mcqQuestionNums.length; i++) {
         var qnNum = mcqQuestionNums[i];
         var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
@@ -162,7 +162,7 @@ function updateMcqOtherOptionField() {
 // Saves the value in the other option textbox for MSQ questions
 function updateMsqOtherOptionField() {
     var msqQuestionNums = getQuestionTypeNumbers('MSQ');
-    
+
     for (var i = 0; i < msqQuestionNums.length; i++) {
         var qnNum = msqQuestionNums[i];
         var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
@@ -205,10 +205,10 @@ function prepareMCQQuestions() {
                 var val = $(this).val();
                 var name = $(this).attr('name');
                 var indexSuffix = name.substring(name.indexOf('-'));
-          
+
                 // toggle the radio button checked state
                 $(this).attr('checked', radioStates[name][val] = !radioStates[name][val]);
-                
+
                 // If the radio button corresponding to 'Other' is clicked
                 if ($(this).data('text') === 'otherOptionText') {
                     if ($(this).is(':checked')) {
@@ -288,16 +288,16 @@ function prepareMSQQuestions() {
                                         + 'input[name^="responsetext-"][data-text]'); // includes 'other'
             var name = $(this).attr('name');
             var indexSuffix = name.substring(name.indexOf('-'));
-            
+
             $options.each(function() {
                 $(this).prop('checked', false);
-                
+
                 // 'other' option is clicked
                 if ($(this).attr('data-text') !== undefined) {
                     updateOtherOptionAttributes($(this), indexSuffix);
                 }
             });
-            
+
         });
 
         // reset "none of the above" if any option is clicked
@@ -309,9 +309,9 @@ function prepareMSQQuestions() {
                                            'input[name^="responsetext-"][value=""]:not([data-text])');
             var name = $(this).attr('name');
             var indexSuffix = name.substring(name.indexOf('-'));
-            
+
             noneOfTheAboveOption.prop('checked', false);
-            
+
             // 'other' option is clicked
             if ($(this).attr('data-text') !== undefined) {
                 updateOtherOptionAttributes($(this), indexSuffix);
@@ -374,7 +374,7 @@ function prepareDesktopRubricQuestions() {
             if (tableRow.hasClass('row-answered')) {
                 tableRow.removeClass('row-answered');
             }
-                
+
             for (var j = 0; j < $rowRadioInputs.length; j++) {
                 updateRubricCellSelectedColor($rowRadioInputs[j]);
             }
@@ -937,7 +937,7 @@ function updateRankMessageQn(qnNum) {
         if (rankAllocated in allocatedRanks) {
             areAllAnswersUnique = false;
         }
-    
+
         allocatedRanks[rankAllocated] = true;
     }
 
@@ -956,7 +956,7 @@ function updateRankMessageQn(qnNum) {
     if (isDistributingToRecipients) {
         // for Rank Recipients question
         resetState();
-        
+
         var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + (numOptions - 1));
 
         for (var i = 0; i < numOptions; i++) {
@@ -1011,14 +1011,14 @@ function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLengt
     if (!editor) {
         return;
     }
-    
+
     var response = $(editor.getContent()).text();
     var $wordsCountElement = $('#' + wordsCountId);
 
     var wordsCount = response.split(/\s/g).filter(function(item) {
         return item.match(/\w/);
     }).length;
-    
+
     $wordsCountElement.text(wordsCount);
 
     var upperLimit = recommendedLength + recommendedLength * 0.1;

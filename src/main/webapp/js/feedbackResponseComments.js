@@ -89,7 +89,7 @@ var editCommentHandler = function(e) {
     formObject.find('input[name=responsecommenttext]').val(tinyMCE.get(commentTextId).getContent());
 
     var formData = formObject.serialize();
-    
+
     $.ajax({
         type: 'POST',
         url: submitButton.attr('href') + '?' + formData,
@@ -121,7 +121,7 @@ var editCommentHandler = function(e) {
                 displayedText.html(data.comment.commentText.value);
                 updateVisibilityOptionsForResponseComment(formObject, data);
                 commentBar.show();
-                
+
                 // Reset edit comment form
                 formObject.find('textarea').prop('disabled', false);
                 formObject.find('textarea').val(data.comment.commentText.value);
@@ -211,7 +211,7 @@ function registerResponseCommentCheckboxEvent() {
         var visibilityOptions = [];
         var target = $(e.target);
         var visibilityOptionsRow = target.closest('tr');
-        
+
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
             visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
@@ -220,12 +220,12 @@ function registerResponseCommentCheckboxEvent() {
                 && target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
-        
+
         table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showresponsecommentsto']").val(visibilityOptions.join(', '));
-        
+
         visibilityOptions = [];
         table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
@@ -266,7 +266,7 @@ function enableHoverToDisplayEditOptions() {
     $('body').on('mouseenter', '.comments > .list-group-item', function() {
         $('div[id|="commentBar"] a[type="button"]', this).show();
     });
-    
+
     $('body').on('mouseleave', '.comments > .list-group-item', function() {
         $('div[id|="commentBar"] a[type="button"]', this).hide();
     });
@@ -454,7 +454,7 @@ function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentI
         visibilityEditForm.hide();
         $('#frComment-visibility-options-trigger' + id)
             .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
-        
+
     } else {
         visibilityEditForm.show();
         $('#frComment-visibility-options-trigger' + id)
@@ -503,7 +503,7 @@ function reloadFeedbackResponseComments(formObject, panelHeading) {
     var courseId = formObject.find("[name='courseid']").val();
     var fsName = formObject.find("[name='fsname']").val();
     var fsIndx = formObject.find("[name='fsindex']").val();
-    
+
     loadFeedbackResponseComments(user, courseId, fsName, fsIndx, panelHeading, false);
 }
 
@@ -515,17 +515,17 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = '/page/instructorFeedbackResponseCommentsLoad?user=' + user
               + '&courseid=' + courseId + '&fsname=' + fsNameForUrl + '&fsindex=' + fsIndx;
-    
+
     // If the content is already loaded, toggle the chevron and exit.
     if ($clickedElement.hasClass('loaded') && isClicked) {
         toggleCollapsiblePanel($collapsiblePanel);
         toggleChevron(clickedElement);
-        
+
         return;
     }
-    
+
     $clickedElement.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
-    
+
     panelBody.load(url, function(response, status) {
         if (status === 'success') {
             updateBadgeForPendingComments(parseInt(panelBody.children(':first').text()));
@@ -543,7 +543,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
 
         $clickedElement.find('div[class^="placeholder-img-loading"]').html('');
     });
-    
+
 }
 
 /**

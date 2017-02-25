@@ -34,7 +34,7 @@ public class InstructorFeedbackResultsSessionPanel {
         this.isStatsShown = isStatsShown;
         this.isMissingResponsesShown = isMissingResponsesShown;
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
@@ -66,11 +66,11 @@ public class InstructorFeedbackResultsSessionPanel {
     public String getSelectedSection() {
         return selectedSection;
     }
-    
+
     public boolean getIsStatsShown() {
         return isStatsShown;
     }
-    
+
     public boolean getIsMissingResponsesShown() {
         return isMissingResponsesShown;
     }

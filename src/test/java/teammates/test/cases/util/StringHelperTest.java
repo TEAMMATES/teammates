@@ -14,7 +14,7 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testGenerateStringOfLength() {
-        
+
         assertEquals(5, StringHelper.generateStringOfLength(5).length());
         assertEquals(0, StringHelper.generateStringOfLength(0).length());
     }
@@ -28,7 +28,7 @@ public class StringHelperTest extends BaseTestCase {
         assertTrue(StringHelper.isWhiteSpace(Const.EOL));
         assertTrue(StringHelper.isWhiteSpace(Const.EOL + "   "));
     }
-    
+
     @Test
     public void testIsMatching() {
         assertTrue(StringHelper.isMatching("\u00E0", "à"));
@@ -47,7 +47,7 @@ public class StringHelperTest extends BaseTestCase {
                                    "student full names", "students full    names", "Names", "NAMES", "Full Names",
                                    "FULL NAMES", "Full Name", "Student Full Name", "Name"};
         verifyRegexMatch(stringsToMatch, regexList, true);
-        
+
         stringsToMatch = new String[]{"namess", "nam", "student", "full"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
@@ -56,7 +56,7 @@ public class StringHelperTest extends BaseTestCase {
                                       "course section", "course sections", "course sec", "courses sec", "Section",
                                       "SECTIONS", "Sect", "Sec", "Course Section", "Course Sections"};
         verifyRegexMatch(stringsToMatch, regexList, true);
-        
+
         stringsToMatch = new String[]{"secc", "Section 1", "Course 1"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
@@ -67,7 +67,7 @@ public class StringHelperTest extends BaseTestCase {
                                       "Student Groups", "student   groups", "student   teams", "Course Teams",
                                       "courses teams", "course   team", "courses team", "COURSE TEAM"};
         verifyRegexMatch(stringsToMatch, regexList, true);
-        
+
         stringsToMatch = new String[]{"tea", "Team 1", "Group 1"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
@@ -78,36 +78,36 @@ public class StringHelperTest extends BaseTestCase {
                                       "email addresses", "EMAIL addresses", "email   addresses", "E-mail addresses",
                                       "E-mail  addresses", "Contact", "CONTACT", "contacts"};
         verifyRegexMatch(stringsToMatch, regexList, true);
-        
+
         stringsToMatch = new String[]{"emai", "test@gmail.com", "address1"};
         verifyRegexMatch(stringsToMatch, regexList, false);
-        
+
         regexList = FieldValidator.REGEX_COLUMN_COMMENT;
         stringsToMatch = new String[]{"comment", "Comment", "COMMENT", "comments", "Comments", " COMMENTS ",
                                       "note", "Note", "NOTE", "notes", "Notes", "  NOTES  "};
         verifyRegexMatch(stringsToMatch, regexList, true);
-        
+
         stringsToMatch = new String[]{"this is a comment", "this is a note", "one comment, one note"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
     }
-    
+
     @Test
     public void testToString() {
         ArrayList<String> strings = new ArrayList<String>();
         assertEquals("", StringHelper.toString(strings, ""));
         assertEquals("", StringHelper.toString(strings, "<br>"));
-        
+
         strings.add("aaa");
         assertEquals("aaa", StringHelper.toString(strings, ""));
         assertEquals("aaa", StringHelper.toString(strings, "\n"));
         assertEquals("aaa", StringHelper.toString(strings, "<br>"));
-        
+
         strings.add("bbb");
         assertEquals("aaabbb", StringHelper.toString(strings, ""));
         assertEquals("aaa\nbbb", StringHelper.toString(strings, "\n"));
         assertEquals("aaa<br>bbb", StringHelper.toString(strings, "<br>"));
-        
+
         ArrayList<Integer> ints = new ArrayList<Integer>();
         ints.add(1);
         ints.add(44);
@@ -118,88 +118,88 @@ public class StringHelperTest extends BaseTestCase {
     public void testKeyEncryption() {
         String msg = "Test decryption";
         String decrptedMsg;
-        
+
         decrptedMsg = StringHelper.decrypt(StringHelper.encrypt(msg));
         assertEquals(msg, decrptedMsg);
     }
-    
+
     @Test
     public void testSplitName() {
 
         String fullName = "singleWord";
         String[] splitName = StringHelper.splitName(fullName);
-        
+
         assertEquals(splitName[0], "");
         assertEquals(splitName[1], "singleWord");
-       
+
         fullName = "";
         splitName = StringHelper.splitName(fullName);
-        
+
         assertEquals(splitName[0], "");
         assertEquals(splitName[1], "");
-        
+
         splitName = StringHelper.splitName(null);
         assertEquals(0, splitName.length);
 
         fullName = "two words";
         splitName = StringHelper.splitName(fullName);
-        
+
         assertEquals(splitName[0], "two");
         assertEquals(splitName[1], "words");
-        
+
         fullName = "now three words";
         splitName = StringHelper.splitName(fullName);
-        
+
         assertEquals(splitName[0], "now three");
         assertEquals(splitName[1], "words");
 
         fullName = "what if four words";
         splitName = StringHelper.splitName(fullName);
-        
+
         assertEquals(splitName[0], "what if four");
         assertEquals(splitName[1], "words");
-        
+
         fullName = "first name firstName {last Name}";
         splitName = StringHelper.splitName(fullName);
-        
+
         assertEquals(splitName[0], "first name firstName");
         assertEquals(splitName[1], "last Name");
-        
+
     }
-    
+
     @Test
     public void testRemoveExtraSpace() {
-        
+
         assertEquals(null, StringHelper.removeExtraSpace((String) null));
-        
+
         String str = "";
         assertEquals("", StringHelper.removeExtraSpace(str));
-       
+
         str = "a    a";
         assertEquals("a a", StringHelper.removeExtraSpace(str));
-       
+
         str = "  a    a   ";
         assertEquals("a a", StringHelper.removeExtraSpace(str));
-       
+
         str = "    ";
         assertEquals("", StringHelper.removeExtraSpace(str));
-       
+
         str = " a      b       c       d      ";
         assertEquals("a b c d", StringHelper.removeExtraSpace(str));
     }
-    
+
     @Test
     public void testReplaceIllegalChars() {
         String regex = "[a-zA-Z0-9_.$-]+";
-        
+
         assertEquals(null, StringHelper.replaceIllegalChars(null, regex, '_'));
-        
+
         String str = "";
         assertEquals("", StringHelper.replaceIllegalChars(str, regex, '_'));
-        
+
         str = "abc";
         assertEquals("abc", StringHelper.replaceIllegalChars(str, regex, '_'));
-        
+
         str = "illegal!?Chars+1";
         assertEquals("illegal__Chars_1", StringHelper.replaceIllegalChars(str, regex, '_'));
         assertEquals("illegal..Chars.1", StringHelper.replaceIllegalChars(str, regex, '.'));
@@ -228,14 +228,14 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("", StringHelper.convertToEmptyStringIfNull(empty));
         assertEquals(" ", StringHelper.convertToEmptyStringIfNull(whitespace));
     }
-    
+
     @Test
     public void testTruncate() {
         assertEquals("1234567...", StringHelper.truncate("1234567890xxxx", 10));
         assertEquals("1234567890", StringHelper.truncate("1234567890", 10));
         assertEquals("123456789", StringHelper.truncate("123456789", 10));
     }
-    
+
     @Test
     public void testTruncateHead() {
         assertEquals("1234567890", StringHelper.truncateHead("xxxx1234567890", 10));
@@ -243,30 +243,30 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("123456789", StringHelper.truncateHead("123456789", 10));
         assertEquals("567890", StringHelper.truncateHead("1234567890", 6));
     }
-    
+
     @Test
     public void testRemoveEnclosingSquareBrackets() {
         // typical case
         assertEquals("test1, test2", StringHelper.removeEnclosingSquareBrackets("[test1, test2]"));
-        
+
         // input multiple square brackets, expected outermost brackets removed
         assertEquals("[ \"test\" ]", StringHelper.removeEnclosingSquareBrackets("[[ \"test\" ]]"));
-        
+
         // input nested square brackets, expected outermost brackets removed
         assertEquals("test1, [], ] test2",
                      StringHelper.removeEnclosingSquareBrackets("[test1, [], ] test2]"));
-        
+
         // input no square brackets, expected same input string
         assertEquals("test", StringHelper.removeEnclosingSquareBrackets("test"));
         assertEquals("  test  ", StringHelper.removeEnclosingSquareBrackets("  test  "));
-        
+
         // input unmatched brackets, expected same input string
         assertEquals("[test", StringHelper.removeEnclosingSquareBrackets("[test"));
         assertEquals("(test]", StringHelper.removeEnclosingSquareBrackets("(test]"));
-        
+
         // input empty string, expected empty string
         assertEquals("", StringHelper.removeEnclosingSquareBrackets(""));
-        
+
         // input null, expected null
         assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
     }
@@ -276,7 +276,7 @@ public class StringHelperTest extends BaseTestCase {
             assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexList));
         }
     }
-    
+
     @Test
     public void testCsvToHtmlTable() {
         String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL

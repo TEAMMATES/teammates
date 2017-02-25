@@ -14,12 +14,12 @@ import teammates.ui.controller.InstructorEditInstructorFeedbackSaveAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTest {
-    
+
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE;
     }
-    
+
     @Override
     protected void prepareTestData() {
         dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
@@ -35,7 +35,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         testSubmitResponseForInvalidQuestion();
         testClosedSession();
     }
-    
+
     private void testModifyResponses() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 1);
@@ -53,7 +53,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         String[] submissionParams;
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
-        
+
         ______TS("edit existing answer");
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -66,10 +66,10 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
-        
+
         editInstructorFsAction = getAction(submissionParams);
         redirectResult = getRedirectResult(editInstructorFsAction);
-        
+
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
         assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
@@ -80,7 +80,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         // submission confirmation email not sent if parameter does not exist
         verifyNoEmailsSent(editInstructorFsAction);
-        
+
         ______TS("deleted response");
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -94,7 +94,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail,
                 Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on"
         };
-        
+
         editInstructorFsAction = getAction(submissionParams);
         redirectResult = getRedirectResult(editInstructorFsAction);
 
@@ -108,7 +108,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         // submission confirmation email still not sent even if parameter is "on" because this is moderation
         verifyNoEmailsSent(editInstructorFsAction);
-        
+
         ______TS("skipped question");
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -123,7 +123,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         editInstructorFsAction = getAction(submissionParams);
         redirectResult = getRedirectResult(editInstructorFsAction);
-        
+
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
         assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
@@ -172,7 +172,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         String[] submissionParams;
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
-        
+
         ______TS("Unsuccessful case: test empty feedback session name parameter");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, dataBundle.feedbackResponses.get("response1ForQ1").courseId,
@@ -194,7 +194,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                         dataBundle.feedbackResponses.get("response1ForQ1") .feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
-        
+
         try {
             editInstructorFsAction = getAction(submissionParams);
             editInstructorFsAction.executeAndPostProcess();
@@ -215,7 +215,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
         };
-        
+
         try {
             editInstructorFsAction = getAction(submissionParams);
             editInstructorFsAction.executeAndPostProcess();
@@ -226,7 +226,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                          e.getMessage());
         }
     }
-    
+
     private void testDifferentPrivileges() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 1);
@@ -245,12 +245,12 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         fr = dataBundle.feedbackResponses.get("response1ForQ1");
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
-        
+
         instructor = dataBundle.instructors.get("IEIFPTCoursehelper1");
         moderatedInstructorEmail = "IEIFPTCoursehelper1@gmail.tmt";
-        
+
         gaeSimulation.loginAsInstructor(instructor.googleId);
-        
+
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
@@ -262,7 +262,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
-        
+
         try {
             editInstructorFsAction = getAction(submissionParams);
             editInstructorFsAction.executeAndPostProcess();
@@ -276,12 +276,12 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         fr = dataBundle.feedbackResponses.get("response2ForQ1");
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
-        
+
         instructor = dataBundle.instructors.get("IEIFPTCourseinstr");
         moderatedInstructorEmail = "IEIFPTCourseintr@gmail.tmt";
-        
+
         gaeSimulation.loginAsInstructor(instructor.googleId);
-        
+
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
@@ -293,7 +293,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
-        
+
         editInstructorFsAction = getAction(submissionParams);
         redirectResult = getRedirectResult(editInstructorFsAction);
 
@@ -305,7 +305,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                      redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
-    
+
     private void testSubmitResponseForInvalidQuestion() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq;
@@ -324,11 +324,11 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                  + "(unable to see recipient)");
         fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 4);
         assertNotNull("Feedback question not found in database", fq);
-        
+
         fr = dataBundle.feedbackResponses.get("response1ForQ4");
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
-        
+
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
@@ -354,11 +354,11 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                  + "(unable to see giver)");
         fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 5);
         assertNotNull("Feedback question not found in database", fq);
-        
+
         fr = dataBundle.feedbackResponses.get("response1ForQ5");
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
-        
+
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
@@ -414,7 +414,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         editInstructorFsAction = getAction(submissionParams);
         redirectResult = getRedirectResult(editInstructorFsAction);
-        
+
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
         assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
@@ -423,7 +423,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                      redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
-    
+
     @Override
     protected InstructorEditInstructorFeedbackSaveAction getAction(String... params) {
         return (InstructorEditInstructorFeedbackSaveAction) gaeSimulation.getActionObject(getActionUri(), params);

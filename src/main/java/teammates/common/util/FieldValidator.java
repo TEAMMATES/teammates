@@ -30,16 +30,16 @@ public class FieldValidator {
 
     public static final String NATIONALITY_FIELD_NAME = "nationality";
     public static final int NATIONALITY_MAX_LENGTH = 55; // one more than longest official nationality name
-    
+
     public static final String COURSE_NAME_FIELD_NAME = "course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
-    
+
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
 
     public static final String TEAM_NAME_FIELD_NAME = "team name";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
-    
+
     public static final String SECTION_NAME_FIELD_NAME = "section name";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
 
@@ -71,7 +71,7 @@ public class FieldValidator {
      * possible, must be displayed in the same case as user entered. This is
      * because the case of the letters can mean something. Furthermore,
      * converting to same case can reduce readability.
-     * 
+     *
      * Course ID is necessary because the course name is not unique enough to
      * distinguish between courses because the same course can be offered
      * multiple times and courses can be shared between instructors and many
@@ -85,19 +85,18 @@ public class FieldValidator {
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
     public static final String COURSE_TIME_ZONE_FIELD_NAME = "course time zone";
-    
+
     public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
-    
+
     public static final String GENDER_FIELD_NAME = "gender";
     public static final List<String> GENDER_ACCEPTED_VALUES =
             Collections.unmodifiableList(
                     Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER));
-    
+
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
     public static final String VIEWER_TYPE_NAME = "feedback viewer";
-
 
     ////////////////////
     // ERROR MESSAGES //
@@ -186,7 +185,6 @@ public class FieldValidator {
             "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
             + "Did you mean to use \"Self\" instead?";
 
-
     ///////////////////////////////////////
     // VALIDATION REGEX FOR INTERNAL USE //
     ///////////////////////////////////////
@@ -195,7 +193,7 @@ public class FieldValidator {
      * Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%)
      */
     public static final String REGEX_NAME = "^[\\p{IsL}\\p{IsN}][^|%]*+$";
-    
+
     /**
      * Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
      */
@@ -205,7 +203,7 @@ public class FieldValidator {
      * A normal course ID followed by the word '-demo' and then followed any amount of digits.
      */
     public static final String REGEX_SAMPLE_COURSE_ID = REGEX_COURSE_ID + "-demo\\d*";
-    
+
     /**
      * Local part:
      * <li>Can only start with letters, digits, hyphen or plus sign;
@@ -221,7 +219,7 @@ public class FieldValidator {
      * Allows English alphabet, numbers, underscore,  dot and hyphen.
      */
     public static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
-    
+
     /*
      * =======================================================================
      * Regex used for checking header column name in enroll lines
@@ -243,7 +241,6 @@ public class FieldValidator {
     public static final List<String> REGEX_COLUMN_COMMENT = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {"comments?", "notes?"}));
-    
 
     /////////////////////////////////////////
     // VALIDATION METHODS FOR EXTERNAL USE //
@@ -365,7 +362,7 @@ public class FieldValidator {
         }
         return "";
     }
-    
+
     /**
      * Checks if {@code sectionName} is a non-null non-empty string no longer than the specified length
      * {@code SECTION_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
@@ -376,7 +373,7 @@ public class FieldValidator {
     public String getInvalidityInfoForSectionName(String sectionName) {
         return getValidityInfoForAllowedName(SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, sectionName);
     }
-    
+
     /**
      * Checks if {@code teamName} is a non-null non-empty string no longer than the specified length
      * {@code TEAM_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
@@ -387,7 +384,7 @@ public class FieldValidator {
     public String getInvalidityInfoForTeamName(String teamName) {
         return getValidityInfoForAllowedName(TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, teamName);
     }
-    
+
     /**
      * Checks if the given studentRoleComments is a non-null string no longer than
      * the specified length {@code STUDENT_ROLE_COMMENTS_MAX_LENGTH}. However, this string can be empty.
@@ -410,7 +407,7 @@ public class FieldValidator {
     public String getInvalidityInfoForGender(String gender) {
         Assumption.assertTrue("Non-null value expected", gender != null);
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(gender);
-        
+
         if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
             return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
         }
@@ -487,7 +484,7 @@ public class FieldValidator {
     public String getInvalidityInfoForPersonName(String personName) {
         return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
     }
-    
+
     /**
      * Checks if the given string is a non-null string contained in {@link DateTimeZone}'s
      * list of time zone IDs.
@@ -507,7 +504,7 @@ public class FieldValidator {
     /**
      * Checks if the given string is a non-null non-empty string no longer than
      * the specified length {@code maxLength}.
-     * 
+     *
      * @param fieldName
      *            A descriptive name of the field e.g., "student name", to be
      *            used in the return value to make the explanation more
@@ -519,9 +516,9 @@ public class FieldValidator {
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
     public String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
-        
+
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        
+
         if (value.isEmpty()) {
             return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName,
                                             REASON_EMPTY, maxLength);
@@ -536,12 +533,12 @@ public class FieldValidator {
         }
         return "";
     }
-    
+
     /**
      * Checks if the given name (including person name, institute name, course name, feedback session and team name)
      * is a non-null non-empty string no longer than the specified length {@code maxLength},
      * and also does not contain any invalid characters (| or %).
-     * 
+     *
      * @param fieldName
      *            A descriptive name of the field e.g., "student name", to be
      *            used in the return value to make the explanation more
@@ -553,9 +550,9 @@ public class FieldValidator {
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
     public String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
-        
+
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        
+
         if (value.isEmpty()) {
             return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName,
                                             REASON_EMPTY, maxLength);
@@ -586,11 +583,11 @@ public class FieldValidator {
         }
         return "";
     }
-    
+
     /**
      * Checks if the given string is a non-null string no longer than
      * the specified length {@code maxLength}. However, this string can be empty.
-     * 
+     *
      * @param fieldName
      *            A descriptive name of the field e.g., "student name", to be
      *            used in the return value to make the explanation more
@@ -603,7 +600,7 @@ public class FieldValidator {
      */
     public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-        
+
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
         }
@@ -614,7 +611,7 @@ public class FieldValidator {
         }
         return "";
     }
-    
+
     /**
      * Checks if Session Start Time is before Session End Time
      * @return Error string if {@code sessionStart} is before {@code sessionEnd}
@@ -659,13 +656,13 @@ public class FieldValidator {
         }
         return "";
     }
-    
+
     public List<String> getValidityInfoForFeedbackParticipantType(
             FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
-        
+
         Assumption.assertNotNull("Non-null value expected", giverType);
         Assumption.assertNotNull("Non-null value expected", recipientType);
-        
+
         List<String> errors = new LinkedList<String>();
         if (!giverType.isValidGiver()) {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, giverType.toString(), GIVER_TYPE_NAME));
@@ -680,24 +677,24 @@ public class FieldValidator {
                     recipientType.toDisplayRecipientName(),
                     giverType.toDisplayGiverName()));
         }
-        
+
         return errors;
     }
-    
+
     public List<String> getValidityInfoForFeedbackResponseVisibility(
             List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo,
             List<FeedbackParticipantType> showRecipientNameTo) {
-        
+
         Assumption.assertNotNull("Non-null value expected", showResponsesTo);
         Assumption.assertNotNull("Non-null value expected", showGiverNameTo);
         Assumption.assertNotNull("Non-null value expected", showRecipientNameTo);
         Assumption.assertTrue("Non-null value expected", !showResponsesTo.contains(null));
         Assumption.assertTrue("Non-null value expected", !showGiverNameTo.contains(null));
         Assumption.assertTrue("Non-null value expected", !showRecipientNameTo.contains(null));
-        
+
         List<String> errors = new LinkedList<String>();
-        
+
         for (FeedbackParticipantType type : showGiverNameTo) {
             if (!type.isValidViewer()) {
                 errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
@@ -709,7 +706,7 @@ public class FieldValidator {
                         + " without showing response first.");
             }
         }
-        
+
         for (FeedbackParticipantType type : showRecipientNameTo) {
             if (!type.isValidViewer()) {
                 errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
@@ -721,7 +718,7 @@ public class FieldValidator {
                         + " without showing response first.");
             }
         }
-        
+
         for (FeedbackParticipantType type : showResponsesTo) {
             if (!type.isValidViewer()) {
                 errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
@@ -745,7 +742,7 @@ public class FieldValidator {
         //Fails if sanitized value is not same as value
         return value.equals(sanitizedValue) ? "" : NON_HTML_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName);
     }
-    
+
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
         return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
@@ -753,7 +750,7 @@ public class FieldValidator {
     private boolean isUntrimmed(String value) {
         return value.length() != value.trim().length();
     }
-    
+
     /**
      * Checks whether a given text input represents a format of a valid email address.
      * @param email text input which needs the validation
@@ -762,7 +759,7 @@ public class FieldValidator {
     public static boolean isValidEmailAddress(String email) {
         return StringHelper.isMatching(email, REGEX_EMAIL);
     }
-    
+
     /**
      * Checks whether all the elements in a Collection are unique.
      * @param elements The Collection of elements to be checked.
