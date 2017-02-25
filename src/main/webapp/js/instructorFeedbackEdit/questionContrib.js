@@ -33,7 +33,7 @@ function setContribQnVisibilityFormat(questionNum) {
     // Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
 
     $currentQuestionTable.find('input.visibilityCheckbox').off('change');
-    
+
     $currentQuestionTable.find('input.visibilityCheckbox').filter('.answerCheckbox').change(function() {
         if (!$(this).prop('checked')) {
             if ($(this).val() === 'RECEIVER'
@@ -50,9 +50,9 @@ function setContribQnVisibilityFormat(questionNum) {
                 visibilityOptionsRow.find('input[class*="recipientCheckbox"]')
                                          .prop('checked', false);
             }
-            
+
         }
-        
+
         if ($(this).val() === 'RECEIVER'
                 || $(this).val() === 'OWN_TEAM_MEMBERS'
                 || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
@@ -60,7 +60,7 @@ function setContribQnVisibilityFormat(questionNum) {
                                  .filter('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
         }
-        
+
         if ($(this).val() === 'RECEIVER'
                 || $(this).val() === 'OWN_TEAM_MEMBERS'
                 || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
@@ -70,7 +70,7 @@ function setContribQnVisibilityFormat(questionNum) {
                                  .prop('checked', $(this).prop('checked'));
         }
     });
-    
+
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="giverCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
             var visibilityOptionsRow = $(this).closest('tr');
@@ -79,7 +79,7 @@ function setContribQnVisibilityFormat(questionNum) {
                                      .trigger('change');
         }
     });
-    
+
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="recipientCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
             var visibilityOptionsRow = $(this).closest('tr');
@@ -88,7 +88,7 @@ function setContribQnVisibilityFormat(questionNum) {
                                      .trigger('change');
         }
     });
-    
+
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[name=receiverLeaderCheckbox]').change(function() {
         var visibilityOptionsRow = $(this).closest('tr');
         visibilityOptionsRow.find('input[name=receiverFollowerCheckbox]')
@@ -118,4 +118,3 @@ function fixContribQnGiverRecipient(questionNum) {
     // the dropdown button is not an input tag and has no property "disabled", so .addClass is used
     $questionTable.find('.feedback-path-dropdown > button').addClass('disabled');
 }
-

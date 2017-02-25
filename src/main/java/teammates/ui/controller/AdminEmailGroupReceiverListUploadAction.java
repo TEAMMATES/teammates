@@ -14,33 +14,33 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class AdminEmailGroupReceiverListUploadAction extends Action {
-    
+
     AdminEmailComposePageData data;
 
     @Override
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
-        
+
         data = new AdminEmailComposePageData(account);
         BlobInfo blobInfo = extractGroupReceiverListFileKey();
-        
+
         if (blobInfo == null) {
             data.isFileUploaded = false;
             data.fileSrcUrl = null;
-            
+
             log.info("Group Receiver List Upload Failed");
             statusToAdmin = "Group Receiver List Upload Failed";
             data.ajaxStatus = "Group receiver list upload failed. Please try again.";
             return createAjaxResult(data);
         }
-        
+
         try {
             List<List<String>> groupReceiverList =
                     GoogleCloudStorageHelper.getGroupReceiverList(blobInfo.getBlobKey());
-            
+
             // log all email addresses retrieved from the txt file
             int i = 0;
-            
+
             for (List<String> list : groupReceiverList) {
                 for (String str : list) {
                     log.info(str + " - " + i + " \n");
@@ -50,7 +50,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         } catch (IOException e) {
             data.isFileUploaded = false;
             data.fileSrcUrl = null;
-            
+
             log.info("Group Receiver List Upload Failed: uploaded file is corrupted");
             statusToAdmin = "Group Receiver List Upload Failed: uploaded file is corrupted";
             data.ajaxStatus = "Group receiver list upload failed: uploaded file is corrupted. "
@@ -59,11 +59,11 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             deleteGroupReceiverListFile(blobInfo.getBlobKey());
             return createAjaxResult(data);
         }
-        
+
         BlobKey blobKey = blobInfo.getBlobKey();
 
         data.groupReceiverListFileKey = blobKey.getKeyString();
-        
+
         data.isFileUploaded = true;
         statusToAdmin = "New Group Receiver List Uploaded";
         data.ajaxStatus = "Group receiver list successfully uploaded to Google Cloud Storage";
@@ -75,13 +75,13 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         try {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD);
-            
+
             if (blobs == null || blobs.isEmpty()) {
                 data.ajaxStatus = Const.StatusMessages.NO_GROUP_RECEIVER_LIST_FILE_GIVEN;
                 isError = true;
                 return null;
             }
-            
+
             BlobInfo groupReceiverListFile = blobs.get(0);
             return validateGroupReceiverListFile(groupReceiverListFile);
         } catch (IllegalStateException e) {
@@ -96,15 +96,15 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             data.ajaxStatus = Const.StatusMessages.NOT_A_RECEIVER_LIST_FILE;
             return null;
         }
-        
+
         return groupReceiverListFile;
     }
-    
+
     private void deleteGroupReceiverListFile(BlobKey blobKey) {
         if (blobKey.equals(new BlobKey(""))) {
             return;
         }
-        
+
         try {
             logic.deleteAdminEmailUploadedFile(blobKey);
         } catch (BlobstoreFailureException bfe) {
@@ -115,5 +115,5 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
                     + bfe.getMessage() + Const.EOL;
         }
     }
-    
+
 }

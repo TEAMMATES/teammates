@@ -10,7 +10,7 @@ public final class FileHelper {
     private FileHelper() {
         // utility class
     }
-    
+
     /**
      * Reads the contents of a file in the {@code resources} folder
      * as an {@link InputStream}.

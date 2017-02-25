@@ -24,18 +24,18 @@ import teammates.ui.template.StudentHomeFeedbackSessionRow;
 
 public class StudentHomePageDataTest extends BaseTestCase {
     private List<CourseDetailsBundle> courses;
-    
+
     private FeedbackSessionAttributes submittedSession;
     private FeedbackSessionAttributes pendingSession;
     private FeedbackSessionAttributes awaitingSession;
-    
+
     private FeedbackSessionAttributes publishedSession;
     private FeedbackSessionAttributes closedSession;
     private FeedbackSessionAttributes submittedClosedSession;
-    
+
     private Map<FeedbackSessionAttributes, String> tooltipTextMap;
     private Map<FeedbackSessionAttributes, String> buttonTextMap;
-    
+
     @Test
     public void allTests() {
         StudentHomePageData data = createData();
@@ -44,27 +44,27 @@ public class StudentHomePageDataTest extends BaseTestCase {
 
     public void testCourseTables(List<CourseTable> courseTables) {
         assertEquals(courses.size(), courseTables.size());
-        
+
         CourseDetailsBundle newCourse = courses.get(0);
         CourseTable newCourseTable = courseTables.get(0);
-        
+
         testCourseTableMeta(newCourse.course, newCourseTable);
         testNewCourseTable(newCourse, newCourseTable);
-        
+
         CourseDetailsBundle oldCourse = courses.get(1);
         CourseTable oldCourseTable = courseTables.get(1);
-        
+
         testCourseTableMeta(oldCourse.course, oldCourseTable);
         testOldCourseTable(oldCourse, oldCourseTable);
     }
-    
+
     private void testCourseTableMeta(CourseAttributes course, CourseTable table) {
         assertEquals(course.getId(), table.getCourseId());
         assertEquals(course.getName(), table.getCourseName());
         assertEquals(1, table.getButtons().size());
         testViewTeamButton(table.getButtons().get(0), course.getId());
     }
-    
+
     private void testViewTeamButton(ElementTag tag, String courseId) {
         assertEquals("View Team", tag.getContent());
         assertEquals(2, tag.getAttributes().size());
@@ -79,9 +79,9 @@ public class StudentHomePageDataTest extends BaseTestCase {
         HomeFeedbackSessionRow submittedRow = sessions.get(0);
         HomeFeedbackSessionRow pendingRow = sessions.get(1);
         HomeFeedbackSessionRow awaitingRow = sessions.get(2);
-        
+
         int index = 0;
-        
+
         testFeedbackSession(index++, submittedRow, submittedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED, "Submitted");
         testFeedbackSession(index++, pendingRow, pendingSession,
@@ -89,7 +89,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
         testFeedbackSession(index++, awaitingRow, awaitingSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING, "Awaiting");
     }
-    
+
     private void testOldCourseTable(CourseDetailsBundle oldCourse, CourseTable courseTable) {
         // Sessions in old course have multiple messages in tooltip as their end dates have passed.
         assertEquals(oldCourse.feedbackSessions.size(), courseTable.getRows().size());
@@ -97,10 +97,10 @@ public class StudentHomePageDataTest extends BaseTestCase {
         HomeFeedbackSessionRow publishedRow = sessions.get(0);
         HomeFeedbackSessionRow closedRow = sessions.get(1);
         HomeFeedbackSessionRow submittedClosedRow = sessions.get(2);
-        
+
         int accumlativeOffset = courses.get(0).feedbackSessions.size();
         int index = 0 + accumlativeOffset;
-        
+
         testFeedbackSession(index++, publishedRow, publishedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED
@@ -115,7 +115,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
                             "Closed");
     }
-    
+
     private void testFeedbackSession(int index, HomeFeedbackSessionRow row, FeedbackSessionAttributes session,
             String expectedTooltip, String expectedStatus) {
         StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
@@ -126,7 +126,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
         assertEquals(index, studentRow.getIndex());
         testActions(studentRow.getActions(), session);
     }
-    
+
     private void testActions(StudentFeedbackSessionActions actions, FeedbackSessionAttributes session) {
         assertEquals(session.isVisible(), actions.isSessionVisible());
         assertEquals(session.isPublished(), actions.isSessionPublished());
@@ -138,7 +138,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
         // Courses
         CourseAttributes course1 = new CourseAttributes("course-id-1", "old-course", "UTC");
         CourseAttributes course2 = new CourseAttributes("course-id-2", "new-course", "UTC");
-        
+
         // Feedback sessions
         submittedSession = createFeedbackSession("submitted session", -1, 1, 1);
         pendingSession = createFeedbackSession("pending session", -1, 1, 1);
@@ -146,7 +146,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
         publishedSession = createFeedbackSession("published session", -1, -1, -1);
         closedSession = createFeedbackSession("closed session", -2, -1, 1);
         submittedClosedSession = createFeedbackSession("submitted closed session", -2, -1, 1);
-        
+
         // Submission status
         Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap = new HashMap<>();
         sessionSubmissionStatusMap.put(submittedSession, true);
@@ -155,7 +155,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
         sessionSubmissionStatusMap.put(publishedSession, false);
         sessionSubmissionStatusMap.put(closedSession, false);
         sessionSubmissionStatusMap.put(submittedClosedSession, true);
-        
+
         // Tooltip and button texts
         tooltipTextMap = new HashMap<FeedbackSessionAttributes, String>();
         buttonTextMap = new HashMap<FeedbackSessionAttributes, String>();
@@ -171,14 +171,14 @@ public class StudentHomePageDataTest extends BaseTestCase {
         buttonTextMap.put(closedSession, "View Submission");
         tooltipTextMap.put(submittedClosedSession, Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE);
         buttonTextMap.put(submittedClosedSession, "View Submission");
-        
+
         // Packing into bundles
         CourseDetailsBundle newCourseBundle = createCourseBundle(
                 course1, submittedSession, pendingSession, awaitingSession);
-        
+
         CourseDetailsBundle oldCourseBundle = createCourseBundle(
                 course2, publishedSession, closedSession, submittedClosedSession);
-        
+
         courses = new ArrayList<CourseDetailsBundle>();
         courses.add(newCourseBundle);
         courses.add(oldCourseBundle);

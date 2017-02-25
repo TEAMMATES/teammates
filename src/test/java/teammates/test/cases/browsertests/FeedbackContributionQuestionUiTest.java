@@ -13,12 +13,12 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     private String courseId;
     private String feedbackSessionName;
     private String instructorId;
-    
+
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/FeedbackContributionQuestionUiTest.json");
         removeAndRestoreDataBundle(testData);
-        
+
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
@@ -28,15 +28,15 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     public void classSetup() {
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName);
     }
-    
+
     @Test
     public void allTests() throws Exception {
         testEditPage();
-        
+
         //TODO: move/create other Contribution question related UI tests here.
         //i.e. results page, submit page.
     }
-    
+
     private void testEditPage() throws Exception {
         testNewQuestionFrame();
         testInputValidation();
@@ -55,24 +55,24 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectNewQuestionType("CONTRIB");
         assertTrue(feedbackEditPage.verifyNewContributionQuestionFormIsDisplayed());
     }
-    
+
     @Override
     public void testInputValidation() {
-        
+
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
-        
+
     }
 
     @Override
     public void testCustomizeOptions() {
 
         //no question specific options to test
-        
+
         ______TS("CONTRIB: verify only valid visibility options are visible");
-        
+
         assertTrue(feedbackEditPage
                 .isVisibilityDropdownOptionHiddenForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS"));
         assertFalse(feedbackEditPage
@@ -81,29 +81,29 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS"));
         assertTrue(feedbackEditPage.isVisibilityDropdownSeparatorHiddenForNewQuestion());
         assertTrue(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("OTHER"));
-        
+
         ______TS("CONTRIB: verify correct output params for selected visibility option");
-        
+
         // default (first option)
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
                 feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
-        
+
         feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
 
         feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS");
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
                 feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
-        
+
         // TODO: remove after PR 6665 is merged; workaround for checkbox getting unchecked after changing visibility options
         feedbackEditPage.toggleNotSureCheck(-1);
-        
+
     }
 
     @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("CONTRIB: add question action success");
-        
+
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("contrib qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
@@ -118,11 +118,11 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("CONTRIB: edit question success");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        
+
         //Check invalid feedback paths are disabled.
         //Javascript should hide giver/recipient options that are not STUDENTS to OWN_TEAM_MEMBERS_INCLUDING_SELF
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEdit.html");
-        
+
         feedbackEditPage.fillQuestionTextBox("edited contrib qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.toggleNotSureCheck(1);
@@ -131,7 +131,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEditSuccess.html");
     }
-    
+
     @Override
     public void testDeleteQuestionAction() {
         ______TS("CONTRIB: qn delete then cancel");
@@ -147,7 +147,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
-    
+
     /**
      * Tests the case when contribution question is added after another question that
      * has options invalid for contribution questions. This is to prevent invalid options
@@ -169,7 +169,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-        
+
     }
 
 }

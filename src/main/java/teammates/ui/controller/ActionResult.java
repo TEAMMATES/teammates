@@ -21,21 +21,21 @@ import teammates.common.util.Url;
  */
 public abstract class ActionResult {
     protected static final Logger log = Logger.getLogger();
-    
+
     /** The URI that represents the result.
      * e.g., "/page/instructorHome" "/jsp/instructorHome.jsp"
      */
     public String destination;
-    
+
     /** True if the action did not complete successfully*/
     public boolean isError;
-    
+
     /** The 'nominal' user for whom the action was executed */
     protected AccountAttributes account;
-    
+
     /** A list of status messages to be shown to the user */
     protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
-    
+
     /**
      * Parameters to be sent with the result. These will be automatically added
      * to the {@code destination} of the result. For example, if the {@code destination}
@@ -43,17 +43,16 @@ public abstract class ActionResult {
      * the result will be sent to {@code /page/instructorHome?user=abc}
      */
     protected Map<String, String> responseParams = new HashMap<String, String>();
-    
+
     public ActionResult(
             String destination,
             AccountAttributes account,
             List<StatusMessage> status) {
-        
+
         this.destination = destination;
         this.account = account;
         this.statusToUser = status;
     }
-
 
     /**
      * @return Concatenated version of the status messages collected during the
@@ -61,25 +60,25 @@ public abstract class ActionResult {
      */
     public String getStatusMessage() {
         List<String> statusMessageTexts = new ArrayList<String>();
-        
+
         for (StatusMessage msg : statusToUser) {
             statusMessageTexts.add(msg.getText());
         }
-        
+
         return StringHelper.toString(statusMessageTexts, "<br>");
     }
-    
+
     public String getStatusMessageColor() {
         return statusToUser == null || statusToUser.isEmpty() ? "info" : statusToUser.get(0).getColor();
     }
-    
+
     /**
      * Add a (key,value) pair ot the list of response parameters.
      */
     public void addResponseParam(String key, String value) {
         responseParams.put(key, value);
     }
-    
+
     /**
      * @return Destination of the result, including parameters.
      * e.g. {@code /page/instructorHome?user=abc}
@@ -87,7 +86,7 @@ public abstract class ActionResult {
     public String getDestinationWithParams() {
         return appendParameters(destination, responseParams);
     }
-    
+
     /**
      * Sends the result to the intended URL.
      */

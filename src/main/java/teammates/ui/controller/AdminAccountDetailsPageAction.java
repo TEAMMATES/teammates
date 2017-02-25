@@ -14,9 +14,9 @@ public class AdminAccountDetailsPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        
+
         gateKeeper.verifyAdminPrivileges(account);
-        
+
         String googleId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         AccountAttributes accountInformation = logic.getAccount(googleId);
 
@@ -28,7 +28,7 @@ public class AdminAccountDetailsPageAction extends Action {
             //Not an instructor of any course
             instructorCourseList = null;
         }
-        
+
         List<CourseAttributes> studentCourseList;
         try {
             studentCourseList = logic.getCoursesForStudentAccount(googleId);
@@ -36,12 +36,12 @@ public class AdminAccountDetailsPageAction extends Action {
             //Not a student of any course
             studentCourseList = null;
         }
-        
+
         AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account, accountInformation,
                                                                            instructorCourseList, studentCourseList);
         statusToAdmin = "adminAccountDetails Page Load<br>"
                 + "Viewing details for " + data.getAccountInformation().name + "(" + googleId + ")";
-        
+
         return createShowPageResult(Const.ViewURIs.ADMIN_ACCOUNT_DETAILS, data);
     }
 

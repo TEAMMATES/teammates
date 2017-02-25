@@ -64,7 +64,7 @@ public class StudentProfile {
 
     /**
      * Instantiates a new account.
-     * 
+     *
      * @param googleId
      *            the Google ID of the user.
      * @param name

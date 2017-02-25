@@ -28,7 +28,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
-    
+
     @Override
     protected void prepareTestData() {
         dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
@@ -112,7 +112,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         // submission confirmation email not sent if parameter does not exist
         verifyNoEmailsSent(a);
-        
+
         ______TS("Successful case: deleted response");
 
         submissionParams = new String[]{
@@ -138,7 +138,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         // submission confirmation email sent
         verifyNumberOfEmailsSent(a, 1);
-        
+
         EmailWrapper email = getEmailsSent(a).get(0);
         String courseName = coursesLogic.getCourse(fr.courseId).getName();
         assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
@@ -297,7 +297,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         // submission confirmation email not sent if the action is an error, even with submission parameter "on"
         verifyNoEmailsSent(a);
-        
+
         ______TS("Successful case: mcq: typical case");
 
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");

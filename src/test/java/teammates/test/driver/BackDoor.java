@@ -36,7 +36,7 @@ import com.google.gson.reflect.TypeToken;
  * deployed the application.
  */
 public final class BackDoor {
-    
+
     private BackDoor() {
         //utility class
     }
@@ -51,7 +51,7 @@ public final class BackDoor {
         params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         return makePostRequest(params);
     }
-    
+
     /**
      * Removes given data. If given entities have already been deleted,
      * it fails silently.
@@ -62,7 +62,7 @@ public final class BackDoor {
         params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         return makePostRequest(params);
     }
-    
+
     /**
      * Removes and restores given data.
      */
@@ -88,21 +88,21 @@ public final class BackDoor {
         dataBundle.accounts.put(account.googleId, account);
         return restoreDataBundle(dataBundle);
     }
-    
+
     public static AccountAttributes getAccount(String googleId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_ACCOUNT_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
         String accountJsonString = makePostRequest(params);
         return JsonUtils.fromJson(accountJsonString, AccountAttributes.class);
     }
-    
+
     public static StudentProfileAttributes getStudentProfile(String googleId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_STUDENTPROFILE_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
         String studentProfileJsonString = makePostRequest(params);
         return JsonUtils.fromJson(studentProfileJsonString, StudentProfileAttributes.class);
     }
-    
+
     public static boolean getWhetherPictureIsPresentInGcs(String pictureKey) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_IS_PICTURE_PRESENT_IN_GCS);
         params.put(BackDoorOperation.PARAMETER_PICTURE_KEY, pictureKey);
@@ -121,7 +121,7 @@ public final class BackDoor {
         params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
         return makePostRequest(params);
     }
-    
+
     public static String createInstructor(InstructorAttributes instructor) {
         DataBundle dataBundle = new DataBundle();
         dataBundle.instructors.put(instructor.googleId, instructor);
@@ -135,7 +135,7 @@ public final class BackDoor {
         String instructorJsonString = makePostRequest(params);
         return JsonUtils.fromJson(instructorJsonString, InstructorAttributes.class);
     }
-    
+
     public static InstructorAttributes getInstructorByEmail(String instructorEmail, String courseId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL);
         params.put(BackDoorOperation.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
@@ -143,7 +143,7 @@ public final class BackDoor {
         String instructorJsonString = makePostRequest(params);
         return JsonUtils.fromJson(instructorJsonString, InstructorAttributes.class);
     }
-    
+
     public static String getEncryptedKeyForInstructor(String courseId, String instructorEmail) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_ENCRYPTED_KEY_FOR_INSTRUCTOR);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
@@ -170,7 +170,7 @@ public final class BackDoor {
         String courseJsonString = makePostRequest(params);
         return JsonUtils.fromJson(courseJsonString, CourseAttributes.class);
     }
-    
+
     public static String deleteCourse(String courseId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_COURSE);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
@@ -219,20 +219,20 @@ public final class BackDoor {
         String feedbackSessionJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
     }
-    
+
     public static String editFeedbackSession(FeedbackSessionAttributes updatedFeedbackSession) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_FEEDBACK_SESSION);
         params.put(BackDoorOperation.PARAMETER_JSON_STRING, JsonUtils.toJson(updatedFeedbackSession));
         return makePostRequest(params);
     }
-    
+
     public static String deleteFeedbackSession(String feedbackSessionName, String courseId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_FEEDBACK_SESSION);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         return makePostRequest(params);
     }
-    
+
     public static FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
                                                                  int qnNumber) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_QUESTION_AS_JSON);
@@ -242,14 +242,14 @@ public final class BackDoor {
         String feedbackQuestionJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
     }
-    
+
     public static FeedbackQuestionAttributes getFeedbackQuestion(String questionId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_QUESTION_ID, questionId);
         String feedbackQuestionJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
     }
-    
+
     public static String editFeedbackQuestion(FeedbackQuestionAttributes updatedFeedbackQuestion) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_FEEDBACK_QUESTION);
         params.put(BackDoorOperation.PARAMETER_JSON_STRING, JsonUtils.toJson(updatedFeedbackQuestion));
@@ -267,7 +267,7 @@ public final class BackDoor {
         dataBundle.feedbackResponses.put("dummy-key", feedbackResponse);
         return restoreDataBundle(dataBundle);
     }
-    
+
     public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giverEmail,
                                                                  String recipient) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON);
@@ -277,7 +277,7 @@ public final class BackDoor {
         String feedbackResponseJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackResponseJson, FeedbackResponseAttributes.class);
     }
-    
+
     public static List<FeedbackResponseAttributes>
             getFeedbackResponsesForReceiverForCourse(String courseId, String recipientEmail) {
         Map<String, String> params =
@@ -288,7 +288,7 @@ public final class BackDoor {
         return JsonUtils.fromJson(feedbackResponsesJson,
                                   new TypeToken<List<FeedbackResponseAttributes>>(){}.getType());
     }
-    
+
     public static List<FeedbackResponseAttributes>
             getFeedbackResponsesFromGiverForCourse(String courseId, String giverEmail) {
         Map<String, String> params =

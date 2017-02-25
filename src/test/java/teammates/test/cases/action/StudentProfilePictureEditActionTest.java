@@ -14,7 +14,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {

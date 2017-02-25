@@ -23,7 +23,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;
-    /** 
+    /**
      * Contains the JSON formatted string that holds the information of the question details <br>
      * Don't use directly unless for storing/loading from data store <br>
      * To get the question text use {@code getQuestionDetails().questionText}
@@ -61,10 +61,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.showResponsesTo = new ArrayList<FeedbackParticipantType>(fq.getShowResponsesTo());
         this.showGiverNameTo = new ArrayList<FeedbackParticipantType>(fq.getShowGiverNameTo());
         this.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(fq.getShowRecipientNameTo());
-        
+
         this.createdAt = fq.getCreatedAt();
         this.updatedAt = fq.getUpdatedAt();
-        
+
         removeIrrelevantVisibilityOptions();
     }
 
@@ -82,13 +82,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.showResponsesTo = new ArrayList<FeedbackParticipantType>(other.getShowResponsesTo());
         this.showGiverNameTo = new ArrayList<FeedbackParticipantType>(other.getShowGiverNameTo());
         this.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(other.getShowRecipientNameTo());
-        
+
         this.createdAt = other.getCreatedAt();
         this.updatedAt = other.getUpdatedAt();
-        
+
         removeIrrelevantVisibilityOptions();
     }
-    
+
     public FeedbackQuestionAttributes getCopy() {
         return new FeedbackQuestionAttributes(this);
     }
@@ -96,11 +96,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public Date getCreatedAt() {
         return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
-    
+
     public Date getUpdatedAt() {
         return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
-    
+
     public String getId() {
         return feedbackQuestionId;
     }
@@ -238,7 +238,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                     }
                 } else {
                     line.append(", but not the name of the recipient");
-                    
+
                     if (!showGiverNameTo.contains(participant)) {
                         line.append(", or your name");
                     }
@@ -287,7 +287,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * Checks if updating this question to the {@code newAttributes} will
      * require the responses to be deleted for consistency.
      * Does not check if any responses exist.
-     * 
+     *
      * @param newAttributes
      * @return
      */
@@ -311,7 +311,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         if (o == null) {
             return 1;
         }
-        
+
         if (this.questionNumber != o.questionNumber) {
             return Integer.compare(this.questionNumber, o.questionNumber);
         }
@@ -541,7 +541,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public void sanitizeForSaving() {
         this.questionDescription = SanitizationHelper.sanitizeForRichText(this.questionDescription);
     }
-    
+
     private boolean isValidJsonString(String jsonString) {
         try {
             new JSONObject(jsonString);
@@ -550,19 +550,19 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return true;
     }
-    
-    /** 
+
+    /**
      * This method converts the given Feedback*QuestionDetails object to JSON for storing
-     * 
+     *
      * @param questionDetails
      */
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
         questionMetaData = new Text(JsonUtils.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
     }
 
-    /** 
+    /**
      * This method retrieves the Feedback*QuestionDetails object for this question
-     * 
+     *
      * @return The Feedback*QuestionDetails object representing the question's details
      */
     public FeedbackQuestionDetails getQuestionDetails() {
@@ -574,9 +574,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return JsonUtils.fromJson(questionMetaDataValue, getFeedbackQuestionDetailsClass());
     }
 
-    /** 
+    /**
      * This method gets the appropriate class type for the Feedback*QuestionDetails object for this question.
-     * 
+     *
      * @return The Feedback*QuestionDetails class type appropriate for this question.
      */
     private Class<? extends FeedbackQuestionDetails> getFeedbackQuestionDetailsClass() {
@@ -646,5 +646,5 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public String getQuestionAdditionalInfoHtml() {
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
-    
+
 }
