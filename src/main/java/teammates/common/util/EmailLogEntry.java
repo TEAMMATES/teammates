@@ -134,7 +134,7 @@ public class EmailLogEntry {
                                                           "<mark>" + realStringToHighlight + "</mark>");
             }
         }
-        
+
         return highlightedText;
     }
 }
