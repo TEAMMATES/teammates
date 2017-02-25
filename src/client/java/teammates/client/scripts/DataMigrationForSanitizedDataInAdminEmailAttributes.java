@@ -53,8 +53,8 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
             System.out.println("Checking email having subject: " + email.getSubject());
 
             String content = email.getContentForDisplay();
-            System.out.println("contents: " + content);
-            System.out.println("new contents: " + SanitizationHelper.desanitizeFromHtml(content));
+            System.out.println("contents:\n" + content);
+            System.out.println("new contents:\n" + SanitizationHelper.desanitizeFromHtml(content));
 
             System.out.println();
         }
