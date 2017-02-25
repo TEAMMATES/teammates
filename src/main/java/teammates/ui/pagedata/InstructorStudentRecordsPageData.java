@@ -95,7 +95,7 @@ public class InstructorStudentRecordsPageData extends PageData {
             String giverName = giverEmailToGiverNameMap.get(giverEmail);
             List<CommentRow> commentDivs = generateCommentRows(student, instructor, giverEmail,
                                                                totalNumOfComments, comments);
-            
+
             CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable(giverName, commentDivs);
             commentsForStudent.setInstructorAllowedToGiveComment(
                     instructor.isAllowedForPrivilege(student.section,
@@ -104,7 +104,7 @@ public class InstructorStudentRecordsPageData extends PageData {
             commentsForStudentTable.add(commentsForStudent);
         }
     }
-    
+
     /**
      * Generates the comment rows for a specific giver,
      * based on the current instructor's privilege to modify comments.
@@ -118,18 +118,18 @@ public class InstructorStudentRecordsPageData extends PageData {
     private List<CommentRow> generateCommentRows(StudentAttributes student, InstructorAttributes instructor,
             String giverEmail, int totalNumOfComments, List<CommentAttributes> comments) {
         List<CommentRow> commentDivs = new ArrayList<CommentRow>();
-        
+
         for (CommentAttributes comment : comments) {
             String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
             String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
             CommentRow commentDiv = new CommentRow(comment, giverEmail, unsanitizedRecipientDetails);
             String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
             commentDiv.setVisibilityIcon(whoCanSeeComment);
-            
+
             boolean canModifyComment = COMMENT_GIVER_NAME_THAT_COMES_FIRST.equals(giverEmail)
                                        || instructor.isAllowedForPrivilege(student.section,
                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
-            
+
             if (canModifyComment) {
                 commentDiv.setEditDeleteEnabled(false);
             }
@@ -137,7 +137,7 @@ public class InstructorStudentRecordsPageData extends PageData {
             commentDiv.setNumComments(totalNumOfComments);
             commentDivs.add(commentDiv);
         }
-        
+
         return commentDivs;
     }
 

@@ -8,9 +8,9 @@ public class AdminStudentGoogleIdResetPageData extends PageData {
      */
     public boolean isGoogleIdReset;
     public String statusForAjax;
-    
+
     public AdminStudentGoogleIdResetPageData(AccountAttributes account) {
         super(account);
     }
-    
+
 }

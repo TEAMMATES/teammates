@@ -20,7 +20,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
@@ -31,37 +31,37 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         int questionNumber = 1;
         FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
                 "First feedback session", "idOfTypicalCourse1", questionNumber);
-        
+
         String giverEmail = "student1InCourse1@gmail.tmt";
         String receiverEmail = "student1InCourse1@gmail.tmt";
         FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(),
                 giverEmail, receiverEmail);
-        
+
         FeedbackResponseCommentAttributes feedbackResponseComment = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q1S1C1");
-        
+
         feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
-        
+
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
-        
+
         ______TS("Unsuccessful case: not enough parameters");
-        
+
         verifyAssumptionFailure();
-        
+
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
-        
+
         verifyAssumptionFailure(submissionParams);
-        
+
         ______TS("Typical successful case");
-        
+
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
@@ -70,20 +70,20 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
-        
+
         InstructorFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
         AjaxResult result = getAjaxResult(action);
-        
+
         InstructorFeedbackResponseCommentAjaxPageData data =
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
-        
+
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt));
         assertEquals("", result.getStatusMessage());
-        
+
         ______TS("Non-existent feedback response comment");
-        
+
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
@@ -92,25 +92,25 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123123",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
-        
+
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        
+
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
-        
+
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt));
         assertEquals("", result.getStatusMessage());
-        
+
         ______TS("Instructor is not feedback response comment giver");
-        
+
         gaeSimulation.loginAsInstructor("idOfInstructor2OfCourse1");
-        
+
         questionNumber = 2;
         feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
                 "First feedback session", "idOfTypicalCourse1", questionNumber);
-        
+
         giverEmail = "student2InCourse1@gmail.tmt";
         feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(), giverEmail,
                                                                    receiverEmail);
@@ -126,18 +126,18 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
-        
+
         action = getAction(submissionParams);
         result = getAjaxResult(action);
-        
+
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
-        
+
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt));
         assertEquals("", result.getStatusMessage());
     }
-    
+
     @Override
     protected InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);

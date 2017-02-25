@@ -21,10 +21,10 @@ public class InstructorSearchQuery extends SearchQuery {
     public InstructorSearchQuery(String queryString) {
         super(queryString);
     }
-    
+
     @Override
     protected String prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
         return null; // method not used
     }
-    
+
 }

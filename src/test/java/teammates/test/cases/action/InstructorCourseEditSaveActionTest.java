@@ -10,12 +10,12 @@ import teammates.ui.controller.InstructorCourseEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseEditSaveActionTest extends BaseActionTest {
-    
+
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
@@ -40,11 +40,11 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_NAME, courseName,
                 Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
         };
-        
+
         // execute the action
         courseEditSaveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(courseEditSaveAction);
-        
+
         // get updated results and compare
         statusMessage = Const.StatusMessages.COURSE_EDITED;
         assertEquals(statusMessage, redirectResult.getStatusMessage());
@@ -133,7 +133,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                      + "?error=true&user=" + instructorId + "&courseid=" + courseId,
                      redirectResult.getDestinationWithParams());
-        
+
         ______TS("Failure case: invalid time zone");
         courseName = CoursesLogic.inst().getCourse(courseId).getName();
         courseTimeZone = "InvalidTimeZone";

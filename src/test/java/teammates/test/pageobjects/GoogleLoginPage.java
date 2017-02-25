@@ -6,13 +6,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class GoogleLoginPage extends LoginPage {
-    
+
     @FindBy(id = "Email")
     private WebElement usernameTextBox;
-    
+
     @FindBy(id = "Passwd")
     private WebElement passwordTextBox;
-    
+
     @FindBy(id = "signIn")
     private WebElement loginButton;
 
@@ -92,11 +92,11 @@ public class GoogleLoginPage extends LoginPage {
         click(By.id("next"));
         waitForElementVisibility(passwordTextBox);
         fillTextBox(passwordTextBox, password);
-        
+
         if (staySignedCheckbox.isSelected()) {
             click(staySignedCheckbox);
         }
-        
+
         click(loginButton);
         waitForPageToLoad();
     }
@@ -116,7 +116,7 @@ public class GoogleLoginPage extends LoginPage {
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorCourseJoinConfirmationPage.class);
     }
-    
+
     @Override
     public InstructorHomePage loginAsJoiningInstructorByPassConfirmation(
             String username, String password) {

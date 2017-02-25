@@ -17,11 +17,11 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String instructorUnderModerationEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-        
+
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                                     logic.getFeedbackSession(feedbackSessionName, courseId),
                                     false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-                                
+
         InstructorAttributes instructorUnderModeration =
                 logic.getInstructorForEmail(courseId, instructorUnderModerationEmail);
 
@@ -31,7 +31,7 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
                     + instructorUnderModerationEmail + " does not exist in " + courseId
                     + ".");
         }
-                                
+
         String moderatedQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION_ID);
 
         Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, courseId);
@@ -46,7 +46,7 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
                 instructorUnderModeration.email);
 
         Assumption.assertNotNull(data.bundle);
-        
+
         data.setSessionOpenForSubmission(true);
         data.setModeration(true);
         data.setHeaderHidden(true);
@@ -60,10 +60,10 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
         statusToAdmin = "Moderating feedback session for instructor (" + instructorUnderModeration.email + ")<br>"
                       + "Session Name: " + feedbackSessionName + "<br>"
                       + "Course ID: " + courseId;
-        
+
         data.bundle.hideUnmoderatableQuestions();
         data.init(courseId);
-        
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
     }
 }

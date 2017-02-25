@@ -15,7 +15,7 @@ public class BackDoorLogicTest extends BaseLogicTest {
         dataBundle = getTypicalDataBundle();
         // data bundle not persisted before test since the remove/restore data itself is being tested
     }
-    
+
     @Test
     public void testPersistDataBundle() throws Exception {
 
@@ -28,10 +28,10 @@ public class BackDoorLogicTest extends BaseLogicTest {
         verifyPresentInDatastore(dataBundle);
 
         ______TS("try to persist while entities exist");
-        
+
         backDoorLogic.persistDataBundle(loadDataBundle("/FeedbackSessionResultsTest.json"));
         verifyPresentInDatastore(loadDataBundle("/FeedbackSessionResultsTest.json"));
-        
+
         ______TS("null parameter");
         try {
             backDoorLogic.persistDataBundle(null);
@@ -57,7 +57,7 @@ public class BackDoorLogicTest extends BaseLogicTest {
         // Not checking for invalid values in other entities because they
         // should be checked at lower level methods
     }
-    
+
     /*
      * Following methods are tested by the testPersistDataBundle method
         getAccountAsJson(String)

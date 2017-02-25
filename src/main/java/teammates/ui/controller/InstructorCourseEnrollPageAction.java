@@ -11,25 +11,25 @@ import teammates.ui.pagedata.InstructorCourseEnrollPageData;
  * Action: showing page to enroll students into a course for an instructor
  */
 public class InstructorCourseEnrollPageAction extends Action {
-    
+
     @Override
     public ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
 
         Assumption.assertNotNull(courseId);
-        
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        
+
         /* Setup page data for 'Enroll' page of a course */
         InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
 
         statusToAdmin = String.format(Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD,
                                       courseId);
         addDataLossWarningToStatusToUser(courseId);
-        
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
     }
 

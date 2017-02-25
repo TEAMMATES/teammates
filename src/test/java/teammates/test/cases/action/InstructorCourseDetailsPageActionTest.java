@@ -11,18 +11,18 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorCourseDetailsPageData;
 
 public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
-    
+
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
-        
+
         ______TS("Not enough parameters");
         verifyAssumptionFailure();
 
@@ -37,7 +37,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
-        
+
         InstructorCourseDetailsPageData pageData = (InstructorCourseDetailsPageData) pageResult.data;
         assertEquals(5, pageData.getInstructors().size());
 
@@ -54,7 +54,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                                     + "Details for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                                     + "|||/page/instructorCourseDetailsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
-        
+
         ______TS("Masquerade mode, Course with no student");
         gaeSimulation.loginAsAdmin("admin.user");
         InstructorAttributes instructor4 = dataBundle.instructors.get("instructor4");
@@ -70,7 +70,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY,
                                    pageResult.data.getInstructorCourseEnrollLink(instructor4.courseId)),
                      pageResult.getStatusMessage());
-        
+
         pageData = (InstructorCourseDetailsPageData) pageResult.data;
         assertEquals(1, pageData.getInstructors().size());
 
@@ -87,11 +87,11 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                              + "Details for Course <span class=\"bold\">[idOfCourseNoEvals]</span>|||"
                              + "/page/instructorCourseDetailsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
-        
+
         ______TS("HTML Table needed");
         instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
-        
+
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true"
@@ -102,7 +102,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals("?error=false&user=idOfInstructor1OfCourse1", ajaxResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", ajaxResult.getStatusMessage());
-        
+
         pageData = (InstructorCourseDetailsPageData) ajaxResult.data;
 
         assertEquals("<table class=\"table table-bordered table-striped table-condensed\">"

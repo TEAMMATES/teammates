@@ -21,15 +21,15 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.reflect.TypeToken;
 
 public final class DataBundleRegenerator {
-    
+
     private static final List<String> NON_DATA_BUNDLE_JSON = Arrays.asList(
             "feedbackSessionTeamEvaluationTemplate.json"
     );
-    
+
     private DataBundleRegenerator() {
         // script-like, not meant to be instantiated
     }
-    
+
     private static void regenerateDataBundleJson(File folder) throws IOException {
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles == null) {
@@ -51,7 +51,7 @@ public final class DataBundleRegenerator {
             saveFile(file.getCanonicalPath(), regeneratedJsonString);
         }
     }
-    
+
     private static void fixResponse(FeedbackResponseAttributes response) {
         String responseValue = response.responseMetaData.getValue();
         try {
@@ -61,7 +61,7 @@ public final class DataBundleRegenerator {
             response.responseMetaData = new Text(responseValue);
         }
     }
-    
+
     private static void fixQuestion(FeedbackQuestionAttributes question) {
         String questionValue = question.questionMetaData.getValue();
         try {
@@ -71,7 +71,7 @@ public final class DataBundleRegenerator {
             question.questionMetaData = new Text(questionValue);
         }
     }
-    
+
     private static JSONObject maintainKeyOrder(JSONObject json) {
         JSONObject reprintedJson = new JSONObject();
         List<String> keys = new ArrayList<String>();
@@ -84,14 +84,14 @@ public final class DataBundleRegenerator {
         }
         return reprintedJson;
     }
-    
+
     private static void regenerateAllDataBundleJson() throws IOException {
         File folder = new File("./src/main/resources");
         regenerateDataBundleJson(folder);
         folder = new File("./src/test/resources/data");
         regenerateDataBundleJson(folder);
     }
-    
+
     private static void regenerateSessionTemplateJson() throws IOException {
         File file = new File("./src/main/resources/feedbackSessionTeamEvaluationTemplate.json");
         regenerateGenericJson(file);
@@ -104,29 +104,29 @@ public final class DataBundleRegenerator {
         String regeneratedJsonString = JsonUtils.toJson(template).replace("+0000", "UTC");
         saveFile(file.getCanonicalPath(), regeneratedJsonString);
     }
-    
+
     private static void regenerateGenericJson(File file) throws IOException {
         String jsonString = FileHelper.readFile(file.getCanonicalPath());
         String regeneratedJsonString = JsonUtils.toJson(JsonUtils.parse(jsonString));
         saveFile(file.getCanonicalPath(), regeneratedJsonString);
     }
-    
+
     private static void saveFile(String filePath, String content) throws IOException {
         FileHelper.saveFile(filePath, content);
         System.out.println(filePath + " regenerated!");
     }
-    
+
     private static void regenerateMapsJson() throws IOException {
         File file = new File("./src/main/webapp/js/countryCoordinates.json");
         regenerateGenericJson(file);
         file = new File("./src/main/webapp/js/userMapData.json");
         regenerateGenericJson(file);
     }
-    
+
     public static void main(String[] args) throws IOException {
         regenerateAllDataBundleJson();
         regenerateSessionTemplateJson();
         regenerateMapsJson();
     }
-    
+
 }

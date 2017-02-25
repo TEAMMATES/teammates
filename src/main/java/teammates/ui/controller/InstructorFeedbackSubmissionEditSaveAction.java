@@ -18,12 +18,12 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
         gateKeeper.verifyAccessible(instructor, session, creatorOnly);
         boolean shouldEnableSubmit =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        
+
         if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
             shouldEnableSubmit = true;
         }
-        
+
         if (!shouldEnableSubmit) {
             throw new UnauthorizedAccessException("Feedback session [" + session.getFeedbackSessionName()
                                                   + "] is not accessible to instructor ["
@@ -53,7 +53,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
     protected String getUserEmailForCourse() {
         return logic.getInstructorForGoogleId(courseId, account.googleId).email;
     }
-    
+
     @Override
     protected String getUserTeamForCourse() {
         return Const.USER_TEAM_FOR_INSTRUCTOR;

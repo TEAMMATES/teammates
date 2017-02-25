@@ -10,7 +10,7 @@ public class StudentProfilePageData extends PageData {
 
     private StudentProfileEditBox profileEditBox;
     private StudentProfileUploadPhotoModal uploadPhotoModal;
-    
+
     public StudentProfilePageData(AccountAttributes account, String isEditingPhoto) {
         super(account);
         StudentProfileAttributes profile = account.studentProfile;
@@ -27,7 +27,7 @@ public class StudentProfilePageData extends PageData {
         this.uploadPhotoModal = new StudentProfileUploadPhotoModal(account.googleId, pictureUrl, profile.pictureKey);
 
     }
-    
+
     public StudentProfileEditBox getProfileEditBox() {
         return profileEditBox;
     }

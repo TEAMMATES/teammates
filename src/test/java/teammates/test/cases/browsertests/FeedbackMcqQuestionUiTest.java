@@ -14,30 +14,30 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
     private String courseId;
     private String feedbackSessionName;
     private String instructorId;
-    
+
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/FeedbackMcqQuestionUiTest.json");
         removeAndRestoreDataBundle(testData);
-        
+
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
     }
-    
+
     @BeforeClass
     public void classSetup() {
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName);
     }
-    
+
     @Test
     public void allTests() throws Exception {
         testEditPage();
-        
+
         //TODO: move/create other MCQ question related UI tests here.
         //i.e. results page, submit page.
     }
-    
+
     private void testEditPage() throws Exception {
         testNewQuestionFrame();
         testInputValidation();
@@ -52,12 +52,11 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: new question (frame) link");
 
-        
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
     }
-    
+
     @Override
     public void testInputValidation() {
 
@@ -65,7 +64,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
-        
+
         ______TS("empty options");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
@@ -92,7 +91,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (single answer) question. "
                                       + "Minimum number of options is: 2.");
-        
+
         ______TS("remove when 1 left and select Add Other Option");
 
         feedbackEditPage.clickNewQuestionButton();
@@ -104,7 +103,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMcqOptionLinkForNewQuestion(1);
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
-        
+
         feedbackEditPage.clickAddMcqOtherOptionCheckboxForNewQuestion();
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (single answer) question. "
@@ -116,12 +115,12 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
-        
+
         feedbackEditPage.fillMcqOptionForNewQuestion(0, "Choice 1");
         feedbackEditPage.fillMcqOptionForNewQuestion(1, "Choice 2");
 
         ______TS("MCQ: add mcq option");
-        
+
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
         feedbackEditPage.clickAddMoreMcqOptionLinkForNewQuestion();
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
@@ -154,7 +153,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
-        
+
         //NOTE: Tests feedback giver/recipient and visibility options are copied from previous question.
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionAddSuccess.html");
     }
@@ -220,7 +219,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
                 FeedbackParticipantType.TEAMS.toString());
 
     }
-    
+
     @Override
     public void testDeleteQuestionAction() {
 
@@ -237,5 +236,5 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
-    
+
 }

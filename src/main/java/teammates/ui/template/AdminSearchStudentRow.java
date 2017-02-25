@@ -14,13 +14,13 @@ public class AdminSearchStudentRow {
     private String email;
     private String comments;
     private String viewRecentActionsId;
-    
+
     private AdminSearchStudentLinks links;
-    
+
     private List<AdminSearchStudentFeedbackSession> openFeedbackSessions;
     private List<AdminSearchStudentFeedbackSession> closedFeedbackSessions;
     private List<AdminSearchStudentFeedbackSession> publishedFeedbackSessions;
-    
+
     public AdminSearchStudentRow(String id, String name, String institute, String courseName,
                                  String courseId, String section, String team, String googleId,
                                  String email, String comments, String viewRecentActionsId,

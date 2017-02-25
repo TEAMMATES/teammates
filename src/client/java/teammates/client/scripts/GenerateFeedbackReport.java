@@ -19,11 +19,11 @@ public class GenerateFeedbackReport extends RemoteApiClient {
         GenerateFeedbackReport reportGenerator = new GenerateFeedbackReport();
         reportGenerator.doOperationRemotely();
     }
-    
+
     @Override
     protected void doOperation() {
         Logic logic = new Logic();
-        
+
         try {
             String fileContent =
                     logic.getFeedbackSessionResultSummaryAsCsv(
@@ -32,9 +32,9 @@ public class GenerateFeedbackReport extends RemoteApiClient {
         } catch (EntityDoesNotExistException | ExceedingRangeException e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     private void writeToFile(String fileName, String fileContent) {
         try {
 
@@ -54,5 +54,5 @@ public class GenerateFeedbackReport extends RemoteApiClient {
             e.printStackTrace();
         }
     }
-    
+
 }
