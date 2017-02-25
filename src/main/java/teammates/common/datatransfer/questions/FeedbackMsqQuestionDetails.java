@@ -36,7 +36,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> msqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
-    Map<String, Integer> answerFrequency;
+    private Map<String, Integer> answerFrequency;
 
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
