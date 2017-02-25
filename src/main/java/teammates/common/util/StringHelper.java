@@ -10,11 +10,10 @@ import java.util.regex.Pattern;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-
 /** Holds String-related helper functions
  */
 public final class StringHelper {
-    
+
     private StringHelper() {
         // utility class
     }
@@ -35,7 +34,7 @@ public final class StringHelper {
     public static boolean isWhiteSpace(String string) {
         return string.trim().isEmpty();
     }
-    
+
     /**
      * Check whether the input string matches the regex
      * @param input The string to be matched
@@ -46,7 +45,7 @@ public final class StringHelper {
         // such as é is correctly matched regardless of single/double code point encoding
         return Pattern.compile(regex, Pattern.CANON_EQ).matcher(input).matches();
     }
-    
+
     /**
      * Check whether any substring of the input string matches any of the group of given regex expressions
      * Currently only used in header row processing in StudentAttributesFactory: locateColumnIndexes
@@ -83,7 +82,7 @@ public final class StringHelper {
         }
         return result;
     }
-    
+
     /**
      * Trims head of the String if it is longer than specified Length.
      *  E.g., String "12345678" with maximumStringLength = 6, returns "345678"
@@ -108,11 +107,11 @@ public final class StringHelper {
     public static String truncateLongId(String longId) {
         return truncate(longId, Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH);
     }
-    
+
     /**
      * Substitutes the middle third of the given string with dots
      * and returns the "obscured" string
-     * 
+     *
      * @param inputString
      * @return
      */
@@ -146,7 +145,7 @@ public final class StringHelper {
             throw new RuntimeException(e);
         }
     }
-    
+
     /**
      * Converts and concatenates a list of objects to a single string, separated by line breaks.
      * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
@@ -165,17 +164,17 @@ public final class StringHelper {
         if (list.isEmpty()) {
             return "";
         }
-        
+
         StringBuilder returnValue = new StringBuilder();
         for (int i = 0; i < list.size() - 1; i++) {
             returnValue.append(list.get(i)).append(delimiter);
         }
         //append the last item
         returnValue.append(list.get(list.size() - 1));
-        
+
         return returnValue.toString();
     }
-    
+
     public static String toDecimalFormatString(double doubleVal) {
         DecimalFormat df = new DecimalFormat("0.###");
         return df.format(doubleVal);
@@ -190,13 +189,13 @@ public final class StringHelper {
         if ((int) hourOffsetTimeZone == hourOffsetTimeZone) {
             return utcFormatTimeZone + String.format(" %+03d:00", (int) hourOffsetTimeZone);
         }
-        
+
         return utcFormatTimeZone + String.format(
                                     " %+03d:%02d",
                                     (int) hourOffsetTimeZone,
                                     (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
     }
-    
+
     //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
     public static int countWords(String s) {
         int wordCount = 0;
@@ -219,9 +218,7 @@ public final class StringHelper {
         }
         return wordCount;
     }
-    
-    
-    
+
     /**
      * split a full name string into first and last names
      * <br>
@@ -246,20 +243,20 @@ public final class StringHelper {
      * first name: "Danny" <br>
      * last name: "Tim Lin" <br>
      * processed full name: "Danny Tim Lin" <br>
-     * 
-     * 
+     *
+     *
      * @return split name array{0--> first name, 1--> last name, 2--> processed full name by removing "{}"}
      */
-    
+
     public static String[] splitName(String fullName) {
-        
+
         if (fullName == null) {
             return new String[] {};
         }
-           
+
         String lastName;
         String firstName;
-        
+
         if (fullName.contains("{") && fullName.contains("}")) {
             int startIndex = fullName.indexOf('{');
             int endIndex = fullName.indexOf('}');
@@ -268,19 +265,18 @@ public final class StringHelper {
                                 .replace("}", "")
                                 .replace(lastName, "")
                                 .trim();
-            
+
         } else {
             lastName = fullName.substring(fullName.lastIndexOf(' ') + 1).trim();
             firstName = fullName.replace(lastName, "").trim();
         }
-        
+
         String processedfullName = fullName.replace("{", "")
                                            .replace("}", "");
-        
+
         return new String[] {firstName, lastName, processedfullName};
     }
-    
-    
+
     /**
      * trims the string and reduces consecutive white spaces to only one space
      * Example: " a   a  " --> "a a"
@@ -292,7 +288,7 @@ public final class StringHelper {
         }
         return str.trim().replaceAll("\\s+", " ");
     }
-    
+
     /**
      * trims all strings in the set and reduces consecutive white spaces to only one space
      */
@@ -310,7 +306,7 @@ public final class StringHelper {
     /**
      * Replaces every character in {@code str} that does not match
      * {@code regex} with the character {@code replacement}.
-     * 
+     *
      * @param str String to be replaced.
      * @param regex Pattern that every character is to be matched against.
      * @param replacement Character unmatching characters should be replaced with.
@@ -320,18 +316,18 @@ public final class StringHelper {
         if (str == null) {
             return null;
         }
-        
+
         char[] charArray = str.toCharArray();
-        
+
         for (int i = 0; i < charArray.length; i++) {
             if (!isMatching(Character.toString(charArray[i]), regex)) {
                 charArray[i] = replacement;
             }
         }
-        
+
         return String.valueOf(charArray);
     }
-    
+
     private static String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
         for (byte b : bytes) {
@@ -365,13 +361,13 @@ public final class StringHelper {
         StringBuilder result = new StringBuilder();
 
         for (String line : lines) {
-            
+
             List<String> rowData = getTableData(line);
-            
+
             if (checkIfEmptyRow(rowData)) {
                 continue;
             }
-            
+
             result.append("<tr>");
             for (String td : rowData) {
                 result.append(String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td)));
@@ -407,11 +403,11 @@ public final class StringHelper {
 
     private static List<String> getTableData(String str) {
         List<String> data = new ArrayList<String>();
-        
+
         boolean inquote = false;
         StringBuilder buffer = new StringBuilder();
         char[] chars = str.toCharArray();
-        
+
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"') {
                 if (i + 1 < chars.length && chars[i + 1] == '"') {
@@ -421,7 +417,7 @@ public final class StringHelper {
                     continue;
                 }
             }
-            
+
             if (chars[i] == ',') {
                 if (inquote) {
                     buffer.append(chars[i]);
@@ -432,25 +428,25 @@ public final class StringHelper {
             } else {
                 buffer.append(chars[i]);
             }
-            
+
         }
-        
+
         data.add(buffer.toString().trim());
-        
+
         return data;
     }
-    
+
     private static boolean checkIfEmptyRow(List<String> rowData) {
-           
+
         for (String td : rowData) {
             if (!td.isEmpty()) {
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * From: http://stackoverflow.com/questions/11969840/how-to-convert-a-base-10-number-to-alphabetic-like-ordered-list-in-html
      * Converts an integer to alphabetical form (base26)
@@ -461,7 +457,7 @@ public final class StringHelper {
      * 27 - aa
      * 28 - ab
      * ...
-     * 
+     *
      * @param n - number to convert
      */
     public static String integerToLowerCaseAlphabeticalIndex(int n) {
@@ -490,7 +486,7 @@ public final class StringHelper {
     /**
      * Counts the number of empty strings passed as the argument. Null is
      * considered an empty string, while whitespace is not.
-     * 
+     *
      * @param strings
      * @return number of empty strings passed
      */
@@ -503,21 +499,21 @@ public final class StringHelper {
         }
         return numOfEmptyStrings;
     }
-    
+
     /**
      * Converts null input to empty string. Non-null inputs will be left as is.
      * This method is for displaying purpose.
-     * 
+     *
      * @param str
      * @return empty string if null, the string itself otherwise
      */
     public static String convertToEmptyStringIfNull(String str) {
         return str == null ? "" : str;
     }
-    
+
     /**
      * Removes the outermost enclosing square brackets surrounding a string.
-     * 
+     *
      * @param str
      * @return the string without the outermost enclosing square brackets
      *         if the given string is enclosed by square brackets <br>
@@ -528,14 +524,14 @@ public final class StringHelper {
         if (str == null) {
             return null;
         }
-        
+
         if (!str.startsWith("[") || !str.endsWith("]")) {
             return str;
         }
-        
+
         return str.substring(1, str.length() - 1);
     }
-    
+
     /**
      * Returns a String array after removing white spaces leading and
      * trailing any string in the input array.

@@ -21,14 +21,14 @@ public abstract class SearchQuery {
     protected static final String AND = " AND ";
     protected static final String OR = " OR ";
     protected static final String NOT = " NOT ";
-    
+
     private static final Logger log = Logger.getLogger();
-    
+
     private String visibilityQueryString;
-    
+
     private QueryOptions options;
     private List<String> textQueryStrings = new ArrayList<String>();
-    
+
     protected SearchQuery(List<InstructorAttributes> instructors, String queryString) {
         options = QueryOptions.newBuilder()
                 .setLimit(20)
@@ -36,22 +36,22 @@ public abstract class SearchQuery {
         visibilityQueryString = instructors == null ? "" : prepareVisibilityQueryString(instructors);
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
-    
+
     protected SearchQuery(String queryString) {
         this(null, queryString);
     }
-    
+
     protected abstract String prepareVisibilityQueryString(List<InstructorAttributes> instructors);
-    
+
     /**
      * Returns how many query strings a SearchQuery object has.
      */
     public int getFilterSize() {
         return textQueryStrings.size();
     }
-    
+
     private void setTextFilter(String textField, String queryString) {
-        
+
         // The sanitize process considers the '.' (dot) as a space and this
         // returns unnecessary search results in the case if someone searches
         // using an email. To avoid this, we check whether the input text is an
@@ -60,13 +60,13 @@ public abstract class SearchQuery {
                 FieldValidator.isValidEmailAddress(queryString)
                 ? queryString.toLowerCase().trim()
                 : SanitizationHelper.sanitizeForSearch(queryString).toLowerCase().trim();
-        
+
         if (!sanitizedQueryString.isEmpty()) {
             String preparedOrQueryString = prepareOrQueryString(sanitizedQueryString);
             textQueryStrings.add(textField + ":" + preparedOrQueryString);
         }
     }
-    
+
     private String prepareOrQueryString(String queryString) {
         String[] splitStrings = queryString.replaceAll("\"", " \" ").trim().split("\\s+");
 
@@ -93,7 +93,7 @@ public abstract class SearchQuery {
                 }
             }
         }
-        
+
         String trimmedKey = key.toString().trim();
         if (isStartQuote && !trimmedKey.isEmpty()) {
             keywords.add(trimmedKey);
@@ -102,28 +102,28 @@ public abstract class SearchQuery {
         if (keywords.isEmpty()) {
             return "";
         }
-        
+
         StringBuilder preparedQueryString = new StringBuilder("(\"" + keywords.get(0) + "\"");
-        
+
         for (int i = 1; i < keywords.size(); i++) {
             preparedQueryString.append(OR).append("\"" + keywords.get(i) + "\"");
         }
         return preparedQueryString.toString() + ")";
     }
-    
+
     /**
      * Builds the {@link Query} object.
      */
     public Query toQuery() {
         return Query.newBuilder().setOptions(options).build(toString());
     }
-    
+
     @Override
     public String toString() {
         StringBuilder queryStringBuilder = new StringBuilder(visibilityQueryString);
-        
+
         boolean isfirstElement = visibilityQueryString.isEmpty();
-        
+
         for (String textQuery : textQueryStrings) {
             if (isfirstElement) {
                 queryStringBuilder.append(textQuery);

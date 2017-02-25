@@ -17,37 +17,35 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        
+
         String expectedString = "";
-        
-        
+
         ______TS("Not enough parameters");
-        
+
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         verifyAssumptionFailure();
         //TODO make sure IFESA does assertNotNull for required parameters then uncomment
         //verifyAssumptionFailure(Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId,
         //                        Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
-        
-        
+
         ______TS("success: Typical case");
-        
+
         String[] params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                                 session.getFeedbackSessionName());
-        
+
         InstructorFeedbackEditSaveAction a = getAction(params);
         AjaxResult ar = getAjaxResult(a);
         InstructorFeedbackEditPageData pageData = (InstructorFeedbackEditPageData) ar.data;
-        
+
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
         assertFalse(pageData.getHasError());
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
@@ -61,38 +59,37 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        
-        
+
         ______TS("failure: invalid parameters");
-        
+
         params[15] = "01/03/2012";
-        
+
         a = getAction(params);
         ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
-        
+
         expectedString = "The start time for this feedback session cannot be "
                          + "earlier than the time when the session will be visible.";
         assertEquals(expectedString, pageData.getStatusForAjax());
         assertTrue(pageData.getHasError());
-        
+
         ______TS("success: Timzone with offset, 'never' show session, 'custom' show results");
-        
+
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                        session.getFeedbackSessionName());
         params[25] = "5.75";
         params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-        
+
         //remove instructions, grace period, start time to test null conditions
-        
+
         a = getAction(params);
         ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
-        
+
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
         assertFalse(pageData.getHasError());
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
@@ -106,26 +103,25 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        
-        
+
         ______TS("success: atopen session visible time, custom results visible time, null timezone, null grace period");
-        
+
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, session.getFeedbackSessionName(), 1);
-        
+
         //remove grace period (first) and then time zone
         params = ArrayUtils.remove(params, 26);
         params = ArrayUtils.remove(params, 26);
         params = ArrayUtils.remove(params, 24);
         params = ArrayUtils.remove(params, 24);
-        
+
         a = getAction(params);
         ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
-        
+
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
         assertFalse(pageData.getHasError());
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
@@ -139,10 +135,9 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        
-        
+
         ______TS("success: Masquerade mode, never release results, invalid timezone and graceperiod");
-        
+
         gaeSimulation.loginAsAdmin("admin.user");
 
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
@@ -150,16 +145,16 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
         params[25] = " ";
         params[27] = "12dsf";
-        
+
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
-        
+
         a = getAction(params);
         ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
-        
+
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
         assertFalse(pageData.getHasError());
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
@@ -174,7 +169,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
-    
+
     @Override
     protected InstructorFeedbackEditSaveAction getAction(String... params) {
         return (InstructorFeedbackEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);

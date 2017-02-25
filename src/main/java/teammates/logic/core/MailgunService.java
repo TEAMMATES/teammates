@@ -13,37 +13,37 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 
 /**
  * Email sender service provided by Mailgun.
- * 
+ *
  * @see <a href="https://cloud.google.com/appengine/docs/java/mail/mailgun">https://cloud.google.com/appengine/docs/java/mail/mailgun</a>
  * @see {@link FormDataMultiPart}
  */
 public class MailgunService extends EmailSenderService {
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public FormDataMultiPart parseToEmail(EmailWrapper wrapper) {
         FormDataMultiPart formData = new FormDataMultiPart();
-        
+
         String sender = wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()
                         ? wrapper.getSenderEmail()
                         : wrapper.getSenderName() + " <" + wrapper.getSenderEmail() + ">";
         formData.field("from", sender);
-        
+
         formData.field("to", wrapper.getRecipient());
-        
+
         if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
             formData.field("bcc", wrapper.getBcc());
         }
-        
+
         formData.field("h:Reply-To", wrapper.getReplyTo());
         formData.field("subject", wrapper.getSubject());
         formData.field("html", wrapper.getContent());
-        
+
         return formData;
     }
-    
+
     @Override
     protected void sendEmailWithService(EmailWrapper wrapper) {
         FormDataMultiPart email = parseToEmail(wrapper);
@@ -51,12 +51,12 @@ public class MailgunService extends EmailSenderService {
         client.addFilter(new HTTPBasicAuthFilter("api", Config.MAILGUN_APIKEY));
         WebResource webResource =
                 client.resource("https://api.mailgun.net/v3/" + Config.MAILGUN_DOMAINNAME + "/messages");
-        
+
         ClientResponse response = webResource.type(MediaType.MULTIPART_FORM_DATA_TYPE)
                                              .post(ClientResponse.class, email);
         if (response.getStatus() != SUCCESS_CODE) {
             log.severe("Email failed to send: " + response.getStatusInfo().getReasonPhrase());
         }
     }
-    
+
 }

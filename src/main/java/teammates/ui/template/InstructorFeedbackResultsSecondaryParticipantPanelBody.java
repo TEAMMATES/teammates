@@ -5,16 +5,16 @@ import java.util.List;
 /**
  * Data model for the panel body for the participant panels
  * used in Results by Participant > Participant > Question
- * 
+ *
  */
 public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
     private String secondaryParticipantIdentifier;
     private String secondaryParticipantDisplayableName;
-    
+
     private String profilePictureLink;
-    
+
     private InstructorFeedbackResultsModerationButton moderationButton;
-    
+
     private List<InstructorFeedbackResultsResponsePanel> responsePanels;
 
     public InstructorFeedbackResultsSecondaryParticipantPanelBody(
@@ -53,5 +53,5 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
     public void setModerationButton(InstructorFeedbackResultsModerationButton moderationButton) {
         this.moderationButton = moderationButton;
     }
-    
+
 }

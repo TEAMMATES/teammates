@@ -4,7 +4,7 @@ $(document).ready(function() {
     } else {
         toggleSort($('#button_sortstudentteam'));
     }
-    
+
     // auto select the html table when modal is shown
     $('#studentTableWindow').on('shown.bs.modal', function() {
         selectElementContents(document.getElementById('detailsTable'));
@@ -21,7 +21,7 @@ function submitFormAjax() {
     var formData = formObject.serialize();
     var content = $('#detailsTable');
     var ajaxStatus = $('#ajaxStatus');
-    
+
     $.ajax({
         type: 'POST',
         url: '/page/instructorCourseDetailsPage?' + formData,

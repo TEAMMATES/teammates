@@ -28,15 +28,15 @@ import teammates.test.driver.AssertHelper;
 import com.google.appengine.api.datastore.Text;
 
 public class FeedbackSessionsDbTest extends BaseComponentTestCase {
-    
+
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private DataBundle dataBundle = getTypicalDataBundle();
-    
+
     @BeforeClass
     public void classSetup() throws Exception {
         addSessionsToDb();
     }
-    
+
     private void addSessionsToDb() throws Exception {
         Set<String> keys = dataBundle.feedbackSessions.keySet();
         for (String i : keys) {
@@ -51,13 +51,13 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     @Test
     public void testCreateDeleteFeedbackSession()
             throws Exception {
-        
+
         ______TS("standard success case");
-        
+
         FeedbackSessionAttributes fsa = getNewFeedbackSession();
         fsDb.createEntity(fsa);
         verifyPresentInDatastore(fsa);
-        
+
         ______TS("duplicate");
         try {
             fsDb.createEntity(fsa);
@@ -68,21 +68,21 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                                             + fsa.getIdentificationString(),
                                         e.getMessage());
         }
-        
+
         fsDb.deleteEntity(fsa);
         verifyAbsentInDatastore(fsa);
-        
+
         ______TS("null params");
-        
+
         try {
             fsDb.createEntity(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         ______TS("invalid params");
-        
+
         try {
             fsa.setStartTime(new Date());
             fsDb.createEntity(fsa);
@@ -91,9 +91,9 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
             // start time is now after end time
             AssertHelper.assertContains("start time", e.getLocalizedMessage());
         }
-        
+
     }
-    
+
     @Test
     public void testAllGetFeedbackSessions() {
 
@@ -104,48 +104,48 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         testGetFeedbackSessionsPossiblyNeedingClosedEmail();
         testGetFeedbackSessionsPossiblyNeedingPublishedEmail();
     }
-    
+
     private void testGetFeedbackSessions() {
-        
+
         ______TS("standard success case");
-        
+
         FeedbackSessionAttributes expected =
                 dataBundle.feedbackSessions.get("session1InCourse2");
         FeedbackSessionAttributes actual =
                 fsDb.getFeedbackSession("idOfTypicalCourse2", "Private feedback session");
-        
+
         assertEquals(expected.toString(), actual.toString());
-        
+
         ______TS("non-existant session");
-        
+
         assertNull(fsDb.getFeedbackSession("non-course", "Non-existant feedback session"));
-        
+
         ______TS("null fsName");
-        
+
         try {
             fsDb.getFeedbackSession("idOfTypicalCourse1", null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         ______TS("null courseId");
-        
+
         try {
             fsDb.getFeedbackSession(null, "First feedback session");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
     }
-    
+
     private void testGetFeedbackSessionsForCourse() {
-        
+
         ______TS("standard success case");
-        
+
         List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsForCourse("idOfTypicalCourse1");
-        
+
         String expected =
                 dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL
@@ -153,88 +153,88 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                 + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
-        
+
         for (FeedbackSessionAttributes session : sessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
         assertEquals(6, sessions.size());
-        
+
         ______TS("null params");
-        
+
         try {
             fsDb.getFeedbackSessionsForCourse(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         ______TS("non-existant course");
-        
+
         assertTrue(fsDb.getFeedbackSessionsForCourse("non-existant course").isEmpty());
-            
+
         ______TS("no sessions in course");
-        
+
         assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());
     }
-    
+
     private void testGetFeedbackSessionsPossiblyNeedingOpenEmail() {
-        
+
         ______TS("standard success case");
-        
+
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
-        
+
         assertEquals(1, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentOpenEmail());
         }
-        
+
     }
-    
+
     private void testGetFeedbackSessionsPossiblyNeedingClosingEmail() {
-        
+
         ______TS("standard success case");
-        
+
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
-        
+
         assertEquals(6, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentClosingEmail());
             assertTrue(fsa.isClosingEmailEnabled());
         }
-        
+
     }
-    
+
     private void testGetFeedbackSessionsPossiblyNeedingClosedEmail() {
-        
+
         ______TS("standard success case");
-        
+
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
-        
+
         assertEquals(6, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentClosedEmail());
             assertTrue(fsa.isClosingEmailEnabled());
         }
-        
+
     }
-    
+
     private void testGetFeedbackSessionsPossiblyNeedingPublishedEmail() {
-        
+
         ______TS("standard success case");
-        
+
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
-        
+
         assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentPublishedEmail());
             assertTrue(fsa.isPublishedEmailEnabled());
         }
-        
+
     }
-    
+
     @Test
     public void testUpdateFeedbackSession() throws Exception {
-        
+
         ______TS("null params");
         try {
             fsDb.updateFeedbackSession(null);
@@ -280,7 +280,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsDb.updateFeedbackSession(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
     }
-    
+
     private FeedbackSessionAttributes getNewFeedbackSession() {
         FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
         fsa.setFeedbackSessionType(FeedbackSessionType.STANDARD);
@@ -298,12 +298,12 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsa.setInstructions(new Text("Give feedback."));
         return fsa;
     }
-    
+
     @AfterClass
     public void classTearDown() {
         deleteSessionsFromDb();
     }
-    
+
     private void deleteSessionsFromDb() {
         Set<String> keys = dataBundle.feedbackSessions.keySet();
         for (String i : keys) {
@@ -311,5 +311,5 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         }
         fsDb.deleteEntity(getNewFeedbackSession());
     }
-    
+
 }

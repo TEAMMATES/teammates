@@ -8,23 +8,23 @@ public class InstructorCourseJoinConfirmationPageData extends PageData {
 
     private String regkey;
     private String institute;
-    
+
     public InstructorCourseJoinConfirmationPageData(AccountAttributes account, String regkey, String institute) {
         super(account);
         this.regkey = regkey;
         this.institute = institute;
     }
-    
+
     public String getRegkey() {
         return regkey;
     }
-    
+
     public String getInstitute() {
         return institute;
     }
-    
+
     public String getConfirmationLink() {
-        
+
         return Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey
              + (institute == null
                 ? ""

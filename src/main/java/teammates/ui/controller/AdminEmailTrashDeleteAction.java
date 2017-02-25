@@ -10,11 +10,11 @@ public class AdminEmailTrashDeleteAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        
+
         gateKeeper.verifyAdminPrivileges(account);
-        
+
         boolean emptyTrashBin = getRequestParamAsBoolean(Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN);
-        
+
         if (emptyTrashBin) {
             try {
                 logic.deleteAllEmailsInTrashBin();
@@ -25,7 +25,7 @@ public class AdminEmailTrashDeleteAction extends Action {
                 statusToUser.add(new StatusMessage("Blobstore connection failure", StatusMessageColor.DANGER));
             }
         }
-        
+
         return createRedirectResult(Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE);
     }
 

@@ -37,7 +37,7 @@ public class StudentProfileEditBox {
         this.googleId = googleId;
         this.pictureUrl = pictureUrl;
     }
-    
+
     public String getName() {
         return name;
     }

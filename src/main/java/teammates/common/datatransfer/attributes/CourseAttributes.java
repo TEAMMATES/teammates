@@ -16,25 +16,25 @@ import teammates.storage.entity.Course;
  * The data transfer object for Course entities.
  */
 public class CourseAttributes extends EntityAttributes implements Comparable<CourseAttributes> {
-    
+
     private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
         @Override
         public int compare(CourseAttributes course1, CourseAttributes course2) {
             if (course1.createdAt.compareTo(course2.createdAt) == 0) {
                 return course1.getId().compareTo(course2.getId());
             }
-            
+
             // sort by newest course first
             return -1 * course1.createdAt.compareTo(course2.createdAt);
         }
     };
-    
+
     //Note: be careful when changing these variables as their names are used in *.json files.
     public Date createdAt;
     private String id;
     private String name;
     private String timeZone;
-    
+
     public CourseAttributes() {
         // attributes to be set after construction
     }
@@ -59,32 +59,32 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public String getName() {
         return name;
     }
-    
+
     public String getTimeZone() {
         return timeZone;
     }
-    
+
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
 
     @Override
     public List<String> getInvalidityInfo() {
-        
+
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
         String error;
-        
+
         error = validator.getInvalidityInfoForCourseId(getId());
         if (!error.isEmpty()) {
             errors.add(error);
         }
-        
+
         error = validator.getInvalidityInfoForCourseName(getName());
         if (!error.isEmpty()) {
             errors.add(error);
         }
-        
+
         error = validator.getInvalidityInfoForCourseTimeZone(getTimeZone());
         if (!error.isEmpty()) {
             errors.add(error);
@@ -118,12 +118,12 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public String getBackupIdentifier() {
         return Const.SystemParams.COURSE_BACKUP_LOG_MSG + getId();
     }
-    
+
     @Override
     public String getJsonString() {
         return JsonUtils.toJson(this, CourseAttributes.class);
     }
-    
+
     @Override
     public void sanitizeForSaving() {
         name = SanitizationHelper.sanitizeForHtml(getName());
@@ -136,7 +136,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         }
         return o.createdAt.compareTo(createdAt);
     }
-    
+
     public static void sortById(List<CourseAttributes> courses) {
         Collections.sort(courses, new Comparator<CourseAttributes>() {
             @Override
@@ -145,7 +145,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
             }
         });
     }
-    
+
     public static void sortByCreatedDate(List<CourseAttributes> courses) {
         Collections.sort(courses, createdDateComparator);
     }
