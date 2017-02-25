@@ -12,12 +12,12 @@ import com.sendgrid.SendGridException;
 
 /**
  * Email sender service provided by SendGrid.
- * 
+ *
  * @see <a href="https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid">https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid</a>
  * @see {@link SendGrid}
  */
 public class SendgridService extends EmailSenderService {
-    
+
     /**
      * {@inheritDoc}
      */
@@ -38,7 +38,7 @@ public class SendgridService extends EmailSenderService {
         email.setText(Jsoup.parse(wrapper.getContent()).text());
         return email;
     }
-    
+
     @Override
     protected void sendEmailWithService(EmailWrapper wrapper) throws SendGridException {
         Email email = parseToEmail(wrapper);
@@ -48,5 +48,5 @@ public class SendgridService extends EmailSenderService {
             log.severe("Email failed to send: " + response.getMessage());
         }
     }
-    
+
 }

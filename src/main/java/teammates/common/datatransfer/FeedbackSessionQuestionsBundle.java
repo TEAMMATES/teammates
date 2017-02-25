@@ -30,7 +30,7 @@ public class FeedbackSessionQuestionsBundle {
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseBundle() {
         return questionResponseBundle;
     }
-    
+
     public FeedbackSessionAttributes getFeedbackSession() {
         return feedbackSession;
     }
@@ -110,14 +110,14 @@ public class FeedbackSessionQuestionsBundle {
 
         return result;
     }
-     
+
     /**
      * Removes question from the bundle if the question has givers or recipients that are anonymous to the instructor
      * or responses that are hidden from the instructor.
      */
     public void hideUnmoderatableQuestions() {
         List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<FeedbackQuestionAttributes>();
-        
+
         for (FeedbackQuestionAttributes question : questionResponseBundle.keySet()) {
             boolean isGiverVisibleToInstructor = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
             boolean isRecipientVisibleToInstructor =
@@ -129,10 +129,10 @@ public class FeedbackSessionQuestionsBundle {
                 questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
             }
         }
-        
+
         questionResponseBundle.keySet().removeAll(questionsToHide);
     }
-    
+
     /**
      * Empties responses for all questions in this bundle.
      * Used to not show existing responses when previewing as instructor

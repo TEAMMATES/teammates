@@ -30,7 +30,7 @@ function transportEmailChoices() {
 
 function bindPhotos(courseIdx) {
     $('td[id^="studentphoto-c' + courseIdx + '"]').each(function() {
-        
+
         $(this).children('.profile-pic-icon-click > img').each(function() {
             bindDefaultImageIfMissing(this);
         });
@@ -66,7 +66,7 @@ var seeMoreRequest = function(e) {
     var courseIndex = $(panelCollapse[0]).attr('id').split('-')[1];
     var courseCheck = $('#course_check-' + courseIndex);
     var courseNumStudents = parseInt($('#numStudents-' + courseIndex).val());
-    
+
     if ($(panelHeading).attr('class').indexOf('ajax_submit') === -1) {
         clearStatusMessages();
         if ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) {

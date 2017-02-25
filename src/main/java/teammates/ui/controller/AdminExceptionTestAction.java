@@ -28,7 +28,7 @@ public class AdminExceptionTestAction extends Action {
 
         } else if (error.equals(NullPointerException.class.getSimpleName())) {
             throw new NullPointerException();
-            
+
         } else if (error.equals(DeadlineExceededException.class.getSimpleName())) {
             throw new DeadlineExceededException();
         } else if (error.equals(NullPostParameterException.class.getSimpleName())) {
@@ -36,7 +36,7 @@ public class AdminExceptionTestAction extends Action {
         }
 
         statusToAdmin = "adminExceptionTest";
-                
+
         return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
     }
 

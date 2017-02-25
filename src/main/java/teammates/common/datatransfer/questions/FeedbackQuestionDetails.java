@@ -101,7 +101,7 @@ public abstract class FeedbackQuestionDetails {
                 + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
                 + Const.EOL;
     }
-    
+
     public String getQuestionText() {
         return questionText;
     }
@@ -181,7 +181,7 @@ public abstract class FeedbackQuestionDetails {
                + SanitizationHelper.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question))
                + "</i>";
     }
-    
+
     /**
      * @return true if 'No Response' is to be displayed in the Response rows.
      */
@@ -230,7 +230,7 @@ public abstract class FeedbackQuestionDetails {
 
         return allAnswersEmpty;
     }
-    
+
     public boolean isQuestionSpecificSortingRequired() {
         return getResponseRowsSortOrder() != null;
     }

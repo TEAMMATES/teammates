@@ -9,7 +9,7 @@ import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.ShowPageResult;
 
 public class ActionResultTest extends BaseTestCase {
-    
+
     @Test
     public void testAppendParameters() {
         ActionResult svr = new ShowPageResult("/page/instructorHome", null, null, null);
@@ -17,7 +17,7 @@ public class ActionResultTest extends BaseTestCase {
         svr.addResponseParam(Const.ParamsNames.USER_ID, "david");
         assertEquals("/page/instructorHome?user=david", svr.getDestinationWithParams());
     }
-    
+
     @Test
     public void testFileDownloadResult() {
         FileDownloadResult download = new FileDownloadResult("/page/instructorFeedbackResultsDownload",
@@ -25,7 +25,7 @@ public class ActionResultTest extends BaseTestCase {
         assertEquals("attachment; filename=\"Normal name.csv\";filename*= UTF-8''Normal+name.csv",
                      download.getContentDispositionHeader());
     }
-    
+
     @Test
     public void testFileDownloadResult_fileNameWithUnicodeCharacters_hasCorrectContentDesposition() {
         FileDownloadResult download = new FileDownloadResult("/page/instructorFeedbackResultsDownload",

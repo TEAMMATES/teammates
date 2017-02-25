@@ -11,16 +11,16 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.ADMIN_EXCEPTION_TEST;
     }
-    
+
     @Override
     protected void prepareTestData() {
         // no test data used in this test
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        
+
         //TODO: implement this
     }
 
@@ -28,5 +28,5 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
     protected AdminExceptionTestAction getAction(String... params) {
         return (AdminExceptionTestAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
-    
+
 }

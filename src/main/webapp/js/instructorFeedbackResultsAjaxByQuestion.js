@@ -37,7 +37,7 @@ $(document).ready(function() {
                     }
                     $panelBody.html(appendedQuestion);
                 }
-                
+
                 $panelBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function() {
                     bindDefaultImageIfMissing(this);
                 });

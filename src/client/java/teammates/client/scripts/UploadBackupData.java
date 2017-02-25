@@ -44,12 +44,12 @@ import teammates.test.driver.FileHelper;
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
  * appID in the test.properties file.Can use DataGenerator.java to generate random data.
- * 
+ *
  * Notes:
  * -Edit SOURCE_FILE_NAME before use
  * -Should not have any limit on the size of the databundle. However, the number of entities per request
  * should not be set to too large as it may cause Deadline Exception (especially for evaluations)
- * 
+ *
  */
 public class UploadBackupData extends RemoteApiClient {
 
@@ -57,12 +57,12 @@ public class UploadBackupData extends RemoteApiClient {
 
     private static DataBundle data;
     private static String jsonString;
-    
+
     private static Set<String> coursesPersisted = new HashSet<String>();
     private static HashMap<String, FeedbackQuestionAttributes> feedbackQuestionsPersisted =
             new HashMap<String, FeedbackQuestionAttributes>();
     private static HashMap<String, String> feedbackQuestionIds = new HashMap<String, String>();
-    
+
     private static Logic logic = new Logic();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final CommentsDb commentsDb = new CommentsDb();
@@ -74,12 +74,12 @@ public class UploadBackupData extends RemoteApiClient {
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
     private static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
-    
+
     public static void main(String[] args) throws Exception {
         UploadBackupData uploadBackupData = new UploadBackupData();
         uploadBackupData.doOperationRemotely();
     }
-    
+
     @Override
     protected void doOperation() {
         String[] folders = getFolders();
@@ -89,7 +89,7 @@ public class UploadBackupData extends RemoteApiClient {
             uploadData(backupFiles, folder);
         }
     }
-    
+
     private static String[] getFolders() {
         File backupFolder = new File(BACKUP_FOLDER);
         String[] folders = backupFolder.list();
@@ -103,9 +103,9 @@ public class UploadBackupData extends RemoteApiClient {
                     DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
                 try {
                     Date firstDate = dateFormat.parse(o1);
-                    
+
                     Date secondDate = dateFormat.parse(o2);
-                    
+
                     return secondDate.compareTo(firstDate);
                 } catch (ParseException e) {
                     return 0;
@@ -115,13 +115,13 @@ public class UploadBackupData extends RemoteApiClient {
         listOfFolders.toArray(folders);
         return folders;
     }
-    
+
     private static String[] getBackupFilesInFolder(String folder) {
         String folderName = BACKUP_FOLDER + "/" + folder;
         File currentFolder = new File(folderName);
         return currentFolder.list();
     }
-    
+
     private static void uploadData(String[] backupFiles, String folder) {
         for (String backupFile : backupFiles) {
             if (coursesPersisted.contains(backupFile)) {
@@ -130,13 +130,13 @@ public class UploadBackupData extends RemoteApiClient {
             }
             try {
                 String folderName = BACKUP_FOLDER + "/" + folder;
-                
+
                 jsonString = FileHelper.readFile(folderName + "/" + backupFile);
                 data = JsonUtils.fromJson(jsonString, DataBundle.class);
-                
+
                 feedbackQuestionsPersisted = new HashMap<String, FeedbackQuestionAttributes>();
                 feedbackQuestionIds = new HashMap<String, String>();
-                
+
                 if (!data.accounts.isEmpty()) {
                     // Accounts
                     persistAccounts(data.accounts);
@@ -178,13 +178,13 @@ public class UploadBackupData extends RemoteApiClient {
                     persistProfiles(data.profiles);
                 }
                 coursesPersisted.add(backupFile);
-                
+
             } catch (Exception e) {
                 System.out.println("Error in uploading files: " + e.getMessage());
             }
         }
     }
-    
+
     private static void persistAccounts(Map<String, AccountAttributes> accounts) {
         try {
             for (AccountAttributes accountData : accounts.values()) {
@@ -195,7 +195,7 @@ public class UploadBackupData extends RemoteApiClient {
             System.out.println("Error in uploading accounts: " + e.getMessage());
         }
     }
-    
+
     private static void persistCourses(Map<String, CourseAttributes> courses) {
         try {
             coursesDb.createCourses(courses.values());
@@ -203,7 +203,7 @@ public class UploadBackupData extends RemoteApiClient {
             System.out.println("Error in uploading courses: " + e.getMessage());
         }
     }
-    
+
     private static void persistInstructors(Map<String, InstructorAttributes> instructors) {
         try {
             instructorsDb.createInstructors(instructors.values());
@@ -211,7 +211,7 @@ public class UploadBackupData extends RemoteApiClient {
             System.out.println("Error in uploading instructors: " + e.getMessage());
         }
     }
-    
+
     private static void persistStudents(Map<String, StudentAttributes> students) {
         try {
             studentsDb.createStudentsWithoutSearchability(students.values());
@@ -219,7 +219,7 @@ public class UploadBackupData extends RemoteApiClient {
             System.out.println("Error in uploading students: " + e.getMessage());
         }
     }
-    
+
     private static void persistFeedbackSessions(Map<String, FeedbackSessionAttributes> feedbackSessions) {
         try {
             fbDb.createFeedbackSessions(feedbackSessions.values());
@@ -227,36 +227,36 @@ public class UploadBackupData extends RemoteApiClient {
             System.out.println("Error in uploading feedback sessions: " + e.getMessage());
         }
     }
-    
+
     private static void persistFeedbackQuestions(Map<String, FeedbackQuestionAttributes> map) {
         Map<String, FeedbackQuestionAttributes> questions = map;
 
         try {
             fqDb.createFeedbackQuestions(questions.values());
-            
+
             for (FeedbackQuestionAttributes question : questions.values()) {
                 feedbackQuestionsPersisted.put(question.getId(), question);
             }
-            
+
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading feedback questions: " + e.getMessage());
         }
     }
-    
+
     private static void persistFeedbackResponses(Map<String, FeedbackResponseAttributes> map) {
         Map<String, FeedbackResponseAttributes> responses = map;
-        
+
         try {
             for (FeedbackResponseAttributes response : responses.values()) {
                 adjustFeedbackResponseId(response);
             }
-            
+
             frDb.createFeedbackResponses(responses.values());
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading feedback responses: " + e.getMessage());
         }
     }
-    
+
     private static void persistFeedbackResponseComments(Map<String, FeedbackResponseCommentAttributes> map) {
         Map<String, FeedbackResponseCommentAttributes> responseComments = map;
 
@@ -264,13 +264,13 @@ public class UploadBackupData extends RemoteApiClient {
             for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
                 adjustFeedbackResponseCommentId(responseComment);
             }
-            
+
             fcDb.createFeedbackResponseComments(responseComments.values());
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading feedback response comments: " + e.getMessage());
         }
     }
-    
+
     private static void persistComments(Map<String, CommentAttributes> map) {
         Map<String, CommentAttributes> comments = map;
         try {
@@ -288,10 +288,10 @@ public class UploadBackupData extends RemoteApiClient {
             System.out.println("Error in uploading profiles: " + e.getMessage());
         }
     }
-    
+
     private static void adjustFeedbackResponseId(FeedbackResponseAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
-        
+
         if (feedbackQuestionIds.containsKey(question.getId())) {
             response.feedbackQuestionId = feedbackQuestionIds.get(question.getId());
         } else {
@@ -302,10 +302,10 @@ public class UploadBackupData extends RemoteApiClient {
             feedbackQuestionIds.put(question.getId(), newId);
         }
     }
-    
+
     private static void adjustFeedbackResponseCommentId(FeedbackResponseCommentAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
-        
+
         if (feedbackQuestionIds.containsKey(question.getId())) {
             response.feedbackQuestionId = feedbackQuestionIds.get(question.getId());
         } else {

@@ -10,13 +10,13 @@ public class AdminAccountDeleteAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        
+
         gateKeeper.verifyAdminPrivileges(account);
-        
+
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String account = getRequestParamValue("account");
-        
+
         //TODO: We should extract these into separate actions e.g., AdminInstructorDowngradeAction
         if (courseId == null && account == null) {
             //delete instructor status
@@ -25,7 +25,7 @@ public class AdminAccountDeleteAction extends Action {
             statusToAdmin = "Instructor Status for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
             return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
         }
-        
+
         if (courseId == null && account != null) {
             //delete entire account
             logic.deleteAccount(instructorId);
@@ -46,7 +46,7 @@ public class AdminAccountDeleteAction extends Action {
                             + "<span class=\"bold\">[" + courseId + "]</span> has been deleted";
             return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE + "?instructorid=" + studentId);
         }
-        
+
         //remove instructor from course
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
         logic.deleteInstructor(courseId, instructor.email);

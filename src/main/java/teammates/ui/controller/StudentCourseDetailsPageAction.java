@@ -17,13 +17,12 @@ public class StudentCourseDetailsPageAction extends Action {
             return createPleaseJoinCourseResponse(courseId);
         }
 
-       
         gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, account.googleId),
                                     logic.getCourse(courseId));
 
         StudentCourseDetailsPageData data =
                                         new StudentCourseDetailsPageData(account);
-        
+
         data.init(logic.getCourseDetails(courseId), logic.getInstructorsForCourse(courseId),
                       logic.getStudentForGoogleId(courseId, account.googleId),
                       logic.getTeamDetailsForStudent(logic.getStudentForGoogleId(courseId, account.googleId)));

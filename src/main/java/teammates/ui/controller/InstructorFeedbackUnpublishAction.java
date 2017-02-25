@@ -31,7 +31,7 @@ public class InstructorFeedbackUnpublishAction extends Action {
             if (session.isPublishedEmailEnabled()) {
                 taskQueuer.scheduleFeedbackSessionUnpublishedEmail(session.getCourseId(), session.getFeedbackSessionName());
             }
-            
+
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED,
                                                StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> "

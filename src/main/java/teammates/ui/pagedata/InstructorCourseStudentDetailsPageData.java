@@ -7,7 +7,7 @@ import teammates.ui.template.StudentInfoTable;
 import teammates.ui.template.StudentProfile;
 
 public class InstructorCourseStudentDetailsPageData extends PageData {
-    
+
     private StudentProfile studentProfile;
     private StudentInfoTable studentInfoTable;
     private String commentRecipient;
@@ -23,19 +23,19 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
         this.studentInfoTable = new StudentInfoTable(student, isAbleToAddComment, hasSection);
         this.commentRecipient = commentRecipient;
     }
-    
+
     public StudentProfile getStudentProfile() {
         return studentProfile;
     }
-    
+
     public StudentInfoTable getStudentInfoTable() {
         return studentInfoTable;
     }
-    
+
     public String getCommentRecipient() {
         return commentRecipient;
     }
-    
+
     public boolean isCommentBoxShown() {
         return "student".equals(commentRecipient)
                || "team".equals(commentRecipient)
