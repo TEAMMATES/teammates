@@ -12,15 +12,15 @@ public class StudentHomeFeedbackSessionRow extends HomeFeedbackSessionRow {
         this.actions = actions;
         this.index = index;
     }
-    
+
     public String getEndTime() {
         return endTime;
     }
-    
+
     public StudentFeedbackSessionActions getActions() {
         return actions;
     }
-    
+
     public int getIndex() {
         return index;
     }

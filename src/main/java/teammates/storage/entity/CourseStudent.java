@@ -35,10 +35,10 @@ public class CourseStudent implements StoreCallback {
     @PrimaryKey
     @Persistent
     private String id;
-    
+
     @Persistent
     private Date createdAt;
-    
+
     @Persistent
     private Date updatedAt;
 
@@ -87,7 +87,7 @@ public class CourseStudent implements StoreCallback {
     private String sectionName;
 
     /**
-     * 
+     *
      * @param email
      *            Student's email used for this course.
      * @param name
@@ -111,40 +111,40 @@ public class CourseStudent implements StoreCallback {
         setCourseId(courseId);
         setTeamName(teamName);
         setSectionName(sectionName);
-        
+
         setCreatedAt(new Date());
 
         this.id = makeId();
         registrationKey = generateRegistrationKey();
     }
-    
+
     private String makeId() {
         return getEmail() + '%' + getCourseId();
     }
-    
+
     public Date getCreatedAt() {
         return createdAt;
     }
-    
+
     public void setCreatedAt(Date created) {
         this.createdAt = created;
         setLastUpdate(created);
     }
-    
+
     public Date getUpdatedAt() {
         return updatedAt;
     }
-    
+
     public void setLastUpdate(Date updatedAt) {
         if (!keepUpdateTimestamp) {
             this.updatedAt = updatedAt;
         }
     }
-    
+
     public String getUniqueId() {
         return this.id;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -191,11 +191,11 @@ public class CourseStudent implements StoreCallback {
     public void setComments(String comments) {
         this.comments = comments == null ? null : comments.trim();
     }
-    
+
     public String getRegistrationKey() {
         return registrationKey;
     }
- 
+
     public String getCourseId() {
         return courseId;
     }
@@ -227,14 +227,14 @@ public class CourseStudent implements StoreCallback {
     public void jdoPreStore() {
         this.setLastUpdate(new Date());
     }
-    
+
     /**
      * Returns unique registration key for the student.
      */
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();
         Assumption.assertNotNull(uniqueId);
-        
+
         SecureRandom prng = new SecureRandom();
         return uniqueId + "%" + prng.nextInt();
     }

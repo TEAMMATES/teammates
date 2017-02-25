@@ -36,7 +36,7 @@ $(document).ready(function() {
                     clearStatusMessages();
                     needsRetrying = false;
                 }
-                
+
                 var statusMessages = $(data).find('.statusMessage');
                 appendStatusMessage(statusMessages);
 

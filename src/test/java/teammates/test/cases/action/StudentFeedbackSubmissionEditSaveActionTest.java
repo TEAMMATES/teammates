@@ -33,7 +33,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
@@ -139,10 +139,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("/page/studentHomePage?error=" + r.isError + "&user=student1InCourse1",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
-        
+
         // submission confirmation email sent
         verifyNumberOfEmailsSent(a, 1);
-        
+
         EmailWrapper email = getEmailsSent(a).get(0);
         String courseName = coursesLogic.getCourse(fr.courseId).getName();
         assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
@@ -183,7 +183,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         // submission confirmation email not sent if the action is an error, even with submission parameter "on"
         verifyNoEmailsSent(a);
-        
+
         ______TS("edit response, empty answer");
 
         submissionParams = new String[]{
@@ -288,12 +288,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("/page/studentHomePage?error=" + r.isError + "&user=FSQTT.student1InCourse1",
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
-        
+
         ______TS("mcq with other option enabled");
-        
+
         fq = fqDb.getFeedbackQuestion("MCQ Session", "FSQTT.idOfTypicalCourse1", 3);
         assertNotNull("Feedback question not found in database", fq);
-    
+
         fr = dataBundle.feedbackResponses.get("response1ForQ3S1C1");
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
@@ -309,10 +309,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", "Tutorial",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER + "-2-0", "1"
         };
-        
+
         a = getAction(submissionParams);
         r = getRedirectResult(a);
-        
+
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/studentHomePage?error=" + r.isError + "&user=FSQTT.student1InCourse1",
@@ -320,7 +320,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         FeedbackResponseAttributes finalFr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull(finalFr);
         assertEquals("Tutorial", finalFr.getResponseDetails().getAnswerString());
-        
 
         ______TS("msq");
 
@@ -375,12 +374,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("/page/studentHomePage?error=" + r.isError + "&user=FSQTT.student1InCourse1",
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
-        
+
         ______TS("msq with other option enabled, student selects predefined options and other option");
-        
+
         fq = fqDb.getFeedbackQuestion("MSQ Session", "FSQTT.idOfTypicalCourse1", 3);
         assertNotNull("Feedback question not found in database", fq);
-    
+
         fr = dataBundle.feedbackResponses.get("response1ForQ3S2C1");
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
@@ -396,10 +395,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-3-0", "Pizza, Pasta, Chicken rice, Hotdog",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER + "-3-0", "1"
         };
-        
+
         a = getAction(submissionParams);
         r = getRedirectResult(a);
-        
+
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/studentHomePage?error=" + r.isError + "&user=FSQTT.student1InCourse1",
@@ -407,9 +406,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         finalFr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull(finalFr);
         assertEquals("Pizza, Pasta, Chicken rice, Hotdog", finalFr.getResponseDetails().getAnswerString());
-        
+
         ______TS("msq with other option enabled, student selects predefined options only, not other option");
-    
+
         fr = dataBundle.feedbackResponses.get("response2ForQ3S2C1");
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
@@ -425,10 +424,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-3-1", "Pasta",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER + "-3-1", "0"
         };
-        
+
         a = getAction(submissionParams);
         r = getRedirectResult(a);
-        
+
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/studentHomePage?error=" + r.isError + "&user=FSQTT.student1InCourse1",
@@ -436,9 +435,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         finalFr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull(finalFr);
         assertEquals("Pasta", finalFr.getResponseDetails().getAnswerString());
-        
+
         ______TS("msq with other option enabled, student selects other option only, not any predefined option");
-        
+
         fr = dataBundle.feedbackResponses.get("response3ForQ3S2C1");
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
@@ -454,10 +453,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-3-2", "Hotdog",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER + "-3-2", "1"
         };
-        
+
         a = getAction(submissionParams);
         r = getRedirectResult(a);
-        
+
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/studentHomePage?error=" + r.isError + "&user=FSQTT.student1InCourse1",
@@ -697,7 +696,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                      + "&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, "invalid recipient"));
-        
 
         ______TS("Unsuccessful case: modified question type to another type");
         // Response is supposed to be CONTRIB, but submit as RUBRIC
@@ -711,7 +709,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "RUBRIC",
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
         };
-        
+
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
@@ -721,21 +719,21 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                      r.getDestinationWithParams());
         assertEquals(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, "1"), r.getStatusMessage());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
-        
+
         ______TS("Unsuccessful case: try to delete response not belonging to the student");
-        
+
         fq = fqDb.getFeedbackQuestion("MCQ Session", "FSQTT.idOfTypicalCourse1", 1);
         assertNotNull("Feedback question not found in database", fq);
-        
+
         FeedbackResponseAttributes otherFr = dataBundle.feedbackResponses.get("response2ForQ1S1C1");
         List<FeedbackResponseAttributes> responsesToAdd = new ArrayList<FeedbackResponseAttributes>();
         responsesToAdd.add(fr);
         frDb.createFeedbackResponses(responsesToAdd);
-        
+
         // necessary to get the correct responseId
         otherFr = frDb.getFeedbackResponse(fq.getId(), otherFr.giver, otherFr.recipient);
         assertNotNull("Feedback response not found in database", fr);
-        
+
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", otherFr.getId(),
@@ -746,17 +744,17 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", otherFr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
         };
-        
+
         a = getAction(submissionParams);
         r = getRedirectResult(a);
-        
+
         assertTrue(r.isError);
 
         assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1"
                          + "&courseid=FSQTT.idOfTypicalCourse1&fsname=MCQ+Session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), otherFr.giver, otherFr.recipient));
-        
+
         gaeSimulation.logoutUser();
 
         ______TS("Unregistered student with valid submission of response remains at submission page");
@@ -795,7 +793,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
                         StringHelper.toDecimalFormatString(fqd.getStep()),
                 Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on",
-                
+
                 Const.ParamsNames.REGKEY, studentKey,
                 Const.ParamsNames.STUDENT_EMAIL, unregisteredStudent.email
         };
@@ -814,14 +812,14 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         // submission confirmation email sent also for unregistered student
         verifyNumberOfEmailsSent(submissionAction, 1);
-        
+
         email = getEmailsSent(submissionAction).get(0);
         courseName = coursesLogic.getCourse(fr.courseId).getName();
         assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
                                    fr.feedbackSessionName),
                      email.getSubject());
         assertEquals(unregisteredStudent.email, email.getRecipient());
-        
+
         ______TS("Unregistered student with invalid submission of response remains at submission page");
 
         studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
@@ -840,7 +838,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
                         StringHelper.toDecimalFormatString(fqd.getStep()),
-                
+
                 Const.ParamsNames.REGKEY, studentKey,
                 Const.ParamsNames.STUDENT_EMAIL, unregisteredStudent.email
         };

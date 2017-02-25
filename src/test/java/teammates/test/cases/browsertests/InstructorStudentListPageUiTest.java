@@ -28,7 +28,7 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
  */
 @Priority(-1)
 public class InstructorStudentListPageUiTest extends BaseUiTestCase {
-    private static InstructorStudentListPage viewPage;
+    private InstructorStudentListPage viewPage;
 
     @Override
     protected void prepareTestData() throws Exception {
@@ -100,7 +100,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(1);
         // This is the full HTML verification for Instructor Student List Page, the rest can all be verifyMainHtml
         viewPage.verifyHtml("/instructorStudentListWithHelperView.html");
-        
+
         // verify copy email functionality
         viewPage.toggleShowEmailCheckbox();
         assertFalse(viewPage.isCopyEmailButtonVisible());
@@ -108,7 +108,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.clickCopyEmailButton();
         viewPage.waitForCopyEmailPopoverVisible();
         assertEquals(viewPage.getShownEmailsText(), viewPage.getSelectedText().trim());
-        
+
         // update current instructor privileges
         BackDoor.deleteInstructor(instructorWith2Courses.courseId, instructorWith2Courses.email);
         instructorWith2Courses.privileges.setDefaultPrivilegesForCoowner();
@@ -144,7 +144,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         if ("chrome".equals(TestProperties.BROWSER)) {
             return;
         }
-        
+
         if (System.getenv("APPVEYOR") != null) {
             // The following photo-related tests somehow does not work in AppVeyor environment.
             // This should not be the same "bug" as the Chrome-related above as similar tests in
@@ -152,7 +152,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
             // TODO fix this
             return;
         }
-        
+
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 

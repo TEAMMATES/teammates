@@ -10,7 +10,7 @@ public class AdminFeedbackSessionRow {
     private String creatorEmail;
     private String courseId;
     private String feedbackSessionName;
-    
+
     public AdminFeedbackSessionRow(String sessionStatusForShow, String feedbackSessionStatsLink,
                                     String sessionStartTime, String sessionEndTime,
                                     String instructorHomePageViewLink, String creatorEmail,
@@ -24,39 +24,39 @@ public class AdminFeedbackSessionRow {
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;
     }
-    
+
     public String getSessionStatusForShow() {
         return sessionStatusForShow;
     }
-    
+
     public String getFeedbackSessionStatsLink() {
         return feedbackSessionStatsLink;
     }
-    
+
     public String getSessionStartTime() {
         return sessionStartTime;
     }
-    
+
     public String getSessionEndTime() {
         return sessionEndTime;
     }
-    
+
     public String getInstructorHomePageViewLink() {
         return instructorHomePageViewLink;
     }
-    
+
     public String getCreatorEmail() {
         return creatorEmail;
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
-    
+
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }
-    
+
     public boolean isEndsWithTmt() {
         return creatorEmail.endsWith(".tmt");
     }

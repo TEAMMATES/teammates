@@ -13,16 +13,16 @@ import teammates.common.util.FieldValidator;
 import teammates.test.pageobjects.AdminEmailPage;
 
 public class AdminEmailPageUiTest extends BaseUiTestCase {
-    
+
     private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
 
-    private static AdminEmailPage emailPage;
-    
+    private AdminEmailPage emailPage;
+
     @Override
     protected void prepareTestData() {
         // no test data used in this test
     }
-    
+
     @Test
     public void allTests() throws Exception {
         testCompose();
@@ -30,43 +30,43 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         testDraft();
         testTrash();
     }
-    
+
     private void testCompose() throws Exception {
         ______TS("email compose page");
-        
+
         emailPage = loginAdminToPage(
                         createUrl(Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE), AdminEmailPage.class);
         assertTrue(isEmailComposeElementsPresent());
-        
+
         ______TS("send email - no recipient");
-        
+
         emailPage.clickSendButton();
         emailPage.verifyStatus("Error : No reciver address or file given");
-        
+
         ______TS("send email - recipient email format error");
-        
+
         emailPage.inputRecipient("recipient");
         emailPage.inputSubject("Email Subject");
         emailPage.inputContent("Email Content");
         emailPage.clickSendButton();
         assertTrue(hasStatusMessageRecipientEmailFormatError("recipient"));
-        
+
         ______TS("send email - no subject");
-        
+
         emailPage.inputRecipient("recipient@email.tmt");
         emailPage.clearSubjectBox();
         emailPage.clickSendButton();
         assertTrue(hasStatusMessageNoSubject());
-        
+
         ______TS("send email - success");
-        
+
         emailPage.inputSubject("Email Subject");
         emailPage.clickSendButton();
         assertFalse(hasErrorMessage());
         assertTrue(isEmailComposeElementsPresent());
-        
+
         ______TS("save email - success");
-        
+
         emailPage.inputRecipient("recipient@email.tmt");
         emailPage.inputSubject("Email Subject");
         emailPage.inputContent("Email to save");
@@ -88,7 +88,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.clickTrashTab();
         assertTrue(isEmailTrashDataDisplayCorrect());
     }
-    
+
     private boolean isEmailComposeElementsPresent() {
         return emailPage.isElementPresent(By.id("addressReceiverEmails"))
             && emailPage.isElementPresent(By.name("emailsubject"))
@@ -97,7 +97,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
             && emailPage.isElementPresent(By.id("composeSubmitButton"))
             && emailPage.isElementPresent(By.id("composeSaveButton"));
     }
-    
+
     private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) throws Exception {
         return emailPage.getStatus().contains(
                 getPopulatedErrorMessage(
@@ -105,7 +105,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                     FieldValidator.EMAIL_MAX_LENGTH));
     }
-    
+
     private boolean hasStatusMessageNoSubject() throws Exception {
         return emailPage.getStatus().equals(
                 getPopulatedErrorMessage(
@@ -113,11 +113,11 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
                     FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_EMPTY,
                     FieldValidator.EMAIL_SUBJECT_MAX_LENGTH));
     }
-    
+
     private boolean hasErrorMessage() {
         return emailPage.isElementPresent(By.className("alert-danger"));
     }
-    
+
     /**
      * This method only checks if the email sent data table is displayed correctly
      * i.e, table headers are correct
@@ -126,7 +126,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     private boolean isEmailSentDataDisplayCorrect() {
         return emailPage.isElementPresent(By.className("table")) && isEmailTableHeaderCorrect();
     }
-    
+
     /**
      * This method only checks if the email draft data table is displayed correctly
      * i.e, table headers are correct
@@ -135,7 +135,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     private boolean isEmailDraftDataDisplayCorrect() {
         return emailPage.isElementPresent(By.className("table")) && isEmailTableHeaderCorrect();
     }
-    
+
     /**
      * This method only checks if the email trash data table is displayed correctly
      * i.e, table headers are correct
@@ -149,33 +149,33 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
     private boolean isEmailTableHeaderCorrect() {
         int numColumns = emailPage.getNumberOfColumnsFromDataTable(0); // 1 table
-        
+
         if (numColumns != ADMIN_EMAIL_TABLE_NUM_COLUMNS) {
             return false;
         }
-        
+
         List<String> expectedSessionTableHeaders = Arrays.asList("Action",
                                                                  "Address Receiver",
                                                                  "Group Receiver",
                                                                  "Subject",
                                                                  "Date");
         List<String> actualSessionTableHeaders = new ArrayList<String>();
-        
+
         for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(emailPage.getHeaderValueFromDataTable(0, 0, i));
         }
-        
+
         return actualSessionTableHeaders.equals(expectedSessionTableHeaders);
     }
-    
+
     private boolean isEmptyTrashButtonPresent() {
         if (!emailPage.isElementPresent(By.className("btn-danger"))) {
             return false;
         }
-        
+
         WebElement trashButton = browser.driver.findElement(By.className("btn-danger"));
-        
+
         return trashButton.getText().contains("Empty Trash");
     }
-    
+
 }

@@ -8,7 +8,7 @@ import teammates.ui.pagedata.PageData;
 public class FeedbackSessionPublishButton {
 
     private String tooltipText;
-    
+
     private String feedbackSessionName;
     private boolean isSendingPublishedEmail;
 
@@ -17,7 +17,7 @@ public class FeedbackSessionPublishButton {
     private boolean actionAllowed;
 
     private String buttonType;
-    
+
     public FeedbackSessionPublishButton(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                         InstructorAttributes instructor, String buttonType) {
         String courseId = session.getCourseId();
@@ -26,15 +26,15 @@ public class FeedbackSessionPublishButton {
 
         boolean isUnpublishing = !session.isWaitingToOpen() && session.isPublished();
         this.actionAllowed = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        
+
         if (isUnpublishing) {
-            
+
             this.tooltipText = Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH;
             this.actionName = "Unpublish";
             this.actionLink = data.getInstructorFeedbackUnpublishLink(courseId, feedbackSessionName, returnUrl);
-            
+
         } else {
-            
+
             boolean isReadyToPublish = !session.isWaitingToOpen() && !session.isPublished();
             this.tooltipText = isReadyToPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH
                                                 : Const.Tooltips.FEEDBACK_SESSION_AWAITING;

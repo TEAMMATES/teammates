@@ -12,5 +12,5 @@ public class AdminEmailDraftPageData extends AdminEmailPageData {
         super(account);
         this.state = AdminEmailPageState.DRAFT;
     }
-    
+
 }

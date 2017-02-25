@@ -45,7 +45,7 @@ function disableAddInstructorForm() {
     $('.addInstructorFormControl').each(function() {
         $(this).prop('disabled', true);
     });
-    
+
 }
 
 /**
@@ -116,7 +116,7 @@ function addInstructorByAjaxRecursively() {
 function addInstructorFromFirstFormByAjax() {
     $('#addInstructorResultPanel').show();    // show the hidden panel
     isInputFromFirstPanel = true;
-    
+
     var multipleLineText = $('#addInstructorDetailsSingleLine').val();    // get input from the first panel
     multipleLineText = multipleLineText.trim();
     if (multipleLineText.length > 0) {
@@ -142,7 +142,7 @@ function addInstructorFromFirstFormByAjax() {
 function addInstructorFromSecondFormByAjax() {
     $('#addInstructorResultPanel').show();    // show the hidden panel
     isInputFromFirstPanel = false;
-    
+
     var instructorDetails = encodeURIComponent($('#instructorName').val() + '|' + $('#instructorEmail').val()
                             + '|' + $('#instructorInstitution').val());
     instructorDetailsList = [instructorDetails];
@@ -153,7 +153,7 @@ function addInstructorFromSecondFormByAjax() {
         instructorinstitution: $('#instructorInstitution').val()
     });
     paramsList = [params];
-    
+
     paramsCounter = 0;
     $('#addInstructorResultTable tbody').html('');    // clear table
     $('#addInstructorResultPanel div.panel-heading').html('<strong>Result</strong>');    // clear panel header

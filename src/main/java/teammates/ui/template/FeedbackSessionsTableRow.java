@@ -8,7 +8,7 @@ public class FeedbackSessionsTableRow {
     private String recent;
     private String status;
     private InstructorFeedbackSessionActions actions;
-        
+
     private ElementTag rowAttributes;
 
     /**
@@ -32,7 +32,7 @@ public class FeedbackSessionsTableRow {
         this.recent = recent;
         this.rowAttributes = attributes;
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
@@ -52,7 +52,7 @@ public class FeedbackSessionsTableRow {
     public String getHref() {
         return href;
     }
-    
+
     public String getRecent() {
         return recent;
     }
@@ -60,9 +60,9 @@ public class FeedbackSessionsTableRow {
     public InstructorFeedbackSessionActions getActions() {
         return actions;
     }
-    
+
     public ElementTag getRowAttributes() {
         return rowAttributes;
     }
-    
+
 }
