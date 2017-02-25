@@ -124,14 +124,12 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Text Encoding: Go to `File → Settings → Editor → File Encodings` and ensure that `IDE Encoding` and `Project Encoding` are set to `UTF-8`.
    * HTML/JSP syntax: We prefer not to use the HTML/JSP Inspections provided by IntelliJ. Go to `File → Settings → Editor → Inspections` and uncheck `HTML` and `JSP Inspections`.
 1. Import the project into IntelliJ.
-   * Click `Import existing project` and select the `teammates`* folder.
+   * Click `Import existing project` and select the local repository folder.
    * Click `Import project from external model → Gradle`.
    * Click `Next`.
    * Check `Use auto-import`.
    * Click `Finish`.
 1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
-
-*Replace `teammates` with your local repository's name if you named it differently.
 
 If you followed every step correctly, you should have successfully set up the development environment.
 You may proceed to the development routine as lined out in [this document](development.md).
