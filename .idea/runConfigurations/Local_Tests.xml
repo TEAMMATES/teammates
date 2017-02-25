@@ -12,7 +12,7 @@
     <option name="TEST_OBJECT" value="SUITE" />
     <option name="VM_PARAMETERS" value="-ea -Duser.timezone=UTC" />
     <option name="PARAMETERS" value="" />
-    <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+    <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$" />
     <option name="OUTPUT_DIRECTORY" value="" />
     <option name="ANNOTATION_TYPE" />
     <option name="ENV_VARIABLES" />
