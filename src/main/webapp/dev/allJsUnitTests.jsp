@@ -324,7 +324,8 @@
     <script type="text/javascript" src="/js/instructor.js" data-cover></script>
     <script type="text/javascript" src="/js/student.js" data-cover></script>
     <script type="text/javascript" src="/js/index.js" data-cover></script>
-
+    <script type="text/javascript" src="/js/datepicker.js" data-cover></script>
+    
     <script type="text/javascript" src="/dev/CommonTestFunctions.js"></script>
     <!-- Test scripts -->
     <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
