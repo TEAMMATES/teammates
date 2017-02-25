@@ -38,7 +38,7 @@ public class AdminSendEmailWorkerAction extends AutomatedAction {
             AdminEmailAttributes adminEmail = logic.getAdminEmailById(emailId);
             Assumption.assertNotNull(adminEmail);
 
-            emailContent = adminEmail.getContent().getValue();
+            emailContent = adminEmail.getContentValue();
             emailSubject = adminEmail.getSubject();
         }
 

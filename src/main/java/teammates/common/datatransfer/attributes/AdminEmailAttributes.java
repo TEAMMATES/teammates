@@ -122,8 +122,8 @@ public class AdminEmailAttributes extends EntityAttributes {
         return this.createDate;
     }
 
-    public Text getContent() {
-        return this.content;
+    public String getContentValue() {
+        return this.content.getValue();
     }
 
     public boolean getIsInTrashBin() {
@@ -148,10 +148,6 @@ public class AdminEmailAttributes extends EntityAttributes {
         cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
 
         return TimeHelper.formatTime12H(cal.getTime());
-    }
-
-    public String getContentForDisplay() {
-        return this.getContent().getValue();
     }
 
     public String getFirstAddressReceiver() {

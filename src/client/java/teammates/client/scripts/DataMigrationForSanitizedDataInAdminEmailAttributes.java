@@ -52,7 +52,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
         if (hasSanitizedData) {
             System.out.println("Checking email having subject: " + email.getSubject());
 
-            String content = email.getContentForDisplay();
+            String content = email.getContentValue();
             System.out.println("contents:\n" + content);
             System.out.println("new contents:\n" + SanitizationHelper.desanitizeFromHtml(content));
 
@@ -62,7 +62,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
     }
 
     private boolean checkEmailHasSanitizedData(AdminEmailAttributes email) {
-        return SanitizationHelper.isSanitizedHtml(email.getContentForDisplay());
+        return SanitizationHelper.isSanitizedHtml(email.getContentValue());
     }
 
     private void fixSanitizedDataForEmail(AdminEmailAttributes email) {
@@ -70,7 +70,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
             boolean hasSanitizedData = checkEmailHasSanitizedData(email);
             if (hasSanitizedData) {
                 email.content =
-                        new Text(SanitizationHelper.desanitizeFromHtml(email.getContentForDisplay()));
+                        new Text(SanitizationHelper.desanitizeFromHtml(email.getContentValue()));
                 adminEmailsDb.updateAdminEmail(email);
             }
         } catch (InvalidParametersException e) {
