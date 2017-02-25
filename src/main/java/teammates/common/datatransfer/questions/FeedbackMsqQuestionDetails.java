@@ -404,7 +404,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         } else {
             String numChoice = getQuestionResultStatistics(responses);
-            if (numChoice.equals("")) {
+            if ("".equals(numChoice)) {
                 return "";
             } else {
                 DecimalFormat df = new DecimalFormat("#.##");
@@ -494,7 +494,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             answerStrings.add(otherAnswer);
         }
 
-        return numChoices+numChoicesSelected;
+        return numChoices + numChoicesSelected;
     }
 
     @Override
