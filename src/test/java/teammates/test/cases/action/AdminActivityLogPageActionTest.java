@@ -382,14 +382,14 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyManyLogs(39, 111, 149, resultAjax.data, resultAjax.getStatusMessage(), earliestDateInUtc);
 
         // default search with filter stop at #logs around 50
-        action = getAction("filterQuery", "request:dummy1");
+        action = getAction("filterQuery", "request:testdata1");
         result = getShowPageResult(action);
         earliestDateInUtc = new Date(today.getTime() - 54 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000);
         verifyManyLogs(55, 0, 54, result.data, result.getStatusMessage(), earliestDateInUtc);
 
         // continue search with filter will get logs until no logs
         nextSearch = today.getTime() - 56 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
-        action = getAction("filterQuery", "request:dummy1", "searchTimeOffset", String.valueOf(nextSearch));
+        action = getAction("filterQuery", "request:testdata1", "searchTimeOffset", String.valueOf(nextSearch));
         resultAjax = getAjaxResult(action);
         earliestDateInUtc = new Date(nextSearch - 24 * 60 * 60 * 1000);
         verifyManyLogs(95, 55, 60, resultAjax.data, resultAjax.getStatusMessage(), earliestDateInUtc);
@@ -518,19 +518,19 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // but this situation is really rare and can be solved by re-running the test case
         long logTimeInMillis = timeMillis - msgList.size() * intervalInSecond * 1000;
         for (int i = msgList.size() - 1; i >= 0; i--) {
-            createDummyRequestInfoAtTime(logTimeInMillis);
+            createTestDataRequestInfoAtTime(logTimeInMillis);
             gaeSimulation.addAppLogLine(String.valueOf(logTimeInMillis),
                                           logTimeInMillis * 1000, levelInfo, msgList.get(i));
             logTimeInMillis += intervalInSecond * 1000;
         }
     }
 
-    private void createDummyRequestInfoAtTime(long timeMillis) {
-        String dummyStr = "TEST";
+    private void createTestDataRequestInfoAtTime(long timeMillis) {
+        String testStr = "TEST";
         String defaultVersion = "1";
-        gaeSimulation.addLogRequestInfo(dummyStr, defaultVersion, String.valueOf(timeMillis), dummyStr,
-                                       dummyStr, timeMillis * 1000, timeMillis * 1000, dummyStr,
-                                       dummyStr, dummyStr, dummyStr, true, 200, dummyStr);
+        gaeSimulation.addLogRequestInfo(testStr, defaultVersion, String.valueOf(timeMillis), testStr,
+                                        testStr, timeMillis * 1000, timeMillis * 1000, testStr,
+                                        testStr, testStr, testStr, true, 200, testStr);
     }
 
     private Calendar getBeginOfTheDayOffsetNowInAdminTimeZone(int dayOffset) {
