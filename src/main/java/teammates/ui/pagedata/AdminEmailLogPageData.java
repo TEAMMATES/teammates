@@ -178,7 +178,7 @@ public class AdminEmailLogPageData extends PageData {
         if (q.isInfoInQuery) {
 
             for (String keyString : q.infoValues) {
-                if (!logEntry.getSanitizedContent().toLowerCase().contains(keyString.toLowerCase())) {
+                if (!logEntry.getContent().toLowerCase().contains(keyString.toLowerCase())) {
                     return false;
                 }
             }
