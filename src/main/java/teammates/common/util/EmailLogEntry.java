@@ -49,7 +49,8 @@ public class EmailLogEntry {
                  + "<td colspan=\"3\">"
                      + "<ul class=\"list-group\">"
                          + "<li class=\"list-group-item list-group-item-info\">,"
-                             + "<input type=\"text\" value=\"" + this.getContent() + "\" class=\"form-control\" readonly>"
+                             + "<input type=\"text\" value=\"" + this.getSanitizedContent()
+                               + "\" class=\"form-control\" readonly>"
                          + "</li>"
                      + "</ul>"
                  + "</td>"
@@ -88,8 +89,12 @@ public class EmailLogEntry {
         return this.time;
     }
 
-    public String getContent() {
+    public String getSanitizedContent() {
         return SanitizationHelper.sanitizeForHtml(this.content);
+    }
+
+    public String getContent() {
+        return content;
     }
 
     public String getTimeForDisplay() {

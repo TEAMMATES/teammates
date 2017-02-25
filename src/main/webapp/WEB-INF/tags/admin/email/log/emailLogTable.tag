@@ -44,7 +44,7 @@
                             <div class="well well-sm">
                                 <ul class="list-group">
                                     <li class="list-group-item list-group-item-success emailLog-text">
-                                        <small>${log.unsanitizedContent}</small>
+                                        <small>${log.content}</small>
                                     </li>
                                 </ul>
                             </div>
