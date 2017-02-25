@@ -204,8 +204,11 @@ This instruction set assumes that the app identifier is `teammates-john`.
      Modify to match app name and app id of your own app, and the version number if you need to. Do not modify anything else.
 
 1. Deploy the application to your staging server.
-   * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
-   * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
+   * In Eclipse
+     * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
+     * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
+   * In IntelliJ
+     * Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-google-app-engine.html#deploy_googleapp_via_runConfig) to deploy your application.
 
 1. (Optional) Set the version you deployed as the "default":
    * Go to App Engine dashboard: `https://console.cloud.google.com/appengine?project=teammates-john`.
