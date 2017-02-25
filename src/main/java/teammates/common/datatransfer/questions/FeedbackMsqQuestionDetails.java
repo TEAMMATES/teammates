@@ -403,8 +403,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if ("student".equals(view) || responses.isEmpty()) {
             return "";
         } else {
-            String numChoice = getQuestionResultStatistics(responses, question, bundle);
-            if (numChoice == "") {
+            String numChoice = getQuestionResultStatistics(responses);
+            if (numChoice.equals("")) {
                 return "";
             } else {
                 DecimalFormat df = new DecimalFormat("#.##");
@@ -427,12 +427,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
     }
     
-    private String getQuestionResultStatistics(List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle){
-        
-        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
+    private String getQuestionResultStatistics(List<FeedbackResponseAttributes> responses){
 
+        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         answerFrequency = new LinkedHashMap<String, Integer>();
 
         for (String option : msqChoices) {
@@ -445,7 +442,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         int numChoicesSelected = 0;
         for (FeedbackResponseAttributes response : responses) {
-            numChoicesSelected = getNumOfChoicesSelected(response, isContainsNonEmptyResponse, numChoicesSelected);
+            isContainsNonEmptyResponse = true;
+            numChoicesSelected = getNumOfChoicesSelected(response, numChoicesSelected);
         }
 
         if (!isContainsNonEmptyResponse) {
@@ -455,8 +453,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return Integer.toString(numChoicesSelected);
     }
     
-    private int getNumOfChoicesSelected(FeedbackResponseAttributes response,
-            boolean isContainsNonEmptyResponse, int numChoicesSelected) {
+    private int getNumOfChoicesSelected(FeedbackResponseAttributes response, int numChoices) {
         List<String> answerStrings =
                 ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
         boolean isOtherOptionAnswer =
@@ -470,7 +467,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             answerFrequency.put("Other", answerFrequency.get("Other") + 1);
 
-            numChoicesSelected++;
+            numChoices++;
             // remove other answer temporarily to calculate stats for other
             // options
             otherAnswer = answerStrings.get(answerStrings.size() - 1);
@@ -481,9 +478,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             if (answerString.isEmpty()) {
                 continue;
             }
-
-            isContainsNonEmptyResponse = true;
-            numChoicesSelected++;
+            numChoices++;
 
             if (!answerFrequency.containsKey(answerString)) {
                 answerFrequency.put(answerString, 0);
@@ -496,7 +491,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             answerStrings.add(otherAnswer);
         }
 
-        return numChoicesSelected;
+        return numChoices;
     }
 
     @Override
@@ -507,8 +502,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if (responses.isEmpty()) {
             return "";
         } else {
-            String numChoice = getQuestionResultStatistics(responses, question, bundle);
-            if (numChoice == "") {
+            String numChoice = getQuestionResultStatistics(responses);
+            if (numChoice.equals("")) {
                 return "";
             } else {
                 DecimalFormat df = new DecimalFormat("#.##");
