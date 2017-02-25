@@ -69,5 +69,5 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         newSession.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING
                 .toString()));
         return newSession;
-        }
+    }
 }
