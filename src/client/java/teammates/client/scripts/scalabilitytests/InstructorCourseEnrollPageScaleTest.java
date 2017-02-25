@@ -1,0 +1,93 @@
+package teammates.client.scripts.scalabilitytests;
+
+import org.testng.annotations.Test;
+import teammates.common.util.AppUrl;
+import teammates.common.util.Const;
+import teammates.common.util.Logger;
+import teammates.test.cases.browsertests.BaseUiTestCase;
+import teammates.test.pageobjects.InstructorCourseEnrollPage;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+/**
+ * Covers 'enroll' view for instructors.
+ * SUT: {@link InstructorCourseEnrollPage}.
+ */
+public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
+
+    private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
+    private InstructorCourseEnrollPage enrollPage;
+    private Logger logger = Logger.getLogger();
+
+    @Override
+    protected void prepareTestData() {
+        testData = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
+        removeAndRestoreDataBundle(testData);
+    }
+
+    @Test
+    public void testInstructorCourseEnrollPage() throws Exception {
+        testContent();
+        testSampleLink();
+
+        int[] loads = {10, 20, 50, 75, 100, 150};
+        testEnrollActionWithIncreasingLoad(loads);
+    }
+
+    private void testContent() throws Exception {
+
+        ______TS("typical enroll page");
+
+        AppUrl enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+                .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").getId());
+
+        enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
+
+        // This is the full HTML verification for Instructor Course Enroll Page, the rest can all be verifyMainHtml
+        enrollPage.verifyHtml("/instructorCourseEnrollPage.html");
+    }
+
+    private void testSampleLink() {
+
+        ______TS("link for the sample spreadsheet");
+        enrollPage.clickSpreadsheetLink();
+        String expectedTitle = "Course Enroll Sample Spreadsheet - Google Sheets";
+        enrollPage.verifyTitle(expectedTitle);
+    }
+
+    private void testEnrollActionWithIncreasingLoad(int[] loads) throws Exception {
+        for (int load : loads) {
+            ______TS("enroll action: " + load + " students");
+            testEnrollAction(load);
+            removeAndRestoreDataBundle(testData);
+        }
+    }
+
+    private void testEnrollAction(int numStudents) throws IOException {
+        AppUrl enrollUrl =
+                createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+                        .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                        .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").getId());
+
+        enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
+
+        String enrollString =
+                readData("InstructorCourseEnrollPageScaleTestData" + numStudents, Charset.defaultCharset());
+
+        logger.info("Testing with " + numStudents + " students...");
+        long timer = System.nanoTime();
+        enrollPage.enroll(enrollString);
+        timer = System.nanoTime() - timer;
+        logger.info("Time taken: " + timer / 1000000000.0);
+    }
+
+    String readData(String filename, Charset encoding) throws IOException {
+        byte[] encoded =
+                Files.readAllBytes(Paths.get(DATA_FOLDER_PATH + filename));
+        return new String(encoded, encoding);
+    }
+}
