@@ -19,7 +19,7 @@ $(document).ready(function() {
 });
 
 function updatePagination() {
-    
+
     if (totalPages > 5) {
         if (currentPage >= 3 && currentPage + 1 < totalPages) {
             $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
@@ -27,14 +27,14 @@ function updatePagination() {
                 $(this).text(newPageNumber);
             });
         }
-        
+
         if (currentPage >= 3 && currentPage + 1 === totalPages) {
             $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
                 var newPageNumber = currentPage - 3 + index;
                 $(this).text(newPageNumber);
             });
         }
-        
+
         if (currentPage < 3) {
             $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
                 $(this).text(index + 1);
@@ -43,13 +43,13 @@ function updatePagination() {
     } else {
         $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
             $(this).text(index + 1);
-            
+
             if (index + 1 > totalPages) {
                 $(this).parent().hide();
             }
         });
     }
-    
+
     $('div#pagination_top ul.pagination li a.pageNumber').each(function() {
         var pageNum = parseInt($(this).text());
         if (pageNum === currentPage) {
@@ -58,7 +58,7 @@ function updatePagination() {
             $(this).parent().attr('class', '');
         }
     });
-    
+
     $('#pagination_bottom').html($('#pagination_top').html());
 }
 
@@ -70,7 +70,7 @@ function caculateTotalPages() {
 
 function updateEntriesCount() {
     var newText = begin + '~' + Math.min(end, total);
-    
+
     $('span#currentPageEntryCount').text(newText);
     $('span#totalEntryCount').text(total);
 }
@@ -100,7 +100,7 @@ function reLabelOrderedAccountEntries() {
         $(this).attr('id', 'accountEntry_' + (index + 1));
         total++;
     });
-    
+
     showFirstPage();
     updateEntriesCount();
     updatePagination();
@@ -110,7 +110,7 @@ function showEntriesForSelectedPage() {
     begin = (currentPage - 1) * entryPerPage + 1;
     end = begin + entryPerPage - 1;
     showEntryInInterval(begin, end);
-    
+
 }
 
 $(document).on('click', 'ul.pagination li.previous', function() {

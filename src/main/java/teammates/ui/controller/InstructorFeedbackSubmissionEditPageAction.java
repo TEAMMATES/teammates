@@ -14,7 +14,7 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
         // Instructor is always already joined
         return true;
     }
-    
+
     @Override
     protected void verifyAccesibleForSpecificUser(FeedbackSessionAttributes session) {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -22,12 +22,12 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
         gateKeeper.verifyAccessible(instructor, session, creatorOnly);
         boolean shouldEnableSubmit =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        
+
         if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
             shouldEnableSubmit = true;
         }
-        
+
         if (!shouldEnableSubmit) {
             throw new UnauthorizedAccessException("Feedback session [" + session.getFeedbackSessionName()
                                                   + "] is not accessible to instructor ["
@@ -45,7 +45,7 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
         return logic.getFeedbackSessionQuestionsBundleForInstructor(
                              feedbackSessionName, courseId, userEmailForCourse);
     }
-    
+
     @Override
     protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
         return session.isOpened() || session.isPrivateSession();
@@ -61,7 +61,7 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
     @Override
     protected ShowPageResult createSpecificShowPageResult() {
         data.setSubmitAction(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE);
-        
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
     }
 

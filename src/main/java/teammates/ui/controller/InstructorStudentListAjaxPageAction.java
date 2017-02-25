@@ -62,7 +62,7 @@ public class InstructorStudentListAjaxPageAction extends Action {
                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
             sectionPrivileges.put(sectionDetails.name, sectionPrivilege);
         }
-        
+
         InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account, courseId, courseIndex,
                                                                                        hasSection, courseSectionDetails,
                                                                                        sectionPrivileges,

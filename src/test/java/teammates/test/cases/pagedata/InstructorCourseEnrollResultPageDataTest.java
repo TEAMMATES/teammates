@@ -14,13 +14,13 @@ import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 
 public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
-    
+
     @Test
     public void testAll() {
         ______TS("test typical case");
         AccountAttributes account = dataBundle.accounts.get("instructor1OfCourse1");
         String courseId = "idOfTypicalCourse1";
-        
+
         @SuppressWarnings("unchecked")
         List<StudentAttributes>[] students = new ArrayList[StudentUpdateStatus.STATUS_COUNT];
         for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
@@ -31,19 +31,19 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         students[StudentUpdateStatus.MODIFIED.numericRepresentation].add(dataBundle.students.get("student3InCourse1"));
         students[StudentUpdateStatus.UNMODIFIED.numericRepresentation].add(dataBundle.students.get("student4InCourse1"));
         students[StudentUpdateStatus.ERROR.numericRepresentation].add(dataBundle.students.get("student5InCourse1"));
-        
+
         boolean hasSection = true;
         String enrollStudents = "enrollString";
-        
+
         InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account,
                                                                 courseId, students, hasSection, enrollStudents);
-        
+
         assertNotNull(pageData.getCourseId());
         assertEquals(courseId, pageData.getCourseId());
-        
+
         assertNotNull(pageData.account);
         assertEquals(account.googleId, pageData.account.googleId);
-        
+
         assertNotNull(pageData.getEnrollResultPanelList());
         assertEquals(students.length, pageData.getEnrollResultPanelList().size());
         assertEquals(students[StudentUpdateStatus.NEW.numericRepresentation].size(),
@@ -70,9 +70,9 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
                      pageData.getEnrollResultPanelList()
                              .get(StudentUpdateStatus.UNMODIFIED.numericRepresentation)
                              .getStudentList().size());
-        
+
         assertTrue(pageData.isHasSection());
         assertEquals(enrollStudents, pageData.getEnrollStudents());
-        
+
     }
 }

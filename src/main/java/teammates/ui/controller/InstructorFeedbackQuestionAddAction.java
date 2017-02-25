@@ -31,23 +31,23 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 
         FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(instructorDetailForCourse.email);
         List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
-        
+
         List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
-        
+
         for (String error : questionDetailsErrors) {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
-        
+
         RedirectResult redirectResult =
                 createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
-        
+
         if (!questionDetailsErrors.isEmpty()) {
             statusToUser.addAll(questionDetailsErrorsMessages);
             isError = true;
-            
+
             return redirectResult;
         }
-        
+
         String err = validateQuestionGiverRecipientVisibility(feedbackQuestion);
 
         if (!err.isEmpty()) {

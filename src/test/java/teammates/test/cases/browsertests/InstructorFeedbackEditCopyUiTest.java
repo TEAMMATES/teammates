@@ -24,50 +24,49 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     @Test
     public void allTests() throws Exception {
         InstructorFeedbackEditPage feedbackEditPage = getFeedbackEditPage();
-        
+
         ______TS("Submit empty course list");
         feedbackEditPage.clickFsCopyButton();
         feedbackEditPage.getFsCopyToModal().waitForModalToLoad();
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyPage.html");
-        
+
         feedbackEditPage.getFsCopyToModal().clickSubmitButton();
         feedbackEditPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackEditPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
         feedbackEditPage.getFsCopyToModal().verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
-        
+
         feedbackEditPage.getFsCopyToModal().clickCloseButton();
-        
+
         ______TS("Copying fails due to fs with same name in course selected");
         feedbackEditPage.clickFsCopyButton();
         feedbackEditPage.getFsCopyToModal().waitForModalToLoad();
         feedbackEditPage.getFsCopyToModal().fillFormWithAllCoursesSelected(feedbackSessionName);
-        
+
         feedbackEditPage.getFsCopyToModal().clickSubmitButton();
         feedbackEditPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackEditPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
-        
+
         feedbackEditPage.getFsCopyToModal()
                         .verifyStatusMessage(
                                  String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
                                                feedbackSessionName,
                                                testData.courses.get("course").getId()));
-        
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyFail.html");
-        
+
         feedbackEditPage.getFsCopyToModal().clickCloseButton();
-        
+
         ______TS("Copying fails due to fs with invalid name");
         String invalidNameforFs = "Invalid name | for feedback session";
         feedbackEditPage.clickFsCopyButton();
         feedbackEditPage.getFsCopyToModal().waitForModalToLoad();
         feedbackEditPage.getFsCopyToModal().fillFormWithAllCoursesSelected(invalidNameforFs);
-        
+
         feedbackEditPage.getFsCopyToModal().clickSubmitButton();
-        
+
         feedbackEditPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackEditPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
         feedbackEditPage.getFsCopyToModal().verifyStatusMessage(
@@ -75,23 +74,23 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
                 + "feedback session name because it contains invalid characters. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
-        
+
         feedbackEditPage.getFsCopyToModal().clickCloseButton();
-        
+
         ______TS("Successful case");
         feedbackEditPage.clickFsCopyButton();
         feedbackEditPage.getFsCopyToModal().waitForModalToLoad();
         feedbackEditPage.getFsCopyToModal().fillFormWithAllCoursesSelected("New name!");
-        
+
         feedbackEditPage.getFsCopyToModal().clickSubmitButton();
         feedbackEditPage.waitForPageToLoad();
-        
+
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         feedbackEditPage.waitForElementPresence(By.id("table-sessions"));
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopySuccess.html");
-        
+
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {

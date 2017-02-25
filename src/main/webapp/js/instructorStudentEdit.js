@@ -9,7 +9,7 @@ $(document).ready(function() {
  * and the confirmation dialog is sent
  */
 function readyInstructorStudentEditPage() {
-    
+
     $(INSTRUCTOR_STUDENT_EDIT_FORM).on('submit', function(event) {
         if ($(INSTRUCTOR_STUDENT_EDIT_FORM).attr('editStatus') === 'mustDeleteResponses') {
             event.preventDefault();
@@ -25,7 +25,7 @@ function readyInstructorStudentEditPage() {
                     BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
         }
     });
-    
+
     $('#teamname').change(function() {
         $(INSTRUCTOR_STUDENT_EDIT_FORM).attr('editStatus', 'mustDeleteResponses');
     });

@@ -9,25 +9,25 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.AppPage;
 
 public class TimezoneSyncerTest extends BaseUiTestCase {
-    
+
     private AppPage page;
-    
+
     @Override
     protected void prepareTestData() {
         // no test data used in this test
     }
-    
+
     @BeforeClass
     public void classSetup() {
         loginAdmin();
         page = AppPage.getNewPageInstance(browser).navigateTo(createUrl(Const.ViewURIs.TIMEZONE));
     }
-    
+
     @Test
     public void testAll() {
         Document pageSource = Jsoup.parse(page.getPageSource());
         assertEquals(pageSource.getElementById("jodatime").text().replace(" ", Const.EOL),
                      pageSource.getElementById("momentjs").text().replace(" ", Const.EOL));
     }
-    
+
 }

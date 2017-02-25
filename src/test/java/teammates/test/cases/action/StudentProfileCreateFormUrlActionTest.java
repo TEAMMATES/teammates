@@ -15,7 +15,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {

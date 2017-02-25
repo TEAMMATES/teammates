@@ -9,7 +9,7 @@ public class InstructorFeedbackEditCopyPageData extends PageData {
     private List<CourseAttributes> courses;
     private String courseId;
     private String fsName;
-    
+
     public InstructorFeedbackEditCopyPageData(AccountAttributes account, List<CourseAttributes> courses,
                                               String courseId, String fsName) {
         super(account);

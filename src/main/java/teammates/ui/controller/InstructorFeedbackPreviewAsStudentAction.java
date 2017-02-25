@@ -22,19 +22,19 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        
+
         StudentAttributes previewStudent = logic.getStudentForEmail(courseId, previewStudentEmail);
-        
+
         if (previewStudent == null) {
             throw new EntityDoesNotExistException(
                     "Student Email " + previewStudentEmail + " does not exist in " + courseId + ".");
         }
-        
+
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
-        
+
         data.bundle = logic.getFeedbackSessionQuestionsBundleForStudent(
                 feedbackSessionName, courseId, previewStudent.email);
-        
+
         data.setSessionOpenForSubmission(true);
         data.setPreview(true);
         data.setHeaderHidden(true);
@@ -45,9 +45,9 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
         statusToAdmin = "Preview feedback session as student (" + previewStudent.email + ")<br>"
                       + "Session Name: " + feedbackSessionName + "<br>"
                       + "Course ID: " + courseId;
-        
+
         data.init("", "", courseId);
-        
+
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
     }
 }

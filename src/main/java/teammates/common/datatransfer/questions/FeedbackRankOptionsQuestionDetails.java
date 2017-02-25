@@ -29,12 +29,12 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public static final transient String ERROR_NOT_ENOUGH_OPTIONS =
             "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION
             + ". Minimum number of options is: ";
-    
+
     List<String> options;
-    
+
     public FeedbackRankOptionsQuestionDetails() {
         super(FeedbackQuestionType.RANK_OPTIONS);
-        
+
         this.options = new ArrayList<String>();
     }
 
@@ -43,13 +43,13 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                                           FeedbackQuestionType questionType) {
         super.extractQuestionDetails(requestParameters, questionType);
         List<String> options = new ArrayList<>();
-      
+
         String numOptionsCreatedString =
                 HttpRequestHelper.getValueFromParamMap(
                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
         Assumption.assertNotNull("Null number of choice for Rank", numOptionsCreatedString);
         int numOptionsCreated = Integer.parseInt(numOptionsCreatedString);
-        
+
         for (int i = 0; i < numOptionsCreated; i++) {
             String rankOption = HttpRequestHelper.getValueFromParamMap(
                     requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION + "-" + i);
@@ -57,9 +57,9 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 options.add(rankOption);
             }
         }
-        
+
         this.initialiseQuestionDetails(options);
-        
+
         return true;
     }
 
@@ -77,11 +77,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                         boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
                         int totalNumRecipients,
                         FeedbackResponseDetails existingResponseDetails) {
-        
+
         FeedbackRankOptionsResponseDetails existingResponse = (FeedbackRankOptionsResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
-     
+
         for (int i = 0; i < options.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
@@ -95,9 +95,9 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
-            
+
         }
-        
+
         return Templates.populateTemplate(
                 FormTemplates.RANK_SUBMISSION_FORM,
                 Slots.RANK_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
@@ -116,10 +116,10 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
-        
+
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
-        
+
         for (int i = 0; i < options.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
@@ -147,10 +147,10 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()));
     }
-    
+
     private String getSubmissionOptionsHtmlForRankingOptions(int rankGiven) {
         StringBuilder result = new StringBuilder(100);
-     
+
         ElementTag option = PageData.createOption("", "", rankGiven == Const.INT_UNINITIALIZED);
         result.append("<option"
                      + option.getAttributesToString() + ">"
@@ -163,7 +163,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                         + option.getContent()
                         + "</option>");
         }
-       
+
         return result.toString();
     }
 
@@ -171,7 +171,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.RANK_EDIT_FORM_OPTIONFRAGMENT;
-        
+
         for (int i = 0; i < options.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
@@ -181,7 +181,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
-        
+
         return Templates.populateTemplate(
                 FormTemplates.RANK_EDIT_OPTIONS_FORM,
                 Slots.RANK_EDIT_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
@@ -191,7 +191,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "option",
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "");
-    
+
     }
 
     @Override
@@ -211,16 +211,16 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         StringBuilder optionListHtml = new StringBuilder(100);
         String optionFragmentTemplate = FormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         String additionalInfo = "";
-        
+
         optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
         for (String option : options) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.MSQ_CHOICE_VALUE, option);
-            
+
             optionListHtml.append(optionFragment);
         }
-        
+
         optionListHtml.append("</ul>");
         additionalInfo = Templates.populateTemplate(
             FormTemplates.MSQ_ADDITIONAL_INFO,
@@ -243,32 +243,32 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                         String studentEmail,
                         FeedbackSessionResultsBundle bundle,
                         String view) {
-        
+
         if ("student".equals(view) || responses.isEmpty()) {
             return "";
         }
-        
+
         StringBuilder fragments = new StringBuilder(100);
-        
+
         Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
-        
+
         for (Entry<String, List<Integer>> entry : optionRanks.entrySet()) {
-            
+
             List<Integer> ranks = entry.getValue();
             double average = computeAverage(ranks);
             String ranksReceived = getListOfRanksReceivedAsString(ranks);
 
             String option = entry.getKey();
-            
+
             fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
                     Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(option),
                     Slots.RANK_RECIEVED, ranksReceived,
                     Slots.RANK_AVERAGE, df.format(average)));
 
         }
- 
+
         return Templates.populateTemplate(FormTemplates.RANK_RESULT_OPTION_STATS,
                 Slots.OPTION_RECIPIENT_DISPLAY_NAME, "Option",
                 Slots.FRAGMENTS, fragments.toString());
@@ -282,15 +282,15 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         if (responses.isEmpty()) {
             return "";
         }
-        
+
         StringBuilder fragments = new StringBuilder();
         Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
-        
+
         for (Entry<String, List<Integer>> entry : optionRanks.entrySet()) {
             String option = SanitizationHelper.sanitizeForCsv(entry.getKey());
-          
+
             List<Integer> ranksAssigned = entry.getValue();
             double average = computeAverage(ranksAssigned);
             String fragment = option + "," + df.format(average) + Const.EOL;
@@ -312,24 +312,24 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         Map<String, List<Integer>> optionRanks = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
             FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
-            
+
             List<Integer> answers = frd.getAnswerList();
             Map<String, Integer> mapOfOptionToRank = new HashMap<>();
-            
+
             Assumption.assertEquals(answers.size(), options.size());
 
             for (int i = 0; i < options.size(); i++) {
                 int rankReceived = answers.get(i);
                 mapOfOptionToRank.put(options.get(i), rankReceived);
             }
-            
+
             Map<String, Integer> normalisedRankForOption =
                     obtainMappingToNormalisedRanksForRanking(mapOfOptionToRank, options);
 
             for (int i = 0; i < options.size(); i++) {
                 String optionReceivingRanks = options.get(i);
                 int rankReceived = normalisedRankForOption.get(optionReceivingRanks);
-                
+
                 if (rankReceived != Const.POINTS_NOT_SUBMITTED) {
                     updateOptionRanksMapping(optionRanks, optionReceivingRanks, rankReceived);
                 }
@@ -354,7 +354,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             result.append(String.format("Rank %d,", i + 1));
         }
         result.deleteCharAt(result.length() - 1); // remove the last comma
-        
+
         return result.toString();
     }
 
@@ -381,16 +381,16 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         if (responses.isEmpty()) {
             return new ArrayList<String>();
         }
-        
+
         if (isAreDuplicatesAllowed()) {
             return new ArrayList<String>();
         }
         List<String> errors = new ArrayList<>();
-        
+
         for (FeedbackResponseAttributes response : responses) {
             FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
             Set<Integer> responseRank = new HashSet<>();
-            
+
             for (int answer : frd.getFilteredSortedAnswerList()) {
                 if (responseRank.contains(answer)) {
                     errors.add("Duplicate rank " + answer);
@@ -398,7 +398,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 responseRank.add(answer);
             }
         }
-    
+
         return errors;
     }
 
