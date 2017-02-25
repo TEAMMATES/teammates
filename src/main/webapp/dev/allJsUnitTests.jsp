@@ -335,5 +335,6 @@
     <script type="text/javascript" src="/dev/InstructorJsTest.js"></script>
     <script type="text/javascript" src="/dev/StudentJsTest.js"></script>
     <script type="text/javascript" src="/dev/SubmissionCountJsTest.js"></script>
+    <script type="text/javascript" src="/dev/DatePickerJsTest.js"></script>
 </body>
 </html>
