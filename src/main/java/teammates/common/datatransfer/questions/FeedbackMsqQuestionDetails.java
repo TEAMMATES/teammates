@@ -36,8 +36,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> msqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
-    private  Map<String, Integer> answerFrequency;
-    
+    private Map<String, Integer> answerFrequency;
+
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
 
@@ -426,10 +426,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
         }
     }
-    
-    private String getQuestionResultStatistics(List<FeedbackResponseAttributes> responses){
 
-        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
+    private String getQuestionResultStatistics(List<FeedbackResponseAttributes> responses) {
+
+        boolean isContainsNonEmptyResponse = false; // we will only show stats
+                                                    // if there is at least one
+                                                    // nonempty response
         answerFrequency = new LinkedHashMap<String, Integer>();
 
         for (String option : msqChoices) {
@@ -449,11 +451,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if (!isContainsNonEmptyResponse) {
             return "";
         }
-        
+
         return Integer.toString(numChoicesSelected);
     }
-    
-    private int getNumOfChoicesSelected(FeedbackResponseAttributes response, int numChoices) {
+
+    private int getNumOfChoicesSelected(FeedbackResponseAttributes response, int numChoicesSelected) {
+        int numChoices = 0;
         List<String> answerStrings =
                 ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
         boolean isOtherOptionAnswer =
@@ -491,7 +494,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             answerStrings.add(otherAnswer);
         }
 
-        return numChoices;
+        return numChoices+numChoicesSelected;
     }
 
     @Override
@@ -503,7 +506,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         } else {
             String numChoice = getQuestionResultStatistics(responses);
-            if (numChoice.equals("")) {
+            if ("".equals(numChoice)) {
                 return "";
             } else {
                 DecimalFormat df = new DecimalFormat("#.##");
