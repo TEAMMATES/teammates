@@ -211,7 +211,7 @@ function toggleCollapse(e, pans) {
     if ($(e).html().trim().startsWith(expand)) {
         $('.ajax-response-auto').click();
         var $autoLoadCount = $('.ajax_auto').click();
-        var $isAutoLoadingTriggered = $autoLoadCount.length != 0;
+        var $isAutoLoadingTriggered = $autoLoadCount.length !== 0;
 
         if (!$isAutoLoadingTriggered) {
             isExpandingAll = true;
@@ -223,7 +223,7 @@ function toggleCollapse(e, pans) {
                 }
             }
         }
-        
+
         var htmlString = $(e).html();
         htmlString = htmlString.replace(expand, collapse);
         $(e).html(htmlString);

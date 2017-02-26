@@ -168,7 +168,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
         resultsPage.clickCollapseExpand();
         resultsPage.waitForPageToLoad();
-        
+
         ______TS("Typical case: test moderate responses button for instructors as givers");
         verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt",
                                       "CFResultsUiT.instr@gmail.tmt");
@@ -616,12 +616,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickCollapseExpand();
 
         ______TS("Failure case: add empty feedback response comment");
-        
+
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "");
         resultsPage.verifyCommentFormErrorMessage("-0-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
 
         ______TS("Typical case: add new feedback response comments");
-        
+
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.clickCollapseExpand();
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
@@ -737,7 +737,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.waitForPageToLoad();
         try {
             resultsPage.clickCollapseExpand();
-        } catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             // ignore as some pages have no button
         }
         return resultsPage;

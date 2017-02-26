@@ -133,7 +133,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickAllPanels(int numOfPanels) {
-        for (int i = 1; i < numOfPanels + 1; i++){
+        for (int i = 1; i < numOfPanels + 1; i++) {
             WebElement panel = browser.driver.findElement(By.id("panelHeading-" + i));
             click(panel);
         }

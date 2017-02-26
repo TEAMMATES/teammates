@@ -429,7 +429,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         try {
             resultPage.clickCollapseExpand();
-        } catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             // ignore as some pages have no button
         }
 
