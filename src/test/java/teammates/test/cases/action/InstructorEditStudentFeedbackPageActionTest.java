@@ -12,18 +12,18 @@ import teammates.ui.controller.InstructorEditStudentFeedbackPageAction;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest {
-    
+
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
     }
-    
+
     @Override
     protected void prepareTestData() {
         dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
@@ -63,9 +63,9 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                         + "Session Name: First feedback session<br>Course ID: IESFPTCourse|||"
                         + "/page/instructorEditStudentFeedbackPage",
                 editPageAction.getLogMessage());
-        
+
         ______TS("success: another feedback");
-        
+
         feedbackSessionName = "Another feedback session";
         courseId = student.course;
         moderatedStudentEmail = student.email;
@@ -78,7 +78,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         editPageAction = getAction(submissionParams);
         showPageResult = getShowPageResult(editPageAction);
-        
+
         ______TS("success case: closed session");
 
         feedbackSessionName = "Closed feedback session";
@@ -99,7 +99,6 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 + "&user=" + idOfInstructor,
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
-        
 
         gaeSimulation.loginAsInstructor(idOfInstructor);
         ______TS("success case: moderate team");
@@ -130,21 +129,21 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                         + "Session Name: Closed feedback session<br>Course ID: IESFPTCourse|||"
                         + "/page/instructorEditStudentFeedbackPage",
                 editPageAction.getLogMessage());
-        
+
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);
-        
+
         ______TS("failure: does not have privilege");
-        
+
         feedbackSessionName = "First feedback session";
         courseId = "IESFPTCourse";
         moderatedStudentEmail = student.email;
-        
+
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
-        
+
         try {
             editPageAction = getAction(submissionParams);
             showPageResult = getShowPageResult(editPageAction);
@@ -156,11 +155,11 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                             + "] on section [Section 1]",
                     e.getMessage());
         }
-        
+
         gaeSimulation.loginAsInstructor(idOfInstructor);
 
         ______TS("failure: non-existent moderatedstudent email");
-        
+
         moderatedStudentEmail = "non-exIstentEmail@gsail.tmt";
 
         submissionParams = new String[]{
@@ -181,7 +180,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         }
     }
-            
+
     @Override
     protected InstructorEditStudentFeedbackPageAction getAction(String... params) {
         return (InstructorEditStudentFeedbackPageAction) gaeSimulation.getActionObject(getActionUri(), params);

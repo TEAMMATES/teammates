@@ -11,9 +11,9 @@ $(document).ready(function() {
 
 function toggleReference() {
     $('#filterReference').toggle('slow');
-    
+
     var button = $('#detailButton').attr('class');
-    
+
     if (button === 'glyphicon glyphicon-chevron-down') {
         $('#detailButton').attr('class', 'glyphicon glyphicon-chevron-up');
         $('#referenceText').text('Hide Reference');
@@ -36,9 +36,9 @@ function clickOlderButtonIfNeeded() {
     if (retryTimes >= 20) {
         return;
     }
-    
+
     var curNumOfEntries = $('#emailLogsTable tbody tr').length;
-    
+
     if (curNumOfEntries < numOfEntriesPerPage) {
         if ($('#button_older').length) {
             $('#button_older').click();
@@ -53,7 +53,7 @@ function submitFormAjax(offset) {
     var formData = formObject.serialize();
     var button = $('#button_older');
     var lastLogRow = $('#emailLogsTable tr:last');
-    
+
     $.ajax({
         type: 'POST',
         url: '/admin/adminEmailLogPage?' + formData,
@@ -78,7 +78,7 @@ function submitFormAjax(offset) {
                         clickOlderButtonIfNeeded();
                     });
                 }
-                               
+
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
 
             }, 500);
@@ -89,4 +89,3 @@ function submitFormAjax(offset) {
 function setFormErrorMessage(button, msg) {
     button.after('&nbsp;&nbsp;&nbsp;' + msg);
 }
-

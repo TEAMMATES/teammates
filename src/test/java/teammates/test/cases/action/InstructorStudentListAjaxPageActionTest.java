@@ -14,7 +14,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_AJAX_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {

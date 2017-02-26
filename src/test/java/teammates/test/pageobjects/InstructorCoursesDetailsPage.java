@@ -13,7 +13,7 @@ public class InstructorCoursesDetailsPage extends AppPage {
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Course Details</h1>");
     }
-    
+
     public int getStudentCountForCourse() {
         WebElement cellWithStudentCount = browser.driver.findElement(By.id("total_students"));
         return Integer.parseInt(cellWithStudentCount.getText());

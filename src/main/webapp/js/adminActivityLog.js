@@ -7,9 +7,9 @@ $(document).ready(function() {
 
 function toggleReference() {
     $('#filterReference').toggle('slow');
-    
+
     var button = $('#detailButton').attr('class');
-    
+
     if (button === 'glyphicon glyphicon-chevron-down') {
         $('#detailButton').attr('class', 'glyphicon glyphicon-chevron-up');
         $('#referenceText').text('Hide Reference');
@@ -23,12 +23,12 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     var params = 'logTimeInAdminTimeZone=' + time
                  + '&logRole=' + role
                  + '&logGoogleId=' + googleId;
-    
+
     var link = $(entry);
     var localTimeDisplay = $(entry).parent().children()[1];
-    
+
     var originalTime = $(link).html();
-    
+
     $.ajax({
         type: 'POST',
         url: '/admin/adminActivityLogPage?' + params,
@@ -45,7 +45,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
                 } else {
                     $(link).parent().html(originalTime + '<mark><br>' + data.logLocalTime + '</mark>');
                 }
-                
+
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
             }, 500);
         }
@@ -54,12 +54,12 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
 
 function submitFormAjax(searchTimeOffset) {
     $('input[name=searchTimeOffset]').val(searchTimeOffset);
-    
+
     var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
     var button = $('#button_older');
     var lastLogRow = $('#logsTable tr:last');
-    
+
     $.ajax({
         type: 'POST',
         url: '/admin/adminActivityLogPage?' + formData,
@@ -81,7 +81,7 @@ function submitFormAjax(searchTimeOffset) {
                         lastLogRow.after(value.logInfoAsHtml);
                         lastLogRow = $('#logsTable tr:last');
                     });
-                    
+
                     updateInfoForRecentActionButton();
                 }
 

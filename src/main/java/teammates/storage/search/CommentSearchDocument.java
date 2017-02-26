@@ -23,17 +23,17 @@ import com.google.appengine.api.search.ScoredDocument;
  * The {@link SearchDocument} object that defines how we store {@link Document} for student comments.
  */
 public class CommentSearchDocument extends SearchDocument {
-    
+
     private CommentAttributes comment;
     private CourseAttributes course;
     private InstructorAttributes giverAsInstructor;
     private List<StudentAttributes> relatedStudents;
     private String commentRecipientName;
-    
+
     public CommentSearchDocument(CommentAttributes comment) {
         this.comment = comment;
     }
-    
+
     @Override
     protected void prepareData() {
         if (comment == null) {
@@ -44,7 +44,7 @@ public class CommentSearchDocument extends SearchDocument {
         relatedStudents = new ArrayList<StudentAttributes>();
         commentRecipientName = buildCommentRecipientName();
     }
-    
+
     private String buildCommentRecipientName() {
         StringBuilder commentRecipientNameBuilder = new StringBuilder(100);
         String delim = "";
@@ -67,9 +67,7 @@ public class CommentSearchDocument extends SearchDocument {
             for (String team : comment.recipients) {
                 List<StudentAttributes> students =
                         studentsDb.getStudentsForTeam(SanitizationHelper.desanitizeFromHtml(team), comment.courseId);
-                if (students != null) {
-                    relatedStudents.addAll(students);
-                }
+                relatedStudents.addAll(students);
                 commentRecipientNameBuilder.append(delim).append(team);
                 delim = ", ";
             }
@@ -77,9 +75,7 @@ public class CommentSearchDocument extends SearchDocument {
         case SECTION:
             for (String section : comment.recipients) {
                 List<StudentAttributes> students = studentsDb.getStudentsForSection(section, comment.courseId);
-                if (students != null) {
-                    relatedStudents.addAll(students);
-                }
+                relatedStudents.addAll(students);
                 commentRecipientNameBuilder.append(delim).append(section);
                 delim = ", ";
             }
@@ -98,7 +94,7 @@ public class CommentSearchDocument extends SearchDocument {
 
     @Override
     public Document toDocument() {
-        
+
         // populate recipients information
         StringBuilder recipientsBuilder = new StringBuilder("");
         String delim = ",";
@@ -113,7 +109,7 @@ public class CommentSearchDocument extends SearchDocument {
                              .append(student.section).append(delim);
             counter++;
         }
-        
+
         // produce searchableText for this comment document:
         // it contains courseId, courseName, giverEmail, giverName, recipientEmails/Teams/Sections, and commentText
         String searchableText = comment.courseId + delim
@@ -122,7 +118,7 @@ public class CommentSearchDocument extends SearchDocument {
                                 + (giverAsInstructor == null ? "" : giverAsInstructor.name) + delim
                                 + recipientsBuilder.toString() + delim
                                 + comment.commentText.getValue();
-        
+
         String displayedName = giverAsInstructor == null
                              ? comment.giverEmail
                              : giverAsInstructor.displayedName + " " + giverAsInstructor.name;
@@ -160,12 +156,12 @@ public class CommentSearchDocument extends SearchDocument {
         if (results == null) {
             return bundle;
         }
-        
+
         List<String> giverEmailList = new ArrayList<String>();
         for (InstructorAttributes ins : instructors) {
             giverEmailList.add(ins.email);
         }
-        
+
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for (ScoredDocument doc : filteredResults) {
             CommentAttributes comment = JsonUtils.fromJson(
@@ -178,10 +174,10 @@ public class CommentSearchDocument extends SearchDocument {
             comment.sendingState = CommentSendingState.SENT;
             String giverName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_GIVER_NAME).getText();
             String recipientName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).getText();
-            
+
             boolean isGiver = giverEmailList.contains(comment.giverEmail);
             String giverAsKey = comment.giverEmail + comment.courseId;
-            
+
             if (isGiver) {
                 giverName = "You (" + comment.courseId + ")";
             } else if (comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR)) {
@@ -190,13 +186,13 @@ public class CommentSearchDocument extends SearchDocument {
                 giverAsKey = "Anonymous" + comment.courseId;
                 giverName = "Anonymous" + " (" + comment.courseId + ")";
             }
-            
+
             if (isGiver || comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR)) {
                 recipientName = extractContentFromQuotedString(recipientName);
             } else {
                 recipientName = "Anonymous";
             }
-            
+
             List<CommentAttributes> commentList = bundle.giverCommentTable.get(giverAsKey);
             if (commentList == null) {
                 commentList = new ArrayList<CommentAttributes>();
@@ -207,12 +203,12 @@ public class CommentSearchDocument extends SearchDocument {
             bundle.recipientTable.put(comment.getCommentId().toString(), recipientName);
             bundle.numberOfResults++;
         }
-        
+
         for (List<CommentAttributes> comments : bundle.giverCommentTable.values()) {
             CommentAttributes.sortCommentsByCreationTime(comments);
         }
-        
+
         return bundle;
     }
-    
+
 }

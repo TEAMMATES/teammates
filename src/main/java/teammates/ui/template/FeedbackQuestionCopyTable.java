@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Data model for the copy question modal on instructorFeedbackEdit.jsp
- * 
+ *
  *
  */
 public class FeedbackQuestionCopyTable {
