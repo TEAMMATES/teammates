@@ -325,11 +325,18 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     private void testContinueSearch() {
         Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
         Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
+        Date threeDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-3);
+        Date fourDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-4);
 
-        // default search continue
+        // default continue search
         int[][] expected = new int[][]{{}, {0, 1, 2}};
         String[] params = new String[] {"searchTimeOffset", String.valueOf(yesterday.getTime())};
         verifyContinueSearch(params, expected, 6, 3, twoDaysAgo);
+
+        // continue search and no more logs
+        expected = new int[][]{};
+        params = new String[] {"searchTimeOffset", String.valueOf(threeDaysAgo.getTime())};
+        verifyContinueSearch(params, expected, 0, 0, fourDaysAgo);
 
         // with some filters
         expected = new int[][]{{}, {0, 3}};
