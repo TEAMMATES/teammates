@@ -209,14 +209,20 @@ function toggleCollapse(e, pans) {
     var panels = pans || $('div.panel-collapse');
     
     if ($(e).html().trim().startsWith(expand)) {
-        isExpandingAll = true;
-        var i = 0;
-        for (var idx = 0; idx < panels.length; idx++) {
-            if ($(panels[idx]).attr('class').indexOf('in') === -1) {
-                setTimeout(showSingleCollapse, 50 * i, panels[idx]);
-                i++;
+        var $autoLoadCount = $('.ajax_auto').click();
+        var $isAutoLoadingTriggered = $autoLoadCount.length != 0;
+
+        if (!$isAutoLoadingTriggered) {
+            isExpandingAll = true;
+            var i = 0;
+            for (var idx = 0; idx < panels.length; idx++) {
+                if ($(panels[idx]).attr('class').indexOf('in') === -1) {
+                    setTimeout(showSingleCollapse, 50 * i, panels[idx]);
+                    i++;
+                }
             }
         }
+        
         var htmlString = $(e).html();
         htmlString = htmlString.replace(expand, collapse);
         $(e).html(htmlString);
