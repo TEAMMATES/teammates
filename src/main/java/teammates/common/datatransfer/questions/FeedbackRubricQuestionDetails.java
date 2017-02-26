@@ -899,7 +899,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * Calculates the response frequency, percentage frequency and average value
      * for each choice and each sub-question given the responses and question details
      *
-     * For responseFrequency, Last element in each row stores the total number of responses for the sub-question.
+     * For responseFrequency, last element in each row stores the total number of responses for the sub-question.
      * e.g.
      * responseFrequency[subQuestionIndex][choiceIndex]
      * -> is the number of times choiceIndex is chosen for subQuestionIndex
@@ -919,17 +919,29 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int[][] responseFrequency;
         float[][] percentageFrequencyAndAverage;
 
+        List<FeedbackResponseAttributes> responses;
+        FeedbackRubricQuestionDetails questionDetails;
+
+        int numOfRubricSubQuestions;
+        int numOfRubricChoices;
+        int responseTotalIndex;
+
         RubricStatistics(List<FeedbackResponseAttributes> responses, FeedbackRubricQuestionDetails questionDetails) {
 
-            int numOfRubricSubQuestions = questionDetails.numOfRubricSubQuestions;
-            int numOfRubricChoices = questionDetails.numOfRubricChoices;
-            int responseTotalIndex = numOfRubricChoices;
+            this.responses = responses;
+            this.questionDetails = questionDetails;
 
+            this.numOfRubricSubQuestions = questionDetails.numOfRubricSubQuestions;
+            this.numOfRubricChoices = questionDetails.numOfRubricChoices;
+            this.responseTotalIndex = numOfRubricChoices;
+
+            calculateResponseFrequency();
+            calculatePercentageFrequencyAndAverage();
+        }
+
+        void calculateResponseFrequency() {
             responseFrequency =
                     new int[numOfRubricSubQuestions][numOfRubricChoices + 1];
-            percentageFrequencyAndAverage =
-                    new float[numOfRubricSubQuestions][numOfRubricChoices + 1];
-
             // Count frequencies
             for (FeedbackResponseAttributes response : responses) {
                 FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
@@ -941,7 +953,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     }
                 }
             }
+        }
 
+        /**
+         * Calculates the percentage frequencies for each choice and average value for each sub-question
+         * Requires responseFrequency to be computed
+         */
+        void calculatePercentageFrequencyAndAverage() {
+            percentageFrequencyAndAverage =
+                    new float[numOfRubricSubQuestions][numOfRubricChoices + 1];
             // calculate percentage frequencies and average value
             for (int i = 0; i < percentageFrequencyAndAverage.length; i++) {
                 int totalForSubQuestion = responseFrequency[i][responseTotalIndex];
