@@ -18,26 +18,26 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        
+
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        
+
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        
+
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        
+
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
         FeedbackSessionAttributes feedbackSession = extractFeedbackSessionData();
-        
+
         // A session opening reminder email is always sent as students
         // without accounts need to receive the email to be able to respond
         feedbackSession.setOpeningEmailEnabled(true);
-        
+
         try {
             logic.updateFeedbackSession(feedbackSession);
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS));
@@ -59,7 +59,7 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         }
         return createAjaxResult(data);
     }
-    
+
     @Override
     protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
             FeedbackSessionAttributes newSession, List<String> sendReminderEmailsList) {
