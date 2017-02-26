@@ -79,7 +79,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         return newSession;
     }
 
-    private FeedbackSessionAttributes setResultsVisibleFromTime(FeedbackSessionAttributes newSession, String type){
+    private FeedbackSessionAttributes setResultsVisibleFromTime(FeedbackSessionAttributes newSession, String type) {
 
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
@@ -104,7 +104,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         return newSession;
     }
 
-    private FeedbackSessionAttributes setSessionVisibleFromTime(FeedbackSessionAttributes newSession, String type){
+    private FeedbackSessionAttributes setSessionVisibleFromTime(FeedbackSessionAttributes newSession, String type) {
 
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
