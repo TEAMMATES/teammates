@@ -350,7 +350,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     @Test
     public void testViewPhotoAndAjaxForLargeScaledSession() throws Exception {
-        /*
+        
         // Mouseover actions do not work on Selenium-Chrome
         if ("chrome".equals(TestProperties.BROWSER)) {
             return;
@@ -359,10 +359,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         uploadPhotoForStudent(testData.students.get("Alice").googleId);
 
         ______TS("Typical case: ajax for view by questions");
-
+        /*
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
                                                                        "Open Session", true, "question");
-
+        
         resultsPage.clickAjaxLoadResponsesPanel(0);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestion.html");
 
