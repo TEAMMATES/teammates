@@ -51,9 +51,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testDefaultSort();
         testSortAction();
         testFilterAction();
-        testPanelsCollapseExpand();
-        testShowStats();
-        testSearchScript();
+//        testPanelsCollapseExpand();
+//        testShowStats();
+//        testSearchScript();
     }
 
     @Test
@@ -350,7 +350,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     @Test
     public void testViewPhotoAndAjaxForLargeScaledSession() throws Exception {
-
+        /*
         // Mouseover actions do not work on Selenium-Chrome
         if ("chrome".equals(TestProperties.BROWSER)) {
             return;
@@ -464,6 +464,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
+        */
     }
 
     public void testFilterAction() throws Exception {
