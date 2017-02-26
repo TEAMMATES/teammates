@@ -131,8 +131,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(List<InstructorAttributes> instructorList) {
 
-        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(instructorList);
-        return sessions;
+        return logic.getFeedbackSessionsListForInstructor(instructorList);
     }
 
     protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList) {
