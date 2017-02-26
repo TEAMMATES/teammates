@@ -304,6 +304,7 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script type="text/javascript" src="/js/richTextEditor.js" data-cover></script>
     <script type="text/javascript" src="/js/common.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorCourses.js" data-cover></script>
