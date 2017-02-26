@@ -14,7 +14,7 @@ public class AdminEmailTrashPageData extends AdminEmailPageData {
         super(account);
         this.state = AdminEmailPageState.TRASH;
     }
-    
+
     public String getEmptyTrashBinActionUrl() {
         return Url.addParamToUrl(Const.ActionURIs.ADMIN_EMAIL_TRASH_DELETE,
                                  Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN,

@@ -36,7 +36,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
     protected String getUserEmailForCourse() {
         return getStudent().email;
     }
-    
+
     @Override
     protected String getUserTeamForCourse() {
         return SanitizationHelper.desanitizeFromHtml(getStudent().team);
@@ -82,7 +82,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
             return result;
         }
-        
+
         // Return to student home page if there is no error and user is registered
         return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
     }

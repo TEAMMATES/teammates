@@ -24,7 +24,7 @@ public class GateKeeperTest extends BaseLogicTest {
         gaeSimulation.loginUser("any.user");
         assertEquals("/_ah/logout?continue=www.def.com", gateKeeper.getLogoutUrl("www.def.com"));
     }
-    
+
     //TODO: test isUserLoggedIn method
 
     @Test
@@ -63,5 +63,5 @@ public class GateKeeperTest extends BaseLogicTest {
         gaeSimulation.logoutUser();
         assertEquals(null, gateKeeper.getCurrentUser());
     }
-    
+
 }

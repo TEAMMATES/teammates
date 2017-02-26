@@ -20,7 +20,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         Assumption.assertNotNull(courseId);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertNotNull(instructorEmail);
-        
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
@@ -28,7 +28,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         /* Process deleting an instructor and setup status to be shown to user and admin */
         if (hasAlternativeInstructor(courseId, instructorEmail)) {
             logic.deleteInstructor(courseId, instructorEmail);
-            
+
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
@@ -40,7 +40,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
                     + " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
                     + "as there is only one instructor left to be able to modify instructors.<br>";
         }
-        
+
         /* Create redirection. It will redirect back to 'Courses' page if the instructor deletes himself */
         RedirectResult result = null;
         if (logic.isInstructorOfCourse(account.googleId, courseId)) {
@@ -49,7 +49,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         } else {
             result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         }
-        
+
         return result;
     }
 

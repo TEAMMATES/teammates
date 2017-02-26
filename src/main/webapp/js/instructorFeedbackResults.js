@@ -52,10 +52,10 @@ $(document).ready(function() {
 
     var panels = $('div.panel');
     bindCollapseEvents(panels, 0);
-    
+
     bindPublishButtons();
     bindUnpublishButtons();
-    
+
     $('#button-print').on('click', function() {
         // Fix to hide the filter placeholder when it is empty.
         if ($('#results-search-box').val()) {
@@ -63,7 +63,7 @@ $(document).ready(function() {
         } else {
             $('#filter-box-parent-div').addClass('hide-for-print');
         }
-        
+
         $('#mainContent').printThis({
             importCSS: true,
             importStyle: true,
@@ -207,7 +207,7 @@ function toggleCollapse(e, pans) {
     var expand = 'Expand';
     var collapse = 'Collapse';
     var panels = pans || $('div.panel-collapse');
-    
+
     if ($(e).html().trim().startsWith(expand)) {
         $('.ajax-response-auto').click();
         var $autoLoadCount = $('.ajax_auto').click();

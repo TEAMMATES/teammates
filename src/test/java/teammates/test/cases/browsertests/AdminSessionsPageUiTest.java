@@ -17,47 +17,47 @@ import teammates.test.pageobjects.AdminSessionsPage;
  * SUT: {@link AdminSessionsPage}
  */
 public class AdminSessionsPageUiTest extends BaseUiTestCase {
-    private static AdminSessionsPage sessionsPage;
-    
+    private AdminSessionsPage sessionsPage;
+
     @Override
     protected void prepareTestData() {
         // no test data used in this test
     }
-    
+
     @BeforeClass
     public void classSetup() {
         browser.driver.manage().deleteAllCookies();
     }
-    
+
     @Test
     public void testAll() {
         testContent();
     }
-    
+
     private void testContent() {
-        
+
         ______TS("content: typical page");
-        
+
         AppUrl sessionsUrl = createUrl(Const.ActionURIs.ADMIN_SESSIONS_PAGE);
         sessionsPage = loginAdminToPage(sessionsUrl, AdminSessionsPage.class);
         By timeFramePanel = By.id("timeFramePanel");
         sessionsPage.waitForElementToDisappear(timeFramePanel);
         assertTrue(isSessionDataDisplayCorrect());
-        
+
         ______TS("content: show filter");
-        
+
         sessionsPage.clickDetailButton();
         sessionsPage.waitForElementVisibility(browser.driver.findElement(timeFramePanel));
         assertTrue(isSessionDataDisplayCorrect());
-        
+
         ______TS("content: hide filter");
-        
+
         sessionsPage.clickDetailButton();
         sessionsPage.waitForElementToDisappear(timeFramePanel);
         assertTrue(isSessionDataDisplayCorrect());
-        
+
     }
-    
+
     /**
      * This method only checks if the session data tables are displayed correctly
      * i.e, table headers are correct, and appropriate message is displayed if no
@@ -76,9 +76,9 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         }
         sessionsPage.verifyStatus("Currently No Ongoing Sessions");
         return true;
-        
+
     }
-    
+
     private boolean isSessionTableHeaderCorrect(int tableNum) {
         int numColumns = sessionsPage.getNumberOfColumnsFromDataTable(tableNum);
         if (numColumns != 6) {
@@ -97,5 +97,3 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         return actualSessionTableHeaders.equals(expectedSessionTableHeaders);
     }
 }
-
-

@@ -26,7 +26,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     @FindBy(id = "collapse-panels-button")
     public WebElement collapseExpandButton;
-    
+
     @FindBy(id = "collapse-panels-button-team-0")
     public WebElement instructorPanelCollapseStudentsButton;
 
@@ -35,10 +35,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
-    
+
     @FindBy(id = "indicate-missing-responses-checkbox")
     public WebElement indicateMissingResponsesCheckbox;
-    
+
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
     }
@@ -146,7 +146,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public InstructorFeedbackEditPage clickEditLink() {
         WebElement button = browser.driver.findElement(By.linkText("[Edit]"));
         click(button);
-        
+
         InstructorFeedbackEditPage editPage = changePageType(InstructorFeedbackEditPage.class);
         editPage.waitForPageToLoad();
         return editPage;
@@ -155,7 +155,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
         click(By.id("questionAdditionalInfoButton-" + qnNumber + "-" + additionalInfoId));
     }
-    
+
     public boolean isQuestionAdditionalInfoVisible(int qnNumber, String additionalInfoId) {
         return isElementVisible("questionAdditionalInfo-" + qnNumber + "-" + additionalInfoId);
     }
@@ -204,21 +204,21 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
         ThreadHelper.waitFor(1000);
     }
-    
+
     /**
      * Makes sure the result panels are indeed all visible.
      */
     public void verifyResultsVisible() {
         assertTrue(isAllResultsPanelBodyVisibilityEquals(true));
     }
-    
+
     /**
      * Makes sure the result panels are indeed all hidden.
      */
     public void verifyResultsHidden() {
         assertTrue(isAllResultsPanelBodyVisibilityEquals(false));
     }
-    
+
     /**
      * Checks if the body of all the results panels are collapsed or expanded.
      * @param isVisible true to check for expanded, false to check for collapsed.
@@ -228,27 +228,27 @@ public class InstructorFeedbackResultsPage extends AppPage {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
         int numOfQns = webElements.size();
-        
+
         assertTrue(numOfQns > 0);
-        
+
         for (WebElement e : webElements) {
             if (e.isDisplayed() != isVisible) {
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * Waits for all the panels to collapse.
      */
     public void waitForPanelsToCollapse() {
         By panelCollapseSelector = By.cssSelector("div[id^='panelBodyCollapse-']");
-        
+
         waitForElementsToDisappear(browser.driver.findElements(panelCollapseSelector));
     }
-    
+
     /**
      * Waits for all the panels to expand.
      */
@@ -277,7 +277,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         List<WebElement> pendingResponses = browser.driver.findElements(By.className("pending_response_row"));
         return pendingResponses.isEmpty();
     }
-    
+
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         click(commentRow.findElement(By.tagName("form")).findElement(By.tagName("a")));
@@ -317,7 +317,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
         click(ajaxPanels.get(index));
     }
-    
+
     public void clickAjaxNoResponsePanel() {
         WebElement ajaxPanels = browser.driver.findElement(By.cssSelector(".ajax-response-submit"));
         click(ajaxPanels);
@@ -381,7 +381,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
                       + "document.getElementsByClassName('popover')[0])");
     }
-    
+
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
                                                   int tableCol, String urlRegex) {
         String idOfQuestionBody = "questionBody-" + questionBodyIndex;
@@ -394,9 +394,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
                       + ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']"
                       + ".querySelectorAll('td')['" + tableCol + "']"
                       + ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
-        
+
         waitForElementPresence(By.cssSelector(".popover-content"));
-        
+
         executeScript("document.getElementsByClassName('popover-content')[0]"
                       + ".getElementsByTagName('a')[0].click();");
 
@@ -479,28 +479,28 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
         return false;
     }
-    
+
     public void changeFsNameInAjaxLoadResponsesForm(int indexOfForm, String newFsName) {
         executeScript("$('.ajax_submit:eq(" + indexOfForm + ") [name=\"fsname\"]').val('" + newFsName + "')");
     }
-    
+
     public void changeFsNameInNoResponsePanelForm(String newFsName) {
         executeScript("$('.ajax-response-submit [name=\"fsname\"]').val('" + newFsName + "')");
     }
-    
+
     public void waitForAjaxError(int indexOfForm) {
         By ajaxErrorSelector = By.cssSelector(".ajax_submit:nth-of-type(" + indexOfForm
                                         + ") .ajax-error");
         waitForElementPresence(ajaxErrorSelector);
-        
+
         waitForTextContainedInElementPresence(ajaxErrorSelector, "[ Failed to load. Click here to retry. ]");
     }
-    
+
     public void waitForAjaxErrorOnNoResponsePanel() {
         By ajaxErrorSelector = By.cssSelector(".ajax-response-submit .ajax-error");
         waitForElementPresence(ajaxErrorSelector);
-        
+
         waitForTextContainedInElementPresence(ajaxErrorSelector, "[ Failed to load. Click here to retry. ]");
     }
-    
+
 }

@@ -31,7 +31,7 @@ public class Instructor {
     /** The foreign key to locate the Course object. */
     @Persistent
     private String courseId;
-    
+
     /** new attribute. Default value: Old Entity--null  New Entity--false*/
     @Persistent
     private Boolean isArchived;
@@ -43,26 +43,26 @@ public class Instructor {
     /** The instructor's email used for this course. */
     @Persistent
     private String email;
-    
+
     /** The instructor's registration key used for joining */
     @Persistent
     private String registrationKey;
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String role;
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Boolean isDisplayedToStudents;
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String displayedName;
 
     @Persistent
     private Text instructorPrivilegesAsText;
-    
+
     public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
                       String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName,
                       String instructorPrivilegesAsText) {
@@ -83,11 +83,12 @@ public class Instructor {
     /**
      * Constructor used for testing purpose only.
      */
-    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail,
-                      String key, String role, boolean isDisplayedToStudents, String displayedName,
-                      String instructorPrivilegesAsText) {
+    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
+                      String instructorEmail, String key, String role, boolean isDisplayedToStudents,
+                      String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
+        this.setIsArchived(isArchived);
         this.setName(instructorName);
         this.setEmail(instructorEmail);
         this.setRole(role);
@@ -133,7 +134,7 @@ public class Instructor {
     public Boolean getIsArchived() {
         return isArchived;
     }
-    
+
     public void setIsArchived(Boolean isArchived) {
         this.isArchived = isArchived;
     }
@@ -153,21 +154,21 @@ public class Instructor {
     public void setEmail(String instructorEmail) {
         this.email = instructorEmail;
     }
-    
+
     public String getRegistrationKey() {
         return registrationKey;
     }
-    
+
     public void setRegistrationKey(String key) {
         this.registrationKey = key;
     }
-    
+
     public void setGeneratedKeyIfNull() {
         if (this.registrationKey == null) {
             setRegistrationKey(generateRegistrationKey());
         }
     }
-    
+
     /**
      * Generate unique registration key for the instructor.
      * The key contains random elements to avoid being guessed.
@@ -176,9 +177,9 @@ public class Instructor {
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();
         SecureRandom prng = new SecureRandom();
-        
+
         String key = uniqueId + prng.nextInt();
-        
+
         return key;
     }
 
