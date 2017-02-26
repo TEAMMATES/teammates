@@ -138,7 +138,6 @@ public abstract class EntitiesDb {
 
     }
 
-
     /**
      * Warning: Do not use this method unless a previous update might cause
      * adding of the new entity to fail due to EntityAlreadyExists exception
