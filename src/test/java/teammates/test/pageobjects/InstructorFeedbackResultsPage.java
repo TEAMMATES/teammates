@@ -131,7 +131,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void clickIndicateMissingResponses() {
         click(indicateMissingResponsesCheckbox);
     }
-    
+
+    public void clickAllPanels(int numOfPanels) {
+        for (int i = 1; i < numOfPanels + 1; i++){
+            WebElement panel = browser.driver.findElement(By.id("panelHeading-" + i));
+            click(panel);
+        }
+    }
+
     public void fillSearchBox(String s) {
         this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
     }

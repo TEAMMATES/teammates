@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -423,8 +424,15 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         if (viewType != null) {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
-        
-        return loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultPage = loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
+
+        try {
+            resultPage.clickCollapseExpand();
+        } catch (NoSuchElementException e){
+            // ignore as some pages have no button
+        }
+
+        return resultPage;
     }
 
 }

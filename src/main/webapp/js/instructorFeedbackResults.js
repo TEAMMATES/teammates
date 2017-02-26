@@ -209,6 +209,7 @@ function toggleCollapse(e, pans) {
     var panels = pans || $('div.panel-collapse');
     
     if ($(e).html().trim().startsWith(expand)) {
+        $('.ajax-response-auto').click();
         var $autoLoadCount = $('.ajax_auto').click();
         var $isAutoLoadingTriggered = $autoLoadCount.length != 0;
 
