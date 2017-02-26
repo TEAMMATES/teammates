@@ -623,9 +623,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: add new feedback response comments");
 
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.clickCollapseExpand();
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 2");
+
         resultsPage.verifyCommentRowContent("-0-1-0-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-0-1-1\"");
         resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
@@ -660,7 +660,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: add edit and delete successively");
 
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.clickCollapseExpand();
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "successive action comment");
         resultsPage.verifyCommentRowContent("-0-1-0-1-3", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
 
