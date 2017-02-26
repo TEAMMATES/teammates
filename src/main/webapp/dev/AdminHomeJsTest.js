@@ -2,7 +2,12 @@ QUnit.module('common.js');
 
 QUnit.assert.contains = function(context, toIdentify, message) {
     var actual = context.indexOf(toIdentify) > -1;
-    this.push(actual, actual, toIdentify, message);
+    this.pushResult({
+        result: actual,
+        actual: actual,
+        expected: toIdentify,
+        message: message
+    });
 };
 
 QUnit.test('createRowForResultTable(shortName, name, email, institution, isSuccess, status)', function(assert) {
