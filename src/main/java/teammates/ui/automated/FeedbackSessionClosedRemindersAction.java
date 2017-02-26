@@ -11,21 +11,21 @@ import teammates.logic.api.EmailGenerator;
  * Cron job: schedules feedback session closed emails to be sent.
  */
 public class FeedbackSessionClosedRemindersAction extends AutomatedAction {
-    
+
     @Override
     protected String getActionDescription() {
         return "send closed reminders";
     }
-    
+
     @Override
     protected String getActionMessage() {
         return "Generating reminders for closed feedback sessions.";
     }
-    
+
     @Override
     public void execute() {
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsClosedWithinThePastHour();
-        
+
         for (FeedbackSessionAttributes session : sessions) {
             List<EmailWrapper> emailsToBeSent = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
             try {
@@ -37,5 +37,5 @@ public class FeedbackSessionClosedRemindersAction extends AutomatedAction {
             }
         }
     }
-    
+
 }

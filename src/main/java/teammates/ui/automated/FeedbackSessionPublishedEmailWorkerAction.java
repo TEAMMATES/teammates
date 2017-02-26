@@ -13,25 +13,25 @@ import teammates.logic.api.EmailGenerator;
  * Task queue worker action: prepares session published reminder for a particular session to be sent.
  */
 public class FeedbackSessionPublishedEmailWorkerAction extends AutomatedAction {
-    
+
     @Override
     protected String getActionDescription() {
         return null;
     }
-    
+
     @Override
     protected String getActionMessage() {
         return null;
     }
-    
+
     @Override
     public void execute() {
         String feedbackSessionName = getRequestParamValue(ParamsNames.EMAIL_FEEDBACK);
         Assumption.assertNotNull(feedbackSessionName);
-        
+
         String courseId = getRequestParamValue(ParamsNames.EMAIL_COURSE);
         Assumption.assertNotNull(courseId);
-        
+
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (session == null) {
             log.severe("Feedback session object for feedback session name: " + feedbackSessionName
@@ -48,5 +48,5 @@ public class FeedbackSessionPublishedEmailWorkerAction extends AutomatedAction {
             log.severe("Unexpected error: " + TeammatesException.toStringWithStackTrace(e));
         }
     }
-    
+
 }

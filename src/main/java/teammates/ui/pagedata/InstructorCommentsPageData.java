@@ -20,7 +20,7 @@ import teammates.ui.template.CoursePagination;
  */
 public class InstructorCommentsPageData extends PageData {
     public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
-    
+
     private boolean isViewingDraft;
     private boolean isDisplayArchive;
     private String courseId;
@@ -28,13 +28,13 @@ public class InstructorCommentsPageData extends PageData {
     private CoursePagination coursePagination;
     private List<FeedbackSessionAttributes> feedbackSessions;
     private int numberOfPendingComments;
-    
+
     private List<CommentsForStudentsTable> commentsForStudentsTables;
-    
+
     public InstructorCommentsPageData(AccountAttributes account) {
         super(account);
     }
-    
+
     public void init(boolean isViewingDraft, boolean isDisplayArchive, String courseId, String courseName,
                      List<String> coursePaginationList, Map<String, List<CommentAttributes>> comments,
                      Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster,
@@ -45,44 +45,44 @@ public class InstructorCommentsPageData extends PageData {
         this.courseName = courseName;
         this.feedbackSessions = feedbackSessions;
         this.numberOfPendingComments = numberOfPendingComments;
-        
+
         setCoursePagination(coursePaginationList);
         setCommentsForStudentsTables(comments, commentModifyPermissions, roster);
-                                        
+
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
-    
+
     public String getCourseName() {
         return courseName;
     }
-    
+
     public CoursePagination getCoursePagination() {
         return coursePagination;
     }
-    
+
     public List<FeedbackSessionAttributes> getFeedbackSessions() {
         return feedbackSessions;
     }
-    
+
     public int getNumberOfPendingComments() {
         return numberOfPendingComments;
     }
-    
+
     public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
         return commentsForStudentsTables;
     }
-    
+
     public boolean isDisplayArchive() {
         return isDisplayArchive;
     }
-    
+
     public boolean isViewingDraft() {
         return isViewingDraft;
     }
-    
+
     private void setCoursePagination(List<String> coursePaginationList) {
         String previousPageLink = retrievePreviousPageLink(coursePaginationList);
         String nextPageLink = retrieveNextPageLink(coursePaginationList);
@@ -98,12 +98,13 @@ public class InstructorCommentsPageData extends PageData {
             CourseRoster roster) {
         Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap(comments, roster);
         commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();
-          
-        for (String giverEmail : comments.keySet()) {
+
+        for (Map.Entry<String, List<CommentAttributes>> entry : comments.entrySet()) {
+            String giverEmail = entry.getKey();
             String giverName = giverEmailToGiverNameMap.get(giverEmail);
             CommentsForStudentsTable table =
                     new CommentsForStudentsTable(
-                            giverName, createCommentRows(giverEmail, giverName, comments.get(giverEmail),
+                            giverName, createCommentRows(giverEmail, giverName, entry.getValue(),
                                                          commentModifyPermissions, roster));
             String extraClass;
             if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
@@ -115,18 +116,18 @@ public class InstructorCommentsPageData extends PageData {
             commentsForStudentsTables.add(table);
         }
     }
-    
+
     private List<CommentRow> createCommentRows(
             String giverEmail, String giverName, List<CommentAttributes> commentsForGiver,
             Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster) {
         String unsanitizedGiverName = SanitizationHelper.desanitizeFromHtml(giverName);
-        
+
         List<CommentRow> rows = new ArrayList<CommentRow>();
         for (int i = 0; i < commentsForGiver.size(); i++) {
             CommentAttributes comment = commentsForGiver.get(i);
             String recipientDetails = getRecipientNames(comment.recipients, courseId, null, roster);
             String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
-            
+
             Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
             CommentRow commentDiv = new CommentRow(comment, unsanitizedGiverName, unsanitizedRecipientDetails);
@@ -144,12 +145,12 @@ public class InstructorCommentsPageData extends PageData {
                 commentDiv.setFromCommentsPage();
                 commentDiv.setPlaceholderNumComments();
             }
-            
+
             rows.add(commentDiv);
         }
         return rows;
     }
-    
+
     private String retrievePreviousPageLink(List<String> coursePaginationList) {
         int courseIdx = coursePaginationList.indexOf(courseId);
         String previousPageLink = "javascript:;";
@@ -170,10 +171,10 @@ public class InstructorCommentsPageData extends PageData {
 
     private Map<String, String> getGiverEmailToGiverNameMap(
             Map<String, List<CommentAttributes>> comments, CourseRoster roster) {
-        
+
         Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
         for (String giverEmail : comments.keySet()) {
-            
+
             InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
             String giverDisplay = giverEmail;
             if (giverEmail.equals(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
@@ -182,7 +183,7 @@ public class InstructorCommentsPageData extends PageData {
                 String title = instructor.displayedName;
                 giverDisplay = title + " " + instructor.name;
             }
-            
+
             giverEmailToGiverNameMap.put(giverEmail, giverDisplay);
         }
         return giverEmailToGiverNameMap;

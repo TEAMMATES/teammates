@@ -23,18 +23,18 @@ import teammates.test.pageobjects.InstructorHomePage;
  * Tests Home page and login page for instructors.
  * SUT: {@link InstructorHomePage}.<br>
  * Uses a real account.
- * 
+ *
  */
 public class InstructorHomePageUiTest extends BaseUiTestCase {
-    private static InstructorHomePage homePage;
-    
-    private static FeedbackSessionAttributes feedbackSessionAwaiting;
-    private static FeedbackSessionAttributes feedbackSessionOpen;
-    private static FeedbackSessionAttributes feedbackSessionClosed;
-    private static FeedbackSessionAttributes feedbackSessionPublished;
+    private InstructorHomePage homePage;
+
+    private FeedbackSessionAttributes feedbackSessionAwaiting;
+    private FeedbackSessionAttributes feedbackSessionOpen;
+    private FeedbackSessionAttributes feedbackSessionClosed;
+    private FeedbackSessionAttributes feedbackSessionPublished;
 
     // TODO: refactor this test. try to use admin login or create instructors and courses not using json
-    
+
     @Override
     protected void prepareTestData() {
         removeAndRestoreDataBundle(loadDataBundle("/InstructorHomePageUiTest1.json"));
@@ -50,7 +50,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse("newIns.wit-demo");
         BackDoor.deleteInstructor("newIns.wit-demo", "CHomeUiT.instructor.tmms@gmail.tmt");
     }
-    
+
     @Test
     public void allTests() throws Exception {
         testPersistenceCheck();
@@ -68,20 +68,20 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testCopyToFsAction();
         testDeleteCourseAction();
     }
-    
+
     private void testAjaxCourseTableLoad() throws Exception {
         loginAsInstructor("CHomeUiT.instructor.tmms.unloaded");
-        
+
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeHTMLWithUnloadedCourse.html");
-        
+
         loginAsCommonInstructor();
     }
 
     private void testPersistenceCheck() throws Exception {
-        
+
         ______TS("persistence check");
-        
+
         loginWithPersistenceProblem();
 
         // This is the full HTML verification for Instructor Home Page, the rest can all be verifyMainHtml
@@ -89,9 +89,9 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
 
     public void testLogin() {
-        
+
         ______TS("login");
-        
+
         loginAsNewInstructor();
         assertTrue(browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
     }
@@ -99,36 +99,36 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     private void testShowFeedbackStatsLink() throws Exception {
         WebElement viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         String currentValidUrl = viewResponseLink.getAttribute("href");
-        
+
         ______TS("test case: fail, fetch response rate of invalid url");
         homePage.setViewResponseLinkValue(viewResponseLink, "/invalid/url");
         homePage.clickViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.verifyHtmlMainContent("/instructorHomeHTMLResponseRateFail.html");
-        
+
         ______TS("test case: fail to fetch response rate again, check consistency of fail message");
         homePage.clickViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.verifyHtmlMainContent("/instructorHomeHTMLResponseRateFail.html");
-        
+
         ______TS("test case: pass with valid url after multiple fails");
         viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.setViewResponseLinkValue(viewResponseLink, currentValidUrl);
         homePage.clickViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.verifyHtmlMainContent("/instructorHomeHTMLResponseRatePass.html");
     }
-    
+
     public void testContent() throws Exception {
-        
+
         ______TS("content: no courses");
-        
+
         //this case is implicitly tested when testing for 'delete course' action and
         //new instructor without sample course
         //loginAsInstructor(testData.accounts.get("newInstructorWithSampleCourse").email);
         ______TS("content: new instructor, with status message HINT_FOR_NEW_INSTRUCTOR");
-        
+
         //already logged in
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeNewInstructorWithoutSampleCourse.html");
-        
+
         CourseAttributes newCourse = new CourseAttributes("newIns.wit-demo", "Sample Course 101", "UTC");
         BackDoor.createCourse(newCourse);
         @SuppressWarnings("deprecation")
@@ -136,14 +136,14 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                 new InstructorAttributes("CHomeUiT.instructor.tmms.new", "newIns.wit-demo",
                                          "Teammates Test New Instructor With Sample", "CHomeUiT.instructor.tmms@gmail.tmt");
         BackDoor.createInstructor(instr);
-        
+
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeNewInstructorWithSampleCourse.html");
-        
+
         ______TS("content: multiple courses");
-        
+
         loginAsCommonInstructor();
-        
+
         // Should not see private session
         homePage.verifyHtmlMainContent("/instructorHomeHTMLWithHelperView.html");
         updateInstructorToCoownerPrivileges();
@@ -158,20 +158,20 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         instructor.privileges.setDefaultPrivilegesForCoowner();
         BackDoor.createInstructor(instructor);
     }
-    
+
     public void testHelpLink() {
-        
+
         ______TS("link: help page");
-        
+
         InstructorHelpPage helpPage = homePage.loadInstructorHelpTab();
         helpPage.closeCurrentWindowAndSwitchToParentWindow();
-        
+
     }
-    
+
     public void testCourseLinks() {
         String courseId = testData.courses.get("CHomeUiT.CS1101").getId();
         String instructorId = testData.accounts.get("account").googleId;
-        
+
         ______TS("link: course enroll");
         InstructorCourseEnrollPage enrollPage = homePage.clickCourseErollLink(courseId);
         enrollPage.verifyContains("Enroll Students for CHomeUiT.CS1101");
@@ -181,7 +181,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                         .toAbsoluteString();
         assertEquals(expectedEnrollLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
-        
+
         ______TS("link: course view");
         InstructorCourseDetailsPage detailsPage = homePage.clickCourseViewLink(courseId);
         detailsPage.verifyContains("Course Details");
@@ -191,7 +191,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                         .toAbsoluteString();
         assertEquals(expectedViewLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
-        
+
         ______TS("link: course edit");
         InstructorCourseEditPage editPage = homePage.clickCourseEditLink(courseId);
         editPage.verifyContains("Edit Course Details");
@@ -201,7 +201,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                         .toAbsoluteString();
         assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
-        
+
         ______TS("link: course add session");
         InstructorFeedbacksPage feedbacksPage = homePage.clickCourseAddEvaluationLink(courseId);
         feedbacksPage.verifyContains("Add New Feedback Session");
@@ -211,20 +211,20 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                         .toAbsoluteString();
         assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
-        
+
     }
 
     public void testRemindActions() {
-        
+
         ______TS("remind action: AWAITING feedback session");
-        
+
         homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionAwaiting.getCourseId(),
                                                           feedbackSessionAwaiting.getFeedbackSessionName()));
         homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionAwaiting.getCourseId(),
                                                                  feedbackSessionAwaiting.getFeedbackSessionName()));
-        
+
         ______TS("remind action: OPEN feedback session - outer button");
-        
+
         homePage.clickAndCancel(homePage.getRemindLink(feedbackSessionOpen.getCourseId(),
                                                        feedbackSessionOpen.getFeedbackSessionName()));
         homePage.clickAndConfirm(homePage.getRemindLink(feedbackSessionOpen.getCourseId(),
@@ -232,12 +232,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
-        
+
         //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
         homePage.goToPreviousPage(InstructorHomePage.class);
-        
+
         ______TS("remind action: OPEN feedback session - inner button");
-        
+
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickAndCancel(homePage.getRemindInnerLink(feedbackSessionOpen.getCourseId(),
                                                             feedbackSessionOpen.getFeedbackSessionName()));
@@ -246,17 +246,17 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                                              feedbackSessionOpen.getFeedbackSessionName()));
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
-        
+
         //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
         homePage.goToPreviousPage(InstructorHomePage.class);
-        
+
         ______TS("remind particular users action: OPEN feedback session");
-        
+
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
                                                 feedbackSessionOpen.getFeedbackSessionName());
         homePage.cancelRemindParticularUsersForm();
-        
+
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
                                                 feedbackSessionOpen.getFeedbackSessionName());
@@ -265,7 +265,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
-        
+
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
                                                 feedbackSessionOpen.getFeedbackSessionName());
@@ -275,16 +275,16 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
-        
+
         ______TS("remind action: CLOSED feedback session");
-        
+
         homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionClosed.getCourseId(),
                                                           feedbackSessionClosed.getFeedbackSessionName()));
         homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionClosed.getCourseId(),
                                                                  feedbackSessionClosed.getFeedbackSessionName()));
-        
+
         ______TS("remind action: PUBLISHED feedback session");
-        
+
         homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionPublished.getCourseId(),
                                                           feedbackSessionPublished.getFeedbackSessionName()));
         homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionPublished.getCourseId(),
@@ -294,20 +294,20 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     public void testPublishUnpublishActions() {
         ______TS("publish action: AWAITING feedback session");
-        
+
         homePage.verifyUnclickable(homePage.getPublishLink(feedbackSessionAwaiting.getCourseId(),
                                                            feedbackSessionAwaiting.getFeedbackSessionName()));
 
         ______TS("publish action: OPEN feedback session");
-        
+
         homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionOpen.getCourseId(),
                                                         feedbackSessionOpen.getFeedbackSessionName()));
 
         ______TS("publish action: CLOSED feedback session");
-        
+
         homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionClosed.getCourseId(),
                                                         feedbackSessionClosed.getFeedbackSessionName()));
-        
+
         ______TS("unpublish action: PUBLISHED feedback session");
         homePage.clickFeedbackSessionUnpublishLink(feedbackSessionPublished.getCourseId(),
                                                    feedbackSessionPublished.getFeedbackSessionName());
@@ -324,12 +324,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertTrue(BackDoor.getFeedbackSession(feedbackSessionPublished.getCourseId(),
                                                feedbackSessionPublished.getFeedbackSessionName()).isPublished());
     }
-    
+
     public void testArchiveCourseAction() throws Exception {
         String courseIdForCS1101 = testData.courses.get("CHomeUiT.CS1101").getId();
 
         ______TS("archive course action: click and cancel");
-        
+
         homePage.clickArchiveCourseLinkAndCancel(courseIdForCS1101);
 
         InstructorAttributes instructor = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms", courseIdForCS1101);
@@ -338,22 +338,22 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         // Both will be false before it is archived for testing
         assertFalse(instructor.isArchived);
         assertFalse(helper.isArchived);
-        
+
         ______TS("archive course action: click and confirm");
-        
+
         homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS1101);
-        
+
         instructor = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms", courseIdForCS1101);
         helper = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms.helper", courseIdForCS1101);
         assertTrue(instructor.isArchived);
         assertFalse(helper.isArchived);
-        
+
         homePage.verifyHtmlMainContent("/instructorHomeCourseArchiveSuccessful.html");
-        
+
         ______TS("archive action failed");
-        
+
         String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").getId();
-        
+
         //delete the course, then submit archive request to it
         String archiveLinkString = homePage.getArchiveCourseLink(courseIdForCS2104);
         AppUrl urlToArchive;
@@ -367,7 +367,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseIdForCS2104));
         browser.driver.get(urlToArchive.toAbsoluteString());
         assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ViewURIs.UNAUTHORIZED));
-        
+
         // recover the deleted course and its related entities
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         removeAndRestoreDataBundle(testData);
@@ -375,71 +375,71 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS1101);
         homePage.loadInstructorHomeTab();
     }
-    
+
     public void testCopyToFsAction() throws Exception {
         String feedbackSessionName = "First Feedback Session";
         String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
-        
+
         ______TS("Submit empty course list: Home Page");
-        
+
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.getFsCopyModal().waitForModalToLoad();
         homePage.getFsCopyModal().clickSubmitButton();
         homePage.getFsCopyModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
         homePage.getFsCopyModal().verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
-        
+
         homePage.getFsCopyModal().clickCloseButton();
-        
+
         ______TS("Copying fails due to fs with same name in course selected: Home Page");
-        
+
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.getFsCopyModal().waitForModalToLoad();
         homePage.getFsCopyModal().fillFormWithAllCoursesSelected(feedbackSessionName);
-        
+
         homePage.getFsCopyModal().clickSubmitButton();
-        
+
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
                                      feedbackSessionName, courseId);
         homePage.getFsCopyModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
         homePage.getFsCopyModal().verifyStatusMessage(error);
-        
+
         homePage.getFsCopyModal().clickCloseButton();
-        
+
         ______TS("Copying fails due to fs with invalid name: Home Page");
-        
+
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.getFsCopyModal().waitForModalToLoad();
         String invalidFeedbackSessionName = "Invalid name | for feedback session";
         homePage.getFsCopyModal().fillFormWithAllCoursesSelected(invalidFeedbackSessionName);
-        
+
         homePage.getFsCopyModal().clickSubmitButton();
         homePage.getFsCopyModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
-        
+
         homePage.getFsCopyModal().verifyStatusMessage(
                 getPopulatedErrorMessage(
                     FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidFeedbackSessionName,
                     FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                     FieldValidator.REASON_CONTAINS_INVALID_CHAR));
         homePage.getFsCopyModal().clickCloseButton();
-        
+
         ______TS("Successful case: Home Page");
-        
+
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.getFsCopyModal().waitForModalToLoad();
         homePage.getFsCopyModal().fillFormWithAllCoursesSelected("New name!");
-        
+
         homePage.getFsCopyModal().clickSubmitButton();
 
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
-        
+
         homePage.goToPreviousPage(InstructorHomePage.class);
-        
+
         ______TS("Failure case: Ajax error");
-        
+
         // Change action link so that ajax will fail
         homePage.changeFsCopyButtonActionLink(courseId, feedbackSessionName, "/page/nonExistentPage?");
 
@@ -451,30 +451,30 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
 
     public void testDeleteCourseAction() throws Exception {
-        
+
         ______TS("delete course action");
-        
+
         String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
         homePage.clickAndCancel(homePage.getDeleteCourseLink(courseId));
         assertNotNull(BackDoor.getCourse(courseId));
-        
+
         homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseId));
         assertNull(BackDoor.getCourse(courseId));
         homePage.verifyHtmlMainContent("/instructorHomeCourseDeleteSuccessful.html");
-        
+
         //delete the other course as well
         courseId = testData.courses.get("CHomeUiT.CS1101").getId();
         BackDoor.deleteCourse(courseId);
-        
+
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeHTMLEmpty.html");
-        
+
     }
-    
+
     public void testSearchAction() {
         // Tested in student list page
     }
-    
+
     public void testSortAction() throws Exception {
         ______TS("sort courses by id");
         homePage.clickSortByIdButton();
@@ -500,21 +500,21 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.sortTablesByEndDate();
         homePage.verifyHtmlMainContent("/instructorHomeHTMLSortSessionsByEndDate.html");
     }
-    
+
     private void loginAsNewInstructor() {
         String newInstructor = "CHomeUiT.instructor.tmms.new";
         loginAsInstructor(newInstructor);
     }
-    
+
     private void loginAsCommonInstructor() {
         String commonInstructor = "CHomeUiT.instructor.tmms";
         loginAsInstructor(commonInstructor);
     }
-    
+
     private void loginAsInstructor(String googleId) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
                     .withUserId(googleId);
-        
+
         homePage = loginAdminToPage(editUrl, InstructorHomePage.class);
     }
 
@@ -522,9 +522,9 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         AppUrl homeUrl = ((AppUrl) createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
                     .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "something"))
                     .withUserId("unreg_user");
-        
+
         homePage = loginAdminToPage(homeUrl, InstructorHomePage.class);
-        
+
     }
 
 }

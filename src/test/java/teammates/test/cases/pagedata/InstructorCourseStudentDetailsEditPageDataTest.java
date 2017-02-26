@@ -16,13 +16,13 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
     @Test
     public void allTests() {
         InstructorCourseStudentDetailsEditPageData data = createData();
-        
+
         ______TS("With no student profile (Details edit shows only the info table)");
         assertNull(data.getStudentProfile());
-        
+
         StudentInfoTable studentInfoTable = data.getStudentInfoTable();
         assertNotNull(studentInfoTable);
-        
+
         assertEquals(inputStudent.name, studentInfoTable.getName());
         assertEquals(inputStudent.email, studentInfoTable.getEmail());
         assertEquals(inputStudent.section, studentInfoTable.getSection());
@@ -31,23 +31,23 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
         assertEquals(inputStudent.course, studentInfoTable.getCourse());
         assertEquals(hasSection, studentInfoTable.getHasSection());
     }
-    
+
     protected InstructorCourseStudentDetailsEditPageData createData() {
         String name = "John Doe";
         String email = "john@doe.com";
-        
+
         createStudent(name, email);
-        
+
         return new InstructorCourseStudentDetailsEditPageData(new AccountAttributes(), inputStudent, email, hasSection);
     }
-    
+
     protected void createStudent(String name, String email) {
         String comments = "This is a comment for John Doe.";
         String courseId = "CourseForJohnDoe";
         String team = "TeamForJohnDoe";
         String section = "SectionForJohnDoe";
-        
+
         inputStudent = new StudentAttributes(null, email, name, comments, courseId, team, section);
     }
-    
+
 }

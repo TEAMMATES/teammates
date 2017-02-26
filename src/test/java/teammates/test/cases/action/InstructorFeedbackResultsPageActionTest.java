@@ -15,7 +15,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
@@ -104,7 +104,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true",
                 Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1"
         };
-        
+
         ______TS("Failure case: no params");
 
         this.verifyAssumptionFailure();
@@ -166,12 +166,12 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                      result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
-        
+
         ______TS("Typical case: sortType recipient-question-giver");
-        
+
         action = getAction(paramsWithSortTypeRecipientQuestionGiver);
         result = getShowPageResult(action);
-        
+
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER
                      + "?error=false&user=idOfInstructor1OfCourse1",
                      result.getDestinationWithParams());
@@ -198,7 +198,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                      result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
-        
+
         ______TS("Typical case: feedback result needing ajax");
         action = getAction(paramsNeedAjax);
         result = getShowPageResult(action);
@@ -208,7 +208,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                      result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
-        
+
         ______TS("Typical case: specific question number");
         action = getAction(paramsQuestionNumberOne);
         result = getShowPageResult(action);
@@ -218,7 +218,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                      result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
-        
+
         ______TS("Typical case: view section 1 sortType question");
         action = getAction(paramsSectionOneByQuestion);
         result = getShowPageResult(action);
@@ -228,7 +228,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                      result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
-        
+
         ______TS("Typical case: view section 1 sortType GRQ");
         action = getAction(paramsSectionOneByGrq);
         result = getShowPageResult(action);
@@ -238,7 +238,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                      result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
-        
+
         ______TS("Typical case: view section 1 sortType RGQ");
         action = getAction(paramsSectionOneByRgq);
         result = getShowPageResult(action);
@@ -248,7 +248,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                      result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
-        
+
         ______TS("Typical case: view HTML table all sections");
         action = getAction(paramsNeedHtmlTableAllSections);
         AjaxResult ajaxResult = getAjaxResult(action);
@@ -256,7 +256,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("?error=false&user=idOfInstructor1OfCourse1", ajaxResult.getDestinationWithParams());
         assertEquals("", ajaxResult.getStatusMessage());
         assertFalse(ajaxResult.isError);
-        
+
         ______TS("Typical case: view HTML table section 1");
         action = getAction(paramsNeedHtmlTableSectionOne);
         ajaxResult = getAjaxResult(action);
@@ -264,7 +264,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("?error=false&user=idOfInstructor1OfCourse1", ajaxResult.getDestinationWithParams());
         assertEquals("", ajaxResult.getStatusMessage());
         assertFalse(ajaxResult.isError);
-        
+
         ______TS("Typical case: filtering of feedbackResponses for access control");
         // accessControl--filtering of the result is tested in FeedbackSessionsLogicTest,
         // so the test here about filtering is not rigorous
@@ -273,7 +273,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         result = getShowPageResult(action);
         InstructorFeedbackResultsPageData pageData = (InstructorFeedbackResultsPageData) result.data;
         assertTrue(pageData.getBundle().responses.isEmpty());
-        
+
     }
 
     @Override

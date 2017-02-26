@@ -74,4 +74,3 @@ var FeedbackPath = {
         return containingForm.find('.feedback-path-dropdown > button').html().trim() !== 'Predefined combinations:';
     }
 };
-

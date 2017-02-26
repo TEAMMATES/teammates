@@ -20,7 +20,7 @@ public class StudentFeedbackSessionActions {
         this.isSessionPublished = fs.isPublished();
         this.studentFeedbackResultsLink = feedbackResultsLink;
         this.studentFeedbackResponseEditLink = feedbackResponseEditLink;
-        
+
         if (hasSubmitted) {
             if (fs.isOpened()) {
                 this.tooltipText = Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE;

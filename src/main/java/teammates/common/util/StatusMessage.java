@@ -10,16 +10,16 @@ import java.io.Serializable;
 public class StatusMessage implements Serializable {
     private String text;
     private StatusMessageColor color;
-    
+
     public StatusMessage(String text, StatusMessageColor color) {
         this.text = text;
         this.color = color;
     }
-    
+
     public String getText() {
         return text;
     }
-    
+
     public String getColor() {
         return color.name().toLowerCase();
     }

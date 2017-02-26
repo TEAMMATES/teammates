@@ -13,91 +13,87 @@ import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.pagedata.InstructorFeedbackEditCopyData;
 
 public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
-    
+
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
     }
-    
+
     @Override
     protected void prepareTestData() {
         dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
         String instructorId = instructor.googleId;
-        
+
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("openSession");
         CourseAttributes course = dataBundle.courses.get("course");
-        
+
         gaeSimulation.loginAsInstructor(instructorId);
-        
+
         String expectedString = "";
 
-        
         ______TS("Failure case: No parameters");
         verifyAssumptionFailure();
 
-        
         ______TS("Failure case: Courses not passed in, instructor home page");
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
-        
+
         InstructorFeedbackEditCopyAction a = getAction(params);
         AjaxResult ajaxResult = getAjaxResult(a);
         InstructorFeedbackEditCopyData editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
-        
+
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, editCopyData.errorMessage);
-        
+
         ______TS("Failure case: Courses not passed in, instructor feedbacks page");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
-        
+
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
-        
+
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, editCopyData.errorMessage);
-        
+
         ______TS("Failure case: Courses not passed in, instructor feedback copy page");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
-  
-        
+
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, editCopyData.errorMessage);
-        
+
         ______TS("Failure case: Courses not passed in, instructor feedback edit page");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
-        
+
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, editCopyData.errorMessage);
 
-        
         ______TS("Failure case: copying from course with insufficient permission");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
@@ -105,9 +101,9 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId()
         };
-        
+
         a = getAction(params);
-        
+
         try {
             ajaxResult = getAjaxResult(a);
             signalFailureToDetectException();
@@ -116,7 +112,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                              + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
             assertEquals(expectedString, uae.getMessage());
         }
-        
+
         ______TS("Failure case: copying to course with insufficient permission");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
@@ -124,9 +120,9 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 Const.ParamsNames.COPIED_COURSES_ID, "FeedbackEditCopy.CS2107"
         };
-        
+
         a = getAction(params);
-        
+
         try {
             ajaxResult = getAjaxResult(a);
             signalFailureToDetectException();
@@ -135,7 +131,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                              + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
             assertEquals(expectedString, uae.getMessage());
         }
-        
+
         ______TS("Failure case: copying non-existing fs");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non.existing.fs",
@@ -143,9 +139,9 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId()
         };
-        
+
         a = getAction(params);
-        
+
         try {
             ajaxResult = getAjaxResult(a);
             signalFailureToDetectException();
@@ -153,7 +149,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
             assertEquals("Trying to access system using a non-existent feedback session entity",
                          uae.getMessage());
         }
-        
+
         ______TS("Failure case: copying to non-existing course");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
@@ -161,9 +157,9 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 Const.ParamsNames.COPIED_COURSES_ID, "non.existing.course"
         };
-        
+
         a = getAction(params);
-        
+
         try {
             ajaxResult = getAjaxResult(a);
             signalFailureToDetectException();
@@ -171,9 +167,9 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
             assertEquals("Trying to access system using a non-existent instructor entity",
                          uae.getMessage());
         }
-        
+
         ______TS("Failure case: course already has feedback session with same name, instructor home page");
-        
+
         CourseAttributes course6 = dataBundle.courses.get("course6");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
@@ -182,19 +178,19 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
                 Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
-        
+
         assertEquals("", editCopyData.redirectUrl);
-        
+
         expectedString = "A feedback session with the name \"First Session\" already exists in "
                          + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
-        
+
         ______TS("Failure case: course already has feedback session with same name, instructor feedbacks page");
-         
+
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -202,19 +198,19 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
                 Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
-        
+
         assertEquals("", editCopyData.redirectUrl);
-        
+
         expectedString = "A feedback session with the name \"First Session\" already exists in "
                          + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
-        
+
         ______TS("Failure case: course already has feedback session with same name, instructor feedback copy page");
-        
+
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -222,20 +218,19 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
                 Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
-        
-    
+
         assertEquals("", editCopyData.redirectUrl);
-        
+
         expectedString = "A feedback session with the name \"First Session\" already exists in "
                          + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
-        
+
         ______TS("Failure case: course already has feedback session with same name, instructor feedback edit page");
-        
+
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -243,20 +238,19 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
                 Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
-        
-      
+
         assertEquals("", editCopyData.redirectUrl);
-        
+
         expectedString = "A feedback session with the name \"First Session\" already exists in "
                          + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
-        
+
         ______TS("Failure case: empty name, instructor home page");
-        
+
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -264,19 +258,18 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
                 Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
-        
 
         assertEquals("", editCopyData.redirectUrl);
-        
+
         expectedString = "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
                          + "The value of a/an feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
         assertEquals(expectedString, editCopyData.errorMessage);
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
@@ -284,9 +277,9 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 + "because it is empty. The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        
+
         ______TS("Failure case: empty name, instructor feedbacks page");
-        
+
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -294,18 +287,18 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
                 Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
 
         assertEquals("", editCopyData.redirectUrl);
-        
+
         expectedString = "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
                          + "The value of a/an feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
         assertEquals(expectedString, editCopyData.errorMessage);
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
@@ -313,9 +306,9 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 + "because it is empty. The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        
+
         ______TS("Failure case: empty name, instructor feedback copy page");
-        
+
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -323,19 +316,18 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
                 Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
-        
 
         assertEquals("", editCopyData.redirectUrl);
-        
+
         expectedString = "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
                          + "The value of a/an feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
         assertEquals(expectedString, editCopyData.errorMessage);
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
@@ -343,9 +335,9 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 + "because it is empty. The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        
+
         ______TS("Failure case: empty name, instructor feedback edit page");
-        
+
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -353,18 +345,18 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId(),
                 Const.ParamsNames.COPIED_COURSES_ID, course6.getId()
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
- 
+
         assertEquals("", editCopyData.redirectUrl);
-        
+
         expectedString = "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
                          + "The value of a/an feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
         assertEquals(expectedString, editCopyData.errorMessage);
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
@@ -372,10 +364,9 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 + "because it is empty. The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        
-        
+
         ______TS("Successful case");
-        
+
         CourseAttributes course7 = dataBundle.courses.get("course7");
         String copiedCourseName = "Session with valid name";
         params = new String[] {
@@ -385,15 +376,15 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, course6.getId(),
                 Const.ParamsNames.COPIED_COURSES_ID, course7.getId()
         };
-        
+
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
-        
+
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
                          + "?error=false&user=" + instructor.googleId;
         assertEquals(expectedString, editCopyData.redirectUrl);
-        
+
         expectedString = "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||"
                          + "true|||Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||"
                          + "tmms.instr@gmail.tmt|||Copying to multiple feedback sessions.<br>"
@@ -408,9 +399,9 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                          + "for Course <span class=\"bold\">[FeedbackEditCopy.CS2104]</span> created.<br>|||"
                          + "/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        
+
     }
-    
+
     @Override
     protected InstructorFeedbackEditCopyAction getAction(String... params) {
         return (InstructorFeedbackEditCopyAction) gaeSimulation.getActionObject(getActionUri(), params);

@@ -235,9 +235,9 @@ public class StudentProfilePage extends AppPage {
 
     public void verifyUploadButtonState(boolean expectedState) {
         assertEquals(expectedState, uploadPictureSubmit.isEnabled());
-        
+
     }
-    
+
     public void waitForUploadEditModalVisible() {
         waitForElementVisibility(uploadEditModal);
     }
