@@ -22,39 +22,25 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 ### With Eclipse
 
-* To start the dev server, right-click on the project folder and choose `Run As → Web Application`.<br>
-  After some time, you should see this message (or similar) on the Eclipse console: `Dev App Server is now running`.
-  The dev server URL will be given at the console output, e.g `http://localhost:8888`.
+#### Starting the dev server
 
-* To stop the dev server, click the "Terminate" icon on the Eclipse console.
+Right-click on the project folder and choose `Run As → Web Application`.<br>
+After some time, you should see this message (or similar) on the Eclipse console: `Dev App Server is now running`.
+The dev server URL will be given at the console output, e.g `http://localhost:8888`.
+
+#### Stopping the dev server
+
+Click the "Terminate" icon on the Eclipse console.
 
 ### With IntelliJ
 
-> If this is your first time running the dev server, you will need to set up the required `Run Configuration`.
+#### Starting the dev server
 
-#### Set up the Run Configuration
+Ensure `Dev Server` is selected in the dropdown menu next to the `Play` icon in the toolbar. Click the `Play` icon.
 
-1. Go to `File → Project Structure...`.
-1. Under `Artifacts → Gradle : teammates.war (exploded)`*, check `Include in project build`.
-1. Click `OK`.
-1. Got to `Run → Edit Configurations...`.
-1. Click `+ → Google AppEngine Dev Server`.
-1. Name it `Dev Server`.
-1. Click `Configure` next to `Application server`.
-1. Click `+ → ...`. Select the App Engine SDK you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
-1. Under `Open browser`, uncheck `After launch`.
-1. Set the `JRE` to `1.7`.
-1. Set the `Port` to `8888`.
-1. Under `Before launch`, click `+ → Run Gradle task`.
-1. Select the local repository as the Gradle project and type "assemble" into the `Tasks` field.
-1. Click `OK`.
-1. Move the item you just created above "Build".
-1. Click `OK`.
+#### Stopping the dev server
 
-#### Run the dev server
-
-1. Ensure `Dev Server` is selected in the dropdown menu next to the `Play` icon.
-1. Click the `Play` icon.
+Click the red `Stop` icon in the toolbar.
 
 ### Outside Eclipse and IntelliJ
 
