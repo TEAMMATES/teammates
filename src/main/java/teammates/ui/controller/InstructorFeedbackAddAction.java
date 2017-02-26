@@ -121,7 +121,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         }
     }
 
-    /** 
+    /**
      * Get the list of questions for the specified feedback session template
      */
     private static List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(
