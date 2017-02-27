@@ -63,7 +63,6 @@ public class StudentCourseJoinEmailWorkerActionTest extends BaseAutomatedActionT
                                    course1.getName(), course1.getId()),
                      email.getSubject());
         assertEquals(stu1InCourse1.email, email.getRecipient());
-
     }
 
     @Override
