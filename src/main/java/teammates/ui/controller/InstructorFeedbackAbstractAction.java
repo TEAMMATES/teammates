@@ -71,8 +71,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                                                 : Arrays.asList(sendReminderEmailsArray);
         newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
         newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
-        newSession = extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
-        return newSession;
+        return extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
     }
 
     private FeedbackSessionAttributes setTime(FeedbackSessionAttributes newSession) {
