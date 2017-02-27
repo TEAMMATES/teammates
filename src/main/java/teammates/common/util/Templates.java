@@ -1,13 +1,13 @@
 package teammates.common.util;
 
 public final class Templates {
-    
+
     public static final String INSTRUCTOR_SAMPLE_DATA = FileHelper.readResourceFile("InstructorSampleData.json");
-    
+
     private Templates() {
         // utility class
     }
-    
+
     /**
      * Populates the HTML templates by replacing variables in the template string
      * with the given value strings.
@@ -25,7 +25,7 @@ public final class Templates {
         }
         return populatedTemplate;
     }
-    
+
     /**
      * Collection of templates of emails to be sent by the system.
      */
@@ -59,7 +59,7 @@ public final class Templates {
         public static final String NEW_INSTRUCTOR_ACCOUNT_WELCOME =
                 FileHelper.readResourceFile("newInstructorAccountWelcome.html");
     }
-    
+
     public static class FeedbackQuestion {
 
         public static class FormTemplates {
@@ -204,9 +204,9 @@ public final class Templates {
             public static final String RANK_RESULT_STATS_RECIPIENTFRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientFragment.html");
         }
-        
+
         public static class Slots {
-            
+
             public static final String QUESTION_INDEX = "${questionIndex}";
             public static final String RESPONSE_INDEX = "${responseIndex}";
             public static final String DISABLED = "${disabled}";
@@ -255,7 +255,7 @@ public final class Templates {
 
             // TEXT
             public static final String TEXT_EXISTING_RESPONSE = "${existingResponse}";
-            
+
             // MCQ
             public static final String MCQ_CHOICE_VALUE = "${mcqChoiceValue}";
             public static final String MCQ_OTHER_OPTION_ANSWER = "${mcqOtherOptionAnswer}";
@@ -340,7 +340,7 @@ public final class Templates {
             public static final String RECIPIENT_DISPLAY = "${recipientDisplay}";
             public static final String PER_OPTION_CHECKED = "${perOptionChecked}";
             public static final String PER_RECIPIENT_CHECKED = "${perRecipientChecked}";
-            
+
             // Contribution
             public static final String CONTRIB_SELECT_FRAGMENTS_HTML = "${contribSelectFragmentsHtml}";
             public static final String CONTRIB_IS_NOT_SURE_ALLOWED_CHECKED = "${isNotSureAllowedChecked}";
@@ -386,7 +386,7 @@ public final class Templates {
             public static final String RANK_PARAM_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION}";
             public static final String RANK_PARAM_NUMBER_OF_CHOICE_CREATED =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}";
-            
+
             // Rubric
             public static final String CURRENT_ROWS = "${currRows}";
             public static final String CURRENT_COLS = "${currCols}";
@@ -415,7 +415,7 @@ public final class Templates {
             public static final String RUBRIC_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}";
         }
     }
-    
+
     // TODO: Consider adding instructions for the feedback session into template?
     // TODO: Or simply use static strings here?
     public static class FeedbackSessionTemplates {

@@ -15,5 +15,5 @@ public class StudentSearchResultBundle extends SearchResultBundle {
 
     public List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
     public Map<String, InstructorAttributes> courseIdInstructorMap = new HashMap<String, InstructorAttributes>();
-    
+
 }

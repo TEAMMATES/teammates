@@ -50,7 +50,7 @@ public class StudentInfoTable {
     public boolean isAbleToAddComment() {
         return isAbleToAddComment;
     }
-    
+
     public boolean getHasSection() {
         return hasSection;
     }

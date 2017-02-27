@@ -17,11 +17,11 @@ public class StudentProfilePictureAction extends Action {
         boolean isRequestFromStudent = getRequestParamValue(Const.ParamsNames.BLOB_KEY) != null;
         boolean isRequestFromInstructorOrOtherStudent =
                                         getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL) != null;
-        
+
         if (!isRequestFromStudent && !isRequestFromInstructorOrOtherStudent) {
             Assumption.fail("expected blob-key, or student email with courseId");
         }
-        
+
         ActionResult result = null;
         if (isRequestFromStudent) {
             result = handleRequestWithBlobKey();
@@ -30,7 +30,7 @@ public class StudentProfilePictureAction extends Action {
             result = handleRequestWithEmailAndCourse();
             statusToAdmin = "Requested Profile Picture by instructor/other students";
         }
-        
+
         return result;
     }
 

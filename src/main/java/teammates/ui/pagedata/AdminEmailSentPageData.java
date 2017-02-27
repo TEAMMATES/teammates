@@ -12,5 +12,5 @@ public class AdminEmailSentPageData extends AdminEmailPageData {
         super(account);
         this.state = AdminEmailPageState.SENT;
     }
-    
+
 }

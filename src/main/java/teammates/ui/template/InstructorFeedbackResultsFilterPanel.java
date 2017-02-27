@@ -17,7 +17,7 @@ public class InstructorFeedbackResultsFilterPanel {
     private String sortType;
     private String resultsLink;
     private List<String> sections;
-    
+
     public InstructorFeedbackResultsFilterPanel(boolean isStatsShown,
                                     FeedbackSessionAttributes session, boolean isAllSectionsSelected,
                                     String selectedSection, boolean isGroupedByTeam, String sortType,
@@ -46,7 +46,7 @@ public class InstructorFeedbackResultsFilterPanel {
     public boolean isMissingResponsesShown() {
         return isMissingResponsesShown;
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
@@ -58,7 +58,7 @@ public class InstructorFeedbackResultsFilterPanel {
     public boolean isAllSectionsSelected() {
         return isAllSectionsSelected;
     }
-    
+
     public boolean isNoneSectionSelected() {
         return "None".equals(selectedSection);
     }
@@ -66,7 +66,7 @@ public class InstructorFeedbackResultsFilterPanel {
     public String getSelectedSection() {
         return selectedSection;
     }
-    
+
     public boolean isGroupedByTeam() {
         return isGroupedByTeam;
     }
@@ -74,7 +74,7 @@ public class InstructorFeedbackResultsFilterPanel {
     public String getSortType() {
         return sortType;
     }
-    
+
     public String getResultsLink() {
         return resultsLink;
     }
@@ -82,5 +82,5 @@ public class InstructorFeedbackResultsFilterPanel {
     public List<String> getSections() {
         return sections;
     }
-    
+
 }

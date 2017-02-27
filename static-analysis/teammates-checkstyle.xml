@@ -112,10 +112,10 @@
       <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
     </module>
     <module name="ConstantName">
-      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle)$"/>
+      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle|gaeSimulation)$"/>
     </module>
     <module name="RegexpSinglelineJava">
-      <property name="format" value="((?!\*)\S|\* ) +$"/>
+      <property name="format" value="\s+$"/>
       <property name="message" value="Line has trailing spaces."/>
     </module>
     <module name="LineLength">

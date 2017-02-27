@@ -4,12 +4,12 @@ package teammates.common.util;
  * A specific implementation of {@link Url} used to encapsulate URLs of the application.
  */
 public class AppUrl extends Url {
-    
+
     public AppUrl(String url) {
         super(url);
         Assumption.assertTrue(url.startsWith("http")); // must either be http or https
     }
-    
+
     public AppUrl withUserId(String userId) {
         return withParam(Const.ParamsNames.USER_ID, userId);
     }

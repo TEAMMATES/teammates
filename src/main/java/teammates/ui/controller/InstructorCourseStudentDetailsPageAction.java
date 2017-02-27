@@ -11,16 +11,16 @@ import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsPageData;
 
 public class InstructorCourseStudentDetailsPageAction extends Action {
-    
+
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        
+
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Assumption.assertNotNull(studentEmail);
-        
+
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_COURSE_DETAILS,
@@ -31,28 +31,27 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId), student.section,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
-        
+
         String commentRecipient = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
-        
+
         boolean isAbleToAddComment = instructor.isAllowedForPrivilege(
                 student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
         boolean hasSection = logic.hasIndicatedSections(courseId);
-        
+
         StudentProfileAttributes studentProfile = loadStudentProfile(student, instructor);
-        
+
         InstructorCourseStudentDetailsPageData data =
                 new InstructorCourseStudentDetailsPageData(account, student, studentProfile,
                                                            isAbleToAddComment, hasSection, commentRecipient);
-        
+
         statusToAdmin = "instructorCourseStudentDetails Page Load<br>"
                         + "Viewing details for Student <span class=\"bold\">" + studentEmail
                         + "</span> in Course <span class=\"bold\">[" + courseId + "]</span>";
-        
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS, data);
 
     }
-    
+
     private StudentProfileAttributes loadStudentProfile(StudentAttributes student, InstructorAttributes currentInstructor) {
         StudentProfileAttributes studentProfile = null;
         boolean isInstructorAllowedToViewStudent = currentInstructor.isAllowedForPrivilege(student.section,
@@ -61,10 +60,10 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
         if (isInstructorAllowedToViewStudent && isStudentWithProfile) {
             studentProfile = logic.getStudentProfile(student.googleId);
             Assumption.assertNotNull(studentProfile);
-            
+
             return studentProfile;
         }
-        
+
         // this means that the user is returning to the page and is not the first time
         boolean hasExistingStatus = !statusToUser.isEmpty()
                                         || session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST) != null;

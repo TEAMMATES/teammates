@@ -17,7 +17,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
@@ -38,20 +38,20 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         String[] paramsWithNullFeedbackSessionName = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId()
         };
-        
+
         String[] paramsWithFilterText = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "My comments"
         };
-        
+
         String[] paramsWithMissingResponsesShown = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "selling point of your product",
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "true"
         };
-        
+
         String[] paramsWithMissingResponsesHidden = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
@@ -63,7 +63,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         InstructorFeedbackResultsDownloadAction action = getAction(paramsNormal);
         FileDownloadResult result = getFileDownloadResult(action);
-        
+
         String expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
@@ -129,7 +129,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
-        
+
         ______TS("Typical case: results with a filter text");
 
         action = getAction(paramsWithFilterText);
@@ -141,7 +141,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForDownloadWithFilterText(result.getFileContent(), session);
-        
+
         ______TS("Typical case: results with missing responses shown");
         action = getAction(paramsWithMissingResponsesShown);
         result = getFileDownloadResult(action);
@@ -152,7 +152,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForDownloadWithMissingResponsesShown(result.getFileContent(), session);
-        
+
         ______TS("Typical case: results with missing responses hidden");
         action = getAction(paramsWithMissingResponsesHidden);
         result = getFileDownloadResult(action);
@@ -171,7 +171,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         full testing of file content is
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
-        
+
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
@@ -184,18 +184,18 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
                 // CHECKSTYLE.ON:LineLength
         };
-        
+
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
-    
+
     }
-    
+
     private void verifyFileContentForDownloadWithMissingResponsesShown(String fileContent,
             FeedbackSessionAttributes session) {
         /*
         full testing of file content is
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
-        
+
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
@@ -212,18 +212,18 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\""
                 // CHECKSTYLE.ON:LineLength
         };
-        
+
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
-    
+
     }
-    
+
     private void verifyFileContentForDownloadWithMissingResponsesHidden(String fileContent,
             FeedbackSessionAttributes session) {
         /*
         full testing of file content is
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
-        
+
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
@@ -237,11 +237,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
                 // CHECKSTYLE.ON:LineLength
         };
-        
+
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
-    
+
     }
-    
+
     private void verifyFileContentForSession1InCourse1(String fileContent,
                                                        FeedbackSessionAttributes session) {
         /*
@@ -262,9 +262,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
                 // CHECKSTYLE.ON:LineLength
         };
-        
+
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
-        
+
     }
 
     private void verifyFileContentForSession1InCourse1WithNewLastName(String fileContent,
@@ -273,7 +273,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         full testing of file content is
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
-        
+
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
@@ -287,9 +287,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
                 // CHECKSTYLE.ON:LineLength
         };
-        
+
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
-        
+
     }
 
     private void verifyFileContentForSession1InCourse1WithinSection1(String fileContent,
@@ -298,7 +298,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         full testing of file content is
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
-        
+
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
@@ -313,7 +313,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
                 // CHECKSTYLE.ON:LineLength
         };
-        
+
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
 
     }

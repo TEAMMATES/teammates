@@ -21,14 +21,14 @@ import teammates.test.pageobjects.StudentProfilePicturePage;
 
 @Priority(-3)
 public class StudentProfilePageUiTest extends BaseUiTestCase {
-    private static StudentProfilePage profilePage;
+    private StudentProfilePage profilePage;
 
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
-        
+
         // use the 2nd student account injected for this test
-        
+
         String student2GoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
         String student2Email = student2GoogleId + "@gmail.com";
         testData.accounts.get("studentWithExistingProfile").googleId = student2GoogleId;
@@ -36,7 +36,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         testData.accounts.get("studentWithExistingProfile").studentProfile.googleId = student2GoogleId;
         testData.students.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.students.get("studentWithExistingProfile").email = student2Email;
-        
+
         removeAndRestoreDataBundle(testData);
     }
 
@@ -54,19 +54,19 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         ______TS("Test disabling and enabling of upload button");
         // initial disabled state
         profilePage.verifyUploadButtonState(false);
-        
+
         //enabled when a file is selected
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.verifyUploadButtonState(true);
-        
+
         // disabled when file is cancelled
         profilePage.fillProfilePic("");
         profilePage.verifyUploadButtonState(false);
-        
+
         // re-enabled when a new file is selected
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.verifyUploadButtonState(true);
-        
+
     }
 
     private void testNavLinkToPage() {
@@ -102,7 +102,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
         profilePage.waitForUploadEditModalVisible();
         profilePage.verifyHtmlMainContent("/studentProfilePageFilled.html");
-        
+
         profilePage.closeEditPictureModal();
     }
 
@@ -144,7 +144,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                              // de-sanitize
                                              .replace("&lt;", "<").replace("&gt;", ">")
                                              .replace("&quot;", "\"").replace("&#x2f;", "/"));
-        
+
         ______TS("Failure case: invalid data");
 
         spa = new StudentProfileAttributes("valid.id", "$$short.name", "e@email.tmt", " inst  ", "American",
@@ -172,16 +172,16 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         verifyPictureIsPresent(prevPictureKey);
 
         ______TS("Typical case: repeated edit");
-        
+
         profilePage.showPictureEditor();
         profilePage.editProfilePhoto();
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                           "female", "this is enough!$%&*</>");
         profilePage.verifyPhotoSize(150, 150);
-        
+
         prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsPresent(prevPictureKey);
-        
+
         ______TS("Failure case: not a picture");
 
         profilePage.fillProfilePic("src/test/resources/images/not_a_picture.txt");
@@ -202,7 +202,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         profilePage.fillProfilePic("src/test/resources/images/image_tall.jpg");
         profilePage.uploadPicture();
-        
+
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
         profilePage.waitForUploadEditModalVisible();
         profilePage.verifyPhotoSize(3074, 156);

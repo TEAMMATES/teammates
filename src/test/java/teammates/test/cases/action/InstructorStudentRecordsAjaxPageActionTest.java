@@ -15,7 +15,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
@@ -26,7 +26,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(instructorId);
 
         ______TS("Typical case: specific session name");
-        
+
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student.email,
@@ -40,10 +40,10 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
                      r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
-        
+
         InstructorStudentRecordsAjaxPageData data = (InstructorStudentRecordsAjaxPageData) r.data;
         assertEquals(1, data.getResultsTables().size());
-        
+
         ______TS("Typical case: instructor cannot view sections");
 
         instructor = dataBundle.instructors.get("helperOfCourse1");
@@ -65,7 +65,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
         data = (InstructorStudentRecordsAjaxPageData) r.data;
         assertEquals(0, data.getResultsTables().size());
-        
+
     }
 
     @Override

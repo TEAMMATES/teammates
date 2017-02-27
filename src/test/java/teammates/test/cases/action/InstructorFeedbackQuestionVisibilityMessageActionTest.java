@@ -16,7 +16,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {

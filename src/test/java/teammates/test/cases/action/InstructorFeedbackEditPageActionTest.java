@@ -11,43 +11,43 @@ import teammates.ui.controller.InstructorFeedbackEditPageAction;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
-    
+
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
-        
+
         // declare all variables to be used
         String expectedString = "";
         FeedbackSessionAttributes feedbackSessionAttributes;
         String[] submissionParams;
         InstructorFeedbackEditPageAction instructorFeedbackEditPageAction;
         ShowPageResult showPageResult;
-        
+
         ______TS("typical success case");
-        
+
         feedbackSessionAttributes = dataBundle.feedbackSessions.get("session1InCourse1");
-        
+
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName()
         };
-        
+
         instructorFeedbackEditPageAction = getAction(submissionParams);
         showPageResult = getShowPageResult(instructorFeedbackEditPageAction);
-        
+
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT
                          + "?error=false&user=" + instructor1OfCourse1.googleId;
         assertEquals(expectedString, showPageResult.getDestinationWithParams());
-        
+
         assertEquals("", showPageResult.getStatusMessage());
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditPage|||instructorFeedbackEditPage|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
@@ -57,14 +57,14 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
                 + "in Course: <span class=\"bold\">[idOfTypicalCourse1]</span>"
                 + "|||/page/instructorFeedbackEditPage";
         AssertHelper.assertLogMessageEquals(expectedString, instructorFeedbackEditPageAction.getLogMessage());
-        
+
         ______TS("failure 1: non-existent feedback session");
-        
+
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName for Session123"
         };
-        
+
         instructorFeedbackEditPageAction = getAction(submissionParams);
         try {
             showPageResult = getShowPageResult(instructorFeedbackEditPageAction);
@@ -74,7 +74,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
                          uae.getMessage());
         }
     }
-    
+
     @Override
     protected InstructorFeedbackEditPageAction getAction(String... params) {
         return (InstructorFeedbackEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
