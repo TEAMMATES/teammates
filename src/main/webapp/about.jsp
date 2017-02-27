@@ -150,9 +150,9 @@
             </div>
         </section>
 
-        <section class="row">
+        <section class="row" id="firstlist">
             <h3>Past Committers:</h3>
-            <ol>
+            <ol class="contributor">
                 <li>John Kevin Tjahjadi (Jan 2016 - May 2016)</li>
                 <li>Kenneth Ho Chee Chong (Jan 2016 - May 2016)</li>
                 <li>Su Sumei (Jan 2016 - May 2016)</li>
@@ -162,7 +162,7 @@
 
         <section class="row">
             <h3>Past Team Members:</h3>
-            <ol>
+            <ol class="contributor">
                 <li>
                     <img src="images/teammembers/weilin.png" width="80px"><br> 
                     Low WeiLin<br>
