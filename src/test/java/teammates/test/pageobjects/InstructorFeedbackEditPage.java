@@ -1151,6 +1151,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement visibilityMessageDiv = getVisibilityMessageDiv(questionNumber);
         waitForElementVisibility(visibilityMessageDiv);
         List<WebElement> visibilityMessages = visibilityMessageDiv.findElements(By.cssSelector("ul > li"));
+        if (visibilityMessages.isEmpty()) {
+            return false;
+        }
         boolean isLoadVisibilityMessageAjaxError =
                 visibilityMessages.get(0).getText().equals("Error loading visibility hint. Click here to retry.");
         return !visibilityMessages.isEmpty() && !isLoadVisibilityMessageAjaxError;

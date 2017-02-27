@@ -539,72 +539,99 @@ public class FeedbackNumericalScaleQuestionDetails extends
             String giverEmail = response.giver;
             String recipientEmail = response.recipient;
 
-            // Compute number of responses including user's self response
-            if (!numResponses.containsKey(recipientEmail)) {
-                numResponses.put(recipientEmail, 0);
-            }
-            int numOfResponses = numResponses.get(recipientEmail) + 1;
-            numResponses.put(recipientEmail, numOfResponses);
-
-            // Compute number of responses excluding user's self response
-            if (!numResponsesExcludingSelf.containsKey(recipientEmail)) {
-                numResponsesExcludingSelf.put(recipientEmail, 0);
-            }
-            boolean isSelfResponse = giverEmail.equalsIgnoreCase(recipientEmail);
-            if (!isSelfResponse) {
-                int numOfResponsesExcludingSelf = numResponsesExcludingSelf.get(recipientEmail) + 1;
-                numResponsesExcludingSelf.put(recipientEmail, numOfResponsesExcludingSelf);
-            }
-
-            // Compute minimum score received
-            if (!min.containsKey(recipientEmail)) {
-                min.put(recipientEmail, answer);
-            }
-            double minScoreReceived = Math.min(answer, min.get(recipientEmail));
-            min.put(recipientEmail, minScoreReceived);
-
-            // Compute maximum score received
-            if (!max.containsKey(recipientEmail)) {
-                max.put(recipientEmail, answer);
-            }
             double maxScoreReceived = Math.max(answer, max.get(recipientEmail));
             max.put(recipientEmail, maxScoreReceived);
 
-            // Compute total score received
-            if (!total.containsKey(recipientEmail)) {
-                total.put(recipientEmail, 0.0);
-            }
-            double totalScore = total.get(recipientEmail) + answer;
-            total.put(recipientEmail, totalScore);
+            boolean isSelfResponse = false;
+            
+            populateNumResponsesForSummaryStatistics(numResponses, numResponsesExcludingSelf, min, max, 
+                    recipientEmail, isSelfResponse, answer, giverEmail);
+            
+            populateTotalsForSummaryStatistics(total, totalExcludingSelf, recipientEmail, isSelfResponse, answer);
+            
+            populateAveragesForSummaryStatistics(average, averageExcludingSelf, total, totalExcludingSelf, numResponses, 
+                    numResponsesExcludingSelf, recipientEmail, isSelfResponse);
+        }
+    }
+    
+    private void populateNumResponsesForSummaryStatistics(Map<String, Integer> numResponses, 
+            Map<String, Integer> numResponsesExcludingSelf, 
+            Map<String, Double> min, Map<String, Double> max,
+            String recipientEmail, boolean isSelfResponse, double answer, String giverEmail) {
+        
+     // Compute number of responses including user's self response
+        if (!numResponses.containsKey(recipientEmail)) {
+            numResponses.put(recipientEmail, 0);
+        }
+        int numOfResponses = numResponses.get(recipientEmail) + 1;
+        numResponses.put(recipientEmail, numOfResponses);
 
-            // Compute total score received excluding self
-            if (!totalExcludingSelf.containsKey(recipientEmail)) {
-                totalExcludingSelf.put(recipientEmail, null);
-            }
-            if (!isSelfResponse) {
-                Double totalScoreExcludingSelf = totalExcludingSelf.get(recipientEmail);
+        // Compute number of responses excluding user's self response
+        if (!numResponsesExcludingSelf.containsKey(recipientEmail)) {
+            numResponsesExcludingSelf.put(recipientEmail, 0);
+        }
+        isSelfResponse = giverEmail.equalsIgnoreCase(recipientEmail);
+        if (!isSelfResponse) {
+            int numOfResponsesExcludingSelf = numResponsesExcludingSelf.get(recipientEmail) + 1;
+            numResponsesExcludingSelf.put(recipientEmail, numOfResponsesExcludingSelf);
+        }
 
-                // totalScoreExcludingSelf == null when the user has only self response
-                totalExcludingSelf.put(recipientEmail,
-                                       totalScoreExcludingSelf == null ? answer : totalScoreExcludingSelf + answer);
-            }
+        // Compute minimum score received
+        if (!min.containsKey(recipientEmail)) {
+            min.put(recipientEmail, answer);
+        }
+        double minScoreReceived = Math.min(answer, min.get(recipientEmail));
+        min.put(recipientEmail, minScoreReceived);
 
-            // Compute average score received
-            if (!average.containsKey(recipientEmail)) {
-                average.put(recipientEmail, 0.0);
-            }
-            double averageReceived = total.get(recipientEmail) / numResponses.get(recipientEmail);
-            average.put(recipientEmail, averageReceived);
+        // Compute maximum score received
+        if (!max.containsKey(recipientEmail)) {
+            max.put(recipientEmail, answer);
+        }
+        
+    }
+    
+    private void populateTotalsForSummaryStatistics(Map<String, Double> total, Map<String, Double> totalExcludingSelf,
+            String recipientEmail, boolean isSelfResponse, double answer) {
+     // Compute total score received
+        if (!total.containsKey(recipientEmail)) {
+            total.put(recipientEmail, 0.0);
+        }
+        double totalScore = total.get(recipientEmail) + answer;
+        total.put(recipientEmail, totalScore);
 
-            // Compute average score received excluding self
-            if (!averageExcludingSelf.containsKey(recipientEmail)) {
-                averageExcludingSelf.put(recipientEmail, null);
-            }
-            if (!isSelfResponse && totalExcludingSelf.get(recipientEmail) != null) {
-                double averageReceivedExcludingSelf =
-                        totalExcludingSelf.get(recipientEmail) / numResponsesExcludingSelf.get(recipientEmail);
-                averageExcludingSelf.put(recipientEmail, averageReceivedExcludingSelf);
-            }
+        // Compute total score received excluding self
+        if (!totalExcludingSelf.containsKey(recipientEmail)) {
+            totalExcludingSelf.put(recipientEmail, null);
+        }
+        if (!isSelfResponse) {
+            Double totalScoreExcludingSelf = totalExcludingSelf.get(recipientEmail);
+
+            // totalScoreExcludingSelf == null when the user has only self response
+            totalExcludingSelf.put(recipientEmail,
+                                   totalScoreExcludingSelf == null ? answer : totalScoreExcludingSelf + answer);
+        }
+        
+    }
+    
+    private void populateAveragesForSummaryStatistics(Map<String, Double> average, Map<String, Double> averageExcludingSelf,
+            Map<String, Double> total, Map<String, Double> totalExcludingSelf,
+            Map<String, Integer> numResponses, Map<String, Integer> numResponsesExcludingSelf, 
+            String recipientEmail, boolean isSelfResponse) {
+     // Compute average score received
+        if (!average.containsKey(recipientEmail)) {
+            average.put(recipientEmail, 0.0);
+        }
+        double averageReceived = total.get(recipientEmail) / numResponses.get(recipientEmail);
+        average.put(recipientEmail, averageReceived);
+
+        // Compute average score received excluding self
+        if (!averageExcludingSelf.containsKey(recipientEmail)) {
+            averageExcludingSelf.put(recipientEmail, null);
+        }
+        if (!isSelfResponse && totalExcludingSelf.get(recipientEmail) != null) {
+            double averageReceivedExcludingSelf =
+                    totalExcludingSelf.get(recipientEmail) / numResponsesExcludingSelf.get(recipientEmail);
+            averageExcludingSelf.put(recipientEmail, averageReceivedExcludingSelf);
         }
     }
 
