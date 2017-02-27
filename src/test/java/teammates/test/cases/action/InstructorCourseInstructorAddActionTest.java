@@ -76,7 +76,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
         TaskWrapper taskAdded = addAction.getTaskQueuer().getTasksAdded().get(0);
         Map<String, String[]> paramMap = taskAdded.getParamMap();
-        
+
         assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
         assertEquals(instructorAdded.email, paramMap.get(ParamsNames.INSTRUCTOR_EMAIL)[0]);
         assertEquals(instructorId, paramMap.get(ParamsNames.INVITER_ID)[0]);
@@ -179,7 +179,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
         taskAdded = addAction.getTaskQueuer().getTasksAdded().get(0);
         paramMap = taskAdded.getParamMap();
-        
+
         assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
         assertEquals(instructorAdded.email, paramMap.get(ParamsNames.INSTRUCTOR_EMAIL)[0]);
         assertEquals(adminUserId, paramMap.get(ParamsNames.INVITER_ID)[0]);

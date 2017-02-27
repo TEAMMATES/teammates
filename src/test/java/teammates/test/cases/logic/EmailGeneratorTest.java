@@ -258,16 +258,16 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String instructorEmail = "instructor@email.tmt";
         String shortName = "Instr";
         String regkey = "skxxxxxxxxxks";
-        
+
         @SuppressWarnings("deprecation")
         InstructorAttributes instructor =
                 new InstructorAttributes("googleId", "courseId", "Instructor Name", instructorEmail);
         instructor.key = regkey;
-        
+
         AccountAttributes inviter = new AccountAttributes();
         inviter.email = "instructor-joe@gmail.com";
         inviter.name = "Joe Wilson";
-        
+
         String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                 .withRegistrationKey(StringHelper.encrypt(regkey))
                                 .withInstructorInstitution("Test Institute")

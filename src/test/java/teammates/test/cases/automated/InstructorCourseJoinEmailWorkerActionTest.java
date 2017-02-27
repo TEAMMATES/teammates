@@ -41,7 +41,7 @@ public class InstructorCourseJoinEmailWorkerActionTest extends BaseAutomatedActi
         verifyNumberOfEmailsSent(action, 1);
 
         EmailWrapper email = action.getEmailSender().getEmailsSent().get(0);
-        
+
         assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course1.getName(),
                                    course1.getId()),
                      email.getSubject());
