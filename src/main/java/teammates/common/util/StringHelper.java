@@ -19,7 +19,8 @@ import teammates.common.exception.InvalidParametersException;
  */
 
 public final class StringHelper {
-
+    private static final Logger log = Logger.getLogger();
+    
     private StringHelper() {
         // utility class
     }
@@ -150,6 +151,7 @@ public final class StringHelper {
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
             return new String(decrypted);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
+            log.warning("Attempted to decrypt invalid ciphertext: " + message);
             // potential PMD bug? No stack trace info is lost here
             throw new InvalidParametersException(e.getMessage()); //NOPMD
         } catch (Exception e) {
