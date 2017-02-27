@@ -53,7 +53,7 @@ public class StudentProfilePictureAction extends Action {
             // potential PMD bug? No stack trace info is lost here
             throw new EntityDoesNotExistException(e.getMessage()); //NOPMD
         }
-        
+
         log.info("email: " + email + ", course: " + courseId);
 
         StudentAttributes student = getStudentForGivenParameters(courseId, email);

@@ -20,7 +20,7 @@ import teammates.common.exception.InvalidParametersException;
 
 public final class StringHelper {
     private static final Logger log = Logger.getLogger();
-    
+
     private StringHelper() {
         // utility class
     }

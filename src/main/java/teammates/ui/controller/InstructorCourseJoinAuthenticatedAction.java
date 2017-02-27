@@ -48,7 +48,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
             joinedCourseMsg.append("<br>Key could not be decrypted.");
             // no need to do setStatusForException and logging, as this case is already caught above
         }
-        
+
         if (statusToAdmin == null) {
             statusToAdmin = joinedCourseMsg.toString();
         } else {

@@ -9,9 +9,9 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -178,14 +178,14 @@ public class InstructorsDb extends EntitiesDb {
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
-        
+
         String decryptedKey;
         try {
             decryptedKey = StringHelper.decrypt(encryptedKey.trim());
         } catch (InvalidParametersException e) {
             return null;
         }
-        
+
         Instructor instructor = getInstructorEntityForRegistrationKey(decryptedKey);
         if (instructor == null || JDOHelper.isDeleted(instructor)) {
             return null;
