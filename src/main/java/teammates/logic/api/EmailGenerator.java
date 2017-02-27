@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -520,16 +521,20 @@ public class EmailGenerator {
 
     /**
      * Generates the course join email for the given {@code instructor} in {@code course}.
+     * Also specifies contact information of {@code inviter}.
      */
-    public EmailWrapper generateInstructorCourseJoinEmail(CourseAttributes course, InstructorAttributes instructor) {
+    public EmailWrapper generateInstructorCourseJoinEmail(AccountAttributes inviter,
+            InstructorAttributes instructor, CourseAttributes course) {
 
         String emailBody = Templates.populateTemplate(
                 fillUpInstructorJoinFragment(instructor, EmailTemplates.USER_COURSE_JOIN),
-                "${userName}", SanitizationHelper.sanitizeForHtml(instructor.name),
+                "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${inviterName}", SanitizationHelper.sanitizeForHtml(inviter.getName()),
+                "${inviterEmail}", SanitizationHelper.sanitizeForHtml(inviter.getEmail()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
-        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setSubject(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(),
                                        course.getName(), course.getId()));
         email.setContent(emailBody);
