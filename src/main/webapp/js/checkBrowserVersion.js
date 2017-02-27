@@ -1,3 +1,5 @@
+'use strict';
+
 // Browser Compatibility and support
 var MSIE = 'Microsoft Internet Explorer';
 var MSIE_LOWEST_VERSION = 9;
@@ -65,11 +67,9 @@ function checkBrowserVersion() {
         supported = false;
     }
     /* eslint-enable no-negated-condition */
-    
+
     if (!supported) {
-        var message = document.getElementById('browserMessage');
-        message.style.display = 'block';
-        message.innerHTML =
+        var unsupportedBrowserErrorString =
             'You are currently using ' + browserName + ' v.' + majorVersion + '. '
             + 'This web browser is not officially supported by TEAMMATES. '
             + 'In case this web browser does not display the webpage correctly, '
@@ -84,7 +84,11 @@ function checkBrowserVersion() {
                     + '<td> - ' + SAFARI + ' ' + SAFARI_LOWEST_VERSION + '+</td>'
                 + '</tr>'
             + '</table>';
+
+        var message = $('#browserMessage');
+        message.css('display', 'block');
+        message.html(unsupportedBrowserErrorString);
     }
-    
+
 }
-window.onload = checkBrowserVersion;
+$('document').ready(checkBrowserVersion);

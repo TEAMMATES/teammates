@@ -9,13 +9,13 @@ $(document).ready(function() {
  * and the confirmation dialog is sent
  */
 function readyInstructorStudentEditPage() {
-    
+
     $(INSTRUCTOR_STUDENT_EDIT_FORM).on('submit', function(event) {
-        
+
         var newStudentEmail = $('#newstudentemail').val();
         var isEmailFieldChanged = newStudentEmail !== $('#studentemail').val();
         var isOpenOrPublishedEmailSentInThisCourse = $('#openorpublishedemailsent').val();
-        
+
         if ($(INSTRUCTOR_STUDENT_EDIT_FORM).attr('editStatus') === 'mustDeleteResponses') {
             event.preventDefault();
 
@@ -23,7 +23,7 @@ function readyInstructorStudentEditPage() {
                               + 'to be deleted. You may download the data before you make the changes. Are '
                               + 'you sure you want to continue?';
             var okCallback = function() {
-                
+
                 if (isEmailFieldChanged && isOpenOrPublishedEmailSentInThisCourse) {
                     sendEmailToNewEmailOption(event, newStudentEmail);
                 } else {
@@ -37,7 +37,7 @@ function readyInstructorStudentEditPage() {
             sendEmailToNewEmailOption(event, newStudentEmail);
         }
     });
-    
+
     function sendEmailToNewEmailOption(event, newStudentEmail) {
         event.preventDefault();
         var messageText = 'Do you want to resend past session links of this course to the new email '
@@ -54,7 +54,7 @@ function readyInstructorStudentEditPage() {
                 yesCallback, noCallback, null, 'Yes, save changes and resend links',
                 'No, just save the changes', 'Cancel', StatusType.PRIMARY);
     }
-    
+
     $('#teamname').change(function() {
         $(INSTRUCTOR_STUDENT_EDIT_FORM).attr('editStatus', 'mustDeleteResponses');
     });

@@ -16,7 +16,7 @@ public enum FeedbackQuestionType {
     RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class),
     RANK_OPTIONS(FeedbackRankOptionsQuestionDetails.class, FeedbackRankOptionsResponseDetails.class),
     RANK_RECIPIENTS(FeedbackRankRecipientsQuestionDetails.class, FeedbackRankRecipientsResponseDetails.class);
-    
+
     private static final Logger log = Logger.getLogger();
 
     private final Class<? extends FeedbackQuestionDetails> questionDetailsClass;
@@ -89,7 +89,7 @@ public enum FeedbackQuestionType {
 
         return feedbackQuestionDetails;
     }
-    
+
     /**
      * Returns an instance of a corresponding Feedback*ResponseDetails class
      *

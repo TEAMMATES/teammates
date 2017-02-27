@@ -4,7 +4,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
 public class InstructorCourseStudentDetailsEditPageData extends InstructorCourseStudentDetailsPageData {
-    
+
     private String newEmail;
     private boolean isOpenOrPublishedEmailSentForTheCourse;
 
@@ -13,7 +13,7 @@ public class InstructorCourseStudentDetailsEditPageData extends InstructorCourse
             boolean isOpenOrPublishedEmailSentForTheCourse) {
         this(account, student, student.email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
     }
-    
+
     public InstructorCourseStudentDetailsEditPageData(
             AccountAttributes account, StudentAttributes student, String newEmail, boolean hasSection,
             boolean isOpenOrPublishedEmailSentForTheCourse) {

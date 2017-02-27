@@ -11,18 +11,18 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorCourseDetailsPageData;
 
 public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
-    
+
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
-        
+
         ______TS("Not enough parameters");
         verifyAssumptionFailure();
 
@@ -37,7 +37,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
-        
+
         InstructorCourseDetailsPageData pageData = (InstructorCourseDetailsPageData) pageResult.data;
         assertEquals(5, pageData.getInstructors().size());
 
@@ -54,7 +54,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                                     + "Details for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                                     + "|||/page/instructorCourseDetailsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
-        
+
         ______TS("Masquerade mode, Course with no student");
         gaeSimulation.loginAsAdmin("admin.user");
         InstructorAttributes instructor4 = dataBundle.instructors.get("instructor4");
@@ -70,7 +70,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY,
                                    pageResult.data.getInstructorCourseEnrollLink(instructor4.courseId)),
                      pageResult.getStatusMessage());
-        
+
         pageData = (InstructorCourseDetailsPageData) pageResult.data;
         assertEquals(1, pageData.getInstructors().size());
 
@@ -87,11 +87,11 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                              + "Details for Course <span class=\"bold\">[idOfCourseNoEvals]</span>|||"
                              + "/page/instructorCourseDetailsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
-        
+
         ______TS("HTML Table needed");
         instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
-        
+
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true"
@@ -102,65 +102,65 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals("?error=false&user=idOfInstructor1OfCourse1", ajaxResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", ajaxResult.getStatusMessage());
-        
+
         pageData = (InstructorCourseDetailsPageData) ajaxResult.data;
 
-        assertEquals("<table class=\"table table-bordered table-striped table-condensed\">\n"
+        assertEquals("<table class=\"table table-bordered table-striped table-condensed\">"
                          + "<tr>"
-                             + "<td>Course ID</td>\n"
-                             + "<td>idOfTypicalCourse1</td>\n"
+                             + "<td>Course ID</td>"
+                             + "<td>idOfTypicalCourse1</td>"
                          + "</tr>"
                          + "<tr>"
-                             + "<td>Course Name</td>\n"
-                             + "<td>Typical Course 1 with 2 Evals</td>\n"
+                             + "<td>Course Name</td>"
+                             + "<td>Typical Course 1 with 2 Evals</td>"
                          + "</tr>"
                          + "<tr>"
-                             + "<td>Section</td>\n"
-                             + "<td>Team</td>\n"
-                             + "<td>Full Name</td>\n"
-                             + "<td>Last Name</td>\n"
-                             + "<td>Status</td>\n"
-                             + "<td>Email</td>\n"
+                             + "<td>Section</td>"
+                             + "<td>Team</td>"
+                             + "<td>Full Name</td>"
+                             + "<td>Last Name</td>"
+                             + "<td>Status</td>"
+                             + "<td>Email</td>"
                          + "</tr>"
                          + "<tr>"
-                             + "<td>Section 1</td>\n"
-                             + "<td>Team 1.1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>\n"
-                             + "<td>student1 In Course1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>\n"
-                             + "<td>Course1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>\n"
-                             + "<td>Joined</td>\n"
-                             + "<td>student1InCourse1@gmail.tmt</td>\n"
+                             + "<td>Section 1</td>"
+                             + "<td>Team 1.1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>"
+                             + "<td>student1 In Course1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>"
+                             + "<td>Course1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>"
+                             + "<td>Joined</td>"
+                             + "<td>student1InCourse1@gmail.tmt</td>"
                          + "</tr>"
                          + "<tr>"
-                             + "<td>Section 1</td>\n"
-                             + "<td>Team 1.1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>\n"
-                             + "<td>student2 In Course1</td>\n"
-                             + "<td>Course1</td>\n"
-                             + "<td>Joined</td>\n"
-                             + "<td>student2InCourse1@gmail.tmt</td>\n"
+                             + "<td>Section 1</td>"
+                             + "<td>Team 1.1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>"
+                             + "<td>student2 In Course1</td>"
+                             + "<td>Course1</td>"
+                             + "<td>Joined</td>"
+                             + "<td>student2InCourse1@gmail.tmt</td>"
                          + "</tr>"
                          + "<tr>"
-                             + "<td>Section 1</td>\n"
-                             + "<td>Team 1.1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>\n"
-                             + "<td>student3 In Course1</td>\n"
-                             + "<td>Course1</td>\n"
-                             + "<td>Joined</td>\n"
-                             + "<td>student3InCourse1@gmail.tmt</td>\n"
+                             + "<td>Section 1</td>"
+                             + "<td>Team 1.1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>"
+                             + "<td>student3 In Course1</td>"
+                             + "<td>Course1</td>"
+                             + "<td>Joined</td>"
+                             + "<td>student3InCourse1@gmail.tmt</td>"
                          + "</tr>"
                          + "<tr>"
-                             + "<td>Section 1</td>\n"
-                             + "<td>Team 1.1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>\n"
-                             + "<td>student4 In Course1</td>\n"
-                             + "<td>Course1</td>\n"
-                             + "<td>Joined</td>\n"
-                             + "<td>student4InCourse1@gmail.tmt</td>\n"
+                             + "<td>Section 1</td>"
+                             + "<td>Team 1.1&lt;&#x2f;td&gt;&lt;&#x2f;div&gt;&#39;&quot;</td>"
+                             + "<td>student4 In Course1</td>"
+                             + "<td>Course1</td>"
+                             + "<td>Joined</td>"
+                             + "<td>student4InCourse1@gmail.tmt</td>"
                          + "</tr>"
                          + "<tr>"
-                             + "<td>Section 2</td>\n"
-                             + "<td>Team 1.2</td>\n"
-                             + "<td>student5 In Course1</td>\n"
-                             + "<td>Course1</td>\n"
-                             + "<td>Joined</td>\n"
-                             + "<td>student5InCourse1@gmail.tmt</td>\n"
+                             + "<td>Section 2</td>"
+                             + "<td>Team 1.2</td>"
+                             + "<td>student5 In Course1</td>"
+                             + "<td>Course1</td>"
+                             + "<td>Joined</td>"
+                             + "<td>student5InCourse1@gmail.tmt</td>"
                          + "</tr>"
                      + "</table>",
                      pageData.getStudentListHtmlTableAsString());

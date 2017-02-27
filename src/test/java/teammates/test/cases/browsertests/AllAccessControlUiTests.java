@@ -23,32 +23,32 @@ import teammates.test.pageobjects.NotFoundPage;
  */
 @Priority(6)
 public class AllAccessControlUiTests extends BaseUiTestCase {
-    
-    private static AppPage currentPage;
 
-    private static InstructorAttributes otherInstructor;
+    private AppPage currentPage;
+
+    private InstructorAttributes otherInstructor;
 
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/AllAccessControlUiTest.json");
-        
+
         // This test suite requires some real accounts; Here, we inject them to the test data.
         testData.students.get("student1InCourse1.access").googleId = TestProperties.TEST_STUDENT1_ACCOUNT;
         testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
-        
+
         removeAndRestoreDataBundle(testData);
-        
+
         otherInstructor = testData.instructors.get("instructor1OfCourse2");
     }
-    
+
     @BeforeClass
     public void classSetup() {
         currentPage = getHomePage();
     }
-    
+
     @Test
     public void testUserNotLoggedIn() {
-        
+
         logout();
         AppPage.getNewPageInstance(browser, HomePage.class);
 
@@ -68,7 +68,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     @Test
     public void testUserNotRegistered() {
-        
+
         ______TS("student pages");
 
         loginStudent(TestProperties.TEST_UNREG_ACCOUNT, TestProperties.TEST_UNREG_PASSWORD);
@@ -85,12 +85,12 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         verifyCannotMasquerade(url, otherInstructor.googleId);
 
         ______TS("admin pages");
-        
+
         //cannot access admin while logged in as student
         verifyCannotAccessAdminPages();
-        
+
         ______TS("incorrect URL");
-        
+
         AppUrl nonExistentActionUrl = createUrl("/page/nonExistentAction");
         AppPage.getNewPageInstance(browser, nonExistentActionUrl, NotFoundPage.class);
 
@@ -105,53 +105,53 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     @Test
     public void testStudentHome() {
         loginStudent(TestProperties.TEST_STUDENT1_ACCOUNT, TestProperties.TEST_STUDENT1_PASSWORD);
-        
+
         ______TS("cannot view other homepage");
-        
+
         verifyCannotMasquerade(createUrl(Const.ActionURIs.STUDENT_HOME_PAGE), otherInstructor.googleId);
     }
-    
+
     @Test
     public void testInstructorHome() {
-    
+
         loginInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT, TestProperties.TEST_INSTRUCTOR_PASSWORD);
-    
+
         ______TS("cannot view other homepage");
-    
+
         verifyCannotMasquerade(createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE), otherInstructor.googleId);
     }
-    
+
     @Test
     public void testPubliclyAccessiblePages() throws Exception {
-        
+
         ______TS("log out page");
         // has been covered in testUserNotLoggedIn method
-        
+
         ______TS("unauthorized page");
         AppUrl url = createUrl(Const.ViewURIs.UNAUTHORIZED);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/unauthorized.html");
-        
+
         ______TS("error page");
         url = createUrl(Const.ViewURIs.ERROR_PAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/errorPage.html");
-        
+
         ______TS("deadline exceeded error page");
         url = createUrl(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/deadlineExceededErrorPage.html");
-        
+
         ______TS("entity not found page");
         url = createUrl(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/entityNotFoundPage.html");
-        
+
         ______TS("action not found page");
         url = createUrl(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/pageNotFound.html");
-        
+
         ______TS("enable javascript page");
         url = createUrl(Const.ViewURIs.ENABLE_JS);
         currentPage.navigateTo(url);
@@ -163,19 +163,19 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         LoginPage loginPage = getHomePage().clickStudentLogin();
         currentPage = loginPage.loginAsStudent(userName, password);
     }
-    
+
     private void loginInstructorUnsuccessfully(String userName, String password) {
         logout();
         LoginPage loginPage = getHomePage().clickInstructorLogin();
         currentPage = loginPage.loginAsInstructorUnsuccessfully(userName, password);
     }
-    
+
     private void loginInstructor(String userName, String password) {
         logout();
         LoginPage loginPage = getHomePage().clickInstructorLogin();
         currentPage = loginPage.loginAsInstructor(userName, password);
     }
-    
+
     private void verifyCannotAccessAdminPages() {
         //cannot access directly
         AppUrl url = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
