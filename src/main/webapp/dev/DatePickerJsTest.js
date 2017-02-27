@@ -15,24 +15,12 @@ QUnit.test('getMinDateForPublishDate(visibleDate)', function(assert) {
 QUnit.test('getMaxDateForVisibleDate(startDate,publishDate)', function(assert) {
     assert.deepEqual(getMaxDateForVisibleDate(new Date('08/25/2014'), null), new Date('08/25/2014'),
             'When publishDate is null, Return minDate = startDate');
-});
-
-QUnit.test('getMaxDateForVisibleDate(startDate,publishDate)', function(assert) {
-    assert.deepEqual(getMaxDateForVisibleDate(new Date('10/13/2014'), new Date('08/25/2014')), new Date('08/25/2014'),
-            'When startDate > publishDate, Return minDate = publishDate');
-});
-
-QUnit.test('getMaxDateForVisibleDate(startDate,publishDate)', function(assert) {
-    assert.deepEqual(getMaxDateForVisibleDate(new Date('08/25/2014'), new Date('08/26/2014')), new Date('08/25/2014'),
-            'And in every other case, Return minDate = startDate');
-});
-
-QUnit.test('getMaxDateForVisibleDate(startDate,publishDate)', function(assert) {
-    assert.deepEqual(getMaxDateForVisibleDate(new Date('08/25/2014'), new Date('08/25/2014')), new Date('08/25/2014'),
-            'When startDate = publishDate, Return minDate = startDate');
-});
-
-QUnit.test('getMaxDateForVisibleDate(startDate,publishDate)', function(assert) {
     assert.deepEqual(getMaxDateForVisibleDate(new Date('08/25/2014')), new Date('08/25/2014'),
             'When publishDate is undefined, Return minDate = startDate');
+    assert.deepEqual(getMaxDateForVisibleDate(new Date('10/13/2014'), new Date('08/25/2014')), new Date('08/25/2014'),
+            'When startDate > publishDate, Return minDate = publishDate');
+    assert.deepEqual(getMaxDateForVisibleDate(new Date('08/25/2014'), new Date('08/25/2014')), new Date('08/25/2014'),
+            'When startDate = publishDate, Return minDate = startDate');
+    assert.deepEqual(getMaxDateForVisibleDate(new Date('08/25/2014'), new Date('08/26/2014')), new Date('08/25/2014'),
+            'And in every other case, Return minDate = startDate');
 });
