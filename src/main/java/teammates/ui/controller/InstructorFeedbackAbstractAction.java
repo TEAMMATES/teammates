@@ -33,13 +33,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         newSession.setFeedbackSessionName(SanitizationHelper.sanitizeTitle(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        // newSession = extractFeedbackSessionDataHelper(newSession);
-        newSession.setStartTime(TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
-        newSession.setEndTime(TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
+        newSession = setTime(newSession);
 
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
@@ -64,18 +58,31 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         // results visible date when session is private (session not visible)
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         newSession = setSessionVisibleFromTime(newSession, type);
+        newSession = setEmail(newSession);
+        return newSession;
+    }
+
+    private FeedbackSessionAttributes setEmail(FeedbackSessionAttributes newSession) {
 
         String[] sendReminderEmailsArray =
                 getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
         List<String> sendReminderEmailsList =
                 sendReminderEmailsArray == null ? new ArrayList<String>()
                                                 : Arrays.asList(sendReminderEmailsArray);
-        newSession.setClosingEmailEnabled(
-                sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
-        newSession.setPublishedEmailEnabled(
-                sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
+        newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
+        newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
         newSession = extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
+        return newSession;
+    }
 
+    private FeedbackSessionAttributes setTime(FeedbackSessionAttributes newSession) {
+
+        newSession.setStartTime(TimeHelper.combineDateTime(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
+        newSession.setEndTime(TimeHelper.combineDateTime(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
         return newSession;
     }
 
