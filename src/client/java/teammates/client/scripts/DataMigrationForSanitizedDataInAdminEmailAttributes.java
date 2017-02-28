@@ -39,7 +39,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
             System.out.println("There are/is " + numberOfAffectedEmails + " affected email(s)!");
         } else {
             for (AdminEmailAttributes email : allEmails) {
-                fixSanitizationForEmailData(email);
+                fixSanitizedDataForEmail(email);
             }
             System.out.println("Sanitization fixing done!");
         }
@@ -68,7 +68,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
      * If there is no sanitized data, the method does nothing.
      * @param email
      */
-    private void fixSanitizationForEmailData(AdminEmailAttributes email) {
+    private void fixSanitizedDataForEmail(AdminEmailAttributes email) {
         if (isEmailSanitized(email)) {
             try {
                 email.content =
