@@ -35,7 +35,8 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         /* Process adding the instructor and setup status to be shown to user and admin */
         try {
             logic.createInstructor(instructorToAdd);
-            taskQueuer.scheduleCourseRegistrationInviteToInstructor(courseId, instructorEmail);
+            taskQueuer.scheduleCourseRegistrationInviteToInstructor(
+                    loggedInUser.googleId, instructorEmail, courseId);
 
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                                                              instructorName, instructorEmail),
