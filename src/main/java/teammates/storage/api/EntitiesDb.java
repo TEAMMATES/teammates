@@ -138,38 +138,6 @@ public abstract class EntitiesDb {
 
     }
 
-    public List<Object> createAndReturnEntities(Collection<? extends EntityAttributes> entitiesToAdd)
-            throws InvalidParametersException {
-
-        Assumption.assertNotNull(
-                Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
-
-        List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
-        List<Object> entities = new ArrayList<Object>();
-
-        for (EntityAttributes entityToAdd : entitiesToAdd) {
-            entityToAdd.sanitizeForSaving();
-
-            if (!entityToAdd.isValid()) {
-                throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
-            }
-
-            if (getEntity(entityToAdd) == null) {
-                entities.add(entityToAdd.toEntity());
-            } else {
-                entitiesToUpdate.add(entityToAdd);
-            }
-
-            log.info(entityToAdd.getBackupIdentifier());
-        }
-
-        getPm().makePersistentAll(entities);
-        getPm().flush();
-
-        return entities;
-
-    }
-
     /**
      * Warning: Do not use this method unless a previous update might cause
      * adding of the new entity to fail due to EntityAlreadyExists exception
