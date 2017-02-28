@@ -15,9 +15,6 @@ function setDefaultContribQnVisibility(questionNum) {
                          .filter('.recipientCheckbox')
                          .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
 
-    $currentQuestionTable.find('.visibility-options-dropdown-option' +
-                               '[data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS"]').click();
-
 }
 
 function setContribQnVisibilityFormat(questionNum) {
