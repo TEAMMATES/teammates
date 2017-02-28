@@ -226,17 +226,17 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Returns true if html contains substrings of sanitized characters
+     * Returns true if string contains no characters to be sanitized and contains substrings of sanitized characters
      */
-    public static boolean isSanitizedHtml(String html) {
-        if (html == null) {
+    public static boolean isSanitizedHtml(String string) {
+        if (string == null) {
             return false;
         }
-        if (html.indexOf('<') >= 0 || html.indexOf('>') >= 0 || html.indexOf('\"') >= 0
-                || html.indexOf('/') >= 0 || html.indexOf('\'') >= 0) {
+        if (string.indexOf('<') >= 0 || string.indexOf('>') >= 0 || string.indexOf('\"') >= 0
+                || string.indexOf('/') >= 0 || string.indexOf('\'') >= 0) {
             return false;
-        } else if (html.indexOf("&lt;") >= 0 || html.indexOf("&gt;") >= 0 || html.indexOf("&quot;") >= 0
-                || html.indexOf("&#x2f;") >= 0 || html.indexOf("&#39;") >= 0 || html.indexOf("&amp;") >= 0) {
+        } else if (string.indexOf("&lt;") >= 0 || string.indexOf("&gt;") >= 0 || string.indexOf("&quot;") >= 0
+                   || string.indexOf("&#x2f;") >= 0 || string.indexOf("&#39;") >= 0 || string.indexOf("&amp;") >= 0) {
             return true;
         }
         return false;
