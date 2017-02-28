@@ -29,56 +29,58 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
         List<AdminEmailAttributes> allEmails = adminEmailsLogic.getAllAdminEmails();
         if (isPreview) {
             System.out.println("Checking Sanitization for admin emails...");
-        }
-        int numberOfAffectedEmails = 0;
-        for (AdminEmailAttributes email : allEmails) {
-            if (isPreview) {
-                if (previewSanitizedDataForAdminEmail(email)) {
+            int numberOfAffectedEmails = 0;
+            for (AdminEmailAttributes email : allEmails) {
+                if (isEmailSanitized(email)) {
+                    previewAdminEmail(email);
                     numberOfAffectedEmails++;
                 }
-            } else {
-                fixSanitizedDataForEmail(email);
             }
-        }
-        if (isPreview) {
             System.out.println("There are/is " + numberOfAffectedEmails + " affected email(s)!");
         } else {
+            for (AdminEmailAttributes email : allEmails) {
+                fixSanitizationForEmailData(email);
+            }
             System.out.println("Sanitization fixing done!");
         }
     }
 
-    private boolean previewSanitizedDataForAdminEmail(AdminEmailAttributes email) {
-        boolean hasSanitizedData = checkEmailHasSanitizedData(email);
-        if (hasSanitizedData) {
-            System.out.println("Checking email having subject: " + email.getSubject());
+    /**
+     * Prints out the subject, current contents and desanitized contents of the email
+     * @param email
+     */
+    private void previewAdminEmail(AdminEmailAttributes email) {
+        System.out.println("Previewing email having subject: " + email.getSubject());
+        String content = email.getContentValue();
+        System.out.println("contents:\n" + content);
+        System.out.println("new contents:\n" + SanitizationHelper.desanitizeFromHtml(content));
 
-            String content = email.getContentValue();
-            System.out.println("contents:\n" + content);
-            System.out.println("new contents:\n" + SanitizationHelper.desanitizeFromHtml(content));
-
-            System.out.println();
-        }
-        return hasSanitizedData;
+        System.out.println();
     }
 
-    private boolean checkEmailHasSanitizedData(AdminEmailAttributes email) {
+    private boolean isEmailSanitized(AdminEmailAttributes email) {
         return SanitizationHelper.isSanitizedHtml(email.getContentValue());
     }
 
-    private void fixSanitizedDataForEmail(AdminEmailAttributes email) {
-        try {
-            boolean hasSanitizedData = checkEmailHasSanitizedData(email);
-            if (hasSanitizedData) {
+    /**
+     * Checks if email data is sanitized
+     * and desanitizes and updates the email in the database if it has sanitized data.
+     * If there is no sanitized data, the method does nothing.
+     * @param email
+     */
+    private void fixSanitizationForEmailData(AdminEmailAttributes email) {
+        if (isEmailSanitized(email)) {
+            try {
                 email.content =
                         new Text(SanitizationHelper.desanitizeFromHtml(email.getContentValue()));
                 adminEmailsDb.updateAdminEmail(email);
+            } catch (InvalidParametersException e) {
+                System.out.println("Email " + email.getSubject() + " invalid!");
+                e.printStackTrace();
+            } catch (EntityDoesNotExistException e) {
+                System.out.println("Student " + email.getSubject() + " does not exist!");
+                e.printStackTrace();
             }
-        } catch (InvalidParametersException e) {
-            System.out.println("Email " + email.getSubject() + " invalid!");
-            e.printStackTrace();
-        } catch (EntityDoesNotExistException e) {
-            System.out.println("Student " + email.getSubject() + " does not exist!");
-            e.printStackTrace();
         }
     }
 }
