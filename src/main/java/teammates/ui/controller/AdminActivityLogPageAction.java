@@ -159,8 +159,8 @@ public class AdminActivityLogPageAction extends Action {
         }
 
         double adminTimeZone = Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
-        String timeInAdminTimeZone = computeLocalTime(adminTimeZone, earliestSearchTime);
-        String timeInUserTimeZone = computeLocalTime(targetTimeZone, earliestSearchTime);
+        String timeInAdminTimeZone = computeTimeWithOffset(adminTimeZone, earliestSearchTime);
+        String timeInUserTimeZone = computeTimeWithOffset(targetTimeZone, earliestSearchTime);
 
         status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone ("
                       + adminTimeZone + ") and ");
@@ -352,27 +352,16 @@ public class AdminActivityLogPageAction extends Action {
         if (timeZone == Const.DOUBLE_UNINITIALIZED) {
             return "Local Time Unavailable";
         }
-        return computeLocalTime(timeZone, logTimeInAdminTimeZone);
+        double timeZoneOffset = timeZone - Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
+        return computeTimeWithOffset(timeZoneOffset, Long.parseLong(logTimeInAdminTimeZone));
     }
 
-    private String computeLocalTime(double timeZone, String logTimeInAdminTimeZone) {
-        if (timeZone == Const.DOUBLE_UNINITIALIZED) {
-            return "Local Time Unavailable";
-        }
-
-        double timeZoneOffset = timeZone - Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
+    private String computeTimeWithOffset(double timeZoneOffset, long logTime) {
         Calendar appCal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        appCal.setTimeInMillis(Long.parseLong(logTimeInAdminTimeZone));
+        appCal.setTimeInMillis(logTime);
         appCal = TimeHelper.convertToUserTimeZone(appCal, timeZoneOffset);
         return sdf.format(appCal.getTime());
     }
 
-    private String computeLocalTime(double timeZone, long logTimeInUtc) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        Calendar appCal = Calendar.getInstance();
-        appCal.setTimeInMillis(logTimeInUtc);
-        appCal = TimeHelper.convertToUserTimeZone(appCal, timeZone);
-        return sdf.format(appCal.getTime());
-    }
 }
