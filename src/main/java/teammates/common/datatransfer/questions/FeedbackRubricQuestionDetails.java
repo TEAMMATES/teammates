@@ -940,8 +940,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         void calculateResponseFrequency() {
-            responseFrequency =
-                    new int[numOfRubricSubQuestions][numOfRubricChoices + 1];
+            responseFrequency = new int[numOfRubricSubQuestions][numOfRubricChoices + 1];
             // Count frequencies
             for (FeedbackResponseAttributes response : responses) {
                 FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
@@ -960,8 +959,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          * Requires responseFrequency to be computed
          */
         void calculatePercentageFrequencyAndAverage() {
-            percentageFrequencyAndAverage =
-                    new float[numOfRubricSubQuestions][numOfRubricChoices + 1];
+            percentageFrequencyAndAverage = new float[numOfRubricSubQuestions][numOfRubricChoices + 1];
             // calculate percentage frequencies and average value
             for (int i = 0; i < percentageFrequencyAndAverage.length; i++) {
                 int totalForSubQuestion = responseFrequency[i][responseTotalIndex];
