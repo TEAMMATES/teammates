@@ -735,15 +735,14 @@ function copyOptions(newType) {
     var prevQuestionVisibilityOption = $prevQuestionForm.find('.visibility-options-dropdown > button').text();
     var isCommonVisibilityOptionSelected = prevQuestionVisibilityOption.trim() !== 'Custom visibility option:';
 
-    // Check for special case: the first visibility option in contrib questions should be interpreted as a
-    // custom visibility option in non-contrib questions
-    var isPrevQnTypeContrib = $('input[name="questiontype"]').eq(-2).val() === 'CONTRIB';
-    var isNewQnTypeNonContrib = newType !== 'CONTRIB';
-    var isFirstOptionSelected = prevQuestionVisibilityOption.trim()
+    // Check for special case: the 'Shown anonymously to recipient, visible to instructors' visibility option
+    // in contrib questions should be interpreted as a custom visibility option in non-contrib questions
+    var isContribToNonContrib = prevType === 'CONTRIB' && newType !== 'CONTRIB';
+    var isSpecialOptionSelected = prevQuestionVisibilityOption.trim()
                                 === 'Shown anonymously to recipient, visible to instructors';
-    var isContribToNonContribAndFirstOptionSelected = isPrevQnTypeContrib && isNewQnTypeNonContrib && isFirstOptionSelected;
+    var isContribToNonContribAndSpecialOptionSelected = isContribToNonContrib && isSpecialOptionSelected;
 
-    if (isContribToNonContribAndFirstOptionSelected) { // Handle special case
+    if (isContribToNonContribAndSpecialOptionSelected) { // Handle special case
         $newQuestionForm.find('.visibility-options-dropdown > button').text('Custom visibility option:');
 
         $newQuestionForm.find('.visibilityOptions').show();
