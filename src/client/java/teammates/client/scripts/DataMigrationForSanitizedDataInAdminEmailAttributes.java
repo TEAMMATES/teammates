@@ -47,6 +47,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
 
     /**
      * Prints out the subject, current contents and desanitized contents of the email
+     *
      * @param email
      */
     private void previewAdminEmail(AdminEmailAttributes email) {
@@ -66,6 +67,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
      * Checks if email data is sanitized
      * and desanitizes and updates the email in the database if it has sanitized data.
      * If there is no sanitized data, the method does nothing.
+     *
      * @param email
      */
     private void fixSanitizedDataForEmail(AdminEmailAttributes email) {
