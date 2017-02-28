@@ -1,6 +1,7 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -14,7 +15,6 @@ import teammates.common.datatransfer.StudentResultSummary;
 import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
@@ -756,11 +756,21 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
 
         // restrictions on visibility options
-        Assumption.assertTrue("Contrib Qn Invalid visibility options",
-                feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                && feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS));
+        if (!(feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+              == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+              && feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+              == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
+            log.severe("Unexpected showResponsesTo for contribution question: "
+                       + feedbackQuestionAttributes.showResponsesTo + " (forced to :"
+                       + Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS
+                                               .get("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS")
+                       + ")");
+            feedbackQuestionAttributes.showResponsesTo = Arrays.asList(FeedbackParticipantType.RECEIVER,
+                                                                       FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                                                                       FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                                                                       FeedbackParticipantType.INSTRUCTORS);
+            errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS;
+        }
 
         return errorMsg;
     }
