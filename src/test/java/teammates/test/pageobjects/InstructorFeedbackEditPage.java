@@ -541,6 +541,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickVisibilityDropdown(optionValue, NEW_QUESTION_NUM);
     }
 
+    public String getVisibilityDropdownLabel(int qnNumber) {
+        return browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber
+                                                         + " .visibility-options-dropdown button")).getText().trim();
+    }
+
+    public String getVisibilityDropdownLabelForNewQuestion() {
+        return getVisibilityDropdownLabel(NEW_QUESTION_NUM);
+    }
+
     public void clickAddQuestionButton() {
         click(addNewQuestionButton);
         waitForPageToLoad();
