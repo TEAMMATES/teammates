@@ -556,8 +556,8 @@ function tallyCheckboxes(questionNum) {
 function showNewQuestionFrame(type) {
     $('#questiontype').val(type);
 
-    copyOptions(type);
-    prepareQuestionForm(type);
+    var didCopyOptions = copyOptions(type);
+    prepareQuestionForm(type, didCopyOptions);
     $('#questionTable-' + NEW_QUESTION).show();
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
     enableNewQuestion();
@@ -581,7 +581,7 @@ function hideAllNewQuestionForms() {
     $('#rankRecipientsForm').hide();
 }
 
-function prepareQuestionForm(type) {
+function prepareQuestionForm(type, didCopyOptions) {
     hideAllNewQuestionForms();
 
     switch (type) {
@@ -635,6 +635,9 @@ function prepareQuestionForm(type) {
         $('#contribForm').show();
         fixContribQnGiverRecipient(NEW_QUESTION);
         setContribQnVisibilityFormat(NEW_QUESTION);
+        if (!didCopyOptions) {
+            setDefaultContribQnVisibility(NEW_QUESTION);
+        }
         break;
     case 'RUBRIC':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
@@ -670,15 +673,14 @@ function prepareQuestionForm(type) {
 function copyOptions(newType) {
     // If there is one or less questions, there's no need to copy.
     if ($('.questionTable').size() < 2) {
-        return;
+        return false;
     }
 
     var prevType = $('input[name="questiontype"]').eq(-2).val();
 
     // Don't copy from non-contrib to contrib question, as these have special restrictions
     if (newType === 'CONTRIB' && prevType !== 'CONTRIB') {
-        setDefaultContribQnVisibility(NEW_QUESTION);
-        return;
+        return false;
     }
 
     // Feedback giver setup
@@ -758,6 +760,8 @@ function copyOptions(newType) {
     }
 
     matchVisibilityOptionToFeedbackPath($currGiver);
+
+    return true;
 }
 
 /**
