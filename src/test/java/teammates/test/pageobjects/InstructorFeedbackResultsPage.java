@@ -55,7 +55,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public String getFeedbackSessionName() {
         return browser.driver.findElement(By.name("fsname")).getAttribute("value");
     }
-    
+
     @Override
     public void waitForPageToLoad() {
         super.waitForPageToLoad();
