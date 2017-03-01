@@ -165,9 +165,11 @@ Before running the test suite, both the server and the test environment should b
   * On Windows, use the Task Manager or `taskkill /f /im chromedriver.exe` command.
   * On OS X, use the Activity Monitor or `sudo killall chromedriver` command.
 
-### Running the test suite with Eclipse
+### Running the test suites
 
-Tests can be run using the configurations available . Several configurations are provided by default:
+#### Test Configurations
+
+Several configurations are provided by default:
 * `All tests` - Runs `CI tests` and `Local tests`.
 * `CI tests` - Runs `src/test/testng-ci.xml`, all the tests that are run by CI (Travis/AppVeyor).
 * `Local tests` - Runs `src/test/testng-local.xml`, all the tests that need to be run locally by developers. `Dev green` means passing all the tests in this configuration.
@@ -177,30 +179,23 @@ Tests can be run using the configurations available . Several configurations are
 Additionally, configurations that run the tests with `GodMode` turned on are also provided.
 More info on this can be found [here](godmode.md).
 
+### Running the test suite in an IDE
+
+When running the test cases, if a few cases fail (this can happen due to timing issues), rerun the failed cases using the `Run Failed Test` icon in the TestNG tab until they pass.
+
+#### Eclipse
+
+Run tests using the configurations available under the green `Run` button on the Eclipse toolbar.
+
 Sometimes, Eclipse does not show these options immediately after you set up the project. "Refreshing" the project should fix that.
 
-New developers should run `All tests` and have all of them passing at least once on their local environments.
+#### IntelliJ
 
-When running the test cases, if a few cases fail (this can happen due to timing issues), rerun the failed cases using the `Run Failed Test` icon in the TestNG tab in Eclipse until they pass.
-
-### Running the test suite with IntelliJ
-
-Tests can be run using the configurations available under `Run → Play`. Several configurations are provided by default:
-* `All tests` - Runs `CI tests` and `Local tests`.
-* `CI tests` - Runs `src/test/testng-ci.xml`, all the tests that are run by CI (Travis/AppVeyor).
-* `Local tests` - Runs `src/test/testng-local.xml`, all the tests that need to be run locally by developers. `Dev green` means passing all the tests in this configuration.
-* `Failed tests` - Runs `test-output/testng-failed.xml`, which is generated if a test run results in some failures. This will run only the failed tests.
-
-Additionally, configurations that run the tests with `GodMode` turned on are also provided.
-More info on this can be found [here](godmode.md).
-
-New developers should run `All tests` and have all of them passing at least once on their local environments.
-
-When running the test cases, if a few cases fail (this can happen due to timing issues), rerun the failed cases using the `Run Failed Test` icon in the TestNG tab in IntelliJ until they pass.
+Run tests using the configurations available under `Run → Play`.
 
 ### Running the test suite outside Eclipse and IntelliJ
 
-Typically, we run the test suite within Eclipse, but core developers may prefer to run it outside Eclipse so that they can continue to use Eclipse while the test suite is running. If you wish to do such, given below is the procedure:
+Typically, we run the test suite within an IDE, but core developers may prefer to run it outside the IDE so that they can continue to use their IDE while the test suite is running. If you wish to do such, given below is the procedure:
 
 1. Start the dev server.
 
