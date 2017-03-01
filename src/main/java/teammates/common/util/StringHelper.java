@@ -138,7 +138,7 @@ public final class StringHelper {
     /*
      * Decrypts the supplied string.
      *
-     * @param message the ciphertext as a hexidecimal string
+     * @param message the ciphertext as a hexadecimal string
      * @return the plaintext
      * @throws InvalidParameterException if the ciphertext is invalid.
      * @throws RuntimeException if the decryption fails for any other reason, such as {@code Cipher} initialization failure.
