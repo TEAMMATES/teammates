@@ -34,6 +34,27 @@ Click the "Terminate" icon on the Eclipse console.
 
 ### With IntelliJ
 
+> If this is your first time running the dev server, you will need to set up the required `Run Configuration`.
+
+#### Set up the Run Configuration
+
+1. Go to `File → Project Structure...`.
+1. Under `Artifacts → Gradle : <your-project-name>.war (exploded)`, check `Include in project build`.
+1. Click `OK`.
+1. Got to `Run → Edit Configurations...`.
+1. Click `+ → Google AppEngine Dev Server`.
+1. Name it `Dev Server`.
+1. Click `Configure` next to `Application server`.
+1. Click `+ → ...`. Select the App Engine SDK you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
+1. Under `Open browser`, uncheck `After launch`.
+1. Set the `JRE` to `1.7`.
+1. Set the `Port` to `8888`.
+1. Under `Before launch`, click `+ → Run Gradle task`.
+1. Select the local repository as the Gradle project and type "assemble" into the `Tasks` field.
+1. Click `OK`.
+1. Move the item you just created above "Build".
+1. Click `OK`.
+
 #### Starting the dev server
 
 Go to `Run → Play` and select `Dev Server` in the pop-up box.
@@ -46,14 +67,18 @@ Go to `Run → Stop` or hit `Ctrl + F2` (Windows).
 
 * Change the value of `org.gradle.daemon` in `gradle.properties` to `true`.
 
-* To start the dev server, run the following command:
+#### Starting the dev server
+
+Run the following command:
   ```sh
   ./gradlew appengineRun
   ```
   Wait until the task exits with a `BUILD SUCCESSFUL`.
   The dev server URL will be `http://localhost:8888` as specified in `build.gradle`.
 
-* To stop the dev server, run the following command:
+#### Stopping the dev server
+
+Run the following command:
   ```sh
   ./gradlew appengineStop
   ```

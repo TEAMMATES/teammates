@@ -40,10 +40,8 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 1. Go to `File → Settings → Other Settings → Checkstyle`.
 1. Set `Scan Scope` to `Only Java sources (including tests)`.
 1. Click the `+` to add a new configuration file. Browse for `teammates-checkstyle.xml` in the `static-analysis` folder.
-1. Click `Next`. Set the value of `basedir` to the path of your `teammates`* folder.
+1. Click `Next`. Set the value of `basedir` to the path of your project folder.
 1. Click `Finish`.
-
-*Replace `teammates` with your local repository's name if you named it differently.
 
 #####Suppressing Checkstyle warnings
 
@@ -124,8 +122,8 @@ npm install -g eslint@{version}
 #### Installing ESLint from within IntelliJ
 
 1. Ensure the [NodeJS Plugin](https://plugins.jetbrains.com/idea/plugin/6098-nodejs) is installed.
-1. Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/using-javascript-code-quality-tools.html#ESLint) to install ESLint (version 3.11.1).
-1. Follow the same steps outlined in the guide above to install `eslint-plugin-json` (version 1.2.0).
+1. Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/using-javascript-code-quality-tools.html#ESLint) to install ESLint. Refer to `src/main/resources/package.json` for the appropriate version to install.
+1. Follow the same steps outlined in the guide above to install `eslint-plugin-json`.
 
 #### Configuring ESLint for IntelliJ
 
