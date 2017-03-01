@@ -51,9 +51,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testDefaultSort();
         testSortAction();
         testFilterAction();
-//        testPanelsCollapseExpand();
-//        testShowStats();
-//        testSearchScript();
+        testPanelsCollapseExpand();
+        testShowStats();
+        testSearchScript();
     }
 
     @Test
@@ -359,13 +359,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         uploadPhotoForStudent(testData.students.get("Alice").googleId);
 
         ______TS("Typical case: ajax for view by questions");
-        /*
+        
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
                                                                        "Open Session", true, "question");
         
         resultsPage.clickAjaxLoadResponsesPanel(0);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestion.html");
-
+        
         ______TS("Failure case: Ajax error");
 
         // Change fs name so that the ajax request will fail
@@ -464,7 +464,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
-        */
+        
     }
 
     public void testFilterAction() throws Exception {
@@ -500,20 +500,22 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickGroupByTeam();
         resultsPage.displayByGiverRecipientQuestion();
         resultsPage.clickCollapseExpand();
-
+        
+        ThreadHelper.waitFor(1000);
         assertEquals("Collapse Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
         resultsPage.clickInstructorPanelCollapseStudentsButton();
         resultsPage.waitForInstructorPanelStudentPanelsToCollapse();
         assertEquals("Expand Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
         resultsPage.verifySpecifiedPanelIdsAreCollapsed(new String[] { "0-2", "0-3", "0-4" });
-
+        
         resultsPage.clickGroupByTeam();
 
         resultsPage.displayByGiverRecipientQuestion();
         resultsPage.clickCollapseExpand();
+        ThreadHelper.waitFor(1000);
         resultsPage.clickSectionCollapseStudentsButton();
         resultsPage.waitForSectionStudentPanelsToCollapse();
-
+        
         resultsPage.displayByQuestion();
         resultsPage.clickCollapseExpand();
 
@@ -537,7 +539,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsVisible();
-
+        
     }
 
     public void testShowStats() {
@@ -589,6 +591,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Verify that search works on RGQ view");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.clickGroupByTeam();
+        resultsPage.clickCollapseExpand();
         resultsPage.fillSearchBox("team 2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
 
@@ -762,6 +765,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         InstructorFeedbackResultsPage resultsPage =
                 loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+        
+        try {
+            resultsPage.clickCollapseExpand();
+        } catch (NoSuchElementException e) {
+            // ignore as some pages have no button
+        }
+
         if (needAjax) {
             resultsPage.waitForPageStructureToLoad();
         } else {
