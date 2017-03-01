@@ -19,10 +19,8 @@ import teammates.common.util.TimeHelper;
 
 public abstract class InstructorFeedbackAbstractAction extends Action {
 
-    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
-            FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
-        return this.extractFeedbackSessionDataHelper(newSession, sendRemainderEmailsList);
-    }
+    protected abstract FeedbackSessionAttributes extractFeedbackSessionDataSetUniqueAttributes(
+            FeedbackSessionAttributes newSession, List<String> sendReminderEmailsList);
 
     protected FeedbackSessionAttributes extractFeedbackSessionData() {
         // TODO assert parameters are not null then update test
@@ -33,7 +31,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         newSession.setFeedbackSessionName(SanitizationHelper.sanitizeTitle(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        newSession = setTime(newSession);
+        setTime(newSession);
 
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
@@ -52,12 +50,12 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         }
 
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
-        newSession = setResultsVisibleFromTime(newSession, type);
+        setResultsVisibleFromTime(newSession, type);
 
         // handle session visible after results visible to avoid having a
         // results visible date when session is private (session not visible)
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
-        newSession = setSessionVisibleFromTime(newSession, type);
+        setSessionVisibleFromTime(newSession, type);
         newSession = setEmail(newSession);
         return newSession;
     }
@@ -71,10 +69,10 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                                                 : Arrays.asList(sendReminderEmailsArray);
         newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
         newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
-        return extractFeedbackSessionDataHelper(newSession, sendReminderEmailsList);
+        return this.extractFeedbackSessionDataSetUniqueAttributes(newSession, sendReminderEmailsList);
     }
 
-    private FeedbackSessionAttributes setTime(FeedbackSessionAttributes newSession) {
+    private void setTime(FeedbackSessionAttributes newSession) {
 
         newSession.setStartTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
@@ -82,10 +80,9 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         newSession.setEndTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
-        return newSession;
     }
 
-    private FeedbackSessionAttributes setResultsVisibleFromTime(FeedbackSessionAttributes newSession, String type) {
+    private void setResultsVisibleFromTime(FeedbackSessionAttributes newSession, String type) {
 
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
@@ -107,10 +104,9 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                        + newSession.getIdentificationString());
             break;
         }
-        return newSession;
     }
 
-    private FeedbackSessionAttributes setSessionVisibleFromTime(FeedbackSessionAttributes newSession, String type) {
+    private void setSessionVisibleFromTime(FeedbackSessionAttributes newSession, String type) {
 
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
@@ -132,7 +128,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                        + newSession.getIdentificationString());
             break;
         }
-        return newSession;
     }
 
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(List<InstructorAttributes> instructorList) {
