@@ -67,7 +67,7 @@ function checkBrowserVersion() {
         supported = false;
     }
     /* eslint-enable no-negated-condition */
-    
+
     if (!supported) {
         var unsupportedBrowserErrorString =
             'You are currently using ' + browserName + ' v.' + majorVersion + '. '
@@ -84,11 +84,11 @@ function checkBrowserVersion() {
                     + '<td> - ' + SAFARI + ' ' + SAFARI_LOWEST_VERSION + '+</td>'
                 + '</tr>'
             + '</table>';
-        
+
         var message = $('#browserMessage');
         message.css('display', 'block');
         message.html(unsupportedBrowserErrorString);
     }
-    
+
 }
 $('document').ready(checkBrowserVersion);

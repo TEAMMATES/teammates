@@ -15,42 +15,42 @@ public class AdminAccountManagementPageAction extends Action {
     @Override
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
-        
+
         String instructorGoogleId = this.getRequestParamValue("googleId");
         if (instructorGoogleId == null) {
             instructorGoogleId = "";
         }
-        
+
         Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable =
                 new HashMap<String, ArrayList<InstructorAttributes>>();
         Map<String, AccountAttributes> instructorAccountsTable = new HashMap<String, AccountAttributes>();
-        
+
         List<InstructorAttributes> instructorsList = logic.getInstructorsForGoogleId(instructorGoogleId);
         AccountAttributes instructorAccount = logic.getAccount(instructorGoogleId);
-        
+
         boolean isToShowAll = this.getRequestParamAsBoolean("all");
         boolean isAccountExisting = instructorAccount != null;
         if (isAccountExisting) {
             instructorAccountsTable.put(instructorAccount.googleId, instructorAccount);
-            
+
             for (InstructorAttributes instructor : instructorsList) {
                 ArrayList<InstructorAttributes> courseList = instructorCoursesTable.get(instructor.googleId);
                 if (courseList == null) {
                     courseList = new ArrayList<InstructorAttributes>();
                     instructorCoursesTable.put(instructor.googleId, courseList);
                 }
-                
+
                 courseList.add(instructor);
             }
         }
-            
+
         AdminAccountManagementPageData data = new AdminAccountManagementPageData(account, instructorAccountsTable,
                                                                                  instructorCoursesTable, isToShowAll);
-        
+
         statusToAdmin = "Admin Account Management Page Load<br>"
                         + "<span class=\"bold\">Total Instructors:</span> " + instructorAccountsTable.size();
-        
+
         return createShowPageResult(Const.ViewURIs.ADMIN_ACCOUNT_MANAGEMENT, data);
     }
-    
+
 }

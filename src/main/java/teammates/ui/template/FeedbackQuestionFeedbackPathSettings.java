@@ -6,7 +6,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  * Data model for the settings common to all question types,
  * which are the feedback path and visibility settings for the
  * feedback question form.
- * 
+ *
  * Used on instructorFeedbackEdit.jsp
  */
 public class FeedbackQuestionFeedbackPathSettings {
@@ -15,7 +15,7 @@ public class FeedbackQuestionFeedbackPathSettings {
     private FeedbackParticipantType selectedRecipient;
 
     private boolean isCommonPathSelected;
-    
+
     private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
     private int numOfEntitiesToGiveFeedbackToValue;
 
@@ -34,7 +34,7 @@ public class FeedbackQuestionFeedbackPathSettings {
     public void setNumOfEntitiesToGiveFeedbackToValue(int numOfEntitiesToGiveFeedbackToValue) {
         this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
     }
-    
+
     public boolean isCommonPathSelected() {
         return isCommonPathSelected;
     }

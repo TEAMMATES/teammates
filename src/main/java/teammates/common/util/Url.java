@@ -21,13 +21,13 @@ public class Url {
         } catch (MalformedURLException e) {
             Assumption.fail("MalformedURLException for [" + urlString + "]: " + e.getMessage());
         }
-        
+
         this.baseUrl = url.getProtocol() + "://" + url.getAuthority();
         this.relativeUrl = StringHelper.convertToEmptyStringIfNull(url.getPath());
         String query = url.getQuery();
         this.query = query == null ? "" : "?" + query;
     }
-    
+
     /**
      * @return The value of the {@code parameterName} parameter. Null if no
      * such parameter.
@@ -77,7 +77,7 @@ public class Url {
     public static String trimTrailingSlash(String url) {
         return url.trim().replaceAll("/(?=$)", "");
     }
-    
+
     /**
      * Gets the relative path of a full URL. Useful for http/https-based URLs.
      * @throws MalformedURLException if the given {@code url} is malformed
@@ -99,5 +99,5 @@ public class Url {
     public String toAbsoluteString() {
         return baseUrl + toString();
     }
-    
+
 }

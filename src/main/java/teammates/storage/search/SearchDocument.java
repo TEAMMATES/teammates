@@ -24,7 +24,7 @@ import com.google.appengine.api.search.ScoredDocument;
  * Defines how we store {@link Document} for indexing/searching.
  */
 public abstract class SearchDocument {
-    
+
     protected static final CommentsDb commentsDb = new CommentsDb();
     protected static final CoursesDb coursesDb = new CoursesDb();
     protected static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -33,23 +33,23 @@ public abstract class SearchDocument {
     protected static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     protected static final InstructorsDb instructorsDb = new InstructorsDb();
     protected static final StudentsDb studentsDb = new StudentsDb();
-    
+
     public Document build() {
         prepareData();
         return toDocument();
     }
-    
+
     protected abstract void prepareData();
-    
+
     protected abstract Document toDocument();
-    
+
     protected static String extractContentFromQuotedString(String quotedString) {
         if (quotedString.matches("^\".*\"$")) {
             return quotedString.substring(1, quotedString.length() - 1);
         }
         return quotedString;
     }
-    
+
     /**
      * This method must be called to filter out the search result for course Id.
      */
@@ -59,7 +59,7 @@ public abstract class SearchDocument {
         for (InstructorAttributes ins : instructors) {
             courseIdSet.add(ins.courseId);
         }
-        
+
         List<ScoredDocument> filteredResults = new ArrayList<ScoredDocument>();
         for (ScoredDocument document : results) {
             String resultCourseId = document.getOnlyField(Const.SearchDocumentField.COURSE_ID).getText();
@@ -69,5 +69,5 @@ public abstract class SearchDocument {
         }
         return filteredResults;
     }
-    
+
 }

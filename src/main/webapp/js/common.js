@@ -153,11 +153,11 @@ var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
-    
+
     $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function() {
         bindDefaultImageIfMissing(this);
     });
-    
+
     /**
      * Initializing then disabling is better than simply
      * not initializing for mobile due to some tooltips-specific
@@ -171,7 +171,7 @@ $(document).on('ajaxComplete ready', function() {
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
-    
+
     /**
      * Underlines all span elements with tool-tips except for
      * the ones without a text value. This is to exclude elements
@@ -221,7 +221,7 @@ function toggleSort(divElement, comparator) {
     var row = 1;
 
     var $selectedDivElement = $(divElement);
-    
+
     if ($selectedDivElement.attr('class') === 'button-sort-none') {
         sortTable(divElement, colIdx, comparator, true, row);
         $selectedDivElement.parent().find('.button-sort-ascending').attr('class', 'button-sort-none');
@@ -263,11 +263,11 @@ function encodeHtmlString(stringToEncode) {
 function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
     // Get the table
     var $table = $(oneOfTableCell);
-    
+
     if (!$table.is('table')) {
         $table = $table.parents('table');
     }
-    
+
     var columnType = 0;
     var store = [];
     var $RowList = $('tr', $table);
@@ -281,7 +281,7 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
         if ($RowList[i].cells[colIdx - 1] === undefined) {
             continue;
         }
-        
+
         // $.trim trims leading/trailing whitespaces
         // jQuery(...).text() works like .innerText, but works in Firefox (.innerText does not)
         // $RowList[i].cells[colIdx - 1] is where we get the table cell from
@@ -289,10 +289,10 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
         textToCompare = shouldConsiderToolTipYear
                 ? $.trim($($RowList[i].cells[colIdx - 1]).find('span').attr('data-original-title'))
                 : $.trim($($RowList[i].cells[colIdx - 1]).text());
-        
+
         // Store rows together with the innerText to compare
         store.push([textToCompare, $RowList[i], i]);
-        
+
         if ((columnType === 0 || columnType === 1) && isNumber(textToCompare)) {
             columnType = 1;
         } else if ((columnType === 0 || columnType === 2) && isDate(textToCompare)) {
@@ -301,7 +301,7 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
             columnType = 3;
         }
     }
-    
+
     var comparator = comp;
     if (comparator === null || comparator === undefined) {
         if (columnType === 1) {
@@ -312,7 +312,7 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
             comparator = sortBase;
         }
     }
-    
+
     store.sort(function(x, y) {
         var compareResult = ascending ? comparator(x[0].toUpperCase(), y[0].toUpperCase())
                                       : comparator(y[0].toUpperCase(), x[0].toUpperCase());
@@ -321,7 +321,7 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
         }
         return compareResult;
     });
-    
+
     // Must rewrap because .get() does not return a jQuery wrapped DOM node
     // and hence does not have the .children() function
     var $tbody = $($table.get(0)).children('tbody');
@@ -329,12 +329,12 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
     if ($tbody.size < 1) {
         $tbody = $table;
     }
-    
+
     // Must push to target tbody else it will generate a new tbody for the table
     for (var j = 0; j < store.length; j++) {
         $tbody.get(0).appendChild(store[j][1]);
     }
-    
+
     store = null;
 }
 
@@ -424,7 +424,7 @@ function isNumber(num) {
 function sortByPoint(a, b) {
     var a0 = getPointValue(a, true);
     var b0 = getPointValue(b, true);
-    
+
     if (isNumber(a0) && isNumber(b0)) {
         return sortNum(a0, b0);
     }
@@ -460,30 +460,30 @@ function sortByDiff(a, b) {
 function getPointValue(s, ditchZero) {
     var s0 = s;
     var baseValue = 100;
-    
+
     if (s0.indexOf('/') !== -1) {
         // magic expressions below as these cases will only be compared with
         // case E +(-)X% (0 <= X <= 100)
         if (s0.indexOf('S') !== -1) {
             return 2 * baseValue + 1; // Case N/S (feedback contribution not sure)
         }
-        
+
         return 2 * baseValue + 2; // Case N/A
     }
-    
+
     if (s0 === '0%') { // Case 0%
         if (ditchZero) {
             return 0;
         }
         return baseValue;
     }
-    
+
     s0 = s0.replace('E', '').replace('%', ''); // Case E +(-)X%
-    
+
     if (s0 === '') {
         return baseValue; // Case E
     }
-    
+
     return baseValue + parseFloat(s0); // Other typical cases
 }
 
@@ -497,9 +497,9 @@ function getPointValue(s, ditchZero) {
 function isWithinView(element) {
     var baseElement = $(element)[0]; // unwrap jquery element
     var rect = baseElement.getBoundingClientRect();
-    
+
     var $viewport = $(window);
-    
+
     // makes the viewport size slightly larger to account for rounding errors
     var tolerance = 0.25;
     return (
@@ -545,40 +545,40 @@ function scrollToElement(element, opts) {
         offset: 0,
         duration: 0
     };
-    
+
     var options = opts || {};
     var type = options.type || defaultOptions.type;
     var offset = options.offset || defaultOptions.offset;
     var duration = options.duration || defaultOptions.duration;
-    
+
     var isViewType = type === 'view';
     if (isViewType && isWithinView(element)) {
         return;
     }
-    
+
     var navbar = document.getElementsByClassName('navbar')[0];
     var navbarHeight = navbar ? navbar.offsetHeight : 0;
     var footer = document.getElementById('footerComponent');
     var footerHeight = footer ? footer.offsetHeight : 0;
     var windowHeight = window.innerHeight - navbarHeight - footerHeight;
-    
+
     var isElementTallerThanWindow = windowHeight < element.offsetHeight;
     var isFromAbove = window.scrollY < element.offsetTop;
     var isAlignedToTop = !isViewType || isElementTallerThanWindow || !isFromAbove;
-    
+
     // default offset - from navbar / footer
     if (options.offset === undefined) {
         offset = isAlignedToTop ? navbarHeight * -1 : footerHeight * -1;
     }
-    
+
     // adjust offset to bottom of element
     if (!isAlignedToTop) {
         offset *= -1;
         offset = offset + element.offsetHeight - window.innerHeight;
     }
-    
+
     var scrollPos = element.offsetTop + offset;
-    
+
     scrollToPosition(scrollPos, duration);
 }
 
@@ -606,14 +606,14 @@ var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 function populateStatusMessageDiv(message, status) {
     var $statusMessageDivToUser = $(DIV_STATUS_MESSAGE);
     var $statusMessageDivContent = $('<div></div>');
-    
+
     $statusMessageDivContent.addClass('overflow-auto');
     $statusMessageDivContent.addClass('alert');
     // Default the status type to info if any invalid status is passed in
     $statusMessageDivContent.addClass('alert-' + (StatusType.isValidType(status) ? status : StatusType.INFO));
     $statusMessageDivContent.addClass('statusMessage');
     $statusMessageDivContent.html(message);
-    
+
     $statusMessageDivToUser.empty();
     $statusMessageDivToUser.append($statusMessageDivContent);
     return $statusMessageDivToUser;
@@ -666,7 +666,7 @@ function setStatusMessageToForm(message, status, form) {
  */
 function appendStatusMessage(messages) {
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
-    
+
     $statusMessagesToUser.append($(messages));
     $statusMessagesToUser.show();
 }
@@ -676,7 +676,7 @@ function appendStatusMessage(messages) {
  */
 function clearStatusMessages() {
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
-    
+
     $statusMessagesToUser.empty();
     $statusMessagesToUser.hide();
 }
@@ -719,18 +719,18 @@ function sanitizeGoogleId(rawGoogleId) {
 function isValidGoogleId(rawGoogleId) {
     var isValidNonEmailGoogleId = false;
     var googleId = rawGoogleId.trim();
-    
+
     // match() retrieve the matches when matching a string against a regular expression.
     var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
-    
+
     isValidNonEmailGoogleId = matches !== null && matches[0] === googleId;
-    
+
     var isValidEmailGoogleId = isEmailValid(googleId);
-    
+
     if (googleId.toLowerCase().indexOf('@gmail.com') > -1) {
         isValidEmailGoogleId = false;
     }
-    
+
     // email addresses are valid google IDs too
     return isValidNonEmailGoogleId || isValidEmailGoogleId;
 }
@@ -759,7 +759,7 @@ function isNameValid(rawName) {
     if (name === '') {
         return false;
     }
-    
+
     if (name.match(/[^/\\,.'\-()0-9a-zA-Z \t]/)) {
         // Returns true if a character NOT belonging to the following set
         // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
@@ -784,7 +784,7 @@ function isInstitutionValid(rawInstitution) {
     if (institution === '') {
         return false;
     }
-    
+
     if (institution.match(/[^/\\,.'\-()0-9a-zA-Z \t]/)) {
         // Returns true if a character NOT belonging to the following set
         // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
@@ -816,7 +816,7 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
              // Code differs by browser (FF/Opera:109, IE/Chrome:189)
              // see http://www.javascripter.net/faq/keycodes.htm
             || negativeAllowed && (key === 189 || key === 109)) {
-            
+
             // let it happen, don't do anything
             return;
         }

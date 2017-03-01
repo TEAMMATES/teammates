@@ -101,7 +101,7 @@ public class FeedbackSubmissionEditQuestion {
     public boolean isQuestionTypeConstsum() {
         return questionType == FeedbackQuestionType.CONSTSUM;
     }
-    
+
     public int getNumberOfEntitiesToGiveFeedbackTo() {
         return numberOfEntitiesToGiveFeedbackTo;
     }

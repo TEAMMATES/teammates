@@ -22,9 +22,9 @@ import teammates.ui.template.AdminSearchStudentRow;
 import teammates.ui.template.AdminSearchStudentTable;
 
 public class AdminSearchPageData extends PageData {
-    
+
     public String searchKey = "";
-    
+
     /*
      * Data related to searched students
      */
@@ -36,7 +36,7 @@ public class AdminSearchPageData extends PageData {
     public HashMap<String, String> studentIdToHomePageLinkMap = new HashMap<String, String>();
     public HashMap<String, String> studentRecordsPageLinkMap = new HashMap<String, String>();
     public HashMap<String, String> studentInstituteMap = new HashMap<String, String>();
-    
+
     /*
      * Data related to searched instructors
      */
@@ -44,23 +44,22 @@ public class AdminSearchPageData extends PageData {
     public HashMap<String, String> instructorInstituteMap = new HashMap<String, String>();
     public HashMap<String, String> instructorHomaPageLinkMap = new HashMap<String, String>();
     public HashMap<String, String> instructorCourseJoinLinkMap = new HashMap<String, String>();
-    
 
     /*
      * Data related to both instructors and students
      */
     public HashMap<String, String> courseIdToCourseNameMap = new HashMap<String, String>();
-    
+
     /*
      * Search result tables
      */
     private AdminSearchInstructorTable instructorTable;
     private AdminSearchStudentTable studentTable;
-    
+
     public AdminSearchPageData(AccountAttributes account) {
         super(account);
     }
-    
+
     public void init() {
         instructorTable = createInstructorTable();
         studentTable = createStudentTable();
@@ -73,26 +72,26 @@ public class AdminSearchPageData extends PageData {
     public AdminSearchInstructorTable getInstructorTable() {
         return instructorTable;
     }
-    
+
     public AdminSearchStudentTable getStudentTable() {
         return studentTable;
     }
-    
+
     public List<InstructorAttributes> getInstructorResultList() {
         return instructorResultBundle.instructorList;
     }
-    
+
     public List<StudentAttributes> getStudentResultList() {
         return studentResultBundle.studentList;
     }
-    
+
     private AdminSearchInstructorTable createInstructorTable() {
         List<AdminSearchInstructorRow> rows = new ArrayList<AdminSearchInstructorRow>();
-        
+
         for (InstructorAttributes instructor : instructorResultBundle.instructorList) {
             rows.add(createInstructorRow(instructor));
         }
-        
+
         return new AdminSearchInstructorTable(rows);
     }
 
@@ -107,7 +106,7 @@ public class AdminSearchPageData extends PageData {
         String viewRecentActionsId = createViewRecentActionsId(instructor);
         String email = instructor.email;
         String courseJoinLink = instructorCourseJoinLinkMap.get(instructor.getIdentificationString());
-        
+
         return new AdminSearchInstructorRow(id, name, courseName, courseId, googleId, googleIdLink,
                                             institute, viewRecentActionsId, email, courseJoinLink);
     }
@@ -116,13 +115,13 @@ public class AdminSearchPageData extends PageData {
         String id = SanitizationHelper.sanitizeForSearch(instructor.getIdentificationString());
         id = StringHelper.removeExtraSpace(id);
         id = id.replace(" ", "").replace("@", "");
-        
+
         return "instructor_" + id;
     }
-    
+
     private String createViewRecentActionsId(InstructorAttributes instructor) {
         String availableIdString = "";
-        
+
         boolean isSearchingUsingGoogleId = instructor.googleId != null && !instructor.googleId.trim().isEmpty();
         boolean isSearchingUsingName = instructor.name != null && !instructor.name.trim().isEmpty();
         boolean isSearchingUsingEmail = instructor.email != null && !instructor.email.trim().isEmpty();
@@ -133,17 +132,17 @@ public class AdminSearchPageData extends PageData {
         } else if (isSearchingUsingEmail) {
             availableIdString = "person:" + instructor.email;
         }
-        
+
         return availableIdString;
     }
-    
+
     private AdminSearchStudentTable createStudentTable() {
         List<AdminSearchStudentRow> rows = new ArrayList<AdminSearchStudentRow>();
-        
+
         for (StudentAttributes student : studentResultBundle.studentList) {
             rows.add(createStudentRow(student));
         }
-        
+
         return new AdminSearchStudentTable(rows);
     }
 
@@ -159,16 +158,16 @@ public class AdminSearchPageData extends PageData {
         String email = student.email;
         String comments = student.comments;
         String viewRecentActionsId = createViewRecentActionsId(student);
-        
+
         AdminSearchStudentLinks links = createStudentLinks(student);
-        
+
         List<AdminSearchStudentFeedbackSession> openFeedbackSessions =
                                         createFeedbackSessionsList(student, FeedbackSessionState.OPEN);
         List<AdminSearchStudentFeedbackSession> closedFeedbackSessions =
                                         createFeedbackSessionsList(student, FeedbackSessionState.CLOSED);
         List<AdminSearchStudentFeedbackSession> publishedFeedbackSessions =
                                         createFeedbackSessionsList(student, FeedbackSessionState.PUBLISHED);
-        
+
         return new AdminSearchStudentRow(id, name, institute, courseName, courseId, section,
                                          team, googleId, email, comments, viewRecentActionsId,
                                          links, openFeedbackSessions, closedFeedbackSessions,
@@ -183,7 +182,7 @@ public class AdminSearchPageData extends PageData {
 
     private String createViewRecentActionsId(StudentAttributes student) {
         String availableIdString = "";
-        
+
         boolean isSearchingUsingGoogleId = student.googleId != null && !student.googleId.trim().isEmpty();
         boolean isSearchingUsingName = student.name != null && !student.name.trim().isEmpty();
         boolean isSearchingUsingEmail = student.email != null && !student.email.trim().isEmpty();
@@ -194,24 +193,24 @@ public class AdminSearchPageData extends PageData {
         } else if (isSearchingUsingEmail) {
             availableIdString = "person:" + student.email;
         }
-        
+
         return availableIdString;
     }
-    
+
     private AdminSearchStudentLinks createStudentLinks(StudentAttributes student) {
         String detailsPageLink = studentRecordsPageLinkMap.get(student.getIdentificationString());
         String homePageLink = studentIdToHomePageLinkMap.get(student.googleId);
         String courseJoinLink = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
-        
+
         return new AdminSearchStudentLinks(detailsPageLink, homePageLink, courseJoinLink);
     }
-    
+
     private List<AdminSearchStudentFeedbackSession> createFeedbackSessionsList(
                                     StudentAttributes student, FeedbackSessionState fsState) {
-        
+
         List<AdminSearchStudentFeedbackSession> sessions = new ArrayList<AdminSearchStudentFeedbackSession>();
         List<String> links = new ArrayList<String>();
-        
+
         switch (fsState) {
         case OPEN:
             links = studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString());
@@ -226,14 +225,14 @@ public class AdminSearchPageData extends PageData {
             Assumption.fail();
             break;
         }
-        
+
         if (links != null) {
             for (String link : links) {
                 sessions.add(new AdminSearchStudentFeedbackSession(
                                                 feedbackSeesionLinkToNameMap.get(link), link));
             }
         }
-        
+
         return sessions;
     }
 }

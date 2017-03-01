@@ -17,20 +17,20 @@ import com.google.appengine.api.datastore.Text;
 public class FieldValidatorTest extends BaseTestCase {
 
     public FieldValidator validator = new FieldValidator();
-    
+
     @Test
     public void testGetValidityInfoForSizeCappedNonEmptyString() {
-        
+
         String typicalFieldName = "my field";
         int typicalLength = 25;
-        
+
         try {
             validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null);
             signalFailureToDetectException("not expected to be null");
         } catch (AssertionError e) {
             ignoreExpectedException();
         }
-        
+
         int maxLength = 50;
         assertEquals("valid: typical value",
                 "",
@@ -38,14 +38,14 @@ public class FieldValidatorTest extends BaseTestCase {
                         typicalFieldName,
                         maxLength,
                         "Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"));
-        
+
         assertEquals("valid: max length",
                 "",
                 validator.getValidityInfoForSizeCappedNonEmptyString(
                         typicalFieldName,
                         maxLength,
                         StringHelper.generateStringOfLength(maxLength)));
-        
+
         String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
@@ -53,15 +53,14 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "longer than 50 characters. It should not be empty.",
                      validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, maxLength,
                                                                           tooLongName));
-        
-        
+
         String emptyValue = "";
         assertEquals("invalid: empty",
                      "\"\" is not acceptable to TEAMMATES as a/an my field because it is empty. The value of "
                          + "a/an my field should be no longer than 50 characters. It should not be empty.",
                      validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, maxLength,
                                                                           emptyValue));
-        
+
         String untrimmedValue = " abc ";
         assertEquals("invalid: untrimmed",
                      "The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
@@ -86,7 +85,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String actual = validator.getValidityInfoForNonHtmlField(testFieldName, sanitizedInput);
         assertEquals("Valid sanitized input should return empty string", "", actual);
     }
-    
+
     @Test
     public void testGetValidityInfoForNonHtmlField_unsanitizedInput_returnErrorString() {
         String unsanitizedInput = "Invalid unsanitized input <>\\/'&";
@@ -101,17 +100,17 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetValidityInfoForSizeCappedPossiblyEmptyString() {
-        
+
         String typicalFieldName = "my field";
         int typicalLength = 25;
-        
+
         try {
             validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null);
             signalFailureToDetectException("not expected to be null");
         } catch (AssertionError e) {
             ignoreExpectedException();
         }
-        
+
         int maxLength = 50;
         assertEquals("valid: typical value",
                 "",
@@ -119,15 +118,14 @@ public class FieldValidatorTest extends BaseTestCase {
                         typicalFieldName,
                         maxLength,
                         "Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"));
-        
+
         assertEquals("valid: max length",
                 "",
                 validator.getValidityInfoForSizeCappedPossiblyEmptyString(
                         typicalFieldName,
                         maxLength,
                         StringHelper.generateStringOfLength(maxLength)));
-        
-        
+
         String emptyValue = "";
         assertEquals("valid: empty",
                 "",
@@ -135,14 +133,14 @@ public class FieldValidatorTest extends BaseTestCase {
                         typicalFieldName,
                         maxLength,
                         emptyValue));
-        
+
         String untrimmedValue = " abc ";
         assertEquals("invalid: untrimmed",
                      "The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
                          + "contains extra spaces at the beginning or at the end of the text.",
                      validator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
                                                                                untrimmedValue));
-        
+
         String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
@@ -151,24 +149,24 @@ public class FieldValidatorTest extends BaseTestCase {
                      validator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
                                                                                tooLongName));
     }
-    
+
     @Test
     public void testGetValidityInfoForAllowedName() {
-        
+
         ______TS("null value");
-        
+
         String typicalFieldName = "name field";
         int typicalLength = 25;
-        
+
         try {
             validator.getValidityInfoForAllowedName(typicalFieldName, typicalLength, null);
             signalFailureToDetectException("not expected to be null");
         } catch (AssertionError e) {
             ignoreExpectedException();
         }
-        
+
         ______TS("typical success case");
-        
+
         int maxLength = 50;
         assertEquals("valid: typical length with valid characters",
                 "",
@@ -176,9 +174,9 @@ public class FieldValidatorTest extends BaseTestCase {
                         typicalFieldName,
                         maxLength,
                         "Ýàn-B. s/o O'br, &2\t\n(~!@#$^*+_={}[]\\:;\"<>?)"));
-        
+
         ______TS("failure: invalid characters");
-        
+
         String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
                      "\"Dr. Amy-Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is "
@@ -187,9 +185,9 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "contain any vertical bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameContainInvalidChars));
-        
+
         ______TS("failure: starts with non-alphanumeric character");
-        
+
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
                      "\"!Amy-Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is not "
@@ -198,9 +196,9 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "character, and cannot contain any vertical bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithNonAlphaNumChar));
-        
+
         ______TS("failure: starts with curly braces but contains invalid char");
-        
+
         String nameStartedWithBracesButHasInvalidChar = "{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
                      "\"{Amy} -Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is not "
@@ -209,9 +207,9 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "contain any vertical bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithBracesButHasInvalidChar));
-        
+
         ______TS("failure: starts with opening curly bracket but dose not have closing bracket");
-        
+
         String nameStartedWithCurlyBracketButHasNoEnd = "{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)";
         assertEquals("invalid: typical length started with non-alphanumeric character",
                      "\"{Amy -Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={[]\\:;&quot;&lt;&gt;?)\" is not "
@@ -220,44 +218,44 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "character, and cannot contain any vertical bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithCurlyBracketButHasNoEnd));
-        
+
         ______TS("success: with opening and closing curly braces");
-        
+
         assertEquals("valid: max length",
                 "",
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName,
                         maxLength,
                         "{last name} first name"));
-        
+
         ______TS("success: max length");
-        
+
         assertEquals("valid: max length",
                 "",
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName,
                         maxLength,
                         StringHelper.generateStringOfLength(maxLength)));
-        
+
         ______TS("failure: too long");
-        
+
         String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
                          + "as a/an name field because it is too long. The value of a/an name field should "
                          + "be no longer than 50 characters. It should not be empty.",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength, tooLongName));
-        
+
         ______TS("failure: empty string");
-        
+
         String emptyValue = "";
         assertEquals("invalid: empty",
                      "\"\" is not acceptable to TEAMMATES as a/an name field because it is empty. The value "
                          + "of a/an name field should be no longer than 50 characters. It should not be empty.",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength, emptyValue));
-        
+
         ______TS("failure: untrimmed value");
-        
+
         String untrimmedValue = " abc ";
         assertEquals("invalid: untrimmed",
                      "The provided name field is not acceptable to TEAMMATES as it contains only whitespace "
@@ -407,7 +405,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String emailAsId = "someone@yahoo.com";
         assertEquals("Valid Google ID (typical email) should return empty string", "",
                      validator.getInvalidityInfoForGoogleId(emailAsId));
-    
+
         String shortEmailAsId = "e@y";
         assertEquals("Valid Google ID (short email) should return empty string", "",
                      validator.getInvalidityInfoForGoogleId(shortEmailAsId));
@@ -586,7 +584,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String typicalCourseId = "cs1101-sem1.2_";
         assertEquals("Valid Course ID (typical) should return empty string", "",
                      validator.getInvalidityInfoForCourseId(typicalCourseId));
-        
+
         String shortCourseId = "c";
         assertEquals("Valid Course ID (short) should return empty string", "",
                      validator.getInvalidityInfoForCourseId(shortCourseId));
@@ -595,7 +593,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid Course ID (max length) should return empty string", "",
                      validator.getInvalidityInfoForCourseId(maxLengthCourseId));
     }
-    
+
     @Test
     public void testGetInvalidityInfoForCourseId_invalid_returnErrorString() {
         String emptyCourseId = "";
@@ -698,94 +696,94 @@ public class FieldValidatorTest extends BaseTestCase {
         ______TS("success: typical name");
         String name = "Benny Charlés";
         assertTrue(StringHelper.isMatching(name, REGEX_NAME));
-        
+
         ______TS("success: name begins with accented characters");
         name = "Ýàn-B. s/o O'br, &2(~!@#$^*+_={}[]\\:;\"<>?)";
         assertTrue(StringHelper.isMatching(name, REGEX_NAME));
-        
+
         ______TS("failure: name begins with non-alphanumeric character");
         name = "~Amy-Ben. s/o O'br, &2(~!@#$^*+_={}[]\\:;\"<>?)";
         assertFalse(StringHelper.isMatching(name, REGEX_NAME));
-        
+
         ______TS("failure: name contains invalid character");
         name = "Amy-B. s/o O'br, %|&2(~!@#$^*+_={}[]\\:;\"<>?)";
         assertFalse(StringHelper.isMatching(name, REGEX_NAME));
     }
-    
+
     @Test
     public void testRegexEmail() {
         ______TS("success: typical email");
         String email = "john@email.com";
         assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
-        
+
         ______TS("success: minimum allowed email format");
         email = "a@e";
         assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
-        
+
         ______TS("success: all allowed special characters");
         email = "a!#$%&'*/=?^_`{}~@e";
         assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
-        
+
         ______TS("failure: invalid starting character");
         email = "$john@email.com";
         assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
-        
+
         ______TS("failure: two consecutive dots in local part");
         email = "john..dot@email.com";
         assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
-        
+
         ______TS("failure: invalid characters in domain part");
         email = "john@e&email.com";
         assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
-        
+
         ______TS("failure: invalid ending character in domain part");
         email = "john@email.com3";
         assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
     }
-    
+
     @Test
     public void testRegexCourseId() {
         ______TS("success: typical course ID");
         String courseId = "CS101";
         assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
-        
+
         ______TS("success: course ID with all accepted symbols");
         courseId = "CS101-B.$";
         assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
-        
+
         ______TS("failure: contains invalid character");
         courseId = "CS101+B";
         assertFalse(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
     }
-    
+
     @Test
     public void testRegexSampleCourseId() {
         ______TS("success: typical sample course ID");
         String courseId = "CS101-demo3";
         assertTrue(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
-        
+
         ______TS("failure: non-demo course ID");
         courseId = "CS101";
         assertFalse(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
     }
-    
+
     @Test
     public void testRegexGoogleIdNonEmail() {
         ______TS("success: typical google id");
         String googleId = "teammates.instr";
         assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
-        
+
         ______TS("success: google id with all accepted characters");
         googleId = "teammates.new_instr-3";
         assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
-        
+
         ______TS("failure: is email");
         googleId = "teammates.instr@email.com";
         assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
-        
+
         ______TS("failure: contains invalid character");
         googleId = "teammates.$instr";
         assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
     }
-    
+
 }
