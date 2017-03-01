@@ -295,10 +295,10 @@ def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
 task eslint(type: Exec) {
     def command = ["eslint"]
-    def jsDirs = ["src/main/webapp/js", "src/test/javascript"]
+    def jsDirs = ["src/main/webapp/js/*.js", "src/main/webapp/dev/*.js"]
+    def jsonDirs = ["src/main/webapp/js/*.json", "src/main/resources/*.json", "src/test/resources/data/*.json"]
     def configFile = ["-c", "static-analysis/teammates-eslint.yml"]
-    def ignore = ["--ignore-pattern", "lib/"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile + ignore
+    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + jsonDirs + configFile
 }
 
 task stylelint(type: Exec) {
@@ -338,7 +338,7 @@ tasks.withType(FindBugs) {
 }
 
 task installEslint(type: Exec) {
-    commandLine "npm", "install", "eslint@3.11.1"
+    commandLine "npm", "install", "eslint@3.11.1", "eslint-plugin-json@1.2.0"
 }
 
 task installStylelint(type: Exec) {

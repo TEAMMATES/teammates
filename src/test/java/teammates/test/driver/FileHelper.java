@@ -13,11 +13,11 @@ import java.util.Scanner;
  * the server side.
  */
 public final class FileHelper {
-    
+
     private FileHelper() {
         // utility class
     }
-    
+
     /**
      * Reads the file with the specified path as a String.
      */
@@ -27,7 +27,7 @@ public final class FileHelper {
         sc.close();
         return result;
     }
-    
+
     /**
      * Reads the file with the specified path as a byte array.
      */
@@ -38,7 +38,7 @@ public final class FileHelper {
         fis.close();
         return buffer;
     }
-    
+
     /**
      * Saves the supplied content to the specified file path.
      */
@@ -47,7 +47,7 @@ public final class FileHelper {
         fw.write(content);
         fw.close();
     }
-    
+
     /**
      * Deletes the file with the specified path.
      */

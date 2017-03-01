@@ -25,26 +25,26 @@ import teammates.ui.template.CoursePagination;
 
 public class InstructorCommentsPageDataTest extends BaseTestCase {
     private static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
-    private static DataBundle dataBundle = getTypicalDataBundle();
-    private static CourseAttributes course1;
-    private static CourseAttributes course2;
-    private static InstructorAttributes instructor1;
-    
+    private DataBundle dataBundle = getTypicalDataBundle();
+    private CourseAttributes course1;
+    private CourseAttributes course2;
+    private InstructorAttributes instructor1;
+
     @BeforeClass
     public void classSetup() {
         course1 = dataBundle.courses.get("typicalCourse1");
         course2 = dataBundle.courses.get("typicalCourse2");
         instructor1 = dataBundle.instructors.get("instructor3OfCourse1");
     }
-    
+
     @Test
     public void testAll() {
-        
+
         ______TS("typical success case");
-        
+
         AccountAttributes account = dataBundle.accounts.get("instructor3");
         InstructorCommentsPageData data = new InstructorCommentsPageData(account);
-        
+
         boolean isViewingDraft = false;
         boolean isDisplayArchive = false;
         String courseId = course1.getId();
@@ -52,18 +52,18 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         List<String> coursePaginationList = Arrays.asList(course1.getId(), course2.getId());
         Map<String, List<CommentAttributes>> comments = new TreeMap<String, List<CommentAttributes>>();
         Map<String, List<Boolean>> commentModifyPermissions = new TreeMap<String, List<Boolean>>();
-        
+
         CourseRoster roster = new CourseRoster(getStudentsInCourse(courseId), getInstructorsInCourse(courseId));
         List<FeedbackSessionAttributes> feedbackSessions = getFeedbackSessionsForCourse(courseId);
         int numberOfPendingComments = 0;
-        
+
         // Setup instructor comments
         String giverEmail = instructor1.email;
         setInstructorComments(giverEmail, instructor1.email, courseId, comments, commentModifyPermissions);
-        
+
         data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList,
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
-        
+
         /******************** Assertions for pageData data ********************/
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
@@ -79,12 +79,12 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertEquals(numberOfPendingComments, data.getNumberOfPendingComments());
         assertFalse(data.isDisplayArchive());
         assertFalse(data.isViewingDraft());
-        
+
         /******************** Assertions for data structures ********************/
-        
+
         String giverDetails = "You";
         List<CommentRow> commentRows = new ArrayList<CommentRow>();
-        
+
         // Create first expected comment row
         String recipientDisplay = "student2 In Course1 (Team 1.1</td></div>'\", student2InCourse1@gmail.tmt)";
         CommentAttributes comment = dataBundle.comments.get("comment1FromI3C1toS2C1");
@@ -96,7 +96,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         commentRow.setFromCommentsPage();
         commentRow.setPlaceholderNumComments();
         commentRows.add(commentRow);
-        
+
         // Create second expected comment row
         recipientDisplay = "all students in this course";
         comment = dataBundle.comments.get("comment1FromI3C1toC1");
@@ -108,38 +108,38 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         commentRow.setFromCommentsPage();
         commentRow.setPlaceholderNumComments();
         commentRows.add(commentRow);
-        
+
         // Create expected comments table
         List<CommentsForStudentsTable> expectedCommentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();
         CommentsForStudentsTable commentsForStudentsTable = new CommentsForStudentsTable(giverDetails, commentRows);
         commentsForStudentsTable.withExtraClass("giver_display-by-you");
         expectedCommentsForStudentsTables.add(commentsForStudentsTable);
         List<CommentsForStudentsTable> actualCommentsForStudentsTables = data.getCommentsForStudentsTables();
-        
+
         assertEquals(expectedCommentsForStudentsTables.size(), actualCommentsForStudentsTables.size());
         for (int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
             checkCommentsForStudentsTablesEqual(
                      expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i));
         }
-        
+
         ______TS("instructor is in second course page");
-        
+
         courseId = course2.getId();
         courseName = course2.getName();
-        
+
         comments = new TreeMap<String, List<CommentAttributes>>();
         commentModifyPermissions = new TreeMap<String, List<Boolean>>();
-        
+
         roster = new CourseRoster(getStudentsInCourse(courseId), getInstructorsInCourse(courseId));
         feedbackSessions = getFeedbackSessionsForCourse(courseId);
-        
+
         // Setup instructor comments
         giverEmail = instructor1.email;
         setInstructorComments(giverEmail, instructor1.email, courseId, comments, commentModifyPermissions);
-        
+
         data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList,
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
-        
+
         /******************** Assertions for pageData data ********************/
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
@@ -156,14 +156,14 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertEquals(numberOfPendingComments, data.getNumberOfPendingComments());
         assertFalse(data.isDisplayArchive());
         assertFalse(data.isViewingDraft());
-        
+
         /******************** Assertions for data structures ********************/
-        
+
         actualCommentsForStudentsTables = data.getCommentsForStudentsTables();
         assertEquals(1, actualCommentsForStudentsTables.size());
         assertEquals(0, actualCommentsForStudentsTables.get(0).getRows().size());
     }
-    
+
     private List<CommentAttributes> getCommentsForGiverInCourse(String giverEmail, String courseId) {
         List<CommentAttributes> commentsForGiverInCourseList = new ArrayList<CommentAttributes>();
         for (CommentAttributes comment : dataBundle.comments.values()) {
@@ -203,7 +203,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         }
         return studentsInCourse;
     }
-    
+
     private void checkCommentsForStudentsTablesEqual(CommentsForStudentsTable expected, CommentsForStudentsTable actual) {
         assertEquals(expected.getGiverDetails(), actual.getGiverDetails());
         assertEquals(expected.getExtraClass(), actual.getExtraClass());

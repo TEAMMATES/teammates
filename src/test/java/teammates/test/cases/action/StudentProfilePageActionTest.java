@@ -15,7 +15,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_PROFILE_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {

@@ -69,7 +69,7 @@ public class Course {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-    
+
     public String getTimeZone() {
         return timeZone;
     }

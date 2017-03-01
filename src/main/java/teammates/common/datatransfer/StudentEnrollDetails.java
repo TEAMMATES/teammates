@@ -8,7 +8,7 @@ public class StudentEnrollDetails {
     public String newTeam;
     public String oldSection;
     public String newSection;
-    
+
     public StudentEnrollDetails() {
         updateStatus = StudentUpdateStatus.UNKNOWN;
         course = null;
@@ -18,7 +18,7 @@ public class StudentEnrollDetails {
         oldSection = null;
         newSection = null;
     }
-    
+
     public StudentEnrollDetails(StudentUpdateStatus updateStatus, String course,
             String email, String oldTeam, String newTeam, String oldSection, String newSection) {
         this.updateStatus = updateStatus;

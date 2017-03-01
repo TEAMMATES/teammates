@@ -7,25 +7,25 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class InstructorCourseStudentDetailsEditPage extends AppPage {
-    
+
     @FindBy (id = "studentname")
     private WebElement studentNameTextbox;
-    
+
     @FindBy (id = "teamname")
     private WebElement teamNameTextbox;
-    
+
     @FindBy (id = "newstudentemail")
     private WebElement studentEmailTextbox;
-    
+
     @FindBy (id = "studentemail")
     private WebElement studentEmailTextboxOriginal;
-    
+
     @FindBy (id = "comments")
     private WebElement commentsTextbox;
-    
+
     @FindBy (id = "button_submit")
     private WebElement submitButton;
-    
+
     public InstructorCourseStudentDetailsEditPage(Browser browser) {
         super(browser);
     }
@@ -34,7 +34,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Edit Student Details</h1>");
     }
-    
+
     /**
      * If the parameter value is not null, the value will be filled into the
      * relevent input filed.
@@ -44,7 +44,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
         return changePageType(InstructorCourseDetailsPage.class);
     }
-    
+
     /**
      * If the parameter value is not null, the value will be filled into the
      * relevent input field.
@@ -79,7 +79,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
             clickAndConfirm(submitButton);
         }
     }
-    
+
     public void verifyIsCorrectPage(String email) {
         assertTrue(containsExpectedPageContents());
         assertEquals(email, studentEmailTextboxOriginal.getAttribute("value"));

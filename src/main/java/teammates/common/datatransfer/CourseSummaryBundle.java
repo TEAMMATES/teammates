@@ -2,7 +2,6 @@ package teammates.common.datatransfer;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,16 +9,14 @@ import java.util.Comparator;
 import java.util.List;
 
 public class CourseSummaryBundle {
-    
+
     public CourseAttributes course;
     public ArrayList<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
-    public ArrayList<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
-    public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
-    
+
     public CourseSummaryBundle(CourseAttributes courseData) {
         this.course = courseData;
     }
-    
+
     /**
      * Sorts courses based on course ID
      */
@@ -31,7 +28,7 @@ public class CourseSummaryBundle {
             }
         });
     }
-    
+
     /**
      * Sorts courses based on course name
      */
@@ -43,7 +40,7 @@ public class CourseSummaryBundle {
             }
         });
     }
-    
+
     /**
      * Sorts courses based on course creation date in the order of latest to oldest order
      */
@@ -55,7 +52,7 @@ public class CourseSummaryBundle {
             }
         });
     }
-    
+
     public static void sortSummarizedCourses(List<CourseSummaryBundle> courses) {
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
             @Override

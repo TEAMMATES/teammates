@@ -271,7 +271,7 @@ function updateUncommonSettingsInfo() {
 function updateUncommonSettingsSessionVisibilityInfo() {
     var info = 'Session is visible at submission opening time, '
              + 'responses are only visible when you publish the results.';
-    
+
     $('#uncommonSettingsSessionResponsesVisibleInfoText').html(info);
 }
 
@@ -300,7 +300,7 @@ function showUncommonPanels() {
 
 function showUncommonPanelsForSessionResponsesVisible() {
     var $sessionResponsesVisiblePanel = $('#sessionResponsesVisiblePanel');
-    
+
     $('#uncommonSettingsSessionResponsesVisible').after($sessionResponsesVisiblePanel);
     $sessionResponsesVisiblePanel.show();
     $('#uncommonSettingsSessionResponsesVisibleInfoText').parent().hide();
@@ -308,7 +308,7 @@ function showUncommonPanelsForSessionResponsesVisible() {
 
 function showUncommonPanelsForSendEmails() {
     var $sendEmailsForPanel = $('#sendEmailsForPanel');
-    
+
     $('#uncommonSettingsSendEmails').after($sendEmailsForPanel);
     $sendEmailsForPanel.show();
     $('#uncommonSettingsSendEmailsInfoText').parent().hide();
@@ -318,7 +318,7 @@ function showUncommonPanelsIfNotInDefaultValues() {
     if (!isDefaultSessionResponsesVisibleSetting()) {
         showUncommonPanelsForSessionResponsesVisible();
     }
-    
+
     if (!isDefaultSendEmailsSetting()) {
         showUncommonPanelsForSendEmails();
     }

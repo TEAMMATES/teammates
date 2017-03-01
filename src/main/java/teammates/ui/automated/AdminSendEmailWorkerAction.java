@@ -12,40 +12,40 @@ import teammates.logic.api.EmailGenerator;
  * Task queue worker action: sends queued admin email.
  */
 public class AdminSendEmailWorkerAction extends AutomatedAction {
-    
+
     @Override
     protected String getActionDescription() {
         return null;
     }
-    
+
     @Override
     protected String getActionMessage() {
         return null;
     }
-    
+
     @Override
     public void execute() {
         String receiverEmail = getRequestParamValue(ParamsNames.ADMIN_EMAIL_RECEIVER);
         Assumption.assertNotNull(receiverEmail);
-        
+
         String emailContent = getRequestParamValue(ParamsNames.ADMIN_EMAIL_CONTENT);
         String emailSubject = getRequestParamValue(ParamsNames.ADMIN_EMAIL_SUBJECT);
-        
+
         if (emailContent == null || emailSubject == null) {
             String emailId = getRequestParamValue(ParamsNames.ADMIN_EMAIL_ID);
             Assumption.assertNotNull(emailId);
-            
+
             log.info("Sending large email. Going to retrieve email content and subject from datastore.");
             AdminEmailAttributes adminEmail = logic.getAdminEmailById(emailId);
             Assumption.assertNotNull(adminEmail);
-            
+
             emailContent = adminEmail.getContent().getValue();
             emailSubject = adminEmail.getSubject();
         }
-        
+
         Assumption.assertNotNull(emailContent);
         Assumption.assertNotNull(emailSubject);
-        
+
         try {
             EmailWrapper email =
                     new EmailGenerator().generateAdminEmail(SanitizationHelper.desanitizeFromHtml(emailContent),
@@ -56,5 +56,5 @@ public class AdminSendEmailWorkerAction extends AutomatedAction {
             log.severe("Unexpected error while sending admin emails: " + TeammatesException.toStringWithStackTrace(e));
         }
     }
-    
+
 }

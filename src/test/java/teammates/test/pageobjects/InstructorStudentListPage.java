@@ -17,10 +17,10 @@ public class InstructorStudentListPage extends AppPage {
 
     @FindBy(id = "show_email")
     private WebElement showEmailCheckbox;
-    
+
     @FindBy(id = "emails")
     private WebElement shownEmails;
-    
+
     @FindBy(id = "copy-email-button")
     private WebElement copyEmailButton;
 
@@ -38,28 +38,31 @@ public class InstructorStudentListPage extends AppPage {
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Student List</h1>");
     }
-    
+
     public void toggleShowEmailCheckbox() {
         click(showEmailCheckbox);
     }
-    
+
     public void clickCopyEmailButton() {
         click(copyEmailButton);
     }
-    
+
     public boolean isCopyEmailButtonVisible() {
         return copyEmailButton.isDisplayed();
     }
-    
-    public boolean isCopyEmailPopoverVisible() {
-        String selector = "#copy-email-button + div.popover";
-        return isElementVisible(By.cssSelector(selector));
+
+    public void waitForCopyEmailPopoverVisible() {
+        String cssSelector = "#copy-email-button + div.popover";
+        WebElement copyEmailPopover = browser.driver.findElement(By.cssSelector(cssSelector));
+        waitForElementVisibility(copyEmailPopover);
     }
-    
+
     public String getSelectedText() {
-        return (String) executeScript("return window.getSelection().toString();");
+        String selectedText = (String) executeScript("return window.getSelection().toString();");
+        selectedText = selectedText.replace(Const.EOL, "\n"); // standardize line separator
+        return selectedText;
     }
-    
+
     public String getShownEmailsText() {
         return shownEmails.getText();
     }
@@ -197,7 +200,7 @@ public class InstructorStudentListPage extends AppPage {
     private WebElement getViewRecordsLink(String rowId) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
         WebElement fourthLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
-        
+
         if ("All Records".equals(fourthLink.getText())) {
             return fourthLink;
         }
@@ -207,7 +210,7 @@ public class InstructorStudentListPage extends AppPage {
     private WebElement getDeleteLink(String rowId) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
         WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(3)"));
-        
+
         if ("Delete".equals(thirdLink.getText())) {
             return thirdLink;
         }

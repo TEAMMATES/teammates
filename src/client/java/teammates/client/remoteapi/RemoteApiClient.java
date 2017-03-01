@@ -13,29 +13,29 @@ import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
 import com.google.appengine.tools.remoteapi.RemoteApiOptions;
 
 public abstract class RemoteApiClient {
-    
+
     protected static final PersistenceManager PM = getPm();
-    
+
     private static final String LOCALHOST = "localhost";
-    
+
     private static PersistenceManager getPm() {
         try {
             // use reflection to bypass the visibility level of the method
             Method method = EntitiesDb.class.getDeclaredMethod("getPm");
             method.setAccessible(true);
-            
+
             // the method is non-static and EntitiesDb is an abstract class; use any *Db to invoke it
             return (PersistenceManager) method.invoke(new CoursesDb());
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
-    
+
     protected void doOperationRemotely() throws IOException {
 
         String appDomain = TestProperties.TEAMMATES_REMOTEAPI_APP_DOMAIN;
         int appPort = TestProperties.TEAMMATES_REMOTEAPI_APP_PORT;
-        
+
         System.out.println("--- Starting remote operation ---");
         System.out.println("Going to connect to:" + appDomain + ":" + appPort);
 
@@ -52,7 +52,7 @@ public abstract class RemoteApiClient {
             // Step 3: Run the script again.
             options.useApplicationDefaultCredential();
         }
-        
+
         RemoteApiInstaller installer = new RemoteApiInstaller();
         installer.install(options);
         try {

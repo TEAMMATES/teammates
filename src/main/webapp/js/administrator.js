@@ -2,7 +2,7 @@
  * Contains functions common to the administrator pages.
  */
 var AdminCommon = {
-    
+
     /**
      * Binds back-to-top buttons.
      */
@@ -10,7 +10,7 @@ var AdminCommon = {
         var offset = 220;
         var duration = 500;
         var backToTopClasses = '.back-to-top-left, .back-to-top-right';
-        
+
         $(window).scroll(function() {
             if ($(this).scrollTop() > offset) {
                 $(backToTopClasses).fadeIn(duration);
@@ -18,7 +18,7 @@ var AdminCommon = {
                 $(backToTopClasses).fadeOut(duration);
             }
         });
-        
+
         $(document).on('click', backToTopClasses, function(e) {
             e.preventDefault();
             $('html, body').animate({
@@ -27,5 +27,5 @@ var AdminCommon = {
             return false;
         });
     }
-    
+
 };
