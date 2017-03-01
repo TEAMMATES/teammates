@@ -409,7 +409,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         String enrollLines;
         String courseId = "CourseID";
         coursesLogic.createCourse(courseId, "CourseName", "UTC");
-
+        // This is used as dummy param for getInvalidityInfoInEnrollLines(String, String, List<StudentAttributes>)
+        List<StudentAttributes> dummyStudentList = new ArrayList<StudentAttributes>();
         List<String> invalidInfo;
         List<String> expectedInvalidInfo = new ArrayList<String>();
 
@@ -431,7 +432,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                     + Const.EOL + lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL
                     + lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId, dummyStudentList);
 
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
         expectedInvalidInfo.clear();
@@ -489,7 +490,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId, dummyStudentList);
 
         expectedInvalidInfo.clear();
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithNoEmailInput,
@@ -510,7 +511,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                       + lineWithStudentNameEmpty + Const.EOL
                       + lineWithEmailEmpty;
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId, dummyStudentList);
         expectedInvalidInfo.clear();
         info = StringHelper.toString(
                 SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithTeamNameEmpty, courseId).getInvalidityInfo()),
@@ -536,7 +537,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId, dummyStudentList);
 
         assertEquals(0, invalidInfo.size());
 
@@ -547,7 +548,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId, dummyStudentList);
 
         assertEquals(1, invalidInfo.size());
 
@@ -557,7 +558,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 + Const.EOL + lineWithExtraParameters + Const.EOL
                 + lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + "\t";
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId, dummyStudentList);
 
         expectedInvalidInfo.clear();
 
@@ -1093,10 +1094,11 @@ public class StudentsLogicTest extends BaseLogicTest {
     }
 
     @SuppressWarnings("unchecked")
-    private static List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws Exception {
+    private static List<String> getInvalidityInfoInEnrollLines(String lines, String courseId, List<StudentAttributes> dummyList)
+            throws Exception {
         return (List<String>) invokeMethod(StudentsLogic.class, "getInvalidityInfoInEnrollLines",
-                                           new Class<?>[] { String.class, String.class },
-                                           StudentsLogic.inst(), new Object[] { lines, courseId });
+                                           new Class<?>[] { String.class, String.class ,List.class},
+                                           StudentsLogic.inst(), new Object[] { lines, courseId ,dummyList });
     }
 
     @AfterClass
