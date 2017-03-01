@@ -71,7 +71,7 @@ function attachEventToSendInviteLink() {
         var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
                           + 'invite to students at the opening time of each session. Send a join request anyway?';
         var okCallback = function() {
-            $.get($clickedLink.attr('href'), function(data) {
+            $.get($clickedLink.attr('href'), function() {
                 var studentEmail = $clickedLink.parent().siblings("td[id|='studentemail']").html();
                 var $message = $('<div class="overflow-auto alert alert-success statusMessage">'
                               + 'An email has been sent to ' + studentEmail + ' </div>');
@@ -86,5 +86,3 @@ function attachEventToSendInviteLink() {
 }
 
 var isShowCommentBox = false;
-
-
