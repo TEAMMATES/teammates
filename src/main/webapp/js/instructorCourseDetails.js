@@ -73,9 +73,9 @@ function attachEventToSendInviteLink() {
         var okCallback = function() {
             $.get($clickedLink.attr('href'), function(data) {
                 var studentEmail = $clickedLink.parent().siblings("td[id|='studentemail']").html();
-                var message = $('<div class="overflow-auto alert alert-success statusMessage">'
+                var $message = $('<div class="overflow-auto alert alert-success statusMessage">'
                               + 'An email has been sent to ' + studentEmail + ' </div>');
-                $('#statusMessagesToUser').html(message);
+                $('#statusMessagesToUser').html($message);
                 $('#statusMessagesToUser').show();
             });
         };
