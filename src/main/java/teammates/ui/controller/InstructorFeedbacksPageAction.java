@@ -66,4 +66,9 @@ public class InstructorFeedbacksPageAction extends InstructorFeedbackAbstractAct
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
 
+    @Override
+    protected FeedbackSessionAttributes extractFeedbackSessionDataSetUniqueAttributes(
+            FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
+        throw new UnsupportedOperationException("Method is not used here");
+    }
 }
