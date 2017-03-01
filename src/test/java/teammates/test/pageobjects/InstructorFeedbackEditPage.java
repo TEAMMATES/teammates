@@ -1103,6 +1103,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         return checkBox.isSelected();
     }
 
+    public boolean isRankDuplicatesAllowedCheckedForNewQuestion() {
+        return isRankDuplicatesAllowedChecked(NEW_QUESTION_NUM);
+    }
+
     public void clickAddMoreRankOptionLink(int qnIndex) {
         WebElement addMoreOptionLink = browser.driver.findElement(By.id("rankAddOptionLink-" + qnIndex));
         click(addMoreOptionLink);
