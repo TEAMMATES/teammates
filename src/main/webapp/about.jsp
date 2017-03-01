@@ -706,6 +706,11 @@
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>
+                    <td>Taras Sakharchuk</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ALimeTheCoder"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
                     <td>Teo Yock Swee Terence</td>
                     <td>bug reporting/fixing, enhancements</td>
                 </tr>
@@ -814,6 +819,11 @@
                 <tr>
                     <td>Alexandr Kolymago</td>
                     <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajusttimki"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Aman Dhaliwal</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aa-dhaliwal"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>
@@ -943,6 +953,11 @@
                     <td>bug reporting/fixing, enhancements</td>
                 </tr>
                 <tr>
+                    <td>Kaitlyn Wehrheim</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akwehrheim"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
                     <td>Kenny Zhao</td>
                     <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akennyzha"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
@@ -965,6 +980,11 @@
                 <tr>
                     <td>Lim Jia Yee</td>
                     <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajia1"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Logan Smith</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asmithla1"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>
@@ -1091,11 +1111,6 @@
                 <tr>
                     <td>Steven Khong</td>
                     <td>bug reporting/fixing, enhancements</td>
-                </tr>
-                <tr>
-                    <td>Taras Sakharchuk</td>
-                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ALimeTheCoder"
-                          target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>
                     <td>Tarun Bansal</td>
