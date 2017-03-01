@@ -130,7 +130,7 @@ function showVisibilityCheckboxesIfCustomOptionSelected($containingForm) {
 }
 
 function uncheckAllVisibilityOptionCheckboxes($containingForm) {
-    $containingForm.find('input[type="checkbox"]').each(function(index, checkbox) {
+    $containingForm.find('input.visibilityCheckbox').each(function(index, checkbox) {
         checkbox.checked = false;
     });
 }
