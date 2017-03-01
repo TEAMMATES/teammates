@@ -71,7 +71,13 @@ function attachEventToSendInviteLink() {
         var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
                           + 'invite to students at the opening time of each session. Send a join request anyway?';
         var okCallback = function() {
-            window.location = $clickedLink.attr('href');
+            $.get($clickedLink.attr('href'), function(data) {
+                var studentEmail = $clickedLink.parent().siblings("td[id|='studentemail']").html();
+                var message = $('<div class="overflow-auto alert alert-success statusMessage">'
+                              + 'An email has been sent to ' + studentEmail + ' </div>');
+                $('#statusMessagesToUser').html(message);
+                $('#statusMessagesToUser').show();
+            });
         };
 
         BootboxWrapper.showModalConfirmation('Confirm sending join request', messageText, okCallback, null,
@@ -80,3 +86,5 @@ function attachEventToSendInviteLink() {
 }
 
 var isShowCommentBox = false;
+
+
