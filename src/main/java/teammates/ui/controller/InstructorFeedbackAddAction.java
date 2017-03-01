@@ -141,7 +141,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         return new ArrayList<FeedbackQuestionAttributes>();
     }
 
-    protected FeedbackSessionAttributes extractFeedbackSessionDataHelper(
+    @Override
+    protected FeedbackSessionAttributes extractFeedbackSessionDataSetUniqueAttributes(
             FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
         newSession.setCreatedTime(new Date());
         newSession.setSentOpenEmail(false);
