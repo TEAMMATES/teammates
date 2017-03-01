@@ -379,7 +379,7 @@ public class StudentsDb extends EntitiesDb {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
                                         newEmail, newGoogleId, newComments, false, keepUpdateTimestamp);
     }
-    
+
     public void updateStudentWithoutSearchability(String courseId, String email,
             String newName,
             String newTeamName, String newSectionName, String newEmail,
@@ -396,15 +396,15 @@ public class StudentsDb extends EntitiesDb {
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
-        
+
         verifyStudentExists(courseId, email);
-        
+
         // Update CourseStudent if it exists.
         CourseStudent courseStudent = getCourseStudentEntityForEmail(courseId, email);
         if (courseStudent != null) {
             boolean isEmailChanged = !email.equals(newEmail);
             String lastName = StringHelper.splitName(newName)[1];
-            
+
             if (isEmailChanged) {
                 CourseStudent newCourseStudent = new CourseStudent(newEmail, newName, newGoogleId, newComments,
                                                                    courseId, newTeamName, newSectionName);
@@ -415,7 +415,7 @@ public class StudentsDb extends EntitiesDb {
                                      newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
             }
         }
-        
+
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPm().close();
     }
