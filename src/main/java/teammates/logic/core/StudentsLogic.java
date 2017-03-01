@@ -580,6 +580,8 @@ public final class StudentsLogic {
 
     /* All empty lines or lines with only white spaces will be skipped.
      * The invalidity info returned are in HTML format.
+     * 
+     * @param studentList is built to be used in enrollStudents(String, String, boolean)
      */
     private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId, List<StudentAttributes> studentList)
             throws EnrollException {
