@@ -1094,11 +1094,11 @@ public class StudentsLogicTest extends BaseLogicTest {
     }
 
     @SuppressWarnings("unchecked")
-    private static List<String> getInvalidityInfoInEnrollLines(String lines, String courseId, List<StudentAttributes> dummyList)
-            throws Exception {
+    private static List<String> getInvalidityInfoInEnrollLines(String lines, String courseId,
+                                                               List<StudentAttributes> dummyList) throws Exception {
         return (List<String>) invokeMethod(StudentsLogic.class, "getInvalidityInfoInEnrollLines",
-                                           new Class<?>[] { String.class, String.class ,List.class},
-                                           StudentsLogic.inst(), new Object[] { lines, courseId ,dummyList });
+                                           new Class<?>[] { String.class, String.class, List.class},
+                                           StudentsLogic.inst(), new Object[] { lines, courseId, dummyList });
     }
 
     @AfterClass
