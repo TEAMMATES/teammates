@@ -126,7 +126,7 @@ public class StringHelperTest extends BaseTestCase {
         try {
             StringHelper.decrypt("ABC");
             signalFailureToDetectException("Decryption of invalid ciphertext should throw");
-        } catch(InvalidParametersException e) {
+        } catch (InvalidParametersException e) {
             ignoreExpectedException();
         }
     }

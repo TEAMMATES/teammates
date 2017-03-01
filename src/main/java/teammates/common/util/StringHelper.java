@@ -138,7 +138,7 @@ public final class StringHelper {
     /*
      * Decrypts the supplied string.
      *
-     * @param message the ciphertext
+     * @param message the ciphertext as a hexidecimal string
      * @return the plaintext
      * @throws InvalidParameterException if the ciphertext is invalid.
      * @throws RuntimeException if the decryption fails for any other reason, such as {@code Cipher} initialization failure.
@@ -150,7 +150,7 @@ public final class StringHelper {
             cipher.init(Cipher.DECRYPT_MODE, sks);
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
             return new String(decrypted);
-        } catch (IllegalBlockSizeException | BadPaddingException e) {
+        } catch (NumberFormatException | IllegalBlockSizeException | BadPaddingException e) {
             log.warning("Attempted to decrypt invalid ciphertext: " + message);
             // potential PMD bug? No stack trace info is lost here
             throw new InvalidParametersException(e.getMessage()); //NOPMD
