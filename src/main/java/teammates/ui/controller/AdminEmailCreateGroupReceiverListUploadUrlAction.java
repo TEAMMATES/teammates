@@ -10,12 +10,12 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        
+
         gateKeeper.verifyAdminPrivileges(account);
-        
+
         AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData data =
                 new AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData(account);
-        
+
         try {
             data.nextUploadUrl =
                     GoogleCloudStorageHelper.getNewUploadUrl(Const.ActionURIs.ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD);
@@ -25,9 +25,9 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
             isError = true;
             data.ajaxStatus = "An error occurred when creating upload URL, please try again";
         }
-          
+
         return createAjaxResult(data);
-        
+
     }
 
 }

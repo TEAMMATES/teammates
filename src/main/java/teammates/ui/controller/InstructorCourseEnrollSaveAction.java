@@ -26,52 +26,52 @@ import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
  * Action: saving the list of enrolled students for a course of an instructor
  */
 public class InstructorCourseEnrollSaveAction extends Action {
-    
+
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
-        
+
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
         String sanitizedStudentsInfo = SanitizationHelper.sanitizeForHtml(studentsInfo);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
-        
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        
+
         /* Process enrollment list and setup data for page result */
         try {
             List<StudentAttributes>[] students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
             boolean hasSection = hasSections(students);
-            
+
             InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account,
                                                                     courseId, students, hasSection, studentsInfo);
-            
+
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">["
                             + courseId + "]:</span><br>" + sanitizedStudentsInfo.replace("\n", "<br>");
 
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, pageData);
-            
+
         } catch (EnrollException | InvalidParametersException e) {
             setStatusForException(e);
-            
+
             statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
-            
+
             InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
-            
+
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e);
-            
+
             statusToUser.add(
                     new StatusMessage("The enrollment failed, possibly because some students were re-enrolled before "
                                       + "the previous enrollment action was still being processed by TEAMMATES database "
                                       + "servers. Please try again after about 10 minutes. If the problem persists, "
                                       + "please contact TEAMMATES support", StatusMessageColor.DANGER));
-            
+
             InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
-            
+
             log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         }
@@ -92,7 +92,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
             throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         CourseEnrollmentResult enrollResult = logic.enrollStudents(studentsInfo, courseId);
         List<StudentAttributes> students = enrollResult.studentList;
-        
+
         // Adjust submissions for all feedback responses within the course
         List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes session : feedbackSessions) {
@@ -100,7 +100,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
             taskQueuer.scheduleFeedbackResponseAdjustmentForCourse(
                     courseId, session.getFeedbackSessionName(), enrollResult.enrollmentList);
         }
-        
+
         Collections.sort(students, new Comparator<StudentAttributes>() {
             @Override
             public int compare(StudentAttributes o1, StudentAttributes o2) {
@@ -114,26 +114,26 @@ public class InstructorCourseEnrollSaveAction extends Action {
     /**
      * Separate the StudentData objects in the list into different categories based
      * on their updateStatus. Each category is put into a separate list.<br>
-     * 
+     *
      * @return An array of lists of StudentData objects in which each list contains
      * student with the same updateStatus
      */
     @SuppressWarnings("unchecked")
     private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {
-    
+
         ArrayList<StudentAttributes>[] lists = new ArrayList[StudentUpdateStatus.STATUS_COUNT];
         for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
             lists[i] = new ArrayList<StudentAttributes>();
         }
-        
+
         for (StudentAttributes student : students) {
             lists[student.updateStatus.numericRepresentation].add(student);
         }
-        
+
         for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
             StudentAttributes.sortByNameAndThenByEmail(lists[i]);
         }
-        
+
         return lists;
     }
 

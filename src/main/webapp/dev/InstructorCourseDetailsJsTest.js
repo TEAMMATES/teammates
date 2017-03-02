@@ -8,4 +8,3 @@ QUnit.test('toggleSendRegistrationKeysConfirmation(courseID)', function(assert) 
     // gives a popup, can't be tested
     assert.expect(0);
 });
-

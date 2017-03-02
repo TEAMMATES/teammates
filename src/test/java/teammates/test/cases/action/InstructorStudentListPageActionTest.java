@@ -19,7 +19,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
@@ -47,7 +47,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
                                   + "|||instr3@course1n2.tmt|||instructorStudentList Page Load<br>Total Courses: 2"
                                   + "|||/page/instructorStudentListPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
-        
+
         InstructorStudentListPageData islpd = (InstructorStudentListPageData) r.data;
         assertEquals(2, islpd.getNumOfCourses());
 

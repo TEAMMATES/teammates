@@ -10,7 +10,7 @@ public class SearchStudentsTable {
     private String courseId;
     private List<StudentListSectionData> sections;
     private boolean hasSection;
-    
+
     public SearchStudentsTable(String courseId, List<StudentListSectionData> sections) {
         this.courseId = courseId;
         this.sections = sections;
@@ -21,11 +21,11 @@ public class SearchStudentsTable {
             this.hasSection = true;
         }
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
-    
+
     public List<StudentListSectionData> getSections() {
         return sections;
     }

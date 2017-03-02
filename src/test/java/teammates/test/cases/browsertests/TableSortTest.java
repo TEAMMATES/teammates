@@ -16,17 +16,17 @@ public class TableSortTest extends BaseUiTestCase {
     protected void prepareTestData() {
         // no test data used in this test
     }
-    
+
     @BeforeClass
     public void classSetup() {
         loginAdmin();
         page = AppPage.getNewPageInstance(browser).navigateTo(createUrl(Const.ViewURIs.TABLE_SORT));
     }
-    
+
     @Test
     public void testTableSortingId() {
         verifySortingOrder(By.id("button_sortid"),
-            
+
                 "-13.5",
                 "-2",
                 "-1.3",
@@ -42,14 +42,14 @@ public class TableSortTest extends BaseUiTestCase {
                 "15",
                 "24",
                 "33");
-        
+
     }
-    
+
     @Test
     public void testTableSortingName() {
-        
+
         verifySortingOrder(By.id("button_sortname"),
-                
+
                 "Ang Ji Kai",
                 "Chin Yong Wei",
                 "Chong Kok Wei",
@@ -67,12 +67,12 @@ public class TableSortTest extends BaseUiTestCase {
                 "Zhang HaoQiang");
 
     }
-    
+
     @Test
     public void testTableSortingDate() {
-        
+
         verifySortingOrder(By.id("button_sortdate"),
-                
+
                 "04 May 2010",
                 "21 August 2010",
                 "06 April 2011",
@@ -92,9 +92,9 @@ public class TableSortTest extends BaseUiTestCase {
 
     @Test
     public void testTableSortingDiff() {
-        
+
         verifySortingOrder(By.id("button_sortDiff"),
-                
+
                 "-99%",
                 "-20%",
                 "-10%",
@@ -112,11 +112,11 @@ public class TableSortTest extends BaseUiTestCase {
                 "N/A");
 
     }
-    
+
     @Test
     public void testTableSortingPoint() {
         verifySortingOrder(By.id("button_sortPoint"),
-        
+
                 "E -99%",
                 "E -21%",
                 "E -10%",
@@ -133,11 +133,11 @@ public class TableSortTest extends BaseUiTestCase {
                 "N/S",
                 "N/A");
     }
-    
+
     @Test
     public void testTableSortingPointNumber() {
         verifySortingOrder(By.id("button_sortPointNumber"),
-        
+
                 "-1.667",
                 "-1.51",
                 "-1",
@@ -154,7 +154,7 @@ public class TableSortTest extends BaseUiTestCase {
                 "1.333",
                 "1.45");
     }
- 
+
     @Test
     public void testStableSort() {
         page.click(By.id("button_sortid"));
@@ -210,7 +210,7 @@ public class TableSortTest extends BaseUiTestCase {
         }
         page.verifyContains(searchString.toString());
     }
-    
+
     private void verifySortingOrder(By sortIcon, String... values) {
         //check if the rows match the given order of values
         page.click(sortIcon);
@@ -219,7 +219,7 @@ public class TableSortTest extends BaseUiTestCase {
             searchString.append(value).append("{*}");
         }
         page.verifyContains(searchString.toString());
-        
+
         //click the sort icon again and check for the reverse order
         page.click(sortIcon);
         searchString = new StringBuilder();

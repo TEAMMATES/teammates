@@ -50,7 +50,7 @@ public class PageData {
         this.account = account;
         this.student = null;
     }
-    
+
     /**
      * @param account The account for the nominal user.
      */
@@ -58,11 +58,11 @@ public class PageData {
         this.account = account;
         this.student = student;
     }
-    
+
     public AccountAttributes getAccount() {
         return account;
     }
-    
+
     public boolean isUnregisteredStudent() {
         return account.googleId == null || student != null && !student.isRegistered();
     }
@@ -74,23 +74,23 @@ public class PageData {
     public static String sanitizeForHtml(String unsanitizedStringLiteral) {
         return SanitizationHelper.sanitizeForHtml(unsanitizedStringLiteral);
     }
-    
+
     public static String sanitizeForJs(String unsanitizedStringLiteral) {
         return SanitizationHelper.sanitizeForJs(unsanitizedStringLiteral);
     }
-    
+
     public static String truncate(String untruncatedString, int truncateLength) {
         return StringHelper.truncate(untruncatedString, truncateLength);
     }
-    
+
     public static String displayDateTime(Date date) {
         return TimeHelper.formatTime12H(date);
     }
-    
+
     public String addUserIdToUrl(String link) {
         return Url.addParamToUrl(link, Const.ParamsNames.USER_ID, account.googleId);
     }
-    
+
     /**
      * Returns the timezone options as HTML code.
      * None is selected, since the selection should only be done in client side.
@@ -109,7 +109,7 @@ public class PageData {
         }
         return result;
     }
-    
+
     public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
         List<Double> options = TimeHelper.getTimeZoneValues();
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
@@ -117,13 +117,13 @@ public class PageData {
             ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
             result.add(option);
         }
-        
+
         for (Double timeZoneOption : options) {
             String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
             String textToDisplay = "(" + utcFormatOption
                                             + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
             boolean isExistingTimeZone = existingTimeZone == timeZoneOption;
-            
+
             ElementTag option = createOption(textToDisplay,
                                              formatAsString(timeZoneOption), isExistingTimeZone);
             result.add(option);
@@ -161,7 +161,7 @@ public class PageData {
                + "This is not a valid nationality; "
                + "please choose a valid nationality from the dropdown list before saving.";
     }
-    
+
     /**
      * Returns an element tag representing a HTML option
      */
@@ -171,14 +171,14 @@ public class PageData {
         }
         return new ElementTag(text, "value", value);
     }
-    
+
     /**
      * Returns an element tag representing a HTML option
      */
     public static ElementTag createOption(String text, String value) {
         return new ElementTag(text, "value", value);
     }
-    
+
     /**
      * Returns the grace period options as HTML code.
      */
@@ -191,7 +191,7 @@ public class PageData {
         }
         return result;
     }
-    
+
     /**
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
@@ -220,7 +220,7 @@ public class PageData {
     public String getStudentStatus(StudentAttributes student) {
         return student.getStudentStatus();
     }
-    
+
     /**
      * @return The relative path to the student home page.
      * Defaults to whether the student is unregistered.
@@ -241,7 +241,7 @@ public class PageData {
         }
         return link;
     }
-    
+
     /**
      * @return The relative path to the student profile page.
      * Defaults to whether the student is unregistered.
@@ -249,7 +249,7 @@ public class PageData {
     public String getStudentProfileLink() {
         return getStudentProfileLink(isUnregisteredStudent());
     }
-    
+
     /**
      * @return The relative path to the student profile page.
      * The user Id is encoded in the url as a parameter.
@@ -262,7 +262,7 @@ public class PageData {
         }
         return link;
     }
-    
+
     /**
      * @return The relative path to the student comments page.
      * Defaults to whether the student is unregistered.
@@ -270,7 +270,7 @@ public class PageData {
     public String getStudentCommentsLink() {
         return getStudentCommentsLink(isUnregisteredStudent());
     }
-    
+
     /**
      * @return The relative path to the student comments page.
      * The user Id is encoded in the url as a parameter.
@@ -283,14 +283,14 @@ public class PageData {
         }
         return link;
     }
-    
+
     public String getStudentCourseDetailsLink(String courseId) {
         String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
         link = addUserIdToUrl(link);
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         return link;
     }
-    
+
     public String getStudentFeedbackSubmissionEditLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -298,7 +298,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -306,7 +306,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getStudentProfilePictureLink(String studentEmail, String courseId) {
         String link = Const.ActionURIs.STUDENT_PROFILE_PICTURE;
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
@@ -324,7 +324,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorCoursesLink() {
         String link = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
         link = addUserIdToUrl(link);
@@ -359,7 +359,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorFeedbackStatsLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -374,18 +374,18 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorFeedbackEditCopyLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorQuestionCopyPageLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE;
         return addUserIdToUrl(link);
     }
-    
+
     /**
      * Retrieves the link to submit the request for copy of session.
      * Appends the return url to the link.
@@ -395,10 +395,10 @@ public class PageData {
     public String getInstructorFeedbackEditCopyActionLink(String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
-        
+
         return link;
     }
-    
+
     /**
      * @param courseId
      * @param isHome True if the Browser should redirect to the Home page after the operation.
@@ -413,7 +413,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorCourseArchiveLink(String courseId, boolean archiveStatus, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_ARCHIVE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -425,27 +425,27 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorFeedbacksLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorFeedbacksLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         link = addUserIdToUrl(link);
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         return link;
     }
-    
+
     public String getInstructorStudentCommentClearPendingLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     /**
      * Retrieves the link to submit request to delete the session.
      * @param courseId course ID
@@ -459,10 +459,10 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
-        
+
         return link;
     }
-    
+
     public String getInstructorFeedbackEditLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -470,7 +470,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorFeedbackSubmissionEditLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -478,7 +478,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorFeedbackResultsLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -486,7 +486,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     /**
      * Retrieves the link to submit the request for remind student
      * Appends the return url to the link.
@@ -501,10 +501,10 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
-        
+
         return link;
     }
-    
+
     /**
      * Retrieves the link to load remind modal
      * @param courseId the course ID
@@ -518,7 +518,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     /**
      * Retrieves the link to submit the request to remind a particular student(s)
      * @param returnUrl the url to return to after submitting the request
@@ -527,7 +527,7 @@ public class PageData {
     public String getInstructorFeedbackRemindParticularStudentsLink(String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
-        
+
         return link;
     }
 
@@ -537,7 +537,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
-        
+
         return link;
     }
 
@@ -547,22 +547,22 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
-        
+
         return link;
     }
-    
+
     public String getInstructorStudentListLink() {
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorSearchLink() {
         String link = Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorStudentRecordsLink(String courseId, String studentEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -570,7 +570,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorCommentsLink() {
         String link = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
         link = addUserIdToUrl(link);
@@ -583,7 +583,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorCourseStudentDetailsLink(String courseId, String studentEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -591,7 +591,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorCourseStudentDetailsLink(String courseId, String studentEmail, String showCommentBox) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -600,7 +600,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.SHOW_COMMENT_BOX, showCommentBox);
         return link;
     }
-    
+
     public String getInstructorCourseStudentDetailsEditLink(String courseId, String studentEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -608,7 +608,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorCourseRemindStudentLink(String courseId, String studentEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -616,7 +616,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     // TODO: create another delete action which redirects to studentListPage?
     public String getInstructorCourseStudentDeleteLink(String courseId, String studentEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE;
@@ -625,7 +625,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorCourseInstructorDeleteLink(String courseId, String instructorEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -633,7 +633,7 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
     public String getInstructorCourseRemindInstructorLink(String courseId, String instructorEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -657,18 +657,18 @@ public class PageData {
     }
 
     public static String getInstructorHoverMessageForFeedbackSession(FeedbackSessionAttributes session) {
-        
+
         if (session.isPrivateSession()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
         }
-        
+
         StringBuilder msg = new StringBuilder(50);
         msg.append("The feedback session has been created");
-        
+
         if (session.isVisible()) {
             msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_VISIBLE);
         }
-        
+
         if (session.isOpened()) {
             msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_OPEN);
         } else if (session.isWaitingToOpen()) {
@@ -676,16 +676,16 @@ public class PageData {
         } else if (session.isClosed()) {
             msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED);
         }
-        
+
         if (session.isPublished()) {
             msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED);
         }
-        
+
         msg.append('.');
-        
+
         return msg.toString();
     }
-    
+
     /**
      * Returns the links of actions available for a specific session
      * @param session
@@ -715,7 +715,7 @@ public class PageData {
             if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
             }
-            
+
             switch (commentViewer) {
             case PERSON:
                 peopleCanView.append("recipient, ");
@@ -754,7 +754,7 @@ public class PageData {
         }
         return removeEndComma(peopleCanViewString);
     }
-    
+
     /**
      * Returns the type of people that can view the response comment.
      */
@@ -772,7 +772,7 @@ public class PageData {
             if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
             }
-            
+
             switch (commentViewer) {
             case GIVER:
                 peopleCanView.append("response giver, ");
@@ -799,7 +799,7 @@ public class PageData {
         String peopleCanViewString = peopleCanView.toString();
         return removeEndComma(peopleCanViewString);
     }
-    
+
     public String removeEndComma(String str) {
         return str.substring(0, str.length() - 2);
     }
@@ -841,7 +841,7 @@ public class PageData {
         }
         return Double.toString(num);
     }
-    
+
     public boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,
                                               FeedbackParticipantType viewerType) {
         if (viewerType == FeedbackParticipantType.GIVER) {
@@ -849,17 +849,17 @@ public class PageData {
         }
         return qn.isResponseVisibleTo(viewerType);
     }
-    
+
     public boolean isResponseCommentGiverNameVisibleTo(FeedbackQuestionAttributes qn,
                                                        FeedbackParticipantType viewerType) {
         return true;
     }
-    
+
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
         String visibilityString = StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
         return StringHelper.isWhiteSpace(visibilityString) ? "GIVER" : "GIVER, " + visibilityString;
     }
-    
+
     public String getResponseCommentVisibilityString(FeedbackResponseCommentAttributes frComment,
                                                      FeedbackQuestionAttributes qn) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
@@ -867,11 +867,11 @@ public class PageData {
         }
         return StringHelper.removeEnclosingSquareBrackets(frComment.showCommentTo.toString());
     }
-    
+
     public String getResponseCommentGiverNameVisibilityString(FeedbackQuestionAttributes qn) {
         return getResponseCommentVisibilityString(qn);
     }
-    
+
     public String getResponseCommentGiverNameVisibilityString(FeedbackResponseCommentAttributes frComment,
                                                               FeedbackQuestionAttributes qn) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
@@ -879,7 +879,7 @@ public class PageData {
         }
         return StringHelper.removeEnclosingSquareBrackets(frComment.showGiverNameTo.toString());
     }
-    
+
     public String getPictureUrl(String pictureKey) {
         if (pictureKey == null || pictureKey.isEmpty()) {
             return Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
@@ -888,11 +888,11 @@ public class PageData {
                + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
                + Const.ParamsNames.USER_ID + "=" + account.googleId;
     }
-    
+
     public String getRecipientNames(Set<String> recipients, String courseId, String studentEmail, CourseRoster roster) {
         StringBuilder namesStringBuilder = new StringBuilder();
         int i = 0;
-        
+
         for (String recipient : recipients) {
             if (i == recipients.size() - 1 && recipients.size() > 1) {
                 namesStringBuilder.append(" and ");
@@ -917,7 +917,7 @@ public class PageData {
         }
         return namesStringBuilder.toString();
     }
-    
+
     /**
      * Sets the list of status messages.
      * @param statusMessagesToUser a list of status messages that is to be displayed to the user
@@ -925,7 +925,7 @@ public class PageData {
     public void setStatusMessagesToUser(List<StatusMessage> statusMessagesToUser) {
         this.statusMessagesToUser = statusMessagesToUser;
     }
-    
+
     /**
      * Gets the list of status messages.
      * @return a list of status messages that is to be displayed to the user
