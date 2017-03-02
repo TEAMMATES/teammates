@@ -1325,7 +1325,8 @@ public class Logic {
     /**
      * Generates summary results (without comments) in CSV format. <br>
      * Preconditions: <br>
-     * * All parameters(except questionId) are non-null. <br>
+     * * All parameters(except questionNumber) are non-null. <br>
+     * @return summary for all questions or single question depending on whether questionNumber is null
      */
     public String getFeedbackSessionResultSummaryAsCsv(String courseId,
                                                        String feedbackSessionName,
@@ -1347,7 +1348,8 @@ public class Logic {
     /**
      * Generates summary results (without comments) within a section in CSV format. <br>
      * Preconditions: <br>
-     * * All parameters are non-null. <br>
+     * * All parameters(except questionNumber) are non-null. <br>
+     * @return summary for all questions or single question depending on whether questionNumber is null
      */
     public String getFeedbackSessionResultSummaryInSectionAsCsv(
             String courseId, String feedbackSessionName, String instructorEmail,
