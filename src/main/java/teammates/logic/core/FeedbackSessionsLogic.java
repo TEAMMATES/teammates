@@ -201,6 +201,21 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * @param courseId - ID of the course
+     * @return true if there is some open or published email sent for the course.
+     */
+    public boolean isOpenOrPublishedEmailSentForTheCourse(String courseId) {
+        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsForCourse(courseId);
+
+        for (FeedbackSessionAttributes session : sessions) {
+            if (session.isSentOpenEmail() || session.isSentPublishedEmail()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns a {@code List} of all feedback sessions bundled with their
      * response statistics for a instructor given by his googleId.<br>
      * Does not return private sessions unless the instructor is the creator.
