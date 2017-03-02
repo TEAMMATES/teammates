@@ -899,8 +899,6 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE = "/page/instructorFeedbackQuestionCopyPage";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_COPY = "/page/instructorFeedbackQuestionCopy";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_RESULTS_DOWNLOAD =
-                "/page/instructorFeedbackQuestionResultsDownload";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE =
                 "/page/instructorFeedbackQuestionvisibilityMessage";
         
