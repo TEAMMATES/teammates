@@ -7,12 +7,15 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
+import teammates.logic.api.EmailGenerator;
 
 public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 
@@ -67,11 +70,24 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 
             logic.updateStudent(studentEmail, student);
 
+            boolean isSessionSummarySendEmail = getRequestParamAsBoolean(Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK);
             if (isEmailChanged) {
                 logic.resetStudentGoogleId(student.email, courseId);
+                if (isSessionSummarySendEmail) {
+                    try {
+                        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, student);
+                        emailSender.sendEmail(email);
+                    } catch (Exception e) {
+                        log.severe("Error while sending session summary email"
+                                    + TeammatesException.toStringWithStackTrace(e));
+                    }
+                }
             }
 
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
+            statusToUser.add(new StatusMessage(isSessionSummarySendEmail && isEmailChanged
+                                ? Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT
+                                : Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
+
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + "'s</span> details in "
                             + "Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                             + "New Email: " + student.email + "<br>New Team: " + student.team + "<br>"
@@ -85,8 +101,10 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             setStatusForException(e);
             String newEmail = student.email;
             student.email = studentEmail;
+            boolean isOpenOrPublishedEmailSentForTheCourse = logic.isOpenOrPublishedEmailSentForTheCourse(courseId);
             InstructorCourseStudentDetailsEditPageData data =
-                    new InstructorCourseStudentDetailsEditPageData(account, student, newEmail, hasSection);
+                    new InstructorCourseStudentDetailsEditPageData(account, student, newEmail, hasSection,
+                            isOpenOrPublishedEmailSentForTheCourse);
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
         }
 
