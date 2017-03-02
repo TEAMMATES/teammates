@@ -28,8 +28,8 @@
                 <span class="glyphicon ${ isShowingResponses ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
             </div>
             <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
-                <div id="DownloadQuestion">
-                    <input id="button_download" type="submit" class="btn btn-primary pull-right margin-right-10px"
+                <div id="DownloadQuestion-${questionPanel.question.questionNumber}">
+                    <input id="button_download-${questionPanel.question.questionNumber}" type="submit" class="btn btn-primary pull-right margin-right-10px"
                         name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
                         value="Download Question Results">
                 </div>
