@@ -1,3 +1,5 @@
+'use strict';
+
 var entryPerPage = 200;
 
 var begin = 0;
