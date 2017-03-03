@@ -306,6 +306,7 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js" data-cover></script>
+    <script type="text/javascript" src="/js/adminHome.js" data-cover></script>
     <script type="text/javascript" src="/js/common.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorCourses.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorCourseEnrollPage.js" data-cover></script>
@@ -330,6 +331,7 @@
     <script type="text/javascript" src="/dev/CommonTestFunctions.js"></script>
     <!-- Test scripts -->
     <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
+    <script type="text/javascript" src="/dev/AdminHomeJsTest.js"></script>
     <script type="text/javascript" src="/dev/InstructorCourseDetailsJsTest.js"></script>
     <script type="text/javascript" src="/dev/InstructorEnrolmentJsTest.js"></script>
     <script type="text/javascript" src="/dev/InstructorFeedbacksJsTest.js"></script>

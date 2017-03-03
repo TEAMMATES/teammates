@@ -73,10 +73,18 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
             fillTextBox(commentsTextbox, comments);
         }
         if (teamName == null) {
-            click(submitButton);
+            if (studentEmail == null) {
+                click(submitButton);
+            } else {
+                clickAndConfirm(submitButton);
+            }
+
         } else {
             // if team name is edited, the confirmation dialog will pop up
-            clickAndConfirm(submitButton);
+            clickAndConfirmWithoutWaitingForModalDisappearance(submitButton);
+            if (studentEmail != null) {
+                clickNoOnModal();
+            }
         }
     }
 
