@@ -20,6 +20,10 @@ import teammates.ui.pagedata.AdminSearchPageData;
 
 public class AdminSearchPageAction extends Action {
 
+    private enum FeedbackSessionState {
+        OPEN, CLOSED, PUBLISHED, AWAITING;
+    }
+
     private HashMap<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
     private HashMap<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
 
