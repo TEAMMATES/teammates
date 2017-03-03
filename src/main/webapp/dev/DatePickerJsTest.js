@@ -1,7 +1,8 @@
 QUnit.module('datepicker.js');
 
 QUnit.test('getMinDateForPublishDate(visibleDate)', function(assert) {
-    assert.deepEqual(getMinDateForPublishDate(new Date('10/13/2014')), new Date('10/13/2014'), 'returns visibleDate(parameter) itself');
+    assert.deepEqual(getMinDateForPublishDate(new Date('10/13/2014')), new Date('10/13/2014'), 
+            'returns visibleDate(parameter) itself');
 });
 
 QUnit.test('getMaxDateForVisibleDate(startDate, publishDate)', function(assert) {
