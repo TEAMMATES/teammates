@@ -61,11 +61,10 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
     }
 
     @Override
-    protected FeedbackSessionAttributes extractFeedbackSessionDataSetUniqueAttributes(
-            FeedbackSessionAttributes newSession, List<String> sendReminderEmailsList) {
-        newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
-        newSession.setInstructions(new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
-        newSession.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString()));
-        return newSession;
+    protected void setUniqueAttributesForSession(
+            FeedbackSessionAttributes session, List<String> sendReminderEmailsList) {
+        session.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
+        session.setInstructions(new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
+        session.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString()));
     }
 }
