@@ -427,7 +427,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
     }
 
-    private String getQuestionResultStatistics(List<FeedbackResponseAttributes> responses, Map<String, Integer> answerFrequency) {
+    private String getQuestionResultStatistics(List<FeedbackResponseAttributes> responses,
+            Map<String, Integer> answerFrequency) {
 
         isContainsNonEmptyResponse = false; // we will only show stats
                                                     // if there is at least one
@@ -497,7 +498,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoices + numChoicesSelected;
     }
 
-    protected double checkForNaN(int numChoice, double entryValue){
+    protected double checkForNaN(int numChoice, double entryValue) {
         if (numChoice == 0) {
             return 0;
         } else {
