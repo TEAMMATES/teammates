@@ -12,7 +12,7 @@ QUnit.test('getMaxDateForVisibleDate(startDate, publishDate)', function(assert) 
             'When publishDate is null, returns startDate');
     assert.deepEqual(getMaxDateForVisibleDate(null, new Date('08/25/2014')), null,
             'When startDate is null, returns null');
-    assert.deepEqual(getMaxDateForVisibleDate(new Date('08/25/2013'), undefined), new Date('08/25/2013'),
+    assert.deepEqual(getMaxDateForVisibleDate(new Date('08/25/2014'), undefined), new Date('08/25/2014'),
             'When publishDate is undefined, returns startDate');
     assert.deepEqual(getMaxDateForVisibleDate(new Date('10/13/2014'), new Date('08/25/2014')), new Date('08/25/2014'),
             'When startDate > publishDate, returns publishDate');
