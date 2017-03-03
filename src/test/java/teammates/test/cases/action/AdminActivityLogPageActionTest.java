@@ -27,14 +27,16 @@ import com.google.gson.reflect.TypeToken;
 
 public class AdminActivityLogPageActionTest extends BaseActionTest {
 
-    private static final String TYPICAL_LOG_MESSAGE = "/typicalLogMessage.json";
-
+    // typicalLogMessage.json will give a List<List<String>>. These constant are indexes
+    // for the list of log messages in the outer list.
     private static final int LOG_MESSAGE_INDEX_TODAY = 0;
     private static final int LOG_MESSAGE_INDEX_YESTERDAY = 1;
     private static final int LOG_MESSAGE_INDEX_TWO_DAYS_AGO = 2;
-
     private static final int LOG_MESSAGE_INDEX_MANY_LOGS = 3;
 
+    // In the case of many logs, the query will first look at logs within 2 hours before now,
+    // if the #logs exceed 50, it will stop the query and return the first 2 hours logs.
+    // 130 seconds is chosen so that it will be around 50 logs within 2 hours before now.
     private static final int LOG_MESSAGE_INTERVAL_MANY_LOGS = 130;
 
     private List<List<String>> logMessages;
@@ -55,7 +57,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
 
     private void loadLogMessages() {
         try {
-            String pathToJsonFile = TestProperties.TEST_DATA_FOLDER + TYPICAL_LOG_MESSAGE;
+            String pathToJsonFile = TestProperties.TEST_DATA_FOLDER + "/typicalLogMessage.json";
             String jsonString = FileHelper.readFile(pathToJsonFile);
             Type listType = new TypeToken<List<List<String>>>(){}.getType();
 
@@ -414,8 +416,8 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     private void verifyActionResult(int[][] expectedLogs, String... params) {
         AdminActivityLogPageAction action = getAction(params);
         ShowPageResult result = getShowPageResult(action);
-        AdminActivityLogPageData page = (AdminActivityLogPageData) result.data;
-        List<ActivityLogEntry> actualLogs = page.getLogs();
+        AdminActivityLogPageData pageData = (AdminActivityLogPageData) result.data;
+        List<ActivityLogEntry> actualLogs = pageData.getLogs();
         verifyLogs(expectedLogs, actualLogs);
     }
 
