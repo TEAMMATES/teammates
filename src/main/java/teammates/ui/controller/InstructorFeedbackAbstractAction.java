@@ -19,7 +19,7 @@ import teammates.common.util.TimeHelper;
 
 public abstract class InstructorFeedbackAbstractAction extends Action {
 
-    protected abstract FeedbackSessionAttributes extractFeedbackSessionDataSetUniqueAttributes(
+    protected abstract void setUniqueAttributesForSession(
             FeedbackSessionAttributes newSession, List<String> sendReminderEmailsList);
 
     protected FeedbackSessionAttributes extractFeedbackSessionData() {
@@ -56,11 +56,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         // results visible date when session is private (session not visible)
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         setSessionVisibleFromTime(newSession, type);
-        newSession = setEmail(newSession);
+        setEmail(newSession);
         return newSession;
     }
 
-    private FeedbackSessionAttributes setEmail(FeedbackSessionAttributes newSession) {
+    private void setEmail(FeedbackSessionAttributes newSession) {
 
         String[] sendReminderEmailsArray =
                 getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
@@ -69,7 +69,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                                                 : Arrays.asList(sendReminderEmailsArray);
         newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
         newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
-        return this.extractFeedbackSessionDataSetUniqueAttributes(newSession, sendReminderEmailsList);
+        this.setUniqueAttributesForSession(newSession, sendReminderEmailsList);
     }
 
     private void setTime(FeedbackSessionAttributes newSession) {
