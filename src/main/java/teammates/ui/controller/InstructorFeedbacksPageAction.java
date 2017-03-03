@@ -67,8 +67,8 @@ public class InstructorFeedbacksPageAction extends InstructorFeedbackAbstractAct
     }
 
     @Override
-    protected FeedbackSessionAttributes extractFeedbackSessionDataSetUniqueAttributes(
+    protected void setUniqueAttributesForSession(
             FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
-        throw new UnsupportedOperationException("Method is not used here");
+        throw new UnsupportedOperationException("Method should not be used here");
     }
 }
