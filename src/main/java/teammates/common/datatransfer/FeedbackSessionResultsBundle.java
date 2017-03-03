@@ -28,7 +28,7 @@ import teammates.common.util.StringHelper;
  * <br> * The basic {@link FeedbackSessionAttributes}
  * <br> * {@link List} of viewable responses as {@link FeedbackResponseAttributes} objects.
  */
-public class FeedbackSessionResultsBundle implements SessionResultsBundle {
+public class FeedbackSessionResultsBundle {
 
     private static final Logger log = Logger.getLogger();
 

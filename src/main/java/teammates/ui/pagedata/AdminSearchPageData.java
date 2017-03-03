@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.FeedbackSessionState;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -14,6 +13,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.ui.controller.AdminSearchPageAction.FeedbackSessionState;
 import teammates.ui.template.AdminSearchInstructorRow;
 import teammates.ui.template.AdminSearchInstructorTable;
 import teammates.ui.template.AdminSearchStudentFeedbackSession;
