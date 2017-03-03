@@ -36,7 +36,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> msqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
-    private Map<String, Integer> answerFrequency;
+    private boolean isContainsNonEmptyResponse;
 
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
@@ -403,12 +403,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if ("student".equals(view) || responses.isEmpty()) {
             return "";
         } else {
-            String numChoice = getQuestionResultStatistics(responses);
+            Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
+            String numChoice = getQuestionResultStatistics(responses, answerFrequency);
             if ("".equals(numChoice)) {
                 return "";
             } else {
                 DecimalFormat df = new DecimalFormat("#.##");
-
                 StringBuilder fragments = new StringBuilder();
                 for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
                     fragments.append(Templates.populateTemplate(
@@ -416,7 +416,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.MCQ_CHOICE_VALUE, entry.getKey(),
                             Slots.COUNT, entry.getValue().toString(),
                             Slots.PERCENTAGE,
-                            df.format(100 * (double) entry.getValue() / Integer.parseInt(numChoice))));
+                            df.format(100 * checkForNaN(Integer.parseInt(numChoice), (double) entry.getValue()))));
 
                 }
                 // Use same template as MCQ for now, until they need to be
@@ -427,12 +427,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
     }
 
-    private String getQuestionResultStatistics(List<FeedbackResponseAttributes> responses) {
+    private String getQuestionResultStatistics(List<FeedbackResponseAttributes> responses, Map<String, Integer> answerFrequency) {
 
-        boolean isContainsNonEmptyResponse = false; // we will only show stats
+        isContainsNonEmptyResponse = false; // we will only show stats
                                                     // if there is at least one
                                                     // nonempty response
-        answerFrequency = new LinkedHashMap<String, Integer>();
 
         for (String option : msqChoices) {
             answerFrequency.put(option, 0);
@@ -444,8 +443,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         int numChoicesSelected = 0;
         for (FeedbackResponseAttributes response : responses) {
-            isContainsNonEmptyResponse = true;
-            numChoicesSelected = getNumOfChoicesSelected(response, numChoicesSelected);
+            numChoicesSelected = getNumOfChoicesSelected(response, numChoicesSelected, answerFrequency);
         }
 
         if (!isContainsNonEmptyResponse) {
@@ -455,7 +453,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return Integer.toString(numChoicesSelected);
     }
 
-    private int getNumOfChoicesSelected(FeedbackResponseAttributes response, int numChoicesSelected) {
+    private int getNumOfChoicesSelected(FeedbackResponseAttributes response, int numChoicesSelected,
+            Map<String, Integer> answerFrequency) {
         int numChoices = 0;
         List<String> answerStrings =
                 ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
@@ -481,6 +480,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             if (answerString.isEmpty()) {
                 continue;
             }
+            isContainsNonEmptyResponse = true;
             numChoices++;
 
             if (!answerFrequency.containsKey(answerString)) {
@@ -497,6 +497,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoices + numChoicesSelected;
     }
 
+    protected double checkForNaN(int numChoice, double entryValue){
+        if (numChoice == 0) {
+            return 0;
+        } else {
+            return entryValue / numChoice;
+        }
+    }
+
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
@@ -505,7 +513,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if (responses.isEmpty()) {
             return "";
         } else {
-            String numChoice = getQuestionResultStatistics(responses);
+            Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
+            String numChoice = getQuestionResultStatistics(responses, answerFrequency);
             if ("".equals(numChoice)) {
                 return "";
             } else {
@@ -514,7 +523,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
                     fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey()) + ','
                             + entry.getValue().toString() + ','
-                            + df.format(100 * (double) entry.getValue() / Integer.parseInt(numChoice))
+                            + df.format(100 * checkForNaN(Integer.parseInt(numChoice), (double) entry.getValue()))
                             + Const.EOL);
                 }
 
