@@ -24,7 +24,7 @@
                     <c:if test="${shouldShowAll or (not fn:endsWith(log.receiver, '.tmt'))}">
                         <tr class="log">
                             <td>${log.receiver}</td>
-                            <td>${log.subject}</td>
+                            <td><c:out value="${log.subject}"/></td>
                             <td>${log.timeForDisplay}</td>
                         </tr>
                         
