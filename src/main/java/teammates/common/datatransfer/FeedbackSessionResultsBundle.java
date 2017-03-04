@@ -705,6 +705,14 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     };
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
+                                        Map<String, FeedbackQuestionAttributes> questions, CourseRoster roster) {
+        this(feedbackSession, new ArrayList<FeedbackResponseAttributes>(), questions, new HashMap<String, String>(),
+             new HashMap<String, String>(), new HashMap<String, String>(), new HashMap<String, Set<String>>(),
+             new HashMap<String, boolean[]>(), new FeedbackSessionResponseStatus(), roster,
+             new HashMap<String, List<FeedbackResponseCommentAttributes>>());
+    }
+
+    public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
                                         List<FeedbackResponseAttributes> responses,
                                         Map<String, FeedbackQuestionAttributes> questions,
                                         Map<String, String> emailNameTable,
