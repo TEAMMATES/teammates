@@ -1521,8 +1521,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackQuestionAttributes copyFeedbackQuestion(String oldCourseId, String oldFeedbackSessionName,
-                                                           String feedbackQuestionId, String feedbackSessionName,
+    public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId, String feedbackSessionName,
                                                            String courseId, String instructorEmail)
             throws InvalidParametersException {
 
@@ -1533,8 +1532,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
 
-        return feedbackQuestionsLogic.copyFeedbackQuestion(oldCourseId, oldFeedbackSessionName, feedbackQuestionId,
-                                                           feedbackSessionName, courseId, instructorEmail);
+        return feedbackQuestionsLogic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName,
+                                                           courseId, instructorEmail);
     }
 
     /**
