@@ -1794,9 +1794,7 @@ public final class FeedbackSessionsLogic {
         }
 
         Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<String, FeedbackQuestionAttributes>();
-        for (FeedbackQuestionAttributes qn : allQuestions) {
-            allQuestionsMap.put(qn.getId(), qn);
-        }
+        putQuestionsIntoMap(allQuestions, allQuestionsMap);
 
         List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId, params, section);
 
@@ -1807,9 +1805,7 @@ public final class FeedbackSessionsLogic {
             if (allResponses.size() <= range) {
                 isComplete = true;
             } else {
-                for (FeedbackQuestionAttributes qn : allQuestions) {
-                    relevantQuestions.put(qn.getId(), qn);
-                }
+                putQuestionsIntoMap(allQuestions, relevantQuestions);
 
             }
         }
@@ -1886,6 +1882,13 @@ public final class FeedbackSessionsLogic {
                 session, responses, relevantQuestions, emailNameTable,
                 emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                 visibilityTable, responseStatus, roster, responseComments, isComplete);
+    }
+
+    private void putQuestionsIntoMap(List<FeedbackQuestionAttributes> questions,
+                                     Map<String, FeedbackQuestionAttributes> questionMap) {
+        for (FeedbackQuestionAttributes qn : questions) {
+            questionMap.put(qn.getId(), qn);
+        }
     }
 
     private InstructorAttributes getInstructor(String courseId, String userEmail, UserRole role) {
@@ -1982,9 +1985,7 @@ public final class FeedbackSessionsLogic {
         Map<String, FeedbackQuestionAttributes> relevantQuestions = new HashMap<>();
 
         if (isInstructor(role) && !params.containsKey(PARAM_QUESTION_ID)) {
-            for (FeedbackQuestionAttributes question : allQuestions) {
-                relevantQuestions.put(question.getId(), question);
-            }
+            putQuestionsIntoMap(allQuestions, relevantQuestions);
         }
         return relevantQuestions;
     }
