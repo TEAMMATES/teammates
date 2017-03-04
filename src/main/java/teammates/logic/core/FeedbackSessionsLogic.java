@@ -1773,6 +1773,15 @@ public final class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> allQuestions =
                 fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
 
+        //Show all questions even if no responses, unless is an ajax request for a specific question.
+        Map<String, FeedbackQuestionAttributes> relevantQuestions = getAllQuestions(role, params, allQuestions);
+
+        boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession() && !session.isCreator(userEmail);
+        if (isPrivateSessionNotCreatedByThisUser) {
+            // return empty result set
+            return new FeedbackSessionResultsBundle(session, relevantQuestions, roster);
+        }
+
         // create empty data containers to store results
         List<FeedbackResponseAttributes> responses = new ArrayList<>();
         Map<String, String> emailNameTable = new HashMap<>();
@@ -1781,20 +1790,7 @@ public final class FeedbackSessionsLogic {
         Map<String, Set<String>> sectionTeamNameTable = new HashMap<>();
         Map<String, boolean[]> visibilityTable = new HashMap<>();
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
-
-        //Show all questions even if no responses, unless is an ajax request for a specific question.
-        Map<String, FeedbackQuestionAttributes> relevantQuestions = getAllQuestions(role, params, allQuestions);
-
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
-
-        boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession() && !session.isCreator(userEmail);
-        if (isPrivateSessionNotCreatedByThisUser) {
-            // return empty result set
-            return new FeedbackSessionResultsBundle(
-                    session, responses, relevantQuestions, emailNameTable,
-                    emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
-                    visibilityTable, responseStatus, roster, responseComments);
-        }
 
         boolean isIncludeResponseStatus = Boolean.parseBoolean(params.get(PARAM_IS_INCLUDE_RESPONSE_STATUS));
 
