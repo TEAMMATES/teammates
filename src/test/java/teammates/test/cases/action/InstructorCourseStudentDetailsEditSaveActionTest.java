@@ -6,15 +6,20 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseActionTest {
+
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -58,7 +63,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
                 Const.ParamsNames.NEW_STUDENT_EMAIL, newStudentEmail,
                 Const.ParamsNames.COMMENTS, newStudentComments,
-                Const.ParamsNames.TEAM_NAME, newStudentTeam
+                Const.ParamsNames.TEAM_NAME, newStudentTeam,
+                Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK, "true"
         };
 
         InstructorCourseStudentDetailsEditSaveAction a = getAction(submissionParams);
@@ -70,7 +76,15 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                      r.getDestinationWithParams());
 
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.STUDENT_EDITED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT, r.getStatusMessage());
+
+        verifyNumberOfEmailsSent(a, 1);
+
+        EmailWrapper email = getEmailsSent(a).get(0);
+        String courseName = coursesLogic.getCourse(instructor1OfCourse1.courseId).getName();
+        assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName, instructor1OfCourse1.courseId),
+                     email.getSubject());
+        assertEquals(newStudentEmail, email.getRecipient());
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
@@ -95,7 +109,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
                 Const.ParamsNames.NEW_STUDENT_EMAIL, newStudentEmailToBeTrimmed,
                 Const.ParamsNames.COMMENTS, newStudentCommentsToBeTrimmed,
-                Const.ParamsNames.TEAM_NAME, newStudentTeamToBeTrimmed
+                Const.ParamsNames.TEAM_NAME, newStudentTeamToBeTrimmed,
+                Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK, "true"
         };
 
         InstructorCourseStudentDetailsEditSaveAction aToBeTrimmed = getAction(submissionParamsToBeTrimmed);
@@ -108,6 +123,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
 
         assertFalse(rToBeTrimmed.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, rToBeTrimmed.getStatusMessage());
+
+        verifyNoEmailsSent(aToBeTrimmed);
 
         String expectedLogMessageToBeTrimmed =
                 "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"

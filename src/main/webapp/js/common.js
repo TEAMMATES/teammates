@@ -92,8 +92,9 @@ var StatusType = {
     INFO: 'info',
     WARNING: 'warning',
     DANGER: 'danger',
+    PRIMARY: 'primary',
     isValidType: function(type) {
-        return type === StatusType.SUCCESS || type === StatusType.INFO
+        return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.PRIMARY
                || type === StatusType.WARNING || type === StatusType.DANGER;
     }
 };
@@ -981,6 +982,8 @@ function hideSingleCollapse(e) {
 var BootboxWrapper = {
     DEFAULT_OK_TEXT: 'OK',
     DEFAULT_CANCEL_TEXT: 'Cancel',
+    DEFAULT_YES_TEXT: 'Yes',
+    DEFAULT_NO_TEXT: 'No',
 
     /**
      * Custom alert dialog to replace default alert() function
@@ -1026,6 +1029,42 @@ var BootboxWrapper = {
                     label: okButtonText || BootboxWrapper.DEFAULT_OK_TEXT,
                     className: 'modal-btn-ok btn-' + color || StatusType.DEFAULT,
                     callback: okCallback
+                }
+            }
+        })
+        // applies bootstrap color to title background
+        .find('.modal-header').addClass('alert-' + color || StatusType.DEFAULT);
+    },
+
+    /**
+     * Custom confirmation dialog to replace default confirm() function
+     * Required params: titleText, messageText, yesButtonCallback and noButtonCallback
+     * Optional params: cancelButtonCallBack (defaults to null)
+     *                  yesButtonText (defaults to "Yes")
+     *                  noButtonText (defaults to "No")
+     *                  canelButtonText (defaults to "Cancel")
+     *                  color (defaults to StatusType.INFO)
+     */
+    showModalConfirmationWithCancel: function(titleText, messageText, yesButtonCallback, noButtonCallback,
+                                     cancelButtonCallback, yesButtonText, noButtonText, cancelButtonText, color) {
+        bootbox.dialog({
+            title: titleText,
+            message: messageText,
+            buttons: {
+                yes: {
+                    label: yesButtonText || BootboxWrapper.DEFAULT_YES_TEXT,
+                    className: 'modal-btn-ok btn-' + color || StatusType.DEFAULT,
+                    callback: yesButtonCallback
+                },
+                no: {
+                    label: noButtonText || BootboxWrapper.DEFAULT_NO_TEXT,
+                    className: 'modal-btn-ok btn-' + color || StatusType.DEFAULT,
+                    callback: noButtonCallback
+                },
+                cancel: {
+                    label: cancelButtonText || BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                    className: 'modal-btn-cancel btn-default',
+                    callback: cancelButtonCallback || null
                 }
             }
         })
