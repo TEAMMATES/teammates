@@ -896,27 +896,29 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Calculates the response frequency, percentage frequency and average value
-     * for each choice and each sub-question given the responses and question details
-     *
-     * For responseFrequency, last element in each row stores the total number of responses for the sub-question.
-     * e.g.
-     * responseFrequency[subQuestionIndex][choiceIndex]
-     * -> is the number of times choiceIndex is chosen for subQuestionIndex
-     * responseFrequency[subQuestionIndex][numOfRubricChoices]
-     * -> is the total number of the responses for the given sub-question
-     *
-     * For percentageFrequencyAndAverage, values are set to 0 if there are no responses to that sub-question.
-     * Average value is set to 0 if there are no assigned weights.
-     * e.g.
-     * percentageFrequencyAndAverageValue[subQuestionIndex][choiceIndex]
-     * -> is the percentage choiceIndex is chosen for subQuestionIndex
-     * percentageFrequencyAndAverageValue[subQuestionIndex][numOfRubricChoices]
-     * -> is the average weight of the responses for the given sub-question
+     * Class to calculate the statistics of responses for a rubric question
      */
     private static class RubricStatistics {
 
+        /**
+         * Last element in each row stores the total number of responses for the sub-question.
+         * e.g.
+         * responseFrequency[subQuestionIndex][choiceIndex]
+         * -> is the number of times choiceIndex is chosen for subQuestionIndex
+         * responseFrequency[subQuestionIndex][numOfRubricChoices]
+         * -> is the total number of the responses for the given sub-question
+         */
         int[][] responseFrequency;
+
+        /**
+         * Values are set to 0 if there are no responses to that sub-question.
+         * Average value is set to 0 if there are no assigned weights.
+         * e.g.
+         * percentageFrequencyAndAverageValue[subQuestionIndex][choiceIndex]
+         * -> is the percentage choiceIndex is chosen for subQuestionIndex
+         * percentageFrequencyAndAverageValue[subQuestionIndex][numOfRubricChoices]
+         * -> is the average weight of the responses for the given sub-question
+         */
         float[][] percentageFrequencyAndAverage;
 
         List<FeedbackResponseAttributes> responses;
