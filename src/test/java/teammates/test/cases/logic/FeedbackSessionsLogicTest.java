@@ -1206,7 +1206,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         };
 
         assertEquals(StringUtils.join(expected, Const.EOL), export);
-        
+
         ______TS("Download individual question");
         final String questionNum = "2";
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
@@ -1229,7 +1229,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 ""
                 // CHECKSTYLE.ON:LineLength
         };
-        
+
         assertEquals(StringUtils.join(expected, Const.EOL), export);
 
         ______TS("MCQ results");

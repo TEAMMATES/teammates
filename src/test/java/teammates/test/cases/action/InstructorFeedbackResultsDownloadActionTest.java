@@ -358,7 +358,6 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
     }
 
-
     private void verifyFileContentForQuestion2Session1InCourse1(String fileContent,
                                                        FeedbackSessionAttributes session) {
         /*
@@ -385,7 +384,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         };
 
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
- 
+
     }
 
     private void verifyFileContentForQuestion1Session1InCourse1WithinSection1(String fileContent,

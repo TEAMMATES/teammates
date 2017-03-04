@@ -667,7 +667,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                   .withSessionName("First Session");
 
         resultsPage.verifyDownloadLink(reportUrl);
-        
+
         ______TS("Typical case: download report for one question");
 
         reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
