@@ -32,7 +32,19 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         setTime(newSession);
+        setTimeZoneGracePeriod(newSession);
+        String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+        setResultsVisibleFromTime(newSession, type);
 
+        // handle session visible after results visible to avoid having a
+        // results visible date when session is private (session not visible)
+        type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+        setSessionVisibleFromTime(newSession, type);
+        setEmail(newSession);
+        return newSession;
+    }
+    
+    private void setTimeZoneGracePeriod(FeedbackSessionAttributes newSession){
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
             try {
@@ -49,19 +61,9 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
         }
 
-        String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
-        setResultsVisibleFromTime(newSession, type);
-
-        // handle session visible after results visible to avoid having a
-        // results visible date when session is private (session not visible)
-        type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
-        setSessionVisibleFromTime(newSession, type);
-        setEmail(newSession);
-        return newSession;
     }
 
     private void setEmail(FeedbackSessionAttributes newSession) {
-
         String[] sendReminderEmailsArray =
                 getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
         List<String> sendReminderEmailsList =
@@ -73,7 +75,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
     }
 
     private void setTime(FeedbackSessionAttributes newSession) {
-
         newSession.setStartTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
@@ -83,7 +84,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
     }
 
     private void setResultsVisibleFromTime(FeedbackSessionAttributes newSession, String type) {
-
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
             newSession.setResultsVisibleFromTime(TimeHelper.combineDateTime(
@@ -107,7 +107,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
     }
 
     private void setSessionVisibleFromTime(FeedbackSessionAttributes newSession, String type) {
-
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
             newSession.setSessionVisibleFromTime(TimeHelper.combineDateTime(
@@ -131,14 +130,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
     }
 
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(List<InstructorAttributes> instructorList) {
-
         return logic.getFeedbackSessionsListForInstructor(instructorList);
     }
 
     protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList) {
-
         List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorList);
-
         Collections.sort(courses, new Comparator<CourseAttributes>() {
             @Override
             public int compare(CourseAttributes c1, CourseAttributes c2) {
