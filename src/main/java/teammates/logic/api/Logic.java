@@ -1525,8 +1525,6 @@ public class Logic {
                                                            String courseId, String instructorEmail)
             throws InvalidParametersException {
 
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldFeedbackSessionName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldCourseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
