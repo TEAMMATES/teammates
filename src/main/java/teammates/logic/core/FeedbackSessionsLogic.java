@@ -1775,7 +1775,6 @@ public final class FeedbackSessionsLogic {
 
         // create empty data containers to store results
         List<FeedbackResponseAttributes> responses = new ArrayList<>();
-        Map<String, FeedbackQuestionAttributes> relevantQuestions = new HashMap<>();
         Map<String, String> emailNameTable = new HashMap<>();
         Map<String, String> emailLastNameTable = new HashMap<>();
         Map<String, String> emailTeamNameTable = new HashMap<>();
@@ -1784,11 +1783,7 @@ public final class FeedbackSessionsLogic {
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
 
         //Show all questions even if no responses, unless is an ajax request for a specific question.
-        if (isInstructor(role) && !params.containsKey(PARAM_QUESTION_ID)) {
-            for (FeedbackQuestionAttributes question : allQuestions) {
-                relevantQuestions.put(question.getId(), question);
-            }
-        }
+        Map<String, FeedbackQuestionAttributes> relevantQuestions = getAllQuestions(role, params, allQuestions);
 
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
 
@@ -1960,6 +1955,18 @@ public final class FeedbackSessionsLogic {
                         visibilityTable, responseStatus, roster, responseComments, isComplete);
 
         return results;
+    }
+
+    private Map<String, FeedbackQuestionAttributes> getAllQuestions(
+            UserRole role, Map<String, String> params, List<FeedbackQuestionAttributes> allQuestions) {
+        Map<String, FeedbackQuestionAttributes> relevantQuestions = new HashMap<>();
+
+        if (isInstructor(role) && !params.containsKey(PARAM_QUESTION_ID)) {
+            for (FeedbackQuestionAttributes question : allQuestions) {
+                relevantQuestions.put(question.getId(), question);
+            }
+        }
+        return relevantQuestions;
     }
 
     private boolean isStudent(UserRole role) {
