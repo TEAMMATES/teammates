@@ -33,13 +33,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         setTime(newSession);
         setTimeZoneGracePeriod(newSession);
-        String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
-        setResultsVisibleFromTime(newSession, type);
+        setResultsVisibleFromTime(newSession);
 
         // handle session visible after results visible to avoid having a
         // results visible date when session is private (session not visible)
-        type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
-        setSessionVisibleFromTime(newSession, type);
+        setSessionVisibleFromTime(newSession);
         setEmail(newSession);
         return newSession;
     }
@@ -83,7 +81,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
     }
 
-    private void setResultsVisibleFromTime(FeedbackSessionAttributes newSession, String type) {
+    private void setResultsVisibleFromTime(FeedbackSessionAttributes newSession) {
+        String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
             newSession.setResultsVisibleFromTime(TimeHelper.combineDateTime(
@@ -106,7 +105,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         }
     }
 
-    private void setSessionVisibleFromTime(FeedbackSessionAttributes newSession, String type) {
+    private void setSessionVisibleFromTime(FeedbackSessionAttributes newSession) {
+        String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
             newSession.setSessionVisibleFromTime(TimeHelper.combineDateTime(
