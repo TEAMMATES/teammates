@@ -858,19 +858,19 @@ public final class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail,
             String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionNumber)
             throws EntityDoesNotExistException, ExceedingRangeException {
-        
+
         long indicatedRange = section == null ? 2000 : -1;
         FeedbackSessionResultsBundle results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,
                 indicatedRange, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
-        
+
         if (!results.isComplete) {
             throw new ExceedingRangeException(ERROR_NUMBER_OF_RESPONSES_EXCEEDS_RANGE);
         }
         // sort responses by giver > recipient > qnNumber
         Collections.sort(results.responses,
                 results.compareByGiverRecipientQuestion);
-        
+
         StringBuilder exportBuilder = new StringBuilder(100);
 
         exportBuilder.append(String.format("Course,%s",
@@ -879,17 +879,17 @@ public final class FeedbackSessionsLogic {
                      .append(String.format("Session Name,%s",
                              SanitizationHelper.sanitizeForCsv(results.feedbackSession.getFeedbackSessionName())))
                      .append(Const.EOL);
-        
+
         if (section != null) {
             exportBuilder.append(String.format("Section Name,%s", SanitizationHelper.sanitizeForCsv(section)))
                          .append(Const.EOL);
         }
 
         exportBuilder.append(Const.EOL).append(Const.EOL);
-        
+
         Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet =
                 results.getQuestionResponseMap().entrySet();
-        
+
         if (filterText != null && !filterText.isEmpty()) {
             entrySet = filterQuestions(entrySet, filterText.toLowerCase());
         }
@@ -909,9 +909,9 @@ public final class FeedbackSessionsLogic {
             }
             return exportBuilder.toString();
         }
-        
+
     }
-    
+
     public String getFeedbackQuestionResultsSummaryInSectionAsCsv(
             String feedbackSessionName, String courseId, String userEmail,
             String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)

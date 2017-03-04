@@ -32,7 +32,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1"
         };
-        
+
         String[] paramsQuestion2 = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
@@ -44,7 +44,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.SECTION_NAME, "Section 1",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1"
         };
-        
+
         String[] paramsWithNullCourseId = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
@@ -181,7 +181,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         action = getAction(paramsQuestion2);
         result = getFileDownloadResult(action);
-        
+
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
@@ -357,7 +357,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
 
     }
-    
+
 
     private void verifyFileContentForQuestion2Session1InCourse1(String fileContent,
                                                        FeedbackSessionAttributes session) {
@@ -383,9 +383,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 ""
                 // CHECKSTYLE.ON:LineLength
         };
-        
+
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
-        
+ 
     }
 
     private void verifyFileContentForQuestion1Session1InCourse1WithinSection1(String fileContent,
@@ -394,7 +394,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         full testing of file content is
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
-        
+
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
@@ -412,7 +412,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 ""
                 // CHECKSTYLE.ON:LineLength
         };
-        
+
         assertTrue(fileContent.equals(StringUtils.join(expected, Const.EOL)));
 
     }

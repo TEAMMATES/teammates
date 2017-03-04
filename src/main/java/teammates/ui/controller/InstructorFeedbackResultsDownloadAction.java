@@ -33,26 +33,26 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
 
         String fileContent = "";
         String fileName = "";
-        
+
         String questionName = "";
         if (questionNumber == null) {
             questionName = "_question" + questionNumber;
         }
-        
+
         String smallerPortion = "";
         if (questionNumber == null) {
             smallerPortion = "question";
         } else {
             smallerPortion = "section";
         }
-        
+
         try {
-            
+
             if (section == null || "All".equals(section)) {
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
                         courseId, feedbackSessionName, instructor.email, filterText,
                         isMissingResponsesShown, isStatsShown, questionNumber);
-                
+
                 fileName = courseId + "_" + feedbackSessionName + questionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
                               + " in Course " + courseId + " was downloaded";
