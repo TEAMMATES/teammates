@@ -114,7 +114,7 @@ public class StudentProfilePictureUploadAction extends Action {
                                                StatusMessageColor.DANGER));
             return null;
         }
-        
+
         return profilePic;
     }
 

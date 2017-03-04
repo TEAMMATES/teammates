@@ -16,15 +16,15 @@ import teammates.ui.pagedata.InstructorCourseDetailsPageData;
 
 public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
-    
+
     @Test
     public void testAll() {
         ______TS("test typical case");
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
         InstructorCourseDetailsPageData pageData = new InstructorCourseDetailsPageData(instructorAccount);
-        
+
         InstructorAttributes curInstructor = dataBundle.instructors.get("instructor1OfCourse1");
-        
+
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
         for (InstructorAttributes instructor : dataBundle.instructors.values()) {
             if ("idOfTypicalCourse1".equals(instructor.courseId)) {
@@ -37,9 +37,9 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         SectionDetailsBundle sampleSection = new SectionDetailsBundle();
         sampleSection.name = "Sample section name";
         courseDetails.sections.add(sampleSection);
-        
+
         pageData.init(curInstructor, courseDetails, instructors);
-        
+
         assertEquals(instructors.size(), pageData.getInstructors().size());
         assertNotNull(pageData.getCourseRemindButton());
         assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
@@ -51,9 +51,9 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getCurrentInstructor());
         assertTrue(pageData.isHasSection());
         assertEquals(1, pageData.getSections().size());
-        
+
         ______TS("test data bundle with no section");
-        
+
         courseDetails.sections = new ArrayList<SectionDetailsBundle>();
         sampleSection = new SectionDetailsBundle();
         sampleSection.name = "None";
@@ -61,7 +61,7 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         pageData.init(curInstructor, courseDetails, instructors);
         assertFalse(pageData.isHasSection());
         assertEquals(1, pageData.getSections().size());
-        
+
         ______TS("test current instructor doesn't have any permission for the course");
         String[] allPrivileges = {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
@@ -77,11 +77,11 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
         };
-        
+
         for (String privilege : allPrivileges) {
             curInstructor.privileges.updatePrivilege(privilege, false);
         }
-        
+
         pageData.init(curInstructor, courseDetails, instructors);
 
         assertEquals(instructors.size(), pageData.getInstructors().size());

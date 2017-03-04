@@ -12,12 +12,12 @@ import teammates.ui.controller.InstructorFeedbackCopyAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackCopyActionTest extends BaseActionTest {
-    
+
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY;
     }
-    
+
     @Override
     protected void prepareTestData() {
         // test data is refreshed before each test case
@@ -28,21 +28,21 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreTypicalDataBundle();
     }
-    
+
     @Test
     public void testAccessControl() {
-        
+
         String[] params = new String[]{
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Copied Session",
                 Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
         };
-        
+
         verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
         verifyUnaccessibleWithoutModifyCoursePrivilege(params);
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
@@ -52,34 +52,33 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         String teammatesLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
                 + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||";
-        
+
         ______TS("Not enough parameters");
-        
+
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         verifyAssumptionFailure();
         //TODO make sure IFAA does assertNotNull for required parameters then uncomment
         //verifyAssumptionFailure(Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId);
-        
-        
+
         ______TS("Typical case");
-        
+
         String[] params = new String[]{
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Copied Session",
                 Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
         };
-        
+
         InstructorFeedbackCopyAction a = getAction(params);
         RedirectResult rr = getRedirectResult(a);
-        
+
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?courseid=" + instructor1ofCourse1.courseId
                          + "&fsname=Copied+Session"
                          + "&user=" + instructor1ofCourse1.googleId
                          + "&error=false";
         assertEquals(expectedString, rr.getDestinationWithParams());
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
@@ -93,20 +92,19 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        
-        
+
         ______TS("Error: Trying to copy with existing feedback session name");
-        
+
         params = new String[]{
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Second feedback session",
                 Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
         };
-        
+
         a = getAction(params);
         RedirectResult pageResult = getRedirectResult(a);
-        
+
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                            .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
                            .withParam(Const.ParamsNames.USER_ID, instructor1ofCourse1.googleId)
@@ -114,7 +112,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pageResult.getStatusMessage());
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
@@ -122,20 +120,19 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "Second feedback session/idOfTypicalCourse1|||"
                 + "/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        
-        
+
         ______TS("Error: Trying to copy with invalid feedback session name");
-        
+
         params = new String[]{
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
                 Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
         };
-        
+
         a = getAction(params);
         pageResult = getRedirectResult(a);
-        
+
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                            .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
                            .withParam(Const.ParamsNames.USER_ID, instructor1ofCourse1.googleId)
@@ -146,14 +143,14 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                          FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
                          FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
                      pageResult.getStatusMessage());
-        
+
         expectedString =
                 teammatesLogMessage + "Servlet Action Failure : "
                 + "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
                 + "The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        
+
         ______TS("Masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
 
@@ -164,17 +161,17 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
         };
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
-        
+
         a = getAction(params);
         rr = getRedirectResult(a);
-        
+
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?courseid=" + instructor1ofCourse1.courseId
                          + "&fsname=Second+copied+feedback+session"
                          + "&user=" + instructor1ofCourse1.googleId
                          + "&error=false";
         assertEquals(expectedString, rr.getDestinationWithParams());
-        
+
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
                 + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
@@ -189,7 +186,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
-    
+
     @Override
     protected InstructorFeedbackCopyAction getAction(String... params) {
         return (InstructorFeedbackCopyAction) gaeSimulation.getActionObject(getActionUri(), params);

@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
  * Represents the directory of a client-side external library.
  */
 public final class FrontEndLibrary {
-    
+
     public static final String BLANKET;
     public static final String BOOTBOX;
     public static final String BOOTSTRAP_CSS;
@@ -27,19 +27,19 @@ public final class FrontEndLibrary {
     public static final String TINYMCE;
     public static final String TOPOJSON;
     public static final String WORLDMAP;
-    
+
     private static final JsonObject DEPENDENCIES_CONFIG;
-    
+
     private FrontEndLibrary() {
         // utility class; not meant to be instantiated
     }
-    
+
     static {
-        
+
         String dependenciesConfigString = FileHelper.readResourceFile("package.json");
         DEPENDENCIES_CONFIG = JsonUtils.parse(dependenciesConfigString).getAsJsonObject()
                                        .get("dependencies").getAsJsonObject();
-        
+
         BLANKET = getLibrarySource("blanket", "dist/qunit/blanket.min.js");
         BOOTBOX = getLibrarySource("bootbox", "bootbox.min.js");
         BOOTSTRAP_CSS = getLibrarySource("bootstrap", "dist/css/bootstrap.min.css");
@@ -61,10 +61,10 @@ public final class FrontEndLibrary {
         TOPOJSON = getLibrarySource("topojson", "build/topojson.min.js");
         WORLDMAP = getLibrarySource("datamaps", "src/js/data/world.hires.topo.json");
     }
-    
+
     private static String getLibrarySource(String libraryNameInNpm, String fileDir) {
         return "https://unpkg.com/" + libraryNameInNpm + "@"
                 + DEPENDENCIES_CONFIG.get(libraryNameInNpm).getAsString() + "/" + fileDir;
     }
-    
+
 }

@@ -41,12 +41,12 @@ function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) 
 
 // Setting submission count at page load
 $('document').ready(function() {
-    
+
     // Parameters for the estimation calculation
     var baseDate = new Date('December 31, 2016 00:00:00');  // The date the parameters were adjusted
     var baseCount = 5000000;     // The submission count on the above date
     var submissionPerHour = 128; // The rate at which the submission count is growing
-    
+
     // set the submission count in the page
     var currentDate = new Date();
     $('#submissionsNumber').html(submissionCounter(currentDate, baseDate, submissionPerHour, baseCount));
@@ -67,12 +67,12 @@ function formatNumber(n) {
 // looping through all the testimonials
 function loopTestimonials() {
     var tc = $('#testimonialContainer');
-    
+
     // intended null checking and early return, to prevent constant failures in JavaScript tests
     if (tc.length === 0) {
         return;
     }
-    
+
     tc.html(TESTIMONIALS[CURRENT_TESTIMONIAL]);
     CURRENT_TESTIMONIAL = (CURRENT_TESTIMONIAL + 1) % TESTIMONIALS.length;
 }

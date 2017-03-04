@@ -26,7 +26,7 @@ $(document).ready(function() {
         var visibilityOptions = [];
         var target = $(e.target);
         var visibilityOptionsRow = target.closest('tr');
-        
+
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
             visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
@@ -35,7 +35,7 @@ $(document).ready(function() {
                 && target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
-        
+
         table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });

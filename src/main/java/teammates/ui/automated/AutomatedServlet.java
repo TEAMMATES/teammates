@@ -16,20 +16,20 @@ import teammates.logic.api.GateKeeper;
  */
 @SuppressWarnings("serial")
 public class AutomatedServlet extends HttpServlet {
-    
+
     protected static final Logger log = Logger.getLogger();
-    
+
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         doPost(req, resp);
     }
-    
+
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             AutomatedAction action = new AutomatedActionFactory().getAction(req, resp);
             UserType userType = new GateKeeper().getCurrentUser();
-            
+
             String url = HttpRequestHelper.getRequestedUrl(req);
             // Do not log task queue worker actions to prevent excessive logging
             if (!url.startsWith("/worker/")) {
@@ -37,7 +37,7 @@ public class AutomatedServlet extends HttpServlet {
                         url, action.getActionDescription(), null, action.getActionMessage(), url, userType);
                 log.info(activityLogEntry.generateLogMessage());
             }
-            
+
             action.execute();
         } catch (Exception e) {
             String requestUrl = req.getRequestURL().toString();
@@ -46,5 +46,5 @@ public class AutomatedServlet extends HttpServlet {
                        + requestParams + "|||" + TeammatesException.toStringWithStackTrace(e));
         }
     }
-    
+
 }

@@ -9,7 +9,7 @@ public class ActiveCoursesTable {
     public ActiveCoursesTable() {
         rows = new ArrayList<ActiveCoursesTableRow>();
     }
-    
+
     public List<ActiveCoursesTableRow> getRows() {
         return rows;
     }

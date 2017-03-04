@@ -79,11 +79,11 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
     public Long getCommentId() {
         return this.commentId;
     }
-    
+
     public String getCommentText() {
         return commentText.getValue();
     }
-    
+
     public CommentParticipantType getRecipientType() {
         return this.recipientType;
     }
@@ -165,7 +165,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         return new Comment(courseId, giverEmail, recipientType, recipients, status, sendingState, showCommentTo,
                 showGiverNameTo, showRecipientNameTo, commentText, createdAt, lastEditorEmail, lastEditedAt);
     }
-    
+
     public Boolean isVisibleTo(CommentParticipantType targetViewer) {
         if (this.showCommentTo == null) {
             return false;
@@ -204,12 +204,12 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
     public String getJsonString() {
         return JsonUtils.toJson(this, CommentAttributes.class);
     }
-    
+
     @Override
     public String getBackupIdentifier() {
         return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
     }
-    
+
     @Override
     public void sanitizeForSaving() {
         this.courseId = this.courseId.trim();
@@ -256,7 +256,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
             break;
         }
     }
-    
+
     private void removeIrrelevantVisibilityOptions() {
         if (this.showGiverNameTo != null) {
             Iterator<CommentParticipantType> iterGiver = this.showGiverNameTo.iterator();
@@ -281,13 +281,13 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         removeCommentRecipientTypeIn(showGiverNameTo, typeToRemove);
         removeCommentRecipientTypeIn(showRecipientNameTo, typeToRemove);
     }
-    
+
     private void removeCommentRecipientTypeIn(List<CommentParticipantType> visibilityOptions,
             CommentParticipantType typeToRemove) {
         if (visibilityOptions == null) {
             return;
         }
-        
+
         Iterator<CommentParticipantType> iter = visibilityOptions.iterator();
         while (iter.hasNext()) {
             CommentParticipantType otherType = iter.next();
@@ -314,7 +314,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
             }
         });
     }
-    
+
     @Override
     public int compareTo(CommentAttributes o) {
         if (o == null) {
@@ -331,6 +331,6 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         return "(last edited "
              + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
              + "at " + displayTimeAs + ")";
-        
+
     }
 }

@@ -16,32 +16,32 @@ import teammates.test.cases.BaseTestCase;
 public class FeedbackSessionAttributesTest extends BaseTestCase {
     private Date startTime;
     private Date endTime;
-    
+
     private FeedbackSessionAttributes fsa;
-    
+
     @BeforeClass
     public void classSetup() {
         startTime = TimeHelper.combineDateTime("09/05/2016", "1000");
         endTime = TimeHelper.combineDateTime("09/05/2017", "1000");
-        
+
         fsa = new FeedbackSessionAttributes(null,
                 null, null, null, null, startTime, endTime,
                 null, null, 8, 15, FeedbackSessionType.STANDARD,
                 false, false, false, false, false, false, false);
     }
-    
+
     @Test
     public void testBasicGetters() {
         ______TS("get session stime, etime, name");
-        
+
         assertEquals(fsa.getSessionEndTime(), endTime);
         assertEquals(fsa.getSessionStartTime(), startTime);
-        
+
     }
-    
+
     @Test
     public void testValidate() {
-        
+
         ______TS("null parameter error messages");
 
         List<String> expectedErrorMessage = new ArrayList<String>();
@@ -55,12 +55,12 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         for (String fieldName : fieldNames) {
             expectedErrorMessage.add(FieldValidator.NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName));
         }
-        
+
         //expect all the error messages to be appended together.
         assertEquals(fsa.getInvalidityInfo(), expectedErrorMessage);
-        
+
         ______TS("invalid parameters error messages");
-        
+
     }
-    
+
 }

@@ -130,7 +130,7 @@ function showVisibilityCheckboxesIfCustomOptionSelected($containingForm) {
 }
 
 function uncheckAllVisibilityOptionCheckboxes($containingForm) {
-    $containingForm.find('input[type="checkbox"]').each(function(index, checkbox) {
+    $containingForm.find('input.visibilityCheckbox').each(function(index, checkbox) {
         checkbox.checked = false;
     });
 }
@@ -241,7 +241,7 @@ function tallyCheckboxes(questionNum) {
         '.giverCheckbox': FEEDBACK_QUESTION_SHOWGIVERTO,
         '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO
     };
-    
+
     $.each(checkboxTypes, function(className, checkboxType) {
         var checked = [];
         $('#form_editquestion-' + questionNum).find(className + ':checked').each(function() {
@@ -387,23 +387,23 @@ var previousFormDataMap = {};
 function updateVisibilityMessageDiv($containingForm) {
     var questionNum = $containingForm.find('[name=questionnum]').val();
     var newQuestionNum = $('input[name=questionnum]').last().val();
-    
+
     if (questionNum === newQuestionNum) {
         tallyCheckboxes(NEW_QUESTION);
     } else {
         tallyCheckboxes(questionNum);
     }
-    
+
     var formData = $containingForm.serialize();
     var $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
-    
+
     if (previousFormDataMap[questionNum] === formData) {
         return;
     }
 
     // empty current visibility message in the form
     $visibilityMessageDiv.html('');
-    
+
     var url = '/page/instructorFeedbackQuestionvisibilityMessage';
     $.ajax({
         type: 'POST',
@@ -412,7 +412,7 @@ function updateVisibilityMessageDiv($containingForm) {
         success: function(data) {
             // update stored form data
             previousFormDataMap[questionNum] = formData;
-            
+
             $visibilityMessageDiv.html(formatVisibilityMessageDivHtml(data.visibilityMessage));
         },
         error: function() {

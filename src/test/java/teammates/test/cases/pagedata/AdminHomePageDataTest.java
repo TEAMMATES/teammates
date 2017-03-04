@@ -10,19 +10,19 @@ import teammates.ui.pagedata.AdminHomePageData;
 public class AdminHomePageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private AdminHomePageData pageData;
-    
+
     @Test
     public void allTests() {
         createData();
         setHomePageAttributes();
         testHomePageAttributes();
     }
-    
+
     private void createData() {
         AccountAttributes admin = dataBundle.accounts.get("instructor1OfCourse1");
         pageData = new AdminHomePageData(admin);
     }
-    
+
     private void setHomePageAttributes() {
         pageData.instructorDetailsSingleLine = "Instructor1 \t instructor1@email.tmt \t Teammates";
         pageData.instructorShortName = "Inst1";
@@ -30,7 +30,7 @@ public class AdminHomePageDataTest extends BaseTestCase {
         pageData.instructorEmail = "instructor1@email.tmt";
         pageData.instructorInstitution = "Teammates";
     }
-    
+
     private void testHomePageAttributes() {
         assertEquals("Inst1", pageData.getInstructorShortName());
         assertEquals("Instructor1", pageData.getInstructorName());
