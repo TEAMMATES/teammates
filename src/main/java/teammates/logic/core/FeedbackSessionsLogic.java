@@ -1829,10 +1829,7 @@ public final class FeedbackSessionsLogic {
         StudentAttributes student = getStudent(courseId, userEmail, role);
         Set<String> studentsEmailInTeam = getTeammateEmails(courseId, student);
 
-        InstructorAttributes instructor = null;
-        if (isInstructor(role)) {
-            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        }
+        InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
 
         Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
         for (FeedbackResponseAttributes response : allResponses) {
@@ -1889,6 +1886,13 @@ public final class FeedbackSessionsLogic {
                 session, responses, relevantQuestions, emailNameTable,
                 emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                 visibilityTable, responseStatus, roster, responseComments, isComplete);
+    }
+
+    private InstructorAttributes getInstructor(String courseId, String userEmail, UserRole role) {
+        if (isInstructor(role)) {
+            return instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        }
+        return null;
     }
 
     /*
@@ -1949,10 +1953,7 @@ public final class FeedbackSessionsLogic {
                 boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
                 if (thisQuestionHasResponses) {
                     for (FeedbackResponseAttributes response : responsesForThisQn) {
-                        InstructorAttributes instructor = null;
-                        if (isInstructor(role)) {
-                            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-                        }
+                        InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
                         boolean isVisibleResponse = isResponseVisibleForUser(userEmail, role, null, null, response,
                                                                              question, instructor);
                         if (isVisibleResponse) {
@@ -2033,10 +2034,7 @@ public final class FeedbackSessionsLogic {
     private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,
                                     CourseRoster roster, String courseId, String userEmail, UserRole role,
                                     String feedbackSessionName, String sectionToView) {
-        InstructorAttributes instructor = null;
-        if (isInstructor(role)) {
-            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        }
+        InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
         if (instructor != null) {
             for (StudentAttributes student : roster.getStudents()) {
                 boolean isVisibleResponse =
