@@ -1776,7 +1776,6 @@ public final class FeedbackSessionsLogic {
         //Show all questions even if no responses, unless is an ajax request for a specific question.
         Map<String, FeedbackQuestionAttributes> relevantQuestions = getAllQuestions(role, params, allQuestions);
 
-
         boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession() && !session.isCreator(userEmail);
         if (isPrivateSessionNotCreatedByThisUser) {
             // return empty result set
@@ -1980,8 +1979,8 @@ public final class FeedbackSessionsLogic {
             }
         }
 
-        addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail,
-                                   role, feedbackSessionName, section);
+        addSectionTeamNamesToTable(
+                sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
 
         return new FeedbackSessionResultsBundle(
                 session, responses, relevantQuestions, emailNameTable,
