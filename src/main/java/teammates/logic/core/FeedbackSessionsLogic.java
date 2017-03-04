@@ -1824,8 +1824,8 @@ public final class FeedbackSessionsLogic {
         for (FeedbackResponseAttributes response : allResponses) {
             FeedbackQuestionAttributes relatedQuestion = allQuestionsMap.get(response.feedbackQuestionId);
             if (relatedQuestion != null) {
-                boolean isVisibleResponse = isResponseVisibleForUser(userEmail, role, student, studentsEmailInTeam,
-                                                                     response, relatedQuestion, instructor);
+                boolean isVisibleResponse = isResponseVisibleForUser(
+                        userEmail, role, student, studentsEmailInTeam, response, relatedQuestion, instructor);
                 if (isVisibleResponse) {
                     responses.add(response);
                     relevantResponse.put(response.getId(), response);
@@ -1867,8 +1867,8 @@ public final class FeedbackSessionsLogic {
             for (FeedbackResponseCommentAttributes frc : allResponseComments) {
                 FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
                 FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
-                boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(userEmail, role, student,
-                                                            studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
+                boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(
+                        userEmail, role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
                 if (isVisibleResponseComment) {
                     if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
                         frc.giverEmail = "Anonymous";
@@ -1892,8 +1892,8 @@ public final class FeedbackSessionsLogic {
         return responseComments;
     }
 
-    private void putQuestionsIntoMap(List<FeedbackQuestionAttributes> questions,
-                                     Map<String, FeedbackQuestionAttributes> questionMap) {
+    private void putQuestionsIntoMap(
+            List<FeedbackQuestionAttributes> questions, Map<String, FeedbackQuestionAttributes> questionMap) {
         for (FeedbackQuestionAttributes qn : questions) {
             questionMap.put(qn.getId(), qn);
         }
@@ -1988,8 +1988,8 @@ public final class FeedbackSessionsLogic {
                 visibilityTable, responseStatus, roster, responseComments, true);
     }
 
-    private Map<String, FeedbackQuestionAttributes> getAllQuestions(UserRole role, Map<String, String> params,
-                                                                    List<FeedbackQuestionAttributes> allQuestions) {
+    private Map<String, FeedbackQuestionAttributes> getAllQuestions(
+            UserRole role, Map<String, String> params, List<FeedbackQuestionAttributes> allQuestions) {
         Map<String, FeedbackQuestionAttributes> relevantQuestions = new HashMap<>();
 
         if (isInstructor(role) && !params.containsKey(PARAM_QUESTION_ID)) {
