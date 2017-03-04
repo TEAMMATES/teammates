@@ -43,8 +43,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         setEmail(newSession);
         return newSession;
     }
-    
-    private void setTimeZoneGracePeriod(FeedbackSessionAttributes newSession){
+
+    private void setTimeZoneGracePeriod(FeedbackSessionAttributes newSession) {
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
             try {
