@@ -1825,15 +1825,8 @@ public final class FeedbackSessionsLogic {
                                                      ? getFeedbackSessionResponseStatus(session, roster, allQuestions)
                                                      : null;
 
-        StudentAttributes student = null;
-        Set<String> studentsEmailInTeam = new HashSet<String>();
-        if (isStudent(role)) {
-            student = studentsLogic.getStudentForEmail(courseId, userEmail);
-            List<StudentAttributes> studentsInTeam = studentsLogic.getStudentsForTeam(student.team, courseId);
-            for (StudentAttributes teammates : studentsInTeam) {
-                studentsEmailInTeam.add(teammates.email);
-            }
-        }
+        StudentAttributes student = getStudent(courseId, userEmail, role);
+        Set<String> studentsEmailInTeam = getTeammateEmails(courseId, student);
 
         InstructorAttributes instructor = null;
         if (isInstructor(role)) {
@@ -1895,6 +1888,27 @@ public final class FeedbackSessionsLogic {
                 session, responses, relevantQuestions, emailNameTable,
                 emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                 visibilityTable, responseStatus, roster, responseComments, isComplete);
+    }
+
+    /*
+    * Gets emails of student's teammates if student is not null, else returns an empty Set<String>
+    */
+    private Set<String> getTeammateEmails(String courseId, StudentAttributes student) {
+        Set<String> studentsEmailInTeam = new HashSet<>();
+        if (student != null) {
+            List<StudentAttributes> studentsInTeam = studentsLogic.getStudentsForTeam(student.team, courseId);
+            for (StudentAttributes teammates : studentsInTeam) {
+                studentsEmailInTeam.add(teammates.email);
+            }
+        }
+        return studentsEmailInTeam;
+    }
+
+    private StudentAttributes getStudent(String courseId, String userEmail, UserRole role) {
+        if (isStudent(role)) {
+            return studentsLogic.getStudentForEmail(courseId, userEmail);
+        }
+        return null;
     }
 
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForQuestionId(String feedbackSessionName,
