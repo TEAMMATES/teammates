@@ -1776,22 +1776,14 @@ public final class FeedbackSessionsLogic {
                         courseId);
 
         // create empty data containers to store results
-        List<FeedbackResponseAttributes> responses =
-                new ArrayList<FeedbackResponseAttributes>();
-        Map<String, FeedbackQuestionAttributes> relevantQuestions =
-                new HashMap<String, FeedbackQuestionAttributes>();
-        Map<String, String> emailNameTable =
-                new HashMap<String, String>();
-        Map<String, String> emailLastNameTable =
-                new HashMap<String, String>();
-        Map<String, String> emailTeamNameTable =
-                new HashMap<String, String>();
-        Map<String, Set<String>> sectionTeamNameTable =
-                new HashMap<String, Set<String>>();
-        Map<String, boolean[]> visibilityTable =
-                new HashMap<String, boolean[]>();
-        Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
-                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+        List<FeedbackResponseAttributes> responses = new ArrayList<>();
+        Map<String, FeedbackQuestionAttributes> relevantQuestions = new HashMap<>();
+        Map<String, String> emailNameTable = new HashMap<>();
+        Map<String, String> emailLastNameTable = new HashMap<>();
+        Map<String, String> emailTeamNameTable = new HashMap<>();
+        Map<String, Set<String>> sectionTeamNameTable = new HashMap<>();
+        Map<String, boolean[]> visibilityTable = new HashMap<>();
+        Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
 
         //Show all questions even if no responses, unless is an ajax request for a specific question.
         if (role == UserRole.INSTRUCTOR && !params.containsKey(PARAM_QUESTION_ID)) {
