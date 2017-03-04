@@ -1926,6 +1926,11 @@ public class Logic {
         return feedbackResponsesLogic.hasResponsesForCourse(courseId);
     }
 
+    public boolean isOpenOrPublishedEmailSentForTheCourse(String courseId) {
+        Assumption.assertNotNull(courseId);
+        return feedbackSessionsLogic.isOpenOrPublishedEmailSentForTheCourse(courseId);
+    }
+
     /**
      * Preconditions: <br>
      * * All parameters are non-null.

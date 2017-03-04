@@ -95,6 +95,83 @@ public class EmailGenerator {
     }
 
     /**
+     * Generates the email containing the summary of the feedback sessions
+     * email for the given {@code courseId} for {@code student}
+     * @param courseId - ID of the course
+     * @param student - attributes of student to send feedback session summary to
+     */
+    public EmailWrapper generateFeedbackSessionSummaryOfCourse(String courseId, StudentAttributes student) {
+
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+
+        List<FeedbackSessionAttributes> sessions = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> fsInCourse = fsLogic.getFeedbackSessionsForCourse(courseId);
+
+        for (FeedbackSessionAttributes fsa : fsInCourse) {
+            if (!fsa.isPrivateSession() && (fsa.isSentOpenEmail() || fsa.isSentPublishedEmail())) {
+                sessions.add(fsa);
+            }
+        }
+
+        StringBuffer linksFragmentValue = new StringBuffer(1000);
+        String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+
+        String joinFragmentValue = isYetToJoinCourse(student)
+                                   ? Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
+                                           "${joinUrl}", joinUrl,
+                                           "${courseName}", course.getName())
+                                   : "";
+
+        for (FeedbackSessionAttributes fsa : sessions) {
+
+            String submitUrlHtml = "(Feedback session is " + (fsa.isClosed() ? "closed" : "not yet opened") + ")";
+            String reportUrlHtml = "(Feedback session is not yet published)";
+
+            if (fsa.isOpened()) {
+                String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                        .withCourseId(course.getId())
+                        .withSessionName(fsa.getFeedbackSessionName())
+                        .withRegistrationKey(StringHelper.encrypt(student.key))
+                        .withStudentEmail(student.email)
+                        .toAbsoluteString();
+                submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
+            }
+
+            if (fsa.isPublished()) {
+                String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                        .withCourseId(course.getId())
+                        .withSessionName(fsa.getFeedbackSessionName())
+                        .withRegistrationKey(StringHelper.encrypt(student.key))
+                        .withStudentEmail(student.email)
+                        .toAbsoluteString();
+                reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
+            }
+
+            linksFragmentValue.append(Templates.populateTemplate(
+                    EmailTemplates.FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS,
+                    "${feedbackSessionName}", fsa.getFeedbackSessionName(),
+                    "${deadline}", TimeHelper.formatTime12H(fsa.getEndTime()) + (fsa.isClosed() ? " (Passed)" : ""),
+                    "${submitUrl}", submitUrlHtml,
+                    "${reportUrl}", reportUrlHtml));
+        }
+
+        String emailBody = Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
+                "${userName}", student.name,
+                "${userEmail}", student.email,
+                "${courseName}", course.getName(),
+                "${courseId}", course.getId(),
+                "${joinFragment}", joinFragmentValue,
+                "${linksFragment}", linksFragmentValue.toString(),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+
+        EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
+        email.setSubject(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId()));
+        email.setContent(emailBody);
+
+        return email;
+    }
+
+    /**
      * Generates the feedback submission confirmation email for the given {@code session} for {@code student}
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
