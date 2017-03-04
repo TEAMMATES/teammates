@@ -1811,7 +1811,6 @@ public final class FeedbackSessionsLogic {
         Map<String, String> emailTeamNameTable = new HashMap<>();
         Map<String, Set<String>> sectionTeamNameTable = new HashMap<>();
         Map<String, boolean[]> visibilityTable = new HashMap<>();
-        Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
         FeedbackSessionResponseStatus responseStatus = section == null && isIncludeResponseStatus
                                                      ? getFeedbackSessionResponseStatus(session, roster, allQuestions)
                                                      : null;
@@ -1839,9 +1838,30 @@ public final class FeedbackSessionsLogic {
             }
         }
 
-        if (params.get(PARAM_VIEW_TYPE) == null
-                || Const.FeedbackSessionResults.GRQ_SORT_TYPE.equals(params.get(PARAM_VIEW_TYPE))
-                || Const.FeedbackSessionResults.RGQ_SORT_TYPE.equals(params.get(PARAM_VIEW_TYPE))) {
+        String viewType = params.get(PARAM_VIEW_TYPE);
+        boolean isGrqSortType = Const.FeedbackSessionResults.GRQ_SORT_TYPE.equals(params.get(PARAM_VIEW_TYPE));
+        boolean isRgqSortType = Const.FeedbackSessionResults.RGQ_SORT_TYPE.equals(params.get(PARAM_VIEW_TYPE));
+        Map<String, List<FeedbackResponseCommentAttributes>> responseComments = getResponseComments(
+                feedbackSessionName, courseId, userEmail, role, roster, relevantQuestions, section, student,
+                studentsEmailInTeam, relevantResponse, viewType, isGrqSortType, isRgqSortType);
+
+        addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
+
+        return new FeedbackSessionResultsBundle(
+                session, responses, relevantQuestions, emailNameTable,
+                emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
+                visibilityTable, responseStatus, roster, responseComments, isComplete);
+    }
+
+    private Map<String, List<FeedbackResponseCommentAttributes>> getResponseComments(
+            String feedbackSessionName, String courseId, String userEmail, UserRole role, CourseRoster roster,
+            Map<String, FeedbackQuestionAttributes> relevantQuestions, String section, StudentAttributes student,
+            Set<String> studentsEmailInTeam, Map<String, FeedbackResponseAttributes> relevantResponse, String viewType,
+            boolean isGrqSortType, boolean isRgqSortType) {
+
+        Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
+
+        if (viewType == null || isGrqSortType || isRgqSortType) {
             List<FeedbackResponseCommentAttributes> allResponseComments =
                     frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, feedbackSessionName, section);
             for (FeedbackResponseCommentAttributes frc : allResponseComments) {
@@ -1869,13 +1889,7 @@ public final class FeedbackSessionsLogic {
                 sortByCreatedDate(responseCommentList);
             }
         }
-
-        addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
-
-        return new FeedbackSessionResultsBundle(
-                session, responses, relevantQuestions, emailNameTable,
-                emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
-                visibilityTable, responseStatus, roster, responseComments, isComplete);
+        return responseComments;
     }
 
     private void putQuestionsIntoMap(List<FeedbackQuestionAttributes> questions,
