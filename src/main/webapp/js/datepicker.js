@@ -72,12 +72,9 @@ function triggerDatepickerOnClick(datepickerDivs) {
 /**
  * Compares startDate and publishDate and returns the earlier date as minDate,
  * if publishDate is undefined or null, returns startDate as minDate
- * 
  * @assumption: startDate has a valid value
- * 
  * @param {Date} startDate
  * @param {Date} publishDate
- * 
  * @returns {Date} minDate 
  */
 function getMaxDateForVisibleDate(startDate, publishDate) {
