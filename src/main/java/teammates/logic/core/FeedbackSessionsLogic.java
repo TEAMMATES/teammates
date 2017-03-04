@@ -1713,7 +1713,7 @@ public final class FeedbackSessionsLogic {
 
         StudentAttributes student = null;
         Set<String> studentsEmailInTeam = new HashSet<String>();
-        if (role == UserRole.STUDENT) {
+        if (isStudent(role)) {
             student = studentsLogic.getStudentForEmail(courseId, userEmail);
             List<StudentAttributes> studentsInTeam = studentsLogic
                     .getStudentsForTeam(student.team, courseId);
@@ -1889,7 +1889,7 @@ public final class FeedbackSessionsLogic {
 
         StudentAttributes student = null;
         Set<String> studentsEmailInTeam = new HashSet<String>();
-        if (role == UserRole.STUDENT) {
+        if (isStudent(role)) {
             student = studentsLogic.getStudentForEmail(courseId, userEmail);
             List<StudentAttributes> studentsInTeam = studentsLogic.getStudentsForTeam(student.team, courseId);
             for (StudentAttributes teammates : studentsInTeam) {
@@ -1960,6 +1960,10 @@ public final class FeedbackSessionsLogic {
                         visibilityTable, responseStatus, roster, responseComments, isComplete);
 
         return results;
+    }
+
+    private boolean isStudent(UserRole role) {
+        return role == UserRole.STUDENT;
     }
 
     private boolean isInstructor(UserRole role) {
@@ -2042,9 +2046,9 @@ public final class FeedbackSessionsLogic {
                 || response.recipient.equals(userEmail)
                         && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                 || response.giver.equals(userEmail)
-                || role == UserRole.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
+                || isStudent(role) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
-        } else if (studentsEmailInTeam != null && role == UserRole.STUDENT) {
+        } else if (studentsEmailInTeam != null && isStudent(role)) {
             if (relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                     && response.recipient.equals(student.team)) {
