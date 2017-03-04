@@ -1797,16 +1797,11 @@ public final class FeedbackSessionsLogic {
 
         List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId, params, section);
 
-        boolean isComplete = params.get(PARAM_RANGE) == null;
+        String rangeString = params.get(PARAM_RANGE);
+        boolean isComplete = rangeString == null || allResponses.size() <= Long.parseLong(rangeString);
 
-        if (params.get(PARAM_RANGE) != null) {
-            long range = Long.parseLong(params.get(PARAM_RANGE));
-            if (allResponses.size() <= range) {
-                isComplete = true;
-            } else {
-                putQuestionsIntoMap(allQuestions, relevantQuestions);
-
-            }
+        if (!isComplete) {
+            putQuestionsIntoMap(allQuestions, relevantQuestions);
         }
 
         // create empty data containers to store results
