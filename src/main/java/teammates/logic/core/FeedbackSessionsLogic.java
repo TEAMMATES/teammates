@@ -1782,75 +1782,14 @@ public final class FeedbackSessionsLogic {
             return new FeedbackSessionResultsBundle(session, relevantQuestions, roster);
         }
 
-        // create empty data containers to store results
-        List<FeedbackResponseAttributes> responses = new ArrayList<>();
-        Map<String, String> emailNameTable = new HashMap<>();
-        Map<String, String> emailLastNameTable = new HashMap<>();
-        Map<String, String> emailTeamNameTable = new HashMap<>();
-        Map<String, Set<String>> sectionTeamNameTable = new HashMap<>();
-        Map<String, boolean[]> visibilityTable = new HashMap<>();
-        Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
-        FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
-
         boolean isIncludeResponseStatus = Boolean.parseBoolean(params.get(PARAM_IS_INCLUDE_RESPONSE_STATUS));
 
         String section = params.get(PARAM_SECTION);
+        String questionId = params.get(PARAM_QUESTION_ID);
 
-        if (params.get(PARAM_QUESTION_ID) != null) {
-            String questionId = params.get(PARAM_QUESTION_ID);
-            boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_ID_FOR_RESPONSE_RATE);
-
-            if (isQueryingResponseRateStatus) {
-                responseStatus = section == null && isIncludeResponseStatus
-                               ? getFeedbackSessionResponseStatus(session, roster, allQuestions)
-                               : null;
-            } else {
-                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(questionId);
-                if (question != null) {
-                    relevantQuestions.put(question.getId(), question);
-
-                    List<FeedbackResponseAttributes> responsesForThisQn;
-
-                    boolean isPrivateSessionCreatedByThisUser =
-                            session.isCreator(userEmail) && session.isPrivateSession();
-                    if (isPrivateSessionCreatedByThisUser) {
-                        responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
-                    } else {
-                        responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                                question, userEmail, UserRole.INSTRUCTOR, section);
-                    }
-
-                    boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
-                    if (thisQuestionHasResponses) {
-                        for (FeedbackResponseAttributes response : responsesForThisQn) {
-                            InstructorAttributes instructor = null;
-                            if (isInstructor(role)) {
-                                instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-                            }
-                            boolean isVisibleResponse = isResponseVisibleForUser(
-                                    userEmail, role, null, null, response, question, instructor);
-                            if (isVisibleResponse) {
-                                responses.add(response);
-                                addEmailNamePairsToTable(emailNameTable, response, question, roster);
-                                addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
-                                addEmailTeamNamePairsToTable(emailTeamNameTable, response, question, roster);
-                                addVisibilityToTable(visibilityTable, question, response, userEmail, role, roster);
-                            }
-                        }
-                    }
-                }
-            }
-
-            addSectionTeamNamesToTable(
-                    sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
-
-            FeedbackSessionResultsBundle results =
-                    new FeedbackSessionResultsBundle(
-                            session, responses, relevantQuestions, emailNameTable,
-                            emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
-                            visibilityTable, responseStatus, roster, responseComments, true);
-
-            return results;
+        if (questionId != null) {
+            return getFeedbackSessionResultsForQuestionId(feedbackSessionName, courseId, userEmail, role, roster, session,
+                    allQuestions, relevantQuestions, isIncludeResponseStatus, section, questionId);
         }
 
         Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<String, FeedbackQuestionAttributes>();
@@ -1874,9 +1813,17 @@ public final class FeedbackSessionsLogic {
             }
         }
 
-        responseStatus = section == null && isIncludeResponseStatus
-                       ? getFeedbackSessionResponseStatus(session, roster, allQuestions)
-                       : null;
+        // create empty data containers to store results
+        List<FeedbackResponseAttributes> responses = new ArrayList<>();
+        Map<String, String> emailNameTable = new HashMap<>();
+        Map<String, String> emailLastNameTable = new HashMap<>();
+        Map<String, String> emailTeamNameTable = new HashMap<>();
+        Map<String, Set<String>> sectionTeamNameTable = new HashMap<>();
+        Map<String, boolean[]> visibilityTable = new HashMap<>();
+        Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
+        FeedbackSessionResponseStatus responseStatus = section == null && isIncludeResponseStatus
+                                                     ? getFeedbackSessionResponseStatus(session, roster, allQuestions)
+                                                     : null;
 
         StudentAttributes student = null;
         Set<String> studentsEmailInTeam = new HashSet<String>();
@@ -1944,13 +1891,74 @@ public final class FeedbackSessionsLogic {
 
         addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
 
-        FeedbackSessionResultsBundle results =
-                new FeedbackSessionResultsBundle(
-                        session, responses, relevantQuestions, emailNameTable,
-                        emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
-                        visibilityTable, responseStatus, roster, responseComments, isComplete);
+        return new FeedbackSessionResultsBundle(
+                session, responses, relevantQuestions, emailNameTable,
+                emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
+                visibilityTable, responseStatus, roster, responseComments, isComplete);
+    }
 
-        return results;
+    private FeedbackSessionResultsBundle getFeedbackSessionResultsForQuestionId(String feedbackSessionName,
+                String courseId, String userEmail, UserRole role, CourseRoster roster, FeedbackSessionAttributes session,
+                List<FeedbackQuestionAttributes> allQuestions, Map<String, FeedbackQuestionAttributes> relevantQuestions,
+                boolean isIncludeResponseStatus, String section, String questionId) {
+
+        List<FeedbackResponseAttributes> responses = new ArrayList<>();
+        Map<String, String> emailNameTable = new HashMap<>();
+        Map<String, String> emailLastNameTable = new HashMap<>();
+        Map<String, String> emailTeamNameTable = new HashMap<>();
+        Map<String, Set<String>> sectionTeamNameTable = new HashMap<>();
+        Map<String, boolean[]> visibilityTable = new HashMap<>();
+        Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
+        FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
+        boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_ID_FOR_RESPONSE_RATE);
+
+        if (isQueryingResponseRateStatus) {
+            responseStatus = section == null && isIncludeResponseStatus
+                           ? getFeedbackSessionResponseStatus(session, roster, allQuestions)
+                           : null;
+        } else {
+            FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(questionId);
+            if (question != null) {
+                relevantQuestions.put(question.getId(), question);
+
+                List<FeedbackResponseAttributes> responsesForThisQn;
+
+                boolean isPrivateSessionCreatedByThisUser = session.isCreator(userEmail) && session.isPrivateSession();
+                if (isPrivateSessionCreatedByThisUser) {
+                    responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
+                } else {
+                    responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                                                    question, userEmail, UserRole.INSTRUCTOR, section);
+                }
+
+                boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
+                if (thisQuestionHasResponses) {
+                    for (FeedbackResponseAttributes response : responsesForThisQn) {
+                        InstructorAttributes instructor = null;
+                        if (isInstructor(role)) {
+                            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+                        }
+                        boolean isVisibleResponse = isResponseVisibleForUser(userEmail, role, null, null, response,
+                                                                             question, instructor);
+                        if (isVisibleResponse) {
+                            responses.add(response);
+                            addEmailNamePairsToTable(emailNameTable, response, question, roster);
+                            addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
+                            addEmailTeamNamePairsToTable(emailTeamNameTable, response, question, roster);
+                            addVisibilityToTable(visibilityTable, question, response, userEmail, role, roster);
+                        }
+                    }
+                }
+            }
+        }
+
+        addSectionTeamNamesToTable(
+                sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
+
+        return new FeedbackSessionResultsBundle(
+                session, responses, relevantQuestions, emailNameTable,
+                emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
+                visibilityTable, responseStatus, roster, responseComments, true);
     }
 
     private Map<String, FeedbackQuestionAttributes> getAllQuestions(
