@@ -235,11 +235,9 @@ public final class SanitizationHelper {
         if (string.indexOf('<') >= 0 || string.indexOf('>') >= 0 || string.indexOf('\"') >= 0
                 || string.indexOf('/') >= 0 || string.indexOf('\'') >= 0) {
             return false;
-        } else if (string.indexOf("&lt;") >= 0 || string.indexOf("&gt;") >= 0 || string.indexOf("&quot;") >= 0
-                   || string.indexOf("&#x2f;") >= 0 || string.indexOf("&#39;") >= 0 || string.indexOf("&amp;") >= 0) {
-            return true;
         }
-        return false;
+        return string.indexOf("&lt;") >= 0 || string.indexOf("&gt;") >= 0 || string.indexOf("&quot;") >= 0
+               || string.indexOf("&#x2f;") >= 0 || string.indexOf("&#39;") >= 0 || string.indexOf("&amp;") >= 0;
     }
 
     /**
