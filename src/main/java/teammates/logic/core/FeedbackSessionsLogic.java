@@ -1784,7 +1784,7 @@ public final class FeedbackSessionsLogic {
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
 
         //Show all questions even if no responses, unless is an ajax request for a specific question.
-        if (role == UserRole.INSTRUCTOR && !params.containsKey(PARAM_QUESTION_ID)) {
+        if (isInstructor(role) && !params.containsKey(PARAM_QUESTION_ID)) {
             for (FeedbackQuestionAttributes question : allQuestions) {
                 relevantQuestions.put(question.getId(), question);
             }
@@ -1833,7 +1833,7 @@ public final class FeedbackSessionsLogic {
                     if (thisQuestionHasResponses) {
                         for (FeedbackResponseAttributes response : responsesForThisQn) {
                             InstructorAttributes instructor = null;
-                            if (role == UserRole.INSTRUCTOR) {
+                            if (isInstructor(role)) {
                                 instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
                             }
                             boolean isVisibleResponse = isResponseVisibleForUser(userEmail, role, null, null, response,
@@ -1898,7 +1898,7 @@ public final class FeedbackSessionsLogic {
         }
 
         InstructorAttributes instructor = null;
-        if (role == UserRole.INSTRUCTOR) {
+        if (isInstructor(role)) {
             instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
         }
 
@@ -1962,6 +1962,10 @@ public final class FeedbackSessionsLogic {
         return results;
     }
 
+    private boolean isInstructor(UserRole role) {
+        return role == UserRole.INSTRUCTOR;
+    }
+
     private List<FeedbackResponseAttributes> getAllResponses(String feedbackSessionName, String courseId,
             Map<String, String> params, String section) {
         boolean isInSection = Boolean.parseBoolean(params.get(PARAM_IN_SECTION));
@@ -2000,7 +2004,7 @@ public final class FeedbackSessionsLogic {
                                     CourseRoster roster, String courseId, String userEmail, UserRole role,
                                     String feedbackSessionName, String sectionToView) {
         InstructorAttributes instructor = null;
-        if (role == UserRole.INSTRUCTOR) {
+        if (isInstructor(role)) {
             instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
         }
         if (instructor != null) {
@@ -2034,7 +2038,7 @@ public final class FeedbackSessionsLogic {
             FeedbackQuestionAttributes relatedQuestion, InstructorAttributes instructor) {
 
         boolean isVisibleResponse = false;
-        if (role == UserRole.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
+        if (isInstructor(role) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
                 || response.recipient.equals(userEmail)
                         && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                 || response.giver.equals(userEmail)
