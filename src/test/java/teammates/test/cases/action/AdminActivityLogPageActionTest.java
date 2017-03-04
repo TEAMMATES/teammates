@@ -27,7 +27,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class AdminActivityLogPageActionTest extends BaseActionTest {
 
-    // typicalLogMessage.json will give a List<List<String>>. These constant are indexes
+    // The test data will be a List<List<String>>. These constant are indexes
     // for the list of log messages in the outer list.
     private static final int LOG_MESSAGE_INDEX_TODAY = 0;
     private static final int LOG_MESSAGE_INDEX_YESTERDAY = 1;
@@ -268,13 +268,6 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         action = getAction("filterQuery", query);
         statusMessage = getShowPageResult(action).getStatusMessage();
         verifyStatusMessage(statusMessage, 12, 1, yesterday);
-        // TODO: fix the bug
-        // Currently when the `person:xxx` like query is present,
-        // status message is supposed to contain the time in that person's timezone.
-        // But this function gets a huge bug: The query will be processed as lower case.
-        // The person google id contains upper case. And thus the information could be lost.
-        // In this case, person's google id will become `person:idofinstructor1ofcourse1`
-        // verifyLocalTimeInStatusMessage(statusMessage, yesterday, 2);
 
         // test statusMessage with `to`
         query = "to:" + formatterAdminTime.format(yesterday);
@@ -426,10 +419,10 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
      *
      * <p>expectedLogs is a 2D array, the outer indices correspond to {@link #LOG_MESSAGE_INDEX_TODAY}
      * {@link #LOG_MESSAGE_YESTDAY_INDEX} and {@link #LOG_MESSAGE_INDEX_TWO_DAYS_AGO}, the inner indices for
-     * every {@code LOG_MESSAGE_*_INDEX} correspond to the orders in {@link #TYPICAL_LOG_MESSAGE} file.
+     * every {@code LOG_MESSAGE_*_INDEX} correspond to the orders in the test data.
      *
-     * @param expectedLogs Expected logs
-     * @param actualLogs Actual logs
+     * @param expectedLogs
+     * @param actualLogs
      */
     private void verifyLogs(int[][] expectedLogs, List<ActivityLogEntry> actualLogs) {
         List<String> expectedMsgs = generateExpectedMsgFrom(expectedLogs);
