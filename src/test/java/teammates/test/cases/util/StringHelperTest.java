@@ -122,13 +122,11 @@ public class StringHelperTest extends BaseTestCase {
 
         decrptedMsg = StringHelper.decrypt(StringHelper.encrypt(msg));
         assertEquals(msg, decrptedMsg);
+    }
 
-        try {
-            StringHelper.decrypt("ABC");
-            signalFailureToDetectException("Decryption of invalid ciphertext should throw");
-        } catch (InvalidParametersException e) {
-            ignoreExpectedException();
-        }
+    @Test(expectedExceptions = { InvalidParametersException .class })
+    public void testEncryptingInvalidPlaintextThrowsException() throws InvalidParametersException {
+        StringHelper.decrypt("ABC");
     }
 
     @Test
