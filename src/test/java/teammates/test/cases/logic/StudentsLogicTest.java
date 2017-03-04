@@ -409,8 +409,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         String enrollLines;
         String courseId = "CourseID";
         coursesLogic.createCourse(courseId, "CourseName", "UTC");
-        // This is used as dummy param for getInvalidityInfoInEnrollLines(String, String, List<StudentAttributes>)
-        List<StudentAttributes> dummyStudentList = new ArrayList<StudentAttributes>();
         List<String> invalidInfo;
         List<String> expectedInvalidInfo = new ArrayList<String>();
 
@@ -432,7 +430,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                     + Const.EOL + lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL
                     + lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId, dummyStudentList);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
 
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
         expectedInvalidInfo.clear();

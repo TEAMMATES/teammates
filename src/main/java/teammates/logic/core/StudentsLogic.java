@@ -300,14 +300,7 @@ public final class StudentsLogic {
             throw new EnrollException(Const.StatusMessages.ENROLL_LINE_EMPTY);
         }
 
-        // Student is built in getInvalidityInfoInEnrollLines
-        ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-        List<String> invalidityInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId, studentList);
-
-        if (!invalidityInfo.isEmpty()) {
-            throw new EnrollException(StringHelper.toString(invalidityInfo, "<br>"));
-        }
-
+        List<StudentAttributes> studentList = createAndValidateStudents(enrollLines, courseId);
         ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
         ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
 
@@ -579,15 +572,14 @@ public final class StudentsLogic {
     }
 
     /* All empty lines or lines with only white spaces will be skipped.
-     * The invalidity info returned are in HTML format.
-     *
-     * @param studentList is built to be used in enrollStudents(String, String, boolean)
+     * The invalidity info is in HTML format.
      */
-    private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId, List<StudentAttributes> studentList)
+    private List<StudentAttributes> createAndValidateStudents(String lines, String courseId)
             throws EnrollException {
         List<String> invalidityInfo = new ArrayList<String>();
         String[] linesArray = lines.split(Const.EOL);
         ArrayList<String> studentEmailList = new ArrayList<String>();
+        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
 
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
 
@@ -622,7 +614,11 @@ public final class StudentsLogic {
             }
         }
 
-        return invalidityInfo;
+        if (!invalidityInfo.isEmpty()) {
+            throw new EnrollException(StringHelper.toString(invalidityInfo, "<br>"));
+        }
+        
+        return studentList;
     }
 
     private List<String> getInvalidityInfoInDuplicatedEmail(String email,
