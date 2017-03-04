@@ -1,0 +1,144 @@
+{
+    "accounts": {
+        "CCEnrollUiT.teammates.test": {
+            "email": "teammates.test@gmail.tmt",
+            "googleId": "CCEnrollUiT.teammates.test",
+            "institute": "TEAMMATES Test Institute 1",
+            "isInstructor": "true",
+            "name": "Teammates Test"
+        }
+    },
+    "comments": {},
+    "courses": {
+        "CCEnrollUiT.CS2104": {
+            "id": "CCEnrollUiT.CS2104",
+            "name": "Programming Language Concepts",
+            "timeZone": "UTC"
+        }
+    },
+    "feedbackQuestions": {},
+    "feedbackResponseComments": {},
+    "feedbackResponses": {},
+    "feedbackSessions": {},
+    "instructors": {
+        "CCEnrollUiT.teammates.test": {
+            "courseId": "CCEnrollUiT.CS2104",
+            "displayedName": "Co-owner",
+            "email": "teammates.test@gmail.tmt",
+            "googleId": "CCEnrollUiT.teammates.test",
+            "isDisplayedToStudents": "false",
+            "name": "Teammates Test",
+            "privileges": {
+                "courseLevel": {
+                    "cangivecommentinsection": "true",
+                    "canmodifycommentinsection": "true",
+                    "canmodifycourse": "true",
+                    "canmodifyinstructor": "true",
+                    "canmodifysession": "true",
+                    "canmodifysessioncommentinsection": "true",
+                    "canmodifystudent": "true",
+                    "cansubmitsessioninsection": "true",
+                    "canviewcommentinsection": "true",
+                    "canviewsessioninsection": "true",
+                    "canviewstudentinsection": "true"
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            },
+            "role": "Co-owner"
+        }
+    },
+    "profiles": {},
+    "students": {
+        "bryan.christie.tmms@CCEnrollUiT.CS2104": {
+            "comments": "This student's name is Bryan Christie",
+            "course": "CCEnrollUiT.CS2104",
+            "email": "bryan.christie.tmms@gmail.tmt",
+            "googleId": "CCEnrollUiT.tmms.bryan.christie",
+            "name": "Bryan Christie",
+            "section": "Section 1",
+            "team": "Team 1"
+        },
+        "christopher.bishop.tmms@CCEnrollUiT.CS2104": {
+            "comments": "This student's name is Christopher Bishop",
+            "course": "CCEnrollUiT.CS2104",
+            "email": "christopher.bishop.tmms@gmail.tmt",
+            "googleId": "CCEnrollUiT.tmms.christopher.bishop",
+            "name": "Christopher Bishop",
+            "section": "Section 2",
+            "team": "Team 4"
+        },
+        "ellen.miller.tmms@CCEnrollUiT.CS2104": {
+            "comments": "This student's name is Ellen Miller",
+            "course": "CCEnrollUiT.CS2104",
+            "email": "ellen.miller.tmms@gmail.tmt",
+            "googleId": "CCEnrollUiT.tmms.ellen.miller",
+            "name": "Ellen Miller",
+            "section": "Section 2",
+            "team": "Team 2"
+        },
+        "forrest.purpura.tmms@CCEnrollUiT.CS2104": {
+            "comments": "This student's name is Forrest Purpura",
+            "course": "CCEnrollUiT.CS2104",
+            "email": "forrest.purpura.tmms@gmail.tmt",
+            "googleId": "CCEnrollUiT.tmms.forrest.purpura",
+            "name": "Forrest Purpura",
+            "section": "Section 2",
+            "team": "Team 2"
+        },
+        "john.vogel.tmms@CCEnrollUiT.CS2104": {
+            "comments": "This student's name is John Vogel",
+            "course": "CCEnrollUiT.CS2104",
+            "email": "john.vogel.tmms@gmail.tmt",
+            "googleId": "CCEnrollUiT.tmms.john.vogel",
+            "name": "John Vogel",
+            "section": "Section 1",
+            "team": "Team 3"
+        },
+        "kelley.nolen.tmms@CCEnrollUiT.CS2104": {
+            "comments": "This student's name is Kelley Nolen",
+            "course": "CCEnrollUiT.CS2104",
+            "email": "kelley.nolen.tmms@gmail.tmt",
+            "googleId": "CCEnrollUiT.tmms.kelley.nolen",
+            "name": "Kelley Nolen",
+            "section": "Section 2",
+            "team": "Team 4"
+        },
+        "nicole.camp.tmms@CCEnrollUiT.CS2104": {
+            "comments": "This student's name is Nicole Camp",
+            "course": "CCEnrollUiT.CS2104",
+            "email": "nicole.camp.tmms@gmail.tmt",
+            "googleId": "CCEnrollUiT.tmms.nicole.camp",
+            "name": "Nicole Camp",
+            "section": "Section 1",
+            "team": "Team 1"
+        },
+        "phyllis.jones.tmms@CCEnrollUiT.CS2104": {
+            "comments": "This student's name is Phyllis Jones",
+            "course": "CCEnrollUiT.CS2104",
+            "email": "phyllis.jones.tmms@gmail.tmt",
+            "googleId": "CCEnrollUiT.tmms.phyllis.jones",
+            "name": "Phyllis Jones",
+            "section": "Section 2",
+            "team": "Team 2"
+        },
+        "robert.boehm.tmms@CCEnrollUiT.CS2104": {
+            "comments": "This student's name is Robert Boehm",
+            "course": "CCEnrollUiT.CS2104",
+            "email": "robert.boehm.tmms@gmail.tmt",
+            "googleId": "CCEnrollUiT.tmms.robert.boehm",
+            "name": "Robert Boehm",
+            "section": "Section 1",
+            "team": "Team 1"
+        },
+        "vern.brown.tmms@CCEnrollUiT.CS2104": {
+            "comments": "This student's name is Vern Brown",
+            "course": "CCEnrollUiT.CS2104",
+            "email": "vern.brown.tmms@gmail.tmt",
+            "googleId": "CCEnrollUiT.tmms.vern.brown",
+            "name": "Vern Brown",
+            "section": "Section 1",
+            "team": "Team 3"
+        }
+    }
+}
