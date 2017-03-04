@@ -210,10 +210,10 @@ function toggleCollapse(e, pans) {
 
     if ($(e).html().trim().startsWith(expand)) {
         $('.ajax-response-auto').click();
-        var $autoLoadCount = $('.ajax_auto').click();
-        var $isAutoLoadingTriggered = $autoLoadCount.length !== 0;
+        var $autoLoad = $('.ajax_auto').click();
+        var isAutoLoadingTriggered = $autoLoad.length !== 0;
 
-        if (!$isAutoLoadingTriggered) {
+        if (!isAutoLoadingTriggered) {
             isExpandingAll = true;
             var i = 0;
             for (var idx = 0; idx < panels.length; idx++) {
