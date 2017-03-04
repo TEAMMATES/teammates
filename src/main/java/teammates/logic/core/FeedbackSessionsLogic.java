@@ -1764,16 +1764,14 @@ public final class FeedbackSessionsLogic {
             UserRole role, CourseRoster roster, Map<String, String> params)
             throws EntityDoesNotExistException {
 
-        FeedbackSessionAttributes session = fsDb.getFeedbackSession(
-                courseId, feedbackSessionName);
+        FeedbackSessionAttributes session = fsDb.getFeedbackSession(courseId, feedbackSessionName);
 
         if (session == null) {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_VIEW + courseId + "/" + feedbackSessionName);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
-                        courseId);
+                fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
 
         // create empty data containers to store results
         List<FeedbackResponseAttributes> responses = new ArrayList<>();
@@ -1794,8 +1792,7 @@ public final class FeedbackSessionsLogic {
 
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
 
-        boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession()
-                                                         && !session.isCreator(userEmail);
+        boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession() && !session.isCreator(userEmail);
         if (isPrivateSessionNotCreatedByThisUser) {
             // return empty result set
             return new FeedbackSessionResultsBundle(
@@ -1823,15 +1820,13 @@ public final class FeedbackSessionsLogic {
 
                     List<FeedbackResponseAttributes> responsesForThisQn;
 
-                    boolean isPrivateSessionCreatedByThisUser = session
-                            .isCreator(userEmail) && session.isPrivateSession();
+                    boolean isPrivateSessionCreatedByThisUser = session.isCreator(userEmail)
+                                                                && session.isPrivateSession();
                     if (isPrivateSessionCreatedByThisUser) {
-                        responsesForThisQn = frLogic
-                                .getFeedbackResponsesForQuestion(question.getId());
+                        responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
                     } else {
-                        responsesForThisQn = frLogic
-                                .getViewableFeedbackResponsesForQuestionInSection(
-                                        question, userEmail, UserRole.INSTRUCTOR, section);
+                        responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                                                        question, userEmail, UserRole.INSTRUCTOR, section);
                     }
 
                     boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
@@ -1841,27 +1836,22 @@ public final class FeedbackSessionsLogic {
                             if (role == UserRole.INSTRUCTOR) {
                                 instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
                             }
-                            boolean isVisibleResponse = isResponseVisibleForUser(userEmail,
-                                    role, null, null, response, question, instructor);
+                            boolean isVisibleResponse = isResponseVisibleForUser(userEmail, role, null, null, response,
+                                                                                 question, instructor);
                             if (isVisibleResponse) {
                                 responses.add(response);
-                                addEmailNamePairsToTable(emailNameTable, response,
-                                        question, roster);
-                                addEmailLastNamePairsToTable(emailLastNameTable, response,
-                                        question, roster);
-                                addEmailTeamNamePairsToTable(emailTeamNameTable,
-                                        response,
-                                        question, roster);
-                                addVisibilityToTable(visibilityTable, question,
-                                        response, userEmail, role, roster);
+                                addEmailNamePairsToTable(emailNameTable, response, question, roster);
+                                addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
+                                addEmailTeamNamePairsToTable(emailTeamNameTable, response, question, roster);
+                                addVisibilityToTable(visibilityTable, question, response, userEmail, role, roster);
                             }
                         }
                     }
                 }
             }
 
-            addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role,
-                                       feedbackSessionName, section);
+            addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail,
+                                       role, feedbackSessionName, section);
 
             FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(
@@ -1877,8 +1867,7 @@ public final class FeedbackSessionsLogic {
             allQuestionsMap.put(qn.getId(), qn);
         }
 
-        List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId,
-                params, section);
+        List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId, params, section);
 
         boolean isComplete = params.get(PARAM_RANGE) == null;
 
@@ -1902,8 +1891,7 @@ public final class FeedbackSessionsLogic {
         Set<String> studentsEmailInTeam = new HashSet<String>();
         if (role == UserRole.STUDENT) {
             student = studentsLogic.getStudentForEmail(courseId, userEmail);
-            List<StudentAttributes> studentsInTeam = studentsLogic
-                    .getStudentsForTeam(student.team, courseId);
+            List<StudentAttributes> studentsInTeam = studentsLogic.getStudentsForTeam(student.team, courseId);
             for (StudentAttributes teammates : studentsInTeam) {
                 studentsEmailInTeam.add(teammates.email);
             }
@@ -1916,25 +1904,18 @@ public final class FeedbackSessionsLogic {
 
         Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
         for (FeedbackResponseAttributes response : allResponses) {
-            FeedbackQuestionAttributes relatedQuestion = allQuestionsMap
-                    .get(response.feedbackQuestionId);
+            FeedbackQuestionAttributes relatedQuestion = allQuestionsMap.get(response.feedbackQuestionId);
             if (relatedQuestion != null) {
-                boolean isVisibleResponse = isResponseVisibleForUser(userEmail,
-                        role, student, studentsEmailInTeam, response,
-                        relatedQuestion, instructor);
+                boolean isVisibleResponse = isResponseVisibleForUser(userEmail, role, student, studentsEmailInTeam,
+                                                                     response, relatedQuestion, instructor);
                 if (isVisibleResponse) {
                     responses.add(response);
                     relevantResponse.put(response.getId(), response);
-                    relevantQuestions.put(relatedQuestion.getId(),
-                            relatedQuestion);
-                    addEmailNamePairsToTable(emailNameTable, response,
-                            relatedQuestion, roster);
-                    addEmailLastNamePairsToTable(emailLastNameTable, response,
-                            relatedQuestion, roster);
-                    addEmailTeamNamePairsToTable(emailTeamNameTable, response,
-                            relatedQuestion, roster);
-                    addVisibilityToTable(visibilityTable, relatedQuestion,
-                            response, userEmail, role, roster);
+                    relevantQuestions.put(relatedQuestion.getId(), relatedQuestion);
+                    addEmailNamePairsToTable(emailNameTable, response, relatedQuestion, roster);
+                    addEmailLastNamePairsToTable(emailLastNameTable, response, relatedQuestion, roster);
+                    addEmailTeamNamePairsToTable(emailTeamNameTable, response, relatedQuestion, roster);
+                    addVisibilityToTable(visibilityTable, relatedQuestion, response, userEmail, role, roster);
                 }
             }
         }
@@ -1943,20 +1924,18 @@ public final class FeedbackSessionsLogic {
                 || Const.FeedbackSessionResults.GRQ_SORT_TYPE.equals(params.get(PARAM_VIEW_TYPE))
                 || Const.FeedbackSessionResults.RGQ_SORT_TYPE.equals(params.get(PARAM_VIEW_TYPE))) {
             List<FeedbackResponseCommentAttributes> allResponseComments =
-                    frcLogic.getFeedbackResponseCommentForSessionInSection(courseId,
-                            feedbackSessionName, section);
+                    frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, feedbackSessionName, section);
             for (FeedbackResponseCommentAttributes frc : allResponseComments) {
                 FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
                 FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
-                boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(userEmail,
-                        role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
+                boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(userEmail, role, student,
+                                                            studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
                 if (isVisibleResponseComment) {
                     if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
                         frc.giverEmail = "Anonymous";
                     }
 
-                    List<FeedbackResponseCommentAttributes> frcList = responseComments
-                            .get(frc.feedbackResponseId);
+                    List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);
                     if (frcList == null) {
                         frcList = new ArrayList<FeedbackResponseCommentAttributes>();
                         frcList.add(frc);
@@ -1967,8 +1946,7 @@ public final class FeedbackSessionsLogic {
                 }
             }
 
-            for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments
-                    .values()) {
+            for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments.values()) {
                 sortByCreatedDate(responseCommentList);
             }
         }
