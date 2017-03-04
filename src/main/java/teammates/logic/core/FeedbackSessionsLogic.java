@@ -1845,13 +1845,10 @@ public final class FeedbackSessionsLogic {
             addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail,
                                        role, feedbackSessionName, section);
 
-            FeedbackSessionResultsBundle results =
-                    new FeedbackSessionResultsBundle(
-                            session, responses, relevantQuestions, emailNameTable,
-                            emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
-                            visibilityTable, responseStatus, roster, responseComments, true);
-
-            return results;
+            return new FeedbackSessionResultsBundle(
+                    session, responses, relevantQuestions, emailNameTable,
+                    emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
+                    visibilityTable, responseStatus, roster, responseComments, true);
         }
 
         Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<String, FeedbackQuestionAttributes>();
@@ -1945,13 +1942,10 @@ public final class FeedbackSessionsLogic {
 
         addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
 
-        FeedbackSessionResultsBundle results =
-                new FeedbackSessionResultsBundle(
-                        session, responses, relevantQuestions, emailNameTable,
-                        emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
-                        visibilityTable, responseStatus, roster, responseComments, isComplete);
-
-        return results;
+        return new FeedbackSessionResultsBundle(
+                session, responses, relevantQuestions, emailNameTable,
+                emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
+                visibilityTable, responseStatus, roster, responseComments, isComplete);
     }
 
     private Map<String, FeedbackQuestionAttributes> getAllQuestions(UserRole role, Map<String, String> params,
