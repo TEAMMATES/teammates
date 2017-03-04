@@ -710,6 +710,7 @@ public final class Const {
         public static final String PREVIEWAS = "previewas";
 
         public static final String STUDENT_ID = "googleid";
+        public static final String INVITER_ID = "invitergoogleid";
 
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
@@ -758,6 +759,8 @@ public final class Const {
         public static final String EMAIL_COURSE = "course";
         public static final String EMAIL_FEEDBACK = "feedback";
         public static final String EMAIL_TYPE = "type";
+        public static final String SESSION_SUMMARY_EMAIL_SEND_CHECK = "sessionsummarysendemail";
+        public static final String OPEN_OR_PUBLISHED_EMAIL_SEND_CHECK = "openorpublishedemailsent";
 
         public static final String EMAIL_CONTENT = "content";
         public static final String EMAIL_SENDER = "sender";
@@ -1243,7 +1246,9 @@ public final class Const {
                 "If the student was created during the last few minutes, "
                 + "try again in a few more minutes as the student may still be being saved.";
 
-        public static final String STUDENT_EDITED = "The student has been edited successfully";
+        public static final String STUDENT_EDITED = "The student has been edited successfully.";
+        public static final String STUDENT_EDITED_AND_EMAIL_SENT = STUDENT_EDITED
+                + " A summary of the course has been sent to the new email.";
         public static final String STUDENT_NOT_FOUND_FOR_EDIT =
                 "The student you tried to edit does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
         public static final String STUDENT_DELETED = "The student has been removed from the course";

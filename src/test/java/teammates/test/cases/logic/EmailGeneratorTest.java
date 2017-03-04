@@ -9,6 +9,7 @@ import java.util.TimeZone;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -201,6 +202,19 @@ public class EmailGeneratorTest extends BaseLogicTest {
         assertTrue(hasStudent1ReceivedEmail);
         assertTrue(hasInstructor1ReceivedEmail);
 
+        ______TS("send summary of all feedback sessions of course email");
+
+        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1);
+        subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
+        hasStudent1ReceivedEmail = false;
+
+        if (email.getRecipient().equals(student1.email)) {
+            verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForStudent.html");
+            hasStudent1ReceivedEmail = true;
+        }
+
+        assertTrue(hasStudent1ReceivedEmail);
+
         ______TS("feedback session submission email");
 
         Calendar time = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -209,8 +223,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         time.set(Calendar.HOUR_OF_DAY, 5);
         time.set(Calendar.MINUTE, 30);
         time.set(Calendar.YEAR, 2016);
-        EmailWrapper email = new EmailGenerator()
-                .generateFeedbackSubmissionConfirmationEmailForStudent(session, student1, time);
+        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session, student1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
         verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailPositiveTimeZone.html");
@@ -257,10 +270,16 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String instructorEmail = "instructor@email.tmt";
         String shortName = "Instr";
         String regkey = "skxxxxxxxxxks";
+
         @SuppressWarnings("deprecation")
         InstructorAttributes instructor =
                 new InstructorAttributes("googleId", "courseId", "Instructor Name", instructorEmail);
         instructor.key = regkey;
+
+        AccountAttributes inviter = new AccountAttributes();
+        inviter.email = "instructor-joe@gmail.com";
+        inviter.name = "Joe Wilson";
+
         String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                 .withRegistrationKey(StringHelper.encrypt(regkey))
                                 .withInstructorInstitution("Test Institute")
@@ -277,7 +296,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
 
-        email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
+        email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, instructor.email, subject, "/instructorCourseJoinEmail.html");

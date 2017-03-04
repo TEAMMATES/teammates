@@ -54,7 +54,11 @@ $(document).ready(function() {
             return false;
         }
 
-        reenableFieldsForSubmission();
+        reenableFieldsForSubmission(); // only enabled inputs will appear in the post data
+
+        // disable button to prevent user from clicking submission button again
+        var $submissionButton = $('#response_submit_button');
+        addLoadingIndicator($submissionButton, '');
     });
 
     formatRecipientLists();
