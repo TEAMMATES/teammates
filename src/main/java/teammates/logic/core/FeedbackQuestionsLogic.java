@@ -88,8 +88,7 @@ public final class FeedbackQuestionsLogic {
     }
 
     public FeedbackQuestionAttributes copyFeedbackQuestion(
-            String feedbackQuestionId,
-            String feedbackSessionName, String courseId, String instructorEmail)
+            String feedbackQuestionId, String feedbackSessionName, String courseId, String instructorEmail)
             throws InvalidParametersException {
 
         FeedbackQuestionAttributes question = getFeedbackQuestion(feedbackQuestionId);
