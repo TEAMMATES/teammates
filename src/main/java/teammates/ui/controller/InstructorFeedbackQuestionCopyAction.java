@@ -25,8 +25,6 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
         try {
             int index = 0;
             String feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + index);
-            String oldCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID + "-" + index);
-            String oldFeedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME + "-" + index);
             statusToAdmin = "";
 
             while (feedbackQuestionId != null) {
