@@ -35,7 +35,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String fileName = "";
 
         String questionName = "";
-        if (questionNumber == null) {
+        if (questionNumber != null) {
             questionName = "_question" + questionNumber;
         }
 
