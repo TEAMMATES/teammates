@@ -1,3 +1,5 @@
+'use strict';
+
 var COURSE_ID_MAX_LENGTH = 40;
 var COURSE_NAME_MAX_LENGTH = 64;
 var EVAL_NAME_MAX_LENGTH = 38;
@@ -179,7 +181,7 @@ $(document).on('ajaxComplete ready', function() {
      * such as 'icons' from underlining.
     */
     $('span[data-toggle="tooltip"]').each(function() {
-        textValue = $(this).text().replace(/\s/g, '');
+        var textValue = $(this).text().replace(/\s/g, '');
         if (textValue) {
             $(this).addClass('tool-tip-decorate');
         }
@@ -203,7 +205,7 @@ function bindDefaultImageIfMissing(element) {
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
 function isTouchDevice() {
-    return 'ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch;
+    return 'ontouchstart' in window || window.DocumentTouch && document instanceof window.DocumentTouch;
 }
 
 /**
@@ -943,7 +945,7 @@ function toggleSingleCollapse(e) {
     if ($(e.target).is('a') || $(e.target).is('input')) {
         return;
     }
-    var glyphIcon = $(this).find('.glyphicon');
+    var glyphIcon = $(window).find('.glyphicon');
     var className = $(glyphIcon[0]).attr('class');
     if (className.indexOf('glyphicon-chevron-up') === -1) {
         showSingleCollapse($(e.currentTarget).attr('data-target'));

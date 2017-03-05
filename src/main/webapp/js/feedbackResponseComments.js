@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     registerResponseCommentsEvent();
     registerResponseCommentCheckboxEvent();
@@ -5,7 +7,7 @@ $(document).ready(function() {
 });
 
 function isInCommentsPage() {
-    return $(location).attr('href').indexOf('instructorCommentsPage') !== -1;
+    return $(window.location).attr('href').indexOf('instructorCommentsPage') !== -1;
 }
 
 var addCommentHandler = function(e) {
