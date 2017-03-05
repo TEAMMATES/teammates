@@ -285,6 +285,17 @@ public abstract class AppPage {
     }
 
     /**
+     * Waits for a confirmation modal to appear and click the No button
+     */
+    public void clickNoOnModal() {
+        waitForModalPresence();
+        WebElement noButton = browser.driver.findElement(By.cssSelector("[data-bb-handler='no']"));
+        waitForElementToBeClickable(noButton);
+        click(noButton);
+        waitForModalToDisappear();
+    }
+
+    /**
      * Waits for a confirmation modal to appear and click the cancel button
      */
     public void waitForConfirmationModalAndClickCancel() {
@@ -654,6 +665,19 @@ public abstract class AppPage {
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return this;
+    }
+
+    /**
+     * Clicks the element and clicks 'Yes' in the follow up dialog box and will not wait for modal to disappear
+     * Fails if there is no dialog box.
+     * @return the resulting page.
+     */
+    public void clickAndConfirmWithoutWaitingForModalDisappearance(WebElement elementToClick) {
+        click(elementToClick);
+        waitForModalPresence();
+        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
+        waitForElementToBeClickable(okayButton);
+        click(okayButton);
     }
 
     /**
