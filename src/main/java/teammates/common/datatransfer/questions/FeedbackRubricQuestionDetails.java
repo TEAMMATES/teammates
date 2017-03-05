@@ -977,7 +977,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 for (int j = 0; j < numOfRubricChoices; j++) {
                     percentageFrequencyAndAverage[i][j] = (float) responseFrequency[i][j] / totalForSubQuestion;
                 }
-                // Calculate the average for each sub-question
+                // calculate the average for each sub-question
                 if (questionDetails.hasAssignedWeights) {
                     for (int j = 0; j < numOfRubricChoices; j++) {
                         float choiceWeight =
