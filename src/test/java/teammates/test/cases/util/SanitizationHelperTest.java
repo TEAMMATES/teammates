@@ -115,27 +115,6 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testIsSanitizedHtml() {
-        isSanitizedHtml_receivesNull_returnsFalse();
-        isSanitizedHtml_receivesSanitized_returnsTrue();
-        isSanitizedHtml_receivesUnsanitized_returnsFalse();
-    }
-
-    private void isSanitizedHtml_receivesNull_returnsFalse() {
-        assertFalse(SanitizationHelper.isSanitizedHtml(null));
-    }
-
-    private void isSanitizedHtml_receivesSanitized_returnsTrue() {
-        String sanitizedString = SanitizationHelper.sanitizeForHtml("<script>alert('injected');</script>");
-        assertTrue(SanitizationHelper.isSanitizedHtml(sanitizedString));
-    }
-
-    private void isSanitizedHtml_receivesUnsanitized_returnsFalse() {
-        String unsanitizedHtml = "&amp;<p>this is unsanitized.</p>";
-        assertFalse(SanitizationHelper.isSanitizedHtml(unsanitizedHtml));
-    }
-
-    @Test
     public void testSanitizeForHtmlTag() {
         sanitizeHtmlTag_receivesNull_returnsNull();
         sanitizeHtmlTag_receivesHtml_returnsSanitized();

@@ -226,21 +226,6 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Returns true if string contains no characters to be sanitized and contains substrings of sanitized characters
-     */
-    public static boolean isSanitizedHtml(String string) {
-        if (string == null) {
-            return false;
-        }
-        if (string.indexOf('<') >= 0 || string.indexOf('>') >= 0 || string.indexOf('\"') >= 0
-                || string.indexOf('/') >= 0 || string.indexOf('\'') >= 0) {
-            return false;
-        }
-        return string.indexOf("&lt;") >= 0 || string.indexOf("&gt;") >= 0 || string.indexOf("&quot;") >= 0
-               || string.indexOf("&#x2f;") >= 0 || string.indexOf("&#39;") >= 0 || string.indexOf("&amp;") >= 0;
-    }
-
-    /**
      * Escapes HTML tag safely. This function can be applied multiple times.
      */
     public static String sanitizeForHtmlTag(String string) {

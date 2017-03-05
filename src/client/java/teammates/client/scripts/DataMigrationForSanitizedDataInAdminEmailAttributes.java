@@ -58,7 +58,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
     }
 
     private boolean isEmailSanitized(AdminEmailAttributes email) {
-        return SanitizationHelper.isSanitizedHtml(email.getContentValue());
+        return DataMigrationSanitizationHelper.isSanitizedHtml(email.getContentValue());
     }
 
     /**
