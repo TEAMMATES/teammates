@@ -1,4 +1,4 @@
-**Issue Title:** Bug: [brief description of bug]
+**Issue Title:** [brief description of bug]
 
 Copy-and-paste the following template to the issue tracker and fill it in with relevant details:
 ```markdown
