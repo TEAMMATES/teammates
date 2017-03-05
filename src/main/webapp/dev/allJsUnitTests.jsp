@@ -256,7 +256,7 @@
                 <tr id="student-c1.3" style="display: table-row;">
                     <td id="studentsection-c1.0"> Section C </td>
                     <td id="studentteam-c1.0.1">Team 2</td>
-                    <td id="studentname-c1.3" >Denny Charlés</td>
+                    <td id="studentname-c1.3" >Denny CharlÃ©s</td>
                     <td id="studentemail-c1.3">student5@email.com</td>
                 </tr>
                 <tr id="student-c1.4" style="display: table-row;">
@@ -299,11 +299,60 @@
         </table>
     </div>
     <div id="visible">Visible</div>
+    <table class="table table-bordered table-striped">
+        <thead class="fill-primary">
+            <tr id="resultsHeader-0">
+                <th id="button_sortsection-0" class="button-sort-none" onclick="toggleSort(this)">
+                    Section <span class="icon-sort unsorted"></span>
+                </th>
+                <th id="button_sortteam-0" class="button-sort-none" onclick="toggleSort(this)">
+                    Team <span class="icon-sort unsorted"></span>
+                </th>
+                <th id="button_sortstudentname-0" class="button-sort-none" onclick="toggleSort(this)">
+                    Student Name <span class="icon-sort unsorted"></span>
+                </th>
+                <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this)">
+                    Status <span class="icon-sort unsorted"></span>
+                </th>
+                <th id="button_sortemail-0" class="button-sort-none" onclick="toggleSort(this)">
+                    Email <span class="icon-sort unsorted"></span>
+                </th>
+                <th>Action(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="student_row" id="student-c0.8">
+                <td id="studentsection-c0.1">
+                    Tutorial Group 2
+                </td>
+                <td id="studentteam-c0.1.2">
+                    Team 3
+                </td>
+                <td id="studentname-c0.8">
+                    Hugh Ivanov
+                </td>
+                <td class="align-center">
+                    Yet to join
+                </td>
+                <td id="studentemail-c0.8">
+                    hugh.i.tmms@gmail.tmt
+                </td>
+                <td class="no-print align-center">
+                    <a class="course-student-remind-link btn btn-default btn-xs"
+                    href="/page/instructorCourseRemind?courseid=teammates.instructor.uni-demo&studentemail=hugh.i.tmms%40gmail.tmt&user=teammates.instructor%40university.edu" data-toggle="tooltip"
+                            data-placement="top">
+                            Send Invite
+                        </a>
+                </td>
+            </tr>
+        </tbody>    
+    </table>
     <script type="text/javascript" src="<%= FrontEndLibrary.QUNIT %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BLANKET %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTBOX %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js" data-cover></script>
     <script type="text/javascript" src="/js/adminHome.js" data-cover></script>
     <script type="text/javascript" src="/js/common.js" data-cover></script>
