@@ -10,6 +10,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
@@ -961,6 +962,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          * Requires responseFrequency to be computed
          */
         void calculatePercentageFrequencyAndAverage() {
+            Assumption.assertNotNull("Response Frequency should be initialised and calculated first.",
+                                     responseFrequency);
+
             percentageFrequencyAndAverage = new float[numOfRubricSubQuestions][numOfRubricChoices + 1];
             // calculate percentage frequencies and average value
             for (int i = 0; i < percentageFrequencyAndAverage.length; i++) {
