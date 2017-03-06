@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
@@ -209,7 +211,6 @@ function toggleCollapse(e, pans) {
     var panels = pans || $('div.panel-collapse');
 
     if ($(e).html().trim().startsWith(expand)) {
-        isExpandingAll = true;
         var i = 0;
         for (var idx = 0; idx < panels.length; idx++) {
             if ($(panels[idx]).attr('class').indexOf('in') === -1) {
@@ -223,7 +224,6 @@ function toggleCollapse(e, pans) {
         var tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
         $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
     } else {
-        isCollapsingAll = true;
         var j = 0;
         for (var k = 0; k < panels.length; k++) {
             if ($(panels[k]).attr('class').indexOf('in') !== -1) {

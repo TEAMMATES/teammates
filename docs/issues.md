@@ -22,6 +22,7 @@ This label classifies the issue based on its **type**.
 * `c.Enhancement`: an enhancement to an existing functionality (not big enough to be considered as a user story)
 * `c.Story`: a user story, e.g. a feature request
 * `c.Epic`: a feature that is worth many user stories
+* `c.DevOps`: workflow-related or build-related improvements and additions
 * `c.Task`: other work items such as refactoring or updating documentation
 * `c.Release`: release-related issues; this is reserved for core team members working on managing release
 * `c.Message`: a means of communication with the dev team, e.g. help requests; while this is not an issue to be worked on, any contributor is welcome to chip in their opinions
@@ -51,13 +52,14 @@ This label classifies the issue based on its **difficulty level**.
 This label classifies the issue based on the **non-functional aspect** it tackles.
 
 * `a-AccessControl`: controlling access to user groups, authentication, privacy, anonymity
-* `a-CodeQuality`: refactorings that are mainly to improve code/design quality
+* `a-CodeQuality`: code/design quality-related issues, static analysis
 * `a-Concurrency`: things related to concurrent access, session control
-* `a-DevOps`: CI, release management, version control, dev docs, workflow management
-* `a-Docs`: website, user docs
+* `a-Build`: IDE support, CI, task automation
+* `a-Docs`: website, user docs, dev docs
 * `a-FaultTolerance`: resilience to user errors, environmental problems
 * `a-Performance`: speed of operation
 * `a-Persistence`: database layer, GAE datastore
+* `a-Process`: workflow management, release management
 * `a-Scalability`: related to behavior at increasing loads
 * `a-Security`: protection from security threats
 * `a-Testing`: testing-related traits such as efficiency, robustness, and coverage
@@ -82,7 +84,7 @@ This label classifies the issue based on the **functional aspect** it tackles.
 
 This label classifies the issue based on the **technology/tool stack** it involves.
 
-* `t-CI`: Gradle, static analysis, build script, CI
+* `t-CI`: Gradle, NPM, static analysis, build script, CI
 * `t-CSS`: CSS, Bootstrap
 * `t-GAE`: Google App Engine-related technologies
 * `t-HTML`: HTML, Browsers

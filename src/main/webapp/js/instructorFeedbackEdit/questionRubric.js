@@ -1,3 +1,5 @@
+'use strict';
+
 function addRubricRow(questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
 

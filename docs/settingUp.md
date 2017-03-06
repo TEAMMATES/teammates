@@ -124,7 +124,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Text Encoding: Go to `File → Settings → Editor → File Encodings` and ensure that `IDE Encoding` and `Project Encoding` are set to `UTF-8`.
    * HTML/JSP syntax: We prefer not to use the HTML/JSP Inspections provided by IntelliJ. Go to `File → Settings → Editor → Inspections` and uncheck `HTML` and `JSP Inspections`.
 1. Import the project into IntelliJ.
-   * Click `Import existing project` and select the local repository folder.
+   * Click `Import project` and select the local repository folder.
    * Click `Import project from external model → Gradle`.
    * Click `Next`.
    * Check `Use auto-import`.
