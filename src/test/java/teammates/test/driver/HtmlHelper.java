@@ -18,9 +18,9 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 public final class HtmlHelper {
-    
+
     private static final String INDENTATION_STEP = "  ";
-    
+
     private static final String REGEX_CONTINUE_URL = ".*?";
     private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = "[A-F0-9]{32,}";
     private static final String REGEX_ENCRYPTED_COURSE_ID = "[A-F0-9]{32,}";
@@ -31,9 +31,7 @@ public final class HtmlHelper {
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( UTC)?";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
-    private static final String REGEX_EXTERNAL_LIBRARY =
-            "(?:/(?:stylesheets|js)/lib/|https://(?:[a-z0-9.@-]+/)+)([A-Za-z0-9.-]{3,}\\.(css|js))";
-    
+
     private HtmlHelper() {
         // utility class
     }
@@ -50,7 +48,7 @@ public final class HtmlHelper {
     public static boolean assertSameHtml(String expected, String actual, boolean isPart) {
         return assertSameHtml(expected, actual, isPart, true);
     }
-    
+
     /**
      * Verifies that two HTML files are logically equivalent, e.g. ignores
      * differences in whitespace and attribute order.
@@ -62,7 +60,7 @@ public final class HtmlHelper {
     public static boolean areSameHtml(String expected, String actual, boolean isPart) {
         return assertSameHtml(expected, actual, isPart, false);
     }
-    
+
     private static boolean assertSameHtml(String expected, String actual, boolean isPart,
                                           boolean isDifferenceToBeShown) {
         String processedActual = convertToStandardHtml(actual, isPart);
@@ -70,14 +68,14 @@ public final class HtmlHelper {
         if (areSameHtmls(expected, processedActual)) {
             return true;
         }
-        
+
         // the first failure might be caused by non-standardized conversion
         String processedExpected = convertToStandardHtml(expected, isPart);
 
         if (areSameHtmls(processedExpected, processedActual)) {
             return true;
         }
-        
+
         // if it still fails, then it is a failure after all
         if (isDifferenceToBeShown) {
             assertEquals("<expected>" + Const.EOL + processedExpected + "</expected>",
@@ -85,12 +83,12 @@ public final class HtmlHelper {
         }
         return false;
     }
-    
+
     private static boolean areSameHtmls(String expected, String actual) {
         // accounts for the variations in line breaks
         return expected.replaceAll("[\r\n]", "").equals(actual.replaceAll("[\r\n]", ""));
     }
-    
+
     /**
      * Transform the HTML text to follow a standard format.
      * Element attributes are reordered in alphabetical order.
@@ -127,7 +125,7 @@ public final class HtmlHelper {
             return convertElementNode(currentNode, indentation, isPart);
         }
     }
-    
+
     private static String generateNodeTextContent(Node currentNode, String indentation) {
         String text = currentNode.getNodeValue().trim();
         text = text.replaceAll("[ ]*(\\r?\\n[ ]*)+[ ]*", " ");
@@ -171,26 +169,26 @@ public final class HtmlHelper {
                 }
             }
         }
-        
+
         return generateNodeStringRepresentation(currentNode, indentation, isPart);
     }
-    
+
     private static String ignoreNode() {
         return "";
     }
-    
+
     private static String generateStudentMotdPlaceholder(String indentation) {
         return indentation + "${studentmotd.container}" + Const.EOL;
     }
-    
+
     private static String generateTimeZoneSelectorPlaceholder(String indentation) {
         return indentation + "${timezone.options}" + Const.EOL;
     }
-    
+
     // private static String generateTinymceStylePlaceholder(String indentation) {
     //     return indentation + "${tinymce.style}" + Const.EOL;
     // }
-    
+
     private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
         StringBuilder currentHtmlText = new StringBuilder();
         String currentNodeName = currentNode.getNodeName().toLowerCase();
@@ -200,7 +198,7 @@ public final class HtmlHelper {
             String nodeOpeningTag = indentation + getNodeOpeningTag(currentNode);
             currentHtmlText.append(nodeOpeningTag);
         }
-        
+
         if (!isVoidElement(currentNodeName)) {
             String newIndentation = indentation + (shouldIndent(currentNodeName) ? INDENTATION_STEP : "");
             String nodeContent = getNodeContent(currentNode, newIndentation, isPart);
@@ -211,7 +209,7 @@ public final class HtmlHelper {
                 currentHtmlText.append(nodeClosingTag);
             }
         }
-        
+
         return currentHtmlText.toString();
     }
 
@@ -225,7 +223,7 @@ public final class HtmlHelper {
                             || "head".equals(currentNodeName)
                             || "body".equals(currentNodeName)));
     }
-    
+
     private static boolean shouldIndent(String currentNodeName) {
         // Indentation is not necessary for top level elements
         return !("html".equals(currentNodeName)
@@ -236,21 +234,21 @@ public final class HtmlHelper {
     private static boolean isTinymceStyleAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "mceDefaultStyles");
     }
-    
+
     /**
      * Checks for tooltips (i.e any <code>div</code> with class <code>tooltip</code> in it)
      */
     private static boolean isTooltipAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "class", "tooltip");
     }
-    
+
     /**
      * Checks for popovers (i.e any <code>div</code> with class <code>popover</code> in it)
      */
     private static boolean isPopoverAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "class", "popover");
     }
-    
+
     /**
      * Checks for Message of the Day (MOTD) wrapper (i.e a <code>div</code> with id
      * <code>student-motd-wrapper</code>).
@@ -258,7 +256,7 @@ public final class HtmlHelper {
     private static boolean isMotdWrapperAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "student-motd-wrapper");
     }
-    
+
     /**
      * Checks for Message of the Day (MOTD) container (i.e a <code>div</code> with id
      * <code>student-motd-container</code>).
@@ -266,14 +264,14 @@ public final class HtmlHelper {
     private static boolean isMotdContainerAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "student-motd-container");
     }
-    
+
     /**
      * Checks for timezone selectors (i.e a <code>select</code> with id <code>coursetimezone</code>)
      */
     private static boolean isTimeZoneSelectorAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "coursetimezone");
     }
-    
+
     private static boolean checkForAttributeWithSpecificValue(Node attribute, String attrType, String attrValue) {
         if (attribute.getNodeName().equalsIgnoreCase(attrType)) {
             return "class".equals(attrType) ? isClassContainingValue(attrValue, attribute.getNodeValue())
@@ -281,7 +279,7 @@ public final class HtmlHelper {
         }
         return false;
     }
-    
+
     private static boolean isClassContainingValue(String expected, String actual) {
         return actual.equals(expected)
                 || actual.startsWith(expected + " ")
@@ -293,7 +291,7 @@ public final class HtmlHelper {
         StringBuilder openingTag = new StringBuilder();
         // add the start of opening tag
         openingTag.append('<').append(currentNode.getNodeName().toLowerCase());
-        
+
         // add the attributes of the tag (getAttributes() returns the attributes sorted alphabetically)
         NamedNodeMap attributes = currentNode.getAttributes();
         for (int i = 0; i < attributes.getLength(); i++) {
@@ -301,12 +299,12 @@ public final class HtmlHelper {
             openingTag.append(" " + attribute.getNodeName().toLowerCase() + "="
                                   + "\"" + attribute.getNodeValue().replace("\"", "&quot;") + "\"");
         }
-        
+
         // close the tag
         openingTag.append('>').append(Const.EOL);
         return openingTag.toString();
     }
-    
+
     private static String getNodeContent(Node currentNode, String indentation, boolean isPart) {
         StringBuilder nodeContent = new StringBuilder();
         NodeList childNodes = currentNode.getChildNodes();
@@ -317,7 +315,7 @@ public final class HtmlHelper {
         }
         return nodeContent.toString();
     }
-    
+
     private static String getNodeClosingTag(String currentNodeName) {
         return "</" + currentNodeName + ">" + Const.EOL;
     }
@@ -330,7 +328,7 @@ public final class HtmlHelper {
                 || "link".equals(elementName)
                 || "meta".equals(elementName);
     }
-    
+
     /**
      * Injects values specified in configuration files to the appropriate placeholders.
      */
@@ -342,7 +340,7 @@ public final class HtmlHelper {
                       .replace("${test.student2}", TestProperties.TEST_STUDENT2_ACCOUNT)
                       .replace("${test.instructor}", TestProperties.TEST_INSTRUCTOR_ACCOUNT);
     }
-    
+
     /**
      * Processes the string from web page source for HTML comparison.
      */
@@ -350,7 +348,7 @@ public final class HtmlHelper {
         return replaceUnpredictableValuesWithPlaceholders(
                       suppressVariationsInInjectedValues(content));
     }
-    
+
     /**
      * Processes the string from web page source for regeneration of expected HTML.<br>
      * Pre-condition: {@code content} has previously been processed with the
@@ -359,7 +357,7 @@ public final class HtmlHelper {
     public static String processPageSourceForExpectedHtmlRegeneration(String content, boolean isPart) {
         return convertToStandardHtml(replaceInjectedValuesWithPlaceholders(content), isPart);
     }
-    
+
     private static String suppressVariationsInInjectedValues(String content) {
         return content // replace truncated long accounts with their original counterparts
                       .replace(StringHelper.truncateLongId(TestProperties.TEST_STUDENT1_ACCOUNT),
@@ -371,7 +369,7 @@ public final class HtmlHelper {
                       .replace(StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT),
                                TestProperties.TEST_ADMIN_ACCOUNT);
     }
-    
+
     /**
      * Substitutes values that are different across various test runs with placeholders.
      * These values are identified using their known, unique formats.
@@ -432,11 +430,6 @@ public final class HtmlHelper {
                       .replace(dateOfNextHour, "${date.nexthour}")
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
-                      // third-party library directories
-                      .replaceAll(REGEX_EXTERNAL_LIBRARY, "\\${lib.path}/$1")
-                      // TinyMCE CSS skin on dev server
-                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/",
-                               "${lib.path}/")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -448,7 +441,7 @@ public final class HtmlHelper {
                       // TODO check if wildcarding this is better; better yet, check if not removing at all works
                       .replaceFirst("(?s)<noscript>.*</noscript>", "");
     }
-    
+
     private static String replaceInjectedValuesWithPlaceholders(String content) {
         return content.replace("window.location.origin + '/" + Config.STUDENT_MOTD_URL + "';",
                                "window.location.origin + '/${studentmotd.url}';")
@@ -458,7 +451,7 @@ public final class HtmlHelper {
                       .replace(TestProperties.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
                       .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}");
     }
-    
+
     /**
      * This method is only used for testing.
      */

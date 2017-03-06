@@ -9,7 +9,7 @@ public class CoursePagination {
     private String activeCourse;
     private String activeCourseClass;
     private String userCommentsLink;
-    
+
     public CoursePagination(String previousPageLink, String nextPageLink, List<String> coursePaginationList,
                             String activeCourse, String activeCourseClass, String userCommentsLink) {
         this.previousPageLink = previousPageLink;
@@ -19,7 +19,7 @@ public class CoursePagination {
         this.activeCourseClass = activeCourseClass;
         this.userCommentsLink = userCommentsLink;
     }
-    
+
     public String getPreviousPageLink() {
         return previousPageLink;
     }
@@ -35,7 +35,7 @@ public class CoursePagination {
     public String getActiveCourse() {
         return activeCourse;
     }
-    
+
     public String getActiveCourseClass() {
         return activeCourseClass;
     }

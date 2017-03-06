@@ -20,17 +20,17 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
         String[] submissionParams = new String[]{};
-        
+
         ______TS("instructor with no courses");
         gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
         InstructorCommentsPageAction action = getAction(submissionParams);
         ShowPageResult result = getShowPageResult(action);
-        
+
         AssertHelper.assertContainsRegex(Const.ViewURIs.INSTRUCTOR_COMMENTS, result.getDestinationWithParams());
         AssertHelper.assertLogMessageEquals(
                 "TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor"
@@ -50,13 +50,13 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         assertEquals("", actualCoursePagination.getActiveCourse());
         assertEquals("active", actualCoursePagination.getActiveCourseClass());
         assertEquals(data.getInstructorCommentsLink(), actualCoursePagination.getUserCommentsLink());
-        
+
         ______TS("instructor with courses and comments");
         AccountAttributes instructorWithCoursesAndComments = dataBundle.accounts.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructorWithCoursesAndComments.googleId);
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        
+
         AssertHelper.assertContainsRegex(Const.ViewURIs.INSTRUCTOR_COMMENTS, result.getDestinationWithParams());
         AssertHelper.assertLogMessageEquals(
                 "TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor"
@@ -65,7 +65,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
                         + "</span> comment records for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + "|||/page/instructorCommentsPage",
                 action.getLogMessage());
-        
+
         data = (InstructorCommentsPageData) result.data;
         assertEquals("idOfTypicalCourse1 : Typical Course 1 with 2 Evals", data.getCourseName());
         actualCoursePagination = data.getCoursePagination();
@@ -77,13 +77,12 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         assertEquals(data.getInstructorCommentsLink(), actualCoursePagination.getUserCommentsLink());
         assertEquals(1, data.getCommentsForStudentsTables().size());
         assertEquals(5, data.getCommentsForStudentsTables().get(0).getRows().size());
-        
-        
+
         ______TS("instructor with courses but without comments");
         gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructor2OfCourse1").googleId);
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        
+
         AssertHelper.assertContainsRegex(Const.ViewURIs.INSTRUCTOR_COMMENTS, result.getDestinationWithParams());
         AssertHelper.assertLogMessageEquals(
                 "TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor"
@@ -92,7 +91,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
                         + "</span> comment records for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + "|||/page/instructorCommentsPage",
                 action.getLogMessage());
-        
+
         data = (InstructorCommentsPageData) result.data;
         assertEquals("idOfTypicalCourse1 : Typical Course 1 with 2 Evals", data.getCourseName());
         actualCoursePagination = data.getCoursePagination();
@@ -104,7 +103,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         assertEquals(data.getInstructorCommentsLink(), actualCoursePagination.getUserCommentsLink());
         assertEquals(0, data.getCommentsForStudentsTables().size());
     }
-    
+
     @Override
     protected InstructorCommentsPageAction getAction(String... params) {
         return (InstructorCommentsPageAction) gaeSimulation.getActionObject(getActionUri(), params);

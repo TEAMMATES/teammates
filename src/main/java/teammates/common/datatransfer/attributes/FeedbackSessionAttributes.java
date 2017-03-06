@@ -123,7 +123,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.respondingInstructorList = instructorList;
         this.respondingStudentList = studentList;
     }
-    
+
     private FeedbackSessionAttributes(FeedbackSessionAttributes other) {
         this(other.feedbackSessionName, other.courseId, other.creatorEmail,
             other.instructions, other.createdTime, other.startTime, other.endTime,
@@ -134,7 +134,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             other.isPublishedEmailEnabled, other.respondingInstructorList,
             other.respondingStudentList);
     }
-    
+
     public FeedbackSessionAttributes getCopy() {
         return new FeedbackSessionAttributes(this);
     }
@@ -142,19 +142,19 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     public String getCourseId() {
         return courseId;
     }
-    
+
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }
-    
+
     public String getStartTimeString() {
         return TimeHelper.formatTime12H(startTime);
     }
-    
+
     public String getEndTimeString() {
         return TimeHelper.formatTime12H(endTime);
     }
-    
+
     public String getInstructionsString() {
         return SanitizationHelper.sanitizeForRichText(instructions.getValue());
     }
@@ -320,7 +320,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
         return now.after(start) && differenceBetweenDeadlineAndNow < hours;
     }
-    
+
     public boolean isClosingWithinTimeLimit(int hours) {
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         // Fix the time zone accordingly
@@ -344,13 +344,13 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                && differenceBetweenDeadlineAndNow >= hours - 1
                && differenceBetweenDeadlineAndNow < hours;
     }
-    
+
     /**
      * returns true if the session is closed within the past hour of calling this function
      */
     public boolean isClosedWithinPastHour() {
         long timeZoneOffset = (long) timeZone * 60 * 60 * 1000;
-        Date date = new Date(endTime.getTime() + gracePeriod * 60000 - timeZoneOffset);
+        Date date = new Date(endTime.getTime() + gracePeriod * 60000L - timeZoneOffset);
         return TimeHelper.isWithinPastHourFromNow(date);
     }
 
@@ -551,7 +551,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                 if (result == 0) {
                     result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
                 }
-                
+
                 return result;
             }
         });

@@ -8,11 +8,11 @@ import java.util.List;
  */
 public class SearchCommentsForResponsesTable {
     private List<FeedbackSessionRow> feedbackSessionRows;
-    
+
     public SearchCommentsForResponsesTable(List<FeedbackSessionRow> feedbackSessionRows) {
         this.feedbackSessionRows = feedbackSessionRows;
     }
-    
+
     public List<FeedbackSessionRow> getFeedbackSessionRows() {
         return feedbackSessionRows;
     }

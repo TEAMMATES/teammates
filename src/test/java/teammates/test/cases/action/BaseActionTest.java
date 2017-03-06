@@ -32,53 +32,53 @@ import teammates.ui.controller.ShowPageResult;
  * Parent class for *ActionTest classes.
  */
 public abstract class BaseActionTest extends BaseComponentTestCase {
-    
+
     protected DataBundle dataBundle;
-    
+
     protected abstract String getActionUri();
-    
+
     protected abstract Action getAction(String... params);
-    
+
     public abstract void testExecuteAndPostProcess() throws Exception;
-    
+
     @BeforeClass
     public void baseClassSetup() {
         prepareTestData();
     }
-    
+
     protected void prepareTestData() {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreTypicalDataBundle();
     }
-    
+
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
      */
     protected ShowPageResult getShowPageResult(Action a) {
         return (ShowPageResult) a.executeAndPostProcess();
     }
-    
+
     /** Executes the action and returns the result.
      * Assumption: The action returns a RedirectResult.
      */
     protected RedirectResult getRedirectResult(Action a) {
         return (RedirectResult) a.executeAndPostProcess();
     }
-    
+
     /** Executes the action and returns the result.
      * Assumption: The action returns an AjaxResult.
      */
     protected AjaxResult getAjaxResult(Action a) {
         return (AjaxResult) a.executeAndPostProcess();
     }
-    
+
     /** Executes the action and returns the result.
      * Assumption: The action returns a FileDownloadResult.
      */
     protected FileDownloadResult getFileDownloadResult(Action a) {
         return (FileDownloadResult) a.executeAndPostProcess();
     }
-    
+
     /** Executes the action and returns the result.
      * Assumption: The action returns an ImageResult.
      */
@@ -99,7 +99,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         }
         return list.toArray(new String[list.size()]);
     }
-    
+
     private String[] addStudentAuthenticationInfo(String[] params) {
         StudentAttributes unregStudent =
                 StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
@@ -113,7 +113,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         }
         return list.toArray(new String[list.size()]);
     }
-    
+
     protected String[] createValidParamsForProfile() {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.STUDENT_SHORT_NAME, "short ",
@@ -125,7 +125,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         };
         return submissionParams;
     }
-    
+
     protected String[] createInvalidParamsForProfile() {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.STUDENT_SHORT_NAME, "$$short",
@@ -143,26 +143,26 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         if (order == 0) {
             return typicalCase;
         }
-        
+
         List<String> paramList = Arrays.asList(typicalCase);
         int indexOfSessionVisibleDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         int indexOfSessionVisibleTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
         int indexOfSessionVisibleButtonValue =
                 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
-        
+
         int indexOfSessionPublishDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
         int indexOfSessionPublishTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME);
         int indexOfResultsVisibleButtonValue =
                 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
-        
+
         int indexOfSessionInstructionsValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS);
-        
+
         switch (order) {
         case 1:
             typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
             typicalCase[indexOfSessionVisibleDate] = "";
             typicalCase[indexOfSessionVisibleTime] = "0";
-            
+
             typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
             typicalCase[indexOfSessionPublishDate] = "08/05/2014";
             typicalCase[indexOfSessionPublishTime] = "2";
@@ -171,9 +171,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
             typicalCase[indexOfSessionVisibleDate] = "";
             typicalCase[indexOfSessionVisibleTime] = "0";
-            
+
             typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
-            
+
             typicalCase[indexOfSessionInstructionsValue] = "<script>test</script>instructions";
             break;
         case 3:
@@ -184,12 +184,12 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             Assumption.fail("Incorrect order");
             break;
         }
-        
+
         return typicalCase;
     }
-    
+
     protected String[] createParamsForTypicalFeedbackSession(String courseId, String fsName) {
-        
+
         return new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName,
@@ -197,16 +197,16 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, "0",
                 Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, "01/01/2015",
                 Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, "0",
-                
+
                 Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON,
                 Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM,
-                
+
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, "01/01/2012",
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME, "0",
-                
+
                 Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON,
                 Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE,
-                
+
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, "",
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",
                 Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, "8",
@@ -214,9 +214,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
         };
     }
-    
+
     protected String[] createParamsForTypicalFeedbackQuestion(String courseId, String fsName) {
-        
+
         return new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName,
@@ -234,7 +234,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit"
         };
     }
-    
+
     /**
      * Modifies the value of a key in a parameter list.
      * Assumes Key is present. Use for testing.
@@ -244,7 +244,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      */
     protected void modifyParamValue(String[] params, String key, String value) {
         for (int i = 0; i < params.length; i += 2) {
-            if (params[i] == key) {
+            if (params[i].equals(key)) {
                 if (i + 1 >= params.length) {
                     fail("Cannot find parameter to modify.");
                 } else {
@@ -255,7 +255,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         }
         fail("Cannot find parameter to modify.");
     }
-    
+
     /**
      * Verifies that the {@code parameters} violates an assumption of the
      * matching {@link Action}. e.g., missing a compulsory parameter.
@@ -274,14 +274,14 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * 'high-level' tests here means it tests access control of an action for the
      * full range of user types.
      */
-    
+
     protected void verifyAnyRegisteredUserCanAccess(String[] submissionParams) {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyAccessibleForStudents(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
     }
-    
+
     protected void verifyOnlyAdminsCanAccess(String[] submissionParams) {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
@@ -289,7 +289,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyUnaccessibleForInstructors(submissionParams);
         //we omit checking for admin access because these are covered by UI tests
     }
-    
+
     protected void verifyOnlyLoggedInUsersCanAccess(String[] submissionParams) {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyAccessibleForUnregisteredUsers(submissionParams);
@@ -298,7 +298,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         //No need to check for instructors of the same course since even other instructors can access.
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
-    
+
     protected void verifyOnlyInstructorsCanAccess(String[] submissionParams) {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
@@ -306,7 +306,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
-    
+
     protected void verifyOnlyInstructorsOfTheSameCourseCanAccess(String[] submissionParams) {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
@@ -315,7 +315,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
-    
+
     protected void verifyOnlyStudentsOfTheSameCourseCanAccess(String[] submissionParams) {
         verifyAccessibleWithoutLogin(submissionParams);
         verifyAccessibleForUnregisteredStudents(submissionParams);
@@ -335,14 +335,14 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     protected void verifyAccessibleForUnregisteredUsers(String[] submissionParams) {
-        
+
         ______TS("non-registered users can access");
-        
+
         String unregUserId = "unreg1.user";
-        
+
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
+
         gaeSimulation.loginUser(unregUserId);
         verifyCanAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
@@ -350,102 +350,102 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
-        
+
         ______TS("students of the same course can access");
-        
+
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
+
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         verifyCanAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
-        
+
     }
 
     protected void verifyAccessibleForStudents(String[] submissionParams) {
-        
+
         ______TS("students can access");
-        
+
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes otherStudent = dataBundle.students.get("student1InCourse2");
-        
+
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
         verifyCannotMasquerade(addUserIdToParams(otherStudent.googleId, submissionParams));
         verifyCanAccess(submissionParams);
-        
+
     }
 
     private void verifyAccessibleForUnregisteredStudents(String[] submissionParams) {
-        
+
         gaeSimulation.logoutUser();
         verifyCanAccess(addStudentAuthenticationInfo(submissionParams));
     }
 
     protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) {
-        
+
         ______TS("course instructor can access");
-        
+
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         InstructorAttributes otherInstructor = dataBundle.instructors.get("instructor1OfCourse2");
-        
+
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         verifyCanAccess(submissionParams);
-        
+
         verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         verifyCannotMasquerade(addUserIdToParams(otherInstructor.googleId, submissionParams));
-        
+
     }
 
     protected void verifyAccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
-        
+
         ______TS("other course instructor can access");
-    
+
         InstructorAttributes otherInstructor = dataBundle.instructors.get("instructor1OfCourse2");
-        
+
         gaeSimulation.loginAsInstructor(otherInstructor.googleId);
         verifyCanAccess(submissionParams);
     }
 
     protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
-        
+
         ______TS("admin can access");
-        
+
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        
+
         gaeSimulation.loginAsAdmin("admin.user");
         //not checking for non-masquerade mode because admin may not be an instructor
         verifyCanMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
-        
+
     }
 
     protected void verifyAccessibleForAdminToMasqueradeAsStudent(String[] submissionParams) {
-        
+
         ______TS("admin can access");
-        
+
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
+
         gaeSimulation.loginAsAdmin("admin.user");
         //not checking for non-masquerade mode because admin may not be a student
         verifyCanMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
-        
+
     }
 
     protected void verifyUnaccessibleWithoutLogin(String[] submissionParams) {
-        
+
         ______TS("not-logged-in users cannot access");
-        
+
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
+
         gaeSimulation.logoutUser();
         verifyRedirectToLoginOrUnauthorisedException(submissionParams);
         verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
     }
-    
+
     private void verifyUnaccessibleWithoutLoginMasquerade(String... params) {
         verifyRedirectToLoginOrUnauthorisedException(params);
     }
@@ -460,187 +460,187 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     protected void verifyUnaccessibleForUnregisteredUsers(String[] submissionParams) {
-        
+
         ______TS("non-registered users cannot access");
-        
+
         String unregUserId = "unreg.user";
-        
+
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
+
         gaeSimulation.loginUser(unregUserId);
         verifyCannotAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
-        
+
     }
-    
+
     protected void verifyUnaccessibleWithoutModifyCoursePrivilege(String[] submissionParams) {
-        
+
         ______TS("without Modify-Course privilege cannot access");
-        
+
         InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-        
+
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     protected void verifyUnaccessibleWithoutModifyInstructorPrivilege(String[] submissionParams) {
-        
+
         ______TS("without Modify-Instructor privilege cannot access");
-        
+
         InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-        
+
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     protected void verifyUnaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
 
         ______TS("without Modify-Session privilege cannot access");
-        
+
         InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-        
+
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     protected void verifyUnaccessibleWithoutModifyStudentPrivilege(String[] submissionParams) {
-        
+
         ______TS("without Modify-Student privilege cannot access");
-        
+
         InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-        
+
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     protected void verifyUnaccessibleWithoutViewStudentInSectionsPrivilege(String[] submissionParams) {
-        
+
         ______TS("without View-Student-In-Sections privilege cannot access");
-        
+
         InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-        
+
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     protected void verifyUnaccessibleWithoutGiveCommentInSectionsPrivilege(String[] submissionParams) {
-        
+
         ______TS("without Give-Comment-In-Sections privilege cannot access");
-        
+
         InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-        
+
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     protected void verifyUnaccessibleWithoutModifyCommentInSectionsPrivilege(String[] submissionParams) {
-        
+
         ______TS("without Modify-Comment-In-Sections privilege cannot access");
-        
+
         InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-        
+
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     protected void verifyUnaccessibleWithoutViewSessionInSectionsPrivilege(String[] submissionParams) {
-        
+
         ______TS("without View-Student-In-Sections privilege cannot access");
-        
+
         InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-        
+
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     protected void verifyUnaccessibleWithoutModifySessionInSectionsPrivilege(String[] submissionParams) {
-        
+
         ______TS("without Modify-Session-In-Sections privilege cannot access");
-        
+
         InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-        
+
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     protected void verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(String[] submissionParams) {
-        
+
         ______TS("without Submit-Session-In-Sections privilege cannot access");
-        
+
         InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-        
+
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     protected void verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(String[] submissionParams) {
-        
+
         ______TS("without Modify-Session-Comment-In-Sections privilege cannot access");
-        
+
         InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-        
+
         gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     protected void verifyUnaccessibleForStudents(String[] submissionParams) {
-        
+
         ______TS("students cannot access");
-        
+
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
+
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         verifyCannotAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
-        
+
     }
-    
+
     protected void verifyUnaccessibleForStudentsOfOtherCourses(String[] submissionParams) {
-        
+
         ______TS("students of other courses cannot access");
-    
+
         StudentAttributes studentInOtherCourse = dataBundle.students.get("student1InCourse2");
-        
+
         gaeSimulation.loginAsStudent(studentInOtherCourse.googleId);
         verifyCannotAccess(submissionParams);
     }
 
     protected void verifyUnaccessibleForDifferentStudentOfTheSameCourses(String[] submissionParams) {
-        
+
         ______TS("other students of the same course cannot access");
-    
+
         StudentAttributes differentStudentInSameCourse = dataBundle.students.get("student2InCourse1");
-        
+
         gaeSimulation.loginAsStudent(differentStudentInSameCourse.googleId);
         verifyCannotAccess(submissionParams);
     }
 
     protected void verifyUnaccessibleForInstructors(String[] submissionParams) {
-        
+
         ______TS("instructors cannot access");
-        
+
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
+
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         verifyCannotAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
-        
+
     }
-    
+
     protected void verifyUnaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
-        
+
         ______TS("other course instructor cannot access");
-    
+
         InstructorAttributes otherInstructor = dataBundle.instructors.get("instructor1OfCourse2");
-        
+
         gaeSimulation.loginAsInstructor(otherInstructor.googleId);
         verifyCannotAccess(submissionParams);
     }
-    
+
     /*
      * 'low-level' tests here it tests an action once with the given parameters.
      * These methods are not aware of the user type.
@@ -676,7 +676,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         try {
             Action c = gaeSimulation.getActionObject(getActionUri(), params);
             ActionResult result = c.executeAndPostProcess();
-            
+
             String classNameOfResult = result.getClass().getName();
             assertEquals(classNameOfResult, result.getClass().getName());
             AssertHelper.assertContains("You are not registered in the course ", result.getStatusMessage());

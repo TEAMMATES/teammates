@@ -18,30 +18,28 @@ import teammates.ui.template.InstructorHomeFeedbackSessionRow;
 
 public class InstructorHomeCourseAjaxPageData extends PageData {
 
-    private static final int MAX_CLOSED_SESSION_STATS = 3;
-    
     private CourseTable courseTable;
     private int index;
-    
+
     public InstructorHomeCourseAjaxPageData(AccountAttributes account) {
         super(account);
     }
-    
+
     public void init(int tableIndex, CourseSummaryBundle courseSummary, InstructorAttributes instructor, int pendingComments,
                      List<String> sectionNames) {
         this.index = tableIndex;
         this.courseTable = createCourseTable(
                 courseSummary.course, instructor, courseSummary.feedbackSessions, pendingComments);
     }
-    
+
     public CourseTable getCourseTable() {
         return courseTable;
     }
-    
+
     public int getIndex() {
         return index;
     }
-    
+
     private CourseTable createCourseTable(CourseAttributes course, InstructorAttributes instructor,
             List<FeedbackSessionAttributes> feedbackSessions, int pendingCommentsCount) {
         String courseId = course.getId();
@@ -49,22 +47,22 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                createCourseTableLinks(instructor, courseId, pendingCommentsCount),
                                createSessionRows(feedbackSessions, instructor));
     }
-    
+
     private ElementTag createButton(String text, String className, String href, String tooltip) {
         return new ElementTag(text, "class", className, "href", href, "title", tooltip);
     }
-    
+
     private void addAttributeIf(boolean shouldAdd, ElementTag button, String key, String value) {
         if (shouldAdd) {
             button.setAttribute(key, value);
         }
     }
-    
+
     private List<ElementTag> createCourseTableLinks(InstructorAttributes instructor, String courseId,
             int pendingCommentsCount) {
         String disabled = "disabled";
         String className = "btn-tm-actions course-";
-        
+
         ElementTag students = new ElementTag("Students");
         ElementTag sessions = new ElementTag("Sessions");
         ElementTag instructors = new ElementTag("Instructors");
@@ -76,30 +74,30 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                          Const.Tooltips.COURSE_ENROLL);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT),
                        enroll, disabled, null);
-        
+
         ElementTag view = createButton("View / Edit",
                                        className + "view-for-test",
                                        getInstructorCourseDetailsLink(courseId),
                                        Const.Tooltips.COURSE_DETAILS);
-        
+
         ElementTag edit = createButton("View / Edit",
                                        className + "edit-for-test",
                                        getInstructorCourseEditLink(courseId),
                                        Const.Tooltips.COURSE_EDIT);
-        
+
         ElementTag add = createButton("Add",
                                       className + "add-eval-for-test",
                                       getInstructorFeedbacksLink(courseId),
                                       Const.Tooltips.COURSE_ADD_FEEDBACKSESSION);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION),
                        add, disabled, null);
-        
+
         ElementTag archive = createButton("Archive",
                                           className + "archive-for-test",
                                           getInstructorCourseArchiveLink(courseId, true, true),
                                           Const.Tooltips.COURSE_ARCHIVE);
         addAttributeIf(true, archive, "data-course-id", courseId);
-        
+
         ElementTag delete = createButton("Delete",
                                          className + "delete-for-test course-delete-link",
                                          getInstructorCourseDeleteLink(courseId, true),
@@ -137,21 +135,12 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
 
         return Arrays.asList(students, instructors, sessions, courses, pending);
     }
-    
+
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
             InstructorAttributes instructor) {
         List<HomeFeedbackSessionRow> rows = new ArrayList<>();
-        
-        int statsToDisplayLeft = MAX_CLOSED_SESSION_STATS;
+
         for (FeedbackSessionAttributes session : sessions) {
-            
-            boolean isRecent = session.isOpened() || session.isWaitingToOpen();
-            if (!isRecent && statsToDisplayLeft > 0
-                          && !TimeHelper.isOlderThanAYear(session.getCreatedTime())) {
-                isRecent = true;
-                --statsToDisplayLeft;
-            }
-            
             InstructorHomeFeedbackSessionRow row = new InstructorHomeFeedbackSessionRow(
                     sanitizeForHtml(session.getFeedbackSessionName()),
                     getInstructorHoverMessageForFeedbackSession(session),
@@ -161,13 +150,12 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                     TimeHelper.formatDateTimeForInstructorHomePage(session.getEndTime()),
                     session.getEndTimeString(),
                     getInstructorFeedbackStatsLink(session.getCourseId(), session.getFeedbackSessionName()),
-                    isRecent,
                     getInstructorFeedbackSessionActions(
                             session, Const.ActionURIs.INSTRUCTOR_HOME_PAGE, instructor));
 
             rows.add(row);
         }
-        
+
         return rows;
     }
 }

@@ -17,7 +17,7 @@ public class InstructorStudentListPageData extends PageData {
     private InstructorStudentListFilterBox filterBox;
     private List<InstructorStudentListStudentsTableCourse> studentsTable;
     private int numOfCourses;
-    
+
     public InstructorStudentListPageData(AccountAttributes account, String searchKey,
                                          boolean displayArchive,
                                          List<InstructorStudentListPageCourseData> coursesToDisplay) {
@@ -42,7 +42,7 @@ public class InstructorStudentListPageData extends PageData {
         this.studentsTable = coursesForStudentsTable;
         this.numOfCourses = coursesForFilter.size();
     }
-    
+
     public InstructorStudentListSearchBox getSearchBox() {
         return searchBox;
     }
@@ -50,7 +50,7 @@ public class InstructorStudentListPageData extends PageData {
     public InstructorStudentListFilterBox getFilterBox() {
         return filterBox;
     }
-    
+
     public List<InstructorStudentListStudentsTableCourse> getStudentsTable() {
         return studentsTable;
     }

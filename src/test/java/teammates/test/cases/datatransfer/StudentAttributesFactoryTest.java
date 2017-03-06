@@ -13,18 +13,17 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
 
     @Test
     public void testConstructor() throws Exception {
-        String headerRow = null;
 
         ______TS("Failure case: null parameter");
         try {
-            new StudentAttributesFactory(headerRow);
+            new StudentAttributesFactory(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             ignoreExpectedException();
         }
 
         ______TS("Failure case: not satisfy the minimum requirement of fields");
-        headerRow = "name \t email";
+        String headerRow = "name \t email";
         try {
             new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
@@ -71,7 +70,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         } catch (EnrollException e) {
             assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_REPEATED, e.getMessage());
         }
-        
+
         // adding this for complete coverage
         ______TS("Failure case: repeated required columns");
         headerRow = "name \t email \t team \t comments \t section \t email \t team \t comments \t section ";
@@ -189,20 +188,18 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
 
     @Test
     public void testSplitLineIntoColumns() throws Exception {
-        String line = null;
-        String[] columns = null;
 
         ______TS("Failure case: null parameter");
         try {
-            splitLineIntoColumns(line);
+            splitLineIntoColumns(null);
             signalFailureToDetectException();
         } catch (InvocationTargetException e) {
             ignoreExpectedException();
         }
 
         ______TS("Typical case: line with pipe symbol as separators");
-        line = "name | email |  | team";
-        columns = splitLineIntoColumns(line);
+        String line = "name | email |  | team";
+        String[] columns = splitLineIntoColumns(line);
 
         assertEquals(4, columns.length);
         assertEquals("name ", columns[0]);

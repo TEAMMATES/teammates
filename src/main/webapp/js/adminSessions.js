@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     $('#timeFramePanel').toggle();
     AdminCommon.bindBackToTopButtons();
@@ -45,9 +47,9 @@ function closeAllSections(count) {
 
 function toggleFilter() {
     $('#timeFramePanel').slideToggle('slow');
-    
+
     var button = $('#detailButton').attr('class');
-    
+
     if (button === 'glyphicon glyphicon-chevron-down') {
         $('#detailButton').attr('class', 'glyphicon glyphicon-chevron-up');
         $('#referenceText').text('Hide Filter');

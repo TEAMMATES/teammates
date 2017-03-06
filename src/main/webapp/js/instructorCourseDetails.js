@@ -4,7 +4,7 @@ $(document).ready(function() {
     } else {
         toggleSort($('#button_sortstudentteam'));
     }
-    
+
     // auto select the html table when modal is shown
     $('#studentTableWindow').on('shown.bs.modal', function() {
         selectElementContents(document.getElementById('detailsTable'));
@@ -21,7 +21,7 @@ function submitFormAjax() {
     var formData = formObject.serialize();
     var content = $('#detailsTable');
     var ajaxStatus = $('#ajaxStatus');
-    
+
     $.ajax({
         type: 'POST',
         url: '/page/instructorCourseDetailsPage?' + formData,
@@ -77,31 +77,6 @@ function attachEventToSendInviteLink() {
         BootboxWrapper.showModalConfirmation('Confirm sending join request', messageText, okCallback, null,
                 BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
     });
-}
-
-/**
- * function that select the whole table
- * @param el
- */
-function selectElementContents(el) {
-    var body = document.body;
-    var range;
-    if (document.createRange && window.getSelection) {
-        range = document.createRange();
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        try {
-            range.selectNodeContents(el);
-            sel.addRange(range);
-        } catch (e) {
-            range.selectNode(el);
-            sel.addRange(range);
-        }
-    } else if (body.createTextRange) {
-        range = body.createTextRange();
-        range.moveToElementText(el);
-        range.select();
-    }
 }
 
 var isShowCommentBox = false;

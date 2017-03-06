@@ -19,9 +19,9 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 public class GateKeeper {
-    
+
     private static UserService userService = UserServiceFactory.getUserService();
-    
+
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -32,7 +32,7 @@ public class GateKeeper {
 
     public UserType getCurrentUser() {
         User user = getCurrentGoogleUser();
-        
+
         if (user == null) {
             return null;
         }
@@ -42,11 +42,11 @@ public class GateKeeper {
         if (isAdministrator()) {
             userType.isAdmin = true;
         }
-        
+
         if (isInstructor()) {
             userType.isInstructor = true;
         }
-        
+
         if (isStudent()) {
             userType.isStudent = true;
         }
@@ -76,7 +76,7 @@ public class GateKeeper {
         if (isUserLoggedOn()) {
             return;
         }
-        
+
         throw new UnauthorizedAccessException("User is not logged in");
     }
 
@@ -153,7 +153,7 @@ public class GateKeeper {
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
         verifyNotNull(course.getId(), "course ID");
-        
+
         if (!instructor.courseId.equals(course.getId())) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "]");
@@ -174,12 +174,12 @@ public class GateKeeper {
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
         verifyNotNull(course.getId(), "course ID");
-        
+
         if (!instructor.courseId.equals(course.getId())) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "]");
         }
-        
+
         if (!instructor.isAllowedForPrivilege(privilegeName)) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "] for privilege [" + privilegeName + "]");
@@ -203,12 +203,12 @@ public class GateKeeper {
         verifyNotNull(course, "course");
         verifyNotNull(course.getId(), "course ID");
         verifyNotNull(sectionName, "section name");
-        
+
         if (!instructor.courseId.equals(course.getId())) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "]");
         }
-        
+
         if (!instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.email + "] for privilege [" + privilegeName
@@ -342,7 +342,7 @@ public class GateKeeper {
             }
             return;
         }
-        
+
         StudentAttributes student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, account.googleId);
         if (student != null) {
             if (!studentsLogic.isStudentsInSameTeam(courseId, email, student.email)) {
@@ -350,7 +350,7 @@ public class GateKeeper {
             }
             return;
         }
-        
+
         throw new UnauthorizedAccessException("User is not in the course that student belongs to");
     }
 }

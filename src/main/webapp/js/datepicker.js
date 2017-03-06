@@ -14,7 +14,7 @@ $(document).ready(function() {
             var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker('getDate'),
                     $('#publishdate').datepicker('getDate'));
             $('#visibledate').datepicker('option', 'maxDate', newVisibleDate);
-            
+
             var newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
             $('#publishdate').datepicker('option', 'minDate', newPublishDate);
         }
@@ -50,9 +50,9 @@ $(document).ready(function() {
             $('#visibledate').datepicker('option', 'maxDate', newVisibleDate);
         }
     });
-    
+
     triggerDatepickerOnClick([$('#startdate'), $('#enddate'), $('#visibledate'), $('#publishdate')]);
-    
+
 });
 
 /**
@@ -71,27 +71,11 @@ function triggerDatepickerOnClick(datepickerDivs) {
 
 /**
  * @assumption: startDate has a valid value
- * @returns
- */
-function getMinDateForEndDate(startDate) {
-    return startDate;
-}
-
-/**
- * @assumption: endDate has a valid value
- * @returns
- */
-function getMaxDateForStartDate(endDate) {
-    return endDate;
-}
-
-/**
- * @assumption: startDate has a valid value
- * @returns
+ * @returns {Date} publishDate if it is valid and smaller than startDate, else startDate
  */
 function getMaxDateForVisibleDate(startDate, publishDate) {
     var minDate = 0;
-    
+
     if (publishDate === null || publishDate === undefined) {
         minDate = startDate;
     } else if (startDate > publishDate) {
@@ -105,7 +89,7 @@ function getMaxDateForVisibleDate(startDate, publishDate) {
 
 /**
  * @assumption: visibleDate has a valid value
- * @returns
+ * @returns {Date} visibleDate
  */
 function getMinDateForPublishDate(visibleDate) {
     return visibleDate;

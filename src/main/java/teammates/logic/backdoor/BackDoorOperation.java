@@ -1,7 +1,7 @@
 package teammates.logic.backdoor;
 
 public enum BackDoorOperation {
-    
+
     OPERATION_DELETE_ACCOUNT,
     OPERATION_DELETE_COURSE,
     OPERATION_DELETE_FEEDBACK_QUESTION,
@@ -32,7 +32,7 @@ public enum BackDoorOperation {
     OPERATION_PUT_DOCUMENTS,
     OPERATION_REMOVE_AND_RESTORE_DATABUNDLE,
     OPERATION_REMOVE_DATABUNDLE;
-    
+
     public static final String PARAMETER_BACKDOOR_KEY = "PARAMETER_BACKDOOR_KEY";
     public static final String PARAMETER_BACKDOOR_OPERATION = "PARAMETER_BACKDOOR_OPERATION";
     public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
@@ -49,5 +49,5 @@ public enum BackDoorOperation {
     public static final String PARAMETER_PICTURE_KEY = "PARAMETER_PICTURE_KEY";
     public static final String PARAMETER_RECIPIENT = "PARAMETER_RECIPIENT";
     public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
-    
+
 }

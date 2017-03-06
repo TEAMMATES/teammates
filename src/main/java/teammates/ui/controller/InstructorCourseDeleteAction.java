@@ -8,14 +8,14 @@ import teammates.common.util.StatusMessageColor;
 /**
  * Action: Delete a course for an instructor
  */
-public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
-        
+public class InstructorCourseDeleteAction extends Action {
+
     @Override
     public ActionResult execute() {
 
         String idOfCourseToDelete = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(idOfCourseToDelete);
-        
+
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId),
                                     logic.getCourse(idOfCourseToDelete),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
@@ -38,7 +38,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
     private boolean isRedirectedToHomePage() {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         boolean isHomePageUrl = nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
-        
+
         return isHomePageUrl;
     }
 }
