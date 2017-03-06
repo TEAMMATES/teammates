@@ -1521,20 +1521,17 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackQuestionAttributes copyFeedbackQuestion(String oldCourseId, String oldFeedbackSessionName,
-                                                           String feedbackQuestionId, String feedbackSessionName,
+    public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId, String feedbackSessionName,
                                                            String courseId, String instructorEmail)
             throws InvalidParametersException {
 
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldFeedbackSessionName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldCourseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
 
-        return feedbackQuestionsLogic.copyFeedbackQuestion(oldCourseId, oldFeedbackSessionName, feedbackQuestionId,
-                                                           feedbackSessionName, courseId, instructorEmail);
+        return feedbackQuestionsLogic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName,
+                                                           courseId, instructorEmail);
     }
 
     /**
@@ -1924,6 +1921,11 @@ public class Logic {
 
     public boolean hasResponsesForCourse(String courseId) {
         return feedbackResponsesLogic.hasResponsesForCourse(courseId);
+    }
+
+    public boolean isOpenOrPublishedEmailSentForTheCourse(String courseId) {
+        Assumption.assertNotNull(courseId);
+        return feedbackSessionsLogic.isOpenOrPublishedEmailSentForTheCourse(courseId);
     }
 
     /**
