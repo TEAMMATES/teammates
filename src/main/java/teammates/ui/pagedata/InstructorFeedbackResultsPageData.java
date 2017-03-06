@@ -306,10 +306,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Constructs section panel for the {@code sortedResponses}.
      *
-     * <p>Also builds team statistics tables for every team
-     * @param section
-     * @param sortedResponses
-     * @param additionalInfoId
+     * <p>Also builds team statistics tables for every team.
      */
     private void buildSectionPanelForViewByParticipantQuestionParticipant(String section,
                                 Map<String, Map<FeedbackQuestionAttributes,
@@ -734,9 +731,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     /**
      * Builds participant panels for the specified team, and add to sectionPanel.
-     * @param sectionPanel
-     * @param teamName
-     * @param teamMembers
      */
     private void addMissingParticipantsPanelsWithModerationButtonForTeam(
                                                              InstructorFeedbackResultsSectionPanel sectionPanel,
@@ -799,10 +793,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Constructs InstructorFeedbackResultsQuestionTable containing statistics for each team.
      * The statistics tables are added to the sectionPanel.
-     *
-     * @param sectionPanel
-     * @param responsesGroupedByTeam
-     * @param teamsInSection
      */
     private void buildTeamsStatisticsTableForSectionPanel(
                      InstructorFeedbackResultsSectionPanel sectionPanel,
@@ -872,9 +862,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     /**
      * Builds question tables without response rows, but with stats.
-     * @param question
      * @param responses  responses to compute statistics for
-     * @param additionalInfoId
      */
     private InstructorFeedbackResultsQuestionTable buildQuestionTableWithoutResponseRows(
                                     FeedbackQuestionAttributes question,
@@ -887,9 +875,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Builds a question table for given question, and response rows for the given responses.
      *
-     * @param question
-     * @param responses
-     * @param additionalInfoId
      * @param participantIdentifier  for viewTypes * > Question > *, constructs missing response rows
      *                               only for the given participant
      * @param isShowingResponseRows  if false, hides the response rows
@@ -1051,7 +1036,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Builds response rows for a given question. This not only builds response rows for existing responses, but includes
      * the missing responses between pairs of givers and recipients.
-     * @param question
      * @param responses  existing responses for the question
      */
     private List<InstructorFeedbackResultsResponseRow> buildResponseRowsForQuestion(
@@ -1297,9 +1281,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     /**
      * Given a participantIdentifier, remove it from participantIdentifierList.
-     *
-     * @param participantIdentifierList
-     * @param participantIdentifier
      */
     private void removeParticipantIdentifierFromList(
                     List<String> participantIdentifierList, String participantIdentifier) {
@@ -1358,10 +1339,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Gets moderation button for giver.
      *
-     * @param question
-     * @param giverIdentifier
-     * @param className
-     * @param buttonText
      * @return
      * <ul>
      * <li>null if the participant is not visible</li>

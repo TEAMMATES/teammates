@@ -61,8 +61,6 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
      * Tests the branch of the Action handling a request from the Student
      * directly, where the parameters are simply the blobKey of the picture
      * itself.
-     *
-     * @throws Exception
      */
     public void testActionWithBlobKey() {
         testActionWithBlobKeySuccess();
@@ -104,8 +102,6 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     /**
      * Tests the branch of the Action handling a request from an Instructor,
      * where the parameters are the student's course and email.
-     *
-     * @throws Exception
      */
     private void testActionWithEmailAndCourse() throws Exception {
         AccountAttributes instructor = dataBundle.accounts.get("instructor1OfCourse1");

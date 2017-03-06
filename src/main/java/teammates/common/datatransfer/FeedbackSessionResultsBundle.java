@@ -921,7 +921,6 @@ public class FeedbackSessionResultsBundle {
      *
      * <p>This function is different from {@link #getNameForEmail} as it obtains the name
      * using the class roster, instead of from the responses.
-     * @param participantIdentifier
      * @return the full name of a student, if participantIdentifier is the email of a student, <br>
      *         the name of an instructor, if participantIdentifier is the email of an instructor, <br>
      *         or the team name, if participantIdentifier represents a team. <br>
@@ -936,7 +935,6 @@ public class FeedbackSessionResultsBundle {
      *
      * <p>This function is different from {@link #getLastNameForEmail} as it obtains the name
      * using the class roster, instead of from the responses.
-     * @param participantIdentifier
      * @return the last name of a student, if participantIdentifier is the email of a student, <br>
      *         the name of an instructor, if participantIdentifier is the email of an instructor, <br>
      *         or the team name, if participantIdentifier represents a team. <br>
@@ -950,7 +948,6 @@ public class FeedbackSessionResultsBundle {
      * Return true if the participantIdentifier is an email of either a student
      * or instructor in the course roster. Otherwise, return false.
      *
-     * @param participantIdentifier
      * @return true if the participantIdentifier is an email of either a student
      *         or instructor in the course roster, false otherwise.
      */
@@ -965,7 +962,6 @@ public class FeedbackSessionResultsBundle {
      * the participantIdentifier is returned.
      *
      * <p>Otherwise, Const.USER_NOBODY_TEXT is returned.
-     * @param participantIdentifier
      * @see #getDisplayableEmail
      */
     public String getDisplayableEmailFromRoster(String participantIdentifier) {
@@ -981,7 +977,6 @@ public class FeedbackSessionResultsBundle {
      *
      * <p>This function is different from {@link #getTeamNameForEmail} as it obtains the name
      * using the class roster, instead of from the responses.
-     * @param participantIdentifier
      */
     public String getTeamNameFromRoster(String participantIdentifier) {
         if (participantIdentifier.equals(Const.GENERAL_QUESTION)) {
@@ -1004,7 +999,6 @@ public class FeedbackSessionResultsBundle {
      * <p>If the email is not an email of someone in the class roster, an empty string is returned.
      *
      * <p>If the email of an instructor or "%GENERAL%" is passed in, "No specific recipient" is returned.
-     * @param participantIdentifier
      */
     public String getSectionFromRoster(String participantIdentifier) {
         boolean isStudent = isParticipantIdentifierStudent(participantIdentifier);
@@ -1024,7 +1018,6 @@ public class FeedbackSessionResultsBundle {
     /**
      * Get the emails of the students given a teamName,
      * if teamName is "Instructors", returns the list of instructors.
-     * @param teamName
      * @return a set of emails of the students in the team
      */
     public Set<String> getTeamMembersFromRoster(String teamName) {
@@ -1039,7 +1032,6 @@ public class FeedbackSessionResultsBundle {
      * Get the team names in a section. <br>
      *
      * <p>Instructors are not contained in any section.
-     * @param sectionName
      * @return a set of team names of the teams in the section
      */
     public Set<String> getTeamsInSectionFromRoster(String sectionName) {
@@ -1063,8 +1055,6 @@ public class FeedbackSessionResultsBundle {
      * Get the possible givers for a recipient specified by its participant identifier for
      * a question.
      *
-     * @param fqa
-     * @param recipientParticipantIdentifier
      * @return a list of participant identifiers that can give a response to the recipient specified
      */
     public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa,
@@ -1101,8 +1091,6 @@ public class FeedbackSessionResultsBundle {
 
     /**
      * Get the possible givers for a TEAM recipient for the question specified.
-     * @param fqa
-     * @param recipientTeam
      * @return a list of possible givers that can give a response to the team
      *         specified as the recipient
      */
@@ -1143,8 +1131,6 @@ public class FeedbackSessionResultsBundle {
 
     /**
      * Get the possible givers for a STUDENT recipient for the question specified.
-     * @param fqa
-     * @param studentRecipient
      * @return a list of possible givers that can give a response to the student
      *         specified as the recipient
      */
@@ -1195,7 +1181,6 @@ public class FeedbackSessionResultsBundle {
 
     /**
      * Get the possible givers for a INSTRUCTOR recipient for the question specified.
-     * @param fqa
      * @return a list of possible givers that can give a response to the instructor
      *         specified as the recipient
      */
@@ -1287,8 +1272,6 @@ public class FeedbackSessionResultsBundle {
     // TODO code duplication between this function and in FeedbackQuestionsLogic getRecipientsForQuestion
     /**
      * Get the possible recipients for a giver for the question specified.
-     * @param fqa
-     * @param giverParticipantIdentifier
      * @return a list of possible recipients that can receive a response from giver specified by
      *         the participantIdentifier
      */
@@ -1311,8 +1294,6 @@ public class FeedbackSessionResultsBundle {
 
     /**
      * Get the possible recipients for a INSTRUCTOR giver for the question specified.
-     * @param fqa
-     * @param instructorGiver
      * @return a list of possible recipients that can receive a response from giver specified by
      *         the instructorGiver
      */
@@ -1351,8 +1332,6 @@ public class FeedbackSessionResultsBundle {
 
     /**
      * Get the possible recipients for a STUDENT giver for the question specified.
-     * @param fqa
-     * @param studentGiver
      * @return a list of possible recipients that can receive a response from giver specified by
      *         the studentGiver
      */
@@ -1397,8 +1376,6 @@ public class FeedbackSessionResultsBundle {
 
     /**
      * Get the possible recipients for a TEAM giver for the question specified.
-     * @param fqa
-     * @param givingTeam
      * @return a list of possible recipients that can receive a response from giver specified by
      *         the givingTeam
      */
@@ -1462,7 +1439,6 @@ public class FeedbackSessionResultsBundle {
      * Get a sorted list of team members, who are in the same team as the student.<br>
      * This list includes the student.
      *
-     * @param student
      * @return a list of team members, including the original student
      * @see #getSortedListOfTeamMembersEmailsExcludingSelf
      */
@@ -1478,7 +1454,6 @@ public class FeedbackSessionResultsBundle {
      * Get a sorted list of team members, who are in the same team as the student,
      * EXCLUDING the student.
      *
-     * @param student
      * @return a list of team members, excluding the original student
      * @see #getSortedListOfTeamMembersEmails
      */
@@ -1490,7 +1465,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * @return a list of student emails, sorted by section name
+     * Returns a list of student emails, sorted by section name.
      */
     private List<String> getSortedListOfStudentEmails() {
         List<String> emailList = new ArrayList<String>();
@@ -1503,7 +1478,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * @return a list of instructor emails, sorted alphabetically
+     * Returns a list of instructor emails, sorted alphabetically.
      */
     private List<String> getSortedListOfInstructorEmails() {
         List<String> emailList = new ArrayList<String>();
@@ -1804,7 +1779,6 @@ public class FeedbackSessionResultsBundle {
     /**
      * Returns responses as a {@code Map<recipientName, Map<question, List<response>>>}
      * Where the responses are sorted in the order of recipient, question, giver.
-     * @param sortByTeam
      * @return responses sorted by Recipient > Question > Giver
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
@@ -1938,7 +1912,6 @@ public class FeedbackSessionResultsBundle {
     /**
      * Returns responses as a {@code Map<giverName, Map<question, List<response>>>}
      * Where the responses are sorted in the order of giver, question, recipient.
-     * @param sortByTeam
      * @return responses sorted by Giver > Question > Recipient
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
@@ -2148,8 +2121,6 @@ public class FeedbackSessionResultsBundle {
     /**
      * Compares the values of {@code name1} and {@code name2}.
      * Anonymous names are ordered later than non-anonymous names.
-     * @param name1
-     * @param name2
      * @param isFirstNameVisible  true if the first name should be visible to the user
      * @param isSecondNameVisible true if the second name should be visible to the user
      */

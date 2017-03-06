@@ -22,8 +22,8 @@ public class InstructorCopyFsToModal extends AppPage {
     }
 
     /**
-     * @return true if the modal for copying feedback sessions to multiple courses,
-     *         identified by its html id, is present, otherwise false
+     * Returns true if the modal for copying feedback sessions to multiple courses,
+     *         identified by its html id, is present, otherwise false.
      */
     public static boolean isPresentOnPage(Browser browser) {
         return !browser.driver.findElements(By.id("fsCopyModal")).isEmpty();
@@ -69,7 +69,7 @@ public class InstructorCopyFsToModal extends AppPage {
     }
 
     /**
-     * @return true if the status message modal is visible.
+     * Returns true if the status message modal is visible.
      */
     public boolean isFormSubmissionStatusMessageVisible() {
         return copyModalStatusMessage.isDisplayed();

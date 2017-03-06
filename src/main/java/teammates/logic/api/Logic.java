@@ -285,7 +285,6 @@ public class Logic {
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
-     * @param queryString
      * @return Null if no match found.
      */
     public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
@@ -295,14 +294,18 @@ public class Logic {
     }
 
     /**
-     * @see InstructorsLogic#putDocument(InstructorAttributes).
+     * Creates or updates document for the given Instructor.
+     *
+     * @see InstructorsLogic#putDocument(InstructorAttributes)
      */
     public void putDocument(InstructorAttributes instructor) {
         instructorsLogic.putDocument(instructor);
     }
 
     /**
-     * @see InstructorsLogic#deleteDocument(InstructorAttributes).
+     * Removes document for the given Instructor.
+     *
+     * @see InstructorsLogic#deleteDocument(InstructorAttributes)
      */
     public void deleteDocument(InstructorAttributes instructor) {
         instructorsLogic.deleteDocument(instructor);
@@ -393,7 +396,6 @@ public class Logic {
      * Get the encrypted registration key for the instructor.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws EntityDoesNotExistException
      */
     public String getEncryptedKeyForInstructor(String courseId, String email)
             throws EntityDoesNotExistException {
@@ -404,22 +406,13 @@ public class Logic {
         return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
-    /**
-     * @deprecated Not scalable. Don't use unless in admin features.
-     */
-    @Deprecated
-    public List<InstructorAttributes> getAllInstructors() {
-
-        return instructorsLogic.getAllInstructors();
-    }
-
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
 
         return feedbackSessionsLogic.getAllOpenFeedbackSessions(start, end, zone);
     }
 
     /**
-     * @return true if this user has instructor privileges.
+     * Returns true if this user has instructor privileges.
      */
     public boolean isInstructor(String googleId) {
 
@@ -427,7 +420,7 @@ public class Logic {
     }
 
     /**
-     * @return true if this user is an instructor of the course
+     * Returns true if this user is an instructor of the course.
      */
     public boolean isInstructorOfCourse(String googleId, String courseId) {
 
@@ -435,7 +428,7 @@ public class Logic {
     }
 
     /**
-     * @return true if this email belongs to an instructor of the course
+     * Returns true if this email belongs to an instructor of the course.
      */
     public boolean isInstructorEmailOfCourse(String email, String courseId) {
 
@@ -443,7 +436,9 @@ public class Logic {
     }
 
     /**
-     * @see InstructorsLogic#isNewInstructor(String).
+     * Returns true if the instructor is a new user.
+     *
+     * @see InstructorsLogic#isNewInstructor(String)
      */
     public boolean isNewInstructor(String googleId) {
 
@@ -454,10 +449,7 @@ public class Logic {
      * Update the name and email address of an instructor with the specific Google ID.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @param googleId
      * @param instr InstructorAttributes object containing the details to be updated
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByGoogleId(String googleId, InstructorAttributes instr)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -482,7 +474,6 @@ public class Logic {
      * Create an account for the instructor if there is no account exist for him.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws InvalidParametersException
      */
     public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
             throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
@@ -691,7 +682,9 @@ public class Logic {
     }
 
     /**
-     * @see CoursesLogic#updateCourse(CourseAttributes).
+     * Updates the details of a course.
+     *
+     * @see CoursesLogic#updateCourse(CourseAttributes)
      */
     public void updateCourse(CourseAttributes course) throws InvalidParametersException,
                                                              EntityDoesNotExistException {
@@ -750,7 +743,6 @@ public class Logic {
 
     /**
      * Search for students. Preconditions: all parameters are non-null.
-     * @param queryString
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
      * @return Null if no match found
@@ -765,20 +757,12 @@ public class Logic {
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
-     * @param queryString
      * @return Null if no match found.
      */
     public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
 
         return studentsLogic.searchStudentsInWholeSystem(queryString);
-    }
-
-    /**
-     * @see StudentsLogic#getAllStudents().
-     */
-    public List<StudentAttributes> getAllStudents() {
-        return studentsLogic.getAllStudents();
     }
 
     /**
@@ -873,7 +857,12 @@ public class Logic {
     }
 
     /**
-     * @see CoursesLogic#getSectionsNameForCourse(String).
+     * Returns a list of section names for the course with ID courseId.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see CoursesLogic#getSectionsNameForCourse(String)
      */
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -881,7 +870,12 @@ public class Logic {
     }
 
     /**
-     * @see CoursesLogic#getSectionsNameForCourse(CourseAttributes).
+     * Returns a list of section names for the specified course.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see CoursesLogic#getSectionsNameForCourse(CourseAttributes)
      */
     public List<String> getSectionNamesForCourse(CourseAttributes course) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
@@ -889,7 +883,12 @@ public class Logic {
     }
 
     /**
-     * @see CoursesLogic#getSectionsForCourseWithoutStats(String).
+     * Returns a list of {@link SectionDetailsBundle} for a given course using courseId.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see CoursesLogic#getSectionsForCourseWithoutStats(String)
      */
     public List<SectionDetailsBundle> getSectionsForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -917,8 +916,6 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     *
-     * @throws EntityDoesNotExistException
      */
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
 
@@ -968,7 +965,6 @@ public class Logic {
      * Create an account for the student if there is no account exist for him.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @param googleId
      * @param key the encrypted registration key
      */
     public void joinCourseForStudent(String key, String googleId) throws JoinCourseException, InvalidParametersException {
@@ -992,7 +988,6 @@ public class Logic {
      * @return StudentData objects in the return value contains the status of
      *         enrollment. It also includes data for other students in the
      *         course that were not touched by the operation.
-     * @throws EntityAlreadyExistsException
      */
     public CourseEnrollmentResult enrollStudents(String enrollLines, String courseId)
             throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
@@ -1004,17 +999,11 @@ public class Logic {
 
     }
 
-    /**
-     * @see StudentsLogic#getUnregisteredStudentsForCourse(String)
-     */
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return studentsLogic.getUnregisteredStudentsForCourse(courseId);
     }
 
-    /**
-     * @see FeedbackSessionsLogic#isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes, String)
-     */
     public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
@@ -1022,9 +1011,6 @@ public class Logic {
         return feedbackSessionsLogic.isFeedbackSessionCompletedByInstructor(fsa, userEmail);
     }
 
-    /**
-     * @see FeedbackSessionsLogic#isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes, String)
-     */
     public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
@@ -1065,7 +1051,12 @@ public class Logic {
     }
 
     /**
-     * @see StudentsLogic#validateSectionsAndTeams(List, String).
+     * Validates sections for any limit violations and teams for any team name violations.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see StudentsLogic#validateSectionsAndTeams(List, String)
      */
     public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
@@ -1076,7 +1067,12 @@ public class Logic {
     }
 
     /**
-     * @see StudentsLogic#validateTeams(List, String).
+     * Validates teams for any team name violations.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see StudentsLogic#validateTeams(List, String)
      */
     public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
@@ -1159,7 +1155,6 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws EntityDoesNotExistException
      */
     public FeedbackSessionDetailsBundle getFeedbackSessionDetails(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
@@ -1173,6 +1168,12 @@ public class Logic {
     }
 
     /**
+     * Returns a {@code List} of all feedback sessions bundled with their
+     * response statistics for a instructor given by his googleId.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
      * @see FeedbackSessionsLogic#getFeedbackSessionDetailsForInstructor(String)
      */
     public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
@@ -1182,6 +1183,12 @@ public class Logic {
     }
 
     /**
+     * Returns a {@code List} of all feedback sessions WITHOUT their response
+     * statistics for a instructor given by his googleId.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
      * @see FeedbackSessionsLogic#getFeedbackSessionsListForInstructor(String, boolean)
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(String googleId, boolean omitArchived) {
@@ -1196,6 +1203,13 @@ public class Logic {
     }
 
     /**
+     * Gets {@code FeedbackQuestions} and previously filled
+     * {@code FeedbackResponses} that an instructor can view/submit as a
+     * {@link FeedbackSessionQuestionsBundle}.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
      * @see FeedbackSessionsLogic#getFeedbackSessionQuestionsForInstructor(String, String, String)
      */
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForInstructor(String feedbackSessionName,
@@ -1223,6 +1237,13 @@ public class Logic {
     }
 
     /**
+     * Gets {@code FeedbackQuestions} and previously filled
+     * {@code FeedbackResponses} that a student can view/submit as a
+     * {@link FeedbackSessionQuestionsBundle}.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
      * @see FeedbackSessionsLogic#getFeedbackSessionQuestionsForStudent(String, String, String)
      */
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForStudent(String feedbackSessionName,
@@ -1399,7 +1420,6 @@ public class Logic {
      * * All parameters are non-null. <br>
      * @throws InvalidParametersException
      *             if the feedback session is not ready to be published.
-     * @throws EntityDoesNotExistException
      */
     public void publishFeedbackSession(FeedbackSessionAttributes session)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -1560,7 +1580,12 @@ public class Logic {
     }
 
     /**
-     * @see FeedbackSessionsLogic#getFeedbackSessionResponseStatus(String, String).
+     * Gets the response rate status for a session.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see FeedbackSessionsLogic#getFeedbackSessionResponseStatus(String, String)
      */
     public FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
@@ -1842,7 +1867,6 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws EntityDoesNotExistException
      */
     public void createFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -1897,21 +1921,12 @@ public class Logic {
      * Create a feedback response comment, and return the created comment
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws EntityDoesNotExistException
      */
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(
             FeedbackResponseCommentAttributes feedbackResponseComment)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
         return feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
-    }
-
-    /**
-     * @deprecated Not scalable. Don't use unless in admin features.
-     */
-    @Deprecated
-    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
-        return feedbackResponseCommentsLogic.getAllFeedbackResponseComments();
     }
 
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
@@ -1955,14 +1970,18 @@ public class Logic {
     }
 
     /**
-     * @see FeedbackResponseCommentsLogic#putDocument(FeedbackResponseCommentAttributes).
+     * Creates or updates document for the given comment.
+     *
+     * @see FeedbackResponseCommentsLogic#putDocument(FeedbackResponseCommentAttributes)
      */
     public void putDocument(FeedbackResponseCommentAttributes comment) {
         feedbackResponseCommentsLogic.putDocument(comment);
     }
 
     /**
-     * @see FeedbackResponseCommentsLogic#deleteDocument(FeedbackResponseCommentAttributes).
+     * Removes document for the given comment.
+     *
+     * @see FeedbackResponseCommentsLogic#deleteDocument(FeedbackResponseCommentAttributes)
      */
     public void deleteDocument(FeedbackResponseCommentAttributes comment) {
         feedbackResponseCommentsLogic.deleteDocument(comment);
@@ -1970,7 +1989,6 @@ public class Logic {
 
     /**
      * Search for FeedbackResponseComment. Preconditions: all parameters are non-null.
-     * @param queryString
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
      * @return Null if no match found
@@ -2024,7 +2042,6 @@ public class Logic {
      * Create a comment, and return the created comment
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws EntityDoesNotExistException
      */
     public CommentAttributes createComment(CommentAttributes comment)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
@@ -2033,36 +2050,29 @@ public class Logic {
         return commentsLogic.createComment(comment);
     }
 
-    /**
-     * @deprecated Not scalable. Don't use unless in admin features.
-     */
-    @Deprecated
-    public List<CommentAttributes> getAllComments() {
-        return commentsLogic.getAllComments();
-    }
-
     public CommentAttributes getComment(Long commentId) {
         Assumption.assertNotNull(commentId);
         return commentsLogic.getComment(commentId);
     }
 
-    /**
-     * @see CommentsLogic#getComment(CommentAttributes).
-     */
     public CommentAttributes getComment(CommentAttributes comment) {
         Assumption.assertNotNull(comment);
         return commentsLogic.getComment(comment);
     }
 
     /**
-     * @see CommentsLogic#putDocument(CommentAttributes).
+     * Creates or updates document for comment.
+     *
+     * @see CommentsLogic#putDocument(CommentAttributes)
      */
     public void putDocument(CommentAttributes comment) {
         commentsLogic.putDocument(comment);
     }
 
     /**
-     * @see CommentsLogic#deleteDocument(CommentAttributes).
+     * Removes document for the given comment.
+     *
+     * @see CommentsLogic#deleteDocument(CommentAttributes)
      */
     public void deleteDocument(CommentAttributes comment) {
         commentsLogic.deleteDocument(comment);
@@ -2070,7 +2080,6 @@ public class Logic {
 
     /**
      * Search for Comment. Preconditions: all parameters are non-null.
-     * @param queryString
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
      * @return Null if no match found
@@ -2084,7 +2093,6 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws EntityDoesNotExistException
      */
     public Set<String> getRecipientEmailsForSendingComments(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -2243,7 +2251,9 @@ public class Logic {
     }
 
     /**
-     * @see AdminEmailsLogic#getAdminEmailById(String).
+     * Gets an admin email by email id.
+     *
+     * @see AdminEmailsLogic#getAdminEmailById(String)
      */
     public AdminEmailAttributes getAdminEmailById(String emailId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, emailId);
@@ -2258,9 +2268,6 @@ public class Logic {
     /**
      * Move an admin email to trash bin.<br>
      * After this the attribute isInTrashBin will be set to true
-     * @param adminEmailId
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void moveAdminEmailToTrashBin(String adminEmailId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -2272,9 +2279,6 @@ public class Logic {
     /**
      * Move an admin email out of trash bin.<br>
      * After this the attribute isInTrashBin will be set to false
-     * @param adminEmailId
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void moveAdminEmailOutOfTrashBin(String adminEmailId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -2284,28 +2288,36 @@ public class Logic {
     }
 
     /**
-     * @see AdminEmailsLogic#getSentAdminEmails().
+     * Gets all admin emails that have been sent and not in trash bin.
+     *
+     * @see AdminEmailsLogic#getSentAdminEmails()
      */
     public List<AdminEmailAttributes> getSentAdminEmails() {
         return adminEmailsLogic.getSentAdminEmails();
     }
 
     /**
-     * @see AdminEmailsLogic#getAdminEmailDrafts().
+     * Gets all admin email drafts that have NOT been sent and NOT in trash bin.
+     *
+     * @see AdminEmailsLogic#getAdminEmailDrafts()
      */
     public List<AdminEmailAttributes> getAdminEmailDrafts() {
         return adminEmailsLogic.getAdminEmailDrafts();
     }
 
     /**
-     * @see AdminEmailsLogic#getAdminEmailsInTrashBin().
+     * Gets all admin emails that have been moved into trash bin.
+     *
+     * @see AdminEmailsLogic#getAdminEmailsInTrashBin()
      */
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {
         return adminEmailsLogic.getAdminEmailsInTrashBin();
     }
 
     /**
-     * @see AdminEmailsLogic#updateAdminEmailById(AdminEmailAttributes, String).
+     * Updates an admin email by email id.
+     *
+     * @see AdminEmailsLogic#updateAdminEmailById(AdminEmailAttributes, String)
      */
     public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -2317,6 +2329,8 @@ public class Logic {
     }
 
     /**
+     * Gets an admin email by subject and createDate.
+     *
      * @see AdminEmailsLogic#getAdminEmail(String, Date).
      */
     public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
@@ -2327,14 +2341,18 @@ public class Logic {
     }
 
     /**
-     * @see AdminEmailsLogic#deleteAllEmailsInTrashBin().
+     * Deletes all emails in trash bin.
+     *
+     * @see AdminEmailsLogic#deleteAllEmailsInTrashBin()
      */
     public void deleteAllEmailsInTrashBin() {
         adminEmailsLogic.deleteAllEmailsInTrashBin();
     }
 
     /**
-     * @see AdminEmailsLogic#deleteAdminEmailUploadedFile(BlobKey).
+     * Deletes files uploaded in admin email compose page.
+     *
+     * @see AdminEmailsLogic#deleteAdminEmailUploadedFile(BlobKey)
      */
     public void deleteAdminEmailUploadedFile(BlobKey key) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
@@ -2357,9 +2375,6 @@ public class Logic {
         return coursesLogic.getArchivedCourseIds(allCourses, instructorsForCourses);
     }
 
-    /**
-     * @see FeedbackResponsesLogic#getFeedbackResponsesForSession(String, String)
-     */
     public List<FeedbackResponseAttributes>
             getFeedbackResponsesForSession(String feedbackSessionName, String courseId) {
         Assumption.assertNotNull(feedbackSessionName);
@@ -2367,9 +2382,6 @@ public class Logic {
         return feedbackResponsesLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
     }
 
-    /**
-     * @see StudentsLogic#adjustFeedbackResponseForEnrollments(List, FeedbackResponseAttributes)
-     */
     public void adjustFeedbackResponseForEnrollments(List<StudentEnrollDetails> enrollmentList,
                                                      FeedbackResponseAttributes response)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -2379,36 +2391,31 @@ public class Logic {
     }
 
     /**
+     * Returns returns a list of sessions that were closed within past hour.
+     *
      * @see FeedbackSessionsLogic#getFeedbackSessionsClosedWithinThePastHour()
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
         return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
     }
 
-    /**
-     * @see FeedbackSessionsLogic#getFeedbackSessionsClosingWithinTimeLimit()
-     */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
         return feedbackSessionsLogic.getFeedbackSessionsClosingWithinTimeLimit();
     }
 
     /**
+     * Returns a list of sessions that require automated emails to be sent as they are published.
+     *
      * @see FeedbackSessionsLogic#getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent()
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
         return feedbackSessionsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
     }
 
-    /**
-     * @see FeedbackSessionsLogic#getFeedbackSessionsWhichNeedOpenEmailsToBeSent()
-     */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
     }
 
-    /**
-     * @see StudentsLogic#getSectionForTeam(String, String)
-     */
     public String getSectionForTeam(String courseId, String teamName) {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(teamName);

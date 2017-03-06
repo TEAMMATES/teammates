@@ -317,7 +317,6 @@ public class InstructorSearchPageData extends PageData {
 
     /**
      * Filters students from studentSearchResultBundle by course ID.
-     * @param courseId
      * @return students whose course ID is equal to the courseId given in the parameter
      */
     private List<StudentAttributes> filterStudentsByCourse(

@@ -179,7 +179,6 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 
     /**
      * Converts the given Feedback*ResponseDetails object to JSON for storing.
-     * @param responseDetails
      */
     public void setResponseDetails(FeedbackResponseDetails responseDetails) {
         if (responseDetails == null) {

@@ -17,6 +17,8 @@ public final class Logger {
     }
 
     /**
+     * Logs a message at FINE level.
+     *
      * @see java.util.logging.Logger#fine(String)
      */
     public void fine(String msg) {
@@ -24,6 +26,8 @@ public final class Logger {
     }
 
     /**
+     * Logs a message at INFO level.
+     *
      * @see java.util.logging.Logger#info(String)
      */
     public void info(String msg) {
@@ -31,6 +35,8 @@ public final class Logger {
     }
 
     /**
+     * Logs a message at WARNING level.
+     *
      * @see java.util.logging.Logger#warning(String)
      */
     public void warning(String msg) {
@@ -38,6 +44,8 @@ public final class Logger {
     }
 
     /**
+     * Logs a message at SEVERE level.
+     *
      * @see java.util.logging.Logger#severe(String)
      */
     public void severe(String msg) {

@@ -87,7 +87,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     /**
-     * @return The {@code params} array with the {@code userId}
+     * Returns The {@code params} array with the {@code userId}
      *         (together with the parameter name) inserted at the beginning.
      */
     protected String[] addUserIdToParams(String userId, String[] params) {

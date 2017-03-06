@@ -121,7 +121,6 @@ public class PerformanceProfiler extends Thread {
 
     /**
      * This function perform the method and print the return value for debugging.
-     * @param method
      */
     private void performMethod(Method method) {
         if (method.isAnnotationPresent(PerformanceTest.class)) {
@@ -172,9 +171,7 @@ public class PerformanceProfiler extends Thread {
 
     /**
      * The results from file stored in filePath.
-     * @param filePath
      * @return {@code HashMap<nameOfTest, durations>} of the report stored in filePath
-     * @throws IOException
      */
     private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException {
         HashMap<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
@@ -213,8 +210,6 @@ public class PerformanceProfiler extends Thread {
 
     /**
      * Writes the results to the file with path filePath.
-     * @param filePath
-     * @throws IOException
      */
     private void printResult(String filePath) throws IOException {
         List<String> list = new ArrayList<String>();

@@ -132,7 +132,7 @@ public class ActionFactory {
     }
 
     /**
-     * @return the matching {@link Action} object for the URI in the {@code req}.
+     * Returns the matching {@link Action} object for the URI in the {@code req}.
      */
     public Action getAction(HttpServletRequest req) {
 

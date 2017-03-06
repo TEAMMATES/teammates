@@ -563,10 +563,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     /**
      * Used to update the OptionPointsMapping for the option optionReceivingPoints.
-     *
-     * @param optionPoints
-     * @param optionReceivingPoints
-     * @param pointsReceived
      */
     private void updateOptionPointsMapping(
             Map<String, List<Integer>> optionPoints,
@@ -582,7 +578,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     /**
      * Returns the list of points as as string to display.
-     * @param points
      */
     private String getListOfPointsAsString(List<Integer> points) {
         Collections.sort(points);

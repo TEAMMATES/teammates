@@ -24,9 +24,6 @@ public final class BrowserPool {
         pool = new ArrayList<Browser>(CAPACITY);
     }
 
-    /**
-
-     */
     private static synchronized BrowserPool getInstance() {
         if (instance == null) {
             instance = new BrowserPool();
@@ -35,7 +32,7 @@ public final class BrowserPool {
     }
 
     /**
-     * @return a Browser object ready to be used.
+     * Returns a Browser object ready to be used.
      */
     public static Browser getBrowser() {
         return getInstance().requestInstance();

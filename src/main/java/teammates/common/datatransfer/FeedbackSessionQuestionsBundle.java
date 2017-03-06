@@ -50,7 +50,6 @@ public class FeedbackSessionQuestionsBundle {
 
     /**
      * Gets the question in the data bundle with id == questionId.
-     * @param questionId
      * @return a FeedbackQuestionAttribute with the specified questionId
      */
     public FeedbackQuestionAttributes getQuestionAttributes(String questionId) {

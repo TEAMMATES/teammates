@@ -240,7 +240,6 @@ public class AdminSessionsPageAction extends Action {
     /**
      * This method loops through all instructors for the given course until a registered Instructor is found.
      * It returns the google id of the found instructor.
-     * @param courseId
      * @return empty string if no available instructor google id is found
      */
     private String findAvailableInstructorGoogleIdForCourse(String courseId) {

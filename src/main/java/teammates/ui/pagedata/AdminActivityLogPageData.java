@@ -288,7 +288,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     /**
-     * @return possible servlet requests list as html
+     * Returns the possible servlet requests list as html.
      */
     public String getActionListAsHtml() {
         List<String> allActionNames = getAllActionNames();

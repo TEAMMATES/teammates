@@ -576,8 +576,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
      *   if the parameter is null (due to 'keep existing' policy).<br>
      * Preconditions: <br>
      * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
-     * @throws EntityDoesNotExistException
-     * @throws InvalidParametersException
      */
     public void updateFeedbackResponse(FeedbackResponseAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -701,8 +699,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     }
 
     /**
-     * @param courseId
-     * @return true if there are existing responses in any feedback session in the course
+     * Returns true if there are existing responses in any feedback session in the course.
      */
     public boolean hasFeedbackResponseEntitiesForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);

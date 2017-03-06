@@ -137,7 +137,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
-     * @return empty list if none found.
+     * Returns empty list if none found.
      * @deprecated Not scalable. Created for data migration purposes.
      */
     @Deprecated
@@ -174,7 +174,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
-     * @return An empty list if no sessions are found that have unsent open emails.
+     * Returns An empty list if no sessions are found that have unsent open emails.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpenEmail() {
 
@@ -190,7 +190,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
-     * @return An empty list if no sessions are found that have unsent closing emails.
+     * Returns An empty list if no sessions are found that have unsent closing emails.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosingEmail() {
 
@@ -206,7 +206,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
-     * @return An empty list if no sessions are found that have unsent closed emails.
+     * Returns An empty list if no sessions are found that have unsent closed emails.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosedEmail() {
 
@@ -222,7 +222,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
-     * @return An empty list if no sessions are found that have unsent published emails.
+     * Returns An empty list if no sessions are found that have unsent published emails.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingPublishedEmail() {
 

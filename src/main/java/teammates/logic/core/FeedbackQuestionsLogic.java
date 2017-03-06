@@ -76,9 +76,6 @@ public final class FeedbackQuestionsLogic {
      * Used for creating initial questions only.
      * Does not check if feedback session exists.
      * Does not check if question number supplied is valid(does not check for clashes, or make adjustments)
-     * @param fqa
-     * @param questionNumber
-     * @throws InvalidParametersException
      */
     public FeedbackQuestionAttributes createFeedbackQuestionNoIntegrityCheck(
             FeedbackQuestionAttributes fqa, int questionNumber) throws InvalidParametersException {
@@ -457,8 +454,6 @@ public final class FeedbackQuestionsLogic {
 
     /**
      * Checks if a question has been fully answered by a team.
-     * @param question
-     * @param teamName
      * @return {@code True} if there are no more recipients to give feedback to for the given
      * {@code teamName}. {@code False} if not.
      */
@@ -521,9 +516,6 @@ public final class FeedbackQuestionsLogic {
      * Adjust questions between the old and new number,
      * if the new number is smaller, then shift up (increase qn#) all questions in between.
      * if the new number is bigger, then shift down(decrease qn#) all questions in between.
-     * @param oldQuestionNumber
-     * @param newQuestionNumber
-     * @param questions
      */
     private void adjustQuestionNumbers(int oldQuestionNumber,
             int newQuestionNumber, List<FeedbackQuestionAttributes> questions) {
@@ -620,8 +612,6 @@ public final class FeedbackQuestionsLogic {
      * response rate of the feedback session is not updated.
      *
      * <p>Silently fails if question does not exist.
-     *
-     * @param feedbackQuestionId
      */
     private void deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDeleteById =
@@ -643,8 +633,6 @@ public final class FeedbackQuestionsLogic {
      * response rate of the feedback session is updated accordingly.
      *
      * <p>Silently fail if question does not exist.
-     *
-     * @param feedbackQuestionId
      */
     public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDeleteById =

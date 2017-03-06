@@ -58,7 +58,6 @@ public class GaeVersionApi {
     /**
      * Finds a sublist of versionList, starting from startIndex and at most `maxAmount` elements.
      * @param startIndex starting position to get versions
-     * @param maxAmount
      */
     private List<String> getSublistOfVersionList(List<Version> versionList, int startIndex, int maxAmount) {
         int endIndex = Math.min(startIndex + maxAmount, versionList.size());

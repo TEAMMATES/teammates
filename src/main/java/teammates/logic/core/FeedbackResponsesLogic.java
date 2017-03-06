@@ -343,8 +343,7 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * @param question
-     * @return true if the responses of the question are visible to students
+     * Returns true if the responses of the question are visible to students.
      */
     public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestionAttributes question) {
         if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
@@ -412,12 +411,9 @@ public final class FeedbackResponsesLogic {
      * If the giver/recipient field is changed, the {@link FeedbackResponse} is
      * updated by recreating the response<br>
      * in order to prevent an id clash if the previous email is reused later on.
-     * @param updatedResponse
      * @param oldResponseEntity  a FeedbackResponse retrieved from the database
      * @throws EntityAlreadyExistsException  if trying to prevent an id clash by recreating a response,
      *                                       a response with the same id already exist.
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateFeedbackResponse(
             FeedbackResponseAttributes updatedResponse, FeedbackResponse oldResponseEntity)

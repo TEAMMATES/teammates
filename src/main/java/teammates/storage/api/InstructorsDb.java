@@ -69,7 +69,6 @@ public class InstructorsDb extends EntitiesDb {
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search instructors in the whole system.
-     * @param queryString
      * @return null if no result found
      */
 
@@ -139,7 +138,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * @return null if no matching objects.
+     * Returns null if no matching objects.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
 
@@ -157,7 +156,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * @return null if no matching objects.
+     * Returns null if no matching objects.
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
 
@@ -175,7 +174,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * @return null if no matching instructor.
+     * Returns null if no matching instructor.
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
 
@@ -277,8 +276,6 @@ public class InstructorsDb extends EntitiesDb {
 
     /**
      * Updates the instructor. Cannot modify Course ID or google id.
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -316,8 +313,6 @@ public class InstructorsDb extends EntitiesDb {
 
     /**
      * Updates the instructor. Cannot modify Course ID or email.
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -353,8 +348,6 @@ public class InstructorsDb extends EntitiesDb {
 
     /**
      * Deletes the instructor specified by courseId and email.
-     * @param courseId
-     * @param email
      */
     public void deleteInstructor(String courseId, String email) {
 
@@ -413,7 +406,6 @@ public class InstructorsDb extends EntitiesDb {
 
     /**
      * Deletes all instructors with the given googleId.
-     * @param googleId
      */
     public void deleteInstructorsForGoogleId(String googleId) {
 
@@ -432,7 +424,6 @@ public class InstructorsDb extends EntitiesDb {
 
     /**
      * Deletes all instructors for the course specified by courseId.
-     * @param courseId
      */
     public void deleteInstructorsForCourse(String courseId) {
 

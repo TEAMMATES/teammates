@@ -110,7 +110,6 @@ public class InstructorFeedbackQuestionEditAction extends Action {
      * Validates that the giver and recipient for the given FeedbackQuestionAttributes is valid for its question type.
      * Validates that the visibility for the given FeedbackQuestionAttributes is valid for its question type.
      *
-     * @param feedbackQuestionAttributes
      * @return error message detailing the error, or an empty string if valid.
      */
     public static String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {

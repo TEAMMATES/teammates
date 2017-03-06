@@ -157,6 +157,8 @@ public class FeedbackResponseComment {
     }
 
     /**
+     * Sets the giver email of the response comment.
+     *
      * @param giverEmail the giverEmail to set.
      *         This is the email used by the user in the course, not the one associated with the user's google account.
      */

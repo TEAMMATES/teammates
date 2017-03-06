@@ -39,10 +39,6 @@ public class CommentsDb extends EntitiesDb {
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Comment: ";
 
-    /**
-     * @param commentsToAdd
-     * @throws InvalidParametersException
-     */
     public void createComments(Collection<CommentAttributes> commentsToAdd) throws InvalidParametersException {
         List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);
         for (EntityAttributes entity : commentsToUpdate) {
@@ -74,7 +70,6 @@ public class CommentsDb extends EntitiesDb {
 
     /**
      * Removes search document for the given comment.
-     * @param commentToDelete
      */
     public void deleteDocument(CommentAttributes commentToDelete) {
         if (commentToDelete.getCommentId() == null) {
@@ -500,6 +495,8 @@ public class CommentsDb extends EntitiesDb {
     }
 
     /**
+     * Gets all student comments in the Datastore.
+     *
      * @deprecated Not scalable. Don't use unless in admin features.
      */
     @Deprecated

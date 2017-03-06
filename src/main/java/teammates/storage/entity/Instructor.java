@@ -101,13 +101,15 @@ public class Instructor {
     }
 
     /**
-     * @return The unique ID of the entity (format: googleId%courseId).
+     * Returns the unique ID of the entity (format: googleId%courseId).
      */
     public String getUniqueId() {
         return id;
     }
 
     /**
+     * Sets the unique ID for the instructor entity.
+     *
      * @param uniqueId
      *          The unique ID of the entity (format: googleId%courseId).
      */

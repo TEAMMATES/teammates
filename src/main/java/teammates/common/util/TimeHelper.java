@@ -119,7 +119,7 @@ public final class TimeHelper {
     }
 
     /**
-     * @return the date object with specified offset in number of hours from now.
+     * Returns the date object with specified offset in number of hours from now.
      */
     public static Date getHoursOffsetToCurrentTime(int offsetHours) {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -129,7 +129,7 @@ public final class TimeHelper {
     }
 
     /**
-     * @return the date object with specified offset in number of days from now.
+     * Returns the date object with specified offset in number of days from now.
      */
     public static Date getDateOffsetToCurrentTime(int offsetDays) {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -178,7 +178,7 @@ public final class TimeHelper {
     }
 
     /**
-     * @return one of these : 0100H, 0200H, ..., 0900H, 1000H, ... 2300H, 2359H.
+     * Returns one of these : 0100H, 0200H, ..., 0900H, 1000H, ... 2300H, 2359H.
      *         Note the last one is different from the others.
      */
     public static String convertToDisplayValueInTimeDropDown(Date date) {
@@ -267,6 +267,8 @@ public final class TimeHelper {
     }
 
     /**
+     * Converts the date string to a Date object.
+     *
      * @param dateInStringFormat should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
      */
     public static Date convertToDate(String dateInStringFormat) {
@@ -415,8 +417,9 @@ public final class TimeHelper {
     }
 
     /**
-     * @return Duration in format m:s:ms
-     *         Example: 1200 milliseconds ---> 0:1:200
+     * Returns Duration in format m:s:ms.
+     *
+     * <p>Example: 1200 milliseconds ---> 0:1:200.
      */
 
     public static String convertToStandardDuration(Long timeInMilliseconds) {

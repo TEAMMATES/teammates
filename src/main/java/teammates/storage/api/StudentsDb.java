@@ -63,7 +63,6 @@ public class StudentsDb extends EntitiesDb {
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search students in the whole system.
-     * @param queryString
      * @return null if no result found
      */
     public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
@@ -91,9 +90,6 @@ public class StudentsDb extends EntitiesDb {
 
     /**
      * Creates students' records without searchability.
-     *
-     * @param studentsToAdd
-     * @throws InvalidParametersException
      */
     public void createStudentsWithoutSearchability(Collection<StudentAttributes> studentsToAdd)
             throws InvalidParametersException {
@@ -264,7 +260,9 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     *  @return an empty list if no students in this section
+     * Preconditions: <br>
+     * All parameters are non-null.
+     * @return an empty list if no students in this section
      */
     public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionName);
@@ -341,8 +339,6 @@ public class StudentsDb extends EntitiesDb {
      * Preconditions: <br>
      * * {@code courseId} and {@code email} are non-null and correspond to an existing student. <br>
      * @param keepUpdateTimestamp Set true to prevent changes to updatedAt. Use when updating entities with scripts.
-     * @throws EntityDoesNotExistException
-     * @throws InvalidParametersException
      */
     public void updateStudent(String courseId, String email, String newName,
                                     String newTeamName, String newSectionName, String newEmail,
@@ -582,8 +578,8 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     * @param courseId
-     * @param email
+     * Verifies that the student with the specified {@code email} exists in the course {@code courseId}.
+     *
      * @throws EntityDoesNotExistException if the student specified by courseId and email does not exist,
      */
     public void verifyStudentExists(String courseId, String email)

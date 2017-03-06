@@ -178,13 +178,13 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
 
     /**
+     * Returns true if the student is displayed correctly in the student table.
+     *
      * @param student
      *            the student to be displayed
      * @param instructorToMasquaradeAs
      *            a registered instructor with co-owner privileges or the
      *            privilege to modify instructors
-     * @return true if the student is displayed correctly in the student table,
-     *         otherwise false
      */
     private boolean isStudentRowDisplayed(StudentAttributes student, InstructorAttributes instructorToMasquaradeAs) {
 
@@ -205,12 +205,13 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
 
     /**
+     * Returns true if the {@code student}'s course, section, team, name,
+     * googleId and comment are displayed correctly.
+     *
      * @param studentRow
      *            a row of the student table
      * @param student
      *            the student to be displayed
-     * @return true if the {@code student}'s course, section, team, name,
-     *         googleId and comment are displayed correctly, otherwise false
      */
     private boolean isStudentContentCorrect(WebElement studentRow, StudentAttributes student) {
 
@@ -233,6 +234,9 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
 
     /**
+     * Returns true if the links associated with the {@code student}'s name and
+     * googleId (if he/she is registered) are correct.
+     *
      * @param studentRow
      *            a row of the student table
      * @param student
@@ -240,8 +244,6 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
      * @param instructorToMasquaradeAs
      *            a registered instructor with co-owner privileges or the
      *            privilege to modify instructors
-     * @return true if the links associated with the {@code student}'s name and
-     *         googleId (if he/she is registered) are correct, otherwise false
      */
     private boolean isStudentLinkCorrect(WebElement studentRow,
                                          StudentAttributes student,

@@ -312,7 +312,6 @@ public class EmailGenerator {
 
     /**
      * Generates the feedback session closed emails for the given {@code session}.
-     * @throws EntityDoesNotExistException
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
 

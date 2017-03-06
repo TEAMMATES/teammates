@@ -152,8 +152,6 @@ public abstract class FeedbackQuestionDetails {
     /**
      * Extract question details and sets details accordingly.
      *
-     * @param requestParameters
-     * @param questionType
      * @return true to indicate success in extracting the details, false otherwise.
      */
     public abstract boolean extractQuestionDetails(Map<String, String[]> requestParameters,
@@ -181,7 +179,7 @@ public abstract class FeedbackQuestionDetails {
     }
 
     /**
-     * @return true if 'No Response' is to be displayed in the Response rows.
+     * Returns true if 'No Response' is to be displayed in the Response rows.
      */
     public boolean shouldShowNoResponseText(FeedbackQuestionAttributes question) {
         // we do not show all possible responses
@@ -200,10 +198,6 @@ public abstract class FeedbackQuestionDetails {
      *
      * <p>Used in instructorFeedbackResultsPage to show possible givers and recipients who did
      * not respond to the question in the feedback session.
-     * @param giverEmail
-     * @param recipientEmail
-     * @param bundle
-     * @param question
      */
     public String getNoResponseText(String giverEmail, String recipientEmail,
                                     FeedbackSessionResultsBundle bundle,

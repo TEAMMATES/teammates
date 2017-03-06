@@ -48,7 +48,6 @@ public final class SanitizationHelper {
      * Sanitizes a google ID by removing leading/trailing whitespace
      * and the trailing "@gmail.com".
      *
-     * @param rawGoogleId
      * @return the sanitized google ID or null (if the parameter was null).
      */
     public static String sanitizeGoogleId(String rawGoogleId) {
@@ -66,7 +65,6 @@ public final class SanitizationHelper {
     /**
      * Sanitizes an email address by removing leading/trailing whitespace.
      *
-     * @param rawEmail
      * @return the sanitized email address or null (if the parameter was null).
      */
     public static String sanitizeEmail(String rawEmail) {
@@ -76,7 +74,6 @@ public final class SanitizationHelper {
     /**
      * Sanitizes name by removing leading, trailing, and duplicate internal whitespace.
      *
-     * @param rawName
      * @return the sanitized name or null (if the parameter was null).
      */
     public static String sanitizeName(String rawName) {
@@ -86,7 +83,6 @@ public final class SanitizationHelper {
     /**
      * Sanitizes title by removing leading, trailing, and duplicate internal whitespace.
      *
-     * @param rawTitle
      * @return the sanitized title or null (if the parameter was null).
      */
     public static String sanitizeTitle(String rawTitle) {
@@ -97,7 +93,6 @@ public final class SanitizationHelper {
      * Sanitizes a user input text field by removing leading/trailing whitespace.
      * i.e. comments, instructions, etc.
      *
-     * @param rawText
      * @return the sanitized text or null (if the parameter was null).
      */
     public static String sanitizeTextField(String rawText) {
@@ -108,7 +103,6 @@ public final class SanitizationHelper {
      * Escape the string for inserting into javascript code.
      * This automatically calls {@link #sanitizeForHtml} so make it safe for HTML too.
      *
-     * @param str
      * @return the sanitized string or null (if the parameter was null).
      */
     public static String sanitizeForJs(String str) {
@@ -191,7 +185,6 @@ public final class SanitizationHelper {
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
      *
-     * @param sanitizedString
      * @return recovered string
      */
     public static String desanitizeFromHtml(String sanitizedString) {
@@ -214,7 +207,6 @@ public final class SanitizationHelper {
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
      *
-     * @param sanitizedStringSet
      * @return recovered string set
      */
     public static Set<String> desanitizeFromHtml(Set<String> sanitizedStringSet) {
@@ -260,7 +252,6 @@ public final class SanitizationHelper {
      *     which is used to traverse the HTML document to a certain id</li>
      * </ul>
      *
-     * @param url
      * @return the sanitized url or null (if the parameter was null).
      */
     public static String sanitizeForNextUrl(String url) {
@@ -274,8 +265,7 @@ public final class SanitizationHelper {
      * Recovers the URL from sanitization due to {@link SanitizationHelper#sanitizeForNextUrl}.
      * In addition, any un-encoded whitespace (they may be there due to Google's
      * behind-the-screen decoding process) will be encoded again to +.
-     * @param sanitizedUrl
-     * @return the unsantized url or null (if the parameter was null).
+     * @return the unsanitized url or null (if the parameter was null).
      */
     public static String desanitizeFromNextUrl(String sanitizedUrl) {
         if (sanitizedUrl == null) {
@@ -342,7 +332,6 @@ public final class SanitizationHelper {
      * <p>This is used when writing the test case for some special characters
      * such as ' and "
      *
-     * @param text
      * @return safer version of the text for XPath
      */
     public static String sanitizeStringForXPath(String text) {

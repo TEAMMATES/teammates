@@ -25,11 +25,7 @@ public final class EmailAccount {
      * the email as read.
      *      * Can be easily modified to support other mail providers
      *
-     * @param username
-     * @param password
      * @return registration key (null if cannot be found).
-     * @throws MessagingException
-     * @throws IOException
      */
     public static String getRegistrationKeyFromGmail(String username, String password, String courseName, String courseId)
             throws IOException, MessagingException {

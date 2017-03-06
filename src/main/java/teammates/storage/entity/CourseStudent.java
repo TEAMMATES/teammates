@@ -30,6 +30,8 @@ public class CourseStudent implements StoreCallback {
     public transient boolean keepUpdateTimestamp;
 
     /**
+     * ID of the student.
+     *
      * @see #makeId()
      */
     @PrimaryKey
@@ -86,20 +88,6 @@ public class CourseStudent implements StoreCallback {
     @SerializedName("sectionname")
     private String sectionName;
 
-    /**
-     *
-     * @param email
-     *            Student's email used for this course.
-     * @param name
-     *            Student name.
-     * @param googleId
-     *            Student's Google Id. Can be null/empty if the student hasn't
-     *            registered yet.
-     * @param comments
-     *            Comments about the student.
-     * @param courseId
-     * @param teamName
-     */
     public CourseStudent(String email, String name, String googleId, String comments, String courseId,
                          String teamName, String sectionName) {
         setEmail(email);

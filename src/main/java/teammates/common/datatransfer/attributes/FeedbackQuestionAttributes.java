@@ -288,8 +288,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * Checks if updating this question to the {@code newAttributes} will
      * require the responses to be deleted for consistency.
      * Does not check if any responses exist.
-     *
-     * @param newAttributes
      */
     public boolean areResponseDeletionsRequiredForChanges(FeedbackQuestionAttributes newAttributes) {
         if (!newAttributes.giverType.equals(this.giverType)
@@ -553,8 +551,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     /**
      * Converts the given Feedback*QuestionDetails object to JSON for storing.
-     *
-     * @param questionDetails
      */
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
         questionMetaData = new Text(JsonUtils.toJson(questionDetails, getFeedbackQuestionDetailsClass()));

@@ -190,7 +190,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
 
     /**
-     * @return true if there is extra space in the string.
+     * Returns true if there is extra space in the string.
      */
     private boolean hasExtraSpaces(String s) {
         return !s.equals(StringHelper.removeExtraSpace(s));

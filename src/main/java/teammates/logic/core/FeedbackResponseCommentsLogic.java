@@ -169,7 +169,6 @@ public final class FeedbackResponseCommentsLogic {
 
     /**
      * Creates or updates document for the given comment.
-     * @param comment
      */
     public void putDocument(FeedbackResponseCommentAttributes comment) {
         frcDb.putDocument(comment);
@@ -199,19 +198,13 @@ public final class FeedbackResponseCommentsLogic {
 
     /**
      * Removes document for the given comment.
-     * @param commentToDelete
      */
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
         frcDb.deleteDocument(commentToDelete);
     }
 
     /**
-     * Verifies whether the comment's giver name is visible to certain user.
-     * @param comment
-     * @param response
-     * @param userEmail
-     * @param roster
-     * @return true/false
+     * Returns true if the comment's giver name is visible to certain user.
      */
     public boolean isNameVisibleToUser(FeedbackResponseCommentAttributes comment, FeedbackResponseAttributes response,
                                    String userEmail, CourseRoster roster) {

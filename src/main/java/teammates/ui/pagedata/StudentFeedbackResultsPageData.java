@@ -90,9 +90,6 @@ public class StudentFeedbackResultsPageData extends PageData {
 
     /**
      * Parses question details which will be displayed on the browser.
-     * @param questionIndex
-     * @param question
-     * @param questionDetailsBundle
      * @param responsesBundle  Responses for the question
      * @return Only those details which will be displayed on the page are returned
      */

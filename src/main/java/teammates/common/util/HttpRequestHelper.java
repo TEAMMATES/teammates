@@ -16,10 +16,9 @@ public final class HttpRequestHelper {
     }
 
     /**
+     * Returns the first value for the key in the parameter map, or null if key not found.
      *
      * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
-     * @param key
-     * @return the first value for the key. Returns null if key not found.
      */
     public static String getValueFromParamMap(Map<String, String[]> paramMap, String key) {
         String[] values = paramMap.get(key);
@@ -27,10 +26,9 @@ public final class HttpRequestHelper {
     }
 
     /**
+     * Returns all values for the key in the parameter map, or null if key not found.
      *
      * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
-     * @param key
-     * @return all values for the key. Returns null if key not found.
      */
     public static String[] getValuesFromParamMap(Map<String, String[]> paramMap, String key) {
         String[] values = paramMap.get(key);
@@ -38,7 +36,7 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * @return a HashMap object containing all the parameters key-value pairs from a URLFetchRequest object
+     * Returns a HashMap object containing all the parameters key-value pairs from a URLFetchRequest object.
      */
     public static HashMap<String, String> getParamMap(URLFetchRequest request) {
         String requestBody = request.getPayload().toStringUtf8();
@@ -62,10 +60,9 @@ public final class HttpRequestHelper {
     }
 
     /**
+     * Returns the first value for the key in the request's parameter map, or null if key not found.
      *
      * @param req An HttpServletRequest which contains the parameters map
-     * @param key
-     * @return the first value for the key. Returns null if key is not found
      */
     @SuppressWarnings("unchecked")
     public static String getValueFromRequestParameterMap(HttpServletRequest req, String key) {
@@ -73,10 +70,9 @@ public final class HttpRequestHelper {
     }
 
     /**
+     * Returns all values for the key in the request's parameter map, or null if key not found.
      *
      * @param req An HttpServletRequest which contains the parameters map
-     * @param key
-     * @return the values for the key. Returns null if key is not found
      */
     @SuppressWarnings("unchecked")
     public static String[] getValuesFromRequestParameterMap(HttpServletRequest req, String key) {
@@ -104,7 +100,7 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * @return the URL used for the HTTP request but without the domain, e.g. "/page/studentHome?user=james"
+     * Returns the URL used for the HTTP request but without the domain, e.g. "/page/studentHome?user=james"
      */
     public static String getRequestedUrl(HttpServletRequest req) {
         String link = req.getRequestURI();

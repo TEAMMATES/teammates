@@ -138,7 +138,9 @@
       <property name="ignoreMethodNamesRegex" value="main"/>
     </module>
     <module name="JavadocParagraph"/>
-    <module name="JavadocStyle"/>
+    <module name="JavadocStyle">
+      <property name="checkEmptyJavadoc" value="true"/>
+    </module>
     <module name="NonEmptyAtclauseDescription"/>
     <module name="JavadocType">
       <property name="scope" value="public"/>

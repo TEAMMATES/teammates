@@ -32,8 +32,8 @@ public final class GoogleCloudStorageHelper {
     }
 
     /**
-     * @return true if a file with the specified {@link BlobKey} exists in the
-     *         Google Cloud Storage
+     * Returns true if a file with the specified {@link BlobKey} exists in the
+     *         Google Cloud Storage.
      */
     public static boolean doesFileExistInGcs(BlobKey fileKey) {
         try {

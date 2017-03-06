@@ -491,8 +491,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Gets the description for given sub-question and choice.
-     * @param subQuestion
-     * @param choice
      */
     private String getDescription(int subQuestion, int choice) {
         return rubricDescriptions.get(subQuestion).get(choice);

@@ -106,12 +106,7 @@ public final class CommentsLogic {
 
     /**
      * Gets comments for a particular receiver, then filters out comments that the instructor cannot see.
-     * @param courseId
-     * @param recipientType
-     * @param receiverEmail
-     * @param instructorEmail
      * @return List of comments visible to the instructor, directed at the receiver.
-     * @throws EntityDoesNotExistException
      */
     public List<CommentAttributes> getCommentsForReceiverVisibleToInstructor(
             String courseId, CommentParticipantType recipientType, String receiverEmail, String instructorEmail)
@@ -178,9 +173,6 @@ public final class CommentsLogic {
 
     /**
      * Updates comment's giver and last editor email (assumed to be an instructor).
-     * @param courseId
-     * @param oldInstrEmail
-     * @param updatedInstrEmail
      */
     public void updateInstructorEmail(String courseId, String oldInstrEmail, String updatedInstrEmail) {
         commentsDb.updateInstructorEmail(courseId, oldInstrEmail, updatedInstrEmail);
@@ -188,9 +180,6 @@ public final class CommentsLogic {
 
     /**
      * Update comment's recipient email (assumed to be a student).
-     * @param courseId
-     * @param oldStudentEmail
-     * @param updatedStudentEmail
      */
     public void updateStudentEmail(String courseId, String oldStudentEmail, String updatedStudentEmail) {
         commentsDb.updateStudentEmail(courseId, oldStudentEmail, updatedStudentEmail);
@@ -239,7 +228,6 @@ public final class CommentsLogic {
 
     /**
      * Creates or updates document for comment.
-     * @param comment
      */
     public void putDocument(CommentAttributes comment) {
         commentsDb.putDocument(comment);
@@ -266,7 +254,6 @@ public final class CommentsLogic {
 
     /**
      * Gets comments visible for the given instructor.
-     * @param instructor
      * @return list of {@link CommentAttributes}
      * @throws EntityDoesNotExistException when the course doesn't exist
      */
@@ -320,7 +307,6 @@ public final class CommentsLogic {
 
     /**
      * Gets comments visible to the given student.
-     * @param student
      * @return list of {@link CommentAttributes}
      * @throws EntityDoesNotExistException when the course doesn't exist
      */
@@ -547,7 +533,6 @@ public final class CommentsLogic {
     /**
      * Get recipient emails for comments with sending state.
      * When pending comments are cleared, they'll become sending comments.
-     * @param courseId
      * @return set of emails for recipients who can see the sending comments
      * @throws EntityDoesNotExistException when the course doesn't exist
      */

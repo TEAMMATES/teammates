@@ -459,7 +459,7 @@ public abstract class AppPage {
     }
 
     /**
-     * @return the HTML source of the currently loaded page.
+     * Returns the HTML source of the currently loaded page.
      */
     public String getPageSource() {
         return browser.driver.getPageSource();
@@ -576,7 +576,7 @@ public abstract class AppPage {
     }
 
     /**
-     * @return the status message in the page. Returns "" if there is no
+     * Returns the status message in the page. Returns "" if there is no
      *         status message in the page.
      */
     public String getStatus() {
@@ -584,7 +584,7 @@ public abstract class AppPage {
     }
 
     /**
-     * @return the value of the cell located at {@code (row,column)}
+     * Returns the value of the cell located at {@code (row, column)}
      *         from the first table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int row, int column) {
@@ -592,7 +592,7 @@ public abstract class AppPage {
     }
 
     /**
-     * @return the value of the cell located at {@code (row,column)}
+     * Returns the value of the cell located at {@code (row, column)}
      *         from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int tableNum, int row, int column) {
@@ -603,7 +603,7 @@ public abstract class AppPage {
     }
 
     /**
-     * @return the value of the header located at {@code (row,column)}
+     * Returns the value of the header located at {@code (row, column)}
      *         from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
     public String getHeaderValueFromDataTable(int tableNum, int row, int column) {
@@ -614,7 +614,7 @@ public abstract class AppPage {
     }
 
     /**
-     * @return the number of rows from the nth(0-index-based) table
+     * Returns the number of rows from the nth(0-index-based) table
      *         (which is of type {@code class=table}) in the page.
      */
     public int getNumberOfRowsFromDataTable(int tableNum) {
@@ -623,7 +623,7 @@ public abstract class AppPage {
     }
 
     /**
-     * @return the number of columns from the header in the table
+     * Returns the number of columns from the header in the table
      *         (which is of type {@code class=table}) in the page.
      */
     public int getNumberOfColumnsFromDataTable(int tableNum) {
@@ -633,7 +633,7 @@ public abstract class AppPage {
     }
 
     /**
-     * @return the id of the table
+     * Returns the id of the table
      *         (which is of type {@code class=table}) in the page.
      */
     public String getDataTableId(int tableNum) {
@@ -676,20 +676,20 @@ public abstract class AppPage {
     }
 
     /**
-     * @return True if the page contains some basic elements expected in a page of the
+     * Returns True if the page contains some basic elements expected in a page of the
      *         specific type. e.g., the top heading.
      */
     protected abstract boolean containsExpectedPageContents();
 
     /**
-     * @return True if there is a corresponding element for the given locator.
+     * Returns True if there is a corresponding element for the given locator.
      */
     public boolean isElementPresent(By by) {
         return browser.driver.findElements(by).size() != 0;
     }
 
     /**
-     * @return True if there is a corresponding element for the given id or name.
+     * Returns True if there is a corresponding element for the given id or name.
      */
     public boolean isElementPresent(String elementId) {
         try {
@@ -717,12 +717,12 @@ public abstract class AppPage {
     }
 
     /**
+     * Returns true if there exists an element with the given id and class name.
+     *
      * @param elementId
      *            Id of the element
      * @param targetClass
      *            className
-     * @return {@code true} if there exists an element with the given id and
-     *         class name.
      */
     public boolean isElementHasClass(String elementId, String targetClass) {
         List<WebElement> elementsMatched =
@@ -764,7 +764,6 @@ public abstract class AppPage {
 
     /**
      * Checks if the midpoint of an element is covered by any other element.
-     * @param element
      * @return true if element is covered, false otherwise.
      */
     public boolean isElementCovered(WebElement element) {
@@ -900,7 +899,6 @@ public abstract class AppPage {
 
     /**
      * Verifies that the title of the loaded page is the same as {@code expectedTitle}.
-     * @param expectedTitle
      */
     public void verifyTitle(String expectedTitle) {
         assertEquals(expectedTitle, browser.driver.getTitle());
@@ -995,7 +993,7 @@ public abstract class AppPage {
     }
 
     /**
-     * @return true if the element is in the user's visible area of a web page.
+     * Returns true if the element is in the user's visible area of a web page.
      */
     public boolean isElementInViewport(String id) {
         String script = "return isWithinView(document.getElementById('" + id + "'));";

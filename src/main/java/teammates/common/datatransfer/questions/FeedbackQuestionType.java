@@ -27,9 +27,6 @@ public enum FeedbackQuestionType {
     /**
      * Constructor for FeedbackQuestionType.
      * Pass in the corresponding questionDetailsClass and responseDetailsClass
-     *
-     * @param questionDetailsClass
-     * @param responseDetailsClass
      */
     FeedbackQuestionType(Class<? extends FeedbackQuestionDetails> questionDetailsClass,
                          Class<? extends FeedbackResponseDetails> responseDetailsClass) {

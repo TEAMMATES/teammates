@@ -53,10 +53,6 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
 
     /**
      * Updates the mapping of ranks for the option optionReceivingPoints.
-     *
-     * @param optionRanks
-     * @param optionReceivingRanks
-     * @param rankReceived
      */
     protected void updateOptionRanksMapping(
                         Map<String, List<Integer>> optionRanks,
@@ -72,7 +68,6 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
 
     /**
      * Returns the list of points as as string to display.
-     * @param ranksReceived
      */
     protected String getListOfRanksReceivedAsString(List<Integer> ranksReceived) {
         Collections.sort(ranksReceived);

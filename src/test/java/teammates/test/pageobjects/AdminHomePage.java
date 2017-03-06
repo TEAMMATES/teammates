@@ -36,10 +36,9 @@ public class AdminHomePage extends AppPage {
         return getPageSource().contains("<h1>Add New Instructor</h1>");
     }
 
-    /** Fills the form with values from the parameters and clicks the submit button.
+    /**
+     * Fills the form with values from the parameters and clicks the submit button.
      * If an attribute value is null, the existing value in the form is used.
-     *
-     * @param attributesForNewAccount
      */
     public AdminHomePage createInstructor(String shortName, InstructorAttributes attributesForNewAccount, String institute) {
         if (shortName != null) {

@@ -97,7 +97,7 @@ public final class Config {
     }
 
     /**
-     * @return The app version specifed in appengine-web.xml but with '.' instead of '-' e.g., "4.53"
+     * Returns The app version specifed in appengine-web.xml but with '.' instead of '-' e.g., "4.53".
      */
     public static String getAppVersion() {
         String appVersion = SystemProperty.applicationVersion.get();

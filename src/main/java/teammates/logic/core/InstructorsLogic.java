@@ -67,7 +67,6 @@ public final class InstructorsLogic {
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
-     * @param queryString
      * @return null if no result found
      */
     public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
@@ -142,6 +141,8 @@ public final class InstructorsLogic {
     }
 
     /**
+     * Gets all instructors in the Datastore.
+     *
      * @deprecated Not scalable. Use only for admin features.
      */
     @Deprecated
@@ -193,10 +194,7 @@ public final class InstructorsLogic {
 
     /**
      * Update the name and email address of an instructor with the specific Google ID.
-     * @param googleId
      * @param instructor InstructorAttributes object containing the details to be updated
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByGoogleId(String googleId, InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -237,10 +235,7 @@ public final class InstructorsLogic {
 
     /**
      * Update the Google ID and name of an instructor with the specific email.
-     * @param email
      * @param instructor InstructorAttributes object containing the details to be updated
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByEmail(String email, InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {

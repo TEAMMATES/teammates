@@ -31,6 +31,8 @@ public final class JsonUtils {
     }
 
     /**
+     * Serializes the specified object into its equivalent JSON string.
+     *
      * @see Gson#toJson(Object, Type)
      */
     public static String toJson(Object src, Type typeOfSrc) {
@@ -38,6 +40,8 @@ public final class JsonUtils {
     }
 
     /**
+     * Serializes the specified object into its equivalent JSON string.
+     *
      * @see Gson#toJson(Object)
      */
     public static String toJson(Object src) {
@@ -45,6 +49,8 @@ public final class JsonUtils {
     }
 
     /**
+     * Deserializes the specified JSON string into an object of the specified type.
+     *
      * @see Gson#fromJson(String, Type)
      */
     public static <T> T fromJson(String json, Type typeOfT) {
@@ -57,6 +63,8 @@ public final class JsonUtils {
     }
 
     /**
+     * Parses the specified JSON string into a {@link JsonElement} object.
+     *
      * @see JsonParser#parse(String)
      */
     public static JsonElement parse(String json) {

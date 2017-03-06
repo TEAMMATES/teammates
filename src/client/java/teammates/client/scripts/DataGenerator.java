@@ -68,7 +68,6 @@ public final class DataGenerator {
      *
      * @param data - Data string to write
      * @param filePath - path to file
-     * @throws IOException
      */
     private static void writeDataToFile(String data, String filePath) throws IOException {
         File f = new File(filePath);
@@ -89,9 +88,6 @@ public final class DataGenerator {
 
     }
 
-    /**
-     * Creates data.
-     */
     private static String generateData() {
         System.out.println("Start generating data!");
         //Create students
@@ -113,7 +109,6 @@ public final class DataGenerator {
 
     /**
      * Randomly creates courses, students and evaluations for a particular instructor.
-     * @param courseName
      */
     private static void generateDataForCourse(String courseName) {
         //number of courses for this particular instructor
@@ -135,7 +130,6 @@ public final class DataGenerator {
 
     /**
      * Randomly creates students for a particular course.
-     * @param courseName
      */
     private static void generateStudentsDataForCourse(String courseName) {
         // randomly get a number for student size for this course
@@ -177,7 +171,7 @@ public final class DataGenerator {
     }
 
     /**
-     * @return json string presenting the databundle
+     * Returns json string presenting the databundle.
      */
     private static String output() {
         System.out.println("Start writing to file !");
@@ -203,7 +197,7 @@ public final class DataGenerator {
     }
 
     /**
-     * @return Json string presentation for all instructors
+     * Returns Json string presentation for all instructors.
      */
     private static String allInstructors() {
         StringBuilder outputBuilder = new StringBuilder(100);
@@ -223,7 +217,7 @@ public final class DataGenerator {
     }
 
     /**
-     * @return Json string presentation for all courses
+     * Returns Json string presentation for all courses.
      */
     private static String allCourses() {
         StringBuilder output = new StringBuilder(100);
@@ -240,7 +234,7 @@ public final class DataGenerator {
     }
 
     /**
-     * @return Json string presentation for all students
+     * Returns Json string presentation for all students.
      */
     private static String allStudents() {
         StringBuilder outputBuilder = new StringBuilder(100);
@@ -271,7 +265,7 @@ public final class DataGenerator {
     }
 
     /**
-     * @return Json string presentation for a instructor entity
+     * Returns Json string presentation for a instructor entity.
      */
     private static String instructor(String objName, String googleId, String courseId, String name, String email) {
         return "\"" + objName + "\":{\"googleId\":\"" + googleId + "\",\"courseId\":\""
@@ -279,14 +273,14 @@ public final class DataGenerator {
     }
 
     /**
-     * @return Json string presentation for a course entity
+     * Returns Json string presentation for a course entity.
      */
     private static String course(String objName, String id, String name) {
         return "\"" + objName + "\":{\"id\":\"" + id + "\",\"name\":\"" + name + "\"}";
     }
 
     /**
-     * @return Json string presentation for a student entity
+     * Returns Json string presentation for a student entity.
      */
     private static String student(String objName, String email, String name,
                                   String team, String id, String comments, String course) {
@@ -304,7 +298,7 @@ public final class DataGenerator {
     /*helper methods*/
 
     /**
-     * @return a random number of student in course
+     * Returns a random number of student in course.
      */
     private static int getDeviatedNumberOfStudentInCourse() {
         int num = 0;

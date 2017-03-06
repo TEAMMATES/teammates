@@ -77,6 +77,8 @@ public class CoursesDb extends EntitiesDb {
     }
 
     /**
+     * Gets all courses in the Datastore.
+     *
      * @deprecated Not scalable. Use only in admin features.
      */
     @Deprecated

@@ -103,7 +103,7 @@ public class AccountsDb extends EntitiesDb {
     }
 
     /**
-     * @return {@link AccountAttributes} objects for all accounts with instructor privileges.
+     * Returns {@link AccountAttributes} objects for all accounts with instructor privileges.
      *         Returns an empty list if no such accounts are found.
      */
     public List<AccountAttributes> getInstructorAccounts() {

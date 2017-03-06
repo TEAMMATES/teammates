@@ -63,9 +63,6 @@ public final class AdminEmailsLogic {
     /**
      * Move an admin email to trash bin.<br>
      * After this the attribute isInTrashBin will be set to true
-     * @param adminEmailId
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void moveAdminEmailToTrashBin(String adminEmailId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -82,9 +79,6 @@ public final class AdminEmailsLogic {
     /**
      * Move an admin email out of trash bin.<br>
      * After this the attribute isInTrashBin will be set to false
-     * @param adminEmailId
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void moveAdminEmailOutOfTrashBin(String adminEmailId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -128,10 +122,6 @@ public final class AdminEmailsLogic {
 
     /**
      * Updates an admin email by email id.
-     * @param newAdminEmail
-     * @param emailId
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId)
             throws InvalidParametersException, EntityDoesNotExistException {

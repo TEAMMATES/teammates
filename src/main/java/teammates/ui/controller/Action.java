@@ -426,7 +426,7 @@ public abstract class Action {
     protected abstract ActionResult execute() throws EntityDoesNotExistException;
 
     /**
-     * @return The log message in the special format used for generating the 'activity log' for the Admin.
+     * Returns The log message in the special format used for generating the 'activity log' for the Admin.
      */
     public String getLogMessage() {
         UserType currentUser = gateKeeper.getCurrentUser();
@@ -442,7 +442,7 @@ public abstract class Action {
     }
 
     /**
-     * @return null if the specified parameter was not found in the request.
+     * Returns null if the specified parameter was not found in the request.
      */
     public String getRequestParamValue(String paramName) {
         return HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
@@ -459,7 +459,7 @@ public abstract class Action {
     }
 
     /**
-     * @return null if the specified parameter was not found in the request.
+     * Returns null if the specified parameter was not found in the request.
      */
     public String[] getRequestParamValues(String paramName) {
         return HttpRequestHelper.getValuesFromParamMap(requestParameters, paramName);

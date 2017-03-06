@@ -66,7 +66,6 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
     /**
      * Initializes the answer list to have empty responses.
-     * @param numSubQuestions
      */
     private void initializeEmptyAnswerList(int numSubQuestions) {
         answer = new ArrayList<Integer>();

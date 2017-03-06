@@ -166,10 +166,6 @@ public class GateKeeper {
      * Verifies the instructor and course are not null, the instructor belongs to
      * the course and the instructor has the privilege specified by
      * privilegeName.
-     *
-     * @param instructor
-     * @param course
-     * @param privilegeName
      */
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String privilegeName) {
         verifyNotNull(instructor, "instructor");
@@ -192,11 +188,6 @@ public class GateKeeper {
      * Verifies the instructor and course are not null, the instructor belongs to
      * the course and the instructor has the privilege specified by
      * privilegeName for sectionName.
-     *
-     * @param instructor
-     * @param course
-     * @param sectionName
-     * @param privilegeName
      */
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String sectionName,
                                  String privilegeName) {
@@ -241,11 +232,6 @@ public class GateKeeper {
      * Verifies the instructor and course are not null, the instructor belongs to
      * the course and the instructor has the privilege specified by
      * privilegeName for feedbackSession.
-     *
-     * @param instructor
-     * @param feedbacksession
-     * @param creatorOnly
-     * @param privilegeName
      */
     public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
                                  boolean creatorOnly, String privilegeName) {

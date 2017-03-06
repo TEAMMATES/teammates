@@ -157,10 +157,7 @@ public final class FeedbackSessionsLogic {
      * Checks if the specified course exists, then gets the feedback sessions for
      * the specified user in the course if it does exist.
      *
-     * @param courseId
-     * @param userEmail
      * @return a list of viewable feedback sessions for any user for his course.
-     * @throws EntityDoesNotExistException
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForUserInCourse(
             String courseId, String userEmail)
@@ -178,8 +175,6 @@ public final class FeedbackSessionsLogic {
      * This method is usually called after the course's existence is assumed or
      * has been verified.
      *
-     * @param courseId
-     * @param userEmail
      * @return a list of viewable feedback sessions for any user for his course.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForUserInCourseSkipCheck(
@@ -201,8 +196,9 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Returns true if there is some open or published email sent for the course.
+     *
      * @param courseId - ID of the course
-     * @return true if there is some open or published email sent for the course.
      */
     public boolean isOpenOrPublishedEmailSentForTheCourse(String courseId) {
         List<FeedbackSessionAttributes> sessions = getFeedbackSessionsForCourse(courseId);
@@ -219,9 +215,6 @@ public final class FeedbackSessionsLogic {
      * Returns a {@code List} of all feedback sessions bundled with their
      * response statistics for a instructor given by his googleId.<br>
      * Does not return private sessions unless the instructor is the creator.
-     *
-     * @param googleId
-     * @throws EntityDoesNotExistException
      */
     public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
             String googleId)
@@ -236,9 +229,6 @@ public final class FeedbackSessionsLogic {
      * Does not return private sessions unless the instructor is the creator.
      * <br>
      * Omits archived sessions if omitArchived == true
-     *
-     * @param googleId
-     * @throws EntityDoesNotExistException
      */
     public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
             String googleId, boolean omitArchived)
@@ -262,8 +252,6 @@ public final class FeedbackSessionsLogic {
      * Does not return private sessions unless the instructor is the creator.
      * <br>
      * Omits sessions from archived courses if omitArchived == true
-     *
-     * @param googleId
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(String googleId, boolean omitArchived) {
 
@@ -550,10 +538,11 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Returns a {@link Set} of emails of the instructors who are not displayed
+     * to students in the course specified by {@code courseId}.
+     *
      * @param courseId
      *            the ID of the course
-     * @return a {@link Set} of emails of the instructors who are not displayed
-     *         to students in the course specified by {@code courseId}
      */
     private Set<String> getHiddenInstructorEmails(String courseId) {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
@@ -984,11 +973,6 @@ public final class FeedbackSessionsLogic {
      *
      * <p>Before removal, {@link FeedbackSessionResultsBundle#getFullNameFromRoster} is used to
      * convert the identifier into a canonical form if the participantIdentifierType is TEAMS.
-     *
-     * @param participantIdentifierType
-     * @param participantIdentifierList
-     * @param participantIdentifier
-     * @param bundle
      */
     private void removeParticipantIdentifierFromList(
             FeedbackParticipantType participantIdentifierType,
@@ -1006,14 +990,6 @@ public final class FeedbackSessionsLogic {
      *
      * <p>If for the prevGiver, possibleRecipientsForGiver is not empty,
      * the remaining missing responses for the prevGiver will be generated first.
-     *
-     * @param results
-     * @param entry
-     * @param question
-     * @param questionDetails
-     * @param remainingPossibleGivers
-     * @param possibleRecipientsForGiver
-     * @param prevGiver
      * @return the remaining rows of missing responses in csv format
      */
     private StringBuilder getRemainingRowsInCsvFormat(
@@ -1049,12 +1025,6 @@ public final class FeedbackSessionsLogic {
     /**
      * For a giver and a list of possibleRecipientsForGiver, generate rows
      * of missing responses between the giver and the possible recipients.
-     *
-     * @param results
-     * @param question
-     * @param questionDetails
-     * @param possibleRecipientsForGiver
-     * @param giver
      */
     private StringBuilder getRowsOfPossibleRecipientsInCsvFormat(
             FeedbackSessionResultsBundle results,
@@ -1486,7 +1456,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * @return returns a list of sessions that were closed within past hour
+     * Returns returns a list of sessions that were closed within past hour.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
         List<FeedbackSessionAttributes> requiredSessions = new ArrayList<FeedbackSessionAttributes>();
@@ -1507,7 +1477,6 @@ public final class FeedbackSessionsLogic {
      * Deletes the feedback sessions in the course specified. The delete
      * is cascaded, and feedback questions, feedback responses, and
      * feedback response comments in the course are deleted.
-     * @param courseId
      */
     public void deleteFeedbackSessionsForCourseCascade(String courseId) {
         frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);
@@ -2425,7 +2394,6 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Returns true if there are any questions for students to answer.
-     * @param session
      */
     public boolean isFeedbackSessionForStudentsToAnswer(FeedbackSessionAttributes session) {
 

@@ -177,7 +177,6 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
 
     /**
      * Previews or removes extra spaces in recipients of comments.
-     * @param courseTeamListMap
      * @return the number of comments with extra spaces in recipients.
      */
     private int removeExtraSpacesInComments(Map<String, Set<String>> courseTeamListMap)
@@ -217,7 +216,6 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
 
     /**
      * Previews or removes extra spaces in recipient and/or giver of feedback responses.
-     * @param courseTeamListMap
      * @return the number of responses with extra spaces in recipient and/or giver.
      */
     private int removeExtraSpacesInResponses(Map<String, Set<String>> courseTeamListMap)

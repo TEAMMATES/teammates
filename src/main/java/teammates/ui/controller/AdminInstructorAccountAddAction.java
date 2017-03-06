@@ -149,7 +149,6 @@ public class AdminInstructorAccountAddAction extends Action {
      *         This string is in the format INSTRUCTOR_NAME | INSTRUCTOR_EMAIL | INSTRUCTOR_INSTITUTION
      *         or INSTRUCTOR_NAME \t INSTRUCTOR_EMAIL \t INSTRUCTOR_INSTITUTION
      * @return A String array of size 3
-     * @throws InvalidParametersException
      */
     private String[] extractInstructorInfo(String instructorDetails) throws InvalidParametersException {
         String[] result = instructorDetails.trim().replace('|', '\t').split("\t");
@@ -164,8 +163,6 @@ public class AdminInstructorAccountAddAction extends Action {
      * Imports Demo course to new instructor.
      * @param pageData data from AdminHomePageData
      * @return the ID of Demo course
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     private String importDemoData(AdminHomePageData pageData)
             throws InvalidParametersException, EntityDoesNotExistException {

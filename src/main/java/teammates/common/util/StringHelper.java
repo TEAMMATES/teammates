@@ -85,7 +85,6 @@ public final class StringHelper {
     /**
      * Trims head of the String if it is longer than specified Length.
      *  E.g., String "12345678" with maximumStringLength = 6, returns "345678"
-     * @param inputString
      * @param maximumStringLength - maximum required length of the string
      * @return String with at most maximumStringLength length
      */
@@ -110,8 +109,6 @@ public final class StringHelper {
     /**
      * Substitutes the middle third of the given string with dots
      * and returns the "obscured" string.
-     *
-     * @param inputString
      */
     public static String obscure(String inputString) {
         Assumption.assertNotNull(inputString);
@@ -350,7 +347,6 @@ public final class StringHelper {
 
     /**
      * Converts a csv string to a html table string for displaying.
-     * @param str
      * @return html table string
      */
     public static String csvToHtmlTable(String str) {
@@ -474,7 +470,6 @@ public final class StringHelper {
     /**
      * Trims the string if it is not null.
      *
-     * @param string
      * @return the trimmed string or null (if the parameter was null).
      */
     public static String trimIfNotNull(String string) {
@@ -485,7 +480,6 @@ public final class StringHelper {
      * Counts the number of empty strings passed as the argument. Null is
      * considered an empty string, while whitespace is not.
      *
-     * @param strings
      * @return number of empty strings passed
      */
     public static int countEmptyStrings(String... strings) {
@@ -502,7 +496,6 @@ public final class StringHelper {
      * Converts null input to empty string. Non-null inputs will be left as is.
      * This method is for displaying purpose.
      *
-     * @param str
      * @return empty string if null, the string itself otherwise
      */
     public static String convertToEmptyStringIfNull(String str) {
@@ -512,7 +505,6 @@ public final class StringHelper {
     /**
      * Removes the outermost enclosing square brackets surrounding a string.
      *
-     * @param str
      * @return the string without the outermost enclosing square brackets
      *         if the given string is enclosed by square brackets <br>
      *         the string itself if the given string is not enclosed by square brackets <br>
@@ -544,7 +536,7 @@ public final class StringHelper {
     }
 
     /**
-     * @return text with all non-ASCII characters removed
+     * Returns text with all non-ASCII characters removed.
      */
     public static String removeNonAscii(String text) {
         return text.replaceAll("[^\\x00-\\x7F]", "");

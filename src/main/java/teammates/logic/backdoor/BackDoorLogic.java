@@ -208,7 +208,6 @@ public class BackDoorLogic extends Logic {
 
     /**
      * Creates document for entities that have document, i.e. searchable.
-     * @param dataBundle
      * @return status of the request in the form 'status meassage'+'additional
      *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
      *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
