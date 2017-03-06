@@ -124,7 +124,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(msg, decrptedMsg);
     }
 
-    @Test(expectedExceptions = { InvalidParametersException .class })
+    @Test(expectedExceptions = {InvalidParametersException .class})
     public void testEncryptingInvalidPlaintextThrowsException() throws InvalidParametersException {
         StringHelper.decrypt("ABC");
     }
