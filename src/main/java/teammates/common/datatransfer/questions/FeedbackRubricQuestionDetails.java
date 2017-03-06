@@ -902,6 +902,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private static class RubricStatistics {
 
         /**
+         * Stores the frequency of being selected for each choice of each sub-question
+         * and the total number of responses for each sub-question
          * Last element in each row stores the total number of responses for the sub-question.
          * e.g.
          * responseFrequency[subQuestionIndex][choiceIndex]
@@ -912,6 +914,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int[][] responseFrequency;
 
         /**
+         * Stores the percentage value between [0,1] of each choice
+         * being selected for the sub-question
          * Values are set to 0 if there are no responses to that sub-question.
          * Average value is set to 0 if there are no assigned weights.
          * e.g.
@@ -944,7 +948,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         void calculateResponseFrequency() {
             responseFrequency = new int[numOfRubricSubQuestions][numOfRubricChoices + 1];
-            // Count frequencies
+            // count frequencies
             for (FeedbackResponseAttributes response : responses) {
                 FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
                 for (int i = 0; i < numOfRubricSubQuestions; i++) {
@@ -959,7 +963,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         /**
          * Calculates the percentage frequencies for each choice and average value for each sub-question
-         * Requires responseFrequency to be computed
+         * Precondition: responseFrequency has been calculated
          */
         void calculatePercentageFrequencyAndAverage() {
             Assumption.assertNotNull("Response Frequency should be initialised and calculated first.",
@@ -973,7 +977,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 if (totalForSubQuestion == 0) {
                     continue;
                 }
-                // Divide responsesFrequency by totalForSubQuestion to get percentage
+                // divide responsesFrequency by totalForSubQuestion to get percentage
                 for (int j = 0; j < numOfRubricChoices; j++) {
                     percentageFrequencyAndAverage[i][j] = (float) responseFrequency[i][j] / totalForSubQuestion;
                 }
