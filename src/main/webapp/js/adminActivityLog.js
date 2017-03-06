@@ -58,7 +58,6 @@ function submitFormAjax(searchTimeOffset) {
     var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
     var button = $('#button_older');
-    var lastLogRow = $('#logsTable tr:last');
 
     $.ajax({
         type: 'POST',
@@ -75,19 +74,28 @@ function submitFormAjax(searchTimeOffset) {
                 if (data.isError) {
                     setFormErrorMessage(button, data.errorMessage);
                 } else {
-                    // Inject new log row
-                    var logs = data.logs;
-                    $.each(logs, function(i, value) {
-                        lastLogRow.after(value.logInfoAsHtml);
-                        lastLogRow = $('#logsTable tr:last');
-                    });
-
+                    // update log table with new entries
+                    updatePageWithNewLogsFromAjax(data, 'logsTable tbody');
                     updateInfoForRecentActionButton();
                 }
 
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
             }, 500);
         }
+    });
+}
+
+/**
+ * Appends new log entries from ajax as children of the node specified by the selector
+ *
+ * @param {Object} response from the Ajax request
+ * @param {String} selector the selector for the DOM node that log entries should be placed in
+ */
+function updatePageWithNewLogsFromAjax(response, selector) {
+    var logs = response.logs;
+    var $logContainer = $(selector);
+    $.each(logs, function(i, value) {
+        $logContainer.append(value.logInfoAsHtml);
     });
 }
 
