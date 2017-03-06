@@ -19,6 +19,14 @@ function toggleReference() {
     }
 }
 
+/**
+ * Converts the timestamp of a log entry into the admin's timezone via an Ajax request.
+ *
+ * @param {int} time number of seconds since epoch
+ * @param {String} googleId of the logged in user
+ * @param {String} role of the logged in user
+ * @param {Object} entry the node in the DOM representing the original timestamp as a link
+ */
 function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     var params = 'logTimeInAdminTimeZone=' + time
                  + '&logRole=' + role
@@ -52,6 +60,11 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     });
 }
 
+/**
+ * Sends an ajax request for older log entries matching the query.
+ *
+ * @param {int} searchTimeOffset
+ */
 function submitFormAjax(searchTimeOffset) {
     $('input[name=searchTimeOffset]').val(searchTimeOffset);
 
