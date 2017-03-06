@@ -51,7 +51,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 log.warning("Failed to parse time zone parameter: " + paramTimeZone);
             }
         }
-
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
             newSession.setGracePeriod(Integer.parseInt(paramGracePeriod));
@@ -82,8 +81,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
     }
 
     private void setResultsVisibleFromTime(FeedbackSessionAttributes newSession) {
-        String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
-        switch (type) {
+        switch (getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON)) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
             newSession.setResultsVisibleFromTime(TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
@@ -106,8 +104,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
     }
 
     private void setSessionVisibleFromTime(FeedbackSessionAttributes newSession) {
-        String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
-        switch (type) {
+        switch (getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON)) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
             newSession.setSessionVisibleFromTime(TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
