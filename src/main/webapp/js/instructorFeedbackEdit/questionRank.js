@@ -1,3 +1,5 @@
+'use strict';
+
 function updateRankPointsValue(questionNum) {
     if ($('#' + FEEDBACK_QUESTION_RANKPOINTS + '-' + questionNum).val() < 1) {
         $('#' + FEEDBACK_QUESTION_RANKPOINTS + '-' + questionNum).val(1);

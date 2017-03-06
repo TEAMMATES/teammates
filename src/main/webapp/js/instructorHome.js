@@ -1,3 +1,5 @@
+'use strict';
+
 var COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
 var CURRENT_YEAR = (new Date()).getFullYear();
 
