@@ -1,3 +1,5 @@
+'use strict';
+
 function addMsqOption(questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
 
