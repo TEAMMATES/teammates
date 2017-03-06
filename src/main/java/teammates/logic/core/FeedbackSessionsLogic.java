@@ -37,6 +37,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTimeKeeper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -1843,8 +1844,11 @@ public final class FeedbackSessionsLogic {
                     }
 
                     boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
+                    RequestTimeKeeper requestTimeKeeper = new RequestTimeKeeper(5000);
+
                     if (thisQuestionHasResponses) {
                         for (FeedbackResponseAttributes response : responsesForThisQn) {
+                            requestTimeKeeper.confirmEnoughTimeLeft();
                             InstructorAttributes instructor = null;
                             if (role == UserRole.INSTRUCTOR) {
                                 instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
@@ -1923,7 +1927,9 @@ public final class FeedbackSessionsLogic {
         }
 
         Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
+        RequestTimeKeeper requestTimeKeeper = new RequestTimeKeeper(5000);
         for (FeedbackResponseAttributes response : allResponses) {
+            requestTimeKeeper.confirmEnoughTimeLeft();
             FeedbackQuestionAttributes relatedQuestion = allQuestionsMap
                     .get(response.feedbackQuestionId);
             if (relatedQuestion != null) {
