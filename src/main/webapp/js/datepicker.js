@@ -93,6 +93,7 @@ function getMaxDateForVisibleDate(startDate, publishDate) {
 
 /**
  * @assumption: visibleDate has a valid value
+ * @param {Date} visibleDate
  * @returns {Date} visibleDate
  */
 function getMinDateForPublishDate(visibleDate) {
