@@ -1,4 +1,4 @@
-# TEAMMATES Compressing Images
+# Compressing Images
 
 This document describes the steps to compress an image to be used in the TEAMMATES website.
 
@@ -6,10 +6,10 @@ Two choices are provided, (i) online service (ii) command-line. Use the command 
 
 ## Online service
 
-1. If the image is not cropped, you may want to use an image editing tool such as preview(mac), photos(windows), or use a service like [http://www.picresize.com/](picresize). 
-    > For a profile picture to be used in `/about.jsp` page, the maximum width is 300px. Other images' sizes are up to your digression.
+1. If the image is not cropped, you may want to use an image editing tool such as preview(mac), photos(windows), or use a service like [picresize](http://www.picresize.com/).
+    > For a profile picture to be used in `/about.jsp` page, the maximum width is 300px. Other images' sizes are up to your discretion.
 
-2. Use an image compression service like [https://kraken.io/web-interface](kraken) to compress the image. Remember to select lossless compression.
+2. Use an image compression service like [kraken](https://kraken.io/web-interface) to compress the image. Remember to select lossless compression.
 
 ## Command-line
 
