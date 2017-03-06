@@ -29,3 +29,21 @@ QUnit.test('toggleReference correctly changes display of query reference', funct
 
     $.fx.off = false;
 });
+
+QUnit.test('updatePageWithNewLogsFromAjax(response, selector)', function(assert) {
+    var fixture = $('#qunit-fixture'); 
+    var requiredElements = '<table id="logsTable"> <tbody> </tbody> </table>';
+    fixture.append(requiredElements);
+    var selector = '#logsTable tbody';
+    var logContainer = $(selector);
+
+    var responseWithNoLogs = { logs: [] };
+    updatePageWithNewLogsFromAjax(responseWithNoLogs, selector);
+    assert.equal(logContainer.children().length, 0, 'no entries should be added if ajax response contains no entries');
+
+    var responseWithLogs = { logs: [{ logInfoAsHtml : '<tr><td>entry 1</td></tr>'}, { logInfoAsHtml: '<tr><td>entry 2</td></tr>'}] };
+    updatePageWithNewLogsFromAjax(responseWithLogs, selector);
+    assert.equal(logContainer.children().length, 2, 'Log entries should be added');
+    assert.equal(logContainer.children().eq(0).html(), '<td>entry 1</td>');
+    assert.equal(logContainer.children().eq(1).html(), '<td>entry 2</td>');
+});

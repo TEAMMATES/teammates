@@ -75,7 +75,7 @@ function submitFormAjax(searchTimeOffset) {
                     setFormErrorMessage(button, data.errorMessage);
                 } else {
                     // update log table with new entries
-                    updatePageWithNewLogsFromAjax(data, 'logsTable tbody');
+                    updatePageWithNewLogsFromAjax(data, '#logsTable tbody');
                     updateInfoForRecentActionButton();
                 }
 
