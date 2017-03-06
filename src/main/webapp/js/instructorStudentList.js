@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
 
     attachEventToDeleteStudentLink();
@@ -14,7 +16,7 @@ $(document).ready(function() {
 
     // Binding for "Display Archived Courses" check box.
     $('#displayArchivedCourses_check').on('change', function() {
-        var urlToGo = $(location).attr('href');
+        var urlToGo = $(window.location).attr('href');
         if (this.checked) {
             gotoUrlWithParam(urlToGo, 'displayarchive', 'true');
         } else {
