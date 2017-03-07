@@ -408,8 +408,8 @@ public class StudentsDb extends EntitiesDb {
             if (isEmailChanged) {
                 CourseStudent newCourseStudent = new CourseStudent(newEmail, newName, newGoogleId, newComments,
                                                                    courseId, newTeamName, newSectionName);
-                updateStudentChangeEmail(newCourseStudent, lastName, courseStudent, hasDocument,
-                                         keepUpdateTimestamp, courseId, email);
+                recreateStudentWithNewEmail(newCourseStudent, lastName, courseStudent, hasDocument,
+                                            keepUpdateTimestamp, courseId, email);
             } else {
                 updateStudentDetails(newName, newTeamName, newSectionName, newGoogleId,
                                      newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
@@ -421,7 +421,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     @SuppressWarnings("PMD.PreserveStackTrace")
-    public void updateStudentChangeEmail(
+    public void recreateStudentWithNewEmail(
             CourseStudent newCourseStudent, String lastName, CourseStudent courseStudent,
             boolean hasDocument, boolean keepUpdateTimestamp, String courseId, String email)
             throws InvalidParametersException, EntityDoesNotExistException {
