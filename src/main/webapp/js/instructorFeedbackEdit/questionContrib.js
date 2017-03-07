@@ -1,5 +1,7 @@
+'use strict';
+
 function setDefaultContribQnVisibility(questionNum) {
-    $currentQuestionTable = $('#questionTable-' + questionNum);
+    var $currentQuestionTable = $('#questionTable-' + questionNum);
 
     $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);
     // All except STUDENTS can see answer
@@ -18,7 +20,7 @@ function setDefaultContribQnVisibility(questionNum) {
 }
 
 function setContribQnVisibilityFormat(questionNum) {
-    $currentQuestionTable = $('#questionTable-' + questionNum);
+    var $currentQuestionTable = $('#questionTable-' + questionNum);
 
     // Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
 
