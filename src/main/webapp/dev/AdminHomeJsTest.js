@@ -1,4 +1,4 @@
-QUnit.module('common.js');
+QUnit.module('AdminHome.js');
 
 QUnit.assert.contains = function(context, toIdentify, message) {
     var actual = context.indexOf(toIdentify) > -1;
