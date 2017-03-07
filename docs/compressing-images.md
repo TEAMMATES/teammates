@@ -15,7 +15,7 @@ Two choices are provided, (i) online service (ii) command-line. Use the command 
 
 ### Installation
 
-In order to start the commands below, you would need to install the following:
+In order to execute the commands below, you would need to install the following:
 
 - [ImageMagick](https://www.imagemagick.org/script/download.php)
 - [optipng](http://optipng.sourceforge.net/)
