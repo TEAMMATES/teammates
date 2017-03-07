@@ -23,7 +23,7 @@ import teammates.ui.template.AdminSearchStudentTable;
 public class AdminSearchPageData extends PageData {
 
     private enum FeedbackSessionState {
-        OPEN, CLOSED, PUBLISHED, AWAITING
+      OPEN, CLOSED, PUBLISHED, AWAITING
     }
 
     public String searchKey = "";
