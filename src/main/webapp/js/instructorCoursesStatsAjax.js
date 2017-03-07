@@ -1,3 +1,5 @@
+'use strict';
+
 function linkAjaxForCourseStats() {
     var courseStatsClickHandler = function(e) {
         var row = $(this).closest('tr');
