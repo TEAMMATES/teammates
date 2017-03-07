@@ -11,13 +11,15 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.ui.template.AdminEmailTableRow;
 
 public class AdminEmailLogPageData extends PageData {
 
     private String filterQuery;
     private String queryMessage;
-    private List<EmailLogEntry> logs;
+    private List<AdminEmailTableRow> logs;
     private List<String> versions;
 
     private boolean shouldShowAll;
@@ -40,7 +42,7 @@ public class AdminEmailLogPageData extends PageData {
         return queryMessage;
     }
 
-    public List<EmailLogEntry> getLogs() {
+    public List<AdminEmailTableRow> getLogs() {
         return logs;
     }
 
@@ -56,7 +58,28 @@ public class AdminEmailLogPageData extends PageData {
         return statusForAjax;
     }
 
-    // Setter methods
+    public String getQueryKeywordsReceiver() {
+        if (q != null && q.isReceiverInQuery) {
+            return StringHelper.join(",", q.receiverValues);
+        }
+        return "";
+    }
+
+    public String getQueryKeywordsSubject() {
+        if (q != null && q.isSubjectInQuery) {
+            return StringHelper.join(",", q.subjectValues);
+        }
+        return "";
+    }
+
+    public String getQueryKeywordsContent() {
+        if (q != null && q.isInfoInQuery) {
+            return StringHelper.join(",", q.infoValues);
+        }
+        return "";
+    }
+
+    /************* Setter methods *************/
 
     public void setFilterQuery(String filterQuery) {
         this.filterQuery = filterQuery;
@@ -67,7 +90,7 @@ public class AdminEmailLogPageData extends PageData {
     }
 
     public void setLogs(List<EmailLogEntry> logs) {
-        this.logs = logs;
+        initLogAsTemplateRow(logs);
     }
 
     public void setVersions(List<String> versions) {
@@ -164,7 +187,6 @@ public class AdminEmailLogPageData extends PageData {
                     return false;
                 }
             }
-            logEntry.highlightKeyStringInMessageInfoHtml(q.receiverValues, "receiver");
         }
         if (q.isSubjectInQuery) {
 
@@ -173,7 +195,6 @@ public class AdminEmailLogPageData extends PageData {
                     return false;
                 }
             }
-            logEntry.highlightKeyStringInMessageInfoHtml(q.subjectValues, "subject");
         }
         if (q.isInfoInQuery) {
 
@@ -182,10 +203,10 @@ public class AdminEmailLogPageData extends PageData {
                     return false;
                 }
             }
-            logEntry.highlightKeyStringInMessageInfoHtml(q.infoValues, "content");
         }
 
-        return true;
+        // skip test data if the request is not showing all logs
+        return !logEntry.isTestData() || shouldShowAll;
     }
 
     /**
@@ -250,6 +271,14 @@ public class AdminEmailLogPageData extends PageData {
             } else {
                 throw new InvalidParametersException("Invalid label");
             }
+        }
+    }
+
+    private void initLogAsTemplateRow(List<EmailLogEntry> entries) {
+        this.logs = new ArrayList<AdminEmailTableRow>();
+        for (EmailLogEntry entry : entries) {
+            AdminEmailTableRow row = new AdminEmailTableRow(entry);
+            this.logs.add(row);
         }
     }
 }
