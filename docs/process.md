@@ -53,7 +53,7 @@ The [issue labels](issues.md#issue-labels) may help you in choosing which issue 
    git pull
    ```
 
-1. Create a new branch named `{IssueNumber}-{some-keywords}`,
+1. Create a new branch to push your commits into. If you have push access, name it `{IssueNumber}-{some-keywords}`,
    where `some-keywords` are representative keywords taken from the issue title.
    ```sh
    git checkout -b 3942-remove-unnecessary-println
