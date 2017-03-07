@@ -945,7 +945,7 @@ function toggleSingleCollapse(e) {
     if ($(e.target).is('a') || $(e.target).is('input')) {
         return;
     }
-    var glyphIcon = $(window).find('.glyphicon');
+    var glyphIcon = $(this).find('.glyphicon');
     var className = $(glyphIcon[0]).attr('class');
     if (className.indexOf('glyphicon-chevron-up') === -1) {
         showSingleCollapse($(e.currentTarget).attr('data-target'));
