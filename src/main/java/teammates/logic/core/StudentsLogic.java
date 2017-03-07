@@ -574,7 +574,7 @@ public final class StudentsLogic {
     /* All empty lines or lines with only white spaces will be skipped.
      * The invalidity info is in HTML format.
      */
-    private List<StudentAttributes> createAndValidateStudents(String lines, String courseId)
+    public List<StudentAttributes> createAndValidateStudents(String lines, String courseId)
             throws EnrollException {
         List<String> invalidityInfo = new ArrayList<String>();
         String[] linesArray = lines.split(Const.EOL);

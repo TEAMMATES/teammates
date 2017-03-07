@@ -433,7 +433,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         invalidInfoString = null;
         try {
-            createAndValidateStudents(enrollLines, courseId);
+            studentsLogic.createAndValidateStudents(enrollLines, courseId);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             invalidInfoString = e.getMessage();
@@ -496,7 +496,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         invalidInfoString = null;
         try {
-            createAndValidateStudents(enrollLines, courseId);
+            studentsLogic.createAndValidateStudents(enrollLines, courseId);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             invalidInfoString = e.getMessage();
@@ -523,7 +523,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         invalidInfoString = null;
         try {
-            createAndValidateStudents(enrollLines, courseId);
+            studentsLogic.createAndValidateStudents(enrollLines, courseId);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             invalidInfoString = e.getMessage();
@@ -555,13 +555,12 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         invalidInfoString = null;
         try {
-            createAndValidateStudents(enrollLines, courseId);
-            signalFailureToDetectException();
+            studentsLogic.createAndValidateStudents(enrollLines, courseId);
         } catch (EnrollException e) {
             invalidInfoString = e.getMessage();
         }
 
-        assertEquals(0, invalidInfoString.length());
+        assertNull(invalidInfoString);
 
         ______TS("enrollLines with only whitespaces");
         // not tested as enroll lines must be trimmed before passing to the method
@@ -572,14 +571,14 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         invalidInfoString = null;
         try {
-            createAndValidateStudents(enrollLines, courseId);
+            studentsLogic.createAndValidateStudents(enrollLines, courseId);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             invalidInfoString = e.getMessage();
         }
         
         expectedInvalidInfoString = "Same email address as the student in line \"" + lineWithCorrectInput + "\"";
-        assertEquals(expectedInvalidInfoString, invalidInfoString);
+        AssertHelper.assertContains(expectedInvalidInfoString, invalidInfoString);
 
         ______TS("enrollLines with a mix of all above cases");
         enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL
@@ -589,7 +588,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         invalidInfoString = null;
         try {
-            createAndValidateStudents(enrollLines, courseId);
+            studentsLogic.createAndValidateStudents(enrollLines, courseId);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             invalidInfoString = e.getMessage();
@@ -618,13 +617,6 @@ public class StudentsLogicTest extends BaseLogicTest {
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithTeamNameEmpty, info));
-
-        info = StringHelper.toString(
-                    SanitizationHelper.sanitizeForHtml(
-                        saf.makeStudent(lineWithCorrectInput, courseId).getInvalidityInfo()),
-                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfoList.add(
-                String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithCorrectInput, info));
 
         expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
         assertEquals(expectedInvalidInfoString, invalidInfoString);
@@ -1124,13 +1116,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         return (StudentEnrollDetails) invokeMethod(StudentsLogic.class, "enrollStudent",
                                                    new Class<?>[] { StudentAttributes.class, Boolean.class },
                                                    StudentsLogic.inst(), new Object[] { student, false });
-    }
-
-    @SuppressWarnings("unchecked")
-    private static List<StudentAttributes> createAndValidateStudents(String lines, String courseId) throws Exception {
-        return (List<StudentAttributes>) invokeMethod(StudentsLogic.class, "createAndValidateStudents",
-                                           new Class<?>[] { String.class, String.class },
-                                           StudentsLogic.inst(), new Object[] { lines, courseId });
     }
 
     @AfterClass
