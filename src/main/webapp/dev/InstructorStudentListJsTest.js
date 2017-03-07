@@ -1,3 +1,5 @@
+'use strict';
+
 QUnit.module('instructorStudentList.js');
 
 QUnit.test('filterSection()', function(assert) {
