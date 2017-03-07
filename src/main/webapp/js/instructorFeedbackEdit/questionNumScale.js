@@ -1,3 +1,5 @@
+'use strict';
+
 function roundToThreeDp(num) {
     return parseFloat(num.toFixed(3));
 }

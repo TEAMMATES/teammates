@@ -1,3 +1,5 @@
+'use strict';
+
 var instructorSize;
 
 $(document).ready(function() {
