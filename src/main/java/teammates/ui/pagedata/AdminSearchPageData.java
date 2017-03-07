@@ -35,7 +35,7 @@ public class AdminSearchPageData extends PageData {
     public HashMap<String, List<String>> studentOpenFeedbackSessionLinksMap = new HashMap<String, List<String>>();
     public HashMap<String, List<String>> studentUnOpenedFeedbackSessionLinksMap = new HashMap<String, List<String>>();
     public HashMap<String, List<String>> studentPublishedFeedbackSessionLinksMap = new HashMap<String, List<String>>();
-    public HashMap<String, String> feedbackSessionLinkToNameMap = new HashMap<String, String>();
+    public HashMap<String, String> feedbackSeesionLinkToNameMap = new HashMap<String, String>();
     public HashMap<String, String> studentIdToHomePageLinkMap = new HashMap<String, String>();
     public HashMap<String, String> studentRecordsPageLinkMap = new HashMap<String, String>();
     public HashMap<String, String> studentInstituteMap = new HashMap<String, String>();
@@ -45,7 +45,7 @@ public class AdminSearchPageData extends PageData {
      */
     public InstructorSearchResultBundle instructorResultBundle = new InstructorSearchResultBundle();
     public HashMap<String, String> instructorInstituteMap = new HashMap<String, String>();
-    public HashMap<String, String> instructorHomePageLinkMap = new HashMap<String, String>();
+    public HashMap<String, String> instructorHomaPageLinkMap = new HashMap<String, String>();
     public HashMap<String, String> instructorCourseJoinLinkMap = new HashMap<String, String>();
 
     /*
