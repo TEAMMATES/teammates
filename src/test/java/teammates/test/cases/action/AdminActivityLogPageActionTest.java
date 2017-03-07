@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
 
 import teammates.common.util.ActivityLogEntry;
@@ -73,32 +74,25 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     @Override
-    @Test
     public void testExecuteAndPostProcess() {
-        gaeSimulation.loginAsAdmin("admin");
-
-        // with typical log message
-        removeAndRestoreLogMessage();
-
-        testInvalidQuery();
-        testShowTestingDataAndExcludedUri();
-        testFilters();
-        testFiltersCombination();
-        testLogMessageInDifferentVersions();
-
-        testStatusMessage();
-
-        testLoadingLocalTimeAjax();
-
-        testContinueSearch();
-
-        // with many logs
-        removeAndRestoreManyLogs();
-
-        testManyLogs();
+        // See each independent test cases
     }
 
-    private void testInvalidQuery() {
+    @BeforeGroups("typicalLogs")
+    public void removeAndRestoreLogMessage() {
+        gaeSimulation.loginAsAdmin("admin");
+        gaeSimulation.clearLogs();
+
+        Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
+        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TWO_DAYS_AGO), twoDaysAgo.getTime());
+        Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
+        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_YESTERDAY), yesterday.getTime());
+        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
+        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TODAY), today.getTime());
+    }
+
+    @Test(groups = "typicalLogs")
+    public void testInvalidQuery() {
         // execute default search when filterQuery is invalid
         int[][] expected = new int[][]{{0, 1, 3, 4, 5}};
         String query = "unknown";
@@ -120,7 +114,8 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "filterQuery", query, "testdata", "true");
     }
 
-    private void testShowTestingDataAndExcludedUri() {
+    @Test(groups = "typicalLogs")
+    public void testShowTestingDataAndExcludedUri() {
         // no test data, no excluded URI, default search
         int[][] expected = new int[][]{{0, 1, 3, 4, 5}};
         verifyActionResult(expected);
@@ -138,7 +133,8 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "testdata", "true", "all", "true");
     }
 
-    private void testFilters() {
+    @Test(groups = "typicalLogs")
+    public void testFilters() {
         // from
         int[][] expected = new int[][]{{0, 1, 3, 4, 5}, {0, 1, 2}};
         Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
@@ -214,7 +210,8 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "testdata", "true", "filterQuery", query);
     }
 
-    private void testFiltersCombination() {
+    @Test(groups = "typicalLogs")
+    public void testFiltersCombination() {
         Date today = TimeHelper.getDateOffsetToCurrentTime(0);
         Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
 
@@ -241,7 +238,8 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "filterQuery", query, "testdata", "true", "all", "true");
     }
 
-    private void testLogMessageInDifferentVersions() {
+    @Test(groups = "typicalLogs")
+    public void testLogMessageInDifferentVersions() {
         // version query is controlled by GAE itself
         // so there is no need to write comprehensive test case for it
 
@@ -254,7 +252,8 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "filterQuery", query);
     }
 
-    private void testStatusMessage() {
+    @Test(groups = "typicalLogs")
+    public void testStatusMessage() {
         Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
 
         // test statusMessage for default search
@@ -286,7 +285,8 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyLocalTimeInStatusMessage(statusMessage, fromDate.getTime(), Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
     }
 
-    private void testLoadingLocalTimeAjax() {
+    @Test(groups = "typicalLogs")
+    public void testLoadingLocalTimeAjax() {
         Calendar now = TimeHelper.now(Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
@@ -317,7 +317,8 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
                                          "Unregistered:idOfTypicalCourse1", "Unregistered", now.getTimeInMillis());
     }
 
-    private void testContinueSearch() {
+    @Test(groups = "typicalLogs")
+    public void testContinueSearch() {
         Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
         Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
         Date threeDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-3);
@@ -360,7 +361,18 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
 
     }
 
-    private void testManyLogs() {
+    @BeforeGroups("manyLogs")
+    public void removeAndRestoreManyLogs() {
+        gaeSimulation.loginAsAdmin("admin");
+        gaeSimulation.clearLogs();
+
+        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
+        insertLogMessageAtTimeWithInterval(logMessages.get(LOG_MESSAGE_INDEX_MANY_LOGS),
+                                           today.getTime(), LOG_MESSAGE_INTERVAL_MANY_LOGS);
+    }
+
+    @Test(groups = "manyLogs", dependsOnGroups = "typicalLogs")
+    public void testManyLogs() {
         Date today = TimeHelper.getDateOffsetToCurrentTime(0);
 
         // default search will stop at #logs around 50
@@ -489,25 +501,6 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         for (int i = 0; i < actualLogs.size(); i++) {
             assertEquals(String.format("id4%02d", first + i), actualLogs.get(i).getId());
         }
-    }
-
-    private void removeAndRestoreLogMessage() {
-        gaeSimulation.clearLogs();
-
-        Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
-        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TWO_DAYS_AGO), twoDaysAgo.getTime());
-        Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
-        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_YESTERDAY), yesterday.getTime());
-        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
-        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TODAY), today.getTime());
-    }
-
-    private void removeAndRestoreManyLogs() {
-        gaeSimulation.clearLogs();
-
-        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
-        insertLogMessageAtTimeWithInterval(logMessages.get(LOG_MESSAGE_INDEX_MANY_LOGS),
-                                           today.getTime(), LOG_MESSAGE_INTERVAL_MANY_LOGS);
     }
 
     private void insertLogMessagesAtTime(List<String> msgList, long timeMillis) {
