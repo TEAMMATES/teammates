@@ -1,6 +1,7 @@
 package teammates.test.cases;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -87,21 +88,25 @@ public class BaseTestCase {
      */
     protected static Object invokeMethod(Class<?> definingClass, String methodName, Class<?>[] parameterTypes,
                                          Object invokingObject, Object[] args)
-            throws ReflectiveOperationException {
-        Method method = definingClass.getDeclaredMethod(methodName, parameterTypes);
-        method.setAccessible(true);
-        return method.invoke(invokingObject, args);
+            throws Exception {
+        try {
+            Method method = definingClass.getDeclaredMethod(methodName, parameterTypes);
+            method.setAccessible(true);
+            return method.invoke(invokingObject, args);
+        } catch (InvocationTargetException e) {
+            throw (Exception)e.getCause();
+        }
     }
 
     protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
                                                      String fieldName, String errorReason)
-            throws ReflectiveOperationException {
+            throws Exception {
         return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason, 0);
     }
 
     protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
                                                      String fieldName, String errorReason, int maxLength)
-            throws ReflectiveOperationException {
+            throws Exception {
         return (String) invokeMethod(FieldValidator.class, "getPopulatedErrorMessage",
                                      new Class<?>[] { String.class, String.class, String.class, String.class, int.class },
                                      null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });
