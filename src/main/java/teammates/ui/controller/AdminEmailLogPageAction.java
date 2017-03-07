@@ -68,7 +68,7 @@ public class AdminEmailLogPageAction extends Action {
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL_LOG, data);
         }
 
-        return createAjaxResult(data);
+        return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL_LOG_AJAX, data);
     }
 
     /**
@@ -133,6 +133,7 @@ public class AdminEmailLogPageAction extends Action {
             }
 
             EmailLogEntry emailLogEntry = new EmailLogEntry(appLog);
+
             if (data.shouldShowLog(emailLogEntry)) {
                 emailLogs.add(emailLogEntry);
             }
