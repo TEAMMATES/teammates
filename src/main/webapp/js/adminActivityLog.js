@@ -47,15 +47,13 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
             $(localTimeDisplay).html('Loading error, please retry');
         },
         success: function(data) {
-            setTimeout(function() {
-                if (data.isError) {
-                    $(localTimeDisplay).html('Loading error, please retry');
-                } else {
-                    $(link).parent().html(originalTime + '<mark><br>' + data.logLocalTime + '</mark>');
-                }
+            if (data.isError) {
+                $(localTimeDisplay).html('Loading error, please retry');
+            } else {
+                $(link).parent().html(originalTime + '<mark><br>' + data.logLocalTime + '</mark>');
+            }
 
-                setStatusMessage(data.statusForAjax, StatusType.INFO);
-            }, 500);
+            setStatusMessage(data.statusForAjax, StatusType.INFO);
         }
     });
 }
@@ -83,17 +81,15 @@ function submitFormAjax(searchTimeOffset) {
             button.html('Retry');
         },
         success: function(data) {
-            setTimeout(function() {
-                if (data.isError) {
-                    setFormErrorMessage(button, data.errorMessage);
-                } else {
-                    // update log table with new entries
-                    updatePageWithNewLogsFromAjax(data, '#logsTable tbody');
-                    updateInfoForRecentActionButton();
-                }
+            if (data.isError) {
+                setFormErrorMessage(button, data.errorMessage);
+            } else {
+                // update log table with new entries
+                updatePageWithNewLogsFromAjax(data, '#logsTable tbody');
+                updateInfoForRecentActionButton();
+            }
 
-                setStatusMessage(data.statusForAjax, StatusType.INFO);
-            }, 500);
+            setStatusMessage(data.statusForAjax, StatusType.INFO);
         }
     });
 }
