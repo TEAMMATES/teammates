@@ -197,7 +197,7 @@ function prepareMCQQuestions() {
         var qnNum = mcqQuestionNums[i];
         var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
 
-        $.each(numResponses, function(j) {
+        for (var j = 0; j < numResponses; j++) {
             var id = 'responsetext-' + qnNum + '-' + j;
             radioButtons[id] = $('[name=' + id + ']');
             radioStates[id] = {};
@@ -238,7 +238,7 @@ function prepareMCQQuestions() {
 
                 event.stopImmediatePropagation();
             });
-        });
+        }
     });
 }
 
@@ -248,10 +248,10 @@ function prepareContribQuestions() {
     $.each(contribQuestionNums, function(i) {
         var qnNum = contribQuestionNums[i];
 
-        // Get number of options for the specified question number of contribution question type
-        var optionNums = $('[name^="responsetext-' + qnNum + '-"]').length;
+        // Get options for the specified question number of contribution question type
+        var options = $('[name^="responsetext-' + qnNum + '-"]');
 
-        $.each(optionNums, function(k) {
+        $.each(options, function(k) {
             var $dropdown = $('[name="responsetext-' + qnNum + '-' + k + '"]');
 
             // Set initial color
