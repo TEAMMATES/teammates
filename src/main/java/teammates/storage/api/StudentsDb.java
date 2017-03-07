@@ -421,9 +421,10 @@ public class StudentsDb extends EntitiesDb {
     }
 
     @SuppressWarnings("PMD.PreserveStackTrace")
-    private void updateStudentChangeEmail(CourseStudent newCourseStudent, String lastName,
-            CourseStudent courseStudent, boolean hasDocument, boolean keepUpdateTimestamp, String courseId,
-            String email) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateStudentChangeEmail(
+            CourseStudent newCourseStudent, String lastName, CourseStudent courseStudent, 
+            boolean hasDocument, boolean keepUpdateTimestamp, String courseId, String email) 
+            throws InvalidParametersException, EntityDoesNotExistException {
         newCourseStudent.setLastName(lastName);
         newCourseStudent.setCreatedAt(courseStudent.getCreatedAt());
         if (keepUpdateTimestamp) {
