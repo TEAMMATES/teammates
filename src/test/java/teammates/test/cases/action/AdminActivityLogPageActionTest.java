@@ -92,8 +92,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     @Test(groups = "typicalLogs")
-    public void testInvalidQuery() {
-        // execute default search when filterQuery is invalid
+    public void filterQuery_invalidQuery_defaultSearchPerformed() {
         int[][] expected = new int[][]{{0, 1, 3, 4, 5}};
         String query = "unknown";
         verifyActionResult(expected, "filterQuery", query);
@@ -115,7 +114,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     @Test(groups = "typicalLogs")
-    public void testShowTestingDataAndExcludedUri() {
+    public void urlParams_testDataAndAll_showTestDataAndExcludedUriAccordingly() {
         // no test data, no excluded URI, default search
         int[][] expected = new int[][]{{0, 1, 3, 4, 5}};
         verifyActionResult(expected);
@@ -134,7 +133,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     @Test(groups = "typicalLogs")
-    public void testFilters() {
+    public void filterQuery_validQuery_querySuccessful() {
         // from
         int[][] expected = new int[][]{{0, 1, 3, 4, 5}, {0, 1, 2}};
         Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
@@ -211,7 +210,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     @Test(groups = "typicalLogs")
-    public void testFiltersCombination() {
+    public void filterQueryAndUrlParams_combinationWithEachOther_querySuccessful() {
         Date today = TimeHelper.getDateOffsetToCurrentTime(0);
         Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
 
@@ -239,7 +238,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     @Test(groups = "typicalLogs")
-    public void testLogMessageInDifferentVersions() {
+    public void filterQuery_queryDifferentAppVersions_querySuccessful() {
         // version query is controlled by GAE itself
         // so there is no need to write comprehensive test case for it
 
@@ -253,7 +252,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     @Test(groups = "typicalLogs")
-    public void testStatusMessage() {
+    public void statusMessage_validQuery_generatedCorrectly() {
         Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
 
         // test statusMessage for default search
@@ -286,7 +285,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     @Test(groups = "typicalLogs")
-    public void testLoadingLocalTimeAjax() {
+    public void loadingLocalTimeAjaxQuery_validAndInvalidInputs_returnCorrectly() {
         Calendar now = TimeHelper.now(Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
@@ -318,7 +317,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     @Test(groups = "typicalLogs")
-    public void testContinueSearch() {
+    public void continueSearch_searchFromDifferentTime_searchCorrectly() {
         Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
         Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
         Date threeDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-3);
@@ -372,7 +371,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     @Test(groups = "manyLogs", dependsOnGroups = "typicalLogs")
-    public void testManyLogs() {
+    public void statusMessageAndContinueSearch_withManyLogs_searchCorrectly() {
         Date today = TimeHelper.getDateOffsetToCurrentTime(0);
 
         // default search will stop at #logs around 50
