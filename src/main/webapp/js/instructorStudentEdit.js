@@ -1,3 +1,5 @@
+'use strict';
+
 var INSTRUCTOR_STUDENT_EDIT_FORM = '#instructor-student-edit-form';
 
 $(document).ready(function() {

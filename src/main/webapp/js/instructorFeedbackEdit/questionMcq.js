@@ -1,3 +1,5 @@
+'use strict';
+
 function addMcqOption(questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
 
@@ -66,7 +68,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
 }
 
 function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
-    questionId = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
 
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
