@@ -5,7 +5,7 @@ var numOfEntriesPerPage = 50;
 
 $(document).ready(function() {
     bindClickAction();
-    clickOlderButtonIfNeeded();
+    highlightKeywordsInEmailLogMessage();
     $('#filterReference').toggle();
 });
 
@@ -32,27 +32,12 @@ var handler = function() {
     $(this).next('#small').next('#big').toggle();
 };
 
-function clickOlderButtonIfNeeded() {
-    if (retryTimes >= 20) {
-        return;
-    }
-
-    var curNumOfEntries = $('#emailLogsTable tbody tr').length;
-
-    if (curNumOfEntries < numOfEntriesPerPage) {
-        if ($('#button_older').length) {
-            $('#button_older').click();
-            retryTimes++;
-        }
-    }
-}
-
 function submitFormAjax(offset) {
     $('input[name=offset]').val(offset);
     var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
     var button = $('#button_older');
-    var lastLogRow = $('#emailLogsTable tr:last');
+    var $logsTable = $('#emailLogsTable > tbody');
 
     $.ajax({
         type: 'POST',
@@ -65,23 +50,11 @@ function submitFormAjax(offset) {
             button.html('Retry');
         },
         success: function(data) {
-            setTimeout(function() {
-                if (data.isError) {
-                    setFormErrorMessage(button, data.errorMessage);
-                } else {
-                    // Inject new log row
-                    var logs = data.logs;
-                    $.each(logs, function(i, value) {
-                        lastLogRow.after(value.logInfoAsHtml);
-                        lastLogRow = $('#emailLogsTable tr:last');
-                        bindClickAction();
-                        clickOlderButtonIfNeeded();
-                    });
-                }
-
-                setStatusMessage(data.statusForAjax, StatusType.INFO);
-
-            }, 500);
+            var $data = $(data);
+            $logsTable.append($data.find('#logs-table > tbody').html());
+            bindClickAction();
+            highlightKeywordsInEmailLogMessage();
+            setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
         }
     });
 }
@@ -89,3 +62,13 @@ function submitFormAjax(offset) {
 function setFormErrorMessage(button, msg) {
     button.after('&nbsp;&nbsp;&nbsp;' + msg);
 }
+
+/**
+ * Highlights default/search keywords in eamil log message.
+ */
+function highlightKeywordsInEmailLogMessage() {
+    $('.email-receiver').highlight($('#query-keywords-receiver').val().split(','));
+    $('.email-subject').highlight($('#query-keywords-subject').val().split(','));
+    $('.email-content').highlight($('#query-keywords-content').val().split(','));
+}
+

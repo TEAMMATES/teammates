@@ -551,4 +551,22 @@ public final class StringHelper {
     public static String removeNonAscii(String text) {
         return text.replaceAll("[^\\x00-\\x7F]", "");
     }
+
+    /**
+     * Returns a new String composed of copies of the String elements joined together
+     * with a copy of the specified delimiter.
+     *
+     * @param delimiter
+     * @param elements
+     */
+    public static String join(String delimiter, String... elements) {
+        StringBuffer result = new StringBuffer();
+        for (String element : elements) {
+            result.append(element).append(delimiter);
+        }
+        if (result.length() > 0 && delimiter.length() > 0) {
+            result.delete(result.length() - delimiter.length(), result.length());
+        }
+        return result.toString();
+    }
 }
