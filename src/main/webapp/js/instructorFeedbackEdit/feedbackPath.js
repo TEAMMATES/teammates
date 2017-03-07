@@ -1,3 +1,5 @@
+'use strict';
+
 var FeedbackPath = {
     attachEvents: function() {
         var allDropdownOptions = $('.feedback-path-dropdown-option');
