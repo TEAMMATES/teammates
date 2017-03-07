@@ -421,7 +421,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     @SuppressWarnings("PMD.PreserveStackTrace")
-    public void updateStudentChangeEmail(CourseStudent newCourseStudent, String lastName,
+    private void updateStudentChangeEmail(CourseStudent newCourseStudent, String lastName,
             CourseStudent courseStudent, boolean hasDocument, boolean keepUpdateTimestamp, String courseId,
             String email) throws InvalidParametersException, EntityDoesNotExistException {
         newCourseStudent.setLastName(lastName);
@@ -442,7 +442,7 @@ public class StudentsDb extends EntitiesDb {
         deleteStudent(courseId, email);
     }
 
-    public void updateStudentDetails(String newName, String newTeamName, String newSectionName,
+    private void updateStudentDetails(String newName, String newTeamName, String newSectionName,
             String newEmail, String newGoogleId, String newComments, boolean hasDocument,
             boolean keepUpdateTimestamp, CourseStudent courseStudent, String lastName) {
         courseStudent.setName(newName);
