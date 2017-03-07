@@ -897,32 +897,32 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Class to calculate the statistics of responses for a rubric question
+     * Class to calculate the statistics of responses for a rubric question.
      */
     private static class RubricStatistics {
 
         /**
          * Stores the frequency of being selected for each choice of each sub-question
-         * and the total number of responses for each sub-question
+         * and the total number of responses for each sub-question.
          * Last element in each row stores the total number of responses for the sub-question.
          * e.g.
          * responseFrequency[subQuestionIndex][choiceIndex]
-         * -> is the number of times choiceIndex is chosen for subQuestionIndex
+         * -> is the number of times choiceIndex is chosen for subQuestionIndex.
          * responseFrequency[subQuestionIndex][numOfRubricChoices]
-         * -> is the total number of the responses for the given sub-question
+         * -> is the total number of the responses for the given sub-question.
          */
         int[][] responseFrequency;
 
         /**
          * Stores the percentage value between [0,1] of each choice
-         * being selected for the sub-question
+         * being selected for the sub-question.
          * Values are set to 0 if there are no responses to that sub-question.
          * Average value is set to 0 if there are no assigned weights.
          * e.g.
          * percentageFrequencyAndAverageValue[subQuestionIndex][choiceIndex]
-         * -> is the percentage choiceIndex is chosen for subQuestionIndex
+         * -> is the percentage choiceIndex is chosen for subQuestionIndex.
          * percentageFrequencyAndAverageValue[subQuestionIndex][numOfRubricChoices]
-         * -> is the average weight of the responses for the given sub-question
+         * -> is the average weight of the responses for the given sub-question.
          */
         float[][] percentageFrequencyAndAverage;
 
@@ -962,8 +962,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         /**
-         * Calculates the percentage frequencies for each choice and average value for each sub-question
-         * Precondition: responseFrequency has been calculated
+         * Calculates the percentage frequencies for each choice and average value for each sub-question.
+         * Precondition: responseFrequency has been calculated.
          */
         void calculatePercentageFrequencyAndAverage() {
             Assumption.assertNotNull("Response Frequency should be initialised and calculated first.",
