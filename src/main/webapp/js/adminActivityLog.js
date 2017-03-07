@@ -22,7 +22,7 @@ function toggleReference() {
 /**
  * Converts the timestamp of a log entry into the admin's timezone via an Ajax request.
  *
- * @param {int} time number of seconds since epoch
+ * @param {int} time of the log entry as seconds since epoch
  * @param {String} googleId of the logged in user
  * @param {String} role of the logged in user
  * @param {Object} entry the node in the DOM representing the original timestamp as a link
