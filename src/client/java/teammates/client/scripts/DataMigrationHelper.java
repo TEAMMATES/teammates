@@ -1,8 +1,10 @@
 package teammates.client.scripts;
 
-public final class DataMigrationSanitizationHelper {
+public final class DataMigrationHelper {
 
-    private DataMigrationSanitizationHelper() {
+    private static final int PRINT_CYCLE = 100;
+
+    private DataMigrationHelper() {
         // utility class
     }
 
@@ -19,5 +21,14 @@ public final class DataMigrationSanitizationHelper {
         }
         return string.indexOf("&lt;") >= 0 || string.indexOf("&gt;") >= 0 || string.indexOf("&quot;") >= 0
                || string.indexOf("&#x2f;") >= 0 || string.indexOf("&#39;") >= 0 || string.indexOf("&amp;") >= 0;
+    }
+
+    /**
+     * Prints the count on system output when count is a multiple of PRINT_CYCLE
+     */
+    public static void printCountRegularly(int count, String itemName) {
+        if (count % PRINT_CYCLE == 0) {
+            System.out.println("On the " + count + "th " + itemName + ".");
+        }
     }
 }

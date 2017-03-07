@@ -27,10 +27,14 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
     @Override
     protected void doOperation() {
         List<AdminEmailAttributes> allEmails = adminEmailsLogic.getAllAdminEmails();
+        int count = 0;
+        String itemName = "admin email";
         if (isPreview) {
             System.out.println("Checking Sanitization for admin emails...");
             int numberOfAffectedEmails = 0;
             for (AdminEmailAttributes email : allEmails) {
+                count++;
+                DataMigrationHelper.printCountRegularly(count, itemName);
                 if (isEmailSanitized(email)) {
                     previewAdminEmail(email);
                     numberOfAffectedEmails++;
@@ -39,6 +43,8 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
             System.out.println("There are/is " + numberOfAffectedEmails + " affected email(s)!");
         } else {
             for (AdminEmailAttributes email : allEmails) {
+                count++;
+                DataMigrationHelper.printCountRegularly(count, itemName);
                 fixSanitizedDataForEmail(email);
             }
             System.out.println("Sanitization fixing done!");
@@ -58,7 +64,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
     }
 
     private boolean isEmailSanitized(AdminEmailAttributes email) {
-        return DataMigrationSanitizationHelper.isSanitizedHtml(email.getContentValue());
+        return DataMigrationHelper.isSanitizedHtml(email.getContentValue());
     }
 
     /**
@@ -76,7 +82,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
                 System.out.println("Email " + email.getSubject() + " invalid!");
                 e.printStackTrace();
             } catch (EntityDoesNotExistException e) {
-                System.out.println("Student " + email.getSubject() + " does not exist!");
+                System.out.println("Email " + email.getSubject() + " does not exist!");
                 e.printStackTrace();
             }
         }
