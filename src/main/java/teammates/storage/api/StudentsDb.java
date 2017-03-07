@@ -411,7 +411,7 @@ public class StudentsDb extends EntitiesDb {
                 updateStudentChangeEmail(newCourseStudent, lastName, courseStudent, hasDocument,
                                          keepUpdateTimestamp, courseId, email);
             } else {
-                updateStudentDetails(newName, newTeamName, newSectionName, newEmail, newGoogleId,
+                updateStudentDetails(newName, newTeamName, newSectionName, newGoogleId,
                                      newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
             }
         }
@@ -422,8 +422,8 @@ public class StudentsDb extends EntitiesDb {
 
     @SuppressWarnings("PMD.PreserveStackTrace")
     public void updateStudentChangeEmail(
-            CourseStudent newCourseStudent, String lastName, CourseStudent courseStudent, 
-            boolean hasDocument, boolean keepUpdateTimestamp, String courseId, String email) 
+            CourseStudent newCourseStudent, String lastName, CourseStudent courseStudent,
+            boolean hasDocument, boolean keepUpdateTimestamp, String courseId, String email)
             throws InvalidParametersException, EntityDoesNotExistException {
         newCourseStudent.setLastName(lastName);
         newCourseStudent.setCreatedAt(courseStudent.getCreatedAt());
@@ -444,7 +444,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     private void updateStudentDetails(String newName, String newTeamName, String newSectionName,
-            String newEmail, String newGoogleId, String newComments, boolean hasDocument,
+            String newGoogleId, String newComments, boolean hasDocument,
             boolean keepUpdateTimestamp, CourseStudent courseStudent, String lastName) {
         courseStudent.setName(newName);
         courseStudent.setLastName(lastName);
