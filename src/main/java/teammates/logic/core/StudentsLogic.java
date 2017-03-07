@@ -616,7 +616,7 @@ public final class StudentsLogic {
         if (!invalidityInfo.isEmpty()) {
             throw new EnrollException(StringHelper.toString(invalidityInfo, "<br>"));
         }
-        
+
         return studentList;
     }
 

@@ -537,7 +537,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         info = StringHelper.toString(
                 SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithStudentNameEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfoList.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithStudentNameEmpty, info));
+        expectedInvalidInfoList.add(
+                String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithStudentNameEmpty, info));
         info = StringHelper.toString(
                 SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithEmailEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
@@ -576,7 +577,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         } catch (EnrollException e) {
             invalidInfoString = e.getMessage();
         }
-        
+
         expectedInvalidInfoString = "Same email address as the student in line \"" + lineWithCorrectInput + "\"";
         AssertHelper.assertContains(expectedInvalidInfoString, invalidInfoString);
 
