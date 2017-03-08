@@ -8,9 +8,9 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -558,10 +558,10 @@ public class ActivityLogEntry {
     public String getLogInfoForTableRowAsHtml() {
         return "<tr" + (isFirstRow ? " id=\"first-row\"" : "") + ">"
                  + "<td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
-                     + "<a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">"
+                     + "<a data-time=\"" + time + "\" data-google-id=\"" + googleId + "\" data-role=\"" + role + "\">"
                          + getDateInfo()
                      + "</a>"
-                     + "<p class=\"localTime\"></p>"
+                     + "<p c                                                lass=\"localTime\"></p>"
                      + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"
                          + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
                      + "</p>"
