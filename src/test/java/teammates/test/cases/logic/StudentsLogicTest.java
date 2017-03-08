@@ -431,12 +431,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                     + Const.EOL + lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL
                     + lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
 
-        try {
-            studentsLogic.createAndValidateStudents(enrollLines, courseId);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            invalidInfoString = e.getMessage();
-        }
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
         expectedInvalidInfoList.clear();
@@ -493,12 +488,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
 
-        try {
-            studentsLogic.createAndValidateStudents(enrollLines, courseId);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            invalidInfoString = e.getMessage();
-        }
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
         expectedInvalidInfoList.clear();
         expectedInvalidInfoList.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithNoEmailInput,
@@ -519,12 +509,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                       + lineWithStudentNameEmpty + Const.EOL
                       + lineWithEmailEmpty;
 
-        try {
-            studentsLogic.createAndValidateStudents(enrollLines, courseId);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            invalidInfoString = e.getMessage();
-        }
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
         expectedInvalidInfoList.clear();
         info = StringHelper.toString(
@@ -550,15 +535,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithCorrectInputWithComment = "Team 4 | Benjamin | benjamin@email.tmt | Foreign student";
 
         enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
-
-        invalidInfoString = null;
-        try {
-            studentsLogic.createAndValidateStudents(enrollLines, courseId);
-        } catch (EnrollException e) {
-            invalidInfoString = e.getMessage();
-        }
-
-        assertNull(invalidInfoString);
+        // No exception is supposed be thrown here. Test will fail if Enrollment Exception is thrown
+        studentsLogic.createAndValidateStudents(enrollLines, courseId);
 
         ______TS("enrollLines with only whitespaces");
         // not tested as enroll lines must be trimmed before passing to the method
@@ -567,12 +545,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
 
-        try {
-            studentsLogic.createAndValidateStudents(enrollLines, courseId);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            invalidInfoString = e.getMessage();
-        }
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
         expectedInvalidInfoString = "Same email address as the student in line \"" + lineWithCorrectInput + "\"";
         AssertHelper.assertContains(expectedInvalidInfoString, invalidInfoString);
@@ -583,12 +556,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 + Const.EOL + lineWithExtraParameters + Const.EOL
                 + lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + "\t";
 
-        try {
-            studentsLogic.createAndValidateStudents(enrollLines, courseId);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            invalidInfoString = e.getMessage();
-        }
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
         expectedInvalidInfoList.clear();
 
@@ -616,6 +584,17 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
         assertEquals(expectedInvalidInfoString, invalidInfoString);
+    }
+
+    private String getExceptionMessageOnCreatingStudentsList(String enrollLines, String courseId) {
+        String invalidInfoString = null; // null will be returned if no exception is thrown
+        try {
+            studentsLogic.createAndValidateStudents(enrollLines, courseId);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
+            invalidInfoString = e.getMessage();
+        }
+        return invalidInfoString;
     }
 
     public void testEnrollStudents() throws Exception {
