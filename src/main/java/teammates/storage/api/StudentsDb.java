@@ -390,7 +390,6 @@ public class StudentsDb extends EntitiesDb {
                 newEmail, newGoogleId, newComments, false, false);
     }
 
-    @SuppressWarnings("PMD.PreserveStackTrace")
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail, String newGoogleId,
             String newComments, boolean hasDocument, boolean keepUpdateTimestamp)
@@ -409,42 +408,57 @@ public class StudentsDb extends EntitiesDb {
             if (isEmailChanged) {
                 CourseStudent newCourseStudent = new CourseStudent(newEmail, newName, newGoogleId, newComments,
                                                                    courseId, newTeamName, newSectionName);
-                newCourseStudent.setLastName(lastName);
-                newCourseStudent.setCreatedAt(courseStudent.getCreatedAt());
-                if (keepUpdateTimestamp) {
-                    newCourseStudent.setLastUpdate(courseStudent.getUpdatedAt());
-                }
-
-                try {
-                    createStudent(new StudentAttributes(newCourseStudent), hasDocument);
-                } catch (EntityAlreadyExistsException e) {
-                    StudentAttributes existingStudent = (StudentAttributes) e.existingEntity;
-                    String error = ERROR_UPDATE_EMAIL_ALREADY_USED
-                            + existingStudent.getName() + "/" + existingStudent.getEmail();
-                    throw new InvalidParametersException(error);
-                }
-
-                deleteStudent(courseId, email);
-
+                recreateStudentWithNewEmail(newCourseStudent, lastName, courseStudent, hasDocument,
+                                            keepUpdateTimestamp, courseId, email);
             } else {
-                courseStudent.setName(newName);
-                courseStudent.setLastName(lastName);
-                courseStudent.setComments(newComments);
-                courseStudent.setGoogleId(newGoogleId);
-                courseStudent.setTeamName(newTeamName);
-                courseStudent.setSectionName(newSectionName);
-
-                if (hasDocument) {
-                    putDocument(new StudentAttributes(courseStudent));
-                }
-
-                // Set true to prevent changes to last update timestamp
-                courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
+                updateStudentDetails(newName, newTeamName, newSectionName, newGoogleId,
+                                     newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
             }
         }
 
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPm().close();
+    }
+
+    @SuppressWarnings("PMD.PreserveStackTrace")
+    private void recreateStudentWithNewEmail(
+            CourseStudent newCourseStudent, String lastName, CourseStudent courseStudent,
+            boolean hasDocument, boolean keepUpdateTimestamp, String courseId, String email)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        newCourseStudent.setLastName(lastName);
+        newCourseStudent.setCreatedAt(courseStudent.getCreatedAt());
+        if (keepUpdateTimestamp) {
+            newCourseStudent.setLastUpdate(courseStudent.getUpdatedAt());
+        }
+
+        try {
+            createStudent(new StudentAttributes(newCourseStudent), hasDocument);
+        } catch (EntityAlreadyExistsException e) {
+            StudentAttributes existingStudent = (StudentAttributes) e.existingEntity;
+            String error = ERROR_UPDATE_EMAIL_ALREADY_USED
+                           + existingStudent.getName() + "/" + existingStudent.getEmail();
+            throw new InvalidParametersException(error);
+        }
+
+        deleteStudent(courseId, email);
+    }
+
+    private void updateStudentDetails(String newName, String newTeamName, String newSectionName,
+            String newGoogleId, String newComments, boolean hasDocument,
+            boolean keepUpdateTimestamp, CourseStudent courseStudent, String lastName) {
+        courseStudent.setName(newName);
+        courseStudent.setLastName(lastName);
+        courseStudent.setComments(newComments);
+        courseStudent.setGoogleId(newGoogleId);
+        courseStudent.setTeamName(newTeamName);
+        courseStudent.setSectionName(newSectionName);
+
+        if (hasDocument) {
+            putDocument(new StudentAttributes(courseStudent));
+        }
+
+        // Set true to prevent changes to last update timestamp
+        courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
     }
 
     //TODO: add an updateStudent(StudentAttributes) version and make the above private
