@@ -3,6 +3,19 @@
 $(document).ready(function() {
     $('#filterReference').toggle();
     AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
+
+    $(document).on('click', '#button_older', function(e) {
+        e.preventDefault();
+        var nextEndTime = $(e.target).data("nextEndTime");
+        getOlderLogEntriesByAjax(nextEndTime );
+    });
+
+    $(document).on('click', '#logsTable tbody a', function(e) {
+        e.preventDefault();
+        console.log('bound to table');
+        var data = $(e.target).data();
+        submitLocalTimeAjaxRequest(data.time, data.googleId, data.role, this);
+    });
 });
 
 function toggleReference() {
@@ -31,7 +44,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     var params = 'logTimeInAdminTimeZone=' + time
                  + '&logRole=' + role
                  + '&logGoogleId=' + googleId;
-
+    console.log(params);
     var link = $(entry);
     var localTimeDisplay = $(entry).parent().children()[1];
 
@@ -63,7 +76,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
  *
  * @param {int} searchTimeOffset
  */
-function submitFormAjax(searchTimeOffset) {
+function getOlderLogEntriesByAjax(searchTimeOffset) {
     $('input[name=searchTimeOffset]').val(searchTimeOffset);
 
     var formObject = $('#ajaxLoaderDataForm');

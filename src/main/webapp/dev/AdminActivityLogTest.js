@@ -1,12 +1,12 @@
 'use strict';
+
 QUnit.module('AdminActivityLog.js');
 
 QUnit.test('toggleReference correctly changes display of query reference', function(assert) {
-    var fixture = $('#qunit-fixture');
     var requiredElements = '<span id="referenceText"> Show Reference</span>'
                             + '<span class="glyphicon glyphicon-chevron-down" id="detailButton"></span>'
                             + '<div id="filterReference"> </div>';
-    fixture.append(requiredElements);
+    createRequiredElements(requiredElements);
     var $filterReferenceDiv = $('#filterReference');
     var $detailButton = $('#detailButton');
     var $referenceLink = $('#referenceText');
@@ -31,9 +31,8 @@ QUnit.test('toggleReference correctly changes display of query reference', funct
 });
 
 QUnit.test('updatePageWithNewLogsFromAjax(response, selector)', function(assert) {
-    var fixture = $('#qunit-fixture');
     var requiredElements = '<table id="logsTable"> <tbody> </tbody> </table>';
-    fixture.append(requiredElements);
+    createRequiredElements(requiredElements);
     var selector = '#logsTable tbody';
     var logContainer = $(selector);
 
@@ -50,3 +49,63 @@ QUnit.test('updatePageWithNewLogsFromAjax(response, selector)', function(assert)
     assert.equal(logContainer.children().eq(0).html(), '<td>entry 1</td>');
     assert.equal(logContainer.children().eq(1).html(), '<td>entry 2</td>');
 });
+
+var $ajaxImplementation = $.ajax;
+
+/**
+ * Replaces $.ajax with a stub that executes the success callback synchronously with a simulated response.
+ *
+ * @param {Object} simulatedResponse to use with success callback
+ */
+function replaceAjaxWithStub(simulatedResponse) {
+    $.ajax = function(opts) {
+        var successCallback = opts.success;
+        var responseWithLogs = { isError: false, logs: [
+                                                        { logInfoAsHtml: '<tr><td>entry 1</td></tr>' },
+                                                        { logInfoAsHtml: '<tr><td>entry 2</td></tr>' }
+                        ] };
+        console.log(successCallback.toString());
+        successCallback(simulatedResponse);
+    };
+}
+
+function restoreAjaxImplementation() {
+    $.ajax = $ajaxImplementation;
+}
+
+QUnit.test('submitFormAjax correctly modifies page when receiving new log entries', function(assert) {
+    var requiredElements = '<form id="ajaxLoaderDataForm"> <input type="hidden" name="searchTimeOffset" value=""> </form> '
+        + '<table id="logsTable"> <tbody> </tbody> </table>'
+        + '<button id="button_older">Search More</button>';
+    createRequiredElements(requiredElements);
+    var selector = '#logsTable tbody';
+    var logContainer = $(selector);
+
+    var responseWithNoLogs = { isError: false, logs: [] };
+    replaceAjaxWithStub(responseWithNoLogs);
+    getOlderLogEntriesByAjax(1488712272839);
+    assert.equal(logContainer.children().length, 0, 'no entries should be added if ajax response contains no entries');
+
+    var responseWithLogs = { isError: false, logs: [
+                                    { logInfoAsHtml: '<tr><td>entry 1</td></tr>' },
+                                    { logInfoAsHtml: '<tr><td>entry 2</td></tr>' }
+    ] };
+    console.log('response with logs:' + responseWithLogs);
+    replaceAjaxWithStub(responseWithLogs);
+    getOlderLogEntriesByAjax(1488712272839);
+    assert.equal(logContainer.children().length, 2, 'Log entries should be added');
+    assert.equal(logContainer.children().eq(0).html(), '<td>entry 1</td>');
+    assert.equal(logContainer.children().eq(1).html(), '<td>entry 2</td>');
+
+    restoreAjaxImplementation();
+});
+
+/**
+ * Creates DOM elements needed for testing under #qunit-fixture.
+ *
+ * @param {String} html the elements to be added
+ */
+function createRequiredElements(html) {
+    var fixture = $('#qunit-fixture');
+    fixture.append(html);
+}
