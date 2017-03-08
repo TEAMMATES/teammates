@@ -74,11 +74,17 @@ public class AdminActivityLogPageData extends PageData {
         toDateValue = TimeHelper.now(0.0).getTimeInMillis();
     }
 
-    public void init(boolean ifShowAll, boolean ifShowTestData, List<ActivityLogEntry> logs) {
-        this.ifShowAll = ifShowAll;
-        this.ifShowTestData = ifShowTestData;
+    public void init(List<ActivityLogEntry> logs) {
         this.logs = logs;
 
+    }
+
+    public void setIfShowAll(boolean val) {
+        ifShowAll = val;
+    }
+
+    public void setIfShowTestData(boolean val) {
+        ifShowTestData = val;
     }
 
     public boolean getIfShowAll() {
@@ -176,6 +182,11 @@ public class AdminActivityLogPageData extends PageData {
             return logEntry;
         }
 
+        if (shouldExcludeLogEntry(logEntry)) {
+            logEntry.setToShow(false);
+            return logEntry;
+        }
+
         if (q == null) {
             if (this.queryMessage == null) {
                 this.queryMessage = "Error parsing the query. QueryParameters not created.";
@@ -227,14 +238,8 @@ public class AdminActivityLogPageData extends PageData {
             logEntry.setToShow(true);
             logEntry.setKeyStringsToHighlight(q.infoValues);
             logEntry.highlightKeyStringInMessageInfoHtml();
-            return logEntry;
         }
         if (q.isIdInQuery && !arrayContains(q.idValues, logEntry.getId())) {
-            logEntry.setToShow(false);
-            return logEntry;
-        }
-
-        if (shouldExcludeLogEntry(logEntry)) {
             logEntry.setToShow(false);
             return logEntry;
         }
