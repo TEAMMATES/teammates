@@ -409,7 +409,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String enrollLines;
         String courseId = "CourseID";
         coursesLogic.createCourse(courseId, "CourseName", "UTC");
-        String invalidInfoString;
+        String invalidInfoString = null;
         String expectedInvalidInfoString;
         List<String> expectedInvalidInfoList = new ArrayList<String>();
 
@@ -431,7 +431,6 @@ public class StudentsLogicTest extends BaseLogicTest {
                     + Const.EOL + lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL
                     + lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
 
-        invalidInfoString = null;
         try {
             studentsLogic.createAndValidateStudents(enrollLines, courseId);
             signalFailureToDetectException();
@@ -494,7 +493,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
 
-        invalidInfoString = null;
         try {
             studentsLogic.createAndValidateStudents(enrollLines, courseId);
             signalFailureToDetectException();
@@ -521,7 +519,6 @@ public class StudentsLogicTest extends BaseLogicTest {
                       + lineWithStudentNameEmpty + Const.EOL
                       + lineWithEmailEmpty;
 
-        invalidInfoString = null;
         try {
             studentsLogic.createAndValidateStudents(enrollLines, courseId);
             signalFailureToDetectException();
@@ -570,7 +567,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
 
-        invalidInfoString = null;
         try {
             studentsLogic.createAndValidateStudents(enrollLines, courseId);
             signalFailureToDetectException();
@@ -587,7 +583,6 @@ public class StudentsLogicTest extends BaseLogicTest {
                 + Const.EOL + lineWithExtraParameters + Const.EOL
                 + lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + "\t";
 
-        invalidInfoString = null;
         try {
             studentsLogic.createAndValidateStudents(enrollLines, courseId);
             signalFailureToDetectException();
