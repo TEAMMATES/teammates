@@ -60,11 +60,6 @@ var $ajaxImplementation = $.ajax;
 function replaceAjaxWithStub(simulatedResponse) {
     $.ajax = function(opts) {
         var successCallback = opts.success;
-        var responseWithLogs = { isError: false, logs: [
-                                                        { logInfoAsHtml: '<tr><td>entry 1</td></tr>' },
-                                                        { logInfoAsHtml: '<tr><td>entry 2</td></tr>' }
-                        ] };
-        console.log(successCallback.toString());
         successCallback(simulatedResponse);
     };
 }
@@ -81,16 +76,21 @@ QUnit.test('submitFormAjax correctly modifies page when receiving new log entrie
     var selector = '#logsTable tbody';
     var logContainer = $(selector);
 
-    var responseWithNoLogs = { isError: false, logs: [] };
+    var responseWithNoLogs = {
+        isError: false,
+        logs: []
+    };
     replaceAjaxWithStub(responseWithNoLogs);
     getOlderLogEntriesByAjax(1488712272839);
     assert.equal(logContainer.children().length, 0, 'no entries should be added if ajax response contains no entries');
 
-    var responseWithLogs = { isError: false, logs: [
-                                    { logInfoAsHtml: '<tr><td>entry 1</td></tr>' },
-                                    { logInfoAsHtml: '<tr><td>entry 2</td></tr>' }
-    ] };
-    console.log('response with logs:' + responseWithLogs);
+    var responseWithLogs = {
+        isError: false,
+        logs: [
+            { logInfoAsHtml: '<tr><td>entry 1</td></tr>' },
+            { logInfoAsHtml: '<tr><td>entry 2</td></tr>' }
+        ]
+    };
     replaceAjaxWithStub(responseWithLogs);
     getOlderLogEntriesByAjax(1488712272839);
     assert.equal(logContainer.children().length, 2, 'Log entries should be added');

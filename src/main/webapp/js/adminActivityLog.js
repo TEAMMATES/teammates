@@ -6,13 +6,12 @@ $(document).ready(function() {
 
     $(document).on('click', '#button_older', function(e) {
         e.preventDefault();
-        var nextEndTime = $(e.target).data("nextEndTime");
-        getOlderLogEntriesByAjax(nextEndTime );
+        var nextEndTime = $(e.target).data('nextEndTime');
+        getOlderLogEntriesByAjax(nextEndTime);
     });
 
     $(document).on('click', '#logsTable tbody a', function(e) {
         e.preventDefault();
-        console.log('bound to table');
         var data = $(e.target).data();
         submitLocalTimeAjaxRequest(data.time, data.googleId, data.role, this);
     });
@@ -44,7 +43,6 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     var params = 'logTimeInAdminTimeZone=' + time
                  + '&logRole=' + role
                  + '&logGoogleId=' + googleId;
-    console.log(params);
     var link = $(entry);
     var localTimeDisplay = $(entry).parent().children()[1];
 
