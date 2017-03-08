@@ -38,14 +38,10 @@
     <script type="text/javascript" src="/js/common.js" data-cover></script>
     <script type="text/javascript" src="/js/richTextEditor.js" data-cover></script>
     <script type="text/javascript" src="/js/administrator.js" data-cover></script>
+    <script type="text/javascript" src="/js/adminActivityLog.js" data-cover></script>
     <script type="text/javascript" src="/js/adminHome.js" data-cover></script>
-<<<<<<< ad3c1587ad44f902397fed7e78dd41d016eeed7e
     <script type="text/javascript" src="/js/index.js" data-cover></script>
     <script type="text/javascript" src="/js/instructor.js" data-cover></script>
-=======
-    <script type="text/javascript" src="/js/adminActivityLog.js" data-cover></script>
-    <script type="text/javascript" src="/js/common.js" data-cover></script>
->>>>>>> add test for ToggleReference
     <script type="text/javascript" src="/js/instructorCourses.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorCourseEnrollPage.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorCourseDetails.js" data-cover></script>
