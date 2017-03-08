@@ -18,7 +18,7 @@
                                     <p class="padding-15px margin-0">
                                         <b class="text-color-gray">TEAMMATES Message of the day</b>
                                         &nbsp;
-                                        <button type="button" class="close" aria-label="Close" onclick="closeMotd();">
+                                        <button type="button" id="btn-close-motd" class="close" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </p>
