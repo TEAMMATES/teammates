@@ -536,7 +536,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
         // No exception is supposed be thrown here. Test will fail if Enrollment Exception is thrown
-        studentsLogic.createAndValidateStudents(enrollLines, courseId);
+        studentsLogic.createStudents(enrollLines, courseId);
 
         ______TS("enrollLines with only whitespaces");
         // not tested as enroll lines must be trimmed before passing to the method
@@ -597,7 +597,7 @@ public class StudentsLogicTest extends BaseLogicTest {
     private String getExceptionMessageOnCreatingStudentsList(String enrollLines, String courseId) {
         String invalidInfoString = null;
         try {
-            studentsLogic.createAndValidateStudents(enrollLines, courseId);
+            studentsLogic.createStudents(enrollLines, courseId);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             invalidInfoString = e.getMessage();

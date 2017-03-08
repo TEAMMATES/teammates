@@ -300,7 +300,7 @@ public final class StudentsLogic {
             throw new EnrollException(Const.StatusMessages.ENROLL_LINE_EMPTY);
         }
 
-        List<StudentAttributes> studentList = createAndValidateStudents(enrollLines, courseId);
+        List<StudentAttributes> studentList = createStudents(enrollLines, courseId);
         ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
         ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
 
@@ -579,7 +579,7 @@ public final class StudentsLogic {
      * @throws EnrollException  if any of the student instances created by the enrollment line is invalid.The invalidity
      *                          info is in HTML format.
      */
-    public List<StudentAttributes> createAndValidateStudents(String lines, String courseId) throws EnrollException {
+    public List<StudentAttributes> createStudents(String lines, String courseId) throws EnrollException {
         List<String> invalidityInfo = new ArrayList<String>();
         String[] linesArray = lines.split(Const.EOL);
         ArrayList<String> studentEmailList = new ArrayList<String>();
