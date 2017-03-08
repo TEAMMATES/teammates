@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
     $('#filterReference').toggle();
-    AdminCommon.bindBackToTopButtons();
+    AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
 });
 
 function toggleReference() {
