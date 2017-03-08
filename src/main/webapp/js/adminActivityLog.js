@@ -4,13 +4,13 @@ $(document).ready(function() {
     $('#filterReference').toggle();
     AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
 
-    $(document).on('click', '#button_older', function(e) {
+    $('#button_older').on('click', function(e) {
         e.preventDefault();
         var nextEndTime = $(e.target).data('nextEndTime');
         getOlderLogEntriesByAjax(nextEndTime);
     });
 
-    $(document).on('click', '#logsTable tbody a', function(e) {
+    $('#logsTable tbody tr a').on('click', function(e) {
         e.preventDefault();
         var data = $(e.target).data();
         submitLocalTimeAjaxRequest(data.time, data.googleId, data.role, this);
@@ -43,10 +43,10 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     var params = 'logTimeInAdminTimeZone=' + time
                  + '&logRole=' + role
                  + '&logGoogleId=' + googleId;
-    var link = $(entry);
+    var $link = $(entry);
     var localTimeDisplay = $(entry).parent().children()[1];
 
-    var originalTime = $(link).html();
+    var originalTime = $link.html();
 
     $.ajax({
         type: 'POST',
@@ -61,7 +61,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
             if (data.isError) {
                 $(localTimeDisplay).html('Loading error, please retry');
             } else {
-                $(link).parent().html(originalTime + '<mark><br>' + data.logLocalTime + '</mark>');
+                $link.parent().html(originalTime + '<mark><br>' + data.logLocalTime + '</mark>');
             }
 
             setStatusMessage(data.statusForAjax, StatusType.INFO);
@@ -114,7 +114,7 @@ function getOlderLogEntriesByAjax(searchTimeOffset) {
 function updatePageWithNewLogsFromAjax(response, selector) {
     var logs = response.logs;
     var $logContainer = $(selector);
-    $.each(logs, function(i, value) {
+    response.logs.forEach(function(value) {
         $logContainer.append(value.logInfoAsHtml);
     });
 }

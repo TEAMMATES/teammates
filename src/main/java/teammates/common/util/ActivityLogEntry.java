@@ -561,7 +561,7 @@ public class ActivityLogEntry {
                      + "<a data-time=\"" + time + "\" data-google-id=\"" + googleId + "\" data-role=\"" + role + "\">"
                          + getDateInfo()
                      + "</a>"
-                     + "<p c                                                lass=\"localTime\"></p>"
+                     + "<p class=\"localTime\"></p>"
                      + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"
                          + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
                      + "</p>"

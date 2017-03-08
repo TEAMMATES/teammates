@@ -59,9 +59,9 @@
     <script type="text/javascript" src="/js/instructorStudentList.js" data-cover></script>
     <script type="text/javascript" src="/js/student.js" data-cover></script>
 
-<<<<<<< ad3c1587ad44f902397fed7e78dd41d016eeed7e
     <div id="test-scripts">
         <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
+        <script type="text/javascript" src="/dev/AdminActivityLogTest.js"></script>
         <script type="text/javascript" src="/dev/AdminHomeJsTest.js"></script>
         <script type="text/javascript" src="/dev/InstructorCourseDetailsJsTest.js"></script>
         <script type="text/javascript" src="/dev/InstructorEnrolmentJsTest.js"></script>
@@ -70,19 +70,5 @@
         <script type="text/javascript" src="/dev/StudentJsTest.js"></script>
         <script type="text/javascript" src="/dev/SubmissionCountJsTest.js"></script>
     </div>
-=======
-    <script type="text/javascript" src="/dev/CommonTestFunctions.js"></script>
-    <!-- Test scripts -->
-    <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
-    <script type="text/javascript" src="/dev/AdminActivityLogTest.js"></script>
-    <script type="text/javascript" src="/dev/AdminHomeJsTest.js"></script>
-    <script type="text/javascript" src="/dev/InstructorCourseDetailsJsTest.js"></script>
-    <script type="text/javascript" src="/dev/InstructorEnrolmentJsTest.js"></script>
-    <script type="text/javascript" src="/dev/InstructorFeedbacksJsTest.js"></script>
-    <script type="text/javascript" src="/dev/InstructorStudentListJsTest.js"></script>
-    <script type="text/javascript" src="/dev/InstructorJsTest.js"></script>
-    <script type="text/javascript" src="/dev/StudentJsTest.js"></script>
-    <script type="text/javascript" src="/dev/SubmissionCountJsTest.js"></script>
->>>>>>> add test for ToggleReference
 </body>
 </html>
