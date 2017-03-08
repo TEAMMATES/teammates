@@ -112,7 +112,6 @@ function getOlderLogEntriesByAjax(searchTimeOffset) {
  * @param {String} selector the selector for the DOM node that log entries should be placed in
  */
 function updatePageWithNewLogsFromAjax(response, selector) {
-    var logs = response.logs;
     var $logContainer = $(selector);
     response.logs.forEach(function(value) {
         $logContainer.append(value.logInfoAsHtml);
