@@ -421,7 +421,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     @SuppressWarnings("PMD.PreserveStackTrace")
-    public void recreateStudentWithNewEmail(
+    private void recreateStudentWithNewEmail(
             CourseStudent newCourseStudent, String lastName, CourseStudent courseStudent,
             boolean hasDocument, boolean keepUpdateTimestamp, String courseId, String email)
             throws InvalidParametersException, EntityDoesNotExistException {
