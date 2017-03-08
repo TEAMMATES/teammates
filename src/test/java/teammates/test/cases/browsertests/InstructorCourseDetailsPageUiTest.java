@@ -217,7 +217,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
         detailsPage.clickRemindStudentAndConfirm(student2.name);
-        detailsPage.verifyTablePattern(1,  4, patternString);
+        detailsPage.verifyTablePattern(1, 4, patternString);
 
         patternString = "Alice Betsy</option></td></div>'\"{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
         detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
