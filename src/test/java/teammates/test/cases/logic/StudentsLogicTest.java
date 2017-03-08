@@ -586,8 +586,16 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertEquals(expectedInvalidInfoString, invalidInfoString);
     }
 
+    /**
+     * This method returns the Exception message thrown when trying to build StudentList from invalid enrollment line.
+     * The method assumes that an Enrollment Exception is thrown, else the method fails with
+     * signalFailureToDetectException().
+     *
+     * @param enrollLines is assumed to be invalid
+     * @return invalidInfoString in the Enrollment Exception
+     */
     private String getExceptionMessageOnCreatingStudentsList(String enrollLines, String courseId) {
-        String invalidInfoString = null; // null will be returned if no exception is thrown
+        String invalidInfoString = null;
         try {
             studentsLogic.createAndValidateStudents(enrollLines, courseId);
             signalFailureToDetectException();

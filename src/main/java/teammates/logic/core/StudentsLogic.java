@@ -571,8 +571,13 @@ public final class StudentsLogic {
         return enrollmentDetails;
     }
 
-    /* All empty lines or lines with only white spaces will be skipped.
-     * The invalidity info is in HTML format.
+    /**
+     * This method builds the studentList from user input lines and check the validity of each student instance created.
+     *
+     * @param lines             the enrollment lines entered by the instructor.All empty lines or lines with only white
+     *                          spaces will be skipped.
+     * @throws EnrollException  if any of the student instances created by the enrollment line is invalid.The invalidity
+     *                          info is in HTML format.
      */
     public List<StudentAttributes> createAndValidateStudents(String lines, String courseId) throws EnrollException {
         List<String> invalidityInfo = new ArrayList<String>();
