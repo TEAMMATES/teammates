@@ -60,19 +60,6 @@
     <script type="text/javascript" src="/js/index.js" data-cover></script>
     <script type="text/javascript" src="/js/datepicker.js" data-cover></script>
     
-    <script type="text/javascript" src="/dev/CommonTestFunctions.js"></script>
-    <!-- Test scripts -->
-    <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
-    <script type="text/javascript" src="/dev/AdminHomeJsTest.js"></script>
-    <script type="text/javascript" src="/dev/InstructorCourseDetailsJsTest.js"></script>
-    <script type="text/javascript" src="/dev/InstructorEnrolmentJsTest.js"></script>
-    <script type="text/javascript" src="/dev/InstructorFeedbacksJsTest.js"></script>
-    <script type="text/javascript" src="/dev/InstructorStudentListJsTest.js"></script>
-    <script type="text/javascript" src="/dev/InstructorJsTest.js"></script>
-    <script type="text/javascript" src="/dev/StudentJsTest.js"></script>
-    <script type="text/javascript" src="/dev/SubmissionCountJsTest.js"></script>
-    <script type="text/javascript" src="/dev/DatePickerJsTest.js"></script>
-
     <div id="test-scripts">
         <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
         <script type="text/javascript" src="/dev/AdminHomeJsTest.js"></script>
@@ -82,6 +69,7 @@
         <script type="text/javascript" src="/dev/InstructorJsTest.js"></script>
         <script type="text/javascript" src="/dev/StudentJsTest.js"></script>
         <script type="text/javascript" src="/dev/SubmissionCountJsTest.js"></script>
+        <script type="text/javascript" src="/dev/DatePickerJsTest.js"></script>
     </div>
 </body>
 </html>
