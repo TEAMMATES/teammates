@@ -16,9 +16,12 @@ import teammates.ui.automated.AutomatedActionFactory;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionFactory;
 
+import com.google.appengine.api.log.dev.LocalLogService;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalLogServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalModulesServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalSearchServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
@@ -46,6 +49,8 @@ public class GaeSimulation {
 
     protected LocalServiceTestHelper helper;
 
+    private LocalLogService localLogService;
+
     public static GaeSimulation inst() {
         return instance;
     }
@@ -69,10 +74,14 @@ public class GaeSimulation {
         LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
         LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
         localSearch.setPersistent(false);
-        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localTasks, localSearch);
+        LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
+        LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
+        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
+                                            localTasks, localSearch, localModules, localLog);
         helper.setUp();
 
         sc = new ServletRunner().newClient();
+        localLogService = LocalLogServiceTestConfig.getLocalLogService();
     }
 
     /**Logs in the user to the GAE simulation environment without admin rights.
@@ -117,6 +126,25 @@ public class GaeSimulation {
         assertTrue(gateKeeper.getCurrentUser().isStudent);
         assertFalse(gateKeeper.getCurrentUser().isInstructor);
         assertFalse(gateKeeper.getCurrentUser().isAdmin);
+    }
+
+    /**
+     * Clears all logs in GAE.
+     */
+    public void clearLogs() {
+        localLogService.clear();
+    }
+
+    public void addLogRequestInfo(String appId, String versionId, String requestId, String ip, String nickname,
+                                  long startTimeUsec, long endTimeUsec, String method, String resource,
+                                  String httpVersion, String userAgent, boolean complete, Integer status,
+                                  String referrer) {
+        localLogService.addRequestInfo(appId, versionId, requestId, ip, nickname, startTimeUsec, endTimeUsec,
+                                       method, resource, httpVersion, userAgent, complete, status, referrer);
+    }
+
+    public void addAppLogLine(String requestId, long time, int level, String message) {
+        localLogService.addAppLogLine(requestId, time, level, message);
     }
 
     /**
