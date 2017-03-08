@@ -36,7 +36,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> msqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
-    private boolean containsNonEmptyResponse ;
+    private boolean containsNonEmptyResponse;
 
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
@@ -405,8 +405,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
-        String numChoicesSelected = getQuestionResultStatistics(responses, answerFrequency);
-        if ("".equals(numChoicesSelected)) {
+        int numChoicesSelected = getQuestionResultStatistics(responses, answerFrequency);
+        if (numChoicesSelected == -1) {
             return "";
         } else {
             DecimalFormat df = new DecimalFormat("#.##");
@@ -416,9 +416,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                         Slots.MCQ_CHOICE_VALUE, entry.getKey(),
                         Slots.COUNT, entry.getValue().toString(),
-                        Slots.PERCENTAGE, df.format(100 * divideOrReturnZero(
-                                Integer.parseInt(numChoicesSelected), (double) entry.getValue()))));
-
+                        Slots.PERCENTAGE,
+                        df.format(100 * divideOrReturnZero(numChoicesSelected, (double) entry.getValue()))));
             }
             // Use same template as MCQ for now, until they need to be
             // different.
@@ -435,7 +434,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
     }
 
-    private String getQuestionResultStatistics(List<FeedbackResponseAttributes> responses,
+    private int getQuestionResultStatistics(List<FeedbackResponseAttributes> responses,
             Map<String, Integer> answerFrequency) {
         containsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
 
@@ -453,10 +452,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             numChoicesSelected = numChoicesSelected + getNumOfChoicesSelected(response, answerFrequency);
         }
         if (!containsNonEmptyResponse) {
-            return "";
+            return -1;
         }
 
-        return Integer.toString(numChoicesSelected);
+        return numChoicesSelected;
     }
 
     private int getNumOfChoicesSelected(FeedbackResponseAttributes response,
@@ -513,8 +512,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
-        String numChoicesSelected = getQuestionResultStatistics(responses, answerFrequency);
-        if ("".equals(numChoicesSelected)) {
+        int numChoicesSelected = getQuestionResultStatistics(responses, answerFrequency);
+        if (numChoicesSelected == -1) {
             return "";
         } else {
             DecimalFormat df = new DecimalFormat("#.##");
@@ -522,7 +521,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
                 fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey()) + ','
                         + entry.getValue().toString() + ','
-                        + df.format(100 * divideOrReturnZero(Integer.parseInt(numChoicesSelected), (double) entry.getValue()))
+                        + df.format(100 * divideOrReturnZero(numChoicesSelected, (double) entry.getValue()))
                         + Const.EOL);
             }
 
