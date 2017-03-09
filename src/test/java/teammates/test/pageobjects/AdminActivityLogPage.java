@@ -99,7 +99,7 @@ public class AdminActivityLogPage extends AppPage {
     }
 
     public void clickUserTimezoneAtFirstRow() {
-        WebElement button = browser.driver.findElement(By.cssSelector("#first-row > td > a"));
+        WebElement button = browser.driver.findElement(By.cssSelector("#logsTable td > a"));
         click(button);
     }
 
@@ -109,16 +109,16 @@ public class AdminActivityLogPage extends AppPage {
     }
 
     public By getFirstActivityLogRow() {
-        return By.id("first-row");
+        return By.id("#logsTable tr");
     }
 
     public boolean isUserTimezoneAtFirstRowClicked() {
-        List<WebElement> elements = browser.driver.findElements(By.cssSelector("#first-row > td > mark"));
+        List<WebElement> elements = browser.driver.findElements(By.cssSelector("#logsTable td > mark"));
         return !elements.isEmpty();
     }
 
     public Date getDateOfEarliestLog() throws ParseException {
-        String dateFormat = "dd-MM-yyyy HH:mm:ss";
+        String dateFormat = "MM/dd/yyyy HH:mm:ss SSS";
         DateFormat sdf = new SimpleDateFormat(dateFormat);
         String dateTimeString = getLogsTable().findElement(By.cssSelector("tr:last-child > td > a")).getText();
 
