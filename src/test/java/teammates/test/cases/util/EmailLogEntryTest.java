@@ -11,7 +11,7 @@ import com.google.appengine.api.log.AppLogLine;
 public class EmailLogEntryTest extends BaseTestCase {
 
     @Test
-    public void emailLog_withEmailWrapper_contructCorrectly() {
+    public void emailLog_withEmailWrapper_constructCorrectly() {
         EmailWrapper email = generateTypicalEmail();
         EmailLogEntry logEntry = new EmailLogEntry(email);
 
@@ -24,7 +24,7 @@ public class EmailLogEntryTest extends BaseTestCase {
     }
 
     @Test
-    public void emailLog_withAppLogLine_contructCorrectly() {
+    public void emailLog_withAppLogLine_constructCorrectly() {
         String logMessage = "TEAMMATESEMAILLOG|||myRecipient@email.com|||mySubject|||myContent";
         AppLogLine appLog = new AppLogLine();
         appLog.setLogMessage(logMessage);
@@ -40,7 +40,7 @@ public class EmailLogEntryTest extends BaseTestCase {
     }
 
     @Test
-    public void emailLog_withAppLogLine_contructionFailAsNotInCorrectFormat() {
+    public void emailLog_withAppLogLine_constructionFailAsNotInCorrectFormat() {
         String logMessage = "NotInDesiredFormat";
         AppLogLine appLog = new AppLogLine();
         appLog.setLogMessage(logMessage);
