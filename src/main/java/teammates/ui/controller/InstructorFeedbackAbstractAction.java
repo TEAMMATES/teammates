@@ -100,8 +100,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             break;
         default:
-            log.severe("Invalid resultsVisibleFrom setting in creating"
-                       + newSession.getIdentificationString());
+            log.severe("Invalid resultsVisibleFrom setting in creating" + newSession.getIdentificationString());
             break;
         }
     }
@@ -123,8 +122,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
             break;
         default:
-            log.severe("Invalid sessionVisibleFrom setting in creating "
-                       + newSession.getIdentificationString());
+            log.severe("Invalid sessionVisibleFrom setting in creating " + newSession.getIdentificationString());
             break;
         }
     }
@@ -150,12 +148,12 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
      */
     protected Map<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
         Map<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
-        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId,
-                                                                                 omitArchived);
+        List<InstructorAttributes> instructors = 
+                logic.getInstructorsForGoogleId(account.googleId, omitArchived);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
         return courseInstructorMap;
     }
-
+    
 }
