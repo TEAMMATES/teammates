@@ -592,7 +592,7 @@ public class StudentsLogicTest extends BaseLogicTest {
      * signalFailureToDetectException().
      *
      * @param enrollLines is assumed to be invalid
-     * @return invalidInfoString in the Enrollment Exception
+     * @return invalidInfoString in the Enrollment Exception in html format
      */
     private String getExceptionMessageOnCreatingStudentsList(String enrollLines, String courseId) {
         String invalidInfoString = null;
