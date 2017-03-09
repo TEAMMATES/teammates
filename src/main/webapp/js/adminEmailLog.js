@@ -37,7 +37,7 @@ function submitFormAjax(offset) {
     var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
     var button = $('#button_older');
-    var $logsTable = $('#emailLogsTable > tbody');
+    var $logsTable = $('#email-logs-table > tbody');
 
     $.ajax({
         type: 'POST',
@@ -51,7 +51,7 @@ function submitFormAjax(offset) {
         },
         success: function(data) {
             var $data = $(data);
-            $logsTable.append($data.find('#logs-table > tbody').html());
+            $logsTable.append($data.find('#email-logs-table > tbody').html());
             bindClickAction();
             highlightKeywordsInEmailLogMessages();
             setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
