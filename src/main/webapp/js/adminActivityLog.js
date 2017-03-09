@@ -3,6 +3,7 @@
 $(document).ready(function() {
     $('#filterReference').toggle();
     AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
+    highlightKeywordsInLogMessage();
 });
 
 function toggleReference() {
@@ -58,7 +59,7 @@ function submitFormAjax(searchTimeOffset) {
     var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
     var button = $('#button_older');
-    var lastLogRow = $('#logsTable tr:last');
+    var $logsTable = $('#logsTable > tbody');
 
     $.ajax({
         type: 'POST',
@@ -71,22 +72,11 @@ function submitFormAjax(searchTimeOffset) {
             button.html('Retry');
         },
         success: function(data) {
-            setTimeout(function() {
-                if (data.isError) {
-                    setFormErrorMessage(button, data.errorMessage);
-                } else {
-                    // Inject new log row
-                    var logs = data.logs;
-                    $.each(logs, function(i, value) {
-                        lastLogRow.after(value.logInfoAsHtml);
-                        lastLogRow = $('#logsTable tr:last');
-                    });
-
-                    updateInfoForRecentActionButton();
-                }
-
-                setStatusMessage(data.statusForAjax, StatusType.INFO);
-            }, 500);
+            var $data = $(data);
+            $logsTable.append($data.find('#logs-table > tbody').html());
+            updateInfoForRecentActionButton();
+            highlightKeywordsInLogMessage();
+            setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
         }
     });
 }
@@ -101,4 +91,23 @@ function updateInfoForRecentActionButton() {
 
     var isShowTestData = $('#ifShowTestData').val();
     $('.ifShowTestData_for_person').val(isShowTestData);
+}
+
+/**
+ * Highlights default/search keywords in log message.
+ */
+function highlightKeywordsInLogMessage() {
+    var allLogMessages = $('.logMessage');
+    // highlight search keywords
+    var searchKeywords = $('#log-message-search-keywords').val();
+    var searchKeywordsList = searchKeywords.split(',');
+    allLogMessages.highlight(searchKeywordsList);
+
+    // highlight default keywords
+    var defaultKeywords = $('#log-message-default-keywords').val();
+    var defaultKeywordsList = defaultKeywords.split(',');
+    allLogMessages.highlight(defaultKeywordsList, {
+        element: 'b',
+        className: ' '
+    });
 }

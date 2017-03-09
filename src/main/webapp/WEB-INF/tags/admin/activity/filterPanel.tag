@@ -1,10 +1,12 @@
 <%@ tag description="Filter Panel in Admin Activity Log Page" %>
+<%@ tag import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="excludedLogRequestURIs" required="true" %>
 <%@ attribute name="actionListAsHtml" required="true" %>
 <%@ attribute name="ifShowAll" required="true" %>
 <%@ attribute name="ifShowTestData" required="true" %>
 <%@ attribute name="filterQuery" required="true" %>
+<%@ attribute name="logMessageSearchKeywords" required="true"%>
 
 <div class="well well-plain">
     <form class="form-horizontal" method="post" action="/admin/adminActivityLogPage" id="activityLogFilter" role="form">
@@ -21,7 +23,10 @@
                     </div>
                 </div>
             </div>
-
+            
+            <input id="log-message-default-keywords" type="hidden" value="<%= Const.ACTION_RESULT_FAILURE %>, <%= Const.ACTION_RESULT_SYSTEM_ERROR_REPORT %>">
+            <input id="log-message-search-keywords" type="hidden" value="${logMessageSearchKeywords}">
+            
             <div class="form-group">
                 <a href="#" class="btn btn-link center-block" onclick="toggleReference()">
                     <span id="referenceText"> Show Reference</span><br>
