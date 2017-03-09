@@ -1473,4 +1473,14 @@ public final class Const {
                 + "the instructors and tutors.&quot;";
     }
 
+    /**
+     * These are constants that may be used in {@link EmailLogEntry}.
+     */
+    public static class EmailLog {
+        public static final String TEAMMATES_EMAIL_LOG = "TEAMMATESEMAILLOG";
+        public static final String FIELD_SEPARATOR = "|||";
+
+        public static final String TEST_DATA_POSTFIX = ".tmt";
+    }
+
 }
