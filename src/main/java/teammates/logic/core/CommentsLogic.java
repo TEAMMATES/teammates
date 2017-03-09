@@ -560,10 +560,7 @@ public final class CommentsLogic {
         Map<String, List<StudentAttributes>> sectionStudentTable = new HashMap<String, List<StudentAttributes>>();
         populateTeamSectionStudentTables(allStudents, teamStudentTable, sectionStudentTable);
 
-        Set<String> recipientEmailsList = populateRecipientEmails(courseId,
-                allStudents, roster, teamStudentTable, sectionStudentTable);
-
-        return recipientEmailsList;
+        return populateRecipientEmails(courseId, allStudents, roster, teamStudentTable, sectionStudentTable);
     }
 
     private Set<String> populateRecipientEmails(String courseId, List<StudentAttributes> allStudents,

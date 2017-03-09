@@ -989,9 +989,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             return Const.USER_NOBODY_TEXT;
         }
         if (isParticipantIdentifierStudent(participantIdentifier)) {
-            StudentAttributes student = roster
-                    .getStudentForEmail(participantIdentifier);
-            return student.team;
+            return roster.getStudentForEmail(participantIdentifier).team;
         } else if (isParticipantIdentifierInstructor(participantIdentifier)) {
             return Const.USER_TEAM_FOR_INSTRUCTOR;
         } else {

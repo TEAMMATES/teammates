@@ -369,10 +369,9 @@ public final class FeedbackResponseCommentsLogic {
                                                FeedbackResponseCommentAttributes relatedComment,
                                                FeedbackParticipantType viewerType) {
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion
-                            ? relatedQuestion.isResponseVisibleTo(viewerType)
-                            : relatedComment.isVisibleTo(viewerType);
-        return isVisibleTo;
+        return isVisibilityFollowingFeedbackQuestion
+                ? relatedQuestion.isResponseVisibleTo(viewerType)
+                : relatedComment.isVisibleTo(viewerType);
     }
 
     private void verifyIsCoursePresent(String courseId) throws EntityDoesNotExistException {

@@ -410,12 +410,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         } else {
             moderationButton = null;
         }
-        InstructorFeedbackResultsGroupByParticipantPanel primaryParticipantPanel =
-                buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
+        return buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
                         primaryParticipantIdentifier, primaryParticipantNameWithTeamName,
                         secondaryParticipantPanels, moderationButton);
-
-        return primaryParticipantPanel;
     }
 
     private List<InstructorFeedbackResultsSecondaryParticipantPanelBody> buildSecondaryParticipantPanels(
@@ -1394,11 +1391,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                               : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
         moderateFeedbackResponseLink = addUserIdToUrl(moderateFeedbackResponseLink);
 
-        InstructorFeedbackResultsModerationButton moderationButton =
-                new InstructorFeedbackResultsModerationButton(isDisabled, className, giverIdentifier, getCourseId(),
-                                                              getFeedbackSessionName(), question, buttonText,
-                                                              moderateFeedbackResponseLink);
-        return moderationButton;
+        return new InstructorFeedbackResultsModerationButton(isDisabled, className, giverIdentifier, getCourseId(),
+                                                             getFeedbackSessionName(), question, buttonText,
+                                                             moderateFeedbackResponseLink);
     }
 
     private InstructorFeedbackResultsGroupByParticipantPanel buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(

@@ -149,10 +149,7 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement editInstructorNameTextBox = getNameField(instrNum);
         WebElement editInstructorEmailTextBox = getEmailField(instrNum);
 
-        boolean isEditable = editInstructorNameTextBox.isEnabled()
-                             && editInstructorEmailTextBox.isEnabled();
-
-        return isEditable;
+        return editInstructorNameTextBox.isEnabled() && editInstructorEmailTextBox.isEnabled();
     }
 
     public void clickCancelEditInstructorLink(int instrNum) {
@@ -287,11 +284,9 @@ public class InstructorCourseEditPage extends AppPage {
     public boolean clickShowNewInstructorFormButton() {
         click(showNewInstructorFormButton);
 
-        boolean isFormShownCorrectly = newInstructorNameTextBox.isEnabled()
+        return newInstructorNameTextBox.isEnabled()
                 && newInstructorEmailTextBox.isEnabled()
                 && addInstructorButton.isDisplayed();
-
-        return isFormShownCorrectly;
     }
 
     public boolean clickOnNewInstructorAccessLevelViewDetails(String role) {

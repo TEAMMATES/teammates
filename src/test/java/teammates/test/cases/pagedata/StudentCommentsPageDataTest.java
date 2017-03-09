@@ -107,9 +107,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
             String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
             commentRows.add(new CommentRow(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails));
         }
-        CommentsForStudentsTable commentsForStudentsTable =
-                new CommentsForStudentsTable(unsanitizedGiverDetails, commentRows);
-        return commentsForStudentsTable;
+        return new CommentsForStudentsTable(unsanitizedGiverDetails, commentRows);
     }
 
     private FeedbackSessionRow getFeedbackSessionRow(FeedbackSessionResultsBundle bundle) {
@@ -154,10 +152,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
             questionTables.add(questionTable);
         }
 
-        FeedbackSessionRow sessionRow =
-                new FeedbackSessionRow(session.getFeedbackSessionName(), session.getCourseId(), questionTables);
-
-        return sessionRow;
+        return new FeedbackSessionRow(session.getFeedbackSessionName(), session.getCourseId(), questionTables);
     }
 
     /** Creates a single FeedbackSessionResultsBundle object which comprises

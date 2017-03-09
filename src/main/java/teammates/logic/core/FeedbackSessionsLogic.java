@@ -1750,13 +1750,10 @@ public final class FeedbackSessionsLogic {
 
         addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
 
-        FeedbackSessionResultsBundle results =
-                new FeedbackSessionResultsBundle(
+        return new FeedbackSessionResultsBundle(
                         session, responses, relevantQuestions, emailNameTable,
                         emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                         visibilityTable, responseStatus, roster, responseComments);
-
-        return results;
     }
 
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserWithParams(

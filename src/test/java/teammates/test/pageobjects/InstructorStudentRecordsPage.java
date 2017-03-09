@@ -95,18 +95,16 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public boolean verifyAddCommentButtonClick() {
         click(addCommentLink);
-        boolean display = commentTextBox.isDisplayed()
-                       && saveCommentLink.isDisplayed()
-                       && !addCommentLink.isDisplayed();
-        return display;
+        return commentTextBox.isDisplayed()
+                && saveCommentLink.isDisplayed()
+                && !addCommentLink.isDisplayed();
     }
 
     public boolean verifyEditCommentButtonClick(int id) {
         click(getCommentEditLink(id));
-        boolean display = getCommentTextBox(id).isEnabled()
-                       && getCommentSaveLink(id).isDisplayed()
-                       && !getCommentEditLink(id).isDisplayed();
-        return display;
+        return getCommentTextBox(id).isEnabled()
+                && getCommentSaveLink(id).isDisplayed()
+                && !getCommentEditLink(id).isDisplayed();
     }
 
     public void clickEditCommentAndCancel(int id) {

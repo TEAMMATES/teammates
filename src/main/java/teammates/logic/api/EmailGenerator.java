@@ -352,9 +352,8 @@ public class EmailGenerator {
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<StudentAttributes>();
 
-        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                                                                      EmailType.FEEDBACK_PUBLISHED.getSubject());
-        return emails;
+        return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+                EmailType.FEEDBACK_PUBLISHED.getSubject());
     }
 
     /**
@@ -373,9 +372,8 @@ public class EmailGenerator {
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<StudentAttributes>();
 
-        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                                                                      EmailType.FEEDBACK_UNPUBLISHED.getSubject());
-        return emails;
+        return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+                EmailType.FEEDBACK_UNPUBLISHED.getSubject());
     }
 
     private List<EmailWrapper> generateFeedbackSessionEmailBases(

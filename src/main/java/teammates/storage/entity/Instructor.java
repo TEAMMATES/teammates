@@ -178,9 +178,7 @@ public class Instructor {
         String uniqueId = getUniqueId();
         SecureRandom prng = new SecureRandom();
 
-        String key = uniqueId + prng.nextInt();
-
-        return key;
+        return uniqueId + prng.nextInt();
     }
 
     public String getRole() {

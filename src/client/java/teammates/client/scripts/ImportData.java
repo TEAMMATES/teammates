@@ -29,7 +29,6 @@ public final class ImportData {
 
     private static final int MAX_NUMBER_OF_ENTITY_PER_REQUEST = 100;
     private static final int MAX_NUMBER_OF_EVALUATION_PER_REQUEST = 1;
-    private static final int WAIT_TIME_BETWEEN_REQUEST = 1000; //ms
 
     private static DataBundle data;
     private static String jsonString;
@@ -118,14 +117,6 @@ public final class ImportData {
         }
         System.out.print(count + " entities of type " + type + " left " + map.size() + " \n");
 
-        String status = BackDoor.restoreDataBundle(bundle);
-
-        // wait a few seconds to allow data to persist completedly
-        try {
-            Thread.sleep(WAIT_TIME_BETWEEN_REQUEST);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return status;
+        return BackDoor.restoreDataBundle(bundle);
     }
 }

@@ -115,7 +115,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     protected String[] createValidParamsForProfile() {
-        String[] submissionParams = new String[]{
+        return new String[] {
                 Const.ParamsNames.STUDENT_SHORT_NAME, "short ",
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com  ",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
@@ -123,11 +123,10 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_GENDER, "  other   ",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   "
         };
-        return submissionParams;
     }
 
     protected String[] createInvalidParamsForProfile() {
-        String[] submissionParams = new String[]{
+        return new String[] {
                 Const.ParamsNames.STUDENT_SHORT_NAME, "$$short",
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "invalid.email",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "institute",
@@ -135,7 +134,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_GENDER, "female",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
         };
-        return submissionParams;
     }
 
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {

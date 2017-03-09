@@ -872,6 +872,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
+    boolean hasAssignedWeights() {
+        return hasAssignedWeights;
+    }
+
+    List<Double> getRubricWeights() {
+        return new ArrayList<Double>(rubricWeights);
+    }
+
     public int getNumOfRubricChoices() {
         return numOfRubricChoices;
     }
@@ -938,8 +946,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             this.responses = responses;
             this.questionDetails = questionDetails;
 
-            this.numOfRubricSubQuestions = questionDetails.numOfRubricSubQuestions;
-            this.numOfRubricChoices = questionDetails.numOfRubricChoices;
+            this.numOfRubricSubQuestions = questionDetails.getNumOfRubricSubQuestions();
+            this.numOfRubricChoices = questionDetails.getNumOfRubricChoices();
             this.responseTotalIndex = numOfRubricChoices;
 
             calculateResponseFrequency();
@@ -982,10 +990,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     percentageFrequencyAndAverage[i][j] = (float) responseFrequency[i][j] / totalForSubQuestion;
                 }
                 // calculate the average for each sub-question
-                if (questionDetails.hasAssignedWeights) {
+                if (questionDetails.hasAssignedWeights()) {
                     for (int j = 0; j < numOfRubricChoices; j++) {
                         float choiceWeight =
-                                (float) (questionDetails.rubricWeights.get(j) * percentageFrequencyAndAverage[i][j]);
+                                (float) (questionDetails.getRubricWeights().get(j) * percentageFrequencyAndAverage[i][j]);
                         percentageFrequencyAndAverage[i][numOfRubricChoices] += choiceWeight;
                     }
                 }

@@ -505,9 +505,7 @@ public final class CoursesLogic {
         for (StudentAttributes s : studentDataList) {
             courseIds.add(s.course);
         }
-        List<CourseAttributes> courseList = coursesDb.getCourses(courseIds);
-
-        return courseList;
+        return coursesDb.getCourses(courseIds);
     }
 
     /**

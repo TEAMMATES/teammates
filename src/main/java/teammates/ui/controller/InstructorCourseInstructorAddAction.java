@@ -110,9 +110,7 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         String instrDisplayedName = SanitizationHelper.sanitizeName(displayedName);
         InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
 
-        InstructorAttributes instructorToAdd = new InstructorAttributes(null, courseId, instrName, instrEmail,
+        return new InstructorAttributes(null, courseId, instrName, instrEmail,
                 instrRole, isDisplayedToStudents, instrDisplayedName, privileges);
-
-        return instructorToAdd;
     }
 }

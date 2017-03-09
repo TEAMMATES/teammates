@@ -45,11 +45,9 @@ public final class EmailAccount {
 
             if (isRegistrationEmail(message, courseName, courseId)) {
                 String body = getEmailBody(message);
-                String key = getKey(body);
                 message.setFlag(Flags.Flag.SEEN, true);
-
                 inbox.close(true);
-                return key;
+                return getKey(body);
             }
         }
 
@@ -125,9 +123,7 @@ public final class EmailAccount {
         // Reading the Email Index in Read / Write Mode
         inbox.open(Folder.READ_WRITE);
         FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-        Message[] messages = inbox.search(ft);
-
-        return messages;
+        return inbox.search(ft);
     }
 
     private static String getEmailBody(Message message) throws IOException, MessagingException {

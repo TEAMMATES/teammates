@@ -468,9 +468,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(
                 teamNames, teamMembersEmail, teamResponses);
 
-        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
-
-        return teamResults;
+        return getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
     }
 
     private Map<String, StudentResultSummary> getStudentResults(

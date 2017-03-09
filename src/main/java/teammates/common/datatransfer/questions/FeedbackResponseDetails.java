@@ -72,9 +72,7 @@ public abstract class FeedbackResponseDetails {
             FeedbackQuestionDetails questionDetails,
             Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
 
-        FeedbackResponseDetails responseDetails =
-                questionType.getFeedbackResponseDetailsInstance(questionDetails, answer, requestParameters,
-                                                                questionIndx, responseIndx);
-        return responseDetails;
+        return questionType.getFeedbackResponseDetailsInstance(questionDetails, answer, requestParameters,
+                                                               questionIndx, responseIndx);
     }
 }
