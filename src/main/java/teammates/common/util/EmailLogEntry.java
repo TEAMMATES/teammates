@@ -23,7 +23,8 @@ public class EmailLogEntry {
 
     public EmailLogEntry(AppLogLine appLog) {
         time = appLog.getTimeUsec() / 1000;
-        String[] tokens = appLog.getLogMessage().split(Pattern.quote("|||"), -1);
+        String[] tokens = appLog.getLogMessage()
+                .split(Pattern.quote(Const.EmailLog.FIELD_SEPARATOR), -1);
 
         try {
             receiver = tokens[1];
@@ -40,12 +41,13 @@ public class EmailLogEntry {
      * Generates a log message that will be logged in the server
      */
     public String generateLogMessage() {
-        //TEAMMATESEMAILSLOG|||RECEIVER|||SUBJECT|||CONTENT
-        return StringHelper.join("|||", "TEAMMATESEMAILLOG", receiver, subject, content);
+        // TEAMMATESEMAILSLOG|||RECEIVER|||SUBJECT|||CONTENT
+        return StringHelper.join(Const.EmailLog.FIELD_SEPARATOR, Const.EmailLog.TEAMMATES_EMAIL_LOG,
+                receiver, subject, content);
     }
 
     public boolean isTestData() {
-        return receiver.endsWith(".tmt");
+        return receiver.endsWith(Const.EmailLog.TEST_DATA_POSTFIX);
     }
 
     // -------- Getter methods --------
