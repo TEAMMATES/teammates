@@ -590,8 +590,8 @@ public class StudentsLogicTest extends BaseLogicTest {
      * Returns the Exception message thrown when trying to build StudentList from invalid enrollment line.
      * The method assumes that an EnrollException is thrown, else the method fails with signalFailureToDetectException().
      *
-     * @param invalidEnrollLines  is assumed to be invalid
-     * @return the EnrollException message in html format
+     * @param invalidEnrollLines is assumed to be invalid
+     * @return EnrollException message in html format
      */
     private String getExceptionMessageOnCreatingStudentsList(String invalidEnrollLines, String courseId) {
         String invalidInfoString = null;
