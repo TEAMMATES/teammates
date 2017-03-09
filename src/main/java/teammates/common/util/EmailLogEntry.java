@@ -37,7 +37,7 @@ public class EmailLogEntry {
     }
 
     /**
-     * Generates a log message that will be logged in the server
+     * Generates a log message that will be logged in the server.
      */
     public String generateLogMessage() {
         // TEAMMATESEMAILSLOG|||RECEIVER|||SUBJECT|||CONTENT
