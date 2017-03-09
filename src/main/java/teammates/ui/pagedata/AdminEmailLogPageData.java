@@ -173,7 +173,7 @@ public class AdminEmailLogPageData extends PageData {
             return true;
         }
 
-        //Filter based on what is in the query
+        // Filter based on what is in the query
         if (q.isToDateInQuery && logEntry.getTime() > q.toDateValue) {
             return false;
         }
@@ -205,7 +205,7 @@ public class AdminEmailLogPageData extends PageData {
             }
         }
 
-        // skip test data if the request is not showing all logs
+        // Skip test data if the request is not showing all logs
         return !logEntry.isTestData() || shouldShowAll;
     }
 
