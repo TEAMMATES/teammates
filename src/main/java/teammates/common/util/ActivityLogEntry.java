@@ -404,7 +404,7 @@ public class ActivityLogEntry {
     }
 
     public boolean isTestingData() {
-        return email.endsWith(".tmt");
+        return email.endsWith(Const.ActivityLog.TEST_DATA_POSTFIX);
     }
 
 }
