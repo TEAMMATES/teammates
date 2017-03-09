@@ -58,21 +58,21 @@ public class AdminEmailLogPageData extends PageData {
         return statusForAjax;
     }
 
-    public String getQueryKeywordsReceiver() {
+    public String getQueryKeywordsForReceiver() {
         if (q != null && q.isReceiverInQuery) {
             return StringHelper.join(",", q.receiverValues);
         }
         return "";
     }
 
-    public String getQueryKeywordsSubject() {
+    public String getQueryKeywordsForSubject() {
         if (q != null && q.isSubjectInQuery) {
             return StringHelper.join(",", q.subjectValues);
         }
         return "";
     }
 
-    public String getQueryKeywordsContent() {
+    public String getQueryKeywordsForContent() {
         if (q != null && q.isInfoInQuery) {
             return StringHelper.join(",", q.infoValues);
         }
