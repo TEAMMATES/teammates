@@ -382,7 +382,7 @@ public class AdminActivityLogPageData extends PageData {
         return actionString;
     }
 
-    public String getLogMessageKeywordsAsString() {
+    public String getQueryKeywordsForInfo() {
         char delimiter = ',';
         StringBuffer keywords = new StringBuffer();
         if (q != null && q.isInfoInQuery) {
