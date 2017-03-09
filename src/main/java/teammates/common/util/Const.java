@@ -1473,4 +1473,9 @@ public final class Const {
                 + "the instructors and tutors.&quot;";
     }
 
+    public static class EmailLog {
+        public static final String TEAMMATES_EMAIL_LOG = "TEAMMATESEMAILLOG";
+        public static final String FIELD_SEPARATOR = "|||";
+    }
+
 }

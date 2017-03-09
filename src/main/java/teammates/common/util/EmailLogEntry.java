@@ -40,8 +40,9 @@ public class EmailLogEntry {
      * Generates a log message that will be logged in the server
      */
     public String generateLogMessage() {
-        //TEAMMATESEMAILSLOG|||RECEIVER|||SUBJECT|||CONTENT
-        return StringHelper.join("|||", "TEAMMATESEMAILLOG", receiver, subject, content);
+        // TEAMMATESEMAILSLOG|||RECEIVER|||SUBJECT|||CONTENT
+        return StringHelper.join(Const.EmailLog.FIELD_SEPARATOR, Const.EmailLog.TEAMMATES_EMAIL_LOG,
+                receiver, subject, content);
     }
 
     public boolean isTestData() {
