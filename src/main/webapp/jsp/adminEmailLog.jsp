@@ -13,8 +13,8 @@
 </c:set>
 
 <ta:adminPage bodyTitle="Admin Email Log" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
-    <adminEmailLog:filterPanel filterQuery="${data.filterQuery}" queryKeywordsReceiver="${data.queryKeywordsReceiver}"
-                               queryKeywordsSubject="${data.queryKeywordsSubject}" queryKeywordsContent="${data.queryKeywordsContent}"/>
+    <adminEmailLog:filterPanel filterQuery="${data.filterQuery}" queryKeywordsForReceiver="${data.queryKeywordsForReceiver}"
+                               queryKeywordsForSubject="${data.queryKeywordsForSubject}" queryKeywordsForContent="${data.queryKeywordsForContent}"/>
     
     <%-- this form is used to store parameters for ajaxloader only --%>
     <form id="ajaxLoaderDataForm">
