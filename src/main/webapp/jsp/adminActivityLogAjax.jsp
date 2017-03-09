@@ -3,7 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/activity" prefix="activity" %>
 
 <div>
-    <table id="logs-table">
+    <table id="activity-logs-table">
         <c:forEach items="${data.logs}" var="log">
             <activity:activityLogTableRow log="${log}"/>
         </c:forEach>
