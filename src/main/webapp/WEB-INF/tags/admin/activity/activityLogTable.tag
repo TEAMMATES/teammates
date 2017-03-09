@@ -9,7 +9,7 @@
         <strong>Activity Log</strong>
     </div>
     <div class="table-responsive">
-        <table class="table table-condensed dataTable" id="logsTable">
+        <table class="table table-condensed dataTable" id="activity-logs-table">
             <thead>
                 <tr>
                     <th width="10%">Date [Timing]</th>

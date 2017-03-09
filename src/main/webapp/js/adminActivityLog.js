@@ -58,8 +58,8 @@ function submitFormAjax(searchTimeOffset) {
 
     var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
-    var $logsTable = $('#logsTable > tbody');
     var $button = $('#button_older');
+    var $logsTable = $('#activity-logs-table > tbody');
 
     $.ajax({
         type: 'POST',
@@ -73,7 +73,7 @@ function submitFormAjax(searchTimeOffset) {
         },
         success: function(data) {
             var $data = $(data);
-            $logsTable.append($data.find('#logs-table > tbody').html());
+            $logsTable.append($data.find('#activity-logs-table > tbody').html());
             updateInfoForRecentActionButton();
             highlightKeywordsInLogMessage();
             setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
