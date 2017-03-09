@@ -587,12 +587,12 @@ public class StudentsLogicTest extends BaseLogicTest {
     }
 
     /**
-     * Returns the EnrollException thrown when trying to call createStudents method on studentsLogic object with invalid
-     * enrollment lines. The method assumes that an EnrollException is thrown, else the method fails with
-     * signalFailureToDetectException().
+     * Returns the error message of EnrollException thrown when trying to call
+     * {@link teammates.logic.core.StudentsLogic#createStudents(String, String)} method with
+     * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
+     * {@link #signalFailureToDetectException()}.
      *
      * @param invalidEnrollLines is assumed to be invalid
-     * @return EnrollException message
      */
     private String getExceptionMessageOnCreatingStudentsList(String invalidEnrollLines, String courseId) {
         String invalidInfoString = null;

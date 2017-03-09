@@ -572,7 +572,8 @@ public final class StudentsLogic {
     }
 
     /**
-     * Builds the studentList from user input lines. All empty lines or lines with only white spaces will be skipped.
+     * Builds {@code studentList} from user input {@code lines}. All empty lines or lines with only white spaces will
+     * be skipped.
      *
      * @param lines the enrollment lines entered by the instructor.
      * @throws EnrollException if some of the student instances created are invalid. The exception message contains
