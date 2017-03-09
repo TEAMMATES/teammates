@@ -24,12 +24,12 @@ function toggleReference() {
 }
 
 function bindClickAction() {
-    $('body').unbind('click', handler).on('click', '.log', handler);
+    $('body').unbind('click', handler).on('click', '.email-log-header', handler);
 }
 
 var handler = function() {
-    $(this).next('#small').toggle();
-    $(this).next('#small').next('#big').toggle();
+    $(this).nextAll('.email-log-content-sanitized').first().toggle();
+    $(this).nextAll('.email-log-content-unsanitized').first().toggle();
 };
 
 function submitFormAjax(offset) {
@@ -37,7 +37,7 @@ function submitFormAjax(offset) {
     var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
     var button = $('#button_older');
-    var $logsTable = $('#emailLogsTable > tbody');
+    var $logsTable = $('#email-logs-table > tbody');
 
     $.ajax({
         type: 'POST',
@@ -51,7 +51,7 @@ function submitFormAjax(offset) {
         },
         success: function(data) {
             var $data = $(data);
-            $logsTable.append($data.find('#logs-table > tbody').html());
+            $logsTable.append($data.find('#email-logs-table > tbody').html());
             bindClickAction();
             highlightKeywordsInEmailLogMessages();
             setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
@@ -64,7 +64,7 @@ function setFormErrorMessage(button, msg) {
 }
 
 /**
- * Highlights default/search keywords in email log messages.
+ * Highlights search keywords for different fields in email log messages.
  */
 function highlightKeywordsInEmailLogMessages() {
     $('.email-receiver').highlight($('#query-keywords-for-receiver').val().split(','));

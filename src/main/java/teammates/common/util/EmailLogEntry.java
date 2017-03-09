@@ -23,7 +23,8 @@ public class EmailLogEntry {
 
     public EmailLogEntry(AppLogLine appLog) {
         time = appLog.getTimeUsec() / 1000;
-        String[] tokens = appLog.getLogMessage().split(Pattern.quote("|||"), -1);
+        String[] tokens = appLog.getLogMessage()
+                .split(Pattern.quote(Const.EmailLog.FIELD_SEPARATOR), -1);
 
         try {
             receiver = tokens[1];
@@ -46,7 +47,7 @@ public class EmailLogEntry {
     }
 
     public boolean isTestData() {
-        return receiver.endsWith(".tmt");
+        return receiver.endsWith(Const.EmailLog.TEST_DATA_POSTFIX);
     }
 
     // -------- Getter methods --------
