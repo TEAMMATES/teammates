@@ -1,3 +1,5 @@
+'use strict';
+
 QUnit.module('AdminHome.js');
 
 QUnit.assert.contains = function(context, toIdentify, message) {
