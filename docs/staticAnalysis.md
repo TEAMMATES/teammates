@@ -39,9 +39,11 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 
 1. Go to `File → Settings → Other Settings → Checkstyle`.
 1. Set `Scan Scope` to `Only Java sources (including tests)`.
-1. Click the `+` to add a new configuration file. Browse for `teammates-checkstyle.xml` in the `static-analysis` folder.
+1. Click the `+` to add a new configuration file. Click the `Browse` button, navigate to the `static-analysis` folder, and choose the `teammates-checkstyle.xml` file.
+1. Fill in the `Description` field with the name of your project (e.g. teammates).
 1. Click `Next`. Set the value of `basedir` to the path of your project folder.
 1. Click `Finish`.
+1. Check the box next to the newly added rule to activate it.
 
 #####Suppressing Checkstyle warnings
 
