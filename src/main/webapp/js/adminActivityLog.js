@@ -97,7 +97,7 @@ function updateInfoForRecentActionButton() {
  * Highlights default/search keywords in log messages.
  */
 function highlightKeywordsInLogMessages() {
-    var allLogMessages = $('.logMessage');
+    var allLogMessages = $('.log-message');
     // highlight search keywords
     var searchKeywords = $('#query-keywords-for-info').val();
     var searchKeywordsList = searchKeywords.split(',');
