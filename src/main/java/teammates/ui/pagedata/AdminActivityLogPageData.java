@@ -76,10 +76,10 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     public void init(List<ActivityLogEntry> logList) {
-        initLogAsTemplateRow(logList);
+        initLogsAsTemplateRows(logList);
     }
 
-    private void initLogAsTemplateRow(List<ActivityLogEntry> entries) {
+    private void initLogsAsTemplateRows(List<ActivityLogEntry> entries) {
         logs = new ArrayList<AdminActivityLogTableRow>();
         for (ActivityLogEntry entry : entries) {
             AdminActivityLogTableRow row = new AdminActivityLogTableRow(entry);
