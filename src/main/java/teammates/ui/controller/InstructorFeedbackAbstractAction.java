@@ -32,7 +32,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         setTime(newSession);
-        setTimeZoneGracePeriod(newSession);
+        setTimeZone(newSession);
+        setGracePeriod(newSession);
         setResultsVisibleFromTime(newSession);
 
         // handle session visible after results visible to avoid having a
@@ -42,7 +43,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         return newSession;
     }
 
-    private void setTimeZoneGracePeriod(FeedbackSessionAttributes newSession) {
+    private void setTimeZone(FeedbackSessionAttributes newSession) {
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
             try {
@@ -51,13 +52,15 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 log.warning("Failed to parse time zone parameter: " + paramTimeZone);
             }
         }
+    }
+
+    private void setGracePeriod(FeedbackSessionAttributes newSession) {
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
             newSession.setGracePeriod(Integer.parseInt(paramGracePeriod));
         } catch (NumberFormatException nfe) {
             log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
         }
-
     }
 
     private void setEmail(FeedbackSessionAttributes newSession) {
