@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -73,12 +72,14 @@ public class AdminActivityLogPageAction extends Action {
         // This will keep showing all logs despite any action or change in the page unless
         // the page is reloaded with "?all=false" or simply reloaded with this parameter omitted.
         boolean ifShowAll = getRequestParamAsBoolean("all");
+        data.setIfShowAll(ifShowAll);
 
         // This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
         // to show all testing logs. This will keep showing all logs from testing data despite any action
         // or change in the page unless the page is reloaded with "?testdata=false"
         // or simply reloaded with this parameter omitted.
         boolean ifShowTestData = getRequestParamAsBoolean("testdata");
+        data.setIfShowTestData(ifShowTestData);
 
         String filterQuery = getRequestParamValue("filterQuery");
         if (filterQuery == null) {
@@ -104,7 +105,7 @@ public class AdminActivityLogPageAction extends Action {
 
         String courseIdFromSearchPage = getRequestParamValue("courseId");
         generateStatusMessage(versionToQuery, data, logs, courseIdFromSearchPage);
-        data.init(ifShowAll, ifShowTestData, logs);
+        data.init(logs);
 
         if (searchTimeOffset.isEmpty()) {
             return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
@@ -158,8 +159,8 @@ public class AdminActivityLogPageAction extends Action {
         }
 
         double adminTimeZone = Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
-        String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
-        String timeInUserTimeZone = computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
+        String timeInAdminTimeZone = computeTimeWithOffset(adminTimeZone, earliestSearchTime);
+        String timeInUserTimeZone = computeTimeWithOffset(targetTimeZone, earliestSearchTime);
 
         status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone ("
                       + adminTimeZone + ") and ");
@@ -226,6 +227,7 @@ public class AdminActivityLogPageAction extends Action {
             totalLogsSearched += searchResult.size();
             query.moveTimePeriodBackward(SEARCH_TIME_INCREMENT);
         }
+        data.setFromDate(query.getStartTime() + SEARCH_TIME_INCREMENT);
         nextEndTimeToSearch = query.getEndTime();
         return appLogs;
     }
@@ -350,18 +352,16 @@ public class AdminActivityLogPageAction extends Action {
         if (timeZone == Const.DOUBLE_UNINITIALIZED) {
             return "Local Time Unavailable";
         }
-        return computeLocalTime(timeZone, logTimeInAdminTimeZone);
+        double timeZoneOffset = timeZone - Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
+        return computeTimeWithOffset(timeZoneOffset, Long.parseLong(logTimeInAdminTimeZone));
     }
 
-    private String computeLocalTime(double timeZone, String logTimeInAdminTimeZone) {
-        if (timeZone == Const.DOUBLE_UNINITIALIZED) {
-            return "Local Time Unavailable";
-        }
-
-        Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    private String computeTimeWithOffset(double timeZoneOffset, long logTime) {
+        Calendar appCal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        appCal.setTimeInMillis(Long.parseLong(logTimeInAdminTimeZone));
-        appCal = TimeHelper.convertToUserTimeZone(appCal, timeZone);
+        appCal.setTimeInMillis(logTime);
+        appCal = TimeHelper.convertToUserTimeZone(appCal, timeZoneOffset);
         return sdf.format(appCal.getTime());
     }
+
 }

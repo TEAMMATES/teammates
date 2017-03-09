@@ -1,3 +1,5 @@
+'use strict';
+
 /*
  * This JavaScript file is included in all instructor pages. Functions here
  * should be common to some/all instructor pages.

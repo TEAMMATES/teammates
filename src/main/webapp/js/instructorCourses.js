@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     $('#ajaxForCourses').trigger('submit');
     if (typeof moment !== 'undefined') {
