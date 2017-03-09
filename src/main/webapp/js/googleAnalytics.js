@@ -1,3 +1,5 @@
+'use strict';
+
 /* eslint-disable no-underscore-dangle */ // The variable name is determined by external library (googleAnalytics)
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-37652587-1']);
