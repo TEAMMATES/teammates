@@ -99,12 +99,12 @@ function updateInfoForRecentActionButton() {
 function highlightKeywordsInLogMessage() {
     var allLogMessages = $('.logMessage');
     // highlight search keywords
-    var searchKeywords = $('#log-message-search-keywords').val();
+    var searchKeywords = $('#query-keywords-for-info').val();
     var searchKeywordsList = searchKeywords.split(',');
     allLogMessages.highlight(searchKeywordsList);
 
     // highlight default keywords
-    var defaultKeywords = $('#log-message-default-keywords').val();
+    var defaultKeywords = $('#query-keywords-default-for-info').val();
     var defaultKeywordsList = defaultKeywords.split(',');
     allLogMessages.highlight(defaultKeywordsList, {
         element: 'b',
