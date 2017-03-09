@@ -94,7 +94,7 @@ function updateInfoForRecentActionButton() {
 }
 
 /**
- * Highlights default/search keywords in log message.
+ * Highlights default/search keywords in log messages.
  */
 function highlightKeywordsInLogMessage() {
     var allLogMessages = $('.logMessage');

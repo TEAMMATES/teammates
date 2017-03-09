@@ -66,7 +66,7 @@ public class AdminActivityLogTableRow {
         return !Const.ActivityLog.UNKNOWN.contentEquals(activityLog.getEmail());
     }
 
-    // --------------- 'is' fields to determine css class ---------------
+    // --------------- 'is' fields to determine CSS classes ---------------
 
     public boolean getIsUserAdmin() {
         return activityLog.getRole().contains(Const.ActivityLog.ROLE_ADMIN);
@@ -120,7 +120,7 @@ public class AdminActivityLogTableRow {
     }
 
     public String getDisplayedRole() {
-        return activityLog.getRole(); // will change later
+        return activityLog.getRole();
     }
 
     public String getDisplayedLogTimeTaken() {
