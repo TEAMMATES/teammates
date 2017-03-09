@@ -1,3 +1,5 @@
+'use strict';
+
 var COURSE_ID_MAX_LENGTH = 40;
 var COURSE_NAME_MAX_LENGTH = 64;
 var EVAL_NAME_MAX_LENGTH = 38;
@@ -179,7 +181,7 @@ $(document).on('ajaxComplete ready', function() {
      * such as 'icons' from underlining.
     */
     $('span[data-toggle="tooltip"]').each(function() {
-        textValue = $(this).text().replace(/\s/g, '');
+        var textValue = $(this).text().replace(/\s/g, '');
         if (textValue) {
             $(this).addClass('tool-tip-decorate');
         }
@@ -203,7 +205,7 @@ function bindDefaultImageIfMissing(element) {
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
 function isTouchDevice() {
-    return 'ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch;
+    return 'ontouchstart' in window || window.DocumentTouch && document instanceof window.DocumentTouch;
 }
 
 /**
@@ -882,7 +884,6 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
 /* eslint-disable no-extend-native */
 if (!String.prototype.includes) {
     String.prototype.includes = function() {
-        'use strict';
         return String.prototype.indexOf.apply(this, arguments) !== -1;
     };
 }

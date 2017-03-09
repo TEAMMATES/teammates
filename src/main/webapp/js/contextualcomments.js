@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     $('#button_add_comment').click(function() {
         if ($('#commentArea').is(':visible')) {

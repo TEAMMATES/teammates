@@ -325,7 +325,7 @@ rules:
     # Strict Mode
 
     # require or disallow strict mode directives
-    strict: "off" # recommended by Airbnb
+    strict: ["error", "global"]
 
     # Variables
 
