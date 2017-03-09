@@ -24,12 +24,12 @@ function toggleReference() {
 }
 
 function bindClickAction() {
-    $('body').unbind('click', handler).on('click', '.log', handler);
+    $('body').unbind('click', handler).on('click', '.email-log-header', handler);
 }
 
 var handler = function() {
-    $(this).next('#small').toggle();
-    $(this).next('#small').next('#big').toggle();
+    $(this).nextAll('.email-log-content-sanitized').first().toggle();
+    $(this).nextAll('.email-log-content-unsanitized').first().toggle();
 };
 
 function submitFormAjax(offset) {
