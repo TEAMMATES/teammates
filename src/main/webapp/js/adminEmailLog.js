@@ -64,7 +64,7 @@ function setFormErrorMessage(button, msg) {
 }
 
 /**
- * Highlights default/search keywords in email log messages.
+ * Highlights search keywords for different fields in email log messages.
  */
 function highlightKeywordsInEmailLogMessages() {
     $('.email-receiver').highlight($('#query-keywords-for-receiver').val().split(','));
