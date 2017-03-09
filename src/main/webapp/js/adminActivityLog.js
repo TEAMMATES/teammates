@@ -58,18 +58,18 @@ function submitFormAjax(searchTimeOffset) {
 
     var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
-    var button = $('#button_older');
     var $logsTable = $('#logsTable > tbody');
+    var $button = $('#button_older');
 
     $.ajax({
         type: 'POST',
         url: '/admin/adminActivityLogPage?' + formData,
         beforeSend: function() {
-            button.html("<img src='/images/ajax-loader.gif'/>");
+            addLoadingIndicator($button, '');
         },
         error: function() {
-            setFormErrorMessage(button, 'Failed to load older logs. Please try again.');
-            button.html('Retry');
+            setFormErrorMessage($button, 'Failed to load older logs. Please try again.');
+            removeLoadingIndicator($button, 'Retry');
         },
         success: function(data) {
             var $data = $(data);
