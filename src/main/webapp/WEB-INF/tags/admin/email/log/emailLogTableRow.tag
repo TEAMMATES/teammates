@@ -4,13 +4,13 @@
 <%@ attribute name="log" type="teammates.ui.template.AdminEmailTableRow" required="true" %>
 
 
-<tr class="log">
+<tr class="email-log-header">
     <td class="email-receiver">${log.receiver}</td>
     <td class="email-subject">${log.subject}</td>
     <td>${log.timeForDisplay}</td>
 </tr>
 
-<tr id="small">
+<tr class="email-log-content-sanitized">
     <td colspan="3">
         <ul class="list-group">
             <li class="list-group-item list-group-item-info">
@@ -20,7 +20,7 @@
     </td>
 </tr>
 
-<tr id="big" style="display:none;">
+<tr class="email-log-content-unsanitized" style="display:none;">
   <td colspan="3">
     <div class="well well-sm">
         <ul class="list-group">
