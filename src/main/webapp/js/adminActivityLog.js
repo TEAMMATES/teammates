@@ -3,7 +3,7 @@
 $(document).ready(function() {
     $('#filterReference').toggle();
     AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
-    highlightKeywordsInLogMessage();
+    highlightKeywordsInLogMessages();
 });
 
 function toggleReference() {
@@ -75,7 +75,7 @@ function submitFormAjax(searchTimeOffset) {
             var $data = $(data);
             $logsTable.append($data.find('#activity-logs-table > tbody').html());
             updateInfoForRecentActionButton();
-            highlightKeywordsInLogMessage();
+            highlightKeywordsInLogMessages();
             setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
         }
     });
@@ -96,7 +96,7 @@ function updateInfoForRecentActionButton() {
 /**
  * Highlights default/search keywords in log messages.
  */
-function highlightKeywordsInLogMessage() {
+function highlightKeywordsInLogMessages() {
     var allLogMessages = $('.logMessage');
     // highlight search keywords
     var searchKeywords = $('#query-keywords-for-info').val();
