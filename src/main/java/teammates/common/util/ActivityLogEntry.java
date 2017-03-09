@@ -14,7 +14,9 @@ import teammates.common.exception.TeammatesException;
 
 import com.google.appengine.api.log.AppLogLine;
 
-/** A log entry to describe an action carried out by the app */
+/**
+ * A log entry to describe an action carried out by the app.
+ */
 public class ActivityLogEntry {
 
     // The following constants describe the positions of the attributes
@@ -252,7 +254,7 @@ public class ActivityLogEntry {
      * Generates a log message that will be logged in the server
      */
     public String generateLogMessage() {
-        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID
+        // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID
         return Const.ActivityLog.TEAMMATESLOG + Const.ActivityLog.FIELD_SEPARATOR
                 + servletName + Const.ActivityLog.FIELD_SEPARATOR
                 + action + Const.ActivityLog.FIELD_SEPARATOR

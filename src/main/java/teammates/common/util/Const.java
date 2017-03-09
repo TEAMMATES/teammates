@@ -1474,7 +1474,7 @@ public final class Const {
     }
 
     /**
-     * These are constants that may be used in log messages.
+     * These are constants that may be used in {@link ActivityLogEntry}.
      */
     public static class ActivityLog {
         public static final String TEAMMATESLOG = "TEAMMATESLOG";
