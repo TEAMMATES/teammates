@@ -90,7 +90,7 @@ public class AdminEmailLogPageData extends PageData {
     }
 
     public void setLogs(List<EmailLogEntry> logs) {
-        initLogAsTemplateRow(logs);
+        initLogsAsTemplateRows(logs);
     }
 
     public void setVersions(List<String> versions) {
@@ -274,7 +274,7 @@ public class AdminEmailLogPageData extends PageData {
         }
     }
 
-    private void initLogAsTemplateRow(List<EmailLogEntry> entries) {
+    private void initLogsAsTemplateRows(List<EmailLogEntry> entries) {
         this.logs = new ArrayList<AdminEmailTableRow>();
         for (EmailLogEntry entry : entries) {
             AdminEmailTableRow row = new AdminEmailTableRow(entry);
