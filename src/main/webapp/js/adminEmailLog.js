@@ -5,7 +5,7 @@ var numOfEntriesPerPage = 50;
 
 $(document).ready(function() {
     bindClickAction();
-    highlightKeywordsInEmailLogMessage();
+    highlightKeywordsInEmailLogMessages();
     $('#filterReference').toggle();
 });
 
@@ -53,7 +53,7 @@ function submitFormAjax(offset) {
             var $data = $(data);
             $logsTable.append($data.find('#logs-table > tbody').html());
             bindClickAction();
-            highlightKeywordsInEmailLogMessage();
+            highlightKeywordsInEmailLogMessages();
             setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
         }
     });
