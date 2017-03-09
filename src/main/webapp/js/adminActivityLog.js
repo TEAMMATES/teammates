@@ -13,7 +13,7 @@ $(document).ready(function() {
     $('#logsTable tbody tr a').on('click', function(e) {
         e.preventDefault();
         var data = $(e.target).data();
-        submitLocalTimeAjaxRequest(data.time, data.googleId, data.role, this);
+        convertLogTimestampToAdminTimezone(data.time, data.googleId, data.role, this);
     });
 });
 
@@ -37,9 +37,9 @@ function toggleReference() {
  * @param {int} time of the log entry as seconds since epoch
  * @param {String} googleId of the logged in user
  * @param {String} role of the logged in user
- * @param {Object} entry the node in the DOM representing the original timestamp as a link
+ * @param {JQuery} entry link the user clicks to perform the timezone conversion
  */
-function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
+function convertLogTimestampToAdminTimezone(time, googleId, role, entry) {
     var params = 'logTimeInAdminTimeZone=' + time
                  + '&logRole=' + role
                  + '&logGoogleId=' + googleId;
