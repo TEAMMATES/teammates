@@ -139,7 +139,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 return c1.getId().compareTo(c2.getId());
             }
         });
-
         return courses;
     }
 
@@ -155,5 +154,4 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         }
         return courseInstructorMap;
     }
-    
 }
