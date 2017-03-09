@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     if ($('#button_sortstudentsection').length) {
         toggleSort($('#button_sortstudentsection'));

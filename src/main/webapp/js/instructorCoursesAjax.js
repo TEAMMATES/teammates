@@ -1,3 +1,5 @@
+'use strict';
+
 var isFetchingCourses = false;
 var needsRetrying = false;
 

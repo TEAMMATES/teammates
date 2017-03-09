@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     var responseRateRequest = function(e) {
         var panelHeading = $(this);
@@ -29,7 +31,7 @@ $(document).ready(function() {
 
     // ajax-response-submit requires the user to click on it to load the noResponsePanel,
     // ajax-response-auto automatically loads the noResponsePanel when the page is loaded
-    $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
+    var $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
     $responseRatePanel.click(responseRateRequest);
     $('.ajax-response-auto').click();
 });
