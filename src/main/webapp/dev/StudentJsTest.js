@@ -1,3 +1,5 @@
+'use strict';
+
 QUnit.module('student.js');
 
 QUnit.test('bindLinkInUnregisteredPage(selector)', function(assert) {
