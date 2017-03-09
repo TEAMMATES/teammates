@@ -10,7 +10,7 @@
     </div>
     
     <div class="table-responsive">  
-        <table class="table dataTable" id="emailLogsTable">
+        <table class="table dataTable" id="email-logs-table">
             <thead>
                 <tr>
                     <th><strong>Receiver</strong></th>
