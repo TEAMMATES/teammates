@@ -66,9 +66,9 @@ function setFormErrorMessage(button, msg) {
 /**
  * Highlights default/search keywords in eamil log message.
  */
-function highlightKeywordsInEmailLogMessage() {
-    $('.email-receiver').highlight($('#query-keywords-receiver').val().split(','));
-    $('.email-subject').highlight($('#query-keywords-subject').val().split(','));
-    $('.email-content').highlight($('#query-keywords-content').val().split(','));
+function highlightKeywordsInEmailLogMessages() {
+    $('.email-receiver').highlight($('#query-keywords-for-receiver').val().split(','));
+    $('.email-subject').highlight($('#query-keywords-for-subject').val().split(','));
+    $('.email-content').highlight($('#query-keywords-for-content').val().split(','));
 }
 

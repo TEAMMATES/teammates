@@ -1,8 +1,8 @@
 <%@ tag description="adminEmailLog.jsp - filter panel in Admin Email Log Page" %>
 <%@ attribute name="filterQuery" required="true" %>
-<%@ attribute name="queryKeywordsReceiver" required="true" %>
-<%@ attribute name="queryKeywordsSubject" required="true" %>
-<%@ attribute name="queryKeywordsContent" required="true" %>
+<%@ attribute name="queryKeywordsForReceiver" required="true" %>
+<%@ attribute name="queryKeywordsForSubject" required="true" %>
+<%@ attribute name="queryKeywordsForContent" required="true" %>
 
 <div class="well well-plain">
     <form class="form-horizontal" method="post" action="/admin/adminEmailLogPage"
@@ -33,9 +33,9 @@
                 </div>
             </div>
             
-            <input type="hidden" id="query-keywords-receiver" value="${queryKeywordsReceiver}">
-            <input type="hidden" id="query-keywords-subject" value="${queryKeywordsSubject}">
-            <input type="hidden" id="query-keywords-content" value="${queryKeywordsContent}">
+            <input type="hidden" id="query-keywords-for-receiver" value="${queryKeywordsForReceiver}">
+            <input type="hidden" id="query-keywords-for-subject" value="${queryKeywordsForSubject}">
+            <input type="hidden" id="query-keywords-for-content" value="${queryKeywordsForContent}">
             
             <div class="form-group">
                 <a href="#" class="btn btn-link center-block" onclick="toggleReference()">      
