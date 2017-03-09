@@ -77,7 +77,7 @@
                 <input class="ifShowTestData_for_person" type="hidden" name="testdata"
                     value="false">
             </h4>
-            <div class="logMessage">${log.message}</div>
+            <div class="log-message">${log.message}</div>
         </form>
     </td>
 </tr>
