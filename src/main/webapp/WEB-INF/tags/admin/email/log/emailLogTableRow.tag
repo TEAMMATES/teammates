@@ -14,8 +14,7 @@
     <td colspan="3">
         <ul class="list-group">
             <li class="list-group-item list-group-item-info">
-                <input type="text" value="${log.sanitizedContent}" class="form-control"
-                       readonly>
+                <input type="text" value="${log.sanitizedContent}" class="form-control" readonly>
             </li>
         </ul>    
     </td>
