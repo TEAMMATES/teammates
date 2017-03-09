@@ -10,9 +10,6 @@ import teammates.common.util.Url;
 
 public class AdminActivityLogTableRow {
 
-    private static final int TIME_TAKEN_EXPECTED = 10000;
-    private static final int TIME_TAKEN_MODERATE = 20000;
-
     private ActivityLogEntry activityLog;
 
     public AdminActivityLogTableRow(ActivityLogEntry entry) {
@@ -89,12 +86,12 @@ public class AdminActivityLogTableRow {
     }
 
     public boolean getIsActionTimeTakenModerate() {
-        return activityLog.getTimeTaken() >= TIME_TAKEN_EXPECTED
-                && activityLog.getTimeTaken() <= TIME_TAKEN_MODERATE;
+        return activityLog.getTimeTaken() >= Const.ActivityLog.TIME_TAKEN_EXPECTED
+                && activityLog.getTimeTaken() <= Const.ActivityLog.TIME_TAKEN_MODERATE;
     }
 
     public boolean getIsActionTimeTakenSlow() {
-        return activityLog.getTimeTaken() > TIME_TAKEN_MODERATE;
+        return activityLog.getTimeTaken() > Const.ActivityLog.TIME_TAKEN_MODERATE;
     }
 
     public boolean getIsActionFailure() {

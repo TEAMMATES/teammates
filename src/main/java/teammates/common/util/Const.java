@@ -1492,6 +1492,9 @@ public final class Const {
         public static final String AUTH_NOT_LOGIN = "Unregistered";
 
         public static final String FIELD_SEPARATOR = "|||";
+
+        public static final int TIME_TAKEN_EXPECTED = 10000;
+        public static final int TIME_TAKEN_MODERATE = 20000;
     }
 
 }
