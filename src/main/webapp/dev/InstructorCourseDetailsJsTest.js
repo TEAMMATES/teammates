@@ -1,3 +1,5 @@
+'use strict';
+
 QUnit.module('instructorCourseDetails.js');
 
 QUnit.test('toggleSendRegistrationKey(courseID, email)', function(assert) {
