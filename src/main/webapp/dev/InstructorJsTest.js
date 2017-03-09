@@ -1,3 +1,5 @@
+'use strict';
+
 QUnit.module('instructor.js');
 
 QUnit.test('isStudentTeamNameValid(teamname)', function(assert) {

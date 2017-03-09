@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     var today = new Date();
     var yesterday = new Date();

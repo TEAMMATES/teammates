@@ -1,3 +1,5 @@
+'use strict';
+
 function generateRandomString(len) {
     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
     var data = '';

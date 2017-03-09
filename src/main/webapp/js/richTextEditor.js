@@ -1,3 +1,5 @@
+'use strict';
+
 /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
 var richTextEditorBuilder = {
     getDefaultConfiguration: function() {

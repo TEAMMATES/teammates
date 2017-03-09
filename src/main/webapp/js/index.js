@@ -44,7 +44,7 @@ $('document').ready(function() {
     var currentDate = new Date();
     $('#submissionsNumber').html(submissionCounter(currentDate, baseDate, submissionPerHour, baseCount));
 
-    setInterval(loopTestimonials, LOOP_INTERVAL);
+    window.setInterval(loopTestimonials, LOOP_INTERVAL);
 });
 
 // Format large number with commas
