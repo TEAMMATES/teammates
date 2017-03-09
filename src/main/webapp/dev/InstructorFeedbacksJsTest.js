@@ -1,3 +1,5 @@
+'use strict';
+
 QUnit.module('instructorFeedbacks.js');
 
 QUnit.test('extractQuestionNumFromEditFormId(id)', function(assert) {

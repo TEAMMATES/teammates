@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     StudentMotd.fetchMotd(motdUrl, '#student-motd', '#student-motd-container');
     StudentMotd.bindCloseMotdButton('#btn-close-motd', '#student-motd-container');
