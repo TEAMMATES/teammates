@@ -32,7 +32,7 @@ function toggleReference() {
 }
 
 /**
- * Converts the timestamp of a log entry into the admin's timezone via an Ajax request.
+ * Display a log entry's timestamp in admin's timezone, with timezone conversion via ajax.
  *
  * @param {int} time of the log entry as seconds since epoch
  * @param {String} googleId of the logged in user
@@ -70,7 +70,7 @@ function convertLogTimestampToAdminTimezone(time, googleId, role, entry) {
 }
 
 /**
- * Sends an ajax request for older log entries matching the query.
+ * Updates the page with older log entries matching the query via ajax.
  *
  * @param {int} searchTimeOffset
  */
