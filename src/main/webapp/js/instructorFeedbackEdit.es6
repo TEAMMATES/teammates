@@ -16,6 +16,12 @@ const CONFIRM_EDIT_DELETE_RESPONSES =
 
 const questionsBeforeEdit = [];
 
+const updateVisibilityOfNumEntitiesBox = function () {
+    const questionNum = getQuestionNum($(this));
+    const participantType = $(this).val();
+    formatNumberBox(participantType, questionNum);
+};
+
 $(document).ready(() => {
     readyFeedbackEditPage();
     bindUncommonSettingsEvents();
@@ -167,7 +173,7 @@ function disableEditFS() {
  */
 function disableAllQuestions() {
     const numQuestions = $('.questionTable').length;
-    for (let i = 0; i < numQuestions; i++) {
+    for (let i = 0; i < numQuestions; i += 1) {
         disableQuestion(i);
     }
 }
@@ -226,7 +232,7 @@ function enableEdit(questionNum, maxQuestions) {
         } else {
             disableQuestion(i);
         }
-        i--;
+        i -= 1;
     }
 
     return false;
@@ -502,12 +508,6 @@ function formatNumberBoxes() {
                                                              .change(updateVisibilityOfNumEntitiesBox);
 }
 
-var updateVisibilityOfNumEntitiesBox = function () {
-    const questionNum = getQuestionNum($(this));
-    const participantType = $(this).val();
-    formatNumberBox(participantType, questionNum);
-};
-
 /**
  * Hides/shows the "Number of Recipients Box" of the question
  * depending on the participant type and formats the label text for it.
@@ -617,7 +617,10 @@ function prepareQuestionForm(type) {
 
         $('#constSumForm').show();
         break;
-    case 'CONSTSUM_RECIPIENT':
+    case 'CONSTSUM_RECIPIENT': {
+        const optionText = $(`#constSum_labelText-${NEW_QUESTION}`).text();
+        const tooltipText = $(`#constSum_tooltipText-${NEW_QUESTION}`).attr('data-original-title');
+
         $(`#${FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('true');
         $(`#constSumOption_Option-${NEW_QUESTION}`).hide();
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).show();
@@ -625,11 +628,10 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
 
         $('#constSumForm').show();
-        var optionText = $(`#constSum_labelText-${NEW_QUESTION}`).text();
         $(`#constSum_labelText-${NEW_QUESTION}`).text(optionText.replace('option', 'recipient'));
-        var tooltipText = $(`#constSum_tooltipText-${NEW_QUESTION}`).attr('data-original-title');
         $(`#constSum_tooltipText-${NEW_QUESTION}`).attr('data-original-title', tooltipText.replace('option', 'recipient'));
         break;
+    }
     case 'CONTRIB':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
 
@@ -838,11 +840,11 @@ function bindCopyEvents() {
         if ($(this).hasClass('row-selected')) {
             $(this).removeClass('row-selected');
             $(this).children('td:first').html('<input type="checkbox">');
-            numRowsSelected--;
+            numRowsSelected -= 1;
         } else {
             $(this).addClass('row-selected');
             $(this).children('td:first').html('<input type="checkbox" checked>');
-            numRowsSelected++;
+            numRowsSelected += 1;
         }
 
         const $button = $('#button_copy_submit');

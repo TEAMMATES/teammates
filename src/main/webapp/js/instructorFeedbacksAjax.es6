@@ -8,7 +8,7 @@ $(document).ready(() => {
     $('#ajaxForSessions').submit(ajaxRequest);
 });
 
-var ajaxRequest = function (e) {
+const ajaxRequest = function (e) {
     e.preventDefault();
 
     if (isSessionsAjaxSending) {
@@ -28,7 +28,8 @@ var ajaxRequest = function (e) {
         error() {
             isSessionsAjaxSending = false;
             $('#sessionList').html('');
-            const msg = 'Failed to load sessions. Please <a href="#" onclick="loadSessionsByAjax()">click here</a> to retry.';
+            const msg = 'Failed to load sessions. '
+                    + 'Please <a href="#" onclick="loadSessionsByAjax()">click here</a> to retry.';
             setStatusMessage(msg, StatusType.DANGER);
 
             if (oldStatus !== null && oldStatus !== undefined && oldStatus !== '') {

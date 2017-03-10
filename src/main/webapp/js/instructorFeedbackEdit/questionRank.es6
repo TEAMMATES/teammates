@@ -9,7 +9,7 @@ function updateRankPointsValue(questionNum) {
 function addRankOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
-    const curNumberOfChoiceCreated = parseInt($(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val());
+    const curNumberOfChoiceCreated = parseInt($(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
     $(`<div id="rankOptionRow-${curNumberOfChoiceCreated}-${questionNum}">`
           + '<div class="input-group">'

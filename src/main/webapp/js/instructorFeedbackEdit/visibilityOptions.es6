@@ -426,7 +426,7 @@ function updateVisibilityMessageDiv($containingForm) {
 function formatVisibilityMessageDivHtml(visibilityMessage) {
     let htmlString = 'This is the visibility hint as seen by the feedback giver:';
     htmlString += '<ul class="text-muted background-color-warning">';
-    for (let i = 0; i < visibilityMessage.length; i++) {
+    for (let i = 0; i < visibilityMessage.length; i += 1) {
         htmlString += `<li>${visibilityMessage[i]}</li>`;
     }
     htmlString += '</ul>';

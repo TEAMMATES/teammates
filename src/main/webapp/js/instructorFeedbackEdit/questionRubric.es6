@@ -3,63 +3,47 @@
 function addRubricRow(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
-    const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val());
-    const numberOfCols = parseInt($(`#rubricNumCols-${questionNum}`).val());
+    const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val(), 10);
+    const numberOfCols = parseInt($(`#rubricNumCols-${questionNum}`).val(), 10);
 
     const newRowNumber = numberOfRows + 1;
 
-    const rubricRowTemplate =
-        '<tr id="rubricRow-${qnIndex}-${row}">'
-          + '<td>'
-              + '<div class="col-sm-12 input-group">'
-                  + '<span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-${qnIndex}" '
-                          + 'id="rubricRemoveSubQuestionLink-${qnIndex}-${row}" '
-                          + 'onclick="removeRubricRow(${row},${qnIndex})" '
-                          + 'onmouseover="highlightRubricRow(${row}, ${qnIndex}, true)" '
-                          + 'onmouseout="highlightRubricRow(${row}, ${qnIndex}, false)">'
-                      + '<span class="glyphicon glyphicon-remove"></span>'
-                  + '</span>'
-                  + '<textarea class="form-control" rows="3" '
-                          + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${qnIndex}-${row}" '
-                          + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}">'
-                      + '${subQuestion}'
-                  + '</textarea>'
-              + '</div>'
-          + '</td>'
-          + '${rubricRowBodyFragments}'
-      + '</tr>';
-
-    const rubricRowFragmentTemplate =
-        '<td class="align-center rubricCol-${qnIndex}-${col}">'
-        + '<textarea class="form-control" rows="3" '
-                + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}" '
-                + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}">'
-            + '${description}'
-        + '</textarea>'
-      + '</td>';
-
     let rubricRowBodyFragments = '';
     // Create numberOfCols of <td>'s
-    for (let cols = 0; cols < numberOfCols; cols++) {
+    for (let cols = 0; cols < numberOfCols; cols += 1) {
         if (!$(`.rubricCol-${questionNum}-${cols}`).length) {
             continue;
         }
-        let fragment = rubricRowFragmentTemplate;
-        fragment = replaceAll(fragment, '${qnIndex}', questionNum);
-        fragment = replaceAll(fragment, '${row}', newRowNumber - 1);
-        fragment = replaceAll(fragment, '${col}', cols);
-        fragment = replaceAll(fragment, '${description}', '');
-        fragment = replaceAll(fragment, '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}', 'rubricDesc');
-        rubricRowBodyFragments += fragment;
+        const rubricRowFragment =
+            `<td class="align-center rubricCol-${questionNum}-${cols}">`
+            + '<textarea class="form-control" rows="3" '
+                    + `id="rubricDesc-${questionNum}-${newRowNumber - 1}-${cols}" `
+                    + `name="rubricDesc-${newRowNumber - 1}-${cols}">`
+            + '</textarea>'
+          + '</td>';
+        rubricRowBodyFragments += rubricRowFragment;
     }
 
     // Create new rubric row
-    let newRubricRow = rubricRowTemplate;
-    newRubricRow = replaceAll(newRubricRow, '${qnIndex}', questionNum);
-    newRubricRow = replaceAll(newRubricRow, '${row}', newRowNumber - 1);
-    newRubricRow = replaceAll(newRubricRow, '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}', 'rubricSubQn');
-    newRubricRow = replaceAll(newRubricRow, '${subQuestion}', '');
-    newRubricRow = replaceAll(newRubricRow, '${rubricRowBodyFragments}', rubricRowBodyFragments);
+    const newRubricRow =
+        `<tr id="rubricRow-${questionNum}-${newRowNumber - 1}">`
+          + '<td>'
+              + '<div class="col-sm-12 input-group">'
+                  + `<span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-${questionNum}" `
+                          + `id="rubricRemoveSubQuestionLink-${questionNum}-${newRowNumber - 1}" `
+                          + `onclick="removeRubricRow(${newRowNumber - 1}, ${questionNum})" `
+                          + `onmouseover="highlightRubricRow(${newRowNumber - 1}, ${questionNum}, true)" `
+                          + `onmouseout="highlightRubricRow(${newRowNumber - 1}, ${questionNum}, false)">`
+                      + '<span class="glyphicon glyphicon-remove"></span>'
+                  + '</span>'
+                  + '<textarea class="form-control" rows="3" '
+                          + `id="rubricSubQn-${questionNum}-${newRowNumber - 1}" `
+                          + `name="rubricSubQn-${newRowNumber - 1}">`
+                  + '</textarea>'
+              + '</div>'
+          + '</td>'
+          + `${rubricRowBodyFragments}`
+      + '</tr>';
 
     // Row to insert new row after
     const lastRow = $(`#rubricEditTable-${questionNum} tr:last`);
@@ -76,54 +60,39 @@ function addRubricRow(questionNum) {
 function addRubricCol(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
-    const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val());
-    const numberOfCols = parseInt($(`#rubricNumCols-${questionNum}`).val());
+    const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val(), 10);
+    const numberOfCols = parseInt($(`#rubricNumCols-${questionNum}`).val(), 10);
 
     const newColNumber = numberOfCols + 1;
 
     // Insert header <th>
-    const rubricHeaderFragmentTemplate =
-       '<th class="rubricCol-${qnIndex}-${col}">'
+    const rubricHeaderFragment =
+       `<th class="rubricCol-${questionNum}-${newColNumber - 1}">`
           + '<div class="input-group">'
-              + '<input type="text" class="col-sm-12 form-control" value="${rubricChoiceValue}" '
-                      + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${qnIndex}-${col}" '
-                      + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}">'
-              + '<span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${qnIndex}" '
-                      + 'id="rubricRemoveChoiceLink-${qnIndex}-${col}" onclick="removeRubricCol(${col}, ${qnIndex})" '
-                      + 'onmouseover="highlightRubricCol(${col}, ${qnIndex}, true)" '
-                      + 'onmouseout="highlightRubricCol(${col}, ${qnIndex}, false)">'
+              + '<input type="text" class="col-sm-12 form-control" value="" '
+                      + `id="rubricChoice-${questionNum}-${newColNumber - 1}" `
+                      + `name="rubricChoice-${newColNumber - 1}">`
+              + `<span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${questionNum}" `
+                      + `id="rubricRemoveChoiceLink-${questionNum}-${newColNumber - 1}" `
+                      + `onclick="removeRubricCol(${newColNumber - 1}, ${questionNum})" `
+                      + `onmouseover="highlightRubricCol(${newColNumber - 1}, ${questionNum}, true)" `
+                      + `onmouseout="highlightRubricCol(${newColNumber - 1}, ${questionNum}, false)">`
                   + '<span class="glyphicon glyphicon-remove"></span>'
               + '</span>'
           + '</div>'
       + '</th>';
-
-    let rubricHeaderFragment = rubricHeaderFragmentTemplate;
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${qnIndex}', questionNum);
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${col}', newColNumber - 1);
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${rubricChoiceValue}', '');
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment,
-                                      '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}',
-                                      'rubricChoice');
 
     // Insert after last <th>
     const lastTh = $(`#rubricEditTable-${questionNum}`).find('tr:first').children().last();
     $(rubricHeaderFragment).insertAfter(lastTh);
 
     // Insert weight <th>
-    const rubricWeightFragmentTemplate =
-        '<th class="rubricCol-${qnIndex}-${col}">'
-           + '<input type="number" class="form-control nonDestructive" value="${rubricWeight}" '
-                   + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${qnIndex}-${col}" '
-                   + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${col}" step="0.01">'
+    const rubricWeightFragment =
+        `<th class="rubricCol-${questionNum}-${newColNumber - 1}">`
+           + '<input type="number" class="form-control nonDestructive" value="0" '
+                   + `id="rubricWeight-${questionNum}-${newColNumber - 1}" `
+                   + `name="rubricWeight-${newColNumber - 1}" step="0.01">`
       + '</th>';
-
-    let rubricWeightFragment = rubricWeightFragmentTemplate;
-    rubricWeightFragment = replaceAll(rubricWeightFragment, '${qnIndex}', questionNum);
-    rubricWeightFragment = replaceAll(rubricWeightFragment, '${col}', newColNumber - 1);
-    rubricWeightFragment = replaceAll(rubricWeightFragment, '${rubricWeight}', 0);
-    rubricWeightFragment = replaceAll(rubricWeightFragment,
-                                      '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}',
-                                      'rubricWeight');
 
     // Insert after last <th>
     const lastWeightCell = $(`#rubricWeights-${questionNum} th:last`);
@@ -131,33 +100,23 @@ function addRubricCol(questionNum) {
 
     disallowNonNumericEntries($(`#rubricWeight-${questionNum}-${newColNumber - 1}`), true, true);
 
-    // Insert body <td>'s
-    const rubricRowFragmentTemplate =
-        '<td class="align-center rubricCol-${qnIndex}-${col}">'
-        + '<textarea class="form-control" rows="3" '
-                + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}" '
-                + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}">'
-            + '${description}'
-        + '</textarea>'
-      + '</td>';
-
     // Create numberOfRows of <td>'s
-    for (let rows = 0; rows < numberOfRows; rows++) {
+    for (let rows = 0; rows < numberOfRows; rows += 1) {
         if (!$(`#rubricRow-${questionNum}-${rows}`).length) {
             continue;
         }
-        let fragment = rubricRowFragmentTemplate;
-        fragment = replaceAll(fragment, '${qnIndex}', questionNum);
-        fragment = replaceAll(fragment, '${row}', rows);
-        fragment = replaceAll(fragment, '${col}', newColNumber - 1);
-        fragment = replaceAll(fragment, '${description}', '');
-        fragment = replaceAll(fragment,
-                              '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}',
-                              'rubricDesc');
+        // Insert body <td>'s
+        const rubricRowFragment =
+            `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}">`
+            + '<textarea class="form-control" rows="3" '
+                    + `id="rubricDesc-${questionNum}-${rows}-${newColNumber - 1}" `
+                    + `name="rubricDesc-${rows}-${newColNumber - 1}">`
+            + '</textarea>'
+          + '</td>';
 
         // Insert after previous <td>
         const lastTd = $(`#rubricRow-${questionNum}-${rows} td:last`);
-        $(fragment).insertAfter(lastTd);
+        $(rubricRowFragment).insertAfter(lastTd);
     }
 
     // Increment

@@ -15,7 +15,7 @@ function updateConstSumPointsValue(questionNum) {
 function addConstSumOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
-    const curNumberOfChoiceCreated = parseInt($(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val());
+    const curNumberOfChoiceCreated = parseInt($(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
     $(`<div class="margin-bottom-7px" id="constSumOptionRow-${curNumberOfChoiceCreated}-${questionNum}">`
           + '<div class="input-group width-100-pc">'

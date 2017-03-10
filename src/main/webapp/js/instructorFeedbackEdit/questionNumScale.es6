@@ -5,8 +5,8 @@ function roundToThreeDp(num) {
 }
 
 function updateNumScalePossibleValues(questionNum) {
-    const min = parseInt($(`#minScaleBox-${questionNum}`).val());
-    let max = parseInt($(`#maxScaleBox-${questionNum}`).val());
+    const min = parseInt($(`#minScaleBox-${questionNum}`).val(), 10);
+    let max = parseInt($(`#maxScaleBox-${questionNum}`).val(), 10);
     let step = parseFloat($(`#stepBox-${questionNum}`).val());
 
     if (max <= min) {

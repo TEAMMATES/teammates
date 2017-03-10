@@ -62,7 +62,7 @@ function getQuestionNumFromEditForm(form) {
 }
 
 function extractQuestionNumFromEditFormId(id) {
-    return parseInt(id.substring('form_editquestion-'.length, id.length));
+    return parseInt(id.substring('form_editquestion-'.length, id.length), 10);
 }
 
 function checkEditFeedbackSession(form) {
@@ -94,7 +94,7 @@ function selectDefaultTimeOptions() {
 
     const currentDate = convertDateToDDMMYYYY(now);
     const hours = convertDateToHHMM(now).substring(0, 2);
-    const currentTime = parseInt(hours) + 1;
+    const currentTime = parseInt(hours, 10) + 1;
     const timeZone = -now.getTimezoneOffset() / 60;
 
     if (!isTimeZoneIntialized()) {
