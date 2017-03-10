@@ -20,9 +20,7 @@
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
-            </div>
+            <t:navBarBrand/>
         </div>
     </div>
     <div class="container" id="mainContent">

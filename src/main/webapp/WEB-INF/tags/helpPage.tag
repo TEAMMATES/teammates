@@ -31,9 +31,7 @@
     <div id="footerComponent" class="container-fluid">
         <div class="container">
             <div class="row">
-                <div class="col-md-2">
-                    <span>[<a href="/index.jsp">TEAMMATES</a>]</span>
-                </div>
+                <t:navBarBrand/>
                 <div class="col-md-8">
                     [hosted on <a href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>]
                 </div>
