@@ -545,9 +545,6 @@ public final class StringHelper {
     /**
      * Returns a new String composed of copies of the String elements joined together
      * with a copy of the specified delimiter.
-     *
-     * @param delimiter
-     * @param elements
      */
     public static String join(String delimiter, String... elements) {
         StringBuffer result = new StringBuffer();
