@@ -28,25 +28,27 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
     protected void doOperation() {
         List<AdminEmailAttributes> allEmails = adminEmailsLogic.getAllAdminEmails();
         int count = 0;
+        int numberOfAffectedEmails = 0;
         String itemName = "admin email";
+
         if (isPreview) {
-            System.out.println("Checking Sanitization for admin emails...");
-            int numberOfAffectedEmails = 0;
-            for (AdminEmailAttributes email : allEmails) {
-                count++;
-                DataMigrationHelper.printCountRegularly(count, itemName);
+            System.out.println("Checking sanitization for admin emails...");
+        }
+        for (AdminEmailAttributes email : allEmails) {
+            count++;
+            DataMigrationHelper.printCountRegularly(count, itemName);
+            if (isPreview) {
                 if (isEmailSanitized(email)) {
                     previewAdminEmail(email);
                     numberOfAffectedEmails++;
                 }
-            }
-            System.out.println("There are/is " + numberOfAffectedEmails + " affected email(s)!");
-        } else {
-            for (AdminEmailAttributes email : allEmails) {
-                count++;
-                DataMigrationHelper.printCountRegularly(count, itemName);
+            } else {
                 fixSanitizedDataForEmail(email);
             }
+        }
+        if (isPreview) {
+            System.out.println("There are/is " + numberOfAffectedEmails + " affected email(s)!");
+        } else {
             System.out.println("Sanitization fixing done!");
         }
     }
