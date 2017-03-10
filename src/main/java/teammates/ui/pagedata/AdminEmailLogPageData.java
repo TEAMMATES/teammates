@@ -59,24 +59,27 @@ public class AdminEmailLogPageData extends PageData {
     }
 
     public String getQueryKeywordsForReceiver() {
-        if (q != null && q.isReceiverInQuery) {
-            return StringHelper.join(",", q.receiverValues);
+        if (q == null || !q.isReceiverInQuery) {
+            return "";
         }
-        return "";
+
+        return StringHelper.join(",", q.receiverValues);
     }
 
     public String getQueryKeywordsForSubject() {
-        if (q != null && q.isSubjectInQuery) {
-            return StringHelper.join(",", q.subjectValues);
+        if (q == null || !q.isSubjectInQuery) {
+            return "";
         }
-        return "";
+
+        return StringHelper.join(",", q.subjectValues);
     }
 
     public String getQueryKeywordsForContent() {
-        if (q != null && q.isInfoInQuery) {
-            return StringHelper.join(",", q.infoValues);
+        if (q == null || !q.isInfoInQuery) {
+            return "";
         }
-        return "";
+
+        return StringHelper.join(",", q.infoValues);
     }
 
     /************* Setter methods *************/
