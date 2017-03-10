@@ -285,11 +285,11 @@ public class ActivityLogEntry {
     }
 
     public String getRoleWithoutMasquerade() {
-        return role.replace(Const.ActivityLog.MASQUERADE_ROLE_POSTFIX, "").trim();
+        return role.replace(Const.ActivityLog.ROLE_MASQUERADE_POSTFIX, "").trim();
     }
 
     public boolean isMasqueradeUserRole() {
-        return role.contains(Const.ActivityLog.MASQUERADE_ROLE_POSTFIX);
+        return role.contains(Const.ActivityLog.ROLE_MASQUERADE_POSTFIX);
     }
 
     public String getRole() {

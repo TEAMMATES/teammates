@@ -56,6 +56,7 @@ public class AdminActivityLogTableRow {
         if (name != null && !name.contentEquals(Const.ActivityLog.UNKNOWN)) {
             return name;
         }
+
         return "";
     }
 

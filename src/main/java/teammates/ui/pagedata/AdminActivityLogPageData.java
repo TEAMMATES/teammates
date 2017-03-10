@@ -383,16 +383,19 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     public String getQueryKeywordsForInfo() {
+        if (q == null || !q.isInfoInQuery) {
+            return "";
+        }
+
         char delimiter = ',';
         StringBuffer keywords = new StringBuffer();
-        if (q != null && q.isInfoInQuery) {
-            for (String keyword : q.infoValues) {
-                keywords.append(keyword).append(delimiter);
-            }
-            if (keywords.length() > 0) {
-                keywords.deleteCharAt(keywords.length() - 1);
-            }
+        for (String keyword : q.infoValues) {
+            keywords.append(keyword).append(delimiter);
         }
+        if (keywords.length() > 0) {
+            keywords.deleteCharAt(keywords.length() - 1);
+        }
+
         return keywords.toString();
     }
 

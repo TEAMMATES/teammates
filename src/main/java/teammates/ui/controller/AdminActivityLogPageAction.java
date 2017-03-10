@@ -260,7 +260,7 @@ public class AdminActivityLogPageAction extends Action {
 
             ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);
             boolean isToShow = data.filterLog(activityLogEntry)
-                                && (!activityLogEntry.isTestingData() || data.getIfShowTestData());
+                    && (!activityLogEntry.isTestingData() || data.getIfShowTestData());
 
             if (!isToShow) {
                 continue;
