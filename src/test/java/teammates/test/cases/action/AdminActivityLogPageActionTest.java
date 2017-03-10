@@ -380,7 +380,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
                 today.getTime(), LOG_MESSAGE_INTERVAL_MANY_LOGS);
     }
 
-    @Test(groups = "manyLogs", dependsOnGroups = "typicalLogs")
+    @Test(groups = "manyLogs", priority = 2)
     public void statusMessageAndContinueSearch_withManyLogs_searchCorrectly() {
         Date today = TimeHelper.getDateOffsetToCurrentTime(0);
 
