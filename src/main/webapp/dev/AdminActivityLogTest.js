@@ -100,6 +100,24 @@ QUnit.test('getOlderLogEntriesByAjax correctly modifies page when receiving new 
     restoreAjaxImplementation();
 });
 
+QUnit.test('convertLogTimestampToAdminTimezone', function(assert) {
+    var requiredElements = '<table id="logsTable"><tbody><tr><td><a>10-03-2017 15:18:09</a>'
+        + '<p class="localTime"></p></tr></tbody></table>';
+    createRequiredElements(requiredElements);
+    var response = {
+        isError: false,
+        logLocalTime: '10-03-2017 07:18:09'
+    };
+    replaceAjaxWithStub(response);
+    var $logEntry = $('#logsTable tbody tr a');
+    var $logTimestampCell = $logEntry.parent();
+    convertLogTimestampToAdminTimezone(1489130289711, 'teammates.admin.id', 'Admin', $logEntry);
+
+    assert.equal($logTimestampCell.html(), '10-03-2017 15:18:09<mark><br>10-03-2017 07:18:09</mark>',
+            'Received timestamp correctly displayed');
+    restoreAjaxImplementation();
+});
+
 /**
  * Creates DOM elements needed for testing under #qunit-fixture.
  *
