@@ -152,13 +152,13 @@ function bindCopyButton() {
             return false;
         }
 
-        $sessionsList.each(function () {
+        $sessionsList.each(function (ev) {
             const $cells = $(this).find('td');
             const courseId = $($cells[0]).text();
             const feedbackSessionName = $($cells[1]).text();
             if (selectedCourseId === courseId && newFeedbackSessionName === feedbackSessionName) {
                 isExistingSession = true;
-                return false;
+                ev.preventDefault();
             }
         });
 

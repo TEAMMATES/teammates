@@ -808,7 +808,7 @@ function bindCopyButton() {
             const questionIdInput = $this.children('input:first');
 
             if (!questionIdInput.length) {
-                return true;
+                return;
             }
             if ($this.hasClass('row-selected')) {
                 $(questionIdInput).attr('name', `questionid-${index}`);
@@ -916,11 +916,11 @@ function hideOption($containingSelect, value) {
 }
 
 function setRecipientSelectToFirstVisibleOption($recipientSelect) {
-    $recipientSelect.find('option').each(function () {
+    $recipientSelect.find('option').each(function (e) {
         const $recipientOption = $(this);
         if ($recipientOption.css('display') !== 'none') {
             $recipientSelect.val($recipientOption.val());
-            return false;
+            e.preventDefault();
         }
     });
 }
