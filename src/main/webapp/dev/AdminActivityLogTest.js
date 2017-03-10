@@ -68,7 +68,7 @@ function restoreAjaxImplementation() {
     $.ajax = $ajaxImplementation;
 }
 
-QUnit.test('submitFormAjax correctly modifies page when receiving new log entries', function(assert) {
+QUnit.test('getOlderLogEntriesByAjax correctly modifies page when receiving new log entries', function(assert) {
     var requiredElements = '<form id="ajaxLoaderDataForm"> <input type="hidden" name="searchTimeOffset" value=""> </form> '
         + '<table id="logsTable"> <tbody> </tbody> </table>'
         + '<button id="button_older">Search More</button>';
