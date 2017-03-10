@@ -57,7 +57,7 @@ Click the "Terminate" icon on the Eclipse console.
 
 #### Starting the dev server
 
-Go to `Run → Play` and select `Dev Server` in the pop-up box.
+Go to `Run → Run...` and select `Dev Server` in the pop-up box.
 
 #### Stopping the dev server
 
