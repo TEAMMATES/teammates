@@ -1481,6 +1481,9 @@ public final class Const {
         public static final String FIELD_SEPARATOR = "|||";
 
         public static final String TEST_DATA_POSTFIX = ".tmt";
+
+        public static final String ERROR_LOG_FORMAT = "Email log message is not in expected format."
+                + " Raw log message: %1$s";
     }
 
 }
