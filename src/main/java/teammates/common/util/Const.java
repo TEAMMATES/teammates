@@ -1487,7 +1487,7 @@ public final class Const {
         public static final String ROLE_AUTO = "Auto";
         public static final String ROLE_UNREGISTERED = "Unregistered";
         public static final String ROLE_UNKNOWN = "Unknown";
-        public static final String MASQUERADE_ROLE_POSTFIX = "(M)";
+        public static final String ROLE_MASQUERADE_POSTFIX = "(M)";
 
         public static final String AUTH_NOT_LOGIN = "Unregistered";
 
