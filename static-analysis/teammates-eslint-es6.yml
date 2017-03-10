@@ -1,0 +1,22 @@
+env:
+    browser: true
+    jquery: true
+    qunit: true
+    es6: true
+
+extends:
+    - airbnb-base
+
+rules:
+
+    # disallow the use of undeclared variables unless mentioned in /*global */ comments
+    no-undef: "off" # recommended by ESLint, Airbnb, and Google
+
+    # disallow use of variables before they are defined
+    no-use-before-define: "off" # recommended by Airbnb and Google
+
+    # enforce consistent indentation
+    indent: ["error", 4]
+
+    # enforce a maximum line length
+    max-len: ["error", 125]
