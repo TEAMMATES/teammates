@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "blanket": "1.2.3",
     "bootbox": "4.4.0",
     "bootstrap": "3.1.1",
     "d3": "3.5.17",
@@ -12,18 +13,19 @@
     "moment": "2.17.1",
     "moment-timezone": "0.5.9",
     "printthis": "0.1.5",
+    "qunitjs": "2.1.0",
     "respond.js": "1.4.2",
     "tinymce": "4.5.1",
     "topojson": "1.6.27"
   },
   "devDependencies": {
-    "babel-cli": "^6.22.2",
-    "babel-preset-env": "^1.1.8",
-    "blanket": "1.2.3",
-    "eslint": "3.11.1",
+    "babel-cli": "6.23.0",
+    "babel-preset-env": "1.2.1",
+    "eslint": "3.17.1",
+    "eslint-config-airbnb-base": "11.1.1",
+    "eslint-plugin-import": "2.2.0",
     "eslint-plugin-json": "1.2.0",
-    "stylelint": "7.6.0",
-    "qunitjs": "2.1.0"
+    "stylelint": "7.6.0"
   },
   "babel": {
     "presets": [
@@ -38,7 +40,7 @@
     "build:test": "babel src/main/webapp/dev/ -x \".es6\" -d src/main/webapp/dev/",
     "build:src": "babel src/main/webapp/js/ -x \".es6\" -d src/main/webapp/js/",
     "build": "npm run build:src && npm run build:test",
-    "lint:src": "eslint src/main/webapp/js -c static-analysis/teammates-eslint.yml --ext es6",
+    "lint:src": "eslint src/main/webapp/js -c static-analysis/teammates-eslint-es6.yml --ext es6",
     "lint:test": "eslint src/main/webapp/dev/*.js -c static-analysis/teammates-eslint.yml",
     "lint:json": "eslint src/main/webapp/js/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint.yml",
     "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
