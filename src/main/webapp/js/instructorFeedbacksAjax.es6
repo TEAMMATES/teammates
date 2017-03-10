@@ -1,52 +1,52 @@
 /* eslint-disable no-undef */
 
-var isSessionsAjaxSending = false;
-var oldStatus = null;
+let isSessionsAjaxSending = false;
+let oldStatus = null;
 
-$(document).ready(function() {
+$(document).ready(() => {
     oldStatus = $('.statusMessage').clone();
     $('#ajaxForSessions').submit(ajaxRequest);
 });
 
-var ajaxRequest = function(e) {
+var ajaxRequest = function (e) {
     e.preventDefault();
 
     if (isSessionsAjaxSending) {
         return;
     }
 
-    var formData = $(this).serialize();
+    const formData = $(this).serialize();
     $.ajax({
         type: 'POST',
         cache: false,
-        url: $(this).attr('action') + '?' + formData,
-        beforeSend: function() {
+        url: `${$(this).attr('action')}?${formData}`,
+        beforeSend() {
             isSessionsAjaxSending = true;
             $('#sessionList').html('<img height="75" width="75" class="margin-center-horizontal" '
                                    + 'src="/images/ajax-preload.gif"/>');
         },
-        error: function() {
+        error() {
             isSessionsAjaxSending = false;
             $('#sessionList').html('');
-            var msg = 'Failed to load sessions. Please <a href="#" onclick="loadSessionsByAjax()">click here</a> to retry.';
+            const msg = 'Failed to load sessions. Please <a href="#" onclick="loadSessionsByAjax()">click here</a> to retry.';
             setStatusMessage(msg, StatusType.DANGER);
 
             if (oldStatus !== null && oldStatus !== undefined && oldStatus !== '') {
                 appendStatusMessage(oldStatus);
             }
         },
-        success: function(data) {
+        success(data) {
             clearStatusMessages();
             appendStatusMessage(oldStatus);
 
-            var appendedModalBody = $(data).find('#copySessionsBody').html();
-            var appendedSessionTable = $(data).find('#sessionList').html();
+            const appendedModalBody = $(data).find('#copySessionsBody').html();
+            const appendedSessionTable = $(data).find('#sessionList').html();
 
             $('#button_copy').text('Copy from previous feedback sessions');
             $('#copySessionsBody').html(appendedModalBody);
             $('#sessionList').removeClass('align-center')
                              .html(appendedSessionTable);
             bindEventsAfterAjax();
-        }
+        },
     });
 };

@@ -1,17 +1,17 @@
 /* eslint-disable no-undef */
 
 // TODO: Move constants from Common.js into appropriate files if not shared.
-var TIMEZONE_SELECT_UNINITIALISED = '-9999';
+const TIMEZONE_SELECT_UNINITIALISED = '-9999';
 
-$(document).ready(function() {
-    var isEdit = typeof readyFeedbackEditPage === 'function';
+$(document).ready(() => {
+    const isEdit = typeof readyFeedbackEditPage === 'function';
 
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
             readonly: isEdit,
-            fixed_toolbar_container: '#richtext-toolbar-container'
+            fixed_toolbar_container: '#richtext-toolbar-container',
         });
         /* eslint-enable camelcase */
     }
@@ -23,28 +23,28 @@ $(document).ready(function() {
  * @returns {Boolean}
  */
 function checkFeedbackQuestion(form) {
-    var recipientType = $(form).find('select[name|=' + FEEDBACK_QUESTION_RECIPIENTTYPE + ']')
+    const recipientType = $(form).find(`select[name|=${FEEDBACK_QUESTION_RECIPIENTTYPE}]`)
                                .find(':selected')
                                .val();
     if (recipientType === 'STUDENTS' || recipientType === 'TEAMS') {
-        if ($(form).find('[name|=' + FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE + ']:checked').val() === 'custom'
+        if ($(form).find(`[name|=${FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE}]:checked`).val() === 'custom'
                 && !$(form).find('.numberOfEntitiesBox').val()) {
             setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER, form);
             return false;
         }
     }
-    if (!$(form).find('[name=' + FEEDBACK_QUESTION_TEXT + ']').val()) {
+    if (!$(form).find(`[name=${FEEDBACK_QUESTION_TEXT}]`).val()) {
         setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER, form);
         return false;
     }
-    if ($(form).find('[name=' + FEEDBACK_QUESTION_TYPE + ']').val() === 'NUMSCALE') {
-        if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val()
-                || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val()
-                || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
+    if ($(form).find(`[name=${FEEDBACK_QUESTION_TYPE}]`).val() === 'NUMSCALE') {
+        if (!$(form).find(`[name=${FEEDBACK_QUESTION_NUMSCALE_MIN}]`).val()
+                || !$(form).find(`[name=${FEEDBACK_QUESTION_NUMSCALE_MAX}]`).val()
+                || !$(form).find(`[name=${FEEDBACK_QUESTION_NUMSCALE_STEP}]`).val()) {
             setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER, form);
             return false;
         }
-        var qnNum = getQuestionNumFromEditForm(form);
+        const qnNum = getQuestionNumFromEditForm(form);
         if (updateNumScalePossibleValues(qnNum)) {
             return true;
         }
@@ -90,20 +90,20 @@ function checkEditFeedbackSession(form) {
  * failed validation.
  */
 function selectDefaultTimeOptions() {
-    var now = new Date();
+    const now = new Date();
 
-    var currentDate = convertDateToDDMMYYYY(now);
-    var hours = convertDateToHHMM(now).substring(0, 2);
-    var currentTime = parseInt(hours) + 1;
-    var timeZone = -now.getTimezoneOffset() / 60;
+    const currentDate = convertDateToDDMMYYYY(now);
+    const hours = convertDateToHHMM(now).substring(0, 2);
+    const currentTime = parseInt(hours) + 1;
+    const timeZone = -now.getTimezoneOffset() / 60;
 
     if (!isTimeZoneIntialized()) {
-        $('#' + FEEDBACK_SESSION_STARTDATE).val(currentDate);
-        $('#' + FEEDBACK_SESSION_STARTTIME).val(currentTime);
-        $('#' + FEEDBACK_SESSION_TIMEZONE).val(timeZone);
+        $(`#${FEEDBACK_SESSION_STARTDATE}`).val(currentDate);
+        $(`#${FEEDBACK_SESSION_STARTTIME}`).val(currentTime);
+        $(`#${FEEDBACK_SESSION_TIMEZONE}`).val(timeZone);
     }
 
-    var uninitializedTimeZone = $('#timezone > option[value=\'' + TIMEZONE_SELECT_UNINITIALISED + '\']');
+    const uninitializedTimeZone = $(`#timezone > option[value='${TIMEZONE_SELECT_UNINITIALISED}']`);
     if (uninitializedTimeZone) {
         uninitializedTimeZone.remove();
     }
@@ -126,7 +126,7 @@ function formatDigit(num) {
  * @returns {String}
  */
 function convertDateToDDMMYYYY(date) {
-    return formatDigit(date.getDate()) + '/' + formatDigit(date.getMonth() + 1) + '/' + date.getFullYear();
+    return `${formatDigit(date.getDate())}/${formatDigit(date.getMonth() + 1)}/${date.getFullYear()}`;
 }
 
 /**
@@ -139,23 +139,23 @@ function convertDateToHHMM(date) {
 }
 
 function bindCopyButton() {
-    $('#button_copy').on('click', function(e) {
+    $('#button_copy').on('click', (e) => {
         e.preventDefault();
-        var selectedCourseId = $('#' + COURSE_ID + ' option:selected').text();
-        var newFeedbackSessionName = $('#' + FEEDBACK_SESSION_NAME).val();
+        const selectedCourseId = $(`#${COURSE_ID} option:selected`).text();
+        const newFeedbackSessionName = $(`#${FEEDBACK_SESSION_NAME}`).val();
 
-        var isExistingSession = false;
+        let isExistingSession = false;
 
-        var $sessionsList = $('tr[id^="session"]');
+        const $sessionsList = $('tr[id^="session"]');
         if (!$sessionsList.length) {
             setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, StatusType.DANGER);
             return false;
         }
 
-        $sessionsList.each(function() {
-            var $cells = $(this).find('td');
-            var courseId = $($cells[0]).text();
-            var feedbackSessionName = $($cells[1]).text();
+        $sessionsList.each(function () {
+            const $cells = $(this).find('td');
+            const courseId = $($cells[0]).text();
+            const feedbackSessionName = $($cells[1]).text();
             if (selectedCourseId === courseId && newFeedbackSessionName === feedbackSessionName) {
                 isExistingSession = true;
                 return false;
@@ -167,18 +167,18 @@ function bindCopyButton() {
         } else {
             clearStatusMessages();
 
-            var $firstSession = $($sessionsList[0]).find('td');
-            var firstSessionCourseId = $($firstSession[0]).text();
-            var firstSessionName = $($firstSession[1]).text();
+            const $firstSession = $($sessionsList[0]).find('td');
+            const firstSessionCourseId = $($firstSession[0]).text();
+            const firstSessionName = $($firstSession[1]).text();
 
             $('#copyModal').modal('show');
             $('#modalCopiedSessionName').val(newFeedbackSessionName.trim());
             $('#modalCopiedCourseId').val(selectedCourseId.trim());
-            var $modalCourseId = $('#modalCourseId');
+            const $modalCourseId = $('#modalCourseId');
             if (!$modalCourseId.val().trim()) {
                 $modalCourseId.val(firstSessionCourseId);
             }
-            var $modalSessionName = $('#modalSessionName');
+            const $modalSessionName = $('#modalSessionName');
             if (!$modalSessionName.val().trim()) {
                 $modalSessionName.val(firstSessionName);
             }
@@ -187,9 +187,9 @@ function bindCopyButton() {
         return false;
     });
 
-    $('#button_copy_submit').on('click', function(e) {
+    $('#button_copy_submit').on('click', (e) => {
         e.preventDefault();
-        var $newSessionName = $('#modalCopiedSessionName');
+        const $newSessionName = $('#modalCopiedSessionName');
         if ($newSessionName.val()) {
             addLoadingIndicator($('#button_copy_submit'), 'Copying ');
             $('#copyModalForm').submit();
@@ -202,26 +202,25 @@ function bindCopyButton() {
 }
 
 function bindCopyEvents() {
-    $('#copyTableModal > tbody > tr').on('click', function() {
-
-        var $currentlySelectedRow = $(this);
+    $('#copyTableModal > tbody > tr').on('click', function () {
+        const $currentlySelectedRow = $(this);
         if ($currentlySelectedRow.hasClass('row-selected')) {
             return;
         }
 
-        var $cells = $currentlySelectedRow.children('td');
-        var courseId = $($cells[1]).text().trim();
-        var feedbackSessionName = $($cells[2]).text().trim();
+        const $cells = $currentlySelectedRow.children('td');
+        const courseId = $($cells[1]).text().trim();
+        const feedbackSessionName = $($cells[2]).text().trim();
         $('#modalCourseId').val(courseId);
         $('#modalSessionName').val(feedbackSessionName);
 
-        var $previouslySelectedRadio = $currentlySelectedRow.parent().find('input:checked');
-        var $previouslySelectedRow = $previouslySelectedRadio.closest('tr');
+        const $previouslySelectedRadio = $currentlySelectedRow.parent().find('input:checked');
+        const $previouslySelectedRow = $previouslySelectedRadio.closest('tr');
 
         $previouslySelectedRadio.prop('checked', false);
         $previouslySelectedRow.removeClass('row-selected');
 
-        var $currentlySelectedRadio = $currentlySelectedRow.children('td').children('input');
+        const $currentlySelectedRadio = $currentlySelectedRow.children('td').children('input');
         $currentlySelectedRadio.prop('checked', true);
         $currentlySelectedRow.addClass('row-selected');
 
@@ -271,14 +270,14 @@ function updateUncommonSettingsInfo() {
 }
 
 function updateUncommonSettingsSessionVisibilityInfo() {
-    var info = 'Session is visible at submission opening time, '
+    const info = 'Session is visible at submission opening time, '
              + 'responses are only visible when you publish the results.';
 
     $('#uncommonSettingsSessionResponsesVisibleInfoText').html(info);
 }
 
 function updateUncommonSettingsEmailSendingInfo() {
-    var info = 'Emails are sent when session opens (within 15 mins), '
+    const info = 'Emails are sent when session opens (within 15 mins), '
              + '24 hrs before session closes and when results are published.';
 
     $('#uncommonSettingsSendEmailsInfoText').html(info);
@@ -301,7 +300,7 @@ function showUncommonPanels() {
 }
 
 function showUncommonPanelsForSessionResponsesVisible() {
-    var $sessionResponsesVisiblePanel = $('#sessionResponsesVisiblePanel');
+    const $sessionResponsesVisiblePanel = $('#sessionResponsesVisiblePanel');
 
     $('#uncommonSettingsSessionResponsesVisible').after($sessionResponsesVisiblePanel);
     $sessionResponsesVisiblePanel.show();
@@ -309,7 +308,7 @@ function showUncommonPanelsForSessionResponsesVisible() {
 }
 
 function showUncommonPanelsForSendEmails() {
-    var $sendEmailsForPanel = $('#sendEmailsForPanel');
+    const $sendEmailsForPanel = $('#sendEmailsForPanel');
 
     $('#uncommonSettingsSendEmails').after($sendEmailsForPanel);
     $sendEmailsForPanel.show();
@@ -334,8 +333,8 @@ function showUncommonPanelsIfNotInDefaultValues() {
  * @param $privateBtn
  */
 function formatSessionVisibilityGroup() {
-    var $sessionVisibilityBtnGroup = $('[name=' + FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + ']');
-    $sessionVisibilityBtnGroup.change(function() {
+    const $sessionVisibilityBtnGroup = $(`[name=${FEEDBACK_SESSION_SESSIONVISIBLEBUTTON}]`);
+    $sessionVisibilityBtnGroup.change(() => {
         collapseIfPrivateSession();
         if ($sessionVisibilityBtnGroup.filter(':checked').val() === 'custom') {
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, false);
@@ -353,8 +352,8 @@ function formatSessionVisibilityGroup() {
  * @param $privateBtn
  */
 function formatResponsesVisibilityGroup() {
-    var $responsesVisibilityBtnGroup = $('[name=' + FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + ']');
-    $responsesVisibilityBtnGroup.change(function() {
+    const $responsesVisibilityBtnGroup = $(`[name=${FEEDBACK_SESSION_RESULTSVISIBLEBUTTON}]`);
+    $responsesVisibilityBtnGroup.change(() => {
         if ($responsesVisibilityBtnGroup.filter(':checked').val() === 'custom') {
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, false);
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, false);
@@ -372,15 +371,15 @@ function formatResponsesVisibilityGroup() {
  * Disabled if true, enabled if false.
  */
 function toggleDisabledAndStoreLast(id, bool) {
-    $('#' + id).prop('disabled', bool);
-    $('#' + id).data('last', $('#' + id).prop('disabled'));
+    $(`#${id}`).prop('disabled', bool);
+    $(`#${id}`).data('last', $(`#${id}`).prop('disabled'));
 }
 
 /**
  * Collapses/hides unnecessary fields/cells/tables if private session option is selected.
  */
 function collapseIfPrivateSession() {
-    if ($('[name=' + FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + ']').filter(':checked').val() === 'never') {
+    if ($(`[name=${FEEDBACK_SESSION_SESSIONVISIBLEBUTTON}]`).filter(':checked').val() === 'never') {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').hide();
     } else {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();

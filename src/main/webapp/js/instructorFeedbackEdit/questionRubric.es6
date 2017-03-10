@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
 
 function addRubricRow(questionNum) {
-    var questionId = '#form_editquestion-' + questionNum;
+    const questionId = `#form_editquestion-${questionNum}`;
 
-    var numberOfRows = parseInt($('#rubricNumRows-' + questionNum).val());
-    var numberOfCols = parseInt($('#rubricNumCols-' + questionNum).val());
+    const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val());
+    const numberOfCols = parseInt($(`#rubricNumCols-${questionNum}`).val());
 
-    var newRowNumber = numberOfRows + 1;
+    const newRowNumber = numberOfRows + 1;
 
-    var rubricRowTemplate =
+    const rubricRowTemplate =
         '<tr id="rubricRow-${qnIndex}-${row}">'
           + '<td>'
               + '<div class="col-sm-12 input-group">'
@@ -29,7 +29,7 @@ function addRubricRow(questionNum) {
           + '${rubricRowBodyFragments}'
       + '</tr>';
 
-    var rubricRowFragmentTemplate =
+    const rubricRowFragmentTemplate =
         '<td class="align-center rubricCol-${qnIndex}-${col}">'
         + '<textarea class="form-control" rows="3" '
                 + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}" '
@@ -38,13 +38,13 @@ function addRubricRow(questionNum) {
         + '</textarea>'
       + '</td>';
 
-    var rubricRowBodyFragments = '';
+    let rubricRowBodyFragments = '';
     // Create numberOfCols of <td>'s
-    for (var cols = 0; cols < numberOfCols; cols++) {
-        if (!$('.rubricCol-' + questionNum + '-' + cols).length) {
+    for (let cols = 0; cols < numberOfCols; cols++) {
+        if (!$(`.rubricCol-${questionNum}-${cols}`).length) {
             continue;
         }
-        var fragment = rubricRowFragmentTemplate;
+        let fragment = rubricRowFragmentTemplate;
         fragment = replaceAll(fragment, '${qnIndex}', questionNum);
         fragment = replaceAll(fragment, '${row}', newRowNumber - 1);
         fragment = replaceAll(fragment, '${col}', cols);
@@ -54,7 +54,7 @@ function addRubricRow(questionNum) {
     }
 
     // Create new rubric row
-    var newRubricRow = rubricRowTemplate;
+    let newRubricRow = rubricRowTemplate;
     newRubricRow = replaceAll(newRubricRow, '${qnIndex}', questionNum);
     newRubricRow = replaceAll(newRubricRow, '${row}', newRowNumber - 1);
     newRubricRow = replaceAll(newRubricRow, '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}', 'rubricSubQn');
@@ -62,11 +62,11 @@ function addRubricRow(questionNum) {
     newRubricRow = replaceAll(newRubricRow, '${rubricRowBodyFragments}', rubricRowBodyFragments);
 
     // Row to insert new row after
-    var lastRow = $('#rubricEditTable-' + questionNum + ' tr:last');
+    const lastRow = $(`#rubricEditTable-${questionNum} tr:last`);
     $(newRubricRow).insertAfter(lastRow);
 
     // Increment
-    $('#rubricNumRows-' + questionNum).val(newRowNumber);
+    $(`#rubricNumRows-${questionNum}`).val(newRowNumber);
 
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
@@ -74,15 +74,15 @@ function addRubricRow(questionNum) {
 }
 
 function addRubricCol(questionNum) {
-    var questionId = '#form_editquestion-' + questionNum;
+    const questionId = `#form_editquestion-${questionNum}`;
 
-    var numberOfRows = parseInt($('#rubricNumRows-' + questionNum).val());
-    var numberOfCols = parseInt($('#rubricNumCols-' + questionNum).val());
+    const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val());
+    const numberOfCols = parseInt($(`#rubricNumCols-${questionNum}`).val());
 
-    var newColNumber = numberOfCols + 1;
+    const newColNumber = numberOfCols + 1;
 
     // Insert header <th>
-    var rubricHeaderFragmentTemplate =
+    const rubricHeaderFragmentTemplate =
        '<th class="rubricCol-${qnIndex}-${col}">'
           + '<div class="input-group">'
               + '<input type="text" class="col-sm-12 form-control" value="${rubricChoiceValue}" '
@@ -97,7 +97,7 @@ function addRubricCol(questionNum) {
           + '</div>'
       + '</th>';
 
-    var rubricHeaderFragment = rubricHeaderFragmentTemplate;
+    let rubricHeaderFragment = rubricHeaderFragmentTemplate;
     rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${qnIndex}', questionNum);
     rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${col}', newColNumber - 1);
     rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${rubricChoiceValue}', '');
@@ -106,18 +106,18 @@ function addRubricCol(questionNum) {
                                       'rubricChoice');
 
     // Insert after last <th>
-    var lastTh = $('#rubricEditTable-' + questionNum).find('tr:first').children().last();
+    const lastTh = $(`#rubricEditTable-${questionNum}`).find('tr:first').children().last();
     $(rubricHeaderFragment).insertAfter(lastTh);
 
     // Insert weight <th>
-    var rubricWeightFragmentTemplate =
+    const rubricWeightFragmentTemplate =
         '<th class="rubricCol-${qnIndex}-${col}">'
            + '<input type="number" class="form-control nonDestructive" value="${rubricWeight}" '
                    + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${qnIndex}-${col}" '
                    + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${col}" step="0.01">'
       + '</th>';
 
-    var rubricWeightFragment = rubricWeightFragmentTemplate;
+    let rubricWeightFragment = rubricWeightFragmentTemplate;
     rubricWeightFragment = replaceAll(rubricWeightFragment, '${qnIndex}', questionNum);
     rubricWeightFragment = replaceAll(rubricWeightFragment, '${col}', newColNumber - 1);
     rubricWeightFragment = replaceAll(rubricWeightFragment, '${rubricWeight}', 0);
@@ -126,13 +126,13 @@ function addRubricCol(questionNum) {
                                       'rubricWeight');
 
     // Insert after last <th>
-    var lastWeightCell = $('#rubricWeights-' + questionNum + ' th:last');
+    const lastWeightCell = $(`#rubricWeights-${questionNum} th:last`);
     $(rubricWeightFragment).insertAfter(lastWeightCell);
 
-    disallowNonNumericEntries($('#rubricWeight-' + questionNum + '-' + (newColNumber - 1)), true, true);
+    disallowNonNumericEntries($(`#rubricWeight-${questionNum}-${newColNumber - 1}`), true, true);
 
     // Insert body <td>'s
-    var rubricRowFragmentTemplate =
+    const rubricRowFragmentTemplate =
         '<td class="align-center rubricCol-${qnIndex}-${col}">'
         + '<textarea class="form-control" rows="3" '
                 + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}" '
@@ -142,11 +142,11 @@ function addRubricCol(questionNum) {
       + '</td>';
 
     // Create numberOfRows of <td>'s
-    for (var rows = 0; rows < numberOfRows; rows++) {
-        if (!$('#rubricRow-' + questionNum + '-' + rows).length) {
+    for (let rows = 0; rows < numberOfRows; rows++) {
+        if (!$(`#rubricRow-${questionNum}-${rows}`).length) {
             continue;
         }
-        var fragment = rubricRowFragmentTemplate;
+        let fragment = rubricRowFragmentTemplate;
         fragment = replaceAll(fragment, '${qnIndex}', questionNum);
         fragment = replaceAll(fragment, '${row}', rows);
         fragment = replaceAll(fragment, '${col}', newColNumber - 1);
@@ -156,12 +156,12 @@ function addRubricCol(questionNum) {
                               'rubricDesc');
 
         // Insert after previous <td>
-        var lastTd = $('#rubricRow-' + questionNum + '-' + rows + ' td:last');
+        const lastTd = $(`#rubricRow-${questionNum}-${rows} td:last`);
         $(fragment).insertAfter(lastTd);
     }
 
     // Increment
-    $('#rubricNumCols-' + questionNum).val(newColNumber);
+    $(`#rubricNumCols-${questionNum}`).val(newColNumber);
 
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
@@ -169,16 +169,16 @@ function addRubricCol(questionNum) {
 }
 
 function removeRubricRow(index, questionNum) {
-    var questionId = '#form_editquestion-' + questionNum;
+    const questionId = `#form_editquestion-${questionNum}`;
 
-    var $thisRow = $('#rubricRow-' + questionNum + '-' + index);
+    const $thisRow = $(`#rubricRow-${questionNum}-${index}`);
 
     // count number of table rows from table body
-    var numberOfRows = $thisRow.parent().children('tr').length;
+    const numberOfRows = $thisRow.parent().children('tr').length;
 
-    var delStr = numberOfRows <= 1 ? 'clear' : 'delete';
-    var messageText = 'Are you sure you want to ' + delStr + ' the row?';
-    var okCallback = function() {
+    const delStr = numberOfRows <= 1 ? 'clear' : 'delete';
+    const messageText = `Are you sure you want to ${delStr} the row?`;
+    const okCallback = function () {
         if (numberOfRows <= 1) {
             $thisRow.find('textarea').val('');
         } else {
@@ -195,16 +195,16 @@ function removeRubricRow(index, questionNum) {
 }
 
 function removeRubricCol(index, questionNum) {
-    var questionId = '#form_editquestion-' + questionNum;
+    const questionId = `#form_editquestion-${questionNum}`;
 
-    var $thisCol = $('.rubricCol-' + questionNum + '-' + index);
+    const $thisCol = $(`.rubricCol-${questionNum}-${index}`);
 
     // count number of table columns from table body
-    var numberOfCols = $thisCol.first().parent().children().length - 1;
+    const numberOfCols = $thisCol.first().parent().children().length - 1;
 
-    var delStr = numberOfCols <= 1 ? 'clear' : 'delete';
-    var messageText = 'Are you sure you want to ' + delStr + ' the column?';
-    var okCallback = function() {
+    const delStr = numberOfCols <= 1 ? 'clear' : 'delete';
+    const messageText = `Are you sure you want to ${delStr} the column?`;
+    const okCallback = function () {
         if (numberOfCols <= 1) {
             $thisCol.find('input[id^="rubricChoice"], textarea').val('');
             $thisCol.find('input[id^="rubricWeight"]').val(0);
@@ -222,18 +222,17 @@ function removeRubricCol(index, questionNum) {
 }
 
 function highlightRubricRow(index, questionNum, highlight) {
-    var $rubricRow = $('#rubricRow-' + questionNum + '-' + index);
+    const $rubricRow = $(`#rubricRow-${questionNum}-${index}`);
 
     if (highlight) {
         $rubricRow.find('td').addClass('cell-selected-negative');
     } else {
         $rubricRow.find('td').removeClass('cell-selected-negative');
     }
-
 }
 
 function highlightRubricCol(index, questionNum, highlight) {
-    var $rubricCol = $('.rubricCol-' + questionNum + '-' + index);
+    const $rubricCol = $(`.rubricCol-${questionNum}-${index}`);
 
     if (highlight) {
         $rubricCol.addClass('cell-selected-negative');
@@ -248,9 +247,8 @@ function highlightRubricCol(index, questionNum, highlight) {
  * appropriate location
  */
 function bindAssignWeightsCheckboxes() {
-    $('body').on('click', 'input[id^="rubricAssignWeights"]', function() {
-
-        var $checkbox = $(this);
+    $('body').on('click', 'input[id^="rubricAssignWeights"]', function () {
+        const $checkbox = $(this);
 
         $checkbox.closest('form').find('tr[id^="rubricWeights"]').toggle();
 
@@ -265,13 +263,12 @@ function bindAssignWeightsCheckboxes() {
  * @param checkbox the "weights" checkbox
  */
 function moveAssignWeightsCheckbox(checkbox) {
+    const $choicesRow = checkbox.closest('thead').find('tr').eq(0);
+    const $weightsRow = checkbox.closest('thead').find('tr').eq(1);
+    const $choicesRowFirstCell = $choicesRow.find('th').first();
+    const $weightsRowFirstCell = $weightsRow.find('th').first();
 
-    var $choicesRow = checkbox.closest('thead').find('tr').eq(0);
-    var $weightsRow = checkbox.closest('thead').find('tr').eq(1);
-    var $choicesRowFirstCell = $choicesRow.find('th').first();
-    var $weightsRowFirstCell = $weightsRow.find('th').first();
-
-    var $checkboxCellContent = checkbox.closest('th').children().detach();
+    const $checkboxCellContent = checkbox.closest('th').children().detach();
 
     $choicesRowFirstCell.empty();
     $weightsRowFirstCell.empty();
@@ -292,5 +289,5 @@ function moveAssignWeightsCheckbox(checkbox) {
  * @returns {Boolean} true if the weights are assigned by the user, otherwise false
  */
 function hasAssignedWeights(questionNum) {
-    return $('#rubricAssignWeights-' + questionNum).prop('checked');
+    return $(`#rubricAssignWeights-${questionNum}`).prop('checked');
 }
