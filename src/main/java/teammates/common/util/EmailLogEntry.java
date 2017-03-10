@@ -10,6 +10,8 @@ import com.google.appengine.api.log.AppLogLine;
  */
 public class EmailLogEntry {
 
+    private static final Logger log = Logger.getLogger();
+
     private String receiver;
     private String subject;
     private String content;
@@ -34,6 +36,8 @@ public class EmailLogEntry {
             receiver = "";
             subject = "";
             content = "";
+
+            log.severe(String.format(Const.EmailLog.ERROR_LOG_FORMAT, appLog.getLogMessage()));
         }
     }
 
