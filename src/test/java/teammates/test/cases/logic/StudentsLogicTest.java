@@ -409,9 +409,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         String enrollLines;
         String courseId = "CourseID";
         coursesLogic.createCourse(courseId, "CourseName", "UTC");
-
-        List<String> invalidInfo;
-        List<String> expectedInvalidInfo = new ArrayList<String>();
+        String invalidInfoString = null;
+        String expectedInvalidInfoString;
+        List<String> expectedInvalidInfoList = new ArrayList<String>();
 
         ______TS("enrollLines with invalid parameters");
         String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
@@ -431,56 +431,55 @@ public class StudentsLogicTest extends BaseLogicTest {
                     + Const.EOL + lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL
                     + lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
-        expectedInvalidInfo.clear();
+        expectedInvalidInfoList.clear();
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidTeamName, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamName, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidStudentName, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidStudentName, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidEmail, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidEmail, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidStudentNameAndEmail, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidStudentNameAndEmail, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidTeamNameAndEmail, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamNameAndEmail, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
                               lineWithInvalidTeamNameAndStudentNameAndEmail, info));
 
-        for (int i = 0; i < invalidInfo.size(); i++) {
-            assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
-        }
+        expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
+        assertEquals(expectedInvalidInfoString, invalidInfoString);
 
         ______TS("enrollLines with too few");
         String lineWithNoEmailInput = "Team 4 | StudentWithNoEmailInput";
@@ -489,15 +488,15 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
-        expectedInvalidInfo.clear();
-        expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithNoEmailInput,
+        expectedInvalidInfoList.clear();
+        expectedInvalidInfoList.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithNoEmailInput,
                 StudentAttributesFactory.ERROR_ENROLL_LINE_TOOFEWPARTS));
 
-        for (int i = 0; i < invalidInfo.size(); i++) {
-            assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
-        }
+        expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
+        assertEquals(expectedInvalidInfoString, invalidInfoString);
+
 
         ______TS("enrollLines with some empty fields");
 
@@ -510,24 +509,25 @@ public class StudentsLogicTest extends BaseLogicTest {
                       + lineWithStudentNameEmpty + Const.EOL
                       + lineWithEmailEmpty;
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
-        expectedInvalidInfo.clear();
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
+
+        expectedInvalidInfoList.clear();
         info = StringHelper.toString(
                 SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithTeamNameEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithTeamNameEmpty, info));
+        expectedInvalidInfoList.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithTeamNameEmpty, info));
         info = StringHelper.toString(
                 SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithStudentNameEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithStudentNameEmpty, info));
+        expectedInvalidInfoList.add(
+                String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithStudentNameEmpty, info));
         info = StringHelper.toString(
                 SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithEmailEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithEmailEmpty, info));
+        expectedInvalidInfoList.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithEmailEmpty, info));
 
-        for (int i = 0; i < invalidInfo.size(); i++) {
-            assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
-        }
+        expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
+        assertEquals(expectedInvalidInfoString, invalidInfoString);
 
         ______TS("enrollLines with correct input");
         headerLine = "Team | Name | Email | Comment";
@@ -535,10 +535,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithCorrectInputWithComment = "Team 4 | Benjamin | benjamin@email.tmt | Foreign student";
 
         enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
-
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
-
-        assertEquals(0, invalidInfo.size());
+        // No exception is supposed be thrown here. Test will fail if Enrollment Exception is thrown
+        studentsLogic.createStudents(enrollLines, courseId);
 
         ______TS("enrollLines with only whitespaces");
         // not tested as enroll lines must be trimmed before passing to the method
@@ -547,9 +545,10 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
-        assertEquals(1, invalidInfo.size());
+        expectedInvalidInfoString = "Same email address as the student in line \"" + lineWithCorrectInput + "\"";
+        AssertHelper.assertContains(expectedInvalidInfoString, invalidInfoString);
 
         ______TS("enrollLines with a mix of all above cases");
         enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL
@@ -557,22 +556,22 @@ public class StudentsLogicTest extends BaseLogicTest {
                 + Const.EOL + lineWithExtraParameters + Const.EOL
                 + lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + "\t";
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
-        expectedInvalidInfo.clear();
+        expectedInvalidInfoList.clear();
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidTeamName, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamName, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
                               lineWithInvalidTeamNameAndStudentNameAndEmail, info));
 
@@ -580,20 +579,30 @@ public class StudentsLogicTest extends BaseLogicTest {
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithTeamNameEmpty, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithTeamNameEmpty, info));
 
-        info = StringHelper.toString(
-                    SanitizationHelper.sanitizeForHtml(
-                        saf.makeStudent(lineWithCorrectInput, courseId).getInvalidityInfo()),
-                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
-                String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithCorrectInput, info));
+        expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
+        assertEquals(expectedInvalidInfoString, invalidInfoString);
+    }
 
-        for (int i = 0; i < invalidInfo.size(); i++) {
-            assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
+    /**
+     * Returns the error message of EnrollException thrown when trying to call
+     * {@link teammates.logic.core.StudentsLogic#createStudents(String, String)} method with
+     * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
+     * {@link #signalFailureToDetectException()}.
+     *
+     * @param invalidEnrollLines is assumed to be invalid
+     */
+    private String getExceptionMessageOnCreatingStudentsList(String invalidEnrollLines, String courseId) {
+        String invalidInfoString = null;
+        try {
+            studentsLogic.createStudents(invalidEnrollLines, courseId);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
+            invalidInfoString = e.getMessage();
         }
-
+        return invalidInfoString;
     }
 
     public void testEnrollStudents() throws Exception {
@@ -1090,13 +1099,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         return (StudentEnrollDetails) invokeMethod(StudentsLogic.class, "enrollStudent",
                                                    new Class<?>[] { StudentAttributes.class, Boolean.class },
                                                    StudentsLogic.inst(), new Object[] { student, false });
-    }
-
-    @SuppressWarnings("unchecked")
-    private static List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws Exception {
-        return (List<String>) invokeMethod(StudentsLogic.class, "getInvalidityInfoInEnrollLines",
-                                           new Class<?>[] { String.class, String.class },
-                                           StudentsLogic.inst(), new Object[] { lines, courseId });
     }
 
     @AfterClass
