@@ -41,7 +41,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
 
         String smallerPortion = "";
         if (questionNumber == null) {
-            smallerPortion = "question";
+            smallerPortion = "question by clicking the question number";
         } else {
             smallerPortion = "section";
         }

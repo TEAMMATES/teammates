@@ -11,7 +11,7 @@
 
 
 <div class="panel ${questionPanel.panelClass}">
-    <div class="panel-heading overflow-auto${questionPanel.ajaxClass}">
+    <div class="panel-heading${questionPanel.ajaxClass}">
         <c:if test="${questionPanel.collapsible}">
             <form style="display:none;" id="seeMore-${questionPanel.question.questionNumber}" class="seeMoreForm-${questionPanel.question.questionNumber}" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}">
@@ -27,11 +27,15 @@
             <div class='display-icon pull-right'>
                 <span class="glyphicon ${ isShowingResponses ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
             </div>
-            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
-                <div id="DownloadQuestion-${questionPanel.question.questionNumber}">
-                    <input id="button_download-${questionPanel.question.questionNumber}" type="submit" class="btn btn-primary pull-right margin-right-10px"
+        </c:if>
+        <c:choose>
+            <c:when test="${questionPanel.boldQuestionNumber}">
+                <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>" class="inline">
+                <div id="DownloadQuestion-${questionPanel.question.questionNumber}" class="inline">
+                    <input id="button_download-${questionPanel.question.questionNumber}" type="submit" 
+                        class="btn-link text-bold padding-0 color_inherit" data-toggle="tooltip" title="Download Question Results"
                         name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                        value="Download Question Results">
+                        value="Question ${questionPanel.question.questionNumber}:">
                 </div>
                 <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${questionPanel.feedbackSessionName}">
@@ -41,11 +45,7 @@
                 <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${showStats}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${data.missingResponsesShown}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="${questionPanel.question.questionNumber}">
-            </form>
-        </c:if>
-        <c:choose>
-            <c:when test="${questionPanel.boldQuestionNumber}">
-                <strong>Question ${questionPanel.question.questionNumber}: </strong>
+                </form>
                 <div class="inline panel-heading-text">
                     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                     <span class="text-preserve-space">${questionPanel.questionText}${questionPanel.additionalInfoText}</span>

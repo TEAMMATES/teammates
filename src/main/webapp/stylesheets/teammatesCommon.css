@@ -105,6 +105,10 @@ body {
     color: #4379D1;
 }
 
+.color_inherit {
+    color: inherit;
+}
+
 .cursor-pointer {
     cursor: pointer;
     cursor: hand;
