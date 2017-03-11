@@ -59,6 +59,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * `gradle.properties`<br>
       If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.
       This value must be a valid **JDK 1.7** directory.
+      **Windows users** should use a **forward slash**(`/`) instead of the Windows default **backward slash**(`\`) while specifying the path.
    * `src/test/resources/test.properties`<br>
       Append a **same** unique id (e.g your name) to **each** of the default accounts found at the bottom of this file,
       e.g change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`.

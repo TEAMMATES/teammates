@@ -1,3 +1,5 @@
+'use strict';
+
 var TimeZone = {
     /**
      * Generate time zone <option>s using time zone IDs from Moment-Timezone library
