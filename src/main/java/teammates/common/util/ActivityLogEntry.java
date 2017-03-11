@@ -93,7 +93,7 @@ public final class ActivityLogEntry {
         // |||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
         String actionName = tokens[POSITION_OF_ACTION_NAME];
         String actionUrl = tokens[POSITION_OF_ACTION_URL];
-        long time = appLog.getTimeUsec();
+        long time = appLog.getTimeUsec() / 1000;
         Builder builder = new Builder(actionName, actionUrl, time);
 
         builder.withActionResponse(tokens[POSITION_OF_ACTION_RESPONSE]);
