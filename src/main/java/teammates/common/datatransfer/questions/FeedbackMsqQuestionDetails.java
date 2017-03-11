@@ -428,8 +428,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return (numChoice == 0) ? 0 : (entryValue / numChoice);
     }
 
-    private int getQuestionResultStatistics(List<FeedbackResponseAttributes> responses,
-            Map<String, Integer> answerFrequency) {
+    private int getQuestionResultStatistics(
+            List<FeedbackResponseAttributes> responses, Map<String, Integer> answerFrequency) {
         containsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
 
         for (String option : msqChoices) {
@@ -452,8 +452,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoicesSelected;
     }
 
-    private int getNumOfChoicesSelected(FeedbackResponseAttributes response,
-            Map<String, Integer> answerFrequency) {
+    private int getNumOfChoicesSelected(
+            FeedbackResponseAttributes response, Map<String, Integer> answerFrequency) {
         int numChoices = 0;
         List<String> answerStrings =
                 ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
