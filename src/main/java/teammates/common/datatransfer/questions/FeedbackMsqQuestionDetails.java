@@ -408,22 +408,20 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         int numChoicesSelected = getQuestionResultStatistics(responses, answerFrequency);
         if (numChoicesSelected == -1) {
             return "";
-        } else {
-            DecimalFormat df = new DecimalFormat("#.##");
-
-            StringBuilder fragments = new StringBuilder();
-            for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-                fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                        Slots.MCQ_CHOICE_VALUE, entry.getKey(),
-                        Slots.COUNT, entry.getValue().toString(),
-                        Slots.PERCENTAGE,
-                        df.format(100 * divideOrReturnZero(numChoicesSelected, (double) entry.getValue()))));
-            }
-            // Use same template as MCQ for now, until they need to be
-            // different.
-            return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS,
-                    fragments.toString());
         }
+        DecimalFormat df = new DecimalFormat("#.##");
+        StringBuilder fragments = new StringBuilder();
+        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
+            fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+                    Slots.MCQ_CHOICE_VALUE, entry.getKey(),
+                    Slots.COUNT, entry.getValue().toString(),
+                    Slots.PERCENTAGE,
+                    df.format(100 * divideOrReturnZero(numChoicesSelected, (double) entry.getValue()))));
+        }
+        // Use same template as MCQ for now, until they need to be
+        // different.
+        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS,
+                fragments.toString());
     }
 
     private double divideOrReturnZero(int numChoice, double entryValue) {
@@ -511,19 +509,18 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         int numChoicesSelected = getQuestionResultStatistics(responses, answerFrequency);
         if (numChoicesSelected == -1) {
             return "";
-        } else {
-            DecimalFormat df = new DecimalFormat("#.##");
-            StringBuilder fragments = new StringBuilder();
-            for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-                fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey()) + ','
-                        + entry.getValue().toString() + ','
-                        + df.format(100 * divideOrReturnZero(numChoicesSelected, (double) entry.getValue()))
-                        + Const.EOL);
-            }
-
-            return "Choice, Response Count, Percentage" + Const.EOL
-                    + fragments + Const.EOL;
         }
+        DecimalFormat df = new DecimalFormat("#.##");
+        StringBuilder fragments = new StringBuilder();
+        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
+            fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey()) + ','
+                    + entry.getValue().toString() + ','
+                    + df.format(100 * divideOrReturnZero(numChoicesSelected, (double) entry.getValue()))
+                    + Const.EOL);
+        }
+
+        return "Choice, Response Count, Percentage" + Const.EOL
+                + fragments + Const.EOL;
     }
 
     @Override
