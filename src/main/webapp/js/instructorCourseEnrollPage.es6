@@ -10,8 +10,8 @@ const loadUpFunction = function () {
     window.isUserTyping = isUserTyping;
 
     const ENTER_KEYCODE = 13;
-    let enrolTextbox;
-    if ((enrolTextbox = $('#enrollstudents')).length) {
+    let enrolTextbox = $('#enrollstudents');
+    if (enrolTextbox.length) {
         enrolTextbox = enrolTextbox[0];
         $(enrolTextbox).keydown((e) => {
             const keycode = e.which || e.keyCode;
