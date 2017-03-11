@@ -428,6 +428,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return (numChoice == 0) ? 0 : entryValue / numChoice;
     }
 
+    /** This method checks if feedback contains the empty response
+     * @param responses
+     * @param answerFrequency
+     * @return -1 if there is no empty response else number of empty response
+     */
     private int getQuestionResultStatistics(
             List<FeedbackResponseAttributes> responses, Map<String, Integer> answerFrequency) {
         containsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
@@ -452,6 +457,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoicesSelected;
     }
 
+    /**
+     * @param response
+     * @param answerFrequency
+     * @return number of nonEmptyResponses
+     */
     private int getNumOfChoicesSelected(
             FeedbackResponseAttributes response, Map<String, Integer> answerFrequency) {
         int numChoices = 0;
