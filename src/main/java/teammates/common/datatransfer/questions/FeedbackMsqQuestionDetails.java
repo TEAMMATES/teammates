@@ -416,7 +416,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     Slots.MCQ_CHOICE_VALUE, entry.getKey(),
                     Slots.COUNT, entry.getValue().toString(),
                     Slots.PERCENTAGE,
-                    df.format(100 * divideOrReturnZero(numChoicesSelected, (double) entry.getValue()))));
+                    df.format(100 * divideOrReturnZero((double) entry.getValue(), numChoicesSelected))));
         }
         // Use same template as MCQ for now, until they need to be
         // different.
@@ -424,7 +424,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 fragments.toString());
     }
 
-    private double divideOrReturnZero(int numChoice, double entryValue) {
+    private double divideOrReturnZero(double entryValue, int numChoice) {
         return (numChoice == 0) ? 0 : (entryValue / numChoice);
     }
 
@@ -515,7 +515,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey()) + ','
                     + entry.getValue().toString() + ','
-                    + df.format(100 * divideOrReturnZero(numChoicesSelected, (double) entry.getValue()))
+                    + df.format(100 * divideOrReturnZero((double) entry.getValue(), numChoicesSelected))
                     + Const.EOL);
         }
 
