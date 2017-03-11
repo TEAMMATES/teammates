@@ -236,7 +236,7 @@
   <br>
   <br>
   <div class="panel panel-info">
-    <div class="panel-heading overflow-auto" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
+    <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-1" id="seeMore-1" style="display:none;">
         <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
         <input name="fsname" type="hidden" value="Second Session">
@@ -252,9 +252,9 @@
         <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
-      <form action="/page/instructorFeedbackResultsDownload" method="post">
-        <div id="DownloadQuestion-1">
-          <input class="btn btn-primary pull-right margin-right-10px" id="button_download-1" name="fruploaddownloadbtn" type="submit" value="Download Question Results">
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-1">
+          <input class="btn-link text-bold padding-0 color_inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-1" name="fruploaddownloadbtn" title="" type="submit" value="Question 1:">
         </div>
         <input name="user" type="hidden" value="FRubricQnUiT.instructor">
         <input name="fsname" type="hidden" value="Second Session">
@@ -265,9 +265,6 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionnum" type="hidden" value="1">
       </form>
-      <strong>
-        Question 1:
-      </strong>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Please choose the best choice for the following sub-questions. 
