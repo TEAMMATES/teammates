@@ -1493,7 +1493,7 @@ public final class Const {
         public static final String PREFIX_INSTRUCTOR_PAGE = "instructor";
         public static final String PREFIX_AUTO_PAGE = "/auto";
 
-        public static final String AUTH_NOT_LOGIN = "Unregistered";
+        public static final String AUTH_NOT_LOGIN = "Unknown";
 
         public static final String FIELD_SEPARATOR = "|||";
         public static final String FIELD_CONNECTOR = "%";
