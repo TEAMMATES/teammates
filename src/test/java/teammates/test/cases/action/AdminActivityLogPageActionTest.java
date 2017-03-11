@@ -380,6 +380,8 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
                 today.getTime(), LOG_MESSAGE_INTERVAL_MANY_LOGS);
     }
 
+    // The two test groups should have different 'priority' so that they can run separately
+    // as they depend on different sets of log messages
     @Test(groups = "manyLogs", priority = 2)
     public void statusMessageAndContinueSearch_withManyLogs_searchCorrectly() {
         Date today = TimeHelper.getDateOffsetToCurrentTime(0);
