@@ -427,11 +427,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private double divideOrReturnZero(int numChoice, double entryValue) {
-        if (numChoice == 0) {
-            return 0;
-        } else {
-            return entryValue / numChoice;
-        }
+        return (numChoice == 0) ? 0 : (entryValue / numChoice);
     }
 
     private int getQuestionResultStatistics(List<FeedbackResponseAttributes> responses,
