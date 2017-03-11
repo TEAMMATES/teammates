@@ -81,7 +81,8 @@ QUnit.test('getOlderLogEntriesByAjax correctly modifies page when receiving new 
         logs: []
     };
     replaceAjaxWithStub(responseWithNoLogs);
-    getOlderLogEntriesByAjax(1488712272839);
+    var sampleTimestamp = 1489130289711;
+    getOlderLogEntriesByAjax(sampleTimestamp);
     assert.equal(logContainer.children().length, 0, 'no entries should be added if ajax response contains no entries');
 
     var responseWithLogs = {
@@ -92,7 +93,7 @@ QUnit.test('getOlderLogEntriesByAjax correctly modifies page when receiving new 
         ]
     };
     replaceAjaxWithStub(responseWithLogs);
-    getOlderLogEntriesByAjax(1488712272839);
+    getOlderLogEntriesByAjax(sampleTimestamp);
     assert.equal(logContainer.children().length, 2, 'Log entries should be added');
     assert.equal(logContainer.children().eq(0).html(), '<td>entry 1</td>');
     assert.equal(logContainer.children().eq(1).html(), '<td>entry 2</td>');
@@ -111,7 +112,8 @@ QUnit.test('convertLogTimestampToAdminTimezone', function(assert) {
     replaceAjaxWithStub(response);
     var $logEntry = $('#logsTable tbody tr a');
     var $logTimestampCell = $logEntry.parent();
-    convertLogTimestampToAdminTimezone(1489130289711, 'teammates.admin.id', 'Admin', $logEntry);
+    var sampleTimestamp = 1489130289711;
+    convertLogTimestampToAdminTimezone(sampleTimestamp, 'teammates.admin.id', 'Admin', $logEntry);
 
     assert.equal($logTimestampCell.html(), '10-03-2017 15:18:09<mark><br>10-03-2017 07:18:09</mark>',
             'Received timestamp correctly displayed');
