@@ -403,7 +403,7 @@ public class ActivityLogEntry {
     }
 
     public boolean isTestingData() {
-        return email.endsWith(Const.ActivityLog.TEST_DATA_POSTFIX);
+        return email.endsWith(Const.ActivityLog.TESTING_DATA_EMAIL_POSTFIX);
     }
 
 }
