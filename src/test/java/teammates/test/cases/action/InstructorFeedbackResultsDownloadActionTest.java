@@ -178,7 +178,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForDownloadWithMissingResponsesHidden(result.getFileContent(), session);
 
-        ______TS("Typical case: question results downloadable");
+        ______TS("Typical case: results downloadable by question");
 
         action = getAction(paramsQuestion2);
         result = getFileDownloadResult(action);
@@ -191,7 +191,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_question2";
         assertEquals(expectedFileName, result.getFileName());
 
-        ______TS("Typical case: question results within section downloadable");
+        ______TS("Typical case: results within section downloadable by question");
 
         action = getAction(paramsQuestion1WithinSection);
         result = getFileDownloadResult(action);
