@@ -22,7 +22,6 @@ import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
@@ -133,9 +132,14 @@ public class ControllerServlet extends HttpServlet {
             EmailWrapper errorReport =
                     new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
                                                                   requestUrl, requestParams, userType, t);
-            new EmailSender().sendReport(errorReport);
-            log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, errorReport, userType));
-
+            /*
+             * Error report is not sent immediately as it can delay termination of request which may result
+             * in GAE shutting down the instance. The error report will be sent by email in the cron job
+             * auto/compileLogs later
+             */
+            if (errorReport != null) {
+                log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, errorReport, userType));
+            }
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
         }
