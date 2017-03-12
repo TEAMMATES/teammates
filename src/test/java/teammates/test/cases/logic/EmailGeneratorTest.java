@@ -14,7 +14,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -327,49 +326,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 course.getName(), course.getId());
 
         verifyEmail(email, student.email, subject, "/studentCourseRejoinAfterGoogleIdResetEmail.html");
-
-    }
-
-    @Test
-    public void testSystemCrashReportEmailContent() throws IOException {
-
-        ______TS("user is logged in and the error has message");
-
-        AssertionError error = new AssertionError("invalid parameter");
-        String requestMethod = "GET";
-        String requestUserAgent = "user-agent";
-        String requestPath = "/page/studentHome";
-        String requestUrl = "/page/studentHome/";
-        String requestParam = "{}";
-        UserType userType = new UserType("Actual user ABC");
-
-        EmailWrapper email =
-                new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
-                                                              requestUrl, requestParam, userType, error);
-
-        // The stack trace is different depending on the environment in which the test is run at.
-        // As a workaround, after the last common line, change all the stack trace to "..."
-        String lastCommonLineRegex =
-                "(?s)(at org\\.testng\\.TestRunner\\.run\\(TestRunner\\.java:621\\)\\s*)at.*?(\\s*</code>)";
-        String modifiedContent = email.getContent().replaceAll(lastCommonLineRegex, "$1...$2");
-        email.setContent(modifiedContent);
-
-        String subject = String.format(EmailType.ADMIN_SYSTEM_ERROR.getSubject(),
-                                       Config.getAppVersion(), error.getMessage());
-
-        verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/systemCrashReportEmail.html");
-
-        ______TS("user is not logged in and the error has no message");
-
-        error = new AssertionError();
-        email = new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
-                                                              requestUrl, requestParam, null, error);
-        subject = String.format(EmailType.ADMIN_SYSTEM_ERROR.getSubject(),
-                                Config.getAppVersion(), "java.lang.AssertionError");
-        modifiedContent = email.getContent().replaceAll(lastCommonLineRegex, "$1...$2");
-        email.setContent(modifiedContent);
-
-        verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/systemCrashReportEmailLessInfo.html");
 
     }
 

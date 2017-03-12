@@ -11,9 +11,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -645,44 +643,6 @@ public class EmailGenerator {
                 "${joinUrl}", joinUrl);
     }
 
-    /**
-     * Generates the system error report email for the given {@code error}.
-     */
-    public EmailWrapper generateSystemErrorEmail(
-            String requestMethod, String requestUserAgent, String requestPath, String requestUrl,
-            String requestParams, UserType userType, Throwable error) {
-
-        String errorMessage = error.getMessage();
-        String stackTrace = TeammatesException.toStringWithStackTrace(error);
-
-        // If the error doesn't contain a short description, retrieve the first line of stack trace.
-        // truncate stack trace at first "at" string
-        if (errorMessage == null) {
-            int msgTruncateIndex = stackTrace.indexOf("at");
-            if (msgTruncateIndex > 0) {
-                errorMessage = stackTrace.substring(0, msgTruncateIndex).trim();
-            } else {
-                errorMessage = "";
-            }
-        }
-
-        String actualUser = userType == null || userType.id == null ? "Not logged in" : userType.id;
-
-        String emailBody = Templates.populateTemplate(EmailTemplates.SYSTEM_ERROR,
-                "${actualUser}", actualUser,
-                "${requestMethod}", requestMethod,
-                "${requestUserAgent}", requestUserAgent,
-                "${requestUrl}", requestUrl,
-                "${requestPath}", requestPath,
-                "${requestParameters}", requestParams,
-                "${errorMessage}", errorMessage,
-                "${stackTrace}", stackTrace);
-
-        EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
-        email.setSubject(String.format(EmailType.ADMIN_SYSTEM_ERROR.getSubject(), Config.getAppVersion(), errorMessage));
-        email.setContent(emailBody);
-        return email;
-    }
 
     /**
      * Generates the logs compilation email for the given {@code logs}.
