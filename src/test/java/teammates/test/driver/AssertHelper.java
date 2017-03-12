@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 
 import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
@@ -136,26 +136,32 @@ public final class AssertHelper {
      * @param actual
      */
     public static void assertLogMessageEquals(String expected, String actual) {
-        String expectedGoogleId = expected.split("\\|\\|\\|")[ActivityLogEntry.POSITION_OF_GOOGLEID];
+        String expectedGoogleId = expected
+                    .split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR))[6];
 
-        assertLogMessageEquals(expected, actual, expectedGoogleId);
+        assertLogMessageEqualsWithoutId(expected, actual);
+        assertLogIdContainUserId(actual, expectedGoogleId);
     }
 
-    private static void assertLogMessageEquals(String expected, String actual, String userIdentifier) {
-        int endIndex = actual.lastIndexOf("|||");
-        String actualLogWithoutId = actual.substring(0, endIndex);
-
-        assertEquals(expected, actualLogWithoutId);
-
-        String actualId = actual.substring(endIndex + "|||".length());
+    public static void assertLogIdContainUserId(String actualMessage, String userIdentifier) {
+        int endIndex = actualMessage.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
+        String actualId = actualMessage.substring(endIndex + Const.ActivityLog.FIELD_SEPARATOR.length());
         assertTrue("expected actual message's id to contain " + userIdentifier
                    + " but was " + actualId,
                    actualId.contains(userIdentifier));
     }
 
+    public static void assertLogMessageEqualsWithoutId(String expected, String actual) {
+        int endIndex = actual.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
+        String actualLogWithoutId = actual.substring(0, endIndex);
+
+        assertEquals(expected, actualLogWithoutId);
+    }
+
     public static void assertLogMessageEqualsForUnregisteredStudentUser(
             String expected, String actual, String studentEmail, String courseId) {
-        assertLogMessageEquals(expected, actual, studentEmail + "%" + courseId);
+        assertLogMessageEqualsWithoutId(expected, actual);
+        assertLogIdContainUserId(actual, studentEmail + Const.ActivityLog.FIELD_CONNECTOR + courseId);
     }
 
     public static void assertSameContentIgnoreOrder(List<?> a, List<?> b) {

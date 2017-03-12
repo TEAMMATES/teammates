@@ -1,13 +1,15 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserType;
-import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -52,7 +54,10 @@ public class PublicImageServlet extends PublicResourcesServlet {
 
         } catch (IOException e) {
             UserType userType = new GateKeeper().getCurrentUser();
-            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));
+            String url = HttpRequestHelper.getRequestedUrl(req);
+            Map<String, String[]> params = HttpRequestHelper.getParameterMap(req);
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
         }
     }
 
