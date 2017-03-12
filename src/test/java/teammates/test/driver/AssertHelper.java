@@ -137,7 +137,7 @@ public final class AssertHelper {
      */
     public static void assertLogMessageEquals(String expected, String actual) {
         String expectedGoogleId = expected
-                    .split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR))[6];
+                    .split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR))[6]; // GoogleId is at position 6
 
         assertLogMessageEqualsIgnoreLogId(expected, actual);
         assertLogIdContainsUserId(actual, expectedGoogleId);
