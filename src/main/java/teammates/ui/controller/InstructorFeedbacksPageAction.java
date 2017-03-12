@@ -1,9 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +12,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorFeedbacksPageData;
 
-public class InstructorFeedbacksPageAction extends Action {
+public class InstructorFeedbacksPageAction extends InstructorFeedbackAbstractAction {
 
     @Override
     protected ActionResult execute() {
@@ -69,38 +66,9 @@ public class InstructorFeedbacksPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
 
-    protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
-            List<InstructorAttributes> instructorList) {
-
-        List<FeedbackSessionAttributes> sessions =
-                logic.getFeedbackSessionsListForInstructor(instructorList);
-        return sessions;
-    }
-
-    protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList) {
-
-        List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorList);
-
-        Collections.sort(courses, new Comparator<CourseAttributes>() {
-            @Override
-            public int compare(CourseAttributes c1, CourseAttributes c2) {
-                return c1.getId().compareTo(c2.getId());
-            }
-        });
-
-        return courses;
-    }
-
-    /**
-     * Gets a Map with courseId as key, and InstructorAttributes as value.
-     * @return
-     */
-    protected HashMap<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
-        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
-        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId, omitArchived);
-        for (InstructorAttributes instructor : instructors) {
-            courseInstructorMap.put(instructor.courseId, instructor);
-        }
-        return courseInstructorMap;
+    @Override
+    protected void setUniqueAttributesForSession(
+            FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
+        throw new UnsupportedOperationException("Method should not be used here");
     }
 }
