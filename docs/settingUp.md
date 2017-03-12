@@ -89,16 +89,6 @@ More information can be found at [this documentation](https://help.github.com/ar
      
    **Verification:** Go to `Eclipse → Preferences → Java → Installed JREs`, select the JDK 1.7 entry, and choose Edit. It should result in something like this:
       ![devverification-guide-1.png](images/devverification-guide-1.png)
-     
-   * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
-     Go to `Eclipse → Preferences` and configure for all the languages used in TEAMMATES:
-     * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`
-     * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`
-     * HTML: `Web → HTML Files → Editor → Indent using spaces`
-     * CSS: `Web → CSS Files → Editor → Indent using spaces`
-     * XML: `XML → XML Files → Editor → Indent using spaces`
-  * HTML/JSP syntax: We prefer not to use the HTML/JSP syntax validator provided by Eclipse.<br>
-    To turn it off, go to `Project → Properties → Validation → HTML Syntax Validator` and uncheck the `Build` option. Similarly for `JSP Content Validator` and `JSP Syntax Validator`.
 
 1. Run this command to download the dependencies required by TEAMMATES and configure them up to be used by Eclipse:
    ```sh
@@ -113,6 +103,16 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Select `Existing Projects into Workspace` under `General`.
    * Set the `root directory` to the location where the repo is cloned.
    * Click `Finish`.
+   
+1. Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
+     Go to `Eclipse → Preferences` and configure for all the languages used in TEAMMATES:
+     * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`
+     * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`
+     * HTML: `Web → HTML Files → Editor → Indent using spaces`
+     * CSS: `Web → CSS Files → Editor → Indent using spaces`
+     * XML: `XML → XML Files → Editor → Indent using spaces`
+* HTML/JSP syntax: We prefer not to use the HTML/JSP syntax validator provided by Eclipse.<br>
+    To turn it off, go to `Project → Properties → Validation → HTML Syntax Validator` and uncheck the `Build` option. Similarly for `JSP Content Validator` and `JSP Syntax Validator`.
 
 ### IntelliJ IDEA
 
