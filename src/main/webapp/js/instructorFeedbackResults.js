@@ -211,11 +211,35 @@ function toggleCollapse(e, pans) {
     var panels = pans || $('div.panel-collapse');
 
     if ($(e).html().trim().startsWith(expand)) {
-        $('.ajax-response-auto').click();
-        var $autoLoad = $('.ajax_auto').click();
-        var isAutoLoadingTriggered = $autoLoad.length !== 0;
+        // Expand panels.
+        // If the panel data is not yet loaded, it will be loaded by ajax. Ajax loading
+        // is triggered by clicking on the element with class ajax_auto or
+        // ajax-response-auto.
+        // After element of class ajax_auto is clicked, the panel data for that element is loaded
+        // by ajax and the element is no longer of class ajax_auto. After element of class
+        // ajax-response-auto is clicked, the panel data for that element is loaded by ajax but
+        // the element is still of class ajax-response-auto.
+        // Ajax loading is needed when panel data are not yet loaded, this is determined by whether
+        // there is element of class ajax_auto.
+        var $ajax_auto = $(".ajax_auto");
+        var $ajax_response_auto = $(".ajax-response-auto");
+        var hasAjaxAutoLoading = $ajax_auto.length !== 0;
+        var hasAjaxResponseAutoLoading = $ajax_auto.length !== 0;
 
-        if (!isAutoLoadingTriggered) {
+        // Ajax_auto is for panels to display normal feedback sessions while ajax-response-auto
+        // is for panels to display students who have no response.
+        if (hasAjaxAutoLoading){
+            $('.ajax_auto').click();
+            console.log("here1");
+            if (hasAjaxResponseAutoLoading) {
+                $('.ajax-response-auto').click();
+                console.log("here1");
+            }
+        }
+
+        // When ajax loading happens, panels expand automatically and we do not need to expand.
+        // If the toggle happens without Ajax loading, we need to expand panels.
+        if (!hasAjaxAutoLoading) {
             var i = 0;
             for (var idx = 0; idx < panels.length; idx++) {
                 if ($(panels[idx]).attr('class').indexOf('in') === -1) {
