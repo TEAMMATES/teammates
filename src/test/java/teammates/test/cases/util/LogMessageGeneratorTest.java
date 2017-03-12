@@ -41,7 +41,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         String generatedMessage = logCenter.generateSystemErrorLogMessage(url, mockParamMap, errorEmail,
                 loginUser);
         assertTrue(generatedMessage.startsWith(logMessagePrefix));
-        AssertHelper.assertLogIdContainUserId(generatedMessage, "googleIdABC");
+        AssertHelper.assertLogIdContainsUserId(generatedMessage, "googleIdABC");
 
         ______TS("Without google login (with key)");
 
@@ -56,7 +56,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 + "|||Unknown|||Unknown|||Unknown|||";
 
         assertTrue(generatedMessage.startsWith(logMessagePrefix));
-        AssertHelper.assertLogIdContainUserId(generatedMessage, "student@email.com%CS2103");
+        AssertHelper.assertLogIdContainsUserId(generatedMessage, "student@email.com%CS2103");
     }
 
     @Test
@@ -72,7 +72,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         String generatedMessage = logCenter.generateActionFailureLogMessage(url, mockParamMap, e, loginUser);
         assertTrue(generatedMessage.startsWith(logMessagePrefix));
-        AssertHelper.assertLogIdContainUserId(generatedMessage, "googleIdABC");
+        AssertHelper.assertLogIdContainsUserId(generatedMessage, "googleIdABC");
 
         ______TS("Without google login (with key)");
 
@@ -84,7 +84,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 + "|||Unknown|||Unknown|||Unknown|||Unknown|||";
 
         assertTrue(generatedMessage.startsWith(logMessagePrefix));
-        AssertHelper.assertLogIdContainUserId(generatedMessage, "student@email.com%CS2103");
+        AssertHelper.assertLogIdContainsUserId(generatedMessage, "student@email.com%CS2103");
     }
 
     @Test

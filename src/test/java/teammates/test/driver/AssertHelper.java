@@ -139,11 +139,11 @@ public final class AssertHelper {
         String expectedGoogleId = expected
                     .split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR))[6];
 
-        assertLogMessageEqualsWithoutId(expected, actual);
-        assertLogIdContainUserId(actual, expectedGoogleId);
+        assertLogMessageEqualsIgnoreLogId(expected, actual);
+        assertLogIdContainsUserId(actual, expectedGoogleId);
     }
 
-    public static void assertLogIdContainUserId(String actualMessage, String userIdentifier) {
+    public static void assertLogIdContainsUserId(String actualMessage, String userIdentifier) {
         int endIndex = actualMessage.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
         String actualId = actualMessage.substring(endIndex + Const.ActivityLog.FIELD_SEPARATOR.length());
         assertTrue("expected actual message's id to contain " + userIdentifier
@@ -151,7 +151,7 @@ public final class AssertHelper {
                    actualId.contains(userIdentifier));
     }
 
-    public static void assertLogMessageEqualsWithoutId(String expected, String actual) {
+    public static void assertLogMessageEqualsIgnoreLogId(String expected, String actual) {
         int endIndex = actual.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
         String actualLogWithoutId = actual.substring(0, endIndex);
 
@@ -160,8 +160,8 @@ public final class AssertHelper {
 
     public static void assertLogMessageEqualsForUnregisteredStudentUser(
             String expected, String actual, String studentEmail, String courseId) {
-        assertLogMessageEqualsWithoutId(expected, actual);
-        assertLogIdContainUserId(actual, studentEmail + Const.ActivityLog.FIELD_CONNECTOR + courseId);
+        assertLogMessageEqualsIgnoreLogId(expected, actual);
+        assertLogIdContainsUserId(actual, studentEmail + Const.ActivityLog.FIELD_CONNECTOR + courseId);
     }
 
     public static void assertSameContentIgnoreOrder(List<?> a, List<?> b) {
