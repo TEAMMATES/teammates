@@ -35,20 +35,12 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String fileContent = "";
         String fileName = "";
 
-        String questionName = "";
-        if (questionNumber != null) {
-            questionName = "_question" + questionNumber;
-        }
-
-        String smallerPortion = "";
-        if (questionNumber == null) {
-            smallerPortion = "question by clicking the question number";
-        } else {
-            smallerPortion = "section";
-        }
-
         try {
-
+            String questionName = "";
+            if (questionNumber != null) {
+                questionName = "_question" + questionNumber;
+            }
+            
             if (section == null || "All".equals(section)) {
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
                         courseId, feedbackSessionName, instructor.email, filterText,
@@ -67,8 +59,15 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block
-            statusToUser.add(new StatusMessage("There are too many responses. "
-                                                       + "Please download the feedback results by " + smallerPortion,
+            String smallerDownloadOptionSuggestionMessage = "";
+            if (questionNumber == null) {
+                smallerDownloadOptionSuggestionMessage = "question by clicking the question number";
+            } else {
+                smallerDownloadOptionSuggestionMessage = "section";
+            }
+            
+            statusToUser.add(new StatusMessage("There are too many responses. " 
+                        + "Please download the feedback results by " + smallerDownloadOptionSuggestionMessage,
                                                StatusMessageColor.DANGER));
             isError = true;
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE);
