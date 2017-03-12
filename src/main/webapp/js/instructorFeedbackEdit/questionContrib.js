@@ -24,7 +24,7 @@ function setContribQnVisibilityFormat(questionNum) {
 
     // Show only the two visibility options valid for contrib questions; hide the rest
     $currentQuestionTable.find('.visibility-options-dropdown-option')
-                         .not('[data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS"]')
+                         .not('[data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS"]')
                          .not('[data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY"]')
                          .parent().addClass('hidden');
     $currentQuestionTable.find('.visibility-options-dropdown .dropdown-menu .divider').addClass('hidden');

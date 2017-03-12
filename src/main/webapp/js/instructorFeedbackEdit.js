@@ -733,32 +733,15 @@ function copyOptions(newType) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
 
-    // Hide visibility options and update common visibility options dropdown text if a common option is selected
-
-    // Detect visibility label of previous question
+ // Hide visibility options and update common visibility options dropdown text if a common option is selected
     var prevQuestionVisibilityOption = $prevQuestionForm.find('.visibility-options-dropdown > button').text();
+    $newQuestionForm.find('.visibility-options-dropdown > button').text(prevQuestionVisibilityOption);
+
     var isCommonVisibilityOptionSelected = prevQuestionVisibilityOption.trim() !== 'Custom visibility option:';
-
-    // Check for special case: the 'Shown anonymously to recipient, visible to instructors' visibility option
-    // in contrib questions should be interpreted as a custom visibility option in non-contrib questions
-    var isContribToNonContrib = prevType === 'CONTRIB' && newType !== 'CONTRIB';
-    var isSpecialOptionSelected = prevQuestionVisibilityOption.trim()
-                                === 'Shown anonymously to recipient, visible to instructors';
-    var isContribToNonContribAndSpecialOptionSelected = isContribToNonContrib && isSpecialOptionSelected;
-
-    if (isContribToNonContribAndSpecialOptionSelected) { // Handle special case
-        $newQuestionForm.find('.visibility-options-dropdown > button').text('Custom visibility option:');
-
-        $newQuestionForm.find('.visibilityOptions').show();
-
+    if (isCommonVisibilityOptionSelected) {
+        $newQuestionForm.find('.visibilityOptions').hide();
     } else {
-        $newQuestionForm.find('.visibility-options-dropdown > button').text(prevQuestionVisibilityOption);
-
-        if (isCommonVisibilityOptionSelected) {
-            $newQuestionForm.find('.visibilityOptions').hide();
-        } else {
-            $newQuestionForm.find('.visibilityOptions').show();
-        }
+        $newQuestionForm.find('.visibilityOptions').show();
     }
 
     matchVisibilityOptionToFeedbackPath($currGiver);

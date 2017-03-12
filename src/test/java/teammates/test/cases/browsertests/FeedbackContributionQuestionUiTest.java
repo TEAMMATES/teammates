@@ -75,8 +75,10 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
 
         assertTrue(feedbackEditPage
                 .isVisibilityDropdownOptionHiddenForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS"));
-        assertFalse(feedbackEditPage
+        assertTrue(feedbackEditPage
                 .isVisibilityDropdownOptionHiddenForNewQuestion("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS"));
+        assertFalse(feedbackEditPage
+                .isVisibilityDropdownOptionHiddenForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS"));
         assertFalse(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY"));
         assertTrue(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS"));
         assertTrue(feedbackEditPage.isVisibilityDropdownSeparatorHiddenForNewQuestion());
@@ -91,7 +93,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
 
-        feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS");
+        feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS");
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
                 feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
 
@@ -183,7 +185,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
                 feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
 
-        feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS");
+        feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
 
@@ -193,7 +195,8 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectNewQuestionType("TEXT");
 
         // "Shown anonymously to recipient, visible to instructors" should be interpreted as custom
-        assertEquals("Custom visibility option:", feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
+        assertEquals("Shown anonymously to recipient and team members, visible to instructors",
+                     feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,INSTRUCTORS",
                 feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
 

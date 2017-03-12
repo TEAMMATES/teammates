@@ -161,11 +161,20 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
         allowInstructorToSee('.answerCheckbox', $containingForm);
         allowInstructorToSee('.giverCheckbox', $containingForm);
         allowInstructorToSee('.recipientCheckbox', $containingForm);
+        break;
+    case 'ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS':
+        // recipient can see answer and recipient, but not giver name
+        allowRecipientToSee('.answerCheckbox', $containingForm);
+        allowRecipientToSee('.recipientCheckbox', $containingForm);
 
-        if ($containingForm.find('input[name="questiontype"]').val() === 'CONTRIB') {
-            allowGiversTeamToSee('.answerCheckbox', $containingForm);
-            allowRecipientsTeamToSee('.answerCheckbox', $containingForm);
-        }
+        // instructor can see answer, recipient AND giver name
+        allowInstructorToSee('.answerCheckbox', $containingForm);
+        allowInstructorToSee('.giverCheckbox', $containingForm);
+        allowInstructorToSee('.recipientCheckbox', $containingForm);
+
+        // recipient team (same as givers team) can see answer and recipient, but not giver name
+        allowRecipientsTeamToSee('.answerCheckbox', $containingForm);
+        allowGiversTeamToSee('.answerCheckbox', $containingForm);
         break;
     case 'VISIBLE_TO_INSTRUCTORS_ONLY':
         allowInstructorToSee('.answerCheckbox', $containingForm);

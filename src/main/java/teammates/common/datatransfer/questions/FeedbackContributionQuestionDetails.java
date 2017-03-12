@@ -763,7 +763,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             log.severe("Unexpected showResponsesTo for contribution question: "
                        + feedbackQuestionAttributes.showResponsesTo + " (forced to :"
                        + Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS
-                                               .get("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS")
+                                               .get("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS")
                        + ")");
             feedbackQuestionAttributes.showResponsesTo = Arrays.asList(FeedbackParticipantType.RECEIVER,
                                                                        FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
