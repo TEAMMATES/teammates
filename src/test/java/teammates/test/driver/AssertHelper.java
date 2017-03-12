@@ -156,6 +156,12 @@ public final class AssertHelper {
         assertEquals(expected, actualLogWithoutId);
     }
 
+    public static void assertLogMessageEqualsInMasqueradeMode(String expected,
+            String actual, String adminGoogleId) {
+        assertLogMessageEqualsIgnoreLogId(expected, actual);
+        assertLogIdContainsUserId(actual, adminGoogleId);
+    }
+
     public static void assertLogMessageEqualsForUnregisteredStudentUser(
             String expected, String actual, String studentEmail, String courseId) {
         assertLogMessageEqualsIgnoreLogId(expected, actual);

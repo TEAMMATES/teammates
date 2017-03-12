@@ -117,7 +117,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                              + "|||student2InCourse1@gmail.tmt"
                              + "|||studentHome Page Load<br>Total courses: 2"
                              + "|||/page/studentHomePage";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
 
         ______TS("New student with no existing course, course join affected by eventual consistency");
         submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE,

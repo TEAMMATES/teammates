@@ -11,48 +11,13 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.LogMessageGenerator;
-import teammates.logic.api.EmailGenerator;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 
 public class LogMessageGeneratorTest extends BaseTestCase {
 
     private LogMessageGenerator logCenter = new LogMessageGenerator();
-
-    @Test
-    public void testGenerateSystemErrorReportLogMessage() {
-        ______TS("With google login");
-
-        UserType loginUser = new UserType("googleIdABC");
-        Map<String, String[]> paramMap = new HashMap<String, String[]>();
-        String url = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
-        Exception e = new IllegalArgumentException();
-        EmailWrapper errorEmail = generateEmailWrapperFromException(e);
-        String logMessagePrefix = "TEAMMATESLOG|||instructorHomePage|||System Error Report|||true|||Unregistered"
-                                  + "|||Unknown|||googleIdABC|||Unknown|||";
-
-        String generatedMessage =
-                logCenter.generateSystemErrorLogMessage(url, paramMap, errorEmail, loginUser);
-        assertTrue(generatedMessage.startsWith(logMessagePrefix));
-        AssertHelper.assertLogIdContainsUserId(generatedMessage, "googleIdABC");
-
-        ______TS("Without google login (with key)");
-
-        url = Const.ActionURIs.STUDENT_COURSE_JOIN;
-        paramMap = generateRequestParamsWithRegKey();
-        e = new IndexOutOfBoundsException();
-        errorEmail = generateEmailWrapperFromException(e);
-
-        generatedMessage =
-                logCenter.generateSystemErrorLogMessage(url, paramMap, errorEmail, null);
-        logMessagePrefix = "TEAMMATESLOG|||studentCourseJoin|||System Error Report|||true|||Unknown"
-                           + "|||Unknown|||Unknown|||Unknown|||";
-
-        assertTrue(generatedMessage.startsWith(logMessagePrefix));
-        AssertHelper.assertLogIdContainsUserId(generatedMessage, "student@email.com%CS2103");
-    }
 
     @Test
     public void testGenerateServletActionFailureLogMessage() {
@@ -93,7 +58,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         String generatedMessage =
                 logCenter.generateBasicActivityLogMessage(url, paramMap, "auto task", null);
         AssertHelper.assertLogMessageEqualsIgnoreLogId(logMessage, generatedMessage);
-        assertTrue(generatedMessage.contains("Auto" + Const.ActivityLog.FIELD_CONNECTOR));
+        AssertHelper.assertLogIdContainsUserId(generatedMessage, "Auto");
 
         // other situations are tested in testGenerateNormalPageActionLogMessage()
     }
@@ -147,32 +112,31 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                      + "|||googleId|||Unknown|||Try student home|||" + url;
         UserType userType = new UserType("googleId");
 
+        // userType and account will be passed for logged-in user
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, null, null, "Try student home");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
-        ______TS("Google login (Instructor)");
+        ______TS("Google login (Student)");
 
         String logTemplate = "TEAMMATESLOG|||%1$s|||%1$s|||true|||%2$s|||david"
                              + "|||googleId|||david@email.com|||View Result|||/page/%1$s";
 
-        url = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
-        logMessage = String.format(logTemplate, "instructorCoursesPage", "Instructor");
-        userType.isInstructor = true;
+        url = Const.ActionURIs.STUDENT_HOME_PAGE;
+        logMessage = String.format(logTemplate, "studentHomePage", "Student");
+        userType.isStudent = true;
         AccountAttributes acc = new AccountAttributes("googleId", "david", false, "david@email.com", "NUS");
 
-        // userType and account will be passed for logged-in user
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
         ______TS("Google login (Instructor and Student auto detect)");
 
-        userType.isStudent = true;
+        userType.isInstructor = true;
         url = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
         logMessage = String.format(logTemplate, "studentFeedbackResultsPage", "Student");
 
-        // userType and account will be passed for logged-in user
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
@@ -180,7 +144,6 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         url = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
         logMessage = String.format(logTemplate, "instructorCourseEditPage", "Instructor");
 
-        // userType and account will be passed for logged-in user
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
@@ -191,7 +154,6 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         url = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
         logMessage = String.format(logTemplate, "studentFeedbackResultsPage", "Student");
 
-        // userType and account will be passed for logged-in user
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
@@ -199,7 +161,6 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         url = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
         logMessage = String.format(logTemplate, "instructorCommentsPage", "Instructor");
 
-        // userType and account will be passed for logged-in user
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
@@ -208,7 +169,6 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = "TEAMMATESLOG|||adminActivityLogPage|||adminActivityLogPage|||true|||Admin|||david"
                      + "|||googleId|||david@email.com|||View Result|||/admin/adminActivityLogPage";
 
-        // userType and account will be passed for logged-in user
         generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null,
                 "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
@@ -221,11 +181,10 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = "TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor(M)|||david"
                      + "|||anotherGoogleId|||david@email.com|||View comments|||/page/instructorCommentsPage";
 
-        // Masquerade: userType and account don't have the same google id
+        // masquerade: userType and account don't have the same google id
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View comments");
-        AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
-
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(logMessage, generatedMessage, userType.id);
     }
 
     private Map<String, String[]> generateRequestParamsWithRegKey() {
@@ -235,10 +194,4 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         params.put(Const.ParamsNames.REGKEY, new String[] { "KeyABC" });
         return params;
     }
-
-    private EmailWrapper generateEmailWrapperFromException(Throwable t) {
-        return new EmailGenerator().generateSystemErrorEmail("GET", "MAC OS", "/page/somePage",
-                                                             "http://example/", "{}", null, t);
-    }
-
 }

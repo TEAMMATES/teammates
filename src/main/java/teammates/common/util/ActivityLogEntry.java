@@ -36,10 +36,10 @@ public final class ActivityLogEntry {
     private long logTime;
     private String actionUrl;
     private String actionName;
+    private String actionResponse;
 
     // Optional fields
 
-    private String actionResponse;
     private String userRole;
     private boolean isMasqueradeUserRole;
 
@@ -62,13 +62,15 @@ public final class ActivityLogEntry {
      * Constructs an {@link ActivityLogEntry} from {@link AppLogLine} provided by GAE.
      *
      * <p>If the log message in {@link AppLogLine} is not in desired format, an instance will still
-     * be constructed, but with log message : 'Error. Problem parsing log message from the server.'
+     * be constructed, but with log message: {@link Const.ActivityLog.MESSAGE_ERROR_LOG_MESSAGE_FORMAT}
      */
     public ActivityLogEntry(AppLogLine appLog) {
-        try {
-            initActivityLogUsingAppLogMessage(appLog);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            initActivityLogAsFailure(appLog, e);
+        String[] tokens = appLog.getLogMessage().split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR), -1);
+        if (tokens.length >= POSITION_OF_LOG_ID + 1) {
+            initActivityLogUsingAppLogMessage(appLog, tokens);
+        } else {
+            // the number of fields is not enough, which should be an error
+            initActivityLogAsFailure(appLog);
         }
     }
 
@@ -76,19 +78,17 @@ public final class ActivityLogEntry {
         constructFromBuilder(builder);
     }
 
-    private void initActivityLogAsFailure(AppLogLine appLog, ArrayIndexOutOfBoundsException e) {
+    private void initActivityLogAsFailure(AppLogLine appLog) {
         Builder builder =
                 new Builder(Const.ActivityLog.UNKNOWN, Const.ActivityLog.UNKNOWN, appLog.getTimeUsec() / 1000);
-        String logMessage = "<span class=\"text-danger\">" + Const.ActivityLog.MESSAGE_ERROR_LOG_MESSAGE_FORMAT
-                            + "</span><br>System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
+        String logMessage = "<span class=\"text-danger\">"
+                            + Const.ActivityLog.MESSAGE_ERROR_LOG_MESSAGE_FORMAT + "</span><br>";
         builder.withLogMessage(logMessage);
 
         constructFromBuilder(builder);
     }
 
-    private void initActivityLogUsingAppLogMessage(AppLogLine appLog) {
-        String[] tokens = appLog.getLogMessage().split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR), -1);
-
+    private void initActivityLogUsingAppLogMessage(AppLogLine appLog, String[] tokens) {
         // TEAMMATESLOG|||ACTION_NAME|||ACTION_RESPONSE|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL
         // |||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
         String actionName = tokens[POSITION_OF_ACTION_NAME];
@@ -138,20 +138,11 @@ public final class ActivityLogEntry {
      * Generates a log message that will be logged in the server.
      */
     public String generateLogMessage() {
-        // TEAMMATESLOG|||ACTION_NAME|||ACTION_RESPONSE|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID
-        // |||EMAIL|||MESSAGE(IN HTML)|||URL|||ID
-        return Const.ActivityLog.TEAMMATESLOG + Const.ActivityLog.FIELD_SEPARATOR
-                + actionName + Const.ActivityLog.FIELD_SEPARATOR
-                + actionResponse + Const.ActivityLog.FIELD_SEPARATOR
-                + logToShow + Const.ActivityLog.FIELD_SEPARATOR
-                + userRole + (isMasqueradeUserRole ? Const.ActivityLog.ROLE_MASQUERADE_POSTFIX : "")
-                    + Const.ActivityLog.FIELD_SEPARATOR
-                + userName + Const.ActivityLog.FIELD_SEPARATOR
-                + userGoogleId + Const.ActivityLog.FIELD_SEPARATOR
-                + userEmail + Const.ActivityLog.FIELD_SEPARATOR
-                + logMessage + Const.ActivityLog.FIELD_SEPARATOR
-                + actionUrl + Const.ActivityLog.FIELD_SEPARATOR
-                + logId;
+        // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID
+        String userRoleSuffix = isMasqueradeUserRole ? Const.ActivityLog.ROLE_MASQUERADE_POSTFIX : "";
+        return StringHelper.join(Const.ActivityLog.FIELD_SEPARATOR, Const.ActivityLog.TEAMMATESLOG,
+                actionName, actionResponse, Boolean.toString(logToShow), userRole + userRoleSuffix,
+                userName, userGoogleId, userEmail, logMessage, actionUrl, logId);
     }
 
     public String getLogId() {
@@ -224,9 +215,9 @@ public final class ActivityLogEntry {
         private String actionName;
         private String actionUrl;
         private long logTime;
+        private String actionResponse;
 
         // Optional parameters - initialized to default values
-        private String actionResponse = Const.ActivityLog.UNKNOWN;
         private long actionTimeTaken;
         private String userRole = Const.ActivityLog.UNKNOWN;
         private String userName = Const.ActivityLog.UNKNOWN;
@@ -279,7 +270,7 @@ public final class ActivityLogEntry {
             return this;
         }
 
-        public Builder withMasqueradeUserRole(Boolean val) {
+        public Builder withMasqueradeUserRole(boolean val) {
             isMasqueradeUserRole = val;
             return this;
         }

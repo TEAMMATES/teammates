@@ -13,7 +13,7 @@ import com.google.appengine.api.log.AppLogLine;
 public class ActivityLogEntryTest extends BaseTestCase {
 
     @Test
-    public void testDefaultSettings() {
+    public void builder_defaultValues() {
         Builder builder = new Builder("instructorHome", "URL", 10);
         String logMessage = "TEAMMATESLOG|||instructorHome|||instructorHome|||true|||Unknown|||Unknown|||Unknown"
                             + "|||Unknown|||Unknown|||URL";
@@ -21,7 +21,7 @@ public class ActivityLogEntryTest extends BaseTestCase {
     }
 
     @Test
-    public void testBuilderNullValues() {
+    public void builder_withNullValues_ignoreNullValues() {
         Builder builder = new Builder(null, null, 10);
         builder.withActionResponse(null)
                .withLogId(null)
@@ -38,7 +38,7 @@ public class ActivityLogEntryTest extends BaseTestCase {
     }
 
     @Test
-    public void testBuilder() {
+    public void builder_validInputs() {
         ______TS("Test generateLogMessage");
 
         String statusToAdmin = "<span class=\"text-danger\">Error. ActivityLogEntry object is not created "
@@ -79,7 +79,7 @@ public class ActivityLogEntryTest extends BaseTestCase {
     }
 
     @Test
-    public void testConstructActivityLogFromAppLogLine() {
+    public void builder_withAppLogLine_constructSuccessfully() {
         ______TS("Success: Generate activityLog from appLogLine (with TimeTaken)");
         String logMessageWithoutTimeTaken = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor"
                                             + "|||UserName|||UserId|||UserEmail|||Message|||URL|||UserId20151019143729608";
@@ -100,9 +100,19 @@ public class ActivityLogEntryTest extends BaseTestCase {
         entry = new ActivityLogEntry(appLog);
         assertEquals(logMessageWithoutTimeTaken, entry.generateLogMessage());
         assertEquals(0, entry.getActionTimeTaken());
+    }
 
+    @Test
+    public void builder_withMalformationAppLogLine_constructionFail() {
         ______TS("Fail: log message not in correct format");
+        AppLogLine appLog = new AppLogLine();
         appLog.setLogMessage("TEAMMATESLOG||RANDOM");
+        ActivityLogEntry entry = new ActivityLogEntry(appLog);
+        assertTrue(entry.generateLogMessage().contains(Const.ActivityLog.MESSAGE_ERROR_LOG_MESSAGE_FORMAT));
+
+        String logMessageMalformation = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor"
+                                        + "|||UserName|||UserId|||UserEmail|||Message|||URL";
+        appLog.setLogMessage(logMessageMalformation);
         entry = new ActivityLogEntry(appLog);
         assertTrue(entry.generateLogMessage().contains(Const.ActivityLog.MESSAGE_ERROR_LOG_MESSAGE_FORMAT));
     }
