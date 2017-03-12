@@ -861,7 +861,7 @@ public final class FeedbackSessionsLogic {
 
         FeedbackSessionResultsBundle results;
         long indicatedRange = section == null ? 2000 : -1;
-        
+
         if (questionId == null) {
             results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,

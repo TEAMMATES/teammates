@@ -40,7 +40,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
             if (questionNumber != null) {
                 questionName = "_question" + questionNumber;
             }
-            
+
             if (section == null || "All".equals(section)) {
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
                         courseId, feedbackSessionName, instructor.email, filterText,
@@ -65,8 +65,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
             } else {
                 smallerDownloadOptionSuggestionMessage = "section";
             }
-            
-            statusToUser.add(new StatusMessage("There are too many responses. " 
+
+            statusToUser.add(new StatusMessage("There are too many responses. "
                         + "Please download the feedback results by " + smallerDownloadOptionSuggestionMessage,
                                                StatusMessageColor.DANGER));
             isError = true;
