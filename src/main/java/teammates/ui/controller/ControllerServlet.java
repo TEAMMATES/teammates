@@ -16,12 +16,10 @@ import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
@@ -123,23 +121,12 @@ public class ControllerServlet extends HttpServlet {
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
         } catch (Throwable t) {
-            String requestMethod = req.getMethod();
-            String requestUserAgent = req.getHeader("User-Agent");
-            String requestPath = req.getServletPath();
-            String requestUrl = req.getRequestURL().toString();
-            String requestParams = HttpRequestHelper.printRequestParameters(req);
-
-            EmailWrapper errorReport =
-                    new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
-                                                                  requestUrl, requestParams, userType, t);
             /*
-             * Error report is not sent immediately as it can delay termination of request which may result
-             * in GAE shutting down the instance. The error report will be sent by email in the cron job
-             * auto/compileLogs later
+             * Log only basic info about the exception to prevent delay in termination of request which can result
+             * in GAE shutting down the instance.
+             * Note that severe logs are sent by email automatically in the cron job auto/compileLogs.
              */
-            if (errorReport != null) {
-                log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, errorReport, userType));
-            }
+            log.severe("Unexpected exception " + t.getMessage());
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
         }
