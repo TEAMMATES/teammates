@@ -430,10 +430,8 @@ public abstract class Action {
      */
     public String getLogMessage() {
         UserType currUser = gateKeeper.getCurrentUser();
-        String url = HttpRequestHelper.getRequestedUrl(request);
-        Map<String, String[]> params = HttpRequestHelper.getParameterMap(request);
-        return new LogMessageGenerator().generatePageActionLogMessage(url, params, currUser, account,
-                                                                      student, statusToAdmin);
+        return new LogMessageGenerator().generatePageActionLogMessage(requestUrl, requestParameters, currUser,
+                                                                      account, student, statusToAdmin);
     }
 
     /**

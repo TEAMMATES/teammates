@@ -14,7 +14,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.ActivityLogEntry.Builder;
 
 /**
- * Factory to generate log message
+ * Factory to generate log message.
  */
 public class LogMessageGenerator {
     public static final Pattern PATTERN_ACTION_NAME = Pattern.compile("^/\\S+?/(?<actionName>[^\\s\\?]*)");

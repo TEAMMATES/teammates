@@ -66,8 +66,7 @@ public final class ActivityLogEntry {
      */
     public ActivityLogEntry(AppLogLine appLog) {
         try {
-            String[] tokens = appLog.getLogMessage().split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR), -1);
-            initActivityLogUsingAppLogMessage(appLog, tokens);
+            initActivityLogUsingAppLogMessage(appLog);
         } catch (ArrayIndexOutOfBoundsException e) {
             initActivityLogAsFailure(appLog, e);
         }
@@ -87,7 +86,9 @@ public final class ActivityLogEntry {
         constructFromBuilder(builder);
     }
 
-    private void initActivityLogUsingAppLogMessage(AppLogLine appLog, String[] tokens) {
+    private void initActivityLogUsingAppLogMessage(AppLogLine appLog) {
+        String[] tokens = appLog.getLogMessage().split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR), -1);
+
         // TEAMMATESLOG|||ACTION_NAME|||ACTION_RESPONSE|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL
         // |||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
         String actionName = tokens[POSITION_OF_ACTION_NAME];
@@ -132,7 +133,6 @@ public final class ActivityLogEntry {
         actionTimeTaken = builder.actionTimeTaken;
         isMasqueradeUserRole = builder.isMasqueradeUserRole;
     }
-
 
     /**
      * Generates a log message that will be logged in the server.

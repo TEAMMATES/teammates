@@ -10,9 +10,6 @@ import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.log.AppLogLine;
 
-/**
- * SUT: {@link ActivityLogEntry}
- */
 public class ActivityLogEntryTest extends BaseTestCase {
 
     @Test

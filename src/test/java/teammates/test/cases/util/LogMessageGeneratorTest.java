@@ -17,9 +17,6 @@ import teammates.logic.api.EmailGenerator;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 
-/**
- * SUT: {@link LogMessageGenerator}
- */
 public class LogMessageGeneratorTest extends BaseTestCase {
 
     private LogMessageGenerator logCenter = new LogMessageGenerator();
@@ -154,7 +151,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, null, null, "Try student home");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
-        ______TS("Google login (Insturctor)");
+        ______TS("Google login (Instructor)");
 
         String logTemplate = "TEAMMATESLOG|||%1$s|||%1$s|||true|||%2$s|||david"
                              + "|||googleId|||david@email.com|||View Result|||/page/%1$s";
@@ -169,7 +166,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
-        ______TS("Google login (Insturctor and Student auto detect)");
+        ______TS("Google login (Instructor and Student auto detect)");
 
         userType.isStudent = true;
         url = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
@@ -224,7 +221,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = "TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor(M)|||david"
                      + "|||anotherGoogleId|||david@email.com|||View comments|||/page/instructorCommentsPage";
 
-        // Masquerade: userType and acc don't have the same google id
+        // Masquerade: userType and account don't have the same google id
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View comments");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
