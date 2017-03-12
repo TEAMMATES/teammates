@@ -1324,8 +1324,9 @@ public class Logic {
     /**
      * Generates summary results (without comments) in CSV format. <br>
      * Preconditions: <br>
-     * * All parameters(except questionNumber) are non-null. <br>
-     * @return summary for all questions or single question depending on whether questionNumber is null
+     * * All parameters(except questionId) are non-null. <br>
+     * @return summary for all questions if questionId is null
+     *  else return question summary specified by questionId
      */
     public String getFeedbackSessionResultSummaryAsCsv(String courseId,
                                                        String feedbackSessionName,
@@ -1333,7 +1334,7 @@ public class Logic {
                                                        String filterText,
                                                        boolean isMissingResponsesShown,
                                                        boolean isStatsShown,
-                                                       String questionNumber)
+                                                       String questionId)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1341,18 +1342,19 @@ public class Logic {
 
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 feedbackSessionName, courseId, instructorEmail, filterText,
-                isMissingResponsesShown, isStatsShown, questionNumber);
+                isMissingResponsesShown, isStatsShown, questionId);
     }
 
     /**
      * Generates summary results (without comments) within a section in CSV format. <br>
      * Preconditions: <br>
-     * * All parameters(except questionNumber) are non-null. <br>
-     * @return section summary for all questions or single question depending on whether questionNumber is null
+     * * All parameters(except questionId) are non-null. <br>
+     * @return section summary for all questions if questionId is null
+     * else return section summary for question specified by questionId
      */
     public String getFeedbackSessionResultSummaryInSectionAsCsv(
             String courseId, String feedbackSessionName, String instructorEmail,
-            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionNumber)
+            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionId)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1361,7 +1363,7 @@ public class Logic {
 
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsCsv(
                 feedbackSessionName, courseId, instructorEmail, section,
-                filterText, isMissingResponsesShown, isStatsShown, questionNumber);
+                filterText, isMissingResponsesShown, isStatsShown, questionId);
     }
 
     /**
