@@ -1,5 +1,7 @@
-'use strict';
+"use strict";
 
-$(document).ready(function() {
+/* global readyFeedbackPage:false */
+
+$(document).ready(function () {
     readyFeedbackPage();
 });

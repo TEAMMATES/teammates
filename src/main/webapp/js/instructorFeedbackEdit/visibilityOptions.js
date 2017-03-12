@@ -1,5 +1,10 @@
 'use strict';
 
+/* global
+FEEDBACK_QUESTION_SHOWRESPONSESTO:false, FEEDBACK_QUESTION_SHOWGIVERTO:false, FEEDBACK_QUESTION_SHOWRECIPIENTTO:false
+NEW_QUESTION:false
+*/
+
 var ROW_RECIPIENT = 1;
 var ROW_GIVER_TEAM = 2;
 var ROW_RECIPIENT_TEAM = 3;
@@ -59,7 +64,7 @@ function getVisibilityMessage(clickedButton) {
  *  - update visibility message div
  */
 function attachVisibilityDropdownEvent() {
-    $('body').on('click', '.visibility-options-dropdown-option', function() {
+    $('body').on('click', '.visibility-options-dropdown-option', function () {
         var $clickedElem = $(this);
         var selectedOption = $clickedElem.data('optionName');
         var $containingForm = $clickedElem.closest('form');
@@ -100,7 +105,7 @@ function checkAndMarkDestructiveChange(selectedOption, $containingForm) {
  * binds click event of each visibility checkbox to update visibility message div
  */
 function attachVisibilityCheckboxEvent() {
-    $('body').on('change', '.visibilityCheckbox', function() {
+    $('body').on('change', '.visibilityCheckbox', function () {
         var $containingForm = $(this).closest('form');
         updateVisibilityMessageDiv($containingForm);
     });
@@ -132,7 +137,7 @@ function showVisibilityCheckboxesIfCustomOptionSelected($containingForm) {
 }
 
 function uncheckAllVisibilityOptionCheckboxes($containingForm) {
-    $containingForm.find('input.visibilityCheckbox').each(function(index, checkbox) {
+    $containingForm.find('input.visibilityCheckbox').each(function (index, checkbox) {
         checkbox.checked = false;
     });
 }
@@ -148,7 +153,7 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
             // recipient and instructor can see answer and recipient, but not giver name
             allowRecipientToSee('.answerCheckbox', $containingForm);
             allowRecipientToSee('.recipientCheckbox', $containingForm);
-    
+
             allowInstructorToSee('.answerCheckbox', $containingForm);
             allowInstructorToSee('.recipientCheckbox', $containingForm);
             break;
@@ -156,7 +161,7 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
             // recipient can see answer and recipient, but not giver name
             allowRecipientToSee('.answerCheckbox', $containingForm);
             allowRecipientToSee('.recipientCheckbox', $containingForm);
-    
+
             // instructor can see answer, recipient AND giver name
             allowInstructorToSee('.answerCheckbox', $containingForm);
             allowInstructorToSee('.giverCheckbox', $containingForm);
@@ -171,7 +176,7 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
             allowRecipientToSee('.answerCheckbox', $containingForm);
             allowRecipientToSee('.giverCheckbox', $containingForm);
             allowRecipientToSee('.recipientCheckbox', $containingForm);
-    
+
             allowInstructorToSee('.answerCheckbox', $containingForm);
             allowInstructorToSee('.giverCheckbox', $containingForm);
             allowInstructorToSee('.recipientCheckbox', $containingForm);
@@ -221,10 +226,8 @@ function fixCheckboxValuesForTeamContribQuestion($containingForm) {
     if ($containingForm.find('input[name="questiontype"]').val() !== 'CONTRIB') {
         return;
     }
-    var recipientCanSeeAnswerCheckbox =
-        $containingForm.find('input.visibilityCheckbox').filter('[name=receiverLeaderCheckbox]');
-    var recipientTeamCanSeeAnswerCheckbox =
-        $containingForm.find('input.answerCheckbox').filter('[value=RECEIVER_TEAM_MEMBERS]');
+    var recipientCanSeeAnswerCheckbox = $containingForm.find('input.visibilityCheckbox').filter('[name=receiverLeaderCheckbox]');
+    var recipientTeamCanSeeAnswerCheckbox = $containingForm.find('input.answerCheckbox').filter('[value=RECEIVER_TEAM_MEMBERS]');
 
     if (recipientCanSeeAnswerCheckbox.prop('checked')) {
         recipientTeamCanSeeAnswerCheckbox.prop('checked', true);
@@ -244,9 +247,9 @@ function tallyCheckboxes(questionNum) {
         '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO
     };
 
-    $.each(checkboxTypes, function(className, checkboxType) {
+    $.each(checkboxTypes, function (className, checkboxType) {
         var checked = [];
-        $('#form_editquestion-' + questionNum).find(className + ':checked').each(function() {
+        $('#form_editquestion-' + questionNum).find(className + ':checked').each(function () {
             checked.push($(this).val());
         });
         $('[name=' + checkboxType + ']').val(checked.toString());
@@ -258,26 +261,26 @@ function tallyCheckboxes(questionNum) {
  * cannot select an invalid combination.
  */
 function formatCheckBoxes() {
-    $('input.answerCheckbox').change(function() {
+    $('input.answerCheckbox').change(function () {
         if (!$(this).is(':checked')) {
             var $editTabRows = $(this).closest('tr');
             $editTabRows.find('input.giverCheckbox').prop('checked', false);
             $editTabRows.find('input.recipientCheckbox').prop('checked', false);
         }
     });
-    $('input.giverCheckbox').change(function() {
+    $('input.giverCheckbox').change(function () {
         if ($(this).is(':checked')) {
             var $editTabRows = $(this).closest('tr');
             $editTabRows.find('input.answerCheckbox').prop('checked', true).trigger('change');
         }
     });
-    $('input.recipientCheckbox').change(function() {
+    $('input.recipientCheckbox').change(function () {
         if ($(this).is(':checked')) {
             var $editTabRows = $(this).closest('tr');
             $editTabRows.find('input.answerCheckbox').prop('checked', true);
         }
     });
-    $('input[name=receiverLeaderCheckbox]').change(function() {
+    $('input[name=receiverLeaderCheckbox]').change(function () {
         var $editTabRows = $(this).closest('tr');
         $editTabRows.find('input[name=receiverFollowerCheckbox]').prop('checked', $(this).prop('checked'));
     });
@@ -285,7 +288,7 @@ function formatCheckBoxes() {
 
 function enableAllRows($containingForm) {
     var allRows = [ROW_RECIPIENT, ROW_GIVER_TEAM, ROW_RECIPIENT_TEAM, ROW_OTHER_STUDENTS, ROW_INSTRUCTORS];
-    allRows.forEach(function(row) {
+    allRows.forEach(function (row) {
         enableRow($containingForm, row);
     });
 }
@@ -298,7 +301,7 @@ function enableRow($containingForm, row) {
 function disableRow($containingForm, row) {
     var $table = $containingForm.find('.visibilityOptions').find('table');
     var $row = $($table.children().children()[row]);
-    $row.find('input[type="checkbox"]').each(function(index, checkbox) {
+    $row.find('input[type="checkbox"]').each(function (index, checkbox) {
         checkbox.checked = false;
     });
     $row.hide();
@@ -411,13 +414,13 @@ function updateVisibilityMessageDiv($containingForm) {
         type: 'POST',
         url: url,
         data: formData,
-        success: function(data) {
+        success: function success(data) {
             // update stored form data
             previousFormDataMap[questionNum] = formData;
 
             $visibilityMessageDiv.html(formatVisibilityMessageDivHtml(data.visibilityMessage));
         },
-        error: function() {
+        error: function error() {
             showAjaxErrorMessage($containingForm);
         }
     });
@@ -426,7 +429,7 @@ function updateVisibilityMessageDiv($containingForm) {
 function formatVisibilityMessageDivHtml(visibilityMessage) {
     var htmlString = 'This is the visibility hint as seen by the feedback giver:';
     htmlString += '<ul class="text-muted background-color-warning">';
-    for (var i = 0; i < visibilityMessage.length; i++) {
+    for (var i = 0; i < visibilityMessage.length; i += 1) {
         htmlString += '<li>' + visibilityMessage[i] + '</li>';
     }
     htmlString += '</ul>';
@@ -445,8 +448,13 @@ function showAjaxErrorMessage($containingForm) {
     htmlString += '</ul>';
 
     $visibilityMessageDiv.html(htmlString);
-    $visibilityMessageDiv.find('ul').on('click', function() {
+    $visibilityMessageDiv.find('ul').on('click', function () {
         $visibilityMessageDiv.html('');
         updateVisibilityMessageDiv($containingForm);
     });
 }
+
+/* exported
+matchVisibilityOptionToFeedbackPath, toggleVisibilityEditTab, toggleVisibilityPreviewTab, attachVisibilityCheckboxEvent
+attachVisibilityDropdownEvent, showVisibilityCheckboxesIfCustomOptionSelected, formatCheckBoxes, getVisibilityMessage
+*/

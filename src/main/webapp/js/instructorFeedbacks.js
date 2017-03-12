@@ -1,9 +1,27 @@
 'use strict';
 
+/* global
+StatusType:false richTextEditorBuilder:false setStatusMessage:false setStatusMessageToForm:false
+Const:false clearStatusMessages:false bindPublishButtons:false bindRemindButtons:false
+bindUnpublishButtons:false bindDeleteButtons:false linkAjaxForResponseRate:false
+updateNumScalePossibleValues:false addLoadingIndicator:false setupFsCopyModal:false
+
+FEEDBACK_QUESTION_RECIPIENTTYPE:false, FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE:false, FEEDBACK_QUESTION_TEXT:false
+DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID:false, DISPLAY_FEEDBACK_QUESTION_TEXTINVALID:false
+FEEDBACK_QUESTION_TYPE:false, FEEDBACK_SESSION_STARTDATE:false, FEEDBACK_SESSION_STARTTIME:false
+FEEDBACK_QUESTION_NUMSCALE_MIN:false, FEEDBACK_QUESTION_NUMSCALE_MAX:false, FEEDBACK_QUESTION_NUMSCALE_STEP:false
+DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID:false, DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID:false
+DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID:false, DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID:false
+FEEDBACK_SESSION_TIMEZONE:false, COURSE_ID:false, FEEDBACK_SESSION_NAME:false, FEEDBACK_SESSION_COPY_INVALID:false
+DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE:false, FEEDBACK_SESSION_SESSIONVISIBLEBUTTON:false
+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON:false, FEEDBACK_SESSION_VISIBLEDATE:false, FEEDBACK_SESSION_VISIBLETIME:false
+FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false
+*/
+
 // TODO: Move constants from Common.js into appropriate files if not shared.
 var TIMEZONE_SELECT_UNINITIALISED = '-9999';
 
-$(document).ready(function() {
+$(document).ready(function () {
     var isEdit = typeof readyFeedbackEditPage === 'function';
 
     if (typeof richTextEditorBuilder !== 'undefined') {
@@ -23,12 +41,9 @@ $(document).ready(function() {
  * @returns {Boolean}
  */
 function checkFeedbackQuestion(form) {
-    var recipientType = $(form).find('select[name|=' + FEEDBACK_QUESTION_RECIPIENTTYPE + ']')
-                               .find(':selected')
-                               .val();
+    var recipientType = $(form).find('select[name|=' + FEEDBACK_QUESTION_RECIPIENTTYPE + ']').find(':selected').val();
     if (recipientType === 'STUDENTS' || recipientType === 'TEAMS') {
-        if ($(form).find('[name|=' + FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE + ']:checked').val() === 'custom'
-                && !$(form).find('.numberOfEntitiesBox').val()) {
+        if ($(form).find('[name|=' + FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE + ']:checked').val() === 'custom' && !$(form).find('.numberOfEntitiesBox').val()) {
             setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER, form);
             return false;
         }
@@ -38,9 +53,7 @@ function checkFeedbackQuestion(form) {
         return false;
     }
     if ($(form).find('[name=' + FEEDBACK_QUESTION_TYPE + ']').val() === 'NUMSCALE') {
-        if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val()
-                || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val()
-                || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
+        if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val() || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val() || !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
             setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER, form);
             return false;
         }
@@ -62,7 +75,7 @@ function getQuestionNumFromEditForm(form) {
 }
 
 function extractQuestionNumFromEditFormId(id) {
-    return parseInt(id.substring('form_editquestion-'.length, id.length));
+    return parseInt(id.substring('form_editquestion-'.length, id.length), 10);
 }
 
 function checkEditFeedbackSession(form) {
@@ -94,7 +107,7 @@ function selectDefaultTimeOptions() {
 
     var currentDate = convertDateToDDMMYYYY(now);
     var hours = convertDateToHHMM(now).substring(0, 2);
-    var currentTime = parseInt(hours) + 1;
+    var currentTime = parseInt(hours, 10) + 1;
     var timeZone = -now.getTimezoneOffset() / 60;
 
     if (!isTimeZoneIntialized()) {
@@ -139,7 +152,7 @@ function convertDateToHHMM(date) {
 }
 
 function bindCopyButton() {
-    $('#button_copy').on('click', function(e) {
+    $('#button_copy').on('click', function (e) {
         e.preventDefault();
         var selectedCourseId = $('#' + COURSE_ID + ' option:selected').text();
         var newFeedbackSessionName = $('#' + FEEDBACK_SESSION_NAME).val();
@@ -152,13 +165,13 @@ function bindCopyButton() {
             return false;
         }
 
-        $sessionsList.each(function() {
+        $sessionsList.each(function (ev) {
             var $cells = $(this).find('td');
             var courseId = $($cells[0]).text();
             var feedbackSessionName = $($cells[1]).text();
             if (selectedCourseId === courseId && newFeedbackSessionName === feedbackSessionName) {
                 isExistingSession = true;
-                return false;
+                ev.preventDefault();
             }
         });
 
@@ -187,7 +200,7 @@ function bindCopyButton() {
         return false;
     });
 
-    $('#button_copy_submit').on('click', function(e) {
+    $('#button_copy_submit').on('click', function (e) {
         e.preventDefault();
         var $newSessionName = $('#modalCopiedSessionName');
         if ($newSessionName.val()) {
@@ -202,8 +215,7 @@ function bindCopyButton() {
 }
 
 function bindCopyEvents() {
-    $('#copyTableModal > tbody > tr').on('click', function() {
-
+    $('#copyTableModal > tbody > tr').on('click', function () {
         var $currentlySelectedRow = $(this);
         if ($currentlySelectedRow.hasClass('row-selected')) {
             return;
@@ -259,10 +271,8 @@ function bindEventsAfterAjax() {
 }
 
 function bindUncommonSettingsEvents() {
-    $('#editUncommonSettingsSessionResponsesVisibleButton')
-        .click(showUncommonPanelsForSessionResponsesVisible);
-    $('#editUncommonSettingsSendEmailsButton')
-        .click(showUncommonPanelsForSendEmails);
+    $('#editUncommonSettingsSessionResponsesVisibleButton').click(showUncommonPanelsForSessionResponsesVisible);
+    $('#editUncommonSettingsSendEmailsButton').click(showUncommonPanelsForSendEmails);
 }
 
 function updateUncommonSettingsInfo() {
@@ -271,28 +281,23 @@ function updateUncommonSettingsInfo() {
 }
 
 function updateUncommonSettingsSessionVisibilityInfo() {
-    var info = 'Session is visible at submission opening time, '
-             + 'responses are only visible when you publish the results.';
+    var info = 'Session is visible at submission opening time, ' + 'responses are only visible when you publish the results.';
 
     $('#uncommonSettingsSessionResponsesVisibleInfoText').html(info);
 }
 
 function updateUncommonSettingsEmailSendingInfo() {
-    var info = 'Emails are sent when session opens (within 15 mins), '
-             + '24 hrs before session closes and when results are published.';
+    var info = 'Emails are sent when session opens (within 15 mins), ' + '24 hrs before session closes and when results are published.';
 
     $('#uncommonSettingsSendEmailsInfoText').html(info);
 }
 
 function isDefaultSessionResponsesVisibleSetting() {
-    return $('#sessionVisibleFromButton_atopen').prop('checked')
-           && $('#resultsVisibleFromButton_later').prop('checked');
+    return $('#sessionVisibleFromButton_atopen').prop('checked') && $('#resultsVisibleFromButton_later').prop('checked');
 }
 
 function isDefaultSendEmailsSetting() {
-    return $('#sendreminderemail_open').prop('checked')
-           && $('#sendreminderemail_closing').prop('checked')
-           && $('#sendreminderemail_published').prop('checked');
+    return $('#sendreminderemail_open').prop('checked') && $('#sendreminderemail_closing').prop('checked') && $('#sendreminderemail_published').prop('checked');
 }
 
 function showUncommonPanels() {
@@ -335,7 +340,7 @@ function showUncommonPanelsIfNotInDefaultValues() {
  */
 function formatSessionVisibilityGroup() {
     var $sessionVisibilityBtnGroup = $('[name=' + FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + ']');
-    $sessionVisibilityBtnGroup.change(function() {
+    $sessionVisibilityBtnGroup.change(function () {
         collapseIfPrivateSession();
         if ($sessionVisibilityBtnGroup.filter(':checked').val() === 'custom') {
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, false);
@@ -354,7 +359,7 @@ function formatSessionVisibilityGroup() {
  */
 function formatResponsesVisibilityGroup() {
     var $responsesVisibilityBtnGroup = $('[name=' + FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + ']');
-    $responsesVisibilityBtnGroup.change(function() {
+    $responsesVisibilityBtnGroup.change(function () {
         if ($responsesVisibilityBtnGroup.filter(':checked').val() === 'custom') {
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, false);
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, false);
@@ -386,3 +391,7 @@ function collapseIfPrivateSession() {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
     }
 }
+
+/* exported
+checkFeedbackQuestion, checkEditFeedbackSession, readyFeedbackPage, bindEventsAfterAjax, showUncommonPanels
+*/
