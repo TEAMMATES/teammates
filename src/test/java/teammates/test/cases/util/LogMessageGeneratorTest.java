@@ -29,14 +29,14 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         ______TS("With google login");
 
         UserType loginUser = new UserType("googleIdABC");
-        Map<String, String[]> mockParamMap = new HashMap<String, String[]>();
+        Map<String, String[]> paramMap = new HashMap<String, String[]>();
         String url = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
         Exception e = new IllegalArgumentException();
         EmailWrapper errorEmail = generateEmailWrapperFromException(e);
         String logMessagePrefix = "TEAMMATESLOG|||instructorHomePage|||System Error Report|||true|||Unregistered"
                 + "|||Unknown|||googleIdABC|||Unknown|||";
 
-        String generatedMessage = logCenter.generateSystemErrorLogMessage(url, mockParamMap, errorEmail,
+        String generatedMessage = logCenter.generateSystemErrorLogMessage(url, paramMap, errorEmail,
                 loginUser);
         assertTrue(generatedMessage.startsWith(logMessagePrefix));
         AssertHelper.assertLogIdContainsUserId(generatedMessage, "googleIdABC");
@@ -44,11 +44,11 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         ______TS("Without google login (with key)");
 
         url = Const.ActionURIs.STUDENT_COURSE_JOIN;
-        mockParamMap = generateRequestParamsWithRegKey();
+        paramMap = generateRequestParamsWithRegKey();
         e = new IndexOutOfBoundsException();
         errorEmail = generateEmailWrapperFromException(e);
 
-        generatedMessage = logCenter.generateSystemErrorLogMessage(url, mockParamMap,
+        generatedMessage = logCenter.generateSystemErrorLogMessage(url, paramMap,
                 errorEmail, null);
         logMessagePrefix = "TEAMMATESLOG|||studentCourseJoin|||System Error Report|||true|||Unknown"
                 + "|||Unknown|||Unknown|||Unknown|||";
@@ -63,21 +63,21 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         UserType loginUser = new UserType("googleIdABC");
         String url = "/randomPage";
-        Map<String, String[]> mockParamMap = new HashMap<String, String[]>();
+        Map<String, String[]> paramMap = new HashMap<String, String[]>();
         Exception e = new PageNotFoundException("randomPage");
         String logMessagePrefix = "TEAMMATESLOG|||Error when getting ActionName for requestUrl : /randomPage"
                 + "|||Servlet Action Failure|||true|||Unregistered|||Unknown|||googleIdABC|||Unknown|||";
 
-        String generatedMessage = logCenter.generateActionFailureLogMessage(url, mockParamMap, e, loginUser);
+        String generatedMessage = logCenter.generateActionFailureLogMessage(url, paramMap, e, loginUser);
         assertTrue(generatedMessage.startsWith(logMessagePrefix));
         AssertHelper.assertLogIdContainsUserId(generatedMessage, "googleIdABC");
 
         ______TS("Without google login (with key)");
 
         url = Const.ActionURIs.STUDENT_COURSE_JOIN;
-        mockParamMap = generateRequestParamsWithRegKey();
+        paramMap = generateRequestParamsWithRegKey();
         e = new UnauthorizedAccessException("Unknown Registration Key KeyABC");
-        generatedMessage = logCenter.generateActionFailureLogMessage(url, mockParamMap, e, null);
+        generatedMessage = logCenter.generateActionFailureLogMessage(url, paramMap, e, null);
         logMessagePrefix = "TEAMMATESLOG|||studentCourseJoin|||Servlet Action Failure|||true"
                 + "|||Unknown|||Unknown|||Unknown|||Unknown|||";
 
@@ -89,11 +89,11 @@ public class LogMessageGeneratorTest extends BaseTestCase {
     public void testGenerateBasicActivityLogMessage() {
         ______TS("Automated task");
         String url = Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS;
-        Map<String, String[]> mockParamMap = new HashMap<String, String[]>();
+        Map<String, String[]> paramMap = new HashMap<String, String[]>();
         String logMessage = "TEAMMATESLOG|||feedbackSessionClosedReminders|||feedbackSessionClosedReminders|||true"
                 + "|||Auto|||Unknown|||Unknown|||Unknown|||auto task|||/auto/feedbackSessionClosedReminders";
 
-        String generatedMessage = logCenter.generateBasicActivityLogMessage(url, mockParamMap, "auto task",
+        String generatedMessage = logCenter.generateBasicActivityLogMessage(url, paramMap, "auto task",
                 null);
         AssertHelper.assertLogMessageEqualsIgnoreLogId(logMessage, generatedMessage);
         assertTrue(generatedMessage.contains("Auto" + Const.ActivityLog.FIELD_CONNECTOR));
@@ -106,22 +106,22 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         ______TS("Not login");
 
         String url = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
-        Map<String, String[]> mockParamMap = new HashMap<String, String[]>();
+        Map<String, String[]> paramMap = new HashMap<String, String[]>();
         String logMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true|||Unknown|||Unknown"
                 + "|||Unknown|||Unknown|||Not authorized|||/page/instructorHomePage";
 
-        String generatedMessage = logCenter.generatePageActionLogMessage(url, mockParamMap,
+        String generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap,
                 null, null, null, "Not authorized");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
         ______TS("Not google login but with key (not success)");
 
         url = Const.ActionURIs.STUDENT_COURSE_JOIN;
-        mockParamMap = generateRequestParamsWithRegKey();
+        paramMap = generateRequestParamsWithRegKey();
         logMessage = "TEAMMATESLOG|||studentCourseJoin|||studentCourseJoin|||true|||Unknown|||Unknown|||"
                 + "Unknown|||Unknown|||Not authorized|||/page/studentCourseJoin";
 
-        generatedMessage = logCenter.generatePageActionLogMessage(url, mockParamMap,
+        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap,
                 null, null, null, "Not authorized");
         AssertHelper.assertLogMessageEqualsForUnregisteredStudentUser(logMessage, generatedMessage,
                 "student@email.com", "CS2103");
@@ -135,7 +135,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 "comments", "CS2103", "team1", "section1");
 
         // auth success : unregistered student will be passed
-        generatedMessage = logCenter.generatePageActionLogMessage(url, mockParamMap, null, null,
+        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, null, null,
                 student, "Join Course");
         AssertHelper.assertLogMessageEqualsForUnregisteredStudentUser(logMessage, generatedMessage,
                 "student@email.com", "CS2103");
@@ -145,12 +145,12 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         ______TS("Google login (No account)");
 
         url = Const.ActionURIs.STUDENT_HOME_PAGE + "?course=A&user=test";
-        mockParamMap = new HashMap<String, String[]>();
+        paramMap = new HashMap<String, String[]>();
         logMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true|||Unregistered|||Unknown"
                 + "|||googleId|||Unknown|||Try student home|||" + url;
         UserType userType = new UserType("googleId");
 
-        generatedMessage = logCenter.generatePageActionLogMessage(url, mockParamMap,
+        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap,
                 userType, null, null, "Try student home");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
@@ -165,7 +165,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         AccountAttributes acc = new AccountAttributes("googleId", "david", false, "david@email.com", "NUS");
 
         // userType and account will be passed for logged-in user
-        generatedMessage = logCenter.generatePageActionLogMessage(url, mockParamMap, userType, acc, null,
+        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null,
                 "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
@@ -176,7 +176,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = String.format(logTemplate, "studentFeedbackResultsPage", "Student");
 
         // userType and account will be passed for logged-in user
-        generatedMessage = logCenter.generatePageActionLogMessage(url, mockParamMap, userType, acc, null,
+        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null,
                 "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
@@ -184,7 +184,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = String.format(logTemplate, "instructorCourseEditPage", "Instructor");
 
         // userType and account will be passed for logged-in user
-        generatedMessage = logCenter.generatePageActionLogMessage(url, mockParamMap, userType, acc, null,
+        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null,
                 "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
@@ -195,7 +195,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = String.format(logTemplate, "studentFeedbackResultsPage", "Student");
 
         // userType and account will be passed for logged-in user
-        generatedMessage = logCenter.generatePageActionLogMessage(url, mockParamMap, userType, acc, null,
+        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null,
                 "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
@@ -203,7 +203,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = String.format(logTemplate, "instructorCommentsPage", "Instructor");
 
         // userType and account will be passed for logged-in user
-        generatedMessage = logCenter.generatePageActionLogMessage(url, mockParamMap, userType, acc, null,
+        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null,
                 "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
@@ -212,7 +212,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 + "|||googleId|||david@email.com|||View Result|||/admin/adminActivityLogPage";
 
         // userType and account will be passed for logged-in user
-        generatedMessage = logCenter.generatePageActionLogMessage(url, mockParamMap, userType, acc, null,
+        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null,
                 "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
@@ -225,7 +225,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 + "|||anotherGoogleId|||david@email.com|||View comments|||/page/instructorCommentsPage";
 
         // Masquerade: userType and acc don't have the same google id
-        generatedMessage = logCenter.generatePageActionLogMessage(url, mockParamMap, userType, acc, null,
+        generatedMessage = logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null,
                 "View comments");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
