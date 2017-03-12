@@ -1,4 +1,6 @@
-/* eslint-disable no-undef */
+/* global
+setStatusMessage:false, appendStatusMessage:false, clearStatusMessages:false, bindEventsAfterAjax:false, StatusType:false
+*/
 
 let isSessionsAjaxSending = false;
 let oldStatus = null;

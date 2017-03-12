@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 function roundToThreeDp(num) {
     return parseFloat(num.toFixed(3));
 }
@@ -63,3 +61,5 @@ function updateNumScalePossibleValues(questionNum) {
     $numScalePossibleValues.text(possibleValuesString);
     return true;
 }
+
+/* exported updateNumScalePossibleValues */

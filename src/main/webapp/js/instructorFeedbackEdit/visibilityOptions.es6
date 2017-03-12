@@ -1,4 +1,7 @@
-/* eslint-disable no-undef */
+/* global
+FEEDBACK_QUESTION_SHOWRESPONSESTO:false, FEEDBACK_QUESTION_SHOWGIVERTO:false, FEEDBACK_QUESTION_SHOWRECIPIENTTO:false
+NEW_QUESTION:false
+*/
 
 const ROW_RECIPIENT = 1;
 const ROW_GIVER_TEAM = 2;
@@ -450,3 +453,8 @@ function showAjaxErrorMessage($containingForm) {
         updateVisibilityMessageDiv($containingForm);
     });
 }
+
+/* exported
+matchVisibilityOptionToFeedbackPath, toggleVisibilityEditTab, toggleVisibilityPreviewTab, attachVisibilityCheckboxEvent
+attachVisibilityDropdownEvent, showVisibilityCheckboxesIfCustomOptionSelected, formatCheckBoxes, getVisibilityMessage
+*/

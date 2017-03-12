@@ -1,4 +1,6 @@
-/* eslint-disable no-undef */
+/* global
+disallowNonNumericEntries:false, BootboxWrapper:false, StatusType:false
+*/
 
 function addRubricRow(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
@@ -250,3 +252,8 @@ function moveAssignWeightsCheckbox(checkbox) {
 function hasAssignedWeights(questionNum) {
     return $(`#rubricAssignWeights-${questionNum}`).prop('checked');
 }
+
+/* exported
+addRubricRow, addRubricCol, removeRubricRow, removeRubricCol, highlightRubricRow, highlightRubricCol
+bindAssignWeightsCheckboxes, hasAssignedWeights
+*/

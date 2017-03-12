@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global readyFeedbackPage:false */
 
 $(document).ready(() => {
     readyFeedbackPage();

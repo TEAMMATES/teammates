@@ -1,4 +1,7 @@
-/* eslint-disable no-undef */
+/* global
+FEEDBACK_QUESTION_RANKPOINTS:false, FEEDBACK_QUESTION_RANKOPTION:false, FEEDBACK_QUESTION_RANKOPTIONTABLE:false
+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED:false
+*/
 
 function updateRankPointsValue(questionNum) {
     if ($(`#${FEEDBACK_QUESTION_RANKPOINTS}-${questionNum}`).val() < 1) {
@@ -54,3 +57,7 @@ function removeRankOption(index, questionNum) {
         }
     }
 }
+
+/* exported
+updateRankPointsValue, addRankOption, hideRankOptionTable, removeRankOption
+*/

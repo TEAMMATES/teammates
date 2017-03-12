@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 $(document).ready(() => {
     $('#remindModal').on('show.bs.modal', (event) => {
         const button = $(event.relatedTarget); // Button that triggered the modal

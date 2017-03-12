@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 function setDefaultContribQnVisibility(questionNum) {
     const $currentQuestionTable = $(`#questionTable-${questionNum}`);
 
@@ -107,3 +105,7 @@ function fixContribQnGiverRecipient(questionNum) {
     // the dropdown button is not an input tag and has no property "disabled", so .addClass is used
     $questionTable.find('.feedback-path-dropdown > button').addClass('disabled');
 }
+
+/* exported
+setDefaultContribQnVisibility, setContribQnVisibilityFormat, fixContribQnGiverRecipient
+*/

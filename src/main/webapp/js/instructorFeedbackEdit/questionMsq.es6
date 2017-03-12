@@ -1,4 +1,6 @@
-/* eslint-disable no-undef */
+/* global
+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED:false, FEEDBACK_QUESTION_MSQCHOICE:false
+*/
 
 function addMsqOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
@@ -71,3 +73,7 @@ function changeMsqGenerateFor(questionNum) {
     $(`#generatedOptions-${questionNum}`).attr('value',
                                                $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
 }
+
+/* exported
+addMsqOption, removeMsqOption, toggleMsqGeneratedOptions, changeMsqGenerateFor
+*/

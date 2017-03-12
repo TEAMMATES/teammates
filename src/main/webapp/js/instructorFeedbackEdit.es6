@@ -1,4 +1,27 @@
-/* eslint-disable no-undef */
+/* global
+FeedbackPath:false, BootboxWrapper:false, richTextEditorBuilder:false, destroyEditor:false, StatusType:false
+bindUncommonSettingsEvents:false, updateUncommonSettingsInfo:false, showUncommonPanelsIfNotInDefaultValues:false
+attachVisibilityDropdownEvent:false, attachVisibilityCheckboxEvent:false, formatCheckBoxes:false
+addLoadingIndicator:false, removeLoadingIndicator:false, checkFeedbackQuestion:false, scrollToElement:false
+formatSessionVisibilityGroup:false, formatResponsesVisibilityGroup:false, collapseIfPrivateSession:false
+setupFsCopyModal:false, bindAssignWeightsCheckboxes:false, tinyMCE:false, moveAssignWeightsCheckbox:false
+setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:false, setContribQnVisibilityFormat:false
+showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
+getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibility:false
+hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false
+
+FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
+FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
+FEEDBACK_QUESTION_SAVECHANGESTEXT:false, FEEDBACK_QUESTION_DISCARDCHANGES:false, FEEDBACK_QUESTION_EDITTYPE:false
+FEEDBACK_QUESTION_RECIPIENTTYPE:false, FEEDBACK_QUESTION_SHOWRESPONSESTO:false, FEEDBACK_QUESTION_SHOWGIVERTO:false
+FEEDBACK_QUESTION_TYPENAME_TEXT:false, FEEDBACK_QUESTION_NUMBEROFCHOICECREATED:false
+FEEDBACK_QUESTION_SHOWRECIPIENTTO:false, FEEDBACK_QUESTION_TYPENAME_MCQ:false, FEEDBACK_QUESTION_TYPENAME_MSQ:false
+FEEDBACK_QUESTION_TYPENAME_NUMSCALE:false, FEEDBACK_QUESTION_TEXT:false, FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS:false
+FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION:false, FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT:false
+FEEDBACK_QUESTION_TYPENAME_CONTRIB:false, FEEDBACK_QUESTION_TYPENAME_RUBRIC:false
+FEEDBACK_QUESTION_RANKTORECIPIENTS:false, FEEDBACK_QUESTION_TYPENAME_RANK_OPTION:false,
+FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT:false, FEEDBACK_QUESTION_COPY_INVALID:false
+*/
 
 const NEW_QUESTION = -1;
 
@@ -924,3 +947,7 @@ function setRecipientSelectToFirstVisibleOption($recipientSelect) {
         }
     });
 }
+
+/* exported
+enableEditFS, enableEdit, deleteQuestion, discardChanges
+*/

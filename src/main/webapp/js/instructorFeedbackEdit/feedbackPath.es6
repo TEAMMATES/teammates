@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 const FeedbackPath = {
     attachEvents() {
         const allDropdownOptions = $('.feedback-path-dropdown-option');

@@ -1,4 +1,20 @@
-/* eslint-disable no-undef */
+/* global
+StatusType:false richTextEditorBuilder:false setStatusMessage:false setStatusMessageToForm:false
+Const:false clearStatusMessages:false bindPublishButtons:false bindRemindButtons:false
+bindUnpublishButtons:false bindDeleteButtons:false linkAjaxForResponseRate:false
+updateNumScalePossibleValues:false addLoadingIndicator:false setupFsCopyModal:false
+
+FEEDBACK_QUESTION_RECIPIENTTYPE:false, FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE:false, FEEDBACK_QUESTION_TEXT:false
+DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID:false, DISPLAY_FEEDBACK_QUESTION_TEXTINVALID:false
+FEEDBACK_QUESTION_TYPE:false, FEEDBACK_SESSION_STARTDATE:false, FEEDBACK_SESSION_STARTTIME:false
+FEEDBACK_QUESTION_NUMSCALE_MIN:false, FEEDBACK_QUESTION_NUMSCALE_MAX:false, FEEDBACK_QUESTION_NUMSCALE_STEP:false
+DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID:false, DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID:false
+DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID:false, DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID:false
+FEEDBACK_SESSION_TIMEZONE:false, COURSE_ID:false, FEEDBACK_SESSION_NAME:false, FEEDBACK_SESSION_COPY_INVALID:false
+DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE:false, FEEDBACK_SESSION_SESSIONVISIBLEBUTTON:false
+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON:false, FEEDBACK_SESSION_VISIBLEDATE:false, FEEDBACK_SESSION_VISIBLETIME:false
+FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false
+*/
 
 // TODO: Move constants from Common.js into appropriate files if not shared.
 const TIMEZONE_SELECT_UNINITIALISED = '-9999';
@@ -385,3 +401,7 @@ function collapseIfPrivateSession() {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
     }
 }
+
+/* exported
+checkFeedbackQuestion, checkEditFeedbackSession, readyFeedbackPage, bindEventsAfterAjax, showUncommonPanels
+*/
