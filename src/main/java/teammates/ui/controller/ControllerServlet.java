@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +16,9 @@ import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -46,6 +47,8 @@ public class ControllerServlet extends HttpServlet {
     public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         UserType userType = new GateKeeper().getCurrentUser();
+        String url = HttpRequestHelper.getRequestedUrl(req);
+        Map<String, String[]> params = HttpRequestHelper.getParameterMap(req);
 
         try {
             /* We are using the Template Method Design Pattern here.
@@ -73,22 +76,26 @@ public class ControllerServlet extends HttpServlet {
             log.info(c.getLogMessage() + "|||" + timeTaken);
 
         } catch (PageNotFoundException e) {
-            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
         } catch (EntityNotFoundException e) {
-            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
 
         } catch (FeedbackSessionNotVisibleException e) {
-            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
             req.getSession().setAttribute(Const.ParamsNames.FEEDBACK_SESSION_NOT_VISIBLE, e.getStartTimeString());
             resp.sendRedirect(Const.ViewURIs.FEEDBACK_SESSION_NOT_VISIBLE);
 
         } catch (UnauthorizedAccessException e) {
-            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
 
@@ -122,12 +129,20 @@ public class ControllerServlet extends HttpServlet {
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
         } catch (Throwable t) {
-            /* Log only stack trace to prevent delay in termination of request
-             * which can result in GAE shutting down the instance.
-             * Note that severe logs are sent by email automatically in the cron job auto/compileLogs.
-             */
-            log.severe("Unexpected exception caught by ControllerServlet : "
-                        + TeammatesException.toStringWithStackTrace(t));
+            String requestMethod = req.getMethod();
+            String requestUserAgent = req.getHeader("User-Agent");
+            String requestPath = req.getServletPath();
+            String requestUrl = req.getRequestURL().toString();
+            String requestParams = HttpRequestHelper.printRequestParameters(req);
+
+            EmailWrapper errorReport =
+                    new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
+                                                                  requestUrl, requestParams, userType, t);
+            new EmailSender().sendReport(errorReport);
+
+            log.severe(new LogMessageGenerator()
+                              .generateSystemErrorLogMessage(url, params, errorReport, userType));
+
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
         }
