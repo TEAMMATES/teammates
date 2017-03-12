@@ -78,7 +78,8 @@ public final class ActivityLogEntry {
     }
 
     private void initActivityLogAsFailure(AppLogLine appLog, ArrayIndexOutOfBoundsException e) {
-        Builder builder = new Builder(Const.ActivityLog.UNKNOWN, Const.ActivityLog.UNKNOWN, appLog.getTimeUsec());
+        Builder builder = new Builder(Const.ActivityLog.UNKNOWN, Const.ActivityLog.UNKNOWN,
+                appLog.getTimeUsec() / 1000);
         String logMessage = "<span class=\"text-danger\">" + Const.ActivityLog.MESSAGE_ERROR_LOG_MESSAGE_FORMAT
                             + "</span><br>System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
         builder.withLogMessage(logMessage);
