@@ -51,6 +51,14 @@ public final class HttpRequestHelper {
         return getValuesFromParamMap(req.getParameterMap(), key);
     }
 
+    /**
+     * Gets the parameter map from HttpServletRequest.
+     */
+    @SuppressWarnings("unchecked")
+    public static Map<String, String[]> getParameterMap(HttpServletRequest req) {
+        return (Map<String, String[]>) req.getParameterMap();
+    }
+
     //TODO: rename to a better name
     public static String printRequestParameters(HttpServletRequest request) {
         StringBuilder requestParameters = new StringBuilder();

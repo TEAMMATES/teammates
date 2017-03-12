@@ -257,7 +257,7 @@ public class AdminActivityLogPageAction extends Action {
                 continue;
             }
 
-            ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);
+            ActivityLogEntry activityLogEntry = ActivityLogEntry.buildFromAppLog(appLog);
             boolean isToShow = data.filterLog(activityLogEntry)
                     && (!activityLogEntry.isTestingData() || data.getIfShowTestData());
 
