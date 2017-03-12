@@ -33,7 +33,7 @@
                 <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>" class="inline">
                 <div id="DownloadQuestion-${questionPanel.question.questionNumber}" class="inline">
                     <input id="button_download-${questionPanel.question.questionNumber}" type="submit" 
-                        class="btn-link text-bold padding-0 color_inherit" data-toggle="tooltip" title="Download Question Results"
+                        class="btn-link text-bold padding-0 color-inherit" data-toggle="tooltip" title="Download Question Results"
                         name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
                         value="Question ${questionPanel.question.questionNumber}:">
                 </div>
