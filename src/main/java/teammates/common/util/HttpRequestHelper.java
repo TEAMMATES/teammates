@@ -89,7 +89,7 @@ public final class HttpRequestHelper {
      */
     @SuppressWarnings("unchecked")
     public static Map<String, String[]> getParameterMap(HttpServletRequest req) {
-        return req.getParameterMap();
+        return (Map<String, String[]>) req.getParameterMap();
     }
 
     //TODO: rename to a better name
