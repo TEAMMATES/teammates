@@ -586,82 +586,82 @@ function prepareQuestionForm(type) {
     hideAllNewQuestionForms();
 
     switch (type) {
-    case 'TEXT':
-        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_TEXT);
-
-        $('#textForm').show();
-        break;
-    case 'MCQ':
-        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
-        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MCQ);
-
-        $('#mcqForm').show();
-        break;
-    case 'MSQ':
-        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
-        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MSQ);
-
-        $('#msqForm').show();
-        break;
-    case 'NUMSCALE':
-        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
-
-        $('#numScaleForm').show();
-        $('#' + FEEDBACK_QUESTION_TEXT).attr('placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
-        break;
-    case 'CONSTSUM_OPTION':
-        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
-        $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('false');
-        $('#constSumOption_Recipient-' + NEW_QUESTION).hide();
-        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
-
-        $('#constSumForm').show();
-        break;
-    case 'CONSTSUM_RECIPIENT':
-        $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('true');
-        $('#constSumOption_Option-' + NEW_QUESTION).hide();
-        $('#constSumOption_Recipient-' + NEW_QUESTION).show();
-        hideConstSumOptionTable(NEW_QUESTION);
-        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
-
-        $('#constSumForm').show();
-        var optionText = $('#constSum_labelText-' + NEW_QUESTION).text();
-        $('#constSum_labelText-' + NEW_QUESTION).text(optionText.replace('option', 'recipient'));
-        var tooltipText = $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title');
-        $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title', tooltipText.replace('option', 'recipient'));
-        break;
-    case 'CONTRIB':
-        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
-
-        $('#contribForm').show();
-        fixContribQnGiverRecipient(NEW_QUESTION);
-        setDefaultContribQnVisibility(NEW_QUESTION);
-        setContribQnVisibilityFormat(NEW_QUESTION);
-        break;
-    case 'RUBRIC':
-        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
-
-        $('#rubricForm').show();
-        break;
-    case 'RANK_OPTIONS':
-        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
-        $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '-' + NEW_QUESTION).val('false');
-        $('#rankOption_Recipient-' + NEW_QUESTION).hide();
-        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
-
-        $('#rankOptionsForm').show();
-        break;
-    case 'RANK_RECIPIENTS':
-        $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '-' + NEW_QUESTION).val('true');
-        $('#rankOption_Option-' + NEW_QUESTION).hide();
-        hideRankOptionTable(NEW_QUESTION);
-        $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
-
-        $('#rankRecipientsForm').show();
-        break;
-    default:
-        // do nothing if the question type is not recognized, which should not happen
-        break;
+        case 'TEXT':
+            $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_TEXT);
+    
+            $('#textForm').show();
+            break;
+        case 'MCQ':
+            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
+            $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MCQ);
+    
+            $('#mcqForm').show();
+            break;
+        case 'MSQ':
+            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
+            $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MSQ);
+    
+            $('#msqForm').show();
+            break;
+        case 'NUMSCALE':
+            $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
+    
+            $('#numScaleForm').show();
+            $('#' + FEEDBACK_QUESTION_TEXT).attr('placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
+            break;
+        case 'CONSTSUM_OPTION':
+            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
+            $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('false');
+            $('#constSumOption_Recipient-' + NEW_QUESTION).hide();
+            $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
+    
+            $('#constSumForm').show();
+            break;
+        case 'CONSTSUM_RECIPIENT':
+            $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('true');
+            $('#constSumOption_Option-' + NEW_QUESTION).hide();
+            $('#constSumOption_Recipient-' + NEW_QUESTION).show();
+            hideConstSumOptionTable(NEW_QUESTION);
+            $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
+    
+            $('#constSumForm').show();
+            var optionText = $('#constSum_labelText-' + NEW_QUESTION).text();
+            $('#constSum_labelText-' + NEW_QUESTION).text(optionText.replace('option', 'recipient'));
+            var tooltipText = $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title');
+            $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title', tooltipText.replace('option', 'recipient'));
+            break;
+        case 'CONTRIB':
+            $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
+    
+            $('#contribForm').show();
+            fixContribQnGiverRecipient(NEW_QUESTION);
+            setDefaultContribQnVisibility(NEW_QUESTION);
+            setContribQnVisibilityFormat(NEW_QUESTION);
+            break;
+        case 'RUBRIC':
+            $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
+    
+            $('#rubricForm').show();
+            break;
+        case 'RANK_OPTIONS':
+            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
+            $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '-' + NEW_QUESTION).val('false');
+            $('#rankOption_Recipient-' + NEW_QUESTION).hide();
+            $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
+    
+            $('#rankOptionsForm').show();
+            break;
+        case 'RANK_RECIPIENTS':
+            $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '-' + NEW_QUESTION).val('true');
+            $('#rankOption_Option-' + NEW_QUESTION).hide();
+            hideRankOptionTable(NEW_QUESTION);
+            $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
+    
+            $('#rankRecipientsForm').show();
+            break;
+        default:
+            // do nothing if the question type is not recognized, which should not happen
+            break;
     }
 }
 
@@ -888,26 +888,26 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
     var $recipientSelect = $giverSelect.closest('.form_question').find('select[name="recipienttype"]');
     var recipientType = $recipientSelect.val();
     switch (giverType) {
-    case 'STUDENTS':
-        // all recipientType options enabled
-        break;
-    case 'SELF':
-    case 'INSTRUCTORS':
-        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
-        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS_INCLUDING_SELF');
-        if (recipientType === 'OWN_TEAM_MEMBERS' || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
-            setRecipientSelectToFirstVisibleOption($recipientSelect);
-        }
-        break;
-    case 'TEAMS':
-        hideOption($recipientSelect, 'OWN_TEAM');
-        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
-        if (recipientType === 'OWN_TEAM' || recipientType === 'OWN_TEAM_MEMBERS') {
-            setRecipientSelectToFirstVisibleOption($recipientSelect);
-        }
-        break;
-    default:
-        throw new Error('Unexpected giverType');
+        case 'STUDENTS':
+            // all recipientType options enabled
+            break;
+        case 'SELF':
+        case 'INSTRUCTORS':
+            hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
+            hideOption($recipientSelect, 'OWN_TEAM_MEMBERS_INCLUDING_SELF');
+            if (recipientType === 'OWN_TEAM_MEMBERS' || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
+                setRecipientSelectToFirstVisibleOption($recipientSelect);
+            }
+            break;
+        case 'TEAMS':
+            hideOption($recipientSelect, 'OWN_TEAM');
+            hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
+            if (recipientType === 'OWN_TEAM' || recipientType === 'OWN_TEAM_MEMBERS') {
+                setRecipientSelectToFirstVisibleOption($recipientSelect);
+            }
+            break;
+        default:
+            throw new Error('Unexpected giverType');
     }
 }
 

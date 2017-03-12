@@ -142,42 +142,42 @@ function uncheckAllVisibilityOptionCheckboxes($containingForm) {
  */
 function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
     switch (selectedOption) {
-    case 'OTHER':
-        return;
-    case 'ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS':
-        // recipient and instructor can see answer and recipient, but not giver name
-        allowRecipientToSee('.answerCheckbox', $containingForm);
-        allowRecipientToSee('.recipientCheckbox', $containingForm);
-
-        allowInstructorToSee('.answerCheckbox', $containingForm);
-        allowInstructorToSee('.recipientCheckbox', $containingForm);
-        break;
-    case 'ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS':
-        // recipient can see answer and recipient, but not giver name
-        allowRecipientToSee('.answerCheckbox', $containingForm);
-        allowRecipientToSee('.recipientCheckbox', $containingForm);
-
-        // instructor can see answer, recipient AND giver name
-        allowInstructorToSee('.answerCheckbox', $containingForm);
-        allowInstructorToSee('.giverCheckbox', $containingForm);
-        allowInstructorToSee('.recipientCheckbox', $containingForm);
-        break;
-    case 'VISIBLE_TO_INSTRUCTORS_ONLY':
-        allowInstructorToSee('.answerCheckbox', $containingForm);
-        allowInstructorToSee('.giverCheckbox', $containingForm);
-        allowInstructorToSee('.recipientCheckbox', $containingForm);
-        break;
-    case 'VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS':
-        allowRecipientToSee('.answerCheckbox', $containingForm);
-        allowRecipientToSee('.giverCheckbox', $containingForm);
-        allowRecipientToSee('.recipientCheckbox', $containingForm);
-
-        allowInstructorToSee('.answerCheckbox', $containingForm);
-        allowInstructorToSee('.giverCheckbox', $containingForm);
-        allowInstructorToSee('.recipientCheckbox', $containingForm);
-        break;
-    default:
-        throw new Error('Unexpected common visibility option type');
+        case 'OTHER':
+            return;
+        case 'ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS':
+            // recipient and instructor can see answer and recipient, but not giver name
+            allowRecipientToSee('.answerCheckbox', $containingForm);
+            allowRecipientToSee('.recipientCheckbox', $containingForm);
+    
+            allowInstructorToSee('.answerCheckbox', $containingForm);
+            allowInstructorToSee('.recipientCheckbox', $containingForm);
+            break;
+        case 'ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS':
+            // recipient can see answer and recipient, but not giver name
+            allowRecipientToSee('.answerCheckbox', $containingForm);
+            allowRecipientToSee('.recipientCheckbox', $containingForm);
+    
+            // instructor can see answer, recipient AND giver name
+            allowInstructorToSee('.answerCheckbox', $containingForm);
+            allowInstructorToSee('.giverCheckbox', $containingForm);
+            allowInstructorToSee('.recipientCheckbox', $containingForm);
+            break;
+        case 'VISIBLE_TO_INSTRUCTORS_ONLY':
+            allowInstructorToSee('.answerCheckbox', $containingForm);
+            allowInstructorToSee('.giverCheckbox', $containingForm);
+            allowInstructorToSee('.recipientCheckbox', $containingForm);
+            break;
+        case 'VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS':
+            allowRecipientToSee('.answerCheckbox', $containingForm);
+            allowRecipientToSee('.giverCheckbox', $containingForm);
+            allowRecipientToSee('.recipientCheckbox', $containingForm);
+    
+            allowInstructorToSee('.answerCheckbox', $containingForm);
+            allowInstructorToSee('.giverCheckbox', $containingForm);
+            allowInstructorToSee('.recipientCheckbox', $containingForm);
+            break;
+        default:
+            throw new Error('Unexpected common visibility option type');
     }
 }
 
@@ -307,61 +307,61 @@ function disableRow($containingForm, row) {
 function disableRowsAccordingToRecipient($containingForm) {
     var recipientType = $containingForm.find('select[name="recipienttype"]').val();
     switch (recipientType) {
-    case 'SELF':
-        // ROW_RECIPIENT is disabled because self-feedback is always visible to giver
-        disableRow($containingForm, ROW_RECIPIENT);
-        // ROW_RECIPIENT_TEAM is disabled because it is the same as ROW_GIVER_TEAM
-        disableRow($containingForm, ROW_RECIPIENT_TEAM);
-        break;
-    case 'STUDENTS':
-        // all options enabled when recipientType is STUDENTS (subject to options disabled by giverType)
-        break;
-    case 'OWN_TEAM':
-        // ROW_RECIPIENT and ROW_RECIPIENT_TEAM are disabled because they are the same as ROW_GIVER_TEAM
-        disableRow($containingForm, ROW_RECIPIENT);
-        disableRow($containingForm, ROW_RECIPIENT_TEAM);
-        break;
-    case 'INSTRUCTORS':
-        // ROW_RECIPIENT_TEAM is disabled because it is the same as ROW_INSTRUCTORS
-        disableRow($containingForm, ROW_RECIPIENT_TEAM);
-        break;
-    case 'TEAMS':
-        // ROW_RECIPIENT_TEAM is disabled because it is the same as ROW_RECIPIENT
-        disableRow($containingForm, ROW_RECIPIENT_TEAM);
-        break;
-    case 'OWN_TEAM_MEMBERS':
-    case 'OWN_TEAM_MEMBERS_INCLUDING_SELF':
-        // ROW_RECIPIENT_TEAM is disabled for OWN_TEAM_MEMBERS and OWN_TEAM_MEMBERS_INCLUDING_SELF
-        // because it is the same as ROW_GIVER_TEAM
-        disableRow($containingForm, ROW_RECIPIENT_TEAM);
-        break;
-    case 'NONE':
-        // ROW_RECIPIENT and ROW_RECIPIENT_TEAM are disabled because there are no recipients
-        disableRow($containingForm, ROW_RECIPIENT);
-        disableRow($containingForm, ROW_RECIPIENT_TEAM);
-        break;
-    default:
-        throw new Error('Unexpected recipientType');
+        case 'SELF':
+            // ROW_RECIPIENT is disabled because self-feedback is always visible to giver
+            disableRow($containingForm, ROW_RECIPIENT);
+            // ROW_RECIPIENT_TEAM is disabled because it is the same as ROW_GIVER_TEAM
+            disableRow($containingForm, ROW_RECIPIENT_TEAM);
+            break;
+        case 'STUDENTS':
+            // all options enabled when recipientType is STUDENTS (subject to options disabled by giverType)
+            break;
+        case 'OWN_TEAM':
+            // ROW_RECIPIENT and ROW_RECIPIENT_TEAM are disabled because they are the same as ROW_GIVER_TEAM
+            disableRow($containingForm, ROW_RECIPIENT);
+            disableRow($containingForm, ROW_RECIPIENT_TEAM);
+            break;
+        case 'INSTRUCTORS':
+            // ROW_RECIPIENT_TEAM is disabled because it is the same as ROW_INSTRUCTORS
+            disableRow($containingForm, ROW_RECIPIENT_TEAM);
+            break;
+        case 'TEAMS':
+            // ROW_RECIPIENT_TEAM is disabled because it is the same as ROW_RECIPIENT
+            disableRow($containingForm, ROW_RECIPIENT_TEAM);
+            break;
+        case 'OWN_TEAM_MEMBERS':
+        case 'OWN_TEAM_MEMBERS_INCLUDING_SELF':
+            // ROW_RECIPIENT_TEAM is disabled for OWN_TEAM_MEMBERS and OWN_TEAM_MEMBERS_INCLUDING_SELF
+            // because it is the same as ROW_GIVER_TEAM
+            disableRow($containingForm, ROW_RECIPIENT_TEAM);
+            break;
+        case 'NONE':
+            // ROW_RECIPIENT and ROW_RECIPIENT_TEAM are disabled because there are no recipients
+            disableRow($containingForm, ROW_RECIPIENT);
+            disableRow($containingForm, ROW_RECIPIENT_TEAM);
+            break;
+        default:
+            throw new Error('Unexpected recipientType');
     }
 }
 
 function disableRowsAccordingToGiver($containingForm) {
     var giverType = $containingForm.find('select[name="givertype"]').val();
     switch (giverType) {
-    case 'STUDENTS':
-        // all options enabled when giverType is STUDENTS (subject to options disabled by recipientType)
-        break;
-    case 'SELF':
-    case 'INSTRUCTORS':
-        // ROW_GIVER_TEAM is disabled for SELF and INSTRUCTORS because it is the same as ROW_INSTRUCTORS
-        disableRow($containingForm, ROW_GIVER_TEAM);
-        break;
-    case 'TEAMS':
-        // ROW_GIVER_TEAM is disabled for TEAMS because giver can always see the response
-        disableRow($containingForm, ROW_GIVER_TEAM);
-        break;
-    default:
-        throw new Error('Unexpected giverType');
+        case 'STUDENTS':
+            // all options enabled when giverType is STUDENTS (subject to options disabled by recipientType)
+            break;
+        case 'SELF':
+        case 'INSTRUCTORS':
+            // ROW_GIVER_TEAM is disabled for SELF and INSTRUCTORS because it is the same as ROW_INSTRUCTORS
+            disableRow($containingForm, ROW_GIVER_TEAM);
+            break;
+        case 'TEAMS':
+            // ROW_GIVER_TEAM is disabled for TEAMS because giver can always see the response
+            disableRow($containingForm, ROW_GIVER_TEAM);
+            break;
+        default:
+            throw new Error('Unexpected giverType');
     }
 }
 
